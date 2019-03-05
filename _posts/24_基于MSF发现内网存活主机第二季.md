@@ -56,7 +56,7 @@ sd:openssh:7.9p1 os.vendor=Debian os.family=Linux os.product=Linux os.cpe
 [*] Scanned 256 of 256 hosts (100% complete)
 [*] Auxiliary module execution completed
 ```
-![](media/807c52e59e46d0f2e9e95d01437eeb14.jpg)
+![](img/807c52e59e46d0f2e9e95d01437eeb14.jpg)
 
 ### 七：基于auxiliary/scanner/telnet/telnet_version发现TELNET服务
 
@@ -80,7 +80,7 @@ msf auxiliary(scanner/telnet/telnet_version) > exploit
 [*] Scanned 1 of 1 hosts (100% complete)
 [*] Auxiliary module execution completed
 ```
-![](media/c089625576a0bc03d7c27c5e8a29bf76.jpg)
+![](img/c089625576a0bc03d7c27c5e8a29bf76.jpg)
 
 ### 八：基于scanner/discovery/udp_probe发现内网存活主机
 ```bash
@@ -115,7 +115,7 @@ msf auxiliary(scanner/discovery/udp_probe) > exploit
 [*] Scanned 256 of 256 hosts (100% complete)
 [*] Auxiliary module execution completed
 ```
-![](media/af10a3aff554c008158ff0e85b036489.jpg)
+![](img/af10a3aff554c008158ff0e85b036489.jpg)
 
 ### 九：基于auxiliary/scanner/dns/dns_amp发现内网存活主机
 ```bash
@@ -145,7 +145,7 @@ msf auxiliary(scanner/dns/dns_amp) > exploit
 [*] Scanned 256 of 256 hosts (100% complete)
 [*] Auxiliary module execution completed
 ```
-![](media/3fc4759c9996757b077c7a33694e0dea.jpg)
+![](img/3fc4759c9996757b077c7a33694e0dea.jpg)
 
 ### 十：基于auxiliary/scanner/mysql/mysql_version发现mysql服务
 ```bash
@@ -165,7 +165,7 @@ msf auxiliary(scanner/mysql/mysql_version) > exploit
 [*] Scanned 1 of 1 hosts (100% complete)
 [*] Auxiliary module execution completed
 ```
-![](media/d25ea6b152f71fa64120456845df5597.jpg)
+![](img/d25ea6b152f71fa64120456845df5597.jpg)
 
 
 >   Micropoor

@@ -67,7 +67,7 @@ msf auxiliary(scanner/portscan/syn) > exploit
 [*] Scanned 1 of 1 hosts (100% complete)
 [*] Auxiliary module execution completed
 ```
-![](media/6ce14da5f1aa14dad81aaf7cf11364d2.jpg)
+![](img/6ce14da5f1aa14dad81aaf7cf11364d2.jpg)
 
 ### 十七：基于auxiliary/scanner/portscan/ftpbounce发现内网存活主机
 ```bash
@@ -97,7 +97,7 @@ msf auxiliary(scanner/portscan/ftpbounce) > exploit
 [*] Auxiliary module execution completed
 ```
 
-![](media/e68f4b46ae29ee41050a69a3a97020ab.jpg)
+![](img/e68f4b46ae29ee41050a69a3a97020ab.jpg)
 
 
 ### 十八：基于auxiliary/scanner/portscan/xmas发现内网存活主机
@@ -120,7 +120,7 @@ TIMEOUT 500 yes The reply read timeout in milliseconds
 
 msf auxiliary(scanner/portscan/xmas) > exploit
 ```
-![](media/d548820b5bbd229f26983633a4f94d79.jpg)
+![](img/d548820b5bbd229f26983633a4f94d79.jpg)
 
 ### 十九：基于auxiliary/scanner/rdp/rdp_scanner发现内网存活主机
 ```bash
@@ -147,7 +147,7 @@ msf auxiliary(scanner/rdp/rdp_scanner) > exploit
 [*] Auxiliary module execution completed
 ```
 
-![](media/57f3682a0f79fd561d1ad1f575943562.jpg)
+![](img/57f3682a0f79fd561d1ad1f575943562.jpg)
 
 ### 二十：基于auxiliary/scanner/smtp/smtp_version发现内网存活主机
 ```bash
@@ -163,6 +163,6 @@ THREADS 50 yes The number of concurrent threads
 
 msf auxiliary(scanner/smtp/smtp_version) > exploit
 ```  
-![](media/e564a63c9072add70448d54da802de43.jpg)
+![](img/e564a63c9072add70448d54da802de43.jpg)
 
 >   Micropoor

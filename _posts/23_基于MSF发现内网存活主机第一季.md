@@ -33,7 +33,7 @@ auxiliary/scanner/wsdd/wsdd_query normal Yes WS‐Discovery Information Discover
 auxiliary/scanner/x11/open_x11 normal Yes X11 No‐Auth Scanner
 ```
 
-![](media/a25502ba38f084a0edddd759473d4921.jpg)
+![](img/a25502ba38f084a0edddd759473d4921.jpg)
 
 **第一季主要介绍 scanner 下的五个模块，辅助发现内网存活主机，分别为：**
 
@@ -74,7 +74,7 @@ msf auxiliary(scanner/http/http_version) > exploit
 [*] Scanned 256 of 256 hosts (100% complete)
 [*] Auxiliary module execution completed 
 ```
-![](media/15b17e700bde4540e5b51959a3e15de5.jpg)
+![](img/15b17e700bde4540e5b51959a3e15de5.jpg)
 
 ### 二：基于scanner/smb/smb_version发现SMB服务
 ```bash
@@ -106,7 +106,7 @@ msf auxiliary(scanner/smb/smb_version) > exploit
 [*] Scanned 256 of 256 hosts (100% complete)
 [*] Auxiliary module execution completed 
 ```
-![](media/db717c6c50914ce513a94fe211bf620b.jpg)
+![](img/db717c6c50914ce513a94fe211bf620b.jpg)
 
 ### 三：基于scanner/ftp/ftp_version发现FTP服务
 ```bash
@@ -137,7 +137,7 @@ msf auxiliary(scanner/ftp/ftp_version) > exploit
 [*] Scanned 256 of 256 hosts (100% complete)
 [*] Auxiliary module execution completed
 ```
-![](media/f6190ef2a7165ce148af70d8fde88ddc.jpg)
+![](img/f6190ef2a7165ce148af70d8fde88ddc.jpg)
 
 ### 四：基于scanner/discovery/arp_sweep发现内网存活主机
 ```bash
@@ -162,7 +162,7 @@ msf auxiliary(scanner/discovery/arp_sweep) > exploit
 [*] Scanned 256 of 256 hosts (100% complete)
 [*] Auxiliary module execution completed 
 ```
-![](media/ffadf4bf3cace0a835ea5e7ce94ea68e.jpg)
+![](img/ffadf4bf3cace0a835ea5e7ce94ea68e.jpg)
 
 ### 五：基于scanner/discovery/udp_sweep发现内网存活主机
 ```bash
@@ -188,7 +188,7 @@ msf auxiliary(scanner/discovery/udp_sweep) > exploit
 [*] Scanned 256 of 256 hosts (100% complete)
 [*] Auxiliary module execution completed 
 ```
-![](media/30316c44faf3c6dacacfb382a5ffdc94.jpg)
+![](img/30316c44faf3c6dacacfb382a5ffdc94.jpg)
 
 
 >   Micropoor

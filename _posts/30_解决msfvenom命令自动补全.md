@@ -15,7 +15,7 @@ root@John:~# cat /etc/shells
 root@John:~# echo $SHELL
 /bin/bash
 ```
-![](media/a253496a83244db9db0c40cfd1e5a998.jpg)
+![](img/a253496a83244db9db0c40cfd1e5a998.jpg)
 
 **复制附录A到~/.oh-my-zsh/custom/plugins/msfvenom文件夹下（注：没有msfvenom目录，创建即可）**
 ```bash
@@ -24,7 +24,7 @@ root@John:~/.oh‐my‐zsh/custom/plugins/msfvenom# pwd
 root@John:~/.oh‐my‐zsh/custom/plugins/msfvenom# ls
 _msfvenom
 ```
-![](media/294978a0111c92b96cf2c9ce421cbd78.jpg)
+![](img/294978a0111c92b96cf2c9ce421cbd78.jpg)
 
 编辑~/.zshrc文件：
 ```bash
@@ -35,7 +35,7 @@ root@John:~# nano ~/.zshrc
 root@John:~# cat ~/.zshrc
 plugins=(msfvenom)
 ```
-![](media/b2882baf73972c21b6e11b5132e52a94.jpg)
+![](img/b2882baf73972c21b6e11b5132e52a94.jpg)
 
 **更新：**
 ```bash
@@ -44,9 +44,9 @@ root@John:~# source ~/.zshrc
 
 **效果如下：**  
 
-![](media/c693938819ad8820ee60c300a080e91a.jpg)  
+![](img/c693938819ad8820ee60c300a080e91a.jpg)  
 
-![](media/2625fc702fe3e4dbc6c6faab8fe3bd66.jpg)
+![](img/2625fc702fe3e4dbc6c6faab8fe3bd66.jpg)
 
 ### 附录A：
 ```bash
