@@ -1,0 +1,39 @@
+第三百九十八节，Django+Xadmin打造上线标准的在线教育平台—生产环境部署CentOS6.5系统环境设置
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百九十八节，Django+Xadmin打造上线标准的在线教育平台—生产环境部署CentOS6.5系统环境设置</strong></p>
+<p>&nbsp;</p>
+<p><strong>1、Linux安装配置</strong><br><strong>	　　注意事项：</strong><br><strong>		　　虚拟机网卡桥接模式</strong><br><strong>		　　不要拨VPN</strong></p>
+<p>　　如果，网络怎么都不同，可以删除这个文件<br><strong>		　　/etc/udev/rules.d/70-persistent-net.rules  （ 6.2版本和ubuntu 会有这个文件，这个文件是记录网口和 MAC地址关系的）</strong><br><strong>		　　su root</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>	基本配置:</strong><br><strong>		　　ip</strong><br><strong>			　　　　[root@localhost ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0 </strong><br><strong>				　　　　DEVICE=eth0            # 网卡名</strong><br><strong>				　　　　BOOTPROTO=static       # 静态指定IP地址，也可以动态，但是建议是静态。</strong><br><strong>				　　　　ONBOOT=yes             # 是否是开机启动</strong><br><strong>				　　　　TYPE=Ethernet          # 类型(默认即可)</strong><br><strong>				　　　　IPADDR=192.168.31.123  # IP地址</strong><br><strong>				　　　　NETMASK=255.255.255.0  # 掩码</strong><br><strong>				　　　　GATEWAY=192.168.31.1   # 网关</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>		ssh DNS解析 (为了安全-判断IP是否有效IP)  # </strong><br><strong>		　　　　/etc/ssh/sshd_config  # UseDNS no</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>		iptables 防火墙关闭</strong><br><strong>			　　　　/etc/init.d/iptables stop  # 关闭iptables</strong><br><strong>			　　　　[root@localhost ~]# chkconfig iptables off  # 关闭机起动级别(开机不启动)</strong><br><strong>			　　　　[root@localhost ~]# chkconfig --list iptables</strong><br><strong>			　　　　iptables       	0:off	1:off	2:off	3:off	4:off	5:off	6:off</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>		selinux 安全模块-用不到关闭</strong><br><strong>			　　　　vim /etc/selinux/config    # SELINUX=disabled</strong></p>
+<p>&nbsp;</p>
+<p><br><strong>		dns</strong><br><strong>			　　[root@localhost ~]# cat /etc/resolv.conf </strong><br><strong>				　　nameserver 192.168.31.1      # nameserver  Dns地址和真机保持一致即可</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>	vim</strong><br><strong>		光标：j 下   k 上  H 左 L右</strong></p>
+<p><strong>		　　i --当前光标下进入编辑模式  </strong><br><strong>		　　ESC --退出编辑模式</strong><br><strong>		　　a --当前光标下一个字符进入编辑模式</strong><br><strong>		　　A --尾行进入编辑模式</strong><br><strong>		　　dd --删除整行</strong><br><strong>		　　dG --删除光标所在行到文件最后一行所有内容</strong><br><strong>		　　dgg --删除光标所在行到文件第一行所有内容</strong><br><strong>		　　u --返回上一次修改状态</strong><br><strong>		　　wq --保存退出</strong><br><strong>		　　q! --放弃打开文件后的所有修改退出</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>	yum</strong><br><strong>		　　类似于python pip包管理 # 快速安装软件的一个工具</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>	weget 下载</strong></p>
+<p><br><strong>-------如果有基础并且Linux已经部署好可以访问外网了直接掉过第一部分的视频-----</strong></p>
+<p>&nbsp;</p>
+<p><strong>2、Linux 下Python安装[用是升级不影响现有Python/多版本共存]</strong><br><strong>	下载Python</strong></p>
+<p><strong>	　　安装</strong><br><strong>		　　安装Python依赖包</strong><br><strong>			　　yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make</strong><br><strong>		　　解压和安装软件包</strong><br><strong>			　　tar -xzvf /opt/Python-3.6.1.tgz -C /usr/local/src/  # src目录是存放源码的目录解压到src目录</strong><br><strong>			　　cd /usr/local/src/Python-3.6.1</strong><br><strong>			　　./configure --prefix=/usr/local/python3</strong><br><strong>			　　make &amp;&amp; make install</strong></p>
+<p>&nbsp;</p>
+<p><br><strong>		添加环境变量</strong><br><strong>			　　cd /etc/profile.d/</strong><br><strong>			　　export PATH="$PATH:/usr/local/python3/bin"</strong><br><strong>			　　source ../profile  # 重载文件</strong><br><strong>			　　echo $PATH  # 查看当前环境变量是否添加</strong></p>
+<p>&nbsp;</p>
+<p><strong>3、代码上传 xshell / Git 简单的Git命令 </strong><br><strong>	yum -y install git</strong><br><strong>	git clone 你的git url</strong> <br>	</p></div>

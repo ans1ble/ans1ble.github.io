@@ -1,0 +1,188 @@
+第四百零五节，centos7下搭建sentry错误日志服务器，接收python以及Django错误，
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第四百零五节，centos7下搭建sentry错误日志服务器，接收python以及Django错误，</strong></p>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffff00; color: #ff0000"><strong>注意：版本，不然会报错</strong></span></p>
+<p><span style="background-color: #ffff00; color: #ff0000"><strong>Docker &gt;=1.11</strong></span><br><span style="background-color: #ffff00; color: #ff0000"><strong>Compose &gt;1.6.0</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>通过docker安装sentry</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>安装</strong><strong>docker</strong></span></p>
+<p><span style="color: #000000"><strong>1.卸载旧版本</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">sudo yum remove docker \
+    docker</span>-<span style="color: #000000">common \
+    docker</span>-<span style="color: #000000">selinux \
+    docker</span>-engine</pre>
+</div>
+<p><strong>2.安装依赖包</strong></p>
+<div class="cnblogs_code">
+<pre>sudo yum install -y yum-utils device-mapper-persistent-data lvm2</pre>
+</div>
+<p><strong>3.添加稳定的源</strong></p>
+<div class="cnblogs_code">
+<pre>sudo yum-config-<span style="color: #000000">manager \
+    </span>--add-<span style="color: #000000">repo \
+    https:</span>//download.docker.com/linux/centos/docker-ce.repo</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>安装docker ce</strong></span></p>
+<p><strong>1.更新yum包</strong></p>
+<div class="cnblogs_code">
+<pre>sudo yum makecache fast</pre>
+</div>
+<p><strong>2.安装docker ce</strong></p>
+<div class="cnblogs_code">
+<pre>sudo yum install docker-ce</pre>
+</div>
+<p><strong>3.启动docker</strong></p>
+<div class="cnblogs_code">
+<pre>sudo systemctl start docker</pre>
+</div>
+<p><strong>4.测试docker</strong></p>
+<div class="cnblogs_code">
+<pre>sudo docker run hello-<span style="color: #000000">world
+
+输出：
+
+Hello </span><span style="color: #0000ff">from</span><span style="color: #000000"> Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ </span>1<span style="color: #000000">. The Docker client contacted the Docker daemon.
+ </span>2. The Docker daemon pulled the <span style="color: #800000">"</span><span style="color: #800000">hello-world</span><span style="color: #800000">"</span> image <span style="color: #0000ff">from</span><span style="color: #000000"> the Docker Hub.
+ </span>3. The Docker daemon created a new container <span style="color: #0000ff">from</span><span style="color: #000000"> that image which runs the
+    executable that produces the output you are currently reading.
+ </span>4<span style="color: #000000">. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To </span><span style="color: #0000ff">try</span><span style="color: #000000"> something more ambitious, you can run an Ubuntu container with:
+ $ docker run </span>-<span style="color: #000000">it ubuntu bash
+
+Share images, automate workflows, </span><span style="color: #0000ff">and</span><span style="color: #000000"> more with a free Docker ID:
+ https:</span>//cloud.docker.com/<span style="color: #000000">
+
+For more examples </span><span style="color: #0000ff">and</span><span style="color: #000000"> ideas, visit:
+ https:</span>//docs.docker.com/engine/userguide/</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>安装docker-compose</strong></span></p>
+<div class="cnblogs_code">
+<pre>1. sudo yum install epel-<span style="color: #000000">release
+</span>2. sudo yum install -y python-<span style="color: #000000">pip
+</span>3. sudo pip install docker-compose</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>安装sentry</strong></span></p>
+<p><strong>sentry 依赖的组件比较多 包括 redis、 postgresql、 outbound email</strong><br><strong>在安装sentry前请确保 docker 版本大于1.10</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000"><strong>1.安装git</strong></span></p>
+<div class="cnblogs_code">
+<pre>sudo yum install git</pre>
+</div>
+<p><strong>2.下载docker镜像并构建容器</strong></p>
+<p><strong>cd进入到要安装的目录，创建一个程序目录</strong></p>
+<div class="cnblogs_code">
+<pre>mkdir -p data/{sentry,postgres}</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>3.下载onpremise-master项目，放在与刚才创建的data目录同级</strong></p>
+<p><strong>两者选一即可</strong></p>
+<p>下载地址：https://github.com/getsentry/onpremise</p>
+<p>&nbsp;</p>
+<p>也可以不用下载进行克隆</p>
+<div class="cnblogs_code">
+<pre>sudo yum install git</pre>
+</div>
+<div class="cnblogs_code">
+<pre>$ git clone  https://github.com/getsentry/<span style="color: #000000">onpremise.git
+$ cd onpremise</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>4.cd&nbsp;onpremise,进入到<strong>onpremise-master项目，执行命令生成key</strong></strong></p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong>注意：以下所有的目录，都是要在<strong>onpremise下执行的</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>docker-compose run --rm web config generate-secret-key</pre>
+</div>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171015024556324-919906616.png" alt=""></p>
+<p><strong>&nbsp;复制生成的key写入到docker-compose.yml文件</strong></p>
+<div class="cnblogs_code">
+<pre>vim docker-compose.yml</pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171015024933387-1104379400.png" alt=""></p>
+<p>&nbsp;</p>
+<p><strong>5.生成数据表</strong></p>
+<div class="cnblogs_code">
+<pre>docker-compose run --rm web upgrade</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>6.启动项目，在9000端口，如果是阿里云服务器记得开放端口</strong></p>
+<div class="cnblogs_code">
+<pre>docker-compose up -d</pre>
+</div>
+<p>访问服务器ip加9000端口</p>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171015025752199-1463119405.png" alt=""></p>
+<p>&nbsp;</p>
+<p><strong>可以看到是英文的</strong></p>
+<p><strong>首先要改成中文</strong></p>
+<p><strong>1</strong></p>
+<p><strong><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171015025927605-547133366.png" alt=""></strong></p>
+<p><strong>2</strong></p>
+<p><strong><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171015030109668-1827094092.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>以后启动项目</strong></span></p>
+<p><strong>首先启动docker</strong></p>
+<div class="cnblogs_code">
+<pre>sudo systemctl start docker</pre>
+</div>
+<p><strong>然后cd进入到onpremise下执行</strong></p>
+<div class="cnblogs_code">
+<pre>docker-compose up -d</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>错误日志监控配置</strong></span></p>
+<p><span style="color: #ff0000"><strong>python脚本监控</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171015030808027-1603902198.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>选择监控类型</strong></span></p>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171015031016184-2039097618.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>&nbsp;python监控</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">from</span> raven <span style="color: #0000ff">import</span><span style="color: #000000"> Client
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> 设置dns的key</span>
+client = Client(<span style="color: #800000">'</span><span style="color: #800000">http://f77284e1694144319ff6e27cf1cf9ae3:dd866ea1b3c34604ad9717deca56c320@47.52.39.160:9000/14</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+</span><span style="color: #0000ff">try</span><span style="color: #000000">:
+    </span>1 /<span style="color: #000000"> 0
+</span><span style="color: #0000ff">except</span><span style="color: #000000"> ZeroDivisionError:
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 获取错误推送到错误监控</span>
+    client.captureException()</pre>
+</div>
+<p>监控</p>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171015161117105-806728547.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>Docker监控</strong></span></p>
+<div class="cnblogs_code">
+<pre>INSTALLED_APPS =<span style="color: #000000"> [
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.admin</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.contenttypes</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.sessions</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.messages</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.staticfiles</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app1</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">social_django</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">raven.contrib.django.raven_compat</span><span style="color: #800000">'</span>,   <span style="color: #008000">#</span><span style="color: #008000"> 配置监控APP</span></span>
+<span style="color: #000000">]
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> 配置监控配置</span>
+RAVEN_CONFIG =<span style="color: #000000"> {
+    </span><span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">dsn</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">http://5def24308c64410fab2f8f4dda116195:619079b681ee4fb599ab62db4da8524f@47.52.39.160:9000/15</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ff99cc">,</span>
+}</span></pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,1620 @@
+第三十节，正则表达式re模块
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>正则表达式</strong></p>
+<p>正则表达式本身是一种小型的、高度专业化的编程语言，而在python中，通过内嵌集成re模块，程序员们可以直接调用来实现正则匹配。正则表达式模式被编译成一系列的字节码，然后由用C编写的匹配引擎执行。</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201608/955761-20160805200743450-1819053688.png" alt="" /></p>
+<p><span style="color: #ff0000;"><strong>正则表达式是用来匹配处理字符串的&nbsp;python 中使用正则表达式需要引入re模块</strong></span></p>
+<p>如：</p>
+<p><strong>import re #第一步，要引入re模块</strong></p>
+<p><strong>a = re.findall("匹配规则", "要匹配的字符串") #第二步，调用模块函数</strong></p>
+<p><span style="color: #ff0000;"><strong>以列表形式返回匹配到的字符串</strong></span></p>
+<p><span style="color: #000000;"><strong>如：</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">匹配规则</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">这个字符串是否有匹配规则的字符</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">第二步，调用模块函数</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹配规则']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>字符匹配（普通字符，元字符）</strong></p>
+<p><strong>普通字符：是没有包含特殊意义的字符，大多以数字字母和中文汉字的，以自身匹配</strong></p>
+<p><span style="color: #ff0000;"><strong>也就是查找字符串里是否有包含匹配规则的字符串，必须完全包含才匹配</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">匹配规则</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">这个字符串是否有匹配规则的字符</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">第二步，调用模块函数</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹配规则']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>元字符：是包含<strong>特殊意义的字符，一般都是和普通字符搭配使用的</strong></strong></p>
+<p>&nbsp;</p>
+<p><strong><strong>.元字符</strong></strong></p>
+<p><span style="color: #ff0000;"><strong><strong>需要字符串里完全符合，匹配规则，就匹配，（规则里的<strong><strong>.元字符</strong></strong>）可以是任何一个字符</strong></strong></span></p>
+<p><span style="color: #000000;"><strong><strong>匹配任意除换行符"\n"外的字符(在DOTALL模式中也能匹配换行符)</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">匹配规.则</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">这个字符串是否有匹配规a则的字符</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">需要完全符合匹配规则，（.元字符）可以是任何一个字符</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹配规则']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>^元字符</strong></p>
+<p><span style="color: #ff0000;"><strong>字符串开始位置与匹配规则符合就匹配，否则不匹配</strong></span></p>
+<p><span style="color: #000000;"><strong>匹配字符串开头。在多行模式中匹配每一行的开头</strong></span></p>
+<pre><span style="font-size: 16px;"><strong>^元字符如果写到[]字符集里就是反取</strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">^匹配规则</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配规则这个字符串是否匹配</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">字符串开始位置与匹配规则符合就匹配，否则不匹配</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹配规则']</span></pre>
+</div>
+<pre><strong>[^a-z]反取，匹配出除字母外的字符，^元字符如果写到字符集里就是反取<br /></strong></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">[^a-z]</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配s规则这s个字符串是否s匹配f规则则re则则则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">反取，匹配出除字母外的字符</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹', '配', '规', '则', '这', '个', '字', '符', '串', '是', '否', '匹', '配', '规', '则', '则', '则', '则', '则']</span></pre>
+</div>
+<pre></pre>
+<p><strong>$元字符</strong></p>
+<p><span style="color: #ff0000;"><strong><strong>字符串结束位置与匹配规则符合就匹配，否则不匹配</strong></strong></span></p>
+<p><strong><strong>匹配字符串末尾，在多行模式中匹配每一行的末尾</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">匹配规则$</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">这个字符串是否匹配规则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">字符串结束位置与匹配规则符合就匹配，否则不匹配</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹配规则']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>*元字符</strong></p>
+<p><span style="color: #ff0000;"><strong><strong>需要字符串里完全符合，匹配规则，就匹配，（规则里的<strong><strong>*元字符</strong></strong>）前面的一个字符可以是0个或多个原本字符</strong></strong></span></p>
+<p><strong><strong>匹配前一个字符0或多次，贪婪匹配前导字符有多少个就匹配多少个很贪婪</strong></strong></p>
+<p><span style="color: #ff0000;"><strong><strong>如果规则里只有一个分组，尽量避免用*否则会有可能匹配出空字符串</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">匹配规则*</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">这个字符串是否匹配规则则则则则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">需要字符串里完全符合，匹配规则，就匹配，（规则里的*元字符）前面的一个字符可以是0或多个原本字符</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹配规则则则则则']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>+元字符</strong></p>
+<p><span style="color: #ff0000;"><strong><strong><strong>需要字符串里完全符合，匹配规则，就匹配，（规则里的<strong><strong>+元字符</strong></strong>）前面的一个字符可以是1个或多个原本字符</strong></strong></strong></span></p>
+<p><strong><strong><strong>匹配前一个字符1次或无限次，<strong><strong>贪婪匹配前导字符有多少个就匹配多少个很贪婪</strong></strong></strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:gbk -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">匹配+</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配配配配配规则这个字符串是否匹配规则则则则则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">需要字符串里完全符合，匹配规则，就匹配，（规则里的+元字符）前面的一个字符可以是1个或多个原本字符</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹配配配配配', '匹配']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>?元字符，和<strong><strong><strong><strong>防止贪婪匹配</strong></strong></strong></strong></strong></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong>需要字符串里完全符合，匹配规则，就匹配，（规则里的<strong><strong>?元字符</strong></strong>）前面的一个字符可以是0个或1个原本字符</strong></strong></strong></strong></span></p>
+<p><strong><strong><strong><strong>匹配一个字符0次或1次</strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong>还有一个功能是可以防止贪婪匹配，详情见防贪婪匹配</strong></strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">匹配规则?</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配规这个字符串是否匹配规则则则则则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">需要字符串里完全符合，匹配规则，就匹配，（规则里的?元字符）前面的一个字符可以是0个或1个原本字符</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹配规', '匹配规则']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>{}元字符,范围</strong></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong><strong>需要字符串里完全符合，匹配规则，就匹配，（规则里的&nbsp;<strong><strong>{} 元字符</strong></strong>）前面的一个字符，是自定义字符数，位数的原本字符</strong></strong></strong></strong></strong></span></p>
+<p><strong><strong><strong><strong><strong>{m}匹配前一个字符m次，{m,n}匹配前一个字符m至n次，若省略n，则匹配m至无限次</strong></strong></strong></strong></strong></p>
+<p>{0,}匹配前一个字符0或多次,等同于*元字符<br />{+,}匹配前一个字符1次或无限次,等同于+元字符<br />{0,1}匹配前一个字符0次或1次,等同于?元字符</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">匹配规则{3}</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配规这个字符串是否匹配规则则则则则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">{m}匹配前一个字符m次，{m,n}匹配前一个字符m至n次，若省略n，则匹配m至无限次</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹配规则则则']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>[]元字符,字符集</strong></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong><strong><strong>需要字符串里完全符合，匹配规则，就匹配，（规则里的&nbsp;<strong><strong>[] 元字符</strong></strong>）对应位置是<strong><strong><strong><strong><strong><strong><strong><strong>[]里的任意一个字符就匹配</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>字符集。对应的位置可以是字符集中任意字符。字符集中的字符可以逐个列出，也可以给出范围，如[abc]或[a-c]。[^abc]表示取反，即非abc。<br />所有特殊字符在字符集中都失去其原有的特殊含义。用\反斜杠转义恢复特殊字符的特殊含义。</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">匹配[a,b,c]规则</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配a规则这个字符串是否匹配规则则则则则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">需要字符串里完全符合，匹配规则，就匹配，（规则里的 [] 元字符）对应位置是[]里的任意一个字符就匹配</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹配a规则']</span></pre>
+</div>
+<pre><span style="font-size: 16px;"><strong>[^]非，反取，匹配出除[^]里面的字符，^元字符如果写到字符集里就是反取<br /></strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">[^a-z]</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配s规则这s个字符串是否s匹配f规则则re则则则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">反取，匹配出除字母外的字符</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹', '配', '规', '则', '这', '个', '字', '符', '串', '是', '否', '匹', '配', '规', '则', '则', '则', '则', '则']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>\元字符</strong></p>
+<p><span style="color: #ff0000;"><strong>1.反斜杠后边跟元字符去除特殊功能；（即将特殊字符转义成普通字符）</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">匹配\.规则</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配.规则这个字符串是否匹配规则则则则则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">反斜杠后边跟元字符去除特殊功能；（即将特殊字符转义成普通字符）</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹配.规则']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>2.反斜杠后边跟普通字符实现特殊功能；（即预定义字符）</strong></span></p>
+<p><span style="color: #ff0000;"><strong>预定义字符是在字符集和组里都是有用的</strong></span></p>
+<p>\d匹配任何十进制数，它相当于类[0-9]</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">\d</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配规则这2个字符串3是否匹配规则5则则则7则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">\d匹配任何十进制数，它相当于类[0-9]</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['2', '3', '5', '7']</span></pre>
+</div>
+<p>\d+如果需要匹配一位或者多位数的数字时用</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:gbk -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">\d+</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配规则这2个字符串134444是否匹配规则5则则则7则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">\d+如果需要匹配一位或者多位数的数字时用</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['2', '134444', '5', '7']</span></pre>
+</div>
+<p>\D匹配任何非数字字符，它相当于类[^0-9]</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">\D</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配规则这2个字符串3是否匹配规则5则则则7则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">\D匹配任何非数字字符，它相当于类[^0-9]</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹', '配', '规', '则', '这', '个', '字', '符', '串', '是', '否', '匹', '配', '规', '则', '则', '则', '则', '则']</span></pre>
+</div>
+<p>\s匹配任何空白字符，它相当于类[\t\n\r\f\v]</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">\s</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配规则   这2个字符串3是否匹配规则5则则则7则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">\s匹配任何空白字符，它相当于类[\t\n\r\f\v]</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 [' ', ' ', ' ']</span></pre>
+</div>
+<p>\S匹配任何非空白字符，它相当于类[^\t\n\r\f\v]</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">\S</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">匹配规则   这2个字符串3是否匹配规则5则则则7则</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">\S匹配任何非空白字符，它相当于类[^\t\n\r\f\v]</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹', '配', '规', '则', '这', '2', '个', '字', '符', '串', '3', '是', '否', '匹', '配', '规', '则', '5', '则', '则', '则', '7', '则']</span></pre>
+</div>
+<p><span style="color: #ff0000;">\w</span>匹配包括下划线在内任何字母数字字符，它相当于类[a-zA-Z0-9_]</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">'</span><span style="color: #800000;">\w</span><span style="color: #800000;">'</span>,<span style="color: #800000;">"</span><span style="color: #800000;">http://www.cnb_logs.com/</span><span style="color: #800000;">"</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">\w匹配包括下划线在内任何字母数字字符，它相当于类[a-zA-Z0-9_]</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['h', 't', 't', 'p', 'w', 'w', 'w', 'c', 'n', 'b', '_', 'l', 'o', 'g', 's', 'c', 'o', 'm']</span></pre>
+</div>
+<p><span style="color: #ff0000;">\W</span>匹配非任何字母数字字符包括下划线在内，它相当于类[^a-zA-Z0-9_]</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">'</span><span style="color: #800000;">\W</span><span style="color: #800000;">'</span>,<span style="color: #800000;">"</span><span style="color: #800000;">http://www.cnb_logs.com/</span><span style="color: #800000;">"</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">\W匹配非任何字母数字字符包括下划线在内，它相当于类[^a-zA-Z0-9_]</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 [':', '/', '/', '.', '.', '/']</span></pre>
+</div>
+<p>\b匹配一个单词边界，也就是指单词和空格间的位置</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span><span style="color: #008000;">
+#</span><span style="color: #008000;">也就是分组匹配，()里面的为一个组也可以理解成一个整体</span>
+a = re.findall(r<span style="color: #800000;">"</span><span style="color: #800000;">\babc\b</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">a4a4a4a abc 4a4dggdg4g654gb</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">\b匹配一个单词边界，也就是指单词和空格间的位置</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">打印出 ['abc']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>3.\2引用序号对应的字组所匹配的字符串。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span><span style="color: #008000;">
+#</span><span style="color: #008000;">也就是分组匹配，()里面的为一个组也可以理解成一个整体</span>
+a = re.search(r<span style="color: #800000;">"</span><span style="color: #800000;">(a4)(dg)g\2</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">a4a4a4a4a4dggdg4g654gb</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">引用序号对应的字组所匹配的字符串,\2就是引用第2个组(dg)</span>
+b =<span style="color: #000000;"> a.group()
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">打印出 a4dggdg</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #000000;"><strong>()元字符，分组</strong></span></p>
+<p><span style="color: #ff0000;"><strong>也就是分组匹配，<strong>()里面的为一个组也可以理解成一个整体</strong></strong></span></p>
+<p><span style="color: #000000;"><strong><strong>如果()后面跟的是特殊元字符如 &nbsp; (adc)* &nbsp; 那么*控制的前导字符就是()里的整体内容，不再是前导一个字符</strong></strong></span></p>
+<p><span style="color: #000000;">列1</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span><span style="color: #008000;">
+#</span><span style="color: #008000;">也就是分组匹配，()里面的为一个组也可以理解成一个整体</span>
+a = re.search(<span style="color: #800000;">"</span><span style="color: #800000;">(a4)+</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">a4a4a4a4a4dg4g654gb</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">匹配一个或多个a4</span>
+b =<span style="color: #000000;"> a.group()
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">打印出 a4a4a4a4a4</span></pre>
+</div>
+<p>&nbsp;列2</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span><span style="color: #008000;">
+#</span><span style="color: #008000;">也就是分组匹配，()里面的为一个组也可以理解成一个整体</span>
+a = re.search(<span style="color: #800000;">"</span><span style="color: #800000;">a(\d+)</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">a466666664a4a4a4dg4g654gb</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">匹配 (a) (\d0-9的数字) (+可以是1个到多个0-9的数字)</span>
+b =<span style="color: #000000;"> a.group()
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">打印出 a466666664</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>|元字符，或</strong></p>
+<p><span style="color: #ff0000;"><strong>|或，或就是前后其中一个符合就匹配</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(r<span style="color: #800000;">"</span><span style="color: #800000;">你|好</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">a4a4a你4aabc4a4dgg好dg4g654g</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">|或，或就是前后其中一个符合就匹配</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">打印出 ['你', '好']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>r原生字符</strong></p>
+<p><span style="color: #ff0000;"><strong>将在python里有特殊意义的字符如\b，转换成原生字符（就是去除它在python的特殊意义），不然会给正则表达式有冲突，为了避免这种冲突可以在规则前加原始字符r</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(r<span style="color: #800000;">"</span><span style="color: #800000;">\b</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">a4 a4a你4aabc4 a4dgg好 dg4g654g</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">将在python里有特殊意义的字符如\b，转换成原生字符（就是去除它在python的特殊意义）</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">打印出 ['', '', '', '', '', '', '', ''] 如果不加r就匹配不到空格</span></pre>
+</div>
+<p>&nbsp;</p>
+<h2>re模块中常用功能函数</h2>
+<p>正则表达式有两种书写方式，一种是直接在函数里书写规则，</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">匹配规则</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">这个字符串是否有匹配规则的字符</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">第二步，调用模块函数</span>
+<span style="color: #0000ff;">print</span>(a)  <span style="color: #008000;">#</span><span style="color: #008000;">以列表形式返回匹配到的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出 ['匹配规则']</span></pre>
+</div>
+<p>一种是用<strong>compile()函数将规则编译成对象在用功能函数调用编译对象</strong></p>
+<p><strong>compile()，<strong>参数（"正则规则"，标示）</strong></strong></p>
+<p><span style="color: #ff0000;">编译正则表达式模式，返回一个对象的模式。（可以把那些常用的正则表达式编译成正则表达式对象，这样可以提高一点效率。）</span></p>
+<p>格式：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+tt </span>= <span style="color: #800000;">"</span><span style="color: #800000;">Tina is a good girl, she is cool, clever, and so on...</span><span style="color: #800000;">"</span><span style="color: #000000;">
+rr </span>= re.compile(r<span style="color: #800000;">'</span><span style="color: #800000;">\w*oo\w*</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+a </span>= rr.findall(tt)   <span style="color: #008000;">#</span><span style="color: #008000;">查找所有包含'oo'的单词</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">执行结果如下：</span>
+[<span style="color: #800000;">'</span><span style="color: #800000;">good</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">cool</span><span style="color: #800000;">'</span>]</pre>
+</div>
+<p><strong>re.compile(pattern,flags=0)</strong></p>
+<p><strong>pattern正则模式：编译时用的表达式字符串</strong></p>
+<p><strong>flags标示：编译标志位，用于修改正则表达式的匹配方式，如：是否区分大小写，多行匹配等。常用的有</strong></p>
+<p><strong>默认为标示为flags=0，也就是取全部匹配到的，</strong></p>
+<p><span style="color: #ff0000;"><strong>flags标示，匹配模式</strong></span></p>
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="left">标志</p>
+</td>
+<td valign="top">
+<p align="left">含义</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">re.S(DOTALL)</p>
+</td>
+<td valign="top">
+<p align="left">使.匹配包括换行在内的所有字符</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">re.I（IGNORECASE）</p>
+</td>
+<td valign="top">
+<p align="left">使匹配对大小写不敏感</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">re.L（LOCALE）</p>
+</td>
+<td valign="top">
+<p align="left">做本地化识别（locale-aware)匹配，法语等</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">re.M(MULTILINE)</p>
+</td>
+<td valign="top">
+<p align="left">多行匹配，影响^和$</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">re.X(VERBOSE)</p>
+</td>
+<td valign="top">
+<p align="left">该标志通过给予更灵活的格式以便将正则表达式写得更易于理解</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">re.U</p>
+</td>
+<td valign="top">
+<p align="left">根据Unicode字符集解析字符，这个标志影响\w,\W,\b,\B</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:gbk -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+</span><span style="color: #008000;">#</span><span style="color: #008000;">无分组</span>
+origin = <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.match(<span style="color: #800000;">"</span><span style="color: #800000;">H\w+</span><span style="color: #800000;">"</span>, origin,re.I)    <span style="color: #008000;">#</span><span style="color: #008000;">re.I使匹配对大小写不敏感</span>
+<span style="color: #0000ff;">print</span>(r.group())     <span style="color: #008000;">#</span><span style="color: #008000;"> 获取匹配到的所有结果，不管有没有分组将匹配到的全部拿出来</span>
+<span style="color: #0000ff;">print</span>(r.groups())    <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分的结果</span>
+<span style="color: #0000ff;">print</span>(r.groupdict()) <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分定义了key的组结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> hello     匹配到的全部拿出来，加了re.I标示所以字符串里的小写h也匹配的</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ()        没有分组所以为空</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {}        没分组部分定义了key的组所以为空</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>match()函数（以后常用）</strong></p>
+<p><span style="color: #ff0000;"><strong>match，从头匹配一个符合规则的字符串，从起始位置开始匹配，匹配成功返回一个对象，未匹配成功返回None</strong></span><br /><strong>match(pattern, string, flags=0)</strong><br /><strong># pattern： 正则模型</strong><br /><strong># string ： 要匹配的字符串</strong><br /><strong># falgs  ： 匹配模式</strong></p>
+<p><em><strong><strong>注意：match()函数 与&nbsp;<strong>search()函数基本是一样的功能，不一样的就是<em><strong><strong>match()匹配字符串开始位置的一个符合规则的字符串，<em><strong><strong><strong>search()是在字符串全局匹配第一个<em><strong><strong><strong><em><strong><strong>合规则的字符串</strong></strong></em></strong></strong></strong></em></strong></strong></strong></em></strong></strong></em></strong></strong></strong></em></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+</span><span style="color: #008000;">#</span><span style="color: #008000;">无分组</span>
+origin = <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.match(<span style="color: #800000;">"</span><span style="color: #800000;">h\w+</span><span style="color: #800000;">"</span>, origin)    <span style="color: #008000;">#</span><span style="color: #008000;">match，从起始位置开始匹配，匹配成功返回一个对象，未匹配成功返回None</span>
+<span style="color: #0000ff;">print</span>(r.group())     <span style="color: #008000;">#</span><span style="color: #008000;"> 获取匹配到的所有结果，不管有没有分组将匹配到的全部拿出来</span>
+<span style="color: #0000ff;">print</span>(r.groups())    <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分的结果</span>
+<span style="color: #0000ff;">print</span>(r.groupdict()) <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分定义了key的组结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> hello     匹配到的全部拿出来</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ()        没有分组所以为空</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {}        没分组部分定义了key的组所以为空</span>
+
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 有分组</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 为何要有分组？提取匹配成功的指定内容（先匹配成功全部正则，再匹配成功的局部内容提取出来）</span>
+r = re.match(<span style="color: #800000;">"</span><span style="color: #800000;">h(\w+)</span><span style="color: #800000;">"</span>, origin)   <span style="color: #008000;">#</span><span style="color: #008000;">match，从起始位置开始匹配，匹配成功返回一个对象，未匹配成功返回None</span>
+<span style="color: #0000ff;">print</span>(r.group())     <span style="color: #008000;">#</span><span style="color: #008000;"> 获取匹配到的所有结果，不管有没有分组将匹配到的全部拿出来</span>
+<span style="color: #0000ff;">print</span>(r.groups())    <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分的结果</span>
+<span style="color: #0000ff;">print</span>(r.groupdict()) <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分定义了key的组结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> hello         匹配到的全部拿出来</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ('ello',)     有分组，在匹配到的字符串中拿出分组的部分</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {}            没分组部分定义了key的组所以为空</span>
+
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 有两个分组定义了key</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 为何要有分组？提取匹配成功的指定内容（先匹配成功全部正则，再匹配成功的局部内容提取出来）</span>
+r = re.match(<span style="color: #800000;">"</span><span style="color: #800000;">(?P&lt;n1&gt;h)(?P&lt;n2&gt;\w+)</span><span style="color: #800000;">"</span>, origin)   <span style="color: #008000;">#</span><span style="color: #008000;">?P&lt;&gt;定义组里匹配内容的key(键)，&lt;&gt;里面写key名称，值就是匹配到的内容</span>
+<span style="color: #0000ff;">print</span>(r.group())     <span style="color: #008000;">#</span><span style="color: #008000;"> 获取匹配到的所有结果，不管有没有分组将匹配到的全部拿出来</span>
+<span style="color: #0000ff;">print</span>(r.groups())    <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分的结果</span>
+<span style="color: #0000ff;">print</span>(r.groupdict()) <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分定义了key的组结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> hello                         匹配到的全部拿出来</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ('h', 'ello')                 有分组，在匹配到的字符串中拿出分组的部分</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {'n1': 'h', 'n2': 'ello'}     有定义了key的组所以，将定义了key的组里的内容以字典形式拿出来</span></pre>
+</div>
+<p>?P&lt;n1&gt; &nbsp;#?P&lt;&gt;定义组里匹配内容的key(键)，&lt;&gt;里面写key名称，值就是匹配到的内容（<strong>只对正则函数返回对象的有用</strong>）</p>
+<p><strong>取出匹配对象方法</strong></p>
+<p><span style="color: #ff0000;"><strong>只对正则函数返回对象的有用</strong></span></p>
+<p>group() # 获取匹配到的所有结果，不管有没有分组将匹配到的全部拿出来，<span style="color: #ff0000;">有参取匹配到的第几个如2</span><br />groups()    # 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分的结果<br />groupdict() # 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分定义了key的组结果</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>search()函数</strong><br /><span style="color: #ff0000;"><strong>search,浏览全部字符串，匹配第一符合规则的字符串，浏览整个字符串去匹配第一个，未匹配成功返回None</strong></span><br /><strong>search(pattern, string, flags=0)</strong><br /><strong># pattern： 正则模型</strong><br /><strong># string ： 要匹配的字符串</strong><br /><strong># falgs ： 匹配模式</strong></p>
+<p><strong><em><strong><strong>注意：match()函数 与&nbsp;<strong>search()函数基本是一样的功能，不一样的就是<em><strong><strong>match()匹配字符串开始位置的一个符合规则的字符串，<em><strong><strong><strong>search()是在字符串全局匹配第一个<em><strong><strong><strong><em><strong><strong>合规则的字符串</strong></strong></em></strong></strong></strong></em></strong></strong></strong></em></strong></strong></em></strong></strong></strong></em></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+</span><span style="color: #008000;">#</span><span style="color: #008000;">无分组</span>
+origin = <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.search(<span style="color: #800000;">"</span><span style="color: #800000;">a\w+</span><span style="color: #800000;">"</span>, origin)    <span style="color: #008000;">#</span><span style="color: #008000;">search浏览全部字符串，匹配第一符合规则的字符串，浏览整个字符串去匹配第一个，未匹配成功返回None</span>
+<span style="color: #0000ff;">print</span>(r.group())     <span style="color: #008000;">#</span><span style="color: #008000;"> 获取匹配到的所有结果，不管有没有分组将匹配到的全部拿出来</span>
+<span style="color: #0000ff;">print</span>(r.groups())    <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分的结果</span>
+<span style="color: #0000ff;">print</span>(r.groupdict()) <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分定义了key的组结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> alex     匹配到的全部拿出来</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ()        没有分组所以为空</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {}        没分组部分定义了key的组所以为空</span>
+
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 有分组</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 为何要有分组？提取匹配成功的指定内容（先匹配成功全部正则，再匹配成功的局部内容提取出来）</span>
+r = re.search(<span style="color: #800000;">"</span><span style="color: #800000;">a(\w+).*(\d)</span><span style="color: #800000;">"</span><span style="color: #000000;">, origin)
+</span><span style="color: #0000ff;">print</span>(r.group())     <span style="color: #008000;">#</span><span style="color: #008000;"> 获取匹配到的所有结果，不管有没有分组将匹配到的全部拿出来</span>
+<span style="color: #0000ff;">print</span>(r.groups())    <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分的结果</span>
+<span style="color: #0000ff;">print</span>(r.groupdict()) <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分定义了key的组结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> alex bcd alex lge alex acd 19       匹配到的全部拿出来</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ('lex', '9')     有分组，在匹配到的字符串中拿出分组的部分</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {}            没分组部分定义了key的组所以为空</span>
+
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 有两个分组定义了key</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 为何要有分组？提取匹配成功的指定内容（先匹配成功全部正则，再匹配成功的局部内容提取出来）</span>
+r = re.search(<span style="color: #800000;">"</span><span style="color: #800000;">a(?P&lt;n1&gt;\w+).*(?P&lt;n2&gt;\d)</span><span style="color: #800000;">"</span>, origin)   <span style="color: #008000;">#</span><span style="color: #008000;">?P&lt;&gt;定义组里匹配内容的key(键)，&lt;&gt;里面写key名称，值就是匹配到的内容</span>
+<span style="color: #0000ff;">print</span>(r.group())     <span style="color: #008000;">#</span><span style="color: #008000;"> 获取匹配到的所有结果，不管有没有分组将匹配到的全部拿出来</span>
+<span style="color: #0000ff;">print</span>(r.groups())    <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分的结果</span>
+<span style="color: #0000ff;">print</span>(r.groupdict()) <span style="color: #008000;">#</span><span style="color: #008000;"> 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分定义了key的组结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> alex bcd alex lge alex acd 19                         匹配到的全部拿出来</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ('lex', '9')                 有分组，在匹配到的字符串中拿出分组的部分</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {'n1': 'lex', 'n2': '9'}     有定义了key的组所以，将定义了key的组里的内容以字典形式拿出来</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>findall()函数（以后常用）</strong></p>
+<p><strong><strong><strong>findall</strong>(pattern, string, flags=0)</strong><br /><strong># pattern： 正则模型</strong><br /><strong># string ： 要匹配的字符串</strong><br /><strong># falgs ： 匹配模式</strong></strong></p>
+<p><span style="color: #ff0000;"><strong>浏览全部字符串，匹配所有合规则的字符串，匹配到的字符串放到一个列表中，<strong>未匹配成功返回空列表</strong></strong></span></p>
+<p><span style="color: #000000;"><strong>注意：一旦匹配成，再次匹配，是从前一次匹配成功<strong>的</strong>，后面一位开始的，也可以理解为匹配成功的字符串，不在参与下次匹配</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+</span><span style="color: #008000;">#</span><span style="color: #008000;">无分组</span>
+r = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">\d+\w\d+</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">a2b3c4d5</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">浏览全部字符串，匹配所有合规则的字符串，匹配到的字符串放到一个列表中</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">['2b3', '4d5']</span><span style="color: #008000;">
+#</span><span style="color: #008000;">注意：匹配成功的字符串，不在参与下次匹配,所以3c4也符合规则但是没匹配到</span></pre>
+</div>
+<p>&nbsp;<strong>注意：如果没写匹配规则，也就是空规则，返回的是一个比原始字符串多一位的，空字符串列表</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+</span><span style="color: #008000;">#</span><span style="color: #008000;">无分组</span>
+r = re.findall(<span style="color: #800000;">""</span>, <span style="color: #800000;">"</span><span style="color: #800000;">a2b3c4d5</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">浏览全部字符串，匹配所有合规则的字符串，匹配到的字符串放到一个列表中</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">['', '', '', '', '', '', '', '', '']</span><span style="color: #008000;">
+#</span><span style="color: #008000;">注意：如果没写匹配规则，也就是空规则，返回的是一个比原始字符串多一位的，空字符串列表</span><span style="font-size: 16px;"><strong>&nbsp;</strong></span></pre>
+</div>
+<pre></pre>
+<p><strong><span style="color: #ff0000;">注意：正则匹配到空字符的情况</span>，如果规则里只有一个组，而组后面是*就表示组里的内容可以是0个或者多过，这样组里就有了两个意思，一个意思是匹配组里的内容，二个意思是匹配组里0内容（即是空白）所以尽量避免用*否则会有可能匹配出空字符串</strong></p>
+<p><strong><span style="color: #ff0000;">注意：正则只拿组里最后一位</span>，如果规则里只有一个组，匹配到的字符串里在拿组内容是，拿的是匹配到的内容最后一位</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re</span>
+origin = <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">(a)*</span><span style="color: #800000;">"</span><span style="color: #000000;">, origin)   
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果 ['', '', '', '', '', '', 'a', '', '', '', '', '', '', '', '', 'a', '', '', '', '', '', '', '', '', 'a', '', '', '', '', 'a', '', '', '', '', '', '']</span></pre>
+</div>
+<p>&nbsp;</p>
+<pre><strong><span style="font-size: 16px;"><br />无分组：匹配所有合规则的字符串，匹配到的字符串放到一个列表中<br /></span></strong></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+</span><span style="color: #008000;">#</span><span style="color: #008000;">无分组</span>
+origin = <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">a\w+</span><span style="color: #800000;">"</span>, origin)    <span style="color: #008000;">#</span><span style="color: #008000;">浏览全部字符串，匹配所有合规则的字符串，匹配到的字符串放到一个列表中</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">['alex', 'alex', 'alex', 'acd']</span><span style="color: #008000;">
+#</span><span style="color: #008000;">匹配所有合规则的字符串，匹配到的字符串放到一个列表中</span></pre>
+</div>
+<p><strong>有分组：只将匹配到的字符串里，组的部分放到列表里返回，相当于groups()方法</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re</span>
+origin = <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">a(\w+)</span><span style="color: #800000;">"</span>, origin)    <span style="color: #008000;">#</span><span style="color: #008000;">有分组：只将匹配到的字符串里，组的部分放到列表里返回</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">['lex', 'lex', 'lex', 'cd']</span></pre>
+</div>
+<p><strong>&nbsp;多个分组：只将匹配到的字符串里，组的部分放到一个元组中，最后将所有元组放到一个列表里返</strong></p>
+<p><strong>相当于在group()结果里再将组的部分，分别，拿出来放入一个元组，最后将所有元组放入一个列表返回</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re</span>
+origin = <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">(a)(\w+)</span><span style="color: #800000;">"</span>, origin)    <span style="color: #008000;">#</span><span style="color: #008000;">多个分组：只将匹配到的字符串里，组的部分放到一个元组中，最后将所有元组放到一个列表里返回</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">[('a', 'lex'), ('a', 'lex'), ('a', 'lex'), ('a', 'cd')]</span></pre>
+</div>
+<p><strong>&nbsp;分组中有分组：只将匹配到的字符串里，组的部分放到一个元组中，先将包含有组的组，看作一个整体也就是一个组，把这个整体组放入一个元组里，然后在把组里的组放入一个元组，最后将所有组放入一个列表返回</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re</span>
+origin = <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">(a)(\w+(e))</span><span style="color: #800000;">"</span>, origin)    <span style="color: #008000;">#</span><span style="color: #008000;">分组中有分组：只将匹配到的字符串里，组的部分放到一个元组中，先将包含有组的组，看作一个整体也就是一个组，把这个整体组放入一个元组里，然后在把组里的组放入一个元组，最后将所有组放入一个列表返回</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">[('a', 'le', 'e'), ('a', 'le', 'e'), ('a', 'le', 'e')]</span></pre>
+</div>
+<pre><span style="font-size: 16px;"><strong>?:在有分组的情况下findall()函数，不只拿分组里的字符串，拿所有匹配到的字符串，注意?:只用于不是返回正则对象的函数如findall()</strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+origin </span>= <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">a(?:\w+)</span><span style="color: #800000;">"</span>,origin) <span style="color: #008000;">#</span><span style="color: #008000;">?:在有分组的情况下，不只拿分组里的字符串，拿所有匹配到的字符串，注意?:只用于不是返回正则对象的函数如findall()</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ['alex', 'alex', 'alex', 'acd']</span></pre>
+</div>
+<pre></pre>
+<p><strong>finditer()函数</strong></p>
+<p><strong><strong>finditer</strong>(pattern, string, flags=0)<br /># pattern： 正则模型<br /># string ： 要匹配的字符串<br /># falgs ： 匹配模式</strong></p>
+<p><span style="color: #ff0000;"><strong><strong>（需要for循环）浏览全部字符串，匹配所有合规则的字符串，返回一个需要for循环的对象，匹配成功for循环后返回对应个数的正则对象，<strong>未匹配成功返回空</strong></strong></strong></span></p>
+<p><strong><strong><strong>finditer()</strong>和findall()函数基本一样的，<strong>finditer()不一样的是需要for循环后<strong><strong><strong>返回匹配到的对应个数对象</strong></strong></strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong><strong><strong>因为返回的是正则对象，所以需要用到对象方法</strong></strong></strong></strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re</span>
+origin = <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.finditer(<span style="color: #800000;">"</span><span style="color: #800000;">a\w*(?P&lt;n1&gt;\w)</span><span style="color: #800000;">"</span>, origin)    <span style="color: #008000;">#</span><span style="color: #008000;">浏览全部字符串，匹配所有合规则的字符串，返回一个需要for循环的对象，匹配成功for循环后返回对应个数的正则对象，未匹配成功返回空</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> r:
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(i.group())
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(i.groupdict())
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> alex</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {'n1': 'x'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> alex</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {'n1': 'x'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> alex</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {'n1': 'x'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> acd</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {'n1': 'd'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;">因为返回的是正则对象，所以需要用到对象方法</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px;">split()函数</span></strong></p>
+<p><span style="color: #ff0000;"><strong><span style="font-size: 16px;">根据正则匹配分割字符串，返回分割后的一个列表</span></strong></span></p>
+<p><strong><span style="font-size: 16px;"><code class="python plain">split(pattern, string, maxsplit</code><code class="python keyword">=</code><code class="python value">0</code><code class="python plain">, flags</code><code class="python keyword">=</code><code class="python value">0</code><code class="python plain">)</code></span></strong></p>
+<div class="line number4 index3 alt1"><strong><span style="font-size: 16px;"><code class="python comments"># pattern： 正则模型</code></span></strong></div>
+<div class="line number5 index4 alt2"><strong><span style="font-size: 16px;"><code class="python comments"># string ： 要匹配的字符串</code></span></strong></div>
+<div class="line number6 index5 alt1"><strong><span style="font-size: 16px;"><code class="python comments"># maxsplit：指定分割个数</code></span></strong></div>
+<div class="line number7 index6 alt2"><strong><span style="font-size: 16px;"><code class="python comments"># flags&nbsp; ： 匹配模式</code></span></strong></div>
+<div class="line number7 index6 alt2">&nbsp;</div>
+<div class="line number7 index6 alt2"><strong><span style="font-size: 16px;">按照一个字符将全部字符串进行分割</span></strong></div>
+<div class="line number7 index6 alt2">
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+origin </span>= <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.split(<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span>, origin) <span style="color: #008000;">#</span><span style="color: #008000;">根据正则匹配分割字符串</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果 ['hello ', 'lex bcd ', 'lex lge ', 'lex ', 'cd 19']</span><span style="color: #008000;">
+#</span><span style="color: #008000;">根据a进行分组</span></pre>
+</div>
+<p><strong>将匹配到的字符串作为分割标准进行分割</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+origin </span>= <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex 2acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.split(<span style="color: #800000;">"</span><span style="color: #800000;">a\w+</span><span style="color: #800000;">"</span>, origin) <span style="color: #008000;">#</span><span style="color: #008000;">根据正则匹配分割字符串</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果 ['hello ', ' bcd ', ' lge ', ' 2', ' 19']</span><span style="color: #008000;">
+#</span><span style="color: #008000;">将匹配到的字符串作为分割标准进行分割</span></pre>
+</div>
+<p><strong>设置分割参数，如果设置了分割次数，分割次数达到后，后面匹配的也不分割了</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+origin </span>= <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex 2acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.split(<span style="color: #800000;">"</span><span style="color: #800000;">a\w+</span><span style="color: #800000;">"</span>, origin,2) <span style="color: #008000;">#</span><span style="color: #008000;">设置分割参数，如果设置了分割次数，分割次数达到后，后面匹配的也不分割了</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果 ['hello ', ' bcd ', ' lge ', ' 2', ' 19']</span><span style="color: #008000;">
+#</span><span style="color: #008000;">设置分割参数，如果设置了分割次数，分割次数达到后，后面匹配的也不分割了</span></pre>
+</div>
+<p><strong>有分组分割，无分组分割，匹配到作为分割标准的字符串，是不被输出的，如果想同样输出作为分割标准的字符串可以用组来分割，可以理解为组部分，分割后同样被拿出</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+origin </span>= <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex 2acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.split(<span style="color: #800000;">"</span><span style="color: #800000;">(a\w+)</span><span style="color: #800000;">"</span>, origin) <span style="color: #008000;">#</span><span style="color: #008000;">有分组分割，无分组分割，匹配到作为分割标准的字符串，是不被输出的，如果想同样输出作为分割标准的字符串可以用组来分割</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果 ['hello ', 'alex', ' bcd ', 'alex', ' lge ', 'alex', ' 2', 'acd', ' 19']</span><span style="color: #008000;">
+#</span><span style="color: #008000;">有分组分割，无分组分割，匹配到作为分割标准的字符串，是不被输出的，如果想同样输出作为分割标准的字符串可以用组来分割</span></pre>
+</div>
+<p><strong>&nbsp;用split()做一个多括号，字符串提取功能，也就是去除字符串里的所有括号</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+origin </span>= <span style="color: #800000;">"</span><span style="color: #800000;">1 - 2 * ( (60-30 +(-4/5) * (9-2*5/3 + 7 /3*99/4*2998 +10 * 568/14 )) - (-4*3)/ (16-3*2) )</span><span style="color: #800000;">"</span>
+<span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+    r </span>= re.split(<span style="color: #800000;">"</span><span style="color: #800000;">\(([^()]+)\)</span><span style="color: #800000;">"</span>, origin,1)<span style="color: #008000;">#</span><span style="color: #008000;">匹配以\(开头,以\)结尾，中间没有[^()]的,+中间除括号外可以是1位或者多位字符，然后通过分组拿到匹配到的（）号里的字符串</span>
+    <span style="color: #0000ff;">if</span> len(r) == 3: <span style="color: #008000;">#</span><span style="color: #008000;">每一次正则表达式匹配分割后，应该返回的是一个有3个元素的列表，匹配列表元素是否是3个</span>
+        a = r[0]    <span style="color: #008000;">#</span><span style="color: #008000;">索引列表拿出列表元素</span>
+        b = r[1]    <span style="color: #008000;">#</span><span style="color: #008000;">索引列表拿出列表元素</span>
+        c = r[2]    <span style="color: #008000;">#</span><span style="color: #008000;">索引列表拿出列表元素</span>
+        xin = a + b + c     <span style="color: #008000;">#</span><span style="color: #008000;">将列表索引出来的字符串重组</span>
+        origin = xin        <span style="color: #008000;">#</span><span style="color: #008000;">将列表索引出来的字符串重组后，重新赋值给origin变量进行下次正则匹配</span>
+        <span style="color: #0000ff;">print</span><span style="color: #000000;">(origin)
+    </span><span style="color: #0000ff;">else</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">break</span>   <span style="color: #008000;">#</span><span style="color: #008000;">当列表元素不是3个时，说明正则已经处理完括号了，就退出循环</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 - 2 * ( (60-30 +-4/5 * (9-2*5/3 + 7 /3*99/4*2998 +10 * 568/14 )) - (-4*3)/ (16-3*2) )</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 - 2 * ( (60-30 +-4/5 * 9-2*5/3 + 7 /3*99/4*2998 +10 * 568/14 ) - (-4*3)/ (16-3*2) )</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 - 2 * ( 60-30 +-4/5 * 9-2*5/3 + 7 /3*99/4*2998 +10 * 568/14  - (-4*3)/ (16-3*2) )</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 - 2 * ( 60-30 +-4/5 * 9-2*5/3 + 7 /3*99/4*2998 +10 * 568/14  - -4*3/ (16-3*2) )</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 - 2 * ( 60-30 +-4/5 * 9-2*5/3 + 7 /3*99/4*2998 +10 * 568/14  - -4*3/ 16-3*2 )</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 - 2 *  60-30 +-4/5 * 9-2*5/3 + 7 /3*99/4*2998 +10 * 568/14  - -4*3/ 16-3*2</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>sub()函数</strong></p>
+<p><span style="color: #ff0000;"><strong>替换匹配成功的指定位置字符串</strong></span></p>
+<p><strong><code class="python plain">sub(pattern, repl, string, count</code><code class="python keyword">=</code><code class="python value">0</code><code class="python plain">, flags</code><code class="python keyword">=</code><code class="python value">0</code><code class="python plain">)</code></strong></p>
+<div class="line number4 index3 alt1"><strong><code class="python comments"># pattern： 正则模型</code></strong></div>
+<div class="line number5 index4 alt2"><strong><code class="python comments"># repl&nbsp;&nbsp; ： 要替换的字符串</code></strong></div>
+<div class="line number6 index5 alt1"><strong><code class="python comments"># string ： 要匹配的字符串</code></strong></div>
+<div class="line number7 index6 alt2"><strong><code class="python comments"># count&nbsp; ： 指定匹配个数</code></strong></div>
+<div class="line number8 index7 alt1"><strong><code class="python comments"># flags&nbsp; ： 匹配模式</code></strong></div>
+<div class="line number8 index7 alt1">
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+origin </span>= <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+r </span>= re.sub(<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">替换</span><span style="color: #800000;">"</span>,origin) <span style="color: #008000;">#</span><span style="color: #008000;">替换匹配成功的指定位置字符串</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> hello 替换lex bcd 替换lex lge 替换lex 替换cd 19</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>subn()函数</strong></p>
+<p><span style="color: #ff0000;"><strong>替换匹配成功的指定位置字符串,并且返回替换次数，可以用两个变量分别接受</strong></span></p>
+<p><strong><code class="python plain">subn(pattern, repl, string, count</code><code class="python keyword">=</code><code class="python value">0</code><code class="python plain">, flags</code><code class="python keyword">=</code><code class="python value">0</code><code class="python plain">)</code></strong></p>
+<div class="line number4 index3 alt1"><strong><code class="python comments"># pattern： 正则模型</code></strong></div>
+<div class="line number5 index4 alt2"><strong><code class="python comments"># repl&nbsp;&nbsp; ： 要替换的字符串</code></strong></div>
+<div class="line number6 index5 alt1"><strong><code class="python comments"># string ： 要匹配的字符串</code></strong></div>
+<div class="line number7 index6 alt2"><strong><code class="python comments"># count&nbsp; ： 指定匹配个数</code></strong></div>
+<div class="line number8 index7 alt1"><strong><code class="python comments"># flags&nbsp; ： 匹配模式</code></strong></div>
+<div class="line number8 index7 alt1">
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> re
+origin </span>= <span style="color: #800000;">"</span><span style="color: #800000;">hello alex bcd alex lge alex acd 19</span><span style="color: #800000;">"</span><span style="color: #000000;">
+a,b </span>= re.subn(<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">替换</span><span style="color: #800000;">"</span>,origin) <span style="color: #008000;">#</span><span style="color: #008000;">替换匹配成功的指定位置字符串,并且返回替换次数，可以用两个变量分别接受</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> hello 替换lex bcd 替换lex lge 替换lex 替换cd 19</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 4</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong>元字符表</strong></span></p>
+<table style="width: 549px;" border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="left">.</p>
+</td>
+<td valign="top">
+<p align="left"><strong>需要字符串里完全符合，匹配规则，就匹配，（规则里的</strong><strong>.</strong><strong>元字符）可以是任何一个字符，</strong><strong>匹配任意除换行符</strong><strong>"\n"</strong><strong>外的字符</strong><strong>(</strong><strong>在</strong><strong>DOTALL</strong><strong>模式中也能匹配换行符</strong><strong>)</strong></p>
+</td>
+<td valign="top">
+<p align="left">a.c</p>
+</td>
+<td valign="top">
+<p align="left">abc</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">\</p>
+</td>
+<td valign="top">
+<p align="left"><strong>1.</strong><strong>反斜杠后边跟元字符去除特殊功能；（即将特殊字符转义成普通字符），</strong><strong>2.</strong><strong>反斜杠后边跟普通字符实现特殊功能；（即预定义字符），</strong><strong>3.\2</strong><strong>引用序号对应的字组</strong></p>
+</td>
+<td valign="top">
+<p align="left">a\.c;a\\c</p>
+</td>
+<td valign="top">
+<p align="left">a.c;a\c</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">*</p>
+</td>
+<td valign="top">
+<p align="left"><strong>需要字符串里完全符合，匹配规则，就匹配，（规则里的</strong><strong>*</strong><strong>元字符）前面的一个字符可以是</strong><strong>0</strong><strong>个或多个原本字符，</strong><strong>匹配前一个字符</strong><strong>0</strong><strong>或多次，贪婪匹配前导字符有多少个就匹配多少个很贪婪，</strong><strong>如果规则里只有一个分组，尽量避免用</strong><strong>*</strong><strong>否则会有可能匹配出空字符串</strong></p>
+</td>
+<td valign="top">
+<p align="left">abc*</p>
+</td>
+<td valign="top">
+<p align="left">ab;abccc</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">+</p>
+</td>
+<td valign="top">
+<p align="left"><strong>需要字符串里完全符合，匹配规则，就匹配，（规则里的</strong><strong>+</strong><strong>元字符）前面的一个字符可以是</strong><strong>1</strong><strong>个或多个原本字符，</strong><strong>匹配前一个字符</strong><strong>1</strong><strong>次或无限次，贪婪匹配前导字符有多少个就匹配多少个很贪婪</strong></p>
+</td>
+<td valign="top">
+<p align="left">abc+</p>
+</td>
+<td valign="top">
+<p align="left">abc;abccc</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">?</p>
+</td>
+<td valign="top">
+<p align="left"><strong>需要字符串里完全符合，匹配规则，就匹配，（规则里的</strong><strong>?</strong><strong>元字符）前面的一个字符可以是</strong><strong>0</strong><strong>个或</strong><strong>1</strong><strong>个原本字符，</strong><strong>匹配一个字符</strong><strong>0</strong><strong>次或</strong><strong>1</strong><strong>次，还有一个功能是可以防止贪婪匹配，详情见防贪婪匹配</strong></p>
+</td>
+<td valign="top">
+<p align="left">abc?</p>
+</td>
+<td valign="top">
+<p align="left">ab;abc</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">^</p>
+</td>
+<td valign="top">
+<pre><strong>字符串开始位置与匹配规则符合就匹配，否则不匹配</strong><strong>，</strong><strong>匹配字符串开头。在多行模式中匹配每一行的开头</strong><strong>，</strong><strong>^元字符如果写到[]字符集里就是反取</strong></pre>
+</td>
+<td valign="top">
+<p align="left">^abc</p>
+</td>
+<td valign="top">
+<p align="left">abc</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">$</p>
+</td>
+<td valign="top">
+<p align="left"><strong>字符串结束位置与匹配规则符合就匹配，否则不匹配，</strong><strong>匹配字符串末尾，在多行模式中匹配每一行的末尾</strong></p>
+</td>
+<td valign="top">
+<p align="left">abc$</p>
+</td>
+<td valign="top">
+<p align="left">abc</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">|</p>
+</td>
+<td valign="top">
+<p align="left"><strong>|</strong><strong>或，或就是前后其中一个符合就匹配</strong></p>
+</td>
+<td valign="top">
+<p align="left">abc|def</p>
+</td>
+<td valign="top">
+<p align="left">abc</p>
+<p align="left">def</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">{}</p>
+</td>
+<td valign="top">
+<p align="left"><strong>需要字符串里完全符合，匹配规则，就匹配，（规则里的</strong><strong>&nbsp;{} </strong><strong>元字符）前面的一个字符，是自定义字符数，位数的原本字符，</strong><strong>{m}</strong><strong>匹配前一个字符</strong><strong>m</strong><strong>次，</strong><strong>{m,n}</strong><strong>匹配前一个字符</strong><strong>m</strong><strong>至</strong><strong>n</strong><strong>次，若省略</strong><strong>n</strong><strong>，则匹配</strong><strong>m</strong><strong>至无限次，</strong>{0,}匹配前一个字符0或多次,等同于*元字符，{+,}匹配前一个字符1次或无限次,等同于+元字符，{0,1}匹配前一个字符0次或1次,等同于?元字符</p>
+</td>
+<td valign="top">
+<p align="left">ab{1,2}c</p>
+</td>
+<td valign="top">
+<p align="left">abc</p>
+<p align="left">abbc</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">[]</p>
+</td>
+<td valign="top">
+<p align="left"><strong>需要字符串里完全符合，匹配规则，就匹配，（规则里的</strong><strong>&nbsp;[] </strong><strong>元字符）对应位置是</strong><strong>[]</strong><strong>里的任意一个字符就匹配，</strong><strong>字符集。对应的位置可以是字符集中任意字符。字符集中的字符可以逐个列出，也可以给出范围，如</strong><strong>[abc]</strong><strong>或</strong><strong>[a-c]</strong><strong>。</strong><strong>[^abc]</strong><strong>表示取反，即非</strong><strong>abc</strong><strong>。所有特殊字符在字符集中都失去其原有的特殊含义。用</strong><strong>\</strong><strong>反斜杠转义恢复特殊字符的特殊含义。</strong></p>
+</td>
+<td valign="top">
+<p align="left">a[bcd]e</p>
+</td>
+<td valign="top">
+<p align="left">abe</p>
+<p align="left">ace</p>
+<p align="left">ade</p>
+<p align="left">&nbsp;</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p align="left">()</p>
+</td>
+<td valign="top">
+<p align="left"><strong>也就是分组匹配，</strong><strong>()</strong><strong>里面的为一个组也可以理解成一个整体，</strong><strong>如果</strong><strong>()</strong><strong>后面跟的是特殊元字符如</strong><strong> &nbsp; (adc)* &nbsp; </strong><strong>那么</strong><strong>*</strong><strong>控制的前导字符就是</strong><strong>()</strong><strong>里的整体内容，不再是前导一个字符</strong></p>
+</td>
+<td valign="top">
+<p align="left">(abc){2}<br />
+  a(123|456)c</p>
+
+
+
+
+
+
+
+
+  </td>
+<td valign="top">
+<p align="left">abcabc</p>
+<p align="left">a456c</p>
+
+
+
+
+
+
+
+
+  </td>
+
+
+
+
+
+
+
+
+ </tr>
+
+
+
+
+
+
+
+
+</tbody>
+
+
+
+
+
+
+
+</table>
+<p align="left"><span style="font-size: 18px;"><strong>预定义字符集表，</strong><strong>可以写在字符集</strong><strong>[...]</strong><strong>中</strong></span><strong>&nbsp;</strong></p>
+<table style="width: 580px;" border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="left">\d</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">\d匹配任何十进制数，它相当于类[0-9]，\d+如果需要匹配一位或者多位数的数字时用</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">a\bc</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">a1c</p>
+
+
+
+
+</td>
+
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">\D</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">\D匹配任何非数字字符，它相当于类[^0-9]</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">a\Dc</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">abc</p>
+
+
+
+
+</td>
+
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">\s</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">\s匹配任何空白字符，它相当于类[\t\n\r\f\v]</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">a\sc</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">a c</p>
+
+
+
+
+</td>
+
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">\S</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">\S匹配任何非空白字符，它相当于类[^\t\n\r\f\v]</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">a\Sc</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">abc</p>
+
+
+
+
+</td>
+
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">\w</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">\w匹配包括下划线在内任何字母数字字符，它相当于类[a-zA-Z0-9_]</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">a\wc</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">abc</p>
+
+
+
+
+</td>
+
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">\W</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">\W匹配非任何字母数字字符包括下划线在内，它相当于类[^a-zA-Z0-9_]</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">a\Wc</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">a c</p>
+
+
+
+
+</td>
+
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">\A</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">仅匹配字符串开头,同^</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">\Aabc</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">abc</p>
+
+
+
+
+</td>
+
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">\Z</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">仅匹配字符串结尾，同$</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">abc\Z</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">abc</p>
+
+
+
+
+</td>
+
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">\b</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">b匹配一个单词边界，也就是指单词和空格间的位置</p>
+
+
+
+
+</td>
+<td valign="top">
+<p align="left">\babc\b<br />
+  a\b!bc</p>
+
+
+
+
+
+
+  </td>
+<td valign="top">
+<p align="left">空格abc空格<br />
+  a!bc</p>
+
+
+
+
+
+
+  </td>
+
+
+
+
+
+
+ </tr>
+<tr>
+<td valign="top">
+<p align="left">\B</p>
+
+
+
+
+
+
+  </td>
+<td valign="top">
+<p align="left">[^\b]</p>
+
+
+
+
+
+
+  </td>
+<td valign="top">
+<p align="left">a\Bbc</p>
+
+
+
+
+
+
+  </td>
+<td valign="top">
+<p align="left">abc</p>
+
+
+
+
+
+
+  </td>
+
+
+
+
+
+
+ </tr>
+
+
+
+
+
+
+</tbody>
+
+
+
+
+</table>
+<p>&nbsp;</p>
+<p align="left"><span style="font-size: 18px;"><strong>特殊分组用法表：</strong><strong>只对正则函数返回对象的有用</strong></span></p>
+<table style="width: 583px;" border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="left">(?P&lt;name&gt;)</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">?P&lt;&gt;定义组里匹配内容的key(键)，&lt;&gt;里面写key名称，值就是匹配到的内容，在用groupdict()方法打印字符串</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">(?P&lt;id&gt;abc){2}</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">abcabc</p>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">(?P=name)</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">引用别名为&lt;name&gt;的分组匹配到字符串</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">(?P&lt;id&gt;\d)abc(?P=id)</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">1abc1</p>
+<p align="left">5abc5</p>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">\&lt;number&gt;</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">引用编号为&lt;number&gt;的分组匹配到字符串</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">(\d)abc\1</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">1abc1</p>
+<p align="left">5abc5</p>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+<p>&nbsp;</p>
+<p align="left"><strong><span style="font-size: 18px;">正则匹配模式表</span></strong></p>
+<table style="width: 601px;" border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top">
+<p align="left">标志</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">含义</p>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">re.S(DOTALL)</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">使.匹配包括换行在内的所有字符</p>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">re.I（IGNORECASE）</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">使匹配对大小写不敏感</p>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">re.L（LOCALE）</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">做本地化识别（locale-aware)匹配，法语等</p>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">re.M(MULTILINE)</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">多行匹配，影响^和$</p>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">re.X(VERBOSE)</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">该标志通过给予更灵活的格式以便将正则表达式写得更易于理解</p>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td valign="top">
+<p align="left">re.U</p>
+
+
+
+</td>
+<td valign="top">
+<p align="left">根据Unicode字符集解析字符，这个标志影响\w,\W,\b,\B</p>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+</tbody>
+
+
+
+</table>
+<p align="left">&nbsp;正则小示例</p>
+<p>1、匹配电话号码</p>
+<div class="cnblogs_code">
+<pre>p = re.compile(r'\d{3}-\d{6}')
+print(p.findall('010-628888'))</pre>
+</div>
+<p>2、匹配IP</p>
+<div class="cnblogs_code">
+<pre>re.search(r"(([01]?\d?\d|2[0-4]\d|25[0-5])\.){3}([01]?\d?\d|2[0-4]\d|25[0-5]\.)","192.168.1.1")</pre>
+</div>
+<p><em id="__mceDel">&nbsp;</em></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">IP：
+</span>^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3<span style="color: #000000;">}$
+手机号：
+</span>^1[3|4|5|8][0-9]\d{8<span style="color: #000000;">}$
+邮箱：
+[a</span>-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>正则表达式重点</strong></span></p>
+<p><span style="color: #ff0000;"><strong>一、</strong></span></p>
+<p><span style="color: #000000;"><strong>r原生字符</strong></span></p>
+<p><span style="color: #ff0000;"><strong>将在python里有特殊意义的字符如\b，转换成原生字符（就是去除它在python的特殊意义），不然会给正则表达式有冲突，为了避免这种冲突可以在规则前加原始字符r</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>二、</strong></span></p>
+<p><span style="color: #000000;"><strong>正则表达式，返回类型为表达式对象的</strong></span></p>
+<p><span style="color: #ff0000;"><strong>如：&lt;_sre.SRE_Match object; span=(6, 7), match='a'&gt; &nbsp;</strong></span></p>
+<p><span style="color: #ff0000;"><strong>返回对象的，需要用正则方法取字符串，</strong></span></p>
+<p><span style="color: #ff0000;"><strong>方法有</strong></span></p>
+<p><span style="color: #ff0000;"><strong>group() # 获取匹配到的所有结果，不管有没有分组将匹配到的全部拿出来，有参取匹配到的第几个如2<br />groups() # 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分的结果<br />groupdict() # 获取模型中匹配到的分组结果，只拿出匹配到的字符串中分组部分定义了key的组结果</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>三、</strong></span></p>
+<p><span style="color: #000000;"><strong>匹配到的字符串里出现空字符</strong></span></p>
+<p><span style="color: #ff0000;"><strong>注意：正则匹配到空字符的情况，如果规则里只有一个组，而组后面是*就表示组里的内容可以是0个或者多过，这样组里就有了两个意思，一个意思是匹配组里的内容，二个意思是匹配组里0内容（即是空白）所以尽量避免用*否则会有可能匹配出空字符串</strong></span></p>
+
+
+
+
+
+
+</div>
+<p>&nbsp;</p>
+<p class="postTitle"><span style="color: #ff0000; font-size: medium;">四、</span></p>
+<p class="postTitle"><span style="font-size: medium;">()分组</span></p>
+<p><span style="color: #ff0000;"><strong>注意：分组的意义，就是在匹配成功的字符串中，在提取()里，组里面的字符串</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>五、</strong></span></p>
+<p>&nbsp;</p>
+<pre><span style="font-size: 16px; color: #ff0000;"><strong>?:在有分组的情况下findall()函数，不只拿分组里的字符串，拿所有匹配到的字符串，注意?:只用于不是返回正则对象的函数如findall()</strong></span></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre><strong><span style="font-size: 16px;">&nbsp;</span></strong></pre></div>

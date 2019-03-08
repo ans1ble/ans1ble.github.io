@@ -1,0 +1,199 @@
+第三百二十二节，web爬虫，requests请求
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百二十二节，web爬虫，requests请求</strong></p>
+<p><span style="color: #0000ff"><strong><strong>requests请求，就是用yhthon的<strong>requests模块模拟浏览器请求，返回html源码</strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong><strong><strong>模拟浏览器请求有两种，一种是不需要用户登录或者验证的请求，一种是<strong><strong><strong>需要用户登录或者验证的请求</strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong><strong><strong><strong><strong>一、<strong><strong><strong>不需要用户登录或者验证的请求</strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong><strong><strong><strong><strong><strong><strong><strong><strong>这种比较简单，直接利用<strong><strong><strong>requests模块发一个请求即可拿到html源码</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">import</span> requests     <span style="color: #008000">#</span><span style="color: #008000">导入模拟浏览器请求模块</span>
+<span style="color: #000000">
+http </span>=requests.get(url=<span style="color: #800000">"</span><span style="color: #800000">http://www.iqiyi.com/</span><span style="color: #800000">"</span>)     <span style="color: #008000">#</span><span style="color: #008000">发送http请求</span>
+http.encoding = <span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>                             <span style="color: #008000">#</span><span style="color: #008000">http请求编码</span>
+neir = http.text                                    <span style="color: #008000">#</span><span style="color: #008000">获取http字符串代码</span>
+<span style="color: #0000ff">print</span>(neir)</pre>
+</div>
+<p>得到html源码</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>抽屉新热榜-聚合每日热门、搞笑、有趣资讯<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="utf-8"</span> <span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="keywords"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="抽屉新热榜,资讯,段子,图片,公众场合不宜,科技,新闻,节操,搞笑"</span> <span style="color: #0000ff">/&gt;</span>
+        
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="description"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="
+            抽屉新热榜，汇聚每日搞笑段子、热门图片、有趣新闻。它将微博、门户、社区、bbs、社交网站等海量内容聚合在一起，通过用户推荐生成最热榜单。看抽屉新热榜，每日热门、有趣资讯尽收眼底。
+            "</span> <span style="color: #0000ff">/&gt;</span>
+        
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="robots"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="index,follow"</span> <span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="GOOGLEBOT"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="index,follow"</span> <span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="Author"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="搞笑"</span> <span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">http-equiv</span><span style="color: #0000ff">="X-UA-Compatible"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="IE=EmulateIE8"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="image/x-icon"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="/images/chouti.ico"</span><span style="color: #ff0000"> rel</span><span style="color: #0000ff">="icon"</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="image/x-icon"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="/images/chouti.ico"</span><span style="color: #ff0000"> rel</span><span style="color: #0000ff">="Shortcut Icon"</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="image/x-icon"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="/images/chouti.ico"</span><span style="color: #ff0000"> rel</span><span style="color: #0000ff">="bookmark"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="application/opensearchdescription+xml"</span><span style="color: #ff0000">
+          href</span><span style="color: #0000ff">="opensearch.xml"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="抽屉新热榜"</span><span style="color: #ff0000"> rel</span><span style="color: #0000ff">="search"</span> <span style="color: #0000ff">/&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong><strong><strong><strong><strong>二、<strong><strong><strong>需要用户登录或者验证的请求</strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong><strong><strong><strong><strong><strong><strong><strong><strong>获取这种页面时，我们首先要了解整个登录过程，一般登录过程是，当用户第一次访问时，会自动在浏览器生成cookie文件，当用户输入登录信息后会携带着生成的cookie文件，如果登录信息正确会给这个cookie</strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong><strong><strong><strong><strong><strong><strong><strong><strong>授权，授权后以后访问需要登录的页面时携带授权后cookie即可</strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong><strong><strong><strong><strong><strong><strong><strong>1、首先访问一下首页，然后查看是否有自动生成<strong>cookie</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">import</span> requests     <span style="color: #008000">#</span><span style="color: #008000">导入模拟浏览器请求模块</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">## 1、在没登录之前访问一下首页，获取cookie</span>
+i1 =<span style="color: #000000"> requests.get(
+    url</span>=<span style="color: #800000">"</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">"</span><span style="color: #000000">,
+    headers</span>={<span style="color: #800000">'</span><span style="color: #800000">Referer</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">'</span><span style="color: #000000">}
+)
+i1.encoding </span>= <span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>                               <span style="color: #008000">#</span><span style="color: #008000">http请求编码</span>
+<span style="background-color: #ff99cc">i1_cookie =<span style="color: #000000"> i1.cookies.get_dict()
+</span></span><span style="color: #0000ff">print</span>(i1_cookie)                                    <span style="color: #008000">#</span><span style="color: #008000">返回获取到的cookie</span><span style="color: #008000">
+#</span><span style="color: #008000; background-color: #ff99cc">返回：{'JSESSIONID': 'aaaTztKP-KaGLbX-T6R0v', 'gpsd': 'c227f059746c839a28ab136060fe6ebe', 'route': 'f8b4f4a95eeeb2efcff5fd5e417b8319'}</span></pre>
+</div>
+<p><strong>可以看到生成了cookie，说明如果登陆信息正确，后台会给这里的cookie授权，以后访问需要登录的页面携带授权后的cookie即可</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong><strong><strong><strong><strong><strong><strong><strong>2、让程序自动去登录授权<strong>cookie</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong><strong><strong><strong><strong><strong><strong><strong>首先我们用浏览器访问登录页面，随便乱输入一下登录密码和账号，获取登录页面url，和登录所需要的字段</strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong><strong><strong><strong><strong><strong><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170723153548815-1118458671.png" alt=""></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170723153724846-1564908556.png" alt=""></p>
+<p><strong>携带cookie登录授权</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">import</span> requests     <span style="color: #008000">#</span><span style="color: #008000">导入模拟浏览器请求模块</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">## 1、在没登录之前访问一下首页，获取cookie</span>
+i1 =<span style="color: #000000"> requests.get(
+    url</span>=<span style="color: #800000">"</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">"</span><span style="color: #000000">,
+    headers</span>={<span style="color: #800000">'</span><span style="color: #800000">Referer</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">'</span><span style="color: #000000">}
+)
+i1.encoding </span>= <span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>                               <span style="color: #008000">#</span><span style="color: #008000">http请求编码</span>
+<span style="background-color: #ff99cc">i1_cookie =<span style="color: #000000"> i1.cookies.get_dict()
+</span></span><span style="color: #0000ff">print</span>(i1_cookie)                                    <span style="color: #008000">#</span><span style="color: #008000">返回获取到的cookie</span><span style="color: #008000">
+#</span><span style="color: #008000">返回：{'JSESSIONID': 'aaaTztKP-KaGLbX-T6R0v', 'gpsd': 'c227f059746c839a28ab136060fe6ebe', 'route': 'f8b4f4a95eeeb2efcff5fd5e417b8319'}</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">## 2、用户登陆，携带上一次的cookie，后台对cookie中的随机字符进行授权</span>
+i2 =<span style="color: #000000"> requests.post(
+<span style="background-color: #ff99cc">    url</span></span><span style="background-color: #ff99cc">=<span style="color: #800000">"</span><span style="color: #800000">http://dig.chouti.com/login</span><span style="color: #800000">"</span>,              <span style="color: #008000">#</span><span style="color: #008000">登录url</span>
+    data={                                          <span style="color: #008000">#</span><span style="color: #008000">登录字段</span>
+        <span style="color: #800000">'</span><span style="color: #800000">phone</span><span style="color: #800000">'</span>: <span style="color: #800000">"</span><span style="color: #800000">8615284816568</span><span style="color: #800000">"</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span>: <span style="color: #800000">"</span><span style="color: #800000">279819</span><span style="color: #800000">"</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">oneMonth</span><span style="color: #800000">'</span>: <span style="color: #800000">""</span><span style="color: #000000">
+    },
+    headers</span>={<span style="color: #800000">'</span><span style="color: #800000">Referer</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">'</span><span style="color: #000000">},
+    cookies</span>=i1_cookie                               <span style="color: #008000">#</span><span style="color: #008000">携带cookie</span></span>
+<span style="color: #000000">)
+i2.encoding </span>= <span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">
+dluxxi </span>=<span style="color: #000000"> i2.text
+</span><span style="color: #0000ff">print</span>(dluxxi)                                       <span style="color: #008000">#</span><span style="color: #008000">查看登录后服务器的响应</span><span style="color: #008000">
+#</span><span style="color: #008000">返回：{"result":{"code":"9999", "message":"", "data":{"complateReg":"0","destJid":"cdu_50072007463"}}}  登录成功</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>3、登录成功后，说明后台已经给cookie授权，这样我们访问需要登录的页面时，携带这个cookie即可，比如获取个人中心</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">import</span> requests     <span style="color: #008000">#</span><span style="color: #008000">导入模拟浏览器请求模块</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">## 1、在没登录之前访问一下首页，获取cookie</span>
+i1 =<span style="color: #000000"> requests.get(
+    url</span>=<span style="color: #800000">"</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">"</span><span style="color: #000000">,
+    headers</span>={<span style="color: #800000">'</span><span style="color: #800000">Referer</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">'</span><span style="color: #000000">}
+)
+i1.encoding </span>= <span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>                               <span style="color: #008000">#</span><span style="color: #008000">http请求编码</span>
+<span style="background-color: #ff99cc">i1_cookie =<span style="color: #000000"> i1.cookies.get_dict()
+</span></span><span style="color: #0000ff">print</span>(i1_cookie)                                    <span style="color: #008000">#</span><span style="color: #008000">返回获取到的cookie</span><span style="color: #008000">
+#</span><span style="color: #008000">返回：{'JSESSIONID': 'aaaTztKP-KaGLbX-T6R0v', 'gpsd': 'c227f059746c839a28ab136060fe6ebe', 'route': 'f8b4f4a95eeeb2efcff5fd5e417b8319'}</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">## 2、用户登陆，携带上一次的cookie，后台对cookie中的随机字符进行授权</span>
+i2 =<span style="color: #000000"> requests.post(
+<span style="background-color: #ff99cc">    url</span></span><span style="background-color: #ff99cc">=<span style="color: #800000">"</span><span style="color: #800000">http://dig.chouti.com/login</span><span style="color: #800000">"</span>,              <span style="color: #008000">#</span><span style="color: #008000">登录url</span>
+    data={                                          <span style="color: #008000">#</span><span style="color: #008000">登录字段</span>
+        <span style="color: #800000">'</span><span style="color: #800000">phone</span><span style="color: #800000">'</span>: <span style="color: #800000">"</span><span style="color: #800000">8615284816568</span><span style="color: #800000">"</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span>: <span style="color: #800000">"</span><span style="color: #800000">279819</span><span style="color: #800000">"</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">oneMonth</span><span style="color: #800000">'</span>: <span style="color: #800000">""</span><span style="color: #000000">
+    },
+    headers</span>={<span style="color: #800000">'</span><span style="color: #800000">Referer</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">'</span><span style="color: #000000">},
+    cookies</span>=i1_cookie                               <span style="color: #008000">#</span><span style="color: #008000">携带cookie</span></span>
+<span style="color: #000000">)
+i2.encoding </span>= <span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">
+dluxxi </span>=<span style="color: #000000"> i2.text
+</span><span style="color: #0000ff">print</span>(dluxxi)                                       <span style="color: #008000">#</span><span style="color: #008000">查看登录后服务器的响应</span><span style="color: #008000">
+#</span><span style="color: #008000">返回：{"result":{"code":"9999", "message":"", "data":{"complateReg":"0","destJid":"cdu_50072007463"}}}  登录成功</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">## 3、访问需要登录才能查看的页面，携带着授权后的cookie访问</span>
+<span style="background-color: #ff99cc">shouquan_cookie =</span><span style="color: #000000"><span style="background-color: #ff99cc"> i1_cookie</span>
+i3 </span>=<span style="color: #000000"> requests.get(
+<span style="background-color: #ff99cc">    url</span></span><span style="background-color: #ff99cc">=<span style="color: #800000">"</span><span style="color: #800000">http://dig.chouti.com/user/link/saved/1</span><span style="color: #800000">"</span><span style="color: #000000">,
+    headers</span>={<span style="color: #800000">'</span><span style="color: #800000">Referer</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">'</span><span style="color: #000000">},
+    cookies</span>=shouquan_cookie                        <span style="color: #008000">#</span><span style="color: #008000">携带着授权后的cookie访问</span></span>
+<span style="color: #000000">)
+i3.encoding </span>= <span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>
+<span style="color: #0000ff">print</span>(i3.text)                                     <span style="color: #008000">#</span><span style="color: #008000">查看需要登录才能查看的页面</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170723155153096-1356935975.png" alt=""></p>
+<p><strong>获取需要登录页面的html源码成功</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>全部代码</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">get()</span>方法，发送get请求</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">encoding</span>属性，设置请求编码</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">cookies.get_dict()</span>获取cookies</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">post()</span>发送post请求</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">text</span>获取服务器响应信息</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">import</span> requests     <span style="color: #008000">#</span><span style="color: #008000">导入模拟浏览器请求模块</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">## 1、在没登录之前访问一下首页，获取cookie</span>
+i1 =<span style="color: #000000"> requests.get(
+    url</span>=<span style="color: #800000">"</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">"</span><span style="color: #000000">,
+    headers</span>={<span style="color: #800000">'</span><span style="color: #800000">Referer</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">'</span><span style="color: #000000">}
+)
+i1.encoding </span>= <span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>                               <span style="color: #008000">#</span><span style="color: #008000">http请求编码</span>
+i1_cookie =<span style="color: #000000"> i1.cookies.get_dict()
+</span><span style="color: #0000ff">print</span>(i1_cookie)                                    <span style="color: #008000">#</span><span style="color: #008000">返回获取到的cookie</span><span style="color: #008000">
+#</span><span style="color: #008000">返回：{'JSESSIONID': 'aaaTztKP-KaGLbX-T6R0v', 'gpsd': 'c227f059746c839a28ab136060fe6ebe', 'route': 'f8b4f4a95eeeb2efcff5fd5e417b8319'}</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">## 2、用户登陆，携带上一次的cookie，后台对cookie中的随机字符进行授权</span>
+i2 =<span style="color: #000000"> requests.post(
+    url</span>=<span style="color: #800000">"</span><span style="color: #800000">http://dig.chouti.com/login</span><span style="color: #800000">"</span>,              <span style="color: #008000">#</span><span style="color: #008000">登录url</span>
+    data={                                          <span style="color: #008000">#</span><span style="color: #008000">登录字段</span>
+        <span style="color: #800000">'</span><span style="color: #800000">phone</span><span style="color: #800000">'</span>: <span style="color: #800000">"</span><span style="color: #800000">8615284816568</span><span style="color: #800000">"</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span>: <span style="color: #800000">"</span><span style="color: #800000">279819</span><span style="color: #800000">"</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">oneMonth</span><span style="color: #800000">'</span>: <span style="color: #800000">""</span><span style="color: #000000">
+    },
+    headers</span>={<span style="color: #800000">'</span><span style="color: #800000">Referer</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">'</span><span style="color: #000000">},
+    cookies</span>=i1_cookie                               <span style="color: #008000">#</span><span style="color: #008000">携带cookie</span>
+<span style="color: #000000">)
+i2.encoding </span>= <span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">
+dluxxi </span>=<span style="color: #000000"> i2.text
+</span><span style="color: #0000ff">print</span>(dluxxi)                                       <span style="color: #008000">#</span><span style="color: #008000">查看登录后服务器的响应</span><span style="color: #008000">
+#</span><span style="color: #008000">返回：{"result":{"code":"9999", "message":"", "data":{"complateReg":"0","destJid":"cdu_50072007463"}}}  登录成功</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">## 3、访问需要登录才能查看的页面，携带着授权后的cookie访问</span>
+shouquan_cookie =<span style="color: #000000"> i1_cookie
+i3 </span>=<span style="color: #000000"> requests.get(
+    url</span>=<span style="color: #800000">"</span><span style="color: #800000">http://dig.chouti.com/user/link/saved/1</span><span style="color: #800000">"</span><span style="color: #000000">,
+    headers</span>={<span style="color: #800000">'</span><span style="color: #800000">Referer</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">'</span><span style="color: #000000">},
+    cookies</span>=shouquan_cookie                        <span style="color: #008000">#</span><span style="color: #008000">携带着授权后的cookie访问</span>
+<span style="color: #000000">)
+i3.encoding </span>= <span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>
+<span style="color: #0000ff">print</span>(i3.text)                                     <span style="color: #008000">#</span><span style="color: #008000">查看需要登录才能查看的页面</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>注意：如果登录需要验证码，那就需要做图像处理，根据验证码图片，识别出验证码，将验证码写入登录字段</strong></span></p>
+<p>&nbsp;</p></div>

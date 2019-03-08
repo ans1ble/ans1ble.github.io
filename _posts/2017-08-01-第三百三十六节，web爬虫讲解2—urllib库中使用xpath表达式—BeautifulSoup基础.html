@@ -1,0 +1,37 @@
+第三百三十六节，web爬虫讲解2—urllib库中使用xpath表达式—BeautifulSoup基础
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百三十六节，web爬虫讲解2—urllib库中使用xpath表达式—BeautifulSoup基础</strong></p>
+<p>&nbsp;</p>
+<p><strong>在urllib中，我们一样可以使用xpath表达式进行信息提取，此时，你需要首先安装lxml模块，然后将网页数据通过lxml下的etree转化为treedata的形式</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>urllib库中使用xpath表达式</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">etree.HTML()</span>将获取到的html字符串，转换成树形结构，也就是xpath表达式可以获取的格式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> urllib.request
+</span><span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> lxml <span style="color: #0000ff">import</span> etree</span>  <span style="color: #008000">#</span><span style="color: #008000">导入html树形结构转换模块</span>
+<span style="color: #000000">
+wye </span>= urllib.request.urlopen(<span style="color: #800000">'</span><span style="color: #800000">http://sh.qihoo.com/pc/home</span><span style="color: #800000">'</span>).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>,<span style="color: #800000">'</span><span style="color: #800000">ignore</span><span style="color: #800000">'</span><span style="color: #000000">)
+zhuanh </span>= <span style="background-color: #ff99cc">etree.HTML(wye)</span>  <span style="color: #008000">#</span><span style="color: #008000">将获取到的html字符串，转换成树形结构，也就是xpath表达式可以获取的格式</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(zhuanh)
+<span style="background-color: #ff99cc">hqq </span></span><span style="background-color: #ff99cc">= zhuanh.xpath(<span style="color: #800000">'</span><span style="color: #800000">/html/head/title/text()</span><span style="color: #800000">'</span>)</span> <span style="color: #008000">#</span><span style="color: #008000">通过xpath表达式获取标题</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">注意，xpath表达式获取到数据，有时候是列表，有时候不是列表所以要做如下处理</span>
+<span style="background-color: #ff99cc"><span style="color: #0000ff">if</span> str(type(hqq)) == <span style="color: #800000">"</span><span style="color: #800000">&lt;class 'list'&gt;</span><span style="color: #800000">"</span>:  <span style="color: #008000">#</span><span style="color: #008000">判断获取到的是否是列表</span>
+    <span style="color: #0000ff">print</span><span style="color: #000000">(hqq)
+</span><span style="color: #0000ff">else</span><span style="color: #000000">:
+    xh_hqq </span>= [i <span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span> hqq]       <span style="color: #008000">#</span><span style="color: #008000">如果不是列表，循环数据组合成列表</span>
+    <span style="color: #0000ff">print</span><span style="color: #000000">(xh_hqq)
+
+
+</span></span><span style="color: #008000">#</span><span style="color: #008000">返回 ：['【今日爆点】你的专属资讯平台']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">BeautifulSoup基础<br></span></strong></p>
+<p><strong><span style="color: #ff0000"><strong>BeautifulSoup是获取thml元素的模块</strong></span></strong></p>
+<p><strong><span style="color: #ff0000">BeautifulSoup-3.2.1版本</span></strong></p>
+<p><strong><span style="color: #ff0000"><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170801212137349-637858141.png" alt=""></span></strong></p>
+<p>&nbsp;</p></div>

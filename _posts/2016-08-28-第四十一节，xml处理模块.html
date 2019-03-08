@@ -1,0 +1,956 @@
+第四十一节，xml处理模块
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>XML是实现不同语言或程序之间进行数据交换的协议,XML文件格式如下</strong></p>
+<p><span style="font-size: 18px; color: #0000ff;"><strong>读xml文件</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">data</span><span style="color: #0000ff;">&gt;</span>
+    <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">country </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="Liechtenstein"</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">rank </span><span style="color: #ff0000;">updated</span><span style="color: #0000ff;">="yes"</span><span style="color: #0000ff;">&gt;</span>2<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">rank</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">year</span><span style="color: #0000ff;">&gt;</span>2023<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">year</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">gdppc</span><span style="color: #0000ff;">&gt;</span>141100<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">gdppc</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">neighbor </span><span style="color: #ff0000;">direction</span><span style="color: #0000ff;">="E"</span><span style="color: #ff0000;"> name</span><span style="color: #0000ff;">="Austria"</span> <span style="color: #0000ff;">/&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">neighbor </span><span style="color: #ff0000;">direction</span><span style="color: #0000ff;">="W"</span><span style="color: #ff0000;"> name</span><span style="color: #0000ff;">="Switzerland"</span> <span style="color: #0000ff;">/&gt;</span>
+    <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">country</span><span style="color: #0000ff;">&gt;</span>
+    <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">country </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="Singapore"</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">rank </span><span style="color: #ff0000;">updated</span><span style="color: #0000ff;">="yes"</span><span style="color: #0000ff;">&gt;</span>5<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">rank</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">year</span><span style="color: #0000ff;">&gt;</span>2026<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">year</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">gdppc</span><span style="color: #0000ff;">&gt;</span>59900<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">gdppc</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">neighbor </span><span style="color: #ff0000;">direction</span><span style="color: #0000ff;">="N"</span><span style="color: #ff0000;"> name</span><span style="color: #0000ff;">="Malaysia"</span> <span style="color: #0000ff;">/&gt;</span>
+    <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">country</span><span style="color: #0000ff;">&gt;</span>
+    <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">country </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="Panama"</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">rank </span><span style="color: #ff0000;">updated</span><span style="color: #0000ff;">="yes"</span><span style="color: #0000ff;">&gt;</span>69<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">rank</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">year</span><span style="color: #0000ff;">&gt;</span>2026<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">year</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">gdppc</span><span style="color: #0000ff;">&gt;</span>13600<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">gdppc</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">neighbor </span><span style="color: #ff0000;">direction</span><span style="color: #0000ff;">="W"</span><span style="color: #ff0000;"> name</span><span style="color: #0000ff;">="Costa Rica"</span> <span style="color: #0000ff;">/&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">neighbor </span><span style="color: #ff0000;">direction</span><span style="color: #0000ff;">="E"</span><span style="color: #ff0000;"> name</span><span style="color: #0000ff;">="Colombia"</span> <span style="color: #0000ff;">/&gt;</span>
+    <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">country</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">data</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>from xml.etree import ElementTree #导入xml处理模块</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>XML()模块函数</strong></span></p>
+<p><strong>功能：解析字符串形式的xml，返回的xml的最外层标签节点，也就是一级标签<strong>节点</strong>【有参】</strong></p>
+<p><strong>使用方法：模块名称.XML(xml字符串变量)<strong><br /></strong></strong></p>
+<p><strong>格式如：a = ElementTree.XML(neir)</strong></p>
+<p><span style="color: #ff0000;"><strong>text模块关键字</strong></span></p>
+<p><strong>功能：<strong>获取标签里的字符串</strong></strong></p>
+<p><strong>使用方法：要获取字符串的标签节点变量.text<strong><br /></strong></strong></p>
+<p><strong>格式如：b = a.text</strong></p>
+<p><span style="color: #ff00ff;"><strong>http请求处理xmlQQ在线状态</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">http请求处理xmlQQ在线状态</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> requests <span style="color: #008000;">#</span><span style="color: #008000;">导入http请求模块</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml处理模块</span>
+http =requests.get(<span style="color: #800000;">"</span><span style="color: #800000;">http://www.webxml.com.cn//webservices/qqOnlineWebService.asmx/qqCheckOnline?qqCode=729088188</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">发送http请求</span>
+http.encoding = <span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">http请求编码</span>
+neir = http.text <span style="color: #008000;">#</span><span style="color: #008000;">获取http请求的xml字符串代码</span>
+<span style="color: #0000ff;">print</span>(neir) <span style="color: #008000;">#</span><span style="color: #008000;">打印获取到http请求的xml字符串代码</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+a </span>= ElementTree.XML(neir) <span style="color: #008000;">#</span><span style="color: #008000;">解析xml，返回的xml的最外层标签节点，也就是一级标签节点</span>
+<span style="color: #0000ff;">print</span>(a) <span style="color: #008000;">#</span><span style="color: #008000;">打印xml的最外层标签节点，也就是一级标签节点</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+b </span>= a.text <span style="color: #008000;">#</span><span style="color: #008000;">获取节点标签里的字符串</span>
+<span style="color: #0000ff;">print</span>(b) <span style="color: #008000;">#</span><span style="color: #008000;">可以根据这个标签的字符串来判断QQ是否在线</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;?xml version="1.0" encoding="utf-8"?&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;string xmlns="http://WebXml.com.cn/"&gt;V&lt;/string&gt;</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> &lt;Element '{http://WebXml.com.cn/}string' at 0x0000005692820548&gt;</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> V</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>注意： 返回以Element开头的为标签节点 &nbsp;如：&lt;Element '{http://WebXml.com.cn/}DataSet' at 0x0000008C179C0548&gt;</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>iter()模块函数</strong></span><strong><br /></strong></p>
+<p><strong>功能：<strong>获取一级标签节点下的，多个同名同级的标签节点，可跨级的获取节点，返回迭代节点，需要for循环出标签【有参】</strong></strong></p>
+<p><strong>使用方法：解析xml节点变量.<strong>iter("要获取的标签名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：b = a.iter("TrainDetailInfo")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">http请求处理列车时刻表</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> requests <span style="color: #008000;">#</span><span style="color: #008000;">导入http请求模块</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml处理模块</span>
+http =requests.get(<span style="color: #800000;">"</span><span style="color: #800000;">http://www.webxml.com.cn/WebServices/TrainTimeWebService.asmx/getDetailInfoByTrainCode?TrainCode=k234&amp;UserID=</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">发送http请求</span>
+http.encoding = <span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">http请求编码</span>
+neir = http.text <span style="color: #008000;">#</span><span style="color: #008000;">获取http请求的xml字符串代码</span>
+<span style="color: #000000;">
+a </span>= ElementTree.XML(neir) <span style="color: #008000;">#</span><span style="color: #008000;">解析xml，返回的xml的最外层标签节点，也就是一级标签节点</span>
+<span style="color: #0000ff;">print</span>(a) <span style="color: #008000;">#</span><span style="color: #008000;">打印xml的最外层标签节点，也就是一级标签节点</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+b </span>= a.iter(<span style="color: #800000;">"</span><span style="color: #800000;">TrainDetailInfo</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">获取一级标签下的，多个同名同级的标签节点，返回迭代节点，需要for循环出标签节点</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> b:
+    </span><span style="color: #0000ff;">print</span>(i) <span style="color: #008000;">#</span><span style="color: #008000;">循环出所有的TrainDetailInfo标签节点</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element '{http://WebXml.com.cn/}DataSet' at 0x000000B52FC7F548&gt;</span><span style="color: #008000;">
+#
+#
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC7FB88&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC7FD18&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC7FEA8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC98098&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC98228&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC983B8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC98548&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC986D8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC98868&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC989F8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC98B88&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC98D18&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC98EA8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC9B098&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC9B228&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC9B3B8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC9B548&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainDetailInfo' at 0x000000B52FC9B6D8&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>tag模块关键字</strong></span></p>
+<p><strong>功能：获取标签的名称,返回标签名称<strong><br /></strong></strong></p>
+<p><strong>使用方法：标签节点变量.<strong>tag</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：i.tag</strong></p>
+<p><span style="color: #ff0000;"><strong>attrib模块关键字</strong></span></p>
+<p><strong>功能：获取标签的属性，以字典形式返回标签属性<strong><br /></strong></strong></p>
+<p><strong>使用方法：<strong>标签节点变量.<strong>attrib</strong></strong><strong><br /></strong></strong></p>
+<p><strong>格式如：i.attrib</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">http请求处理列车时刻表</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> requests <span style="color: #008000;">#</span><span style="color: #008000;">导入http请求模块</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml处理模块</span>
+http =requests.get(<span style="color: #800000;">"</span><span style="color: #800000;">http://www.webxml.com.cn/WebServices/TrainTimeWebService.asmx/getDetailInfoByTrainCode?TrainCode=k234&amp;UserID=</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">发送http请求</span>
+http.encoding = <span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">http请求编码</span>
+neir = http.text <span style="color: #008000;">#</span><span style="color: #008000;">获取http请求的xml字符串代码</span>
+<span style="color: #000000;">
+a </span>= ElementTree.XML(neir) <span style="color: #008000;">#</span><span style="color: #008000;">解析xml，返回的xml的最外层标签节点，也就是一级标签节点</span>
+<span style="color: #0000ff;">print</span>(a) <span style="color: #008000;">#</span><span style="color: #008000;">打印xml的最外层标签节点，也就是一级标签节点</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+b </span>= a.iter(<span style="color: #800000;">"</span><span style="color: #800000;">TrainDetailInfo</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">获取一级标签下的，多个同名同级的标签节点，返回迭代节点，需要for循环出标签节点</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> b:
+    </span><span style="color: #0000ff;">print</span>(i.tag,i.attrib) <span style="color: #008000;">#</span><span style="color: #008000;">tag获取标签的名称，attrib获取标签的属性</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element '{http://WebXml.com.cn/}DataSet' at 0x0000008C179C0548&gt;</span><span style="color: #008000;">
+#
+#
+#</span><span style="color: #008000;"> TrainDetailInfo {'{urn:schemas-microsoft-com:xml-msdata}rowOrder': '0', '{urn:schemas-microsoft-com:xml-diffgram-v1}id': 'TrainDetailInfo1', '{urn:schemas-microsoft-com:xml-diffgram-v1}hasChanges': 'inserted'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> TrainDetailInfo {'{urn:schemas-microsoft-com:xml-msdata}rowOrder': '1', '{urn:schemas-microsoft-com:xml-diffgram-v1}id': 'TrainDetailInfo2', '{urn:schemas-microsoft-com:xml-diffgram-v1}hasChanges': 'inserted'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> TrainDetailInfo {'{urn:schemas-microsoft-com:xml-msdata}rowOrder': '2', '{urn:schemas-microsoft-com:xml-diffgram-v1}id': 'TrainDetailInfo3', '{urn:schemas-microsoft-com:xml-diffgram-v1}hasChanges': 'inserted'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> TrainDetailInfo {'{urn:schemas-microsoft-com:xml-msdata}rowOrder': '3', '{urn:schemas-microsoft-com:xml-diffgram-v1}id': 'TrainDetailInfo4', '{urn:schemas-microsoft-com:xml-diffgram-v1}hasChanges': 'inserted'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> TrainDetailInfo {'{urn:schemas-microsoft-com:xml-msdata}rowOrder': '4', '{urn:schemas-microsoft-com:xml-diffgram-v1}id': 'TrainDetailInfo5', '{urn:schemas-microsoft-com:xml-diffgram-v1}hasChanges': 'inserted'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> TrainDetailInfo {'{urn:schemas-microsoft-com:xml-msdata}rowOrder': '5', '{urn:schemas-microsoft-com:xml-diffgram-v1}id': 'TrainDetailInfo6', '{urn:schemas-microsoft-com:xml-diffgram-v1}hasChanges': 'inserted'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> TrainDetailInfo {'{urn:schemas-microsoft-com:xml-msdata}rowOrder': '6', '{urn:schemas-microsoft-com:xml-diffgram-v1}id': 'TrainDetailInfo7', '{urn:schemas-microsoft-com:xml-diffgram-v1}hasChanges': 'inserted'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> TrainDetailInfo {'{urn:schemas-microsoft-com:xml-msdata}rowOrder': '7', '{urn:schemas-microsoft-com:xml-diffgram-v1}id': 'TrainDetailInfo8', '{urn:schemas-microsoft-com:xml-diffgram-v1}hasChanges': 'inserted'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> TrainDetailInfo {'{urn:schemas-microsoft-com:xml-msdata}rowOrder': '8', '{urn:schemas-microsoft-com:xml-diffgram-v1}id': 'TrainDetailInfo9', '{urn:schemas-microsoft-com:xml-diffgram-v1}hasChanges': 'inserted'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> TrainDetailInfo {'{urn:schemas-microsoft-com:xml-msdata}rowOrder': '9', '{urn:schemas-microsoft-com:xml-diffgram-v1}id': 'TrainDetailInfo10', '{urn:schemas-microsoft-com:xml-diffgram-v1}hasChanges': 'inserted'}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>find()模块函数</strong></span></p>
+<p><strong>功能：查找一个标签节点下的子标签节点，返回子标签节点【有参】<strong><br /></strong></strong></p>
+<p><strong>使用方法：父标签节点变量.<strong>find("要查找的子标签名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：i.find("TrainStation")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">http请求处理xmll列出时刻表</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> requests <span style="color: #008000;">#</span><span style="color: #008000;">导入http请求模块</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml处理模块</span>
+http =requests.get(<span style="color: #800000;">"</span><span style="color: #800000;">http://www.webxml.com.cn/WebServices/TrainTimeWebService.asmx/getDetailInfoByTrainCode?TrainCode=k234&amp;UserID=</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">发送http请求</span>
+http.encoding = <span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">http请求编码</span>
+neir = http.text <span style="color: #008000;">#</span><span style="color: #008000;">获取http请求的xml字符串代码</span>
+<span style="color: #000000;">
+a </span>= ElementTree.XML(neir) <span style="color: #008000;">#</span><span style="color: #008000;">解析xml，返回的xml的最外层标签节点，也就是一级标签节点</span>
+<span style="color: #0000ff;">print</span>(a) <span style="color: #008000;">#</span><span style="color: #008000;">打印xml的最外层标签节点，也就是一级标签节点</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+b </span>= a.iter(<span style="color: #800000;">"</span><span style="color: #800000;">TrainDetailInfo</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">获取一级标签下的，多个同名同级的标签节点，返回迭代句柄，需要for循环出标签节点</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> b:
+    </span><span style="color: #0000ff;">print</span>(i.find(<span style="color: #800000;">"</span><span style="color: #800000;">TrainStation</span><span style="color: #800000;">"</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">find()查找一个标签节点下的子标签节点</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element '{http://WebXml.com.cn/}DataSet' at 0x000000BF7CFC0548&gt;</span><span style="color: #008000;">
+#
+#
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFC0BD8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFC0D68&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFC0EF8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFD90E8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFD9278&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFD9408&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFD9598&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFD9728&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFD98B8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFD9A48&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFD9BD8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFD9D68&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFD9EF8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFDC0E8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFDC278&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFDC408&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFDC598&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'TrainStation' at 0x000000BF7CFDC728&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>拿出标签里需要的数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">http请求处理xmlQQ在线状态</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> requests <span style="color: #008000;">#</span><span style="color: #008000;">导入http请求模块</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml处理模块</span>
+http =requests.get(<span style="color: #800000;">"</span><span style="color: #800000;">http://www.webxml.com.cn/WebServices/TrainTimeWebService.asmx/getDetailInfoByTrainCode?TrainCode=k567&amp;UserID=</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">发送http请求</span>
+http.encoding = <span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">http请求编码</span>
+neir = http.text <span style="color: #008000;">#</span><span style="color: #008000;">获取http请求的xml字符串代码</span>
+<span style="color: #000000;">
+a </span>= ElementTree.XML(neir) <span style="color: #008000;">#</span><span style="color: #008000;">解析xml，返回的xml的最外层标签节点，也就是一级标签节点</span>
+<span style="color: #0000ff;">print</span>(a) <span style="color: #008000;">#</span><span style="color: #008000;">打印xml的最外层标签节点，也就是一级标签节点</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+b </span>= a.iter(<span style="color: #800000;">"</span><span style="color: #800000;">TrainDetailInfo</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">获取一级标签下的，多个同名同级的标签节点，返回迭代句柄，需要for循环出标签节点</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> b:
+    </span><span style="color: #0000ff;">print</span>(i.find(<span style="color: #800000;">"</span><span style="color: #800000;">TrainStation</span><span style="color: #800000;">"</span>).text,i.find(<span style="color: #800000;">"</span><span style="color: #800000;">ArriveTime</span><span style="color: #800000;">"</span>).text,i.find(<span style="color: #800000;">"</span><span style="color: #800000;">StartTime</span><span style="color: #800000;">"</span>).text,i.find(<span style="color: #800000;">"</span><span style="color: #800000;">KM</span><span style="color: #800000;">"</span>).text) <span style="color: #008000;">#</span><span style="color: #008000;">获取标签里的字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element '{http://WebXml.com.cn/}DataSet' at 0x000000B9C3775408&gt;</span><span style="color: #008000;">
+#
+#
+#</span><span style="color: #008000;"> 天津（车次：k567） None 15:30:00 0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 唐山 17:06:00 17:11:00 114</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 昌黎 18:19:00 18:22:00 226</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 北戴河 18:43:00 18:46:00 254</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 秦皇岛 19:04:00 19:09:00 275</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 山海关 19:34:00 19:50:00 292</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 绥中 20:54:00 20:58:00 357</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 兴城 21:34:00 21:38:00 405</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 葫芦岛 21:58:00 22:02:00 426</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 锦州 22:47:00 22:53:00 476</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 沟帮子 23:42:00 23:46:00 540</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 沈阳 02:19:00 02:31:00 718</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 四平 05:16:00 05:19:00 906</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 八面城 05:40:00 05:42:00 934</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 双辽 06:28:00 06:33:00 996</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 保康 07:28:00 07:30:00 1076</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 太平川 07:56:00 08:00:00 1110</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 开通 08:33:00 08:36:00 1159</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 洮南 09:21:00 09:24:00 1227</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 白城 09:52:00 10:04:00 1259</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 镇赉 10:31:00 10:34:00 1297</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 泰来 11:22:00 11:24:00 1361</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 江桥 12:02:00 12:06:00 1409</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 三间房 12:51:00 12:53:00 1447</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 齐齐哈尔 13:26:00 None 1477</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>注意：xml通过XML()解析得到一级节点后，可以用for循环节点，和嵌套循环节点来得到想要的节点【重点】</strong></span></p>
+<p><strong>如下列：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">
+注意：xml通过ElementTree.XML()解析得到一级节点后，可以用for循环节点，和嵌套循环节点来得到想要的节点
+如下列：
+&lt;data&gt;
+    &lt;country name="Liechtenstein"&gt;
+        &lt;rank updated="yes"&gt;2&lt;/rank&gt;
+        &lt;year&gt;2023&lt;/year&gt;
+        &lt;gdppc&gt;141100&lt;/gdppc&gt;
+        &lt;neighbor direction="E" name="Austria" /&gt;
+        &lt;neighbor direction="W" name="Switzerland" /&gt;
+    &lt;/country&gt;
+    &lt;country name="Singapore"&gt;
+        &lt;rank updated="yes"&gt;5&lt;/rank&gt;
+        &lt;year&gt;2026&lt;/year&gt;
+        &lt;gdppc&gt;59900&lt;/gdppc&gt;
+        &lt;neighbor direction="N" name="Malaysia" /&gt;
+    &lt;/country&gt;
+    &lt;country name="Panama"&gt;
+        &lt;rank updated="yes"&gt;69&lt;/rank&gt;
+        &lt;year&gt;2026&lt;/year&gt;
+        &lt;gdppc&gt;13600&lt;/gdppc&gt;
+        &lt;neighbor direction="W" name="Costa Rica" /&gt;
+        &lt;neighbor direction="E" name="Colombia" /&gt;
+    &lt;/country&gt;
+&lt;/data&gt;
+</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+a </span>= open(<span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">本地打开一个xml文件</span>
+b = a.read() <span style="color: #008000;">#</span><span style="color: #008000;">读出文件内容</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml处理模块</span>
+c = ElementTree.XML(b) <span style="color: #008000;">#</span><span style="color: #008000;">解析xml得到，第一个节点，也就是一级节点</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> c: <span style="color: #008000;">#</span><span style="color: #008000;">循环一级节点里的节点，得到二级节点</span>
+    <span style="color: #0000ff;">for</span> s <span style="color: #0000ff;">in</span> i: <span style="color: #008000;">#</span><span style="color: #008000;">循环二级节点里的节点，得到三级节点下的节点</span>
+        <span style="color: #0000ff;">print</span>(s) <span style="color: #008000;">#</span><span style="color: #008000;">打印出三级节点</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'rank' at 0x000000A4C3B083B8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'year' at 0x000000A4C3B08408&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'gdppc' at 0x000000A4C3B08458&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'neighbor' at 0x000000A4C3B084A8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'neighbor' at 0x000000A4C3B084F8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'rank' at 0x000000A4C3B08598&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'year' at 0x000000A4C3B085E8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'gdppc' at 0x000000A4C3B08638&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'neighbor' at 0x000000A4C3B08688&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'rank' at 0x000000A4C3B08728&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'year' at 0x000000A4C3B08778&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'gdppc' at 0x000000A4C3B087C8&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'neighbor' at 0x000000A4C3B08818&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'neighbor' at 0x000000A4C3B08868&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000;">重点：<strong>推荐<strong>iter()跨级获取父点，如<strong><strong>iter()无法满足需求考虑用for循环节在配合使用。：</strong></strong></strong></strong>for循环节点，配合iter()跨级获取父点，配合find()获取子字典，可以获取到所有你想需要的节点。</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;"><strong><strong>解析XML</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>解析xml有两种方式，一种是字符串方式解析<strong>XML()</strong>，一种是xml文件直接解析parse()</strong></strong></span></p>
+<p><span style="color: #000000;"><strong><strong><strong><strong>字符串方式解析<strong>XML()</strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+a = open(<span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以utf-8编码只读模式打开</span>
+b = a.read() <span style="color: #008000;">#</span><span style="color: #008000;">读出文件里的字符串</span>
+<span style="color: #000000;">a.close()
+</span><span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml解析模块</span>
+c = ElementTree.XML(b) <span style="color: #008000;">#</span><span style="color: #008000;">解析字符串形式的xml，返回的xml的最外层标签节点，也就是一级标签节点</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'data' at 0x000000D2756B3228&gt;</span></pre>
+</div>
+<p><span style="color: #000000;"><strong><strong>xml文件直接解析parse() &nbsp;注意：<strong><strong>parse()方式解析xml是即可读，也可对xml文件写入的，包括，增，删，改</strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml解析模块</span>
+c = ElementTree.parse(<span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打开一个xml文件</span>
+b = c.getroot() <span style="color: #008000;">#</span><span style="color: #008000;">获取xml文件的一级节点</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'data' at 0x0000006C681C3228&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px; color: #0000ff;"><strong>写xml文件包括（增，删，改）</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 16px; color: #ff0000;"><strong>parse()模块函数</strong></span></p>
+<p><strong>功能：打开xml文件解析，直接打开一个xml文件，<strong><strong><strong><strong><strong>parse()方式解析xml是即可读，也可对xml文件写入的，包括，增，删，改【有参】</strong></strong></strong></strong></strong><strong><br /></strong></strong></p>
+<p><strong>使用方法：<strong><strong><strong><strong><strong><strong>模块名称.parse("要打开解析的xml文件路径或名称")</strong></strong></strong></strong></strong></strong><strong><br /></strong></strong></p>
+<p><strong>格式如：c = ElementTree.parse("xml.xml")</strong></p>
+<p><span style="color: #ff0000;"><strong>getroot()模块函数</strong></span></p>
+<p><strong>功能：获取<strong><strong><strong><strong><strong><strong>parse()方式解析的xml节点，返回的一级节点，也就是最外层节点</strong></strong></strong></strong></strong></strong><strong><br /></strong></strong></p>
+<p><strong>使用方法：<strong>打开xml文件解析变量.</strong><strong>getroot()</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：b = c.getroot()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml解析模块</span>
+c = ElementTree.parse(<span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打开一个xml文件</span>
+b = c.getroot() <span style="color: #008000;">#</span><span style="color: #008000;">获取xml文件的一级节点</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'data' at 0x000000F9AF0D3228&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>注意：parse()解析xml文件可以读写，只是解析方式不同，其他的获取里面的标签节点，和获取标签里的字符串的方式，都和<strong>XML()解析是</strong>一样的</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>write()模块函数</strong></span></p>
+<p><strong>功能：写入保存修改的xml文件【有参】</strong></p>
+<p><strong>使用方法：<strong><strong><strong><strong><strong><strong><strong>parse()解析变量.</strong></strong></strong></strong></strong></strong></strong><strong>write("保存文件名称",encoding='字符编码', xml_declaration=True, &nbsp;short_empty_elements=False)</strong></strong></p>
+<p><strong><strong>参数说明</strong></strong></p>
+<p><strong><strong><strong><strong>encoding="字符编码"</strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong><strong><strong>xml_declaration=True &nbsp;：写入xml文件时是否写入xml版本信息和字符编码如：&lt;?xml version='1.0' encoding='utf-8'?&gt; &nbsp;&nbsp;<span style="color: #ff0000;"><strong><strong><strong><strong><strong><strong>True 写入 &nbsp;False 不写入</strong></strong></strong></strong></strong></strong></span></strong></strong></strong></strong></strong></strong></p>
+<p><span style="color: #000000;"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>short_empty_elements=False &nbsp;：是否自动将没有值的空标签保存为单标签 &nbsp;&nbsp;<span style="color: #ff0000;"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>True 是 &nbsp;False&nbsp;<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>否</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><strong>格式如：c.write("xml.xml", encoding='utf-8')</strong></p>
+<p><span style="color: #ff0000;"><strong>修改一个标签里的字符串</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml解析模块</span>
+c = ElementTree.parse(<span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打开一个xml文件</span>
+b = c.getroot() <span style="color: #008000;">#</span><span style="color: #008000;">获取xml文件的一级节点</span>
+<span style="color: #0000ff;">print</span>(b,<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打印获取xml文件的一级节点</span>
+d = b.iter(<span style="color: #800000;">"</span><span style="color: #800000;">rank</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">获取一级节点下的，所有名称为rank的节点</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> d: <span style="color: #008000;">#</span><span style="color: #008000;">循环出所有rank节点</span>
+    f1 = int(i.text) + 1 <span style="color: #008000;">#</span><span style="color: #008000;">获取rank节点标签里的字符串，然后转换成数字类型加1，赋值给f1</span>
+    i.text = str(f1) <span style="color: #008000;">#</span><span style="color: #008000;">然后将rank节点里的字符串，修改成f1的值</span>
+c.write(<span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>,xml_declaration=True, short_empty_elements=False) <span style="color: #008000;">#</span><span style="color: #008000;">最后将写入保存</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>set()模块函数</strong></span></p>
+<p><strong>功能：为节点标签添加属性【有参】</strong><br /><strong>使用方法：节点变量.<strong>set("标签属性名称","标签属性值")</strong></strong><br /><strong>格式如：i.set("linguixiou2","yes2")</strong></p>
+<p><span style="color: #ff0000;"><strong>为标签添加属性</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml解析模块</span>
+c = ElementTree.parse(<span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打开一个xml文件</span>
+b = c.getroot() <span style="color: #008000;">#</span><span style="color: #008000;">获取xml文件的一级节点</span>
+<span style="color: #0000ff;">print</span>(b,<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打印获取xml文件的一级节点</span>
+d = b.iter(<span style="color: #800000;">"</span><span style="color: #800000;">year</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">获取一级节点下的，所有名称为rank的节点</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> d: <span style="color: #008000;">#</span><span style="color: #008000;">循环出所有rank节点</span>
+    i.set(<span style="color: #800000;">"</span><span style="color: #800000;">linguixiou2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">yes2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">为当前节点标签添加属性</span>
+    i.set(<span style="color: #800000;">"</span><span style="color: #800000;">linguixiou</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">yes</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">为当前节点标签添加属性</span>
+<span style="color: #000000;">
+c.write(</span><span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">最后将写入保存</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>del 模块关键字</strong></span></p>
+<p><strong>功能：删除标签属性</strong><br /><strong>使用方法：del 当前标签节点.attrib["要删除的标签属性名称"]</strong><br /><strong>格式如：del i.attrib["linguixiou"]</strong></p>
+<p><span style="color: #ff0000;"><strong>删除标签属性</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml解析模块</span>
+c = ElementTree.parse(<span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打开一个xml文件</span>
+b = c.getroot() <span style="color: #008000;">#</span><span style="color: #008000;">获取xml文件的一级节点</span>
+<span style="color: #0000ff;">print</span>(b,<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打印获取xml文件的一级节点</span>
+d = b.iter(<span style="color: #800000;">"</span><span style="color: #800000;">year</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">获取一级节点下的，所有名称为rank的节点</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> d: <span style="color: #008000;">#</span><span style="color: #008000;">循环出所有rank节点</span>
+    i.set(<span style="color: #800000;">"</span><span style="color: #800000;">linguixiou2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">yes2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">为当前节点标签添加属性</span>
+    i.set(<span style="color: #800000;">"</span><span style="color: #800000;">linguixiou</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">yes</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">为当前节点标签添加属性</span>
+    <span style="color: #0000ff;">del</span> i.attrib[<span style="color: #800000;">"</span><span style="color: #800000;">linguixiou</span><span style="color: #800000;">"</span>] <span style="color: #008000;">#</span><span style="color: #008000;">（删除标签的属性）del删除，i当前节点，attrib获取标签名称，["linguixiou"]标签名称里的属性名称</span>
+<span style="color: #000000;">
+c.write(</span><span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">最后将写入保存</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>findall()模块函数</strong></span></p>
+<p><strong>功能：获取一级节点，下的多个同名同级的节点，返回成一个列表，每个元素是一个节点</strong><br /><strong>使用方法：一级节点变量.<strong>findall("要获取的节点标签名称")</strong></strong><br /><strong>格式如：d = b.findall("country")</strong></p>
+<p><span style="color: #ff0000;"><strong>查找多个<strong>同名同级的节点的某一个节点</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree <span style="color: #008000;">#</span><span style="color: #008000;">导入xml解析模块</span>
+c = ElementTree.parse(<span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打开一个xml文件</span>
+b = c.getroot() <span style="color: #008000;">#</span><span style="color: #008000;">获取xml文件的一级节点</span>
+<span style="color: #0000ff;">print</span>(b,<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打印获取xml文件的一级节点</span>
+d = b.findall(<span style="color: #800000;">"</span><span style="color: #800000;">country</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">获取一级节点，下的多个同名同级的节点，返回成一个列表，每个元素是一个节点</span>
+<span style="color: #0000ff;">print</span>(d,<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+e </span>= d[0].find(<span style="color: #800000;">"</span><span style="color: #800000;">rank</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">索引列表里的第0个元素节点，查找0个元素节点下的rank子节点</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(e)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;Element 'data' at 0x000000278AB63228&gt;</span><span style="color: #008000;">
+#
+#</span><span style="color: #008000;"> [&lt;Element 'country' at 0x000000278AD12B88&gt;, &lt;Element 'country' at 0x000000278AD27548&gt;, &lt;Element 'country' at 0x000000278AD276D8&gt;]</span><span style="color: #008000;">
+#
+#</span><span style="color: #008000;"> &lt;Element 'rank' at 0x000000278AD273B8&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>remove()模块函数</strong></span></p>
+<p><span style="color: #000000;"><strong><strong>功能：删除父节点下的子节点</strong><br /><strong>使用方法：父节点变量.<strong>remove(从父节点找到子节点)</strong></strong><br /><strong>格式如：e.remove(e.find("rank"))</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree as xml <span style="color: #008000;">#</span><span style="color: #008000;">导入xml解析模块</span>
+c = xml.parse(<span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打开一个xml文件</span>
+b = c.getroot() <span style="color: #008000;">#</span><span style="color: #008000;">获取xml文件的一级节点</span>
+e = b.find(<span style="color: #800000;">"</span><span style="color: #800000;">country</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">获取根节点下的country节点</span>
+e.remove(e.find(<span style="color: #800000;">"</span><span style="color: #800000;">rank</span><span style="color: #800000;">"</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">删除country节点下的gdppc节点</span>
+<span style="color: #000000;">
+c.write(</span><span style="color: #800000;">"</span><span style="color: #800000;">xml.xml</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>,xml_declaration=True, short_empty_elements=False) <span style="color: #008000;">#</span><span style="color: #008000;">最后将写入保存</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>Element()<strong>模块函数</strong></strong></span></p>
+<p><strong>功能：创建标签节点，注意只是创建了节点，需要结合<strong>append()追加到父节点下</strong></strong><br /><strong>使用方法：要创建的父级节点变量.<strong>Element("标签名称",attrib={'<strong><strong>键值对字典形式的标签属性</strong></strong>})</strong></strong><br /><strong>格式如：xml.Element('er', <strong><strong>attrib=</strong></strong>{'name': '2'})</strong></p>
+<p><span style="color: #ff0000;"><strong>append()<strong>模块函数</strong></strong></span></p>
+<p><strong><strong>功能：追加标签节点，将一个创建的节点，追加到父级节点下</strong><br /><strong>使用方法：父级节点变量.append("创建节点变量")</strong><br /><strong>格式如：geng.append(b1)</strong></strong></p>
+<p><span style="color: #ff0000;"><strong><strong>ElementTree()<strong>模块函数</strong></strong></strong></span></p>
+<p><strong><strong><strong><strong>功能1：<strong><strong><strong><strong>创建一个<strong><strong><strong><strong><strong><strong><strong>ElementTree对象，</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>生成xml，追加等操作后生成xml</strong></strong></strong></strong></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong>注意：XML()解析的Element对象，使用<strong><strong>ElementTree()<strong><strong><strong><strong><strong><strong><strong><strong>创建一个<strong><strong><strong><strong><strong><strong><strong>ElementTree对象，也可以修改保存的</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>使用方法：<strong>模块名称.<strong><strong>ElementTree(根节点)</strong></strong></strong></strong></strong></strong></strong><br /><strong>格式如：tree = xml.ElementTree(geng)</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong>新建一个xml文件1，注意这个方式生成的xml文件是没自动缩进的</strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree as xml <span style="color: #008000;">#</span><span style="color: #008000;">as将模块名称重命名为xml</span>
+geng = xml.Element(<span style="color: #800000;">"</span><span style="color: #800000;">geng</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建一级节点，根节点</span>
+<span style="color: #000000;">
+b1 </span>= xml.Element(<span style="color: #800000;">'</span><span style="color: #800000;">er</span><span style="color: #800000;">'</span>, attrib={<span style="color: #800000;">'</span><span style="color: #800000;">name</span><span style="color: #800000;">'</span>: <span style="color: #800000;">'</span><span style="color: #800000;">2</span><span style="color: #800000;">'</span>}) <span style="color: #008000;">#</span><span style="color: #008000;">创建二级节点</span>
+b2 = xml.Element(<span style="color: #800000;">'</span><span style="color: #800000;">er</span><span style="color: #800000;">'</span>, attrib={<span style="color: #800000;">'</span><span style="color: #800000;">name</span><span style="color: #800000;">'</span>: <span style="color: #800000;">'</span><span style="color: #800000;">2</span><span style="color: #800000;">'</span>})<span style="color: #008000;">#</span><span style="color: #008000;">创建二级节点</span>
+geng.append(b1) <span style="color: #008000;">#</span><span style="color: #008000;">将二级节点添加到根节点下</span>
+geng.append(b2) <span style="color: #008000;">#</span><span style="color: #008000;">将二级节点添加到根节点下</span>
+<span style="color: #000000;">
+c1 </span>= xml.Element(<span style="color: #800000;">'</span><span style="color: #800000;">san</span><span style="color: #800000;">'</span>, attrib={<span style="color: #800000;">'</span><span style="color: #800000;">name</span><span style="color: #800000;">'</span>: <span style="color: #800000;">'</span><span style="color: #800000;">3</span><span style="color: #800000;">'</span>})<span style="color: #008000;">#</span><span style="color: #008000;">创建三级节</span>
+c2 = xml.Element(<span style="color: #800000;">'</span><span style="color: #800000;">san</span><span style="color: #800000;">'</span>, attrib={<span style="color: #800000;">'</span><span style="color: #800000;">name</span><span style="color: #800000;">'</span>: <span style="color: #800000;">'</span><span style="color: #800000;">3</span><span style="color: #800000;">'</span>})<span style="color: #008000;">#</span><span style="color: #008000;">创建三级节</span>
+b1.append(c1) <span style="color: #008000;">#</span><span style="color: #008000;">将三级节点添加到二级节点下</span>
+b2.append(c2) <span style="color: #008000;">#</span><span style="color: #008000;">将三级节点添加到二级节点下</span>
+<span style="color: #000000;">
+tree </span>= xml.ElementTree(geng)  <span style="color: #008000;">#</span><span style="color: #008000;">生成xml</span>
+tree.write(<span style="color: #800000;">'</span><span style="color: #800000;">oooo.xml</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>,xml_declaration=True, short_empty_elements=False)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>SubElement()【推荐】</strong></span></p>
+<p><strong>功能：创建节点追加节点，并且可以定义标签名称，标签属性，以及标签的text文本值<br />使用方法：定义变量 = 模块名称.SubElement(要追加的父级变量,"标签名称",attrib={"字典形式标签属性"})</strong></p>
+<p><strong>　　　　　定义变量.text = "标签的text文本值"<br />格式如：ch1 = xml.SubElement(geng,"er",attrib={"name":"zhi"})</strong></p>
+<p><strong><em id="__mceDel">　　　</em>　ch1.text = "二级标签"</strong></p>
+<p><span style="color: #ff0000;"><strong>新建xml文件2，<strong><strong><strong><strong>注意这个方式生成的xml文件是没自动缩进的</strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span> ElementTree as xml <span style="color: #008000;">#</span><span style="color: #008000;">as将模块名称重命名为xml</span>
+geng = xml.Element(<span style="color: #800000;">"</span><span style="color: #800000;">geng</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建一级节点，根节点</span>
+<span style="color: #000000;">
+ch1 </span>= xml.SubElement(geng,<span style="color: #800000;">"</span><span style="color: #800000;">er</span><span style="color: #800000;">"</span>,attrib={<span style="color: #800000;">"</span><span style="color: #800000;">name</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">zhi</span><span style="color: #800000;">"</span><span style="color: #000000;">})
+ch1.text </span>= <span style="color: #800000;">"</span><span style="color: #800000;">二级标签</span><span style="color: #800000;">"</span><span style="color: #000000;">
+
+ch2 </span>= xml.SubElement(ch1,<span style="color: #800000;">"</span><span style="color: #800000;">er3</span><span style="color: #800000;">"</span>,attrib={<span style="color: #800000;">"</span><span style="color: #800000;">name</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">zhi3</span><span style="color: #800000;">"</span><span style="color: #000000;">})
+ch2.text </span>= <span style="color: #800000;">"</span><span style="color: #800000;">三级标签</span><span style="color: #800000;">"</span><span style="color: #000000;">
+
+tree </span>= xml.ElementTree(geng)  <span style="color: #008000;">#</span><span style="color: #008000;">生成xml</span>
+tree.write(<span style="color: #800000;">'</span><span style="color: #800000;">oooo.xml</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>,xml_declaration=True, short_empty_elements=False)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>新建xml文件3【推荐】，自动缩进</strong></span></p>
+<p><strong>缩进需要引入&nbsp;xml文件夹下dom文件夹里的 minidom 模块文件</strong></p>
+<p><strong>from xml.etree import ElementTree as ET &nbsp; &nbsp; &nbsp;&nbsp;引入ElementTree模块</strong></p>
+<p><strong>from xml.dom import minidom &nbsp; &nbsp;&nbsp;引入模块</strong></p>
+<p><strong>创建节点等操作用ElementTree模块，minidom只做缩进处理</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span><span style="color: #000000;"> ElementTree as ET
+</span><span style="color: #0000ff;">from</span> xml.dom <span style="color: #0000ff;">import</span><span style="color: #000000;"> minidom
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> prettify(elem):
+    </span><span style="color: #800000;">"""</span><span style="color: #800000;">将节点转换成字符串，并添加缩进。</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+    rough_string </span>= ET.tostring(elem, <span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    reparsed </span>=<span style="color: #000000;"> minidom.parseString(rough_string)
+    </span><span style="color: #0000ff;">return</span> reparsed.toprettyxml(indent=<span style="color: #800000;">"</span><span style="color: #800000;">\t</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 创建根节点</span>
+root = ET.Element(<span style="color: #800000;">"</span><span style="color: #800000;">famliy</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建一级节点</span>
+a = ET.SubElement(root,<span style="color: #800000;">"</span><span style="color: #800000;">erji</span><span style="color: #800000;">"</span>,attrib={<span style="color: #800000;">"</span><span style="color: #800000;">mna</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">zhi</span><span style="color: #800000;">"</span>}) <span style="color: #008000;">#</span><span style="color: #008000;">创建二级节点</span>
+<span style="color: #000000;">
+b1 </span>= ET.SubElement(a,<span style="color: #800000;">"</span><span style="color: #800000;">mingzi</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建三级节点</span>
+b1.text = <span style="color: #800000;">"</span><span style="color: #800000;">林贵秀</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b2 </span>= ET.SubElement(a,<span style="color: #800000;">"</span><span style="color: #800000;">xingbie</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建三级节点</span>
+b2.text = <span style="color: #800000;">"</span><span style="color: #800000;">男</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b3 </span>= ET.SubElement(a,<span style="color: #800000;">"</span><span style="color: #800000;">nianl</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建三级节点</span>
+b3.text = <span style="color: #800000;">"</span><span style="color: #800000;">32</span><span style="color: #800000;">"</span><span style="color: #000000;">
+
+raw_str </span>= prettify(root) <span style="color: #008000;">#</span><span style="color: #008000;">将整个根节点传入函数里缩进处理</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">xxxoo.xml</span><span style="color: #800000;">"</span>,<span style="color: #800000;">'</span><span style="color: #800000;">w</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打开xxxoo.xml文件</span>
+f.write(raw_str) <span style="color: #008000;">#</span><span style="color: #008000;">将缩进处理好的整个xml写入文件</span>
+f.close() <span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="font-size: 16px; color: #ff0000;"><strong>XML 命名空间提供避免元素命名冲突的方法。</strong></span></p>
+<div>
+<h2>命名冲突</h2>
+<p>在 XML 中，元素名称是由开发者定义的，当两个不同的文档使用相同的元素名时，就会发生命名冲突。</p>
+<p>这个 XML 文档携带着某个表格中的信息：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">table</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">tr</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">td</span><span style="color: #0000ff;">&gt;</span>Apples<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">td</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">td</span><span style="color: #0000ff;">&gt;</span>Bananas<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">td</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">tr</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">table</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>这个 XML 文档携带有关桌子的信息（一件家具）：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">table</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>African Coffee Table<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">width</span><span style="color: #0000ff;">&gt;</span>80<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">width</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">length</span><span style="color: #0000ff;">&gt;</span>120<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">length</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">table</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>假如这两个 XML 文档被一起使用，由于两个文档都包含带有不同内容和定义的 &lt;table&gt; 元素，就会发生命名冲突。</p>
+<p>XML 解析器无法确定如何处理这类冲突。</p>
+</div>
+<div>
+<h2>使用前缀来避免命名冲突</h2>
+<p>此文档带有某个表格中的信息：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">h:table</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">h:tr</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">h:td</span><span style="color: #0000ff;">&gt;</span>Apples<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">h:td</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">h:td</span><span style="color: #0000ff;">&gt;</span>Bananas<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">h:td</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">h:tr</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">h:table</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>此 XML 文档携带着有关一件家具的信息：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">f:table</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">f:name</span><span style="color: #0000ff;">&gt;</span>African Coffee Table<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">f:name</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">f:width</span><span style="color: #0000ff;">&gt;</span>80<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">f:width</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">f:length</span><span style="color: #0000ff;">&gt;</span>120<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">f:length</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">f:table</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>现在，命名冲突不存在了，这是由于两个文档都使用了不同的名称来命名它们的 &lt;table&gt; 元素 (&lt;h:table&gt; 和 &lt;f:table&gt;)。</p>
+<p>通过使用前缀，我们创建了两种不同类型的 &lt;table&gt; 元素。</p>
+<p><span style="color: #ff0000;"><strong>register_namespace()模块函数</strong></span></p>
+<p><strong>功能：创建命名空间</strong></p>
+<p><strong><strong><strong>使用方法：模块名称.<strong>register_namespace("命名名称","命名名称值")</strong></strong><br /><strong>格式如：ET.register_namespace('com',"http://www.company.com")</strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> xml.etree <span style="color: #0000ff;">import</span><span style="color: #000000;"> ElementTree as ET
+ET.register_namespace(</span><span style="color: #800000;">'</span><span style="color: #800000;">com</span><span style="color: #800000;">'</span>,<span style="color: #800000;">"</span><span style="color: #800000;">http://www.company.com</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">register_namespace("命名名称","命名名称值")创建命名空间</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">
+创建命名空间后，后面创建节点的时候，定义节点标签，和定义节点标签属性的时候，在里面加入命名名称值 如【"{命名名称值}节点标签名称"】，这样会自动将命名名称值转换成命名名称
+简单的理解就是，给标签，标签属性，加上一个标示，防止名称冲突
+</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+root </span>= ET.Element(<span style="color: #800000;">"</span><span style="color: #800000;">{http://www.company.com}STUFF</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+body </span>= ET.SubElement(root, <span style="color: #800000;">"</span><span style="color: #800000;">{http://www.company.com}MORE_STUFF</span><span style="color: #800000;">"</span>, attrib={<span style="color: #800000;">"</span><span style="color: #800000;">{http://www.company.com}hhh</span><span style="color: #800000;">"</span>: <span style="color: #800000;">"</span><span style="color: #800000;">123</span><span style="color: #800000;">"</span><span style="color: #000000;">})
+body.text </span>= <span style="color: #800000;">"</span><span style="color: #800000;">STUFF EVERYWHERE!</span><span style="color: #800000;">"</span><span style="color: #000000;">
+tree </span>=<span style="color: #000000;"> ET.ElementTree(root)
+tree.write(</span><span style="color: #800000;">"</span><span style="color: #800000;">page.xml</span><span style="color: #800000;">"</span>,xml_declaration=True,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>,method=<span style="color: #800000;">"</span><span style="color: #800000;">xml</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">生成如下</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;?xml version='1.0' encoding='utf-8'?&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;com:STUFF xmlns:com="http://www.company.com"&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;">     &lt;com:MORE_STUFF com:hhh="123"&gt;STUFF EVERYWHERE!&lt;/com:MORE_STUFF&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;/com:STUFF&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; font-size: 18px;"><strong>重点总结</strong></span></p>
+<p><span style="font-size: 18px;">一.解析xml文件</span><br /><span style="font-size: 18px;">有两种方式</span><br /><span style="font-size: 18px;">字符串方式：XML()解析，返回的是Element对象，直接得到根节点</span><br /><span style="font-size: 18px;">文件方式：parse()解析，返回的是ElementTree对象，要通过getroot()来得到Element对象，得到根节点</span><br /><span style="font-size: 18px;">重点：ElementTree对象才可以写入文件，Element无法写入文件，所以如果是Element解析的，需要ElementTree(根节点变量)函数来创建ElementTree对象，后就可以写入了</span></p>
+<p><span style="font-size: 18px;">二.ElementTree对象</span><br /><span style="font-size: 18px;">1.ElementTree 类创建，可以通过ElementTree(xxxx)创建对象，parse()底层还是调用ElementTree()创建的</span><br /><span style="font-size: 18px;">2.ElementTree 对象，通过getroot()获取根节点</span><br /><span style="font-size: 18px;">ElementTree() 创建一个ElementTree对象，生成xml</span><br /><span style="font-size: 18px;">write() 内存中的xml写入文件</span></p>
+<p><span style="font-size: 18px;">三.Element对象</span><br /><span style="font-size: 18px;">iter() 获取一级标签节点下的，多个同名同级的标签节点，可跨级的获取节点，返回迭代节点，需要for循环出标签【有参】</span><br /><span style="font-size: 18px;">findall() 获取一级节点，下的多个同名同级的节点，返回成一个列表，每个元素是一个节点</span><br /><span style="font-size: 18px;">find() 查找一个标签节点下的子标签节点，返回子标签节点【有参】</span><br /><span style="font-size: 18px;">set() 为节点标签添加属性【有参】</span><br /><span style="font-size: 18px;">remove() 删除父节点下的子节点</span><br /><span style="font-size: 18px;">text 获取标签里的文本字符串</span><br /><span style="font-size: 18px;">tag 获取标签的名称,返回标签名称</span><br /><span style="font-size: 18px;">attrib 获取标签的属性，以字典形式返回标签属性</span><br /><span style="font-size: 18px;">del 删除标签属性</span><br /><span style="font-size: 18px;">Element() 创建标签节点，注意只是创建了节点，需要结合append()追加到父节点下</span><br /><span style="font-size: 18px;">append() 追加标签节点，将一个创建的节点，追加到父级节点下</span><br /><span style="font-size: 18px;">SubElement() 创建节点追加节点，并且可以定义标签名称，标签属性，以及标签的text文本值</span><br /><span style="font-size: 18px;">register_namespace() 创建命名空间</span></p>
+<pre><span><br /><span style="font-size: 18px; color: #ff0000;"><strong>Element，操作详细源码</strong></span><br /></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> Element:
+    </span><span style="color: #800000;">"""</span><span style="color: #800000;">An XML element.
+
+    This class is the reference implementation of the Element interface.
+
+    An element's length is its number of subelements.  That means if you
+    want to check if an element is truly empty, you should check BOTH
+    its length AND its text attribute.
+
+    The element tag, attribute names, and attribute values can be either
+    bytes or strings.
+
+    *tag* is the element name.  *attrib* is an optional dictionary containing
+    element attributes. *extra* are additional element attributes given as
+    keyword arguments.
+
+    Example form:
+        &lt;tag attrib&gt;text&lt;child/&gt;...&lt;/tag&gt;tail
+
+    </span><span style="color: #800000;">"""</span><span style="color: #000000;">
+
+    当前节点的标签名
+    tag </span>=<span style="color: #000000;"> None
+    </span><span style="color: #800000;">"""</span><span style="color: #800000;">The element's name.</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+
+    当前节点的属性
+
+    attrib </span>=<span style="color: #000000;"> None
+    </span><span style="color: #800000;">"""</span><span style="color: #800000;">Dictionary of the element's attributes.</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+
+    当前节点的内容
+    text </span>=<span style="color: #000000;"> None
+    </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+    Text before first subelement. This is either a string or the value None.
+    Note that if there is no text, this attribute may be either
+    None or the empty string, depending on the parser.
+
+    </span><span style="color: #800000;">"""</span><span style="color: #000000;">
+
+    tail </span>=<span style="color: #000000;"> None
+    </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+    Text after this element's end tag, but before the next sibling element's
+    start tag.  This is either a string or the value None.  Note that if there
+    was no text, this attribute may be either None or an empty string,
+    depending on the parser.
+
+    </span><span style="color: #800000;">"""</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self, tag, attrib={}, **<span style="color: #000000;">extra):
+        </span><span style="color: #0000ff;">if</span> <span style="color: #0000ff;">not</span><span style="color: #000000;"> isinstance(attrib, dict):
+            </span><span style="color: #0000ff;">raise</span> TypeError(<span style="color: #800000;">"</span><span style="color: #800000;">attrib must be dict, not %s</span><span style="color: #800000;">"</span> %<span style="color: #000000;"> (
+                attrib.</span><span style="color: #800080;">__class__</span>.<span style="color: #800080;">__name__</span><span style="color: #000000;">,))
+        attrib </span>=<span style="color: #000000;"> attrib.copy()
+        attrib.update(extra)
+        self.tag </span>=<span style="color: #000000;"> tag
+        self.attrib </span>=<span style="color: #000000;"> attrib
+        self._children </span>=<span style="color: #000000;"> []
+
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__repr__</span><span style="color: #000000;">(self):
+        </span><span style="color: #0000ff;">return</span> <span style="color: #800000;">"</span><span style="color: #800000;">&lt;%s %r at %#x&gt;</span><span style="color: #800000;">"</span> % (self.<span style="color: #800080;">__class__</span>.<span style="color: #800080;">__name__</span><span style="color: #000000;">, self.tag, id(self))
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> makeelement(self, tag, attrib):
+        创建一个新节点
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Create a new element with the same type.
+
+        *tag* is a string containing the element name.
+        *attrib* is a dictionary containing the element attributes.
+
+        Do not call this method, use the SubElement factory function instead.
+
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span> self.<span style="color: #800080;">__class__</span><span style="color: #000000;">(tag, attrib)
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> copy(self):
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Return copy of current element.
+
+        This creates a shallow copy. Subelements will be shared with the
+        original tree.
+
+        </span><span style="color: #800000;">"""</span><span style="color: #000000;">
+        elem </span>=<span style="color: #000000;"> self.makeelement(self.tag, self.attrib)
+        elem.text </span>=<span style="color: #000000;"> self.text
+        elem.tail </span>=<span style="color: #000000;"> self.tail
+        elem[:] </span>=<span style="color: #000000;"> self
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> elem
+
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__len__</span><span style="color: #000000;">(self):
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> len(self._children)
+
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__bool__</span><span style="color: #000000;">(self):
+        warnings.warn(
+            </span><span style="color: #800000;">"</span><span style="color: #800000;">The behavior of this method will change in future versions.  </span><span style="color: #800000;">"</span>
+            <span style="color: #800000;">"</span><span style="color: #800000;">Use specific 'len(elem)' or 'elem is not None' test instead.</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+            FutureWarning, stacklevel</span>=2<span style="color: #000000;">
+            )
+        </span><span style="color: #0000ff;">return</span> len(self._children) != 0 <span style="color: #008000;">#</span><span style="color: #008000;"> emulate old behaviour, for now</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__getitem__</span><span style="color: #000000;">(self, index):
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> self._children[index]
+
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__setitem__</span><span style="color: #000000;">(self, index, element):
+        </span><span style="color: #008000;">#</span><span style="color: #008000;"> if isinstance(index, slice):</span>
+        <span style="color: #008000;">#</span><span style="color: #008000;">     for elt in element:</span>
+        <span style="color: #008000;">#</span><span style="color: #008000;">         assert iselement(elt)</span>
+        <span style="color: #008000;">#</span><span style="color: #008000;"> else:</span>
+        <span style="color: #008000;">#</span><span style="color: #008000;">     assert iselement(element)</span>
+        self._children[index] =<span style="color: #000000;"> element
+
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__delitem__</span><span style="color: #000000;">(self, index):
+        </span><span style="color: #0000ff;">del</span><span style="color: #000000;"> self._children[index]
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> append(self, subelement):
+        为当前节点追加一个子节点
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Add *subelement* to the end of this element.
+
+        The new element will appear in document order after the last existing
+        subelement (or directly after the text, if it's the first subelement),
+        but before the end tag for this element.
+
+        </span><span style="color: #800000;">"""</span><span style="color: #000000;">
+        self._assert_is_element(subelement)
+        self._children.append(subelement)
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> extend(self, elements):
+        为当前节点扩展 n 个子节点
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Append subelements from a sequence.
+
+        *elements* is a sequence with zero or more elements.
+
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">for</span> element <span style="color: #0000ff;">in</span><span style="color: #000000;"> elements:
+            self._assert_is_element(element)
+        self._children.extend(elements)
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> insert(self, index, subelement):
+        在当前节点的子节点中插入某个节点，即：为当前节点创建子节点，然后插入指定位置
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Insert *subelement* at position *index*.</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+        self._assert_is_element(subelement)
+        self._children.insert(index, subelement)
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> _assert_is_element(self, e):
+        </span><span style="color: #008000;">#</span><span style="color: #008000;"> Need to refer to the actual Python implementation, not the</span>
+        <span style="color: #008000;">#</span><span style="color: #008000;"> shadowing C implementation.</span>
+        <span style="color: #0000ff;">if</span> <span style="color: #0000ff;">not</span><span style="color: #000000;"> isinstance(e, _Element_Py):
+            </span><span style="color: #0000ff;">raise</span> TypeError(<span style="color: #800000;">'</span><span style="color: #800000;">expected an Element, not %s</span><span style="color: #800000;">'</span> % type(e).<span style="color: #800080;">__name__</span><span style="color: #000000;">)
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> remove(self, subelement):
+        在当前节点在子节点中删除某个节点
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Remove matching subelement.
+
+        Unlike the find methods, this method compares elements based on
+        identity, NOT ON tag value or contents.  To remove subelements by
+        other means, the easiest way is to use a list comprehension to
+        select what elements to keep, and then use slice assignment to update
+        the parent element.
+
+        ValueError is raised if a matching element could not be found.
+
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #008000;">#</span><span style="color: #008000;"> assert iselement(element)</span>
+<span style="color: #000000;">        self._children.remove(subelement)
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> getchildren(self):
+        获取所有的子节点（废弃）
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">(Deprecated) Return all subelements.
+
+        Elements are returned in document order.
+
+        </span><span style="color: #800000;">"""</span><span style="color: #000000;">
+        warnings.warn(
+            </span><span style="color: #800000;">"</span><span style="color: #800000;">This method will be removed in future versions.  </span><span style="color: #800000;">"</span>
+            <span style="color: #800000;">"</span><span style="color: #800000;">Use 'list(elem)' or iteration over elem instead.</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+            DeprecationWarning, stacklevel</span>=2<span style="color: #000000;">
+            )
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> self._children
+
+    </span><span style="color: #0000ff;">def</span> find(self, path, namespaces=<span style="color: #000000;">None):
+        获取第一个寻找到的子节点
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Find first matching element by tag name or path.
+
+        *path* is a string having either an element tag or an XPath,
+        *namespaces* is an optional mapping from namespace prefix to full name.
+
+        Return the first matching element, or None if no element was found.
+
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> ElementPath.find(self, path, namespaces)
+
+    </span><span style="color: #0000ff;">def</span> findtext(self, path, default=None, namespaces=<span style="color: #000000;">None):
+        获取第一个寻找到的子节点的内容
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Find text for first matching element by tag name or path.
+
+        *path* is a string having either an element tag or an XPath,
+        *default* is the value to return if the element was not found,
+        *namespaces* is an optional mapping from namespace prefix to full name.
+
+        Return text content of first matching element, or default value if
+        none was found.  Note that if an element is found having no text
+        content, the empty string is returned.
+
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> ElementPath.findtext(self, path, default, namespaces)
+
+    </span><span style="color: #0000ff;">def</span> findall(self, path, namespaces=<span style="color: #000000;">None):
+        获取所有的子节点
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Find all matching subelements by tag name or path.
+
+        *path* is a string having either an element tag or an XPath,
+        *namespaces* is an optional mapping from namespace prefix to full name.
+
+        Returns list containing all matching elements in document order.
+
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> ElementPath.findall(self, path, namespaces)
+
+    </span><span style="color: #0000ff;">def</span> iterfind(self, path, namespaces=<span style="color: #000000;">None):
+        获取所有指定的节点，并创建一个迭代器（可以被for循环）
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Find all matching subelements by tag name or path.
+
+        *path* is a string having either an element tag or an XPath,
+        *namespaces* is an optional mapping from namespace prefix to full name.
+
+        Return an iterable yielding all matching elements in document order.
+
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> ElementPath.iterfind(self, path, namespaces)
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> clear(self):
+        清空节点
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Reset element.
+
+        This function removes all subelements, clears all attributes, and sets
+        the text and tail attributes to None.
+
+        </span><span style="color: #800000;">"""</span><span style="color: #000000;">
+        self.attrib.clear()
+        self._children </span>=<span style="color: #000000;"> []
+        self.text </span>= self.tail =<span style="color: #000000;"> None
+
+    </span><span style="color: #0000ff;">def</span> get(self, key, default=<span style="color: #000000;">None):
+        获取当前节点的属性值
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Get element attribute.
+
+        Equivalent to attrib.get, but some implementations may handle this a
+        bit more efficiently.  *key* is what attribute to look for, and
+        *default* is what to return if the attribute was not found.
+
+        Returns a string containing the attribute value, or the default if
+        attribute was not found.
+
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> self.attrib.get(key, default)
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> set(self, key, value):
+        为当前节点设置属性值
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Set element attribute.
+
+        Equivalent to attrib[key] = value, but some implementations may handle
+        this a bit more efficiently.  *key* is what attribute to set, and
+        *value* is the attribute value to set it to.
+
+        </span><span style="color: #800000;">"""</span><span style="color: #000000;">
+        self.attrib[key] </span>=<span style="color: #000000;"> value
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> keys(self):
+        获取当前节点的所有属性的 key
+
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Get list of attribute names.
+
+        Names are returned in an arbitrary order, just like an ordinary
+        Python dict.  Equivalent to attrib.keys()
+
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> self.attrib.keys()
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> items(self):
+        获取当前节点的所有属性值，每个属性都是一个键值对
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Get element attributes as a sequence.
+
+        The attributes are returned in arbitrary order.  Equivalent to
+        attrib.items().
+
+        Return a list of (name, value) tuples.
+
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> self.attrib.items()
+
+    </span><span style="color: #0000ff;">def</span> iter(self, tag=<span style="color: #000000;">None):
+        在当前节点的子孙中根据节点名称寻找所有指定的节点，并返回一个迭代器（可以被for循环）。
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Create tree iterator.
+
+        The iterator loops over the element and all subelements in document
+        order, returning all elements with a matching tag.
+
+        If the tree structure is modified during iteration, new or removed
+        elements may or may not be included.  To get a stable set, use the
+        list() function on the iterator, and loop over the resulting list.
+
+        *tag* is what tags to look for (default is to return all elements)
+
+        Return an iterator containing all the matching elements.
+
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">if</span> tag == <span style="color: #800000;">"</span><span style="color: #800000;">*</span><span style="color: #800000;">"</span><span style="color: #000000;">:
+            tag </span>=<span style="color: #000000;"> None
+        </span><span style="color: #0000ff;">if</span> tag <span style="color: #0000ff;">is</span> None <span style="color: #0000ff;">or</span> self.tag ==<span style="color: #000000;"> tag:
+            </span><span style="color: #0000ff;">yield</span><span style="color: #000000;"> self
+        </span><span style="color: #0000ff;">for</span> e <span style="color: #0000ff;">in</span><span style="color: #000000;"> self._children:
+            </span><span style="color: #0000ff;">yield</span> <span style="color: #0000ff;">from</span><span style="color: #000000;"> e.iter(tag)
+
+    </span><span style="color: #008000;">#</span><span style="color: #008000;"> compatibility</span>
+    <span style="color: #0000ff;">def</span> getiterator(self, tag=<span style="color: #000000;">None):
+        </span><span style="color: #008000;">#</span><span style="color: #008000;"> Change for a DeprecationWarning in 1.4</span>
+<span style="color: #000000;">        warnings.warn(
+            </span><span style="color: #800000;">"</span><span style="color: #800000;">This method will be removed in future versions.  </span><span style="color: #800000;">"</span>
+            <span style="color: #800000;">"</span><span style="color: #800000;">Use 'elem.iter()' or 'list(elem.iter())' instead.</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+            PendingDeprecationWarning, stacklevel</span>=2<span style="color: #000000;">
+        )
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> list(self.iter(tag))
+
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> itertext(self):
+        在当前节点的子孙中根据节点名称寻找所有指定的节点的内容，并返回一个迭代器（可以被for循环）。
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">Create text iterator.
+
+        The iterator loops over the element and all subelements in document
+        order, returning all inner text.
+
+        </span><span style="color: #800000;">"""</span><span style="color: #000000;">
+        tag </span>=<span style="color: #000000;"> self.tag
+        </span><span style="color: #0000ff;">if</span> <span style="color: #0000ff;">not</span> isinstance(tag, str) <span style="color: #0000ff;">and</span> tag <span style="color: #0000ff;">is</span> <span style="color: #0000ff;">not</span><span style="color: #000000;"> None:
+            </span><span style="color: #0000ff;">return</span>
+        <span style="color: #0000ff;">if</span><span style="color: #000000;"> self.text:
+            </span><span style="color: #0000ff;">yield</span><span style="color: #000000;"> self.text
+        </span><span style="color: #0000ff;">for</span> e <span style="color: #0000ff;">in</span><span style="color: #000000;"> self:
+            </span><span style="color: #0000ff;">yield</span> <span style="color: #0000ff;">from</span><span style="color: #000000;"> e.itertext()
+            </span><span style="color: #0000ff;">if</span><span style="color: #000000;"> e.tail:
+                </span><span style="color: #0000ff;">yield</span><span style="color: #000000;"> e.tail
+复制代码</span></pre>
+</div>
+<p>&nbsp;</p>
+</div></div>

@@ -1,0 +1,304 @@
+第一百九十六节，jQuery EasyUI，Tooltip(提示框)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，Tooltip(提示框)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170329132202451-1304101779.png" alt=""></p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式 </strong></p>
+<p><strong>　　2.属性列表 </strong></p>
+<p><strong>　　3.事件列表 </strong></p>
+<p><strong>　　4.方法列表</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 中 Tooltip(提示框)组件的使用方法，，这个组件不依赖于其 他组件。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">//class 加载方式
+</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="http://www.ycku.com"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="这是一个提示信息！"</span><span style="color: #ff0000">
+　　class</span><span style="color: #0000ff">="easyui-tooltip"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">Hover Me
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">JS 加载调用</span>
+$('#box'<span style="color: #000000">).tooltip({
+　　content : </span>'这里可以输入提示内容'<span style="color: #000000">,
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170329115241436-478482963.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>position string 消息框位置。默认 bootom，还有 left、right、top，<span style="color: #0000ff">设置提示框位置</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content : </span>'这里可以输入提示内容'<span style="color: #000000">,
+        position:</span>'right'                    <span style="color: #008000">//</span><span style="color: #008000">设置提示框位置</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>content string 消息框内容。默认为 null，可以包含 html 标签，<span style="color: #0000ff">设置提示内容可以包含html标签</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content : </span>'这里可以输入提示内容'<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>trackMouse boolean 为true时，允许提示框跟随鼠标移动。默认为false</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content : </span>'这里可以输入提示内容'<span style="color: #000000">,
+        position:</span>'right',                    <span style="color: #008000">//</span><span style="color: #008000">设置提示框位置</span>
+        trackMouse:<span style="color: #0000ff">true</span>                      <span style="color: #008000">//</span><span style="color: #008000">允许提示框跟随鼠标移动</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>deltaX number 水平方向提示框的位置。默认为 0，<span style="color: #0000ff">设置提示框水平位置</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content : </span>'这里可以输入提示内容'<span style="color: #000000">,
+        position:</span>'right',                    <span style="color: #008000">//</span><span style="color: #008000">设置提示框位置</span>
+        deltaX:20,                          <span style="color: #008000">//</span><span style="color: #008000">设置提示框水平位置</span>
+        deltaY:20                           <span style="color: #008000">//</span><span style="color: #008000">设置提示框垂直位置</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>deltaY number 垂直方向提示框的位置。默认为 0，<span style="color: #0000ff">设置提示框垂直位置</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content : </span>'这里可以输入提示内容'<span style="color: #000000">,
+        position:</span>'right',                    <span style="color: #008000">//</span><span style="color: #008000">设置提示框位置</span>
+        deltaX:20,                          <span style="color: #008000">//</span><span style="color: #008000">设置提示框水平位置</span>
+        deltaY:20                           <span style="color: #008000">//</span><span style="color: #008000">设置提示框垂直位置</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>showEvent string 当激活事件的时候显示提示框。默认为 mouseenter，<span style="color: #0000ff">设置什么事件显示提示框</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content : </span>'这里可以输入提示内容'<span style="color: #000000">,
+        </span><span style="color: #008000">//</span><span style="color: #008000"> position:'right',                    //设置提示框位置</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> deltaX:20,                          //设置提示框水平位置</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> deltaY:20                           //设置提示框垂直位置</span>
+        showEvent:'mouseenter',                 <span style="color: #008000">//</span><span style="color: #008000">鼠标移入显示</span>
+        hideEvent:'mouseleave'                 <span style="color: #008000">//</span><span style="color: #008000">鼠标移出隐藏</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>hideEvent string 当激活事件的时候隐藏提示框。默认为 mouseleave，<span style="color: #0000ff"><strong>设置什么事件隐藏提示框</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content : </span>'这里可以输入提示内容'<span style="color: #000000">,
+        </span><span style="color: #008000">//</span><span style="color: #008000"> position:'right',                    //设置提示框位置</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> deltaX:20,                          //设置提示框水平位置</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> deltaY:20                           //设置提示框垂直位置</span>
+        showEvent:'mouseenter',                 <span style="color: #008000">//</span><span style="color: #008000">鼠标移入显示</span>
+        hideEvent:'mouseleave'                 <span style="color: #008000">//</span><span style="color: #008000">鼠标移出隐藏</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>showDelay number 延时多少秒显示提示框。默认 200，<span style="color: #0000ff">设置延迟显示时间</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content : </span>'这里可以输入提示内容'<span style="color: #000000">,
+        </span><span style="color: #008000">//</span><span style="color: #008000"> position:'right',                    //设置提示框位置</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> deltaX:20,                          //设置提示框水平位置</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> deltaY:20                           //设置提示框垂直位置</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> showEvent:'mouseenter',                 //鼠标移入显示</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> hideEvent:'mouseleave'                 //鼠标移出隐藏</span>
+        showDelay:200,                          <span style="color: #008000">//</span><span style="color: #008000">设置延迟显示时间</span>
+        hideDelay:200                           <span style="color: #008000">//</span><span style="color: #008000">设置延迟隐藏时间</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>hideDelay number 延时多少秒隐藏提示框。默认 100，<span style="color: #0000ff">设置延迟隐藏时间</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content : </span>'这里可以输入提示内容'<span style="color: #000000">,
+        </span><span style="color: #008000">//</span><span style="color: #008000"> position:'right',                    //设置提示框位置</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> deltaX:20,                          //设置提示框水平位置</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> deltaY:20                           //设置提示框垂直位置</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> showEvent:'mouseenter',                 //鼠标移入显示</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> hideEvent:'mouseleave'                 //鼠标移出隐藏</span>
+        showDelay:200,                          <span style="color: #008000">//</span><span style="color: #008000">设置延迟显示时间</span>
+        hideDelay:200                           <span style="color: #008000">//</span><span style="color: #008000">设置延迟隐藏时间</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．事件列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170329123325998-1311252620.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>onShow &nbsp;e 在显示提示框的时候触发</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content : </span>'这里可以输入提示内容'<span style="color: #000000">,
+        onShow:</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            alert(</span>'在显示提示框的时候触发'<span style="color: #000000">);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onHide &nbsp;e 在隐藏提示框的时候触发</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content : </span>'这里可以输入提示内容'<span style="color: #000000">,
+        onHide:</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            alert(</span>'在隐藏提示框的时候触发'<span style="color: #000000">);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onUpdate &nbsp;content 在提示框内容更新的时候触发，<strong>content接收更新后提示内容</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content : </span>'这里可以输入提示内容'<span style="color: #000000">,
+        onUpdate:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (content) {
+            alert(</span>'在提示框内容更新的时候触发：'+<span style="color: #000000">content);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onPosition &nbsp;left、top 在提示框位置改变的时候触发，接收两个参数，分别接收左位置和上位置</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content: </span>'这里可以输入提示内容'<span style="color: #000000">,
+        onPosition: </span><span style="color: #0000ff">function</span> (left, top) {                  <span style="color: #008000">//</span><span style="color: #008000">在提示框位置改变的时候触发</span>
+            console.log('left:' + left + ',top:' +<span style="color: #000000"> top);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onDestroy &nbsp;none 在提示框被销毁的时候触发</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content: </span>'这里可以输入提示内容'<span style="color: #000000">,
+        onDestroy: </span><span style="color: #0000ff">function</span> (none) {            <span style="color: #008000">//</span><span style="color: #008000">在提示框被销毁的时候触发</span>
+            alert('提示框被销毁的时候触发'<span style="color: #000000">);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170329125003061-719608730.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>options &nbsp;none 返回属性对象</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content: </span>'这里可以输入提示内容'<span style="color: #000000">
+    });
+    $(</span>'#box').tooltip('options');       <span style="color: #008000">//</span><span style="color: #008000">返回一个对象，里面是tooltip的属性</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>tip &nbsp;none 返回 tip 元素对象</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content: </span>'这里可以输入提示内容'<span style="color: #000000">,
+        onShow: </span><span style="color: #0000ff">function</span> () {                   <span style="color: #008000">//</span><span style="color: #008000">在显示时触发</span>
+            alert($('#box').tooltip('tip'));    <span style="color: #008000">//</span><span style="color: #008000">返回 tip 元素对象</span>
+<span style="color: #000000">        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>arrow &nbsp;none 返回箭头元素对象</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content: </span>'这里可以输入提示内容'<span style="color: #000000">,
+        onShow: </span><span style="color: #0000ff">function</span> () {                   <span style="color: #008000">//</span><span style="color: #008000">在显示时触发</span>
+            alert($('#box').tooltip('arrow'));    <span style="color: #008000">//</span><span style="color: #008000">返回箭头元素对象</span>
+<span style="color: #000000">        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>show &nbsp;e 显示提示框</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content: </span>'这里可以输入提示内容'<span style="color: #000000">
+    });
+    $(</span>'#box').tooltip('hide');      <span style="color: #008000">//</span><span style="color: #008000">默认隐藏提示框</span>
+    $('#box').tooltip('show');      <span style="color: #008000">//</span><span style="color: #008000">默认显示提示框</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>hide &nbsp;e 隐藏提示框</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content: </span>'这里可以输入提示内容'<span style="color: #000000">
+    });
+    $(</span>'#box').tooltip('hide');      <span style="color: #008000">//</span><span style="color: #008000">默认隐藏提示框</span>
+    $('#box').tooltip('show');      <span style="color: #008000">//</span><span style="color: #008000">默认显示提示框</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>update &nbsp;content 更新提示框内容</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content: </span>'这里可以输入提示内容'<span style="color: #000000">
+    });
+    $(</span>'#box').tooltip('update','要更新的提示内容');      <span style="color: #008000">//</span><span style="color: #008000">更新提示框内容</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>reposition &nbsp;none 重置提示框位置</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content: </span>'这里可以输入提示内容'<span style="color: #000000">,
+        onHide: </span><span style="color: #0000ff">function</span> (e) {                   <span style="color: #008000">//</span><span style="color: #008000">当隐藏提示框时</span>
+            $('#box').tooltip('reposition');     <span style="color: #008000">//</span><span style="color: #008000">重置提示框位置</span>
+<span style="color: #000000">        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>destroy &nbsp;none 销毁提示框</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tooltip({
+        content: </span>'这里可以输入提示内容'<span style="color: #000000">
+    });
+    $(</span>'#box').tooltip('destroy');      <span style="color: #008000">//</span><span style="color: #008000">销毁提示框</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>$.fn.tooltip.defaults 重写默认值对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$.fn.tooltip.defaults.position = 'top';</pre>
+</div>
+<p>&nbsp;</p></div>

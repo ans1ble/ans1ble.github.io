@@ -1,0 +1,37 @@
+第二百九十四节，Redis缓存-Redis安装
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #ff0000"><strong><strong>redis简介</strong></strong></span></p>
+<p><strong>redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set --有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步。</strong></p>
+<p>&nbsp;</p>
+<p><strong>Redis缓存-Redis安装</strong></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong>Linux版安装</strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>wget http:<span style="color: #008000">//</span><span style="color: #008000">download.redis.io/releases/redis-3.0.6.tar.gz</span>
+tar xzf redis-<span style="color: #800080">3.0</span>.<span style="color: #800080">6</span><span style="color: #000000">.tar.gz
+cd redis</span>-<span style="color: #800080">3.0</span>.<span style="color: #800080">6</span><span style="color: #000000">
+make</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>Window版安装</strong></span></p>
+<p><span><strong><strong>下载<strong><strong>Window版本<strong><strong><strong>Redis软件，下一步，下一步，安装即可</strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><strong>安装好Redis软件后，管理员身份运行cmd目录，首先cd 进入到<strong><strong><strong><strong><strong><strong><strong>Redis软件的安装目录</strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong>启动<strong><strong><strong><strong><strong><strong><strong>Redis软件</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>redis-server</pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170701102816727-87671163.png" alt=""></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong>配置远程连接信息</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>redis-cli -h <span style="color: #800080">127.0</span>.<span style="color: #800080">0.1</span> -p <span style="color: #800080">6379</span> -a <span style="color: #800080">123456</span><span style="color: #008000">
+#说明：redis-cli -h ip -p 端口 -a 密码  </span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170701103234602-741064419.png" alt=""></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong>关闭服务</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>redis-cli -h <span style="color: #800080">127.0</span>.<span style="color: #800080">0.1</span> -p <span style="color: #800080">6379</span> shutdown</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>Redis管理平台软件<br></strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170701204708571-805561021.png" alt=""></p>
+<p>&nbsp;</p></div>

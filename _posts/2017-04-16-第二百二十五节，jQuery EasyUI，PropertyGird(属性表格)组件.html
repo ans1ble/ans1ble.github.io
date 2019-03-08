@@ -1,0 +1,162 @@
+第二百二十五节，jQuery EasyUI，PropertyGird(属性表格)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，PropertyGird(属性表格)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170416132521477-744822291.png" alt=""></p>
+<p><strong>学习要点：</strong></p>
+<p><strong> 　　1.加载方式 </strong></p>
+<p><strong>　　2.属性列表 </strong></p>
+<p><strong>　　3.方法列表</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 中 PropertyGird(属性表格)组件的使用方法，<span style="color: #ff0000">这个组件依赖 于 DataGrid(数据表格)组件。</span></strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">一．加载方式</span></strong></p>
+<p><span style="color: #0000ff"><strong>class 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="easyui-propertygrid"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px"</span><span style="color: #ff0000"> data-options</span><span style="color: #0000ff">="url:'content.json',showGroup:true"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>content.json</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">[
+  {
+    </span>"name": "PHP 版本"<span style="color: #000000">,
+    </span>"value": "5.4"<span style="color: #000000">,
+    </span>"group": "系统信息"<span style="color: #000000">,
+    </span>"editor": "text"<span style="color: #000000">
+  },
+  {
+    </span>"name": "CPU 核心"<span style="color: #000000">,
+    </span>"value": "双核四线程"<span style="color: #000000">,
+    </span>"group": "系统信息"<span style="color: #000000">,
+    </span>"editor": "text"<span style="color: #000000">
+  },
+  {
+    </span>"name": "超级管理员"<span style="color: #000000">,
+    </span>"value": "Admin"<span style="color: #000000">,
+    </span>"group": "管理信息"<span style="color: #000000">,
+    </span>"editor": "text"<span style="color: #000000">
+  },
+  {
+    </span>"name": "管理密码"<span style="color: #000000">,
+    </span>"value": "******"<span style="color: #000000">,
+    </span>"group": "管理信息"<span style="color: #000000">,
+    </span>"editor": "text"<span style="color: #000000">
+  }
+]</span></pre>
+</div>
+<p><span style="color: #000000"><strong>属性表格扩展自 datagrid(数据表格)。它的行数据格式和数据表格相同。作为一个属 性行，以下字段是必须的：</strong></span></p>
+<p><strong> 　　<span style="color: #0000ff">name</span>：字段名称。 </strong></p>
+<p><strong>　　<span style="color: #0000ff">value</span>：字段值。 </strong></p>
+<p><strong>　　<span style="color: #0000ff">group</span>：分组字段值。 </strong></p>
+<p><strong>　　<span style="color: #0000ff">editor</span>：在编辑属性值的时候使用的编辑器对象。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>JS 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>propertygrid()将一个table元素执行(属性表格)组件</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).propertygrid({
+        url: </span>'content.json'<span style="color: #000000">,
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><span style="color: #ff0000"><strong>属性表格的属性扩展自 datagrid(数据表格)，属性表格新增的的属性如下：</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170416121505006-1391819395.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">showGroup</span> &nbsp; boolean 定义是否显示属性分组。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).propertygrid({
+        url: </span>'content.json',        <span style="color: #008000">//</span><span style="color: #008000">加载远程数据</span>
+        <span style="color: #ff0000">showGroup:true,             //定义是否显示属性分组。默认值 false。</span>
+        groupField:'group',         <span style="color: #008000">//</span><span style="color: #008000">定义分组的字段名</span>
+        groupFormatter:<span style="color: #0000ff">function</span> (group,rows) {      <span style="color: #008000">//</span><span style="color: #008000">定义如何格式化分组的值</span>
+            <span style="color: #0000ff">return</span> '['+group+']'<span style="color: #000000">;
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">groupField</span> &nbsp; string 定义分组的字段名。默认值为 group。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).propertygrid({
+        url: </span>'content.json',        <span style="color: #008000">//</span><span style="color: #008000">加载远程数据</span>
+        showGroup:<span style="color: #0000ff">true</span>,             <span style="color: #008000">//</span><span style="color: #008000">定义是否显示属性分组。默认值 false。</span>
+        <span style="color: #ff0000">groupField:'group',         //定义分组的字段名</span>
+        groupFormatter:<span style="color: #0000ff">function</span> (group,rows) {      <span style="color: #008000">//</span><span style="color: #008000">定义如何格式化分组的值</span>
+            <span style="color: #0000ff">return</span> '['+group+']'<span style="color: #000000">;
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">groupFormatter</span> &nbsp; function(group,rows)定义如何格式化分组的值。该函数拥有如下参数：<span style="color: #0000ff">group</span>：分组字段值。<span style="color: #0000ff">rows</span>：属于该分组的所有行。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).propertygrid({
+        url: </span>'content.json',        <span style="color: #008000">//</span><span style="color: #008000">加载远程数据</span>
+        showGroup:<span style="color: #0000ff">true</span>,             <span style="color: #008000">//</span><span style="color: #008000">定义是否显示属性分组。默认值 false。</span>
+        groupField:'group',         <span style="color: #008000">//</span><span style="color: #008000">定义分组的字段名</span>
+        <span style="color: #ff0000">groupFormatter:function (group,rows) {      //定义如何格式化分组的值
+            return '['+group+']'</span><span style="color: #000000"><span style="color: #ff0000">;
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三，事件</strong></span></p>
+<p><span style="color: #ff0000"><strong>PropertyGrid事件，完全继承<strong>DataGrid(数据表格)组件的事件</strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170416122959724-253461867.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">expandGroup</span> &nbsp; groupIndex 展开指定分组。如果'groupIndex'参数未指定，则展开所有分组。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).propertygrid({
+        url: </span>'content.json',        <span style="color: #008000">//</span><span style="color: #008000">加载远程数据</span>
+        showGroup: <span style="color: #0000ff">true</span>,             <span style="color: #008000">//</span><span style="color: #008000">定义是否显示属性分组。默认值 false。</span>
+        groupField: 'group',         <span style="color: #008000">//</span><span style="color: #008000">定义分组的字段名</span>
+        groupFormatter: <span style="color: #0000ff">function</span> (group, rows) {      <span style="color: #008000">//</span><span style="color: #008000">定义如何格式化分组的值</span>
+            <span style="color: #0000ff">return</span> '[' + group + ']'<span style="color: #000000">;
+        }
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#ann').click(function () {
+        abc();
+    });
+
+    function abc() {
+        $('#box').propertygrid('expandGroup');     //展开指定分组。如果'groupIndex'参数未指定，则展开所有分组。
+</span><span style="color: #000000"><span style="color: #ff0000">    }</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">collapseGroup</span> &nbsp; groupIndex 折叠指定分组。如果'groupIndex'参数未指定，则折叠所有分组。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).propertygrid({
+        url: </span>'content.json',        <span style="color: #008000">//</span><span style="color: #008000">加载远程数据</span>
+        showGroup: <span style="color: #0000ff">true</span>,             <span style="color: #008000">//</span><span style="color: #008000">定义是否显示属性分组。默认值 false。</span>
+        groupField: 'group',         <span style="color: #008000">//</span><span style="color: #008000">定义分组的字段名</span>
+        groupFormatter: <span style="color: #0000ff">function</span> (group, rows) {      <span style="color: #008000">//</span><span style="color: #008000">定义如何格式化分组的值</span>
+            <span style="color: #0000ff">return</span> '[' + group + ']'<span style="color: #000000">;
+        }
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#ann').click(function () {
+        abc();
+    });
+
+    function abc() {
+        $('#box').propertygrid('collapseGroup', 0);     //折叠指定分组。如果'groupIndex'参数未指定，则折叠所有分组
+</span><span style="color: #000000"><span style="color: #ff0000">    }</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>注意：其他属性，事件，方法，用DataGrid(数据表格)组件的即可</strong></span></p></div>

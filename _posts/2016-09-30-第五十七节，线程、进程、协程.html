@@ -1,0 +1,1537 @@
+第五十七节，线程、进程、协程
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="font-size: 18pt; color: #0000ff;"><strong>线程</strong></span></p>
+<p><span style="font-size: 16px; color: #000000;"><strong>首先弄清进程和线程之间的区别，这一点是非常重要的。线程与进程的不同之处在于，它们共享状态、内存和资源。对于线程来说，这个简单的区别既是它的优势，又是它的缺点。一方面，线程是轻量级的，并且相互之间易于通信，但另一方面，它们也带来了包括死锁、争用条件和高复杂性在内的各种问题。幸运的是，由于 GIL 和队列模块，与采用其他的语言相比，采用 Python 语言在线程实现的复杂性上要低得多。<span style="color: #ff0000; font-size: 18px;">无论是创建进程或者线程都是为了实现并发操作</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px; color: #0000ff;"><strong>Python进程、线程之间的原理图</strong></span></p>
+<p><span style="font-size: 18px; color: #0000ff;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161001205549406-1941933641.png" alt="" /></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff; font-size: 18pt;"><strong>计算机有进程和线程的目的：提高执行效率</strong></span><br /><strong><span style="font-size: 18px;">计算机默认有主进程和主线程</span></strong></p>
+<p><span style="color: #0000ff;"><strong><span style="font-size: 18pt;">进程：</span></strong></span><br /><span style="font-size: 18px;">	　　<strong>优点：同时利用多个CPU，能够同时进行多个操作</strong></span><br /><strong><span style="font-size: 18px;">	　　缺点：耗费资源（重新开辟内存空间）</span></strong><br /><strong><span style="font-size: 18px;">	　　进程不是越多越好，理论上CPU个数(核数)=进程个数</span></strong><br /><strong><span style="font-size: 18px;">	　　计算密集型适用于进程，因为计算之类的需要CPU运算（占用CPU）</span></strong><br /><span style="font-size: 18pt; color: #0000ff;"><strong>线程:</strong></span><br /><span style="font-size: 18px;">	　　<strong>优点：共享内存，IO操作时，创造并发操作</strong></span><br /><strong><span style="font-size: 18px;">	　　缺点：枪战资源</span></strong><br /><strong><span style="font-size: 18px;">	　　线程不是越多越好，具体案例具体分析，请求上下文切换耗时</span></strong><br /><strong><span style="font-size: 18px;">	　　IO密集型适用于线程，IO操作打开文件网络通讯类，不需要占用CPU，只是由CPU调度一下（不占用CPU）</span></strong></p>
+<p><span style="color: #0000ff;"><strong><span style="font-size: 18pt;">自定义进程和线程：注意python解释器自带了主进程和主线程，比如在代码文件里没有定义线程和进程，程序也能运行就是靠的<strong>解释器自带主进程的主线程执行的</strong></span></strong></span></p>
+<p><span style="font-size: 18px;">	　　<strong>自定义进程：</strong></span><br /><strong><span style="font-size: 18px;">		　　　　由主进程创建，子进程</span></strong><br /><strong><span style="font-size: 18px;">	　　自定义线程：</span></strong><br /><strong><span style="font-size: 18px;">		　　　　由主<strong>线</strong>程创建，子线程</span></strong></p>
+<p><span style="font-size: 18pt; color: #0000ff;"><strong>GIL全局解释器锁：</strong></span></p>
+<p><strong><span style="font-size: 18px;">GIL全局解释器锁在进程入口，控制着进程数量与CPU的相应</span></strong></p>
+<p>&nbsp;</p>
+<div class="postbody">
+<div id="cnblogs_post_body">
+<h2><span style="color: #0000ff;">threading线程模块</span></h2>
+<p><span style="color: #0000ff;">线程是应用程序中工作的最小单元</span></p>
+<p>threading 模块建立在 _thread 模块之上。thread 模块以低级、原始的方式来处理和控制线程，而 threading 模块通过对 thread 进行二次封装，提供了更方便的 api 来处理线程。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000;">Thread()创建线程对象【有参】</span></strong></p>
+<p><span style="color: #000000;"><strong>使用方法：赋值变量 = 模块名称.<strong>Thread(target=事件函数,args=元祖类型事件函数的实际参数) &nbsp;如函数多个参数，元祖里就是多个元素</strong></strong></span></p>
+<p><span style="color: #000000;"><strong>格式：t =&nbsp;threading.Thread(target=show, args=(i,))</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>currentThread()获取当前线程【无参】</strong></span></p>
+<p>&nbsp;</p>
+<p><strong>使用方法：自定义变量 =&nbsp;threading模块名称.<strong><strong>currentThread()</strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><strong>格式：current_thread = threading.currentThread()</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>start()激活线程【无参】</strong></span></p>
+<p><strong>使用方法：thread对象变量.<strong>start()</strong></strong></p>
+<p><strong>格式：t.start()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+<span style="color: #0000ff;">def</span> show(arg): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    time.sleep(3) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠3秒</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">线程</span><span style="color: #800000;">'</span>+str(arg)) <span style="color: #008000;">#</span><span style="color: #008000;">打印线程加循环次数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个10次循环</span>
+    t = threading.Thread(target=show, args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">用threading模块的Thread类来创建子线程对象</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活子线程</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">默认主线程等待子线程完成任务后，主线程停止</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 默认主线程等待子线程完成任务后，主线程停止</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程5</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程6</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程4</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程7</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程9</span></pre>
+</div>
+<p>上述代码创建了10个&ldquo;前台&rdquo;线程，然后控制器就交给了CPU，CPU根据指定算法进行调度，分片执行指令。</p>
+<p><span style="color: #ff0000;"><strong>&nbsp;自定义线程类</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">import</span><span style="color: #000000;"> threading
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> time
+ 
+ 
+</span><span style="color: #0000ff;">class</span><span style="color: #000000;"> MyThread(threading.Thread):
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self,num):
+        threading.Thread.</span><span style="color: #800080;">__init__</span><span style="color: #000000;">(self)
+        self.num </span>=<span style="color: #000000;"> num
+ 
+    </span><span style="color: #0000ff;">def</span> run(self):<span style="color: #008000;">#</span><span style="color: #008000;">定义每个线程要运行的函数</span>
+ 
+        <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">running on number:%s</span><span style="color: #800000;">"</span> %<span style="color: #000000;">self.num)
+ 
+        time.sleep(</span>3<span style="color: #000000;">)
+ 
+</span><span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">'</span><span style="color: #800000;">__main__</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+ 
+    t1 </span>= MyThread(1<span style="color: #000000;">)
+    t2 </span>= MyThread(2<span style="color: #000000;">)
+    t1.start()
+    t2.start()</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>getName()获取线程的名称【无参】</strong></span></p>
+<p><strong>使用方法：thread对象变量.<strong>getName()</strong><strong><br /></strong></strong></p>
+<p><strong>格式：t.<strong>getName()</strong><br /></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+<span style="color: #0000ff;">def</span> show(arg): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    time.sleep(3) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠3秒</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">线程</span><span style="color: #800000;">'</span>+str(arg)) <span style="color: #008000;">#</span><span style="color: #008000;">打印线程加循环次数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个10次循环</span>
+    t = threading.Thread(target=show, args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">用threading模块的Thread类来创建子线程对象</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活子线程</span>
+    <span style="color: #0000ff;">print</span>(t.getName()) <span style="color: #008000;">#</span><span style="color: #008000;">获取线程的名称</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">默认主线程等待子线程完成任务后，主线程停止</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> Thread-1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> Thread-2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> Thread-3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> Thread-4</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> Thread-5</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> Thread-6</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> Thread-7</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> Thread-8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> Thread-9</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> Thread-10</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 默认主线程等待子线程完成任务后，主线程停止</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程9</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程6</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程5</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程7</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程4</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>setName()设置线程的名称【有参】</strong></span></p>
+<p><strong>使用方法：thread对象变量.<strong>setName("要设置的线程名称")</strong></strong></p>
+<p><strong>格式：t.setName("jhf")</strong></p>
+<p><span style="color: #ff0000;"><strong>name获取或设置线程的名称【无参】</strong></span></p>
+<p><strong>使用方法：thread对象变量.<strong>name</strong></strong></p>
+<p><strong>格式：t.<strong>name</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+<span style="color: #0000ff;">def</span> show(arg): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    time.sleep(3) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠3秒</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">线程</span><span style="color: #800000;">'</span>+str(arg)) <span style="color: #008000;">#</span><span style="color: #008000;">打印线程加循环次数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个10次循环</span>
+    t = threading.Thread(target=show, args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">用threading模块的Thread类来创建子线程对象</span>
+    t.setName(<span style="color: #800000;">"</span><span style="color: #800000;">jhf</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">设置线程的名称</span>
+    <span style="color: #0000ff;">print</span>(t.name) <span style="color: #008000;">#</span><span style="color: #008000;">获取或设置线程的名称</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活子线程</span>
+
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">默认主线程等待子线程完成任务后，主线程停止</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> jhf</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> jhf</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> jhf</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> jhf</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> jhf</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> jhf</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> jhf</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> jhf</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> jhf</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> jhf</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 默认主线程等待子线程完成任务后，主线程停止</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程7</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程5</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程4</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程9</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程6</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>is_alive()判断线程是否为激活状态返回布尔值【无参】</strong></span></p>
+<p><strong>使用方法：thread对象变量.<strong>is_alive()</strong></strong></p>
+<p><strong>格式：t.<strong>is_alive()</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+<span style="color: #0000ff;">def</span> show(arg): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    time.sleep(3) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠3秒</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">线程</span><span style="color: #800000;">'</span>+str(arg)) <span style="color: #008000;">#</span><span style="color: #008000;">打印线程加循环次数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个10次循环</span>
+    t = threading.Thread(target=show, args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">用threading模块的Thread类来创建子线程对象</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活子线程</span>
+a = t.is_alive() <span style="color: #008000;">#</span><span style="color: #008000;">判断线程是否为激活状态返回布尔值</span>
+<span style="color: #0000ff;">print</span>(a) <span style="color: #008000;">#</span><span style="color: #008000;">打印出返回值</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">默认主线程等待子线程完成任务后，主线程停止</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> True</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 默认主线程等待子线程完成任务后，主线程停止</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程4</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程5</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程6</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程7</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程9</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>isAlive()判断线程是否为激活状态返回布尔值【无参】</strong></span></p>
+<p><strong>使用方法：thread对象变量.<strong>isAlive()</strong></strong></p>
+<p><strong>格式：t.<strong>isAlive()</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+<span style="color: #0000ff;">def</span> show(arg): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    time.sleep(3) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠3秒</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">线程</span><span style="color: #800000;">'</span>+str(arg)) <span style="color: #008000;">#</span><span style="color: #008000;">打印线程加循环次数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个10次循环</span>
+    t = threading.Thread(target=show, args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">用threading模块的Thread类来创建子线程对象</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活子线程</span>
+a = t.isAlive() <span style="color: #008000;">#</span><span style="color: #008000;">判断线程是否为激活状态返回布尔值</span>
+<span style="color: #0000ff;">print</span>(a) <span style="color: #008000;">#</span><span style="color: #008000;">打印出返回值</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">默认主线程等待子线程完成任务后，主线程停止</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> True</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 默认主线程等待子线程完成任务后，主线程停止</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程4</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程5</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程6</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程7</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程9</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>setDaemon() 设置为后台线程或前台线程,也就是定义主线程是否等待子线程执行完毕后，主线程才停止【有参】</strong></span><br />（默认：False）;通过一个布尔值设置线程是否为守护线程，必须在执行start()方法之后才可以使用。如果是后台线程，主线程执行过程中，后台线程也在进行，主线程执行完毕后，后台线程不论成功与否，均停止；如果是前台线程，主线程执行过程中，前台线程也在进行，主线程执行完毕后，等待前台线程也执行完成后，程序停止</p>
+<p><strong>使用方法：thread对象变量.<strong>setDaemon(布尔值)</strong></strong></p>
+<p><strong>格式：t.<strong>setDaemon(True)</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+<span style="color: #0000ff;">def</span> show(arg): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    time.sleep(3) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠3秒</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">线程</span><span style="color: #800000;">'</span>+str(arg)) <span style="color: #008000;">#</span><span style="color: #008000;">打印线程加循环次数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个10次循环</span>
+    t = threading.Thread(target=show, args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">用threading模块的Thread类来创建子线程对象</span>
+    t.setDaemon(True) <span style="color: #008000;">#</span><span style="color: #008000;">设置为后台线程或前台线程,也就是定义主线程是否等待子线程执行完毕后，主线程才停止</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活子线程</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 主线没等子线程执行完，主线程就停止了，所以没输出信息</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>isDaemon()判断是否为守护线程，也就是主线程是否等待子线程执行完成后，才停止主线程，返回布尔值【无参】</strong></span></p>
+<p><strong>使用方法：thread对象变量.<strong>isDaemon()</strong></strong></p>
+<p><strong>格式：t.<strong>isDaemon()</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+<span style="color: #0000ff;">def</span> show(arg): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    time.sleep(3) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠3秒</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">线程</span><span style="color: #800000;">'</span>+str(arg)) <span style="color: #008000;">#</span><span style="color: #008000;">打印线程加循环次数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个10次循环</span>
+    t = threading.Thread(target=show, args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">用threading模块的Thread类来创建子线程对象</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活子线程</span>
+a = t.isDaemon() <span style="color: #008000;">#</span><span style="color: #008000;">判断是否为守护线程，也就是主线程是否等待子线程执行完成后，才停止主线程返回布尔值</span>
+<span style="color: #0000ff;">print</span>(a) <span style="color: #008000;">#</span><span style="color: #008000;">打印布尔值</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> False</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程5</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程4</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程9</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程6</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程7</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>ident获取线程的标识符。线程标识符是一个非零整数，只有在调用了start()方法之后该属性才有效，否则它只返回None。【无参】</strong></span></p>
+<p><strong>使用方法：thread对象变量.<strong>ident</strong></strong></p>
+<p><strong>格式：t.<strong>ident</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+<span style="color: #0000ff;">def</span> show(arg): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    time.sleep(3) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠3秒</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">线程</span><span style="color: #800000;">'</span>+str(arg)) <span style="color: #008000;">#</span><span style="color: #008000;">打印线程加循环次数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个10次循环</span>
+    t = threading.Thread(target=show, args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">用threading模块的Thread类来创建子线程对象</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活子线程</span>
+    a = t.ident <span style="color: #008000;">#</span><span style="color: #008000;">获取线程的标识符。线程标识符是一个非零整数，只有在调用了start()方法之后该属性才有效，否则它只返回None。</span>
+    <span style="color: #0000ff;">print</span>(a) <span style="color: #008000;">#</span><span style="color: #008000;">打印线程的标识符</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 10040</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 13172</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 12096</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 4456</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 10200</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 844</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2200</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2440</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2968</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 12756</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程7</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程9</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程4</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程5</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程6</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>join()逐个执行每个线程，等待一个线程执行完毕后继续往下执行，该方法使得多线程变得无意义【有参可选】</strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>有参可选，参数为等待时间，秒为单位，如t.join(1) 就是一个线程不在是等待它执行完，而是只等待它1秒后继续下一个线程</strong></strong></span></p>
+<p><strong>使用方法：thread对象变量.<strong>join()</strong></strong></p>
+<p><strong>格式：t.<strong>join()</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+<span style="color: #0000ff;">def</span> show(arg): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    time.sleep(1) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠3秒</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">线程</span><span style="color: #800000;">'</span>+str(arg)) <span style="color: #008000;">#</span><span style="color: #008000;">打印线程加循环次数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个10次循环</span>
+    t = threading.Thread(target=show, args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">用threading模块的Thread类来创建子线程对象</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活子线程</span>
+    t.join() <span style="color: #008000;">#</span><span style="color: #008000;">逐个执行每个线程，执行完毕后继续往下执行，该方法使得多线程变得无意义</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程4</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程5</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程6</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程7</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 线程9</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>run()线程被cpu调度后自动执行线程对象的run方法</strong></span></p>
+<p><strong>使用方法：thread对象变量.<strong>run()</strong></strong></p>
+<p><strong>格式：t.<strong>run()</strong></strong></p>
+<p>&nbsp;</p>
+<h3><span style="font-size: 18pt; color: #0000ff;">线程锁threading.RLock和threading.Lock</span></h3>
+<p>&nbsp;我们使用线程对数据进行操作的时候，如果多个线程同时修改某个数据，可能会出现不可预料的结果，为了保证数据的准确性，引入了锁的概念。</p>
+<p>没有线程锁的情况列如：一个全局变量值为50，创建10条线程让每条线程累计减一，输出的结果是10个40，原因是10条线程同时减一就减去了10，所以打印出来就是10个40了</p>
+<p><span style="color: #0000ff;">未使用锁</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+globals_num = 50 <span style="color: #008000;">#</span><span style="color: #008000;">设置一个变量</span>
+<span style="color: #0000ff;">def</span> Func(a): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个函数</span>
+    <span style="color: #0000ff;">global</span> globals_num <span style="color: #008000;">#</span><span style="color: #008000;">将变量转换成全局变量，函数里可以调用</span>
+    globals_num -= 1 <span style="color: #008000;">#</span><span style="color: #008000;">全局变量减1</span>
+    time.sleep(1) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠1秒</span>
+    <span style="color: #0000ff;">print</span>(globals_num,a) <span style="color: #008000;">#</span><span style="color: #008000;">打印全局变量减少后的结果，和函数传进来的值</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">创建一个10次循环</span>
+    t = threading.Thread(target=Func,args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建线程对象</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活线程</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出  没有线程锁，线程之间抢占了数据资源</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 40 5</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 40 3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 40 6</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 40 4</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 40 0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 40 2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 40 1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 40 9</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 40 8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 40 7</span></pre>
+</div>
+<pre><strong><span style="font-size: 16px;">根据上列情况可以看出，没有线程锁，线程之间抢占了数据资源<br /></span></strong></pre>
+<pre><span style="font-size: 16px;"><strong>线程锁就是将线程锁定，一个线程执行完毕后释放锁后在执行第二个线程</strong></span></pre>
+<pre><strong><br /><span style="font-size: 16px; color: #ff0000;">RLock()定义线程锁对象<br /></span></strong></pre>
+<p><strong>使用方法：定义对象变量 = threading模块名称.RLock()</strong></p>
+<p><strong>格式：lock = threading.RLock()</strong></p>
+<p><span style="color: #ff0000;"><strong>acquire()获得锁，将线程锁定，一个线程执行完毕释放锁后在执行第二个线程</strong></span></p>
+<p><strong>使用方法：线程锁对象变量.<strong>acquire()</strong></strong></p>
+<p><strong>格式：lock.acquire()</strong></p>
+<p><span style="color: #ff0000;"><strong>release()释放线程锁</strong></span></p>
+<p><strong>使用方法：线程锁对象变量.<strong>release()</strong></strong></p>
+<p><strong>格式：lock.release()</strong></p>
+<p><span style="color: #0000ff;">使用锁</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+globals_num = 50 <span style="color: #008000;">#</span><span style="color: #008000;">设置一个变量</span>
+lock =<span style="color: #000000;"> threading.RLock()
+</span><span style="color: #0000ff;">def</span> Func(a): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个函数</span>
+<span style="color: #000000;">
+    lock.acquire()  </span><span style="color: #008000;">#</span><span style="color: #008000;"> 获得锁，将线程锁定，一个线程执行完毕后在执行第二个线程</span>
+
+    <span style="color: #0000ff;">global</span> globals_num <span style="color: #008000;">#</span><span style="color: #008000;">将变量转换成全局变量，函数里可以调用</span>
+    globals_num -= 1 <span style="color: #008000;">#</span><span style="color: #008000;">全局变量减1</span>
+    time.sleep(1) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠1秒</span>
+    <span style="color: #0000ff;">print</span>(globals_num,a) <span style="color: #008000;">#</span><span style="color: #008000;">打印全局变量减少后的结果，和函数传进来的值</span>
+<span style="color: #000000;">
+    lock.release()  </span><span style="color: #008000;">#</span><span style="color: #008000;"> 释放锁</span>
+
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">创建一个10次循环</span>
+    t = threading.Thread(target=Func,args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建线程对象</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活线程</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出  将线程锁定，一个线程执行完毕后在执行第二个线程</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 49 0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 48 1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 47 2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 46 3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 45 4</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 44 5</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 43 6</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 42 7</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 41 8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 40 9</span></pre>
+</div>
+<p>&nbsp;</p>
+<h4><span style="color: #ff0000;">threading.RLock和threading.Lock 的区别</span></h4>
+<p>RLock允许在同一线程中被多次acquire。而Lock却不允许这种情况。 如果使用RLock，那么acquire和release必须成对出现，即调用了n次acquire，必须调用n次的release才能真正释放所占用的琐。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">import</span><span style="color: #000000;"> threading
+lock </span>= threading.Lock()    <span style="color: #008000;">#</span><span style="color: #008000;">Lock对象</span>
+<span style="color: #000000;">lock.acquire()
+lock.acquire()  </span><span style="color: #008000;">#</span><span style="color: #008000;">产生了死琐。</span>
+<span style="color: #000000;">lock.release()
+lock.release()</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">import</span><span style="color: #000000;"> threading
+rLock </span>= threading.RLock()  <span style="color: #008000;">#</span><span style="color: #008000;">RLock对象</span>
+<span style="color: #000000;">rLock.acquire()
+rLock.acquire()    </span><span style="color: #008000;">#</span><span style="color: #008000;">在同一线程内，程序不会堵塞。</span>
+<span style="color: #000000;">rLock.release()
+rLock.release()</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3><span style="color: #0000ff;">threading.Event事件对象</span></h3>
+<p><span style="color: #ff0000;"><strong>Event()创建标识事件对象，全局定义了一个&ldquo;Flag&rdquo;，如果&ldquo;Flag&rdquo;值为 False，那么当程序执行 event.wait 方法时就会阻塞，如果&ldquo;Flag&rdquo;值为True，那么event.wait 方法时便不再阻塞</strong></span></p>
+<p>python线程的事件用于主线程控制其他线程的执行，事件主要提供了三个方法&nbsp;set、wait、clear。</p>
+<p>事件处理的机制：全局定义了一个&ldquo;Flag&rdquo;，如果&ldquo;Flag&rdquo;值为 False，那么当程序执行 event.wait 方法时就会阻塞，如果&ldquo;Flag&rdquo;值为True，那么event.wait 方法时便不再阻塞。</p>
+<p>当线程执行的时候，如果flag为False，则线程会阻塞，当flag为True的时候，线程不会阻塞。它提供了本地和远程的并发性。</p>
+<h3><span style="color: #ff0000;">Event事件对象的方法有</span></h3>
+<p><span style="color: #ff0000;"><strong>　　wait([timeout]) ： 堵塞线程，直到Event对象内部标识位被设为True或超时（如果提供了参数timeout）。</strong></span><br /><span style="color: #ff0000;"><strong>　　set() ：将标识位设为Ture</strong></span><br /><span style="color: #ff0000;"><strong>　　clear() ： 将标识位设为False。</strong></span><br /><span style="color: #ff0000;"><strong>　　isSet() ：判断标识位是否为Ture。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> threading
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> do(event):
+    </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">start</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    event.wait() </span><span style="color: #008000;">#</span><span style="color: #008000;">堵塞线程，直到Event对象内部标识位被设为True或超时（如果提供了参数timeout）</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">execute</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+event_obj </span>= threading.Event() <span style="color: #008000;">#</span><span style="color: #008000;">创建标识事件对象</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10<span style="color: #000000;">):
+    t </span>= threading.Thread(target=do, args=(event_obj,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建线程对象</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活线程</span>
+event_obj.clear() <span style="color: #008000;">#</span><span style="color: #008000;">将标识设置为False</span>
+inp = input(<span style="color: #800000;">'</span><span style="color: #800000;">input:</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">if</span> inp == <span style="color: #800000;">'</span><span style="color: #800000;">true</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+    event_obj.set() </span><span style="color: #008000;">#</span><span style="color: #008000;">将标识设置为True</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> start</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> start</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> start</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> start</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> start</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> start</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> start</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> start</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> start</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> input:true</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> execute</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> execute</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> execute</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> execute</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> execute</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> execute</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> execute</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> execute</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> execute</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> execute</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong><span style="font-size: 16px;">threading.BoundedSemaphore信号对象</span></strong></span></p>
+<p><span style="color: #000000;"><span style="font-size: 16px;">是同时允许一定数量的线程更改数据 ，比如厕所有3个坑，那最多只允许3个人上厕所，后面的人只能等里面有人出来了才能再进去。</span></span></p>
+<p><span style="color: #ff0000;"><strong>&nbsp;BoundedSemaphore()创建信号对象【有参】</strong></span></p>
+<p><strong>使用方法：定义变量.<strong>threading.BoundedSemaphore</strong><strong>(最大允许线程数)</strong></strong></p>
+<p><strong>格式：semaphore &nbsp;= threading.BoundedSemaphore(5)</strong></p>
+<p><span style="color: #ff0000;"><strong><strong>BoundedSemaphore<strong>信号对象的方法有</strong></strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong>　　acquire()获取信号</strong></span><br />　　<span style="color: #ff0000;"><strong>release()释放信号</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> threading,time <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块，和时间模块</span>
+<span style="color: #000000;">
+semaphore  </span>= threading.BoundedSemaphore(5) <span style="color: #008000;">#</span><span style="color: #008000;">最多允许5个线程同时运行</span>
+<span style="color: #0000ff;">def</span> run(n): <span style="color: #008000;">#</span><span style="color: #008000;">创建函数</span>
+<span style="color: #000000;">
+    semaphore.acquire() </span><span style="color: #008000;">#</span><span style="color: #008000;">获取信号</span>
+<span style="color: #000000;">
+    time.sleep(</span>1<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">run the thread: %s</span><span style="color: #800000;">"</span> %<span style="color: #000000;">n)
+
+    </span><span style="color: #008000;">#</span><span style="color: #008000;">semaphore.release() #释放信号</span>
+
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(20<span style="color: #000000;">):
+    t </span>= threading.Thread(target=run,args=<span style="color: #000000;">(i,))
+    t.start()
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> run the thread: 3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> run the thread: 2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> run the thread: 0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> run the thread: 1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> run the thread: 4</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="font-size: 16px; color: #0000ff;"><strong>threading.Condition条件对象</strong></span></p>
+<p><span style="font-size: 16px; color: #000000;">使得线程等待，只有满足某条件时，才释放n个线程</span></p>
+<p><span style="font-size: 16px; color: #ff0000;"><strong>Condition()创建<strong>条件对象【无参】</strong></strong></span></p>
+<p><strong>使用方法：定义变量.<strong>threading.<strong>Condition()</strong></strong></strong></p>
+<p><strong>格式：con = threading.Condition()</strong></p>
+<p><span style="color: #ff0000;"><strong><strong>Condition条件对象的方法有</strong></strong></span></p>
+<p>　　<span style="color: #ff0000;"><strong>acquire()</strong></span><br /><span style="color: #ff0000;"><strong>　　wait()</strong></span><br /><span style="color: #ff0000;"><strong>　　release()</strong></span><br /><span style="color: #ff0000;"><strong>　　notify()</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> threading
+
+con </span>=<span style="color: #000000;"> threading.Condition()
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> run(n):
+
+    con.acquire()
+
+    con.wait()
+
+    </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">run the thread: %s</span><span style="color: #800000;">"</span> %<span style="color: #000000;">n)
+    con.release()
+
+</span><span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10<span style="color: #000000;">):
+    t </span>= threading.Thread(target=run, args=<span style="color: #000000;">(i,))
+    t.start()
+</span><span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+    inp </span>= input(<span style="color: #800000;">'</span><span style="color: #800000;">&gt;&gt;&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">if</span> inp == <span style="color: #800000;">'</span><span style="color: #800000;">q</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">break</span><span style="color: #000000;">
+    con.acquire()
+    con.notify(int(inp))
+    con.release()</span></pre>
+</div>
+<p>&nbsp;</p>
+<h2><span style="color: #0000ff;">queue模块</span></h2>
+<p>Queue 就是对队列，它是线程安全的</p>
+<p>举例来说，我们去肯德基吃饭。厨房是给我们做饭的地方，前台负责把厨房做好的饭卖给顾客，顾客则去前台排队领取做好的饭。这里的前台就相当于我们的队列。</p>
+<p>这个模型也叫生产者-消费者模型。</p>
+<p><span style="color: #ff0000;"><strong>Queue()创建队列对象【有参】</strong></span></p>
+<p><span style="color: #000000;"><strong>使用方法：定义变量 =&nbsp;queue.Queue(对列长度数) 0表示长度无限制</strong></span></p>
+<p><span style="color: #000000;"><strong>格式：message = queue.Queue(10)</strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>Queue对象方法有：</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>　　join()等到队列为空的时候，在执行别的操作【无参】</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>　　qsize()返回队列的大小（不可靠），因为获取后有可能有新数据加入【无参】</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>　　<strong><strong>empty()清空队列里的所有数据</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>　　full()检查队列是否为满，当队列满的时候，返回True，否则返回False（不可靠），因为获取后有可能有新数据加入【无参】</strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong><strong>　　put(放入对列的数据必选, block=True, timeout=None) 向队列里放入数据（生产）【有参】</strong></strong></span></p>
+<p><span style="color: #000000;">　　　　将数据放入对列尾部（生产），数据必须存在，可以参数block默认为True,表示当队列满时，会等待队列给出可用位置，为False时为非阻塞，此时如果队列已满，会引发queue.Full 异常。 </span></p>
+<p><span style="color: #000000;">　　　　可选参数timeout，表示 会阻塞设置的时间，过后，如果队列无法给出放入item的位置，则引发 queue.Full 异常</span></p>
+<p><span style="color: #ff0000;"><strong>　　get(block=True, timeout=None)移除并返回队列头部的一个值（消费）【有参】</strong></span></p>
+<p><span style="color: #ff0000;"><strong>　　　 &nbsp;</strong><span style="color: #000000;">可选参数block默认为True，表示获取值的时候，如果队列为空，则阻塞，为False时，不阻塞，若此时队列为空，则引发 queue.Empty异常。</span></span></p>
+<p><span style="color: #000000;">　　　　可选参数timeout，表示会阻塞设置的时候，过后，如果队列为空，则引发Empty异常。</span></p>
+<p><span style="color: #000000;">　<span style="color: #ff0000;"><strong>　put_nowait(<strong><strong>放入对列的数据必选</strong></strong>)向队列里放入数据（生产）【有参】，如果队列满时不阻塞，不等待队列给出可用位置，引发 queue.Full 异常</strong></span></span></p>
+<p><span style="color: #000000;"><span style="color: #ff0000;"><strong>　　get_nowait()移除并返回队列头部的一个值（消费）【无参】，如果队列空时不阻塞，引发 queue.Full 异常</strong></span></span></p>
+<p><span style="color: #000000;"><span style="color: #ff0000;"><strong>　　</strong></span></span></p>
+<p><span style="color: #0000ff;"><strong>对列模型-生产者-消费者</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> queue <span style="color: #008000;">#</span><span style="color: #008000;">导入列队模块</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #000000;">
+message </span>= queue.Queue(10) <span style="color: #008000;">#</span><span style="color: #008000;">定义列队对象，设置列队长度</span>
+
+<span style="color: #0000ff;">def</span> producer(i): <span style="color: #008000;">#</span><span style="color: #008000;">定义生产者函数</span>
+    <span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+        message.put(</span><span style="color: #800000;">"</span><span style="color: #800000;">生产</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">向队列里放数据</span>
+
+<span style="color: #0000ff;">def</span> consumer(i): <span style="color: #008000;">#</span><span style="color: #008000;">定义消费者函数</span>
+    <span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+        msg </span>= message.get() <span style="color: #008000;">#</span><span style="color: #008000;">从队列里取数据</span>
+        <span style="color: #0000ff;">print</span>(msg) <span style="color: #008000;">#</span><span style="color: #008000;">打印出从队列里取出</span>
+
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(12): <span style="color: #008000;">#</span><span style="color: #008000;">创建12条线程生产，也就是有12条线程向队列里放数据</span>
+    t = threading.Thread(target=producer, args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建线程对象</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活线程</span>
+
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">创建10条线程消费，也就是有10条线程从列队里取数据</span>
+    t = threading.Thread(target=consumer, args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建线程对象</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活线程</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 生产</span></pre>
+</div>
+<p><span style="color: #0000ff;">&nbsp;<strong>对列模型-生产者-消费者原理图</strong></span></p>
+<p><span style="color: #0000ff;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161004193556317-358453548.png" alt="" /></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18pt; color: #0000ff;"><strong>multiprocessing进程模块</strong></span></p>
+<p>multiprocessing是python的多进程管理包，和threading.Thread类似。直接从侧面用subprocesses替换线程使用GIL的方式，由于这一点，multiprocessing模块可以让程序员在给定的机器上充分的利用CPU。</p>
+<p>在multiprocessing中，通过创建Process对象生成进程，然后调用它的start()方法，</p>
+<p><span style="color: #ff0000;"><strong>&nbsp;Process()创建进程对象【有参】</strong></span></p>
+<p><span><strong>注意：wds系统下必须if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</strong></span></p>
+<p><strong>&nbsp;使用方法：定义变量 =&nbsp;multiprocessing.<strong>Process(target=要创建进程的函数, args=元祖类型<strong><strong>要创建进程函数的参数、多个参数逗号隔开</strong></strong>)</strong></strong></p>
+<p><strong>格式：t = multiprocessing.Process(target=f1, args=(133,))</strong></p>
+<p><span style="color: #ff0000;"><strong>start()激活进程【无参】</strong></span></p>
+<p><strong>使用方法：<strong><strong>Process对象变量.<strong>start()</strong></strong></strong></strong></p>
+<p><strong>格式：t.start()</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>创建10条进程</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> multiprocessing <span style="color: #008000;">#</span><span style="color: #008000;">导入进程模块</span>
+<span style="color: #0000ff;">def</span> f1(r): <span style="color: #008000;">#</span><span style="color: #008000;">创建函数</span>
+    <span style="color: #0000ff;">print</span>(r) <span style="color: #008000;">#</span><span style="color: #008000;">打印传值</span>
+<span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">"</span><span style="color: #800000;">__main__</span><span style="color: #800000;">"</span>: <span style="color: #008000;">#</span><span style="color: #008000;">wds系统下必须if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</span>
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">循环10次，创建10条进程</span>
+        t = multiprocessing.Process(target=f1, args=(133,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建进程对象</span>
+        t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活进程</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>daemon主进程是否等待子进程执行完毕后，在停止主进程，daemon=True(主进程不等待子进程)、daemon=False（主进程等待子进程）</strong></span></p>
+<p><span style="color: #000000;"><strong>使用方法：<strong><strong><strong>Process对象变量.<strong>daemon=True或者False</strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000;"><strong>格式：t.daemon = False</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> multiprocessing <span style="color: #008000;">#</span><span style="color: #008000;">导入进程模块</span>
+<span style="color: #0000ff;">def</span> f1(r): <span style="color: #008000;">#</span><span style="color: #008000;">创建函数</span>
+    <span style="color: #0000ff;">print</span>(r) <span style="color: #008000;">#</span><span style="color: #008000;">打印传值</span>
+<span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">"</span><span style="color: #800000;">__main__</span><span style="color: #800000;">"</span>: <span style="color: #008000;">#</span><span style="color: #008000;">wds系统下必须if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</span>
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">循环10次，创建10条子进程</span>
+        t = multiprocessing.Process(target=f1, args=(133,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建进程对象</span>
+<span style="color: #000000;">
+        t.daemon </span>= True <span style="color: #008000;">#</span><span style="color: #008000;">主进程是否等待子进程执行完毕后，在停止主进程</span>
+<span style="color: #000000;">        
+        t.start() </span><span style="color: #008000;">#</span><span style="color: #008000;">激活进程</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出 #daemon = False 主进程没等子进程执行完，主进程就停止了，所以没有打印出信息</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>join()逐个执行每个进程，等待一个<strong>进程</strong>执行完毕后继续往下执行，该方法使得<strong>进程</strong>程变得无意义【有参可选】</strong></span></p>
+<p><span style="color: #ff0000;"><strong>有参可选，参数为等待时间，秒为单位，如t.join(1) 就是一个<strong>进程</strong>不在是等待它执行完，而是只等待它1秒后继续下一个<strong>进程</strong></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> multiprocessing <span style="color: #008000;">#</span><span style="color: #008000;">导入进程模块</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> time
+</span><span style="color: #0000ff;">def</span> f1(r): <span style="color: #008000;">#</span><span style="color: #008000;">创建函数</span>
+    time.sleep(1<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">print</span>(r) <span style="color: #008000;">#</span><span style="color: #008000;">打印传值</span>
+<span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">"</span><span style="color: #800000;">__main__</span><span style="color: #800000;">"</span>: <span style="color: #008000;">#</span><span style="color: #008000;">wds系统下必须if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</span>
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">循环10次，创建10条子进程</span>
+        t = multiprocessing.Process(target=f1, args=(133,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建进程对象</span>
+        t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活进程</span>
+<span style="color: #000000;">
+        t.join() </span><span style="color: #008000;">#</span><span style="color: #008000;">逐个执行每个进程，等待一个进程执行完毕后继续往下执行</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 133</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>进程各自持有一份数据，默认无法共享数据</strong></span></p>
+<p><span style="color: #ff0000;"><strong>所以相当于每一个进程有一份自己的数据，每个进程操作数据时，操作的属于自己的一份数据</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> multiprocessing <span style="color: #008000;">#</span><span style="color: #008000;">导入进程模块</span>
+li = [] <span style="color: #008000;">#</span><span style="color: #008000;">创建空列表</span>
+<span style="color: #0000ff;">def</span> f1(i): <span style="color: #008000;">#</span><span style="color: #008000;">创建函数</span>
+    li.append(i) <span style="color: #008000;">#</span><span style="color: #008000;">追加列表</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">列表</span><span style="color: #800000;">"</span>,li) <span style="color: #008000;">#</span><span style="color: #008000;">打印追加后的列表</span>
+<span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">"</span><span style="color: #800000;">__main__</span><span style="color: #800000;">"</span>: <span style="color: #008000;">#</span><span style="color: #008000;">wds系统下必须if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</span>
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">循环10次，创建10条子进程，进程各自持有一份数据，默认无法共享数据，所以相当于每一个进程有一个f1函数，每个进程在追加列表时追加的属于自己的一份f1函数</span>
+        t = multiprocessing.Process(target=f1, args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建进程对象</span>
+        t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活进程</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 列表 [0]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 列表 [2]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 列表 [5]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 列表 [3]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 列表 [1]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 列表 [6]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 列表 [8]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 列表 [7]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 列表 [4]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 列表 [9]</span></pre>
+</div>
+<p><span style="color: #0000ff;"><strong>&nbsp;进程原理图</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161005195441004-1993437393.png" alt="" /></p>
+<p>注意：由于进程之间的数据需要各自持有一份，所以创建进程需要的非常大的开销。</p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff; font-size: 14pt;"><strong>进程数据共享</strong></span></p>
+<p><span style="color: #0000ff;"><strong>注意：进程与进程之间无法共享数据，要想共享数据就得用特殊方法，在主进程创建特殊数据，然后几个子进程来共享这个主进程的特殊数据</strong></span></p>
+<p><span style="color: #0000ff;"><strong>方法一</strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>Array()创建数组，数组，定义数组必须要定义数组的长度，数组里必须是统一的数据类型【有参】</strong></strong></span></p>
+<p><span style="color: #000000;"><strong><strong>使用方法：<strong><strong>Array('指定数组数据类型',列表样式的数组元素)</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong><strong><strong><strong><strong>指定数组数据类型有：</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000;">'</span><span style="color: #800000;">c</span><span style="color: #800000;">'</span>: ctypes.c_char,  <span style="color: #800000;">'</span><span style="color: #800000;">u</span><span style="color: #800000;">'</span><span style="color: #000000;">: ctypes.c_wchar,
+</span><span style="color: #800000;">'</span><span style="color: #800000;">b</span><span style="color: #800000;">'</span>: ctypes.c_byte,  <span style="color: #800000;">'</span><span style="color: #800000;">B</span><span style="color: #800000;">'</span><span style="color: #000000;">: ctypes.c_ubyte,
+</span><span style="color: #800000;">'</span><span style="color: #800000;">h</span><span style="color: #800000;">'</span>: ctypes.c_short, <span style="color: #800000;">'</span><span style="color: #800000;">H</span><span style="color: #800000;">'</span><span style="color: #000000;">: ctypes.c_ushort,
+</span><span style="color: #800000;">'</span><span style="color: #800000;">i</span><span style="color: #800000;">'</span>: ctypes.c_int,   <span style="color: #800000;">'</span><span style="color: #800000;">I</span><span style="color: #800000;">'</span><span style="color: #000000;">: ctypes.c_uint,
+</span><span style="color: #800000;">'</span><span style="color: #800000;">l</span><span style="color: #800000;">'</span>: ctypes.c_long,  <span style="color: #800000;">'</span><span style="color: #800000;">L</span><span style="color: #800000;">'</span><span style="color: #000000;">: ctypes.c_ulong,
+</span><span style="color: #800000;">'</span><span style="color: #800000;">f</span><span style="color: #800000;">'</span>: ctypes.c_float, <span style="color: #800000;">'</span><span style="color: #800000;">d</span><span style="color: #800000;">'</span>: ctypes.c_double</pre>
+</div>
+<p><span style="color: #0000ff;"><strong>利用Array()数组来多进程共享数据（不推荐使用）</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> multiprocessing <span style="color: #008000;">#</span><span style="color: #008000;">导入进程模块</span>
+temp = multiprocessing.Array(<span style="color: #800000;">'</span><span style="color: #800000;">i</span><span style="color: #800000;">'</span>, [11,22,33,44,]) <span style="color: #008000;">#</span><span style="color: #008000;">创建数组</span>
+
+<span style="color: #0000ff;">def</span> Foo(i): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    <span style="color: #008000;">#</span><span style="color: #008000;">第一条进程，将100加0等于100，重新赋值给数组里的第0个元素，也就是将数组里的11改成了100</span>
+    <span style="color: #008000;">#</span><span style="color: #008000;">第二条进程，将100加1等于101，重新赋值给数组里的第1个元素，也就是将数组里的22改成了101</span>
+    temp[i] = 100+<span style="color: #000000;">i
+    </span><span style="color: #0000ff;">for</span> item <span style="color: #0000ff;">in</span> temp: <span style="color: #008000;">#</span><span style="color: #008000;">循环数组</span>
+        <span style="color: #0000ff;">print</span>(i,<span style="color: #800000;">'</span><span style="color: #800000;">-----&gt;</span><span style="color: #800000;">'</span>,item) <span style="color: #008000;">#</span><span style="color: #008000;">循环打印进程线，和数组元素</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">"</span><span style="color: #800000;">__main__</span><span style="color: #800000;">"</span>: <span style="color: #008000;">#</span><span style="color: #008000;">wds系统下必须if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</span>
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(2<span style="color: #000000;">):
+        p </span>= multiprocessing.Process(target=Foo,args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建进程对象</span>
+        p.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活进程</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0 -----&gt; 100</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0 -----&gt; 22</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0 -----&gt; 33</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0 -----&gt; 44</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 1 -----&gt; 11</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 -----&gt; 101</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 -----&gt; 33</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 -----&gt; 44</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>方法二</strong></span></p>
+<p><span style="color: #ff0000;"><strong>Manager()创建特殊字典对象【无参】</strong></span></p>
+<p><span style="color: #000000;"><strong>使用方法：定义变量 =&nbsp;multiprocessing模块名称.<strong>Manager()</strong></strong></span></p>
+<p><span style="color: #000000;"><strong>格式：manage = multiprocessing.Manager()</strong></span></p>
+<p><span style="color: #ff0000;"><strong>dict()创建特殊字典【可选参数】</strong></span></p>
+<p><span style="color: #ff0000;"><strong>参数为字段值，一般都不设置，为空即可，注意：这个特殊字典和前面的字典有所区别，但大部分使用方法相同，可以索引，可以values()取值</strong></span></p>
+<p><strong>使用方法：<strong>殊字典对象变量.<strong>dict()</strong></strong></strong></p>
+<p><strong>格式：dic = manage.dict()</strong></p>
+<p><span style="color: #0000ff;"><strong>利用特殊字典dict()来多进程共享数据【推荐】</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> multiprocessing <span style="color: #008000;">#</span><span style="color: #008000;">导入进程模块</span>
+<span style="color: #0000ff;">def</span> Foo(i,dic): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    dic[i] = 100+i <span style="color: #008000;">#</span><span style="color: #008000;">100加以进程线，索引方式重新赋值给特殊字典</span>
+    <span style="color: #0000ff;">print</span>(dic.values()) <span style="color: #008000;">#</span><span style="color: #008000;">打印特殊字典的所有值</span>
+<span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">'</span><span style="color: #800000;">__main__</span><span style="color: #800000;">'</span>: <span style="color: #008000;">#</span><span style="color: #008000;">wds系统下必须if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</span>
+<span style="color: #000000;">
+    manage </span>= multiprocessing.Manager() <span style="color: #008000;">#</span><span style="color: #008000;">创建特殊字典对象</span>
+    dic = manage.dict() <span style="color: #008000;">#</span><span style="color: #008000;">创建特殊字典，值为空</span>
+
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">循环创建10条进程</span>
+        p = multiprocessing.Process(target=Foo,args=(i,dic,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建进程对象</span>
+        p.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活进程</span>
+        p.join() <span style="color: #008000;">#</span><span style="color: #008000;">等待一个进程执行完，在执行第二个进程，否则主进程停止了无法共享数据，因为共享数据时在主进程里</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [100]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [100, 101]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [100, 101, 102]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [100, 101, 102, 103]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [100, 101, 102, 103, 104]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [100, 101, 102, 103, 104, 105]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [100, 101, 102, 103, 104, 105, 106]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [100, 101, 102, 103, 104, 105, 106, 107]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [100, 101, 102, 103, 104, 105, 106, 107, 108]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [100, 101, 102, 103, 104, 105, 106, 107, 108, 109]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>进程-队列-生产者-消费者【不推荐】严重耗费内存资源</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> multiprocessing <span style="color: #008000;">#</span><span style="color: #008000;">导入进程模块</span>
+
+<span style="color: #0000ff;">def</span> f2(i,q): <span style="color: #008000;">#</span><span style="color: #008000;">定义生产者函数</span>
+    q.put(<span style="color: #800000;">"</span><span style="color: #800000;">h1</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">向队列里放数据</span>
+
+<span style="color: #0000ff;">def</span> f(i,q): <span style="color: #008000;">#</span><span style="color: #008000;">定义消费者函数</span>
+    <span style="color: #0000ff;">print</span>(i,q.get()) <span style="color: #008000;">#</span><span style="color: #008000;">向列队里取数据</span>
+
+<span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">'</span><span style="color: #800000;">__main__</span><span style="color: #800000;">'</span>: <span style="color: #008000;">#</span><span style="color: #008000;">wds系统下必须if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</span>
+    q = multiprocessing.Queue() <span style="color: #008000;">#</span><span style="color: #008000;">定义对列</span>
+
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">创建10条进程生产</span>
+        p = multiprocessing.Process(target=f2, args=(i,q,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建进程对象</span>
+        p.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活进程</span>
+
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">创建10条进程消费</span>
+        p = multiprocessing.Process(target=f, args=(i,q,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建进程对象</span>
+        p.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活进程</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 h1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0 h1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 8 h1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 5 h1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 3 h1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 6 h1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 7 h1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2 h1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 9 h1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 4 h1</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>进程锁</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> multiprocessing <span style="color: #008000;">#</span><span style="color: #008000;">导入进程模块</span>
+<span style="color: #0000ff;">def</span> Foo(lock,temp,i): <span style="color: #008000;">#</span><span style="color: #008000;">创建函数</span>
+    <span style="color: #800000;">"""</span><span style="color: #800000;">
+    将第0个数加100
+    </span><span style="color: #800000;">"""</span><span style="color: #000000;">
+    lock.acquire() </span><span style="color: #008000;">#</span><span style="color: #008000;">获取进程锁</span>
+    temp[0] = 100+i <span style="color: #008000;">#</span><span style="color: #008000;">100加上进程线循环次数，重新赋值给进程循环次数对应下标数组里的值</span>
+    <span style="color: #0000ff;">for</span> item <span style="color: #0000ff;">in</span> temp: <span style="color: #008000;">#</span><span style="color: #008000;">循环数组</span>
+        <span style="color: #0000ff;">print</span>(i,<span style="color: #800000;">'</span><span style="color: #800000;">-----&gt;</span><span style="color: #800000;">'</span>,item) <span style="color: #008000;">#</span><span style="color: #008000;">打印出进程循环次数，和数组</span>
+    lock.release() <span style="color: #008000;">#</span><span style="color: #008000;">释放进程锁</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">'</span><span style="color: #800000;">__main__</span><span style="color: #800000;">'</span>: <span style="color: #008000;">#</span><span style="color: #008000;">wds系统下必须if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</span>
+    lock = multiprocessing.RLock() <span style="color: #008000;">#</span><span style="color: #008000;">创建进程锁对象</span>
+    temp = multiprocessing.Array(<span style="color: #800000;">'</span><span style="color: #800000;">i</span><span style="color: #800000;">'</span>, [11, 22, 33, 44]) <span style="color: #008000;">#</span><span style="color: #008000;">创建数组</span>
+
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(5): <span style="color: #008000;">#</span><span style="color: #008000;">循环创建5条子进程</span>
+        p = multiprocessing.Process(target=Foo,args=(lock,temp,i,)) <span style="color: #008000;">#</span><span style="color: #008000;">创建进程对象</span>
+        p.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活进程</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0 -----&gt; 100</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0 -----&gt; 22</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0 -----&gt; 33</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0 -----&gt; 44</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 1 -----&gt; 101</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 -----&gt; 22</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 -----&gt; 33</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1 -----&gt; 44</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 3 -----&gt; 103</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 3 -----&gt; 22</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 3 -----&gt; 33</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 3 -----&gt; 44</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 2 -----&gt; 102</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2 -----&gt; 22</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2 -----&gt; 33</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2 -----&gt; 44</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 4 -----&gt; 104</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 4 -----&gt; 22</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 4 -----&gt; 33</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 4 -----&gt; 44</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="font-size: 18pt; color: #0000ff;"><strong>进程池</strong></span></p>
+<p>进程池内部维护一个进程序列，当使用时，则去进程池中获取一个进程，如果进程池序列中没有可供使用的进进程，那么程序就会等待，直到进程池中有可用进程为止。进程池Python有提供</p>
+<p><span style="color: #ff0000;"><strong>Pool()创建进程池对象【有参】</strong></span></p>
+<p><span style="color: #ff0000;"><strong>默认进程池里没有进程，只有在向进程池申请进程的时候，进程池才创建进程</strong></span></p>
+<p><span style="color: #000000;"><strong>使用方法：定义变量 =&nbsp;multiprocessing模块名称.<strong>Pool(定义进程数)</strong></strong></span></p>
+<p><span style="color: #000000;"><strong>格式：pool = multiprocessing.Pool(5)</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>close()进程池里的进程执行完毕后关闭进程池连接【无参】</strong></span></p>
+<p><strong>使用方法：进程池对象变量.<strong>close()</strong><strong><br /></strong></strong></p>
+<p><strong>格式：pool.close()</strong><strong><br /></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>terminate()不等进程池里的进程执行完毕，立即关闭进程池连接</strong></span></p>
+<p><strong>使用方法：进程池对象变量.<strong>terminate()</strong><strong><br /></strong></strong></p>
+<p><strong>格式：pool.<strong>terminate()</strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>join()主进程等待进程池里的子进程全部执行完成后，主进程才停止【可选参数】</strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>可选参数，不写就是等待直到<strong>子进程全部执行完成后，主进程才停止，写了就是只等待指定的时间，时间到了就停止主进程，不管子进程有没有完成</strong></strong></strong></span></p>
+<p><strong>使用方法：进程池对象变量.<strong>join(可选参数秒)</strong><strong><br /></strong></strong></p>
+<p><strong>格式：pool.<strong>join()</strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>向进程池申请进程的方法</strong></span></p>
+<p><span style="color: #ff0000;"><strong>apply()向进程池申请一条进程，进程函数执行完后将进程放回进程池，【有参】</strong></span></p>
+<p><span style="color: #ff0000;"><strong>注意:<strong>apply()向进程池申请的进程不是并发的，是一个进程执行完毕后在执行一个进程，以此循环的，</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong><strong>apply()向进程池申请进程的时候，进程池创建的</strong>每一个进程都有一个，进程对象.join()方法，所以进程才是排队执行的，这里我们需要知道一下</strong></strong></span></p>
+<p><span><strong>使用方法：进程池对象变量.<strong>apply(</strong></strong></span><strong>func=</strong><strong style="line-height: 1.5;"><strong>要执行的进程函数名称,</strong></strong><strong>args=</strong><strong style="line-height: 1.5;"><strong>(执行函数的实际参数、多个参数逗号隔开))</strong></strong></p>
+<p><span><strong>格式：</strong></span><strong>pool.apply(func=Foo,args=(i,))</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span>  multiprocessing <span style="color: #008000;">#</span><span style="color: #008000;">导入进程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+<span style="color: #0000ff;">def</span> Foo(i): <span style="color: #008000;">#</span><span style="color: #008000;">定义进程执行函数</span>
+    time.sleep(1<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">print</span>(i+100<span style="color: #000000;">)
+</span><span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">'</span><span style="color: #800000;">__main__</span><span style="color: #800000;">'</span>: <span style="color: #008000;">#</span><span style="color: #008000;">wds系统下必须if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</span>
+<span style="color: #000000;">
+    pool </span>= multiprocessing.Pool(5) <span style="color: #008000;">#</span><span style="color: #008000;">定义进程池对象</span>
+
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">循环向进程池申请10条进程</span>
+        pool.apply(func=Foo,args=(i,)) <span style="color: #008000;">#</span><span style="color: #008000;">向进程池申请进程</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 100</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 101</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 102</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 103</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 104</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 105</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 106</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 107</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 108</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 109</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>&nbsp;apply_async()向进程池申请一条进程，进程函数执行完后将进程放回进程池,并且可以设置进程执行函数的回调函数</strong></span></p>
+<p><span style="color: #ff0000;"><strong>注意：<strong>apply_async()向进程池申请的进程是并发的，也就是申请了几条进程就是同时执行几条进程的，回调函数的形式参数、接收的进程执行函数的返回值</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong>apply_async()向进程池申请进程的时候，进程池创建的进程都没有，<strong><strong>进程对象.join()方法，所以进程都是并发的，<span style="color: #0000ff;">而且进程对象的daemon=True，也就是主进程不会等待子进程执行完毕就终止，所以使用<strong><strong><strong><strong>apply_async()<strong><strong><strong><strong>向进程池申请进程的时候，进程申请后，要使用close()进程池里的进程执行完毕后关闭进程池连接,join()主进程等待进程池里的子进程全部执行完成后，主进程才停止，否则会报错</strong></strong></strong></strong></strong></strong></strong></strong></span></strong></strong></strong></strong></strong></strong></span></p>
+<p><strong>使用方法：进程池对象变量.<strong>apply<strong>_async</strong>(</strong></strong><strong>func=</strong><strong>要执行的进程函数名称,</strong><strong>args=</strong><strong>(执行函数的实际参数、多个参数逗号隔开),callback=回调函数名称)</strong></p>
+<p><strong>格式：pool.apply_async(func=Foo,args=(i,),callback=f2)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span>  multiprocessing <span style="color: #008000;">#</span><span style="color: #008000;">导入进程模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+<span style="color: #0000ff;">def</span> Foo(i): <span style="color: #008000;">#</span><span style="color: #008000;">定义进程执行函数</span>
+    time.sleep(1<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">print</span>(i+100<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800000;">"</span><span style="color: #800000;">返回值，返回给回调函数的，形式参数</span><span style="color: #800000;">"</span>
+<span style="color: #0000ff;">def</span> f2(a): <span style="color: #008000;">#</span><span style="color: #008000;">执行函数的回调函数，形式参数等于执行函数的返回值</span>
+    <span style="color: #0000ff;">print</span>(a) <span style="color: #008000;">#</span><span style="color: #008000;">打印进程执行函数返回的值</span>
+<span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">'</span><span style="color: #800000;">__main__</span><span style="color: #800000;">'</span>: <span style="color: #008000;">#</span><span style="color: #008000;">wds系统下必须if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</span>
+<span style="color: #000000;">
+    pool </span>= multiprocessing.Pool(5) <span style="color: #008000;">#</span><span style="color: #008000;">定义进程池对象</span>
+
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(10): <span style="color: #008000;">#</span><span style="color: #008000;">循环向进程池申请10条进程</span>
+        pool.apply_async(func=Foo,args=(i,),callback=f2) <span style="color: #008000;">#</span><span style="color: #008000;">向进程池申请进程，并设置执行函数，和回调函数</span>
+<span style="color: #000000;">
+    pool.close() </span><span style="color: #008000;">#</span><span style="color: #008000;">进程池里的进程执行完毕后关闭进程池连接</span>
+    pool.join()<span style="color: #008000;">#</span><span style="color: #008000;">主进程等待进程池里的子进程全部执行完成后，主进程才停止</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 100</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 返回值，返回给回调函数的，形式参数</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 101</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 返回值，返回给回调函数的，形式参数</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 102</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 返回值，返回给回调函数的，形式参数</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 103</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 返回值，返回给回调函数的，形式参数</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 104</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 返回值，返回给回调函数的，形式参数</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 105</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 返回值，返回给回调函数的，形式参数</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 106</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 返回值，返回给回调函数的，形式参数</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 107</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 返回值，返回给回调函数的，形式参数</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 108</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 返回值，返回给回调函数的，形式参数</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 109</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 返回值，返回给回调函数的，形式参数</span></pre>
+</div>
+<p><span style="color: #0000ff;">&nbsp;<strong>apply_async()向进程池申请进程原理图</strong></span></p>
+<p><span style="color: #0000ff;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161006220213707-2054986659.png" alt="" /></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong><span style="font-size: 18pt;">自定义线程池</span></strong></span></p>
+<p><span style="color: #ff0000; font-size: 16px;"><strong>自定义线程池版本一</strong></span></p>
+<p><span style="color: #0000ff; font-size: 16px;"><strong>这个版本并不理想，但是简单</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> queue <span style="color: #008000;">#</span><span style="color: #008000;">导入队列模块</span>
+<span style="color: #0000ff;">import</span> threading <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">定义一个类</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">class</span> ThreadPool(object): <span style="color: #008000;">#</span><span style="color: #008000;">创建类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self, max_num=20): <span style="color: #008000;">#</span><span style="color: #008000;">初始化</span>
+        self.queue = queue.Queue(max_num) <span style="color: #008000;">#</span><span style="color: #008000;">定义普通字段等于，长度为20的队列</span>
+        <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(max_num): <span style="color: #008000;">#</span><span style="color: #008000;">设置20次循环</span>
+            self.queue.put(threading.Thread) <span style="color: #008000;">#</span><span style="color: #008000;">循环向队列里，放入20个线程对象名称</span>
+
+    <span style="color: #0000ff;">def</span> get_thread(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义get_thread方法</span>
+        <span style="color: #0000ff;">return</span> self.queue.get() <span style="color: #008000;">#</span><span style="color: #008000;">返回在队列里取出线程名称</span>
+
+    <span style="color: #0000ff;">def</span> add_thread(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义add_thread方法</span>
+        self.queue.put(threading.Thread) <span style="color: #008000;">#</span><span style="color: #008000;">向队列里放入一个线程对象名称</span>
+
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建一个类对象</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+pool </span>= ThreadPool(20) <span style="color: #008000;">#</span><span style="color: #008000;">创建类对象，初始化__init__方法</span>
+
+<span style="color: #800000;">"""</span><span style="color: #800000;">定义线程执行函数</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">def</span> func(arg, p): <span style="color: #008000;">#</span><span style="color: #008000;">定义线程执行函数</span>
+    <span style="color: #0000ff;">print</span>(arg) <span style="color: #008000;">#</span><span style="color: #008000;">打印线程数，也就是第几次循环线程</span>
+    <span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+    time.sleep(2) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠2秒</span>
+    p.add_thread() <span style="color: #008000;">#</span><span style="color: #008000;">向队列放入一个线程对象名称，创建一个线程对象的时候，就从队列里拿走一个线程对象名称，所有要在放回一个回去</span>
+
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建线程</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(30): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个30次循环</span>
+    thread = pool.get_thread() <span style="color: #008000;">#</span><span style="color: #008000;">在列队里拿出一个线程名称</span>
+    t = thread(target=func, args=(i, pool)) <span style="color: #008000;">#</span><span style="color: #008000;">在队列里拿出一个线程对象名称，创建一个线程对象，传入线程执行函数和参数</span>
+    t.start() <span style="color: #008000;">#</span><span style="color: #008000;">激活线程</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 4</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 5</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 6</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 7</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 9</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 10</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 11</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 12</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 13</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 14</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 15</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 16</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 17</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 18</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 19</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 20</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 21</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 22</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 23</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 24</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 25</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 26</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 27</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 28</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 29</span></pre>
+</div>
+<p><span style="color: #0000ff;">&nbsp;<strong>自定义线程池版本一原理图</strong></span></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161007205145614-1747591461.png" alt="" /></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>自定义线程池版本二【推荐使用】</strong></span></p>
+<p><span style="color: #0000ff;"><strong>ThreadPool源码模块，使用方法将ThreadPool<strong>源码模块</strong>文件，放到工程目录下，导入模块使用</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">线程池源码</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> queue    <span style="color: #008000;">#</span><span style="color: #008000;">导入队列模块</span>
+<span style="color: #0000ff;">import</span> threading    <span style="color: #008000;">#</span><span style="color: #008000;">导入线程模块</span>
+<span style="color: #0000ff;">import</span> contextlib   <span style="color: #008000;">#</span><span style="color: #008000;">导入上下文管理模块</span>
+<span style="color: #000000;">
+StopEvent </span>= object()    <span style="color: #008000;">#</span><span style="color: #008000;">设置全局变量，停止标志</span>
+<span style="color: #0000ff;">class</span> ThreadPool(object):   <span style="color: #008000;">#</span><span style="color: #008000;">创建类</span>
+    <span style="color: #800000;">"""</span><span style="color: #800000;">
+    ThreadPool()创建线程池类对象，有参：线程最大数量【使用方法：定义线程池对象变量 = ThreadPool(线程最大数量)】
+    run()向线程池申请一条线程，有参【使用方法：线程对象.run(线程执行函数，（执行函数参数），回调函数)】
+    close()让所有线程执行完毕后，停止线程，无参【使用方法：线程对象.close()】
+    terminate()无论是否还有任务，终止线程,有参：是否立即清空队列里的数据，默认yes清空，no不清空【使用方法：线程对象.terminate(yes或no)】
+    </span><span style="color: #800000;">"""</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self, max_num, max_task_num =<span style="color: #000000;"> None):
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        初始化ThreadPool类数据，创建队列，记录线程最大数量，创建、记录真实创建的线程列表
+        创建、记录空闲线程列表
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">if</span> max_task_num:    <span style="color: #008000;">#</span><span style="color: #008000;">判断max_task_num如果有值</span>
+            self.q = queue.Queue(max_task_num)  <span style="color: #008000;">#</span><span style="color: #008000;">创建队列，队列长度为max_task_num的值</span>
+        <span style="color: #0000ff;">else</span>:   <span style="color: #008000;">#</span><span style="color: #008000;">如果max_task_num没有值</span>
+            self.q = queue.Queue()  <span style="color: #008000;">#</span><span style="color: #008000;">创建队列，队列的长度没有限制</span>
+        self.max_num = max_num  <span style="color: #008000;">#</span><span style="color: #008000;">创建普通字段max_num等于，定义ThreadPool类对象的第一个实际参数，也就是最多能创建的线程数</span>
+        <span style="color: #008000;">#</span><span style="color: #008000;">self.cancel = False #创建普通字段cancel = False</span>
+        self.terminal = False    <span style="color: #008000;">#</span><span style="color: #008000;">创建普通字段terminal = False，以这个标识决定线程是否继续到队列取任务</span>
+        self.generate_list = []  <span style="color: #008000;">#</span><span style="color: #008000;">创建generate_list空列表，记录真实创建的线程</span>
+        self.free_list = []     <span style="color: #008000;">#</span><span style="color: #008000;">创建free_list空列表，记录空闲线程</span>
+
+    <span style="color: #0000ff;">def</span> run(self, func, args, callback=<span style="color: #000000;">None):
+        w </span>= (func, args, callback,)  <span style="color: #008000;">#</span><span style="color: #008000;">将传进来的，线程执行函数名称和执行函数参数，以及回调函数名称，组合成一个元组赋值给w变量</span>
+        self.q.put(w)   <span style="color: #008000;">#</span><span style="color: #008000;">将元祖放入对列中</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">判断空闲线程列表等于0,也就是空闲列表里没有空闲的线程时，
+        并且真实创建的线程列表里的线程数小于总线程数，执行generate_thread方法
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">if</span> len(self.free_list) == 0 <span style="color: #0000ff;">and</span> len(self.generate_list) &lt;<span style="color: #000000;"> self.max_num:
+            self.generate_thread()   </span><span style="color: #008000;">#</span><span style="color: #008000;">执行generate_thread方法</span>
+
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> generate_thread(self):
+        t </span>= threading.Thread(target=self.call)   <span style="color: #008000;">#</span><span style="color: #008000;">创建一个线程，线程执行函数为call方法</span>
+        t.start()   <span style="color: #008000;">#</span><span style="color: #008000;">激活线程</span>
+
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> call(self):
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        循环去获取任务函数并执行任务函数
+        </span><span style="color: #800000;">"""</span><span style="color: #000000;">
+        current_thread </span>= threading.currentThread()  <span style="color: #008000;">#</span><span style="color: #008000;">获取当前线程</span>
+        self.generate_list.append(current_thread)    <span style="color: #008000;">#</span><span style="color: #008000;">将获取到的当前线程，追加到真实创建的线程列表里</span>
+        event = self.q.get()     <span style="color: #008000;">#</span><span style="color: #008000;">到队列里取出，run方法放入队列的元组</span>
+        <span style="color: #0000ff;">while</span> event != StopEvent:    <span style="color: #008000;">#</span><span style="color: #008000;">如果到队列里取到的不等于停止标志，说明是元组，如果是元组开始循环</span>
+            <span style="color: #800000;">"""</span><span style="color: #800000;">将元组里的3个元素，分别赋值给3个变量，第一个是线程执行函数名称，第二个是线程执行函数参数，第三个是回调函数名称</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+            func, arguments, callback </span>=<span style="color: #000000;"> event
+            </span><span style="color: #008000;">#</span><span style="color: #008000;">success = True #自定义一个执行函数是否执行成功标识，默认True表示成功</span>
+            <span style="color: #0000ff;">try</span><span style="color: #000000;">:
+                result </span>= func(*arguments)    <span style="color: #008000;">#</span><span style="color: #008000;">执行线程执行函数，并接收执行函数参数</span>
+            <span style="color: #0000ff;">except</span> Exception as e:   <span style="color: #008000;">#</span><span style="color: #008000;">如果执行错误</span>
+                result = e  <span style="color: #008000;">#</span><span style="color: #008000;">如果线程执行函数出错，线程执行函数返回值等于错误信息</span>
+            <span style="color: #0000ff;">if</span> callback <span style="color: #0000ff;">is</span> <span style="color: #0000ff;">not</span> None:     <span style="color: #008000;">#</span><span style="color: #008000;">如果回调函数存在</span>
+                <span style="color: #0000ff;">try</span><span style="color: #000000;">:
+                    callback(result)    </span><span style="color: #008000;">#</span><span style="color: #008000;">执行回调函数，并将执行函数返回结果传值给回调函数的形式参数result</span>
+                <span style="color: #0000ff;">except</span><span style="color: #000000;"> Exception as e:
+                    </span><span style="color: #0000ff;">pass</span>
+
+            <span style="color: #800000;">"""</span><span style="color: #800000;">标记线程空闲了</span><span style="color: #800000;">"""</span>
+            <span style="color: #0000ff;">if</span> self.terminal:   <span style="color: #008000;">#</span><span style="color: #008000;">判断terminal变量是True</span>
+                event = StopEvent   <span style="color: #008000;">#</span><span style="color: #008000;">如果是True就想列队里放入线程停止标志</span>
+            <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+                with self.worker_state(self.free_list, current_thread):   </span><span style="color: #008000;">#</span><span style="color: #008000;">执行里面代码块前先执行上下文管理函数</span>
+                    event = self.q.get()     <span style="color: #008000;">#</span><span style="color: #008000;">到队列里取出，run方法放入队列的元组，没有就等待</span>
+        <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+            self.generate_list.remove(current_thread)   </span><span style="color: #008000;">#</span><span style="color: #008000;">如果在队列里取出的不是元组，而是停止标识，就在真实创建的线程列表里移除当前的线程</span>
+
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> close(self):
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        执行完所有的任务后，所有线程停止
+        </span><span style="color: #800000;">"""</span><span style="color: #000000;">
+        full_size </span>= len(self.generate_list)     <span style="color: #008000;">#</span><span style="color: #008000;">获取真实创建的线程列表里的线程个数</span>
+        <span style="color: #0000ff;">while</span> full_size:     <span style="color: #008000;">#</span><span style="color: #008000;">循环，真实创建线程列表里，的线程个数对应的次数</span>
+            self.q.put(StopEvent)   <span style="color: #008000;">#</span><span style="color: #008000;">每循环一次，向队列里加一个全局变量StopEvent，停止标识</span>
+            full_size -= 1  <span style="color: #008000;">#</span><span style="color: #008000;">每循环一次让循环次数减一</span>
+
+    <span style="color: #0000ff;">def</span> terminate(self, qkdl = <span style="color: #800000;">"</span><span style="color: #800000;">yes</span><span style="color: #800000;">"</span><span style="color: #000000;">):
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        无论是否还有任务，终止线程
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">if</span> qkdl == <span style="color: #800000;">"</span><span style="color: #800000;">yes</span><span style="color: #800000;">"</span><span style="color: #000000;">:
+            self.terminal </span>= True    <span style="color: #008000;">#</span><span style="color: #008000;">将是否继续到队列取任务的判断变量修改为True,向队列里放停止标识，使其线程停止</span>
+            self.q.empty()  <span style="color: #008000;">#</span><span style="color: #008000;">清空队列里的所有数据</span>
+            zuiduo = len(self.generate_list)     <span style="color: #008000;">#</span><span style="color: #008000;">检查真实创建线程列表里有多少个线程</span>
+            <span style="color: #0000ff;">while</span> zuiduo:   <span style="color: #008000;">#</span><span style="color: #008000;">循环真实创建线程列表里线程数，对应次数</span>
+                self.q.put(StopEvent)    <span style="color: #008000;">#</span><span style="color: #008000;">每循环一次向队列里放停止标识</span>
+                zuiduo -= 1     <span style="color: #008000;">#</span><span style="color: #008000;">每循环一次，减少一次循环次数</span>
+        <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+            self.terminal </span>= True    <span style="color: #008000;">#</span><span style="color: #008000;">将是否继续到队列取任务的判断变量修改为True,向队列里放停止标识，使其线程停止</span>
+            zuiduo = len(self.generate_list)    <span style="color: #008000;">#</span><span style="color: #008000;">检查真实创建线程列表里有多少个线程</span>
+            <span style="color: #0000ff;">while</span> zuiduo:   <span style="color: #008000;">#</span><span style="color: #008000;">循环真实创建线程列表里线程数，对应次数</span>
+                self.q.put(StopEvent)   <span style="color: #008000;">#</span><span style="color: #008000;">每循环一次向队列里放停止标识</span>
+                zuiduo -= 1     <span style="color: #008000;">#</span><span style="color: #008000;">每循环一次，减少一次循环次数</span>
+<span style="color: #000000;">
+    @contextlib.contextmanager </span><span style="color: #008000;">#</span><span style="color: #008000;">定义上下文管理装饰器</span>
+    <span style="color: #0000ff;">def</span> worker_state(self, state_list, worker_thread): <span style="color: #008000;">#</span><span style="color: #008000;">定义上下文管理装饰器函数</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        用于记录线程中正在等待的线程数
+        </span><span style="color: #800000;">"""</span><span style="color: #000000;">
+        state_list.append(worker_thread)    </span><span style="color: #008000;">#</span><span style="color: #008000;">执行代码块前执行，将当前线程追加到空闲线程列表</span>
+        <span style="color: #0000ff;">try</span><span style="color: #000000;">:
+            </span><span style="color: #0000ff;">yield</span>   <span style="color: #008000;">#</span><span style="color: #008000;">遇到yield，跳出装饰器函数，执行代码块后，在回到yield这里向下执行</span>
+        <span style="color: #0000ff;">finally</span><span style="color: #000000;">:
+            state_list.remove(worker_thread)    </span><span style="color: #008000;">#</span><span style="color: #008000;">执行代码块后执行，将当前线程移除空闲线程列表</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>ThreadPool自定义线程池版本二模块使用说明</strong></span></p>
+<p><span style="color: #000000;"><strong>首先from xxx import ThreadPool 导入模块</strong></span></p>
+<p><span style="color: #ff0000;"><strong>ThreadPool()创建线程池对象【有参】</strong></span></p>
+<p><span style="color: #000000;"><strong>使用方法：定义线程池对象变量 = ThreadPool模块名称.ThreadPool(线程池线程最大数量)</strong></span></p>
+<p><span style="color: #000000;"><strong>格式：pool = ThreadPool.ThreadPool(5)</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>run()到线程池申请一条线程【有参】</strong></span></p>
+<p><strong>使用方法：线程池对象.run(线程执行函数,(线程执行函数的参数),回调函数)</strong></p>
+<p><strong>格式：pool.run(f1,(i,),f2)</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>close()执行完所有的任务后，所有线程停止【无参】</strong></span></p>
+<p><strong>使用方法：线程池对象.<strong>close()</strong></strong></p>
+<p><strong>格式：pool.close()</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>terminate()无论是否还有任务，终止线程【可选参数】</strong></span></p>
+<p><strong>使用方法：线程池对象.<strong>terminate()</strong></strong></p>
+<p><span style="color: #000000;"><strong><strong>参数默认为yes终止线程前清空队列，no为终止线程不清空队列</strong></strong></span></p>
+<p><strong>格式：pool.terminate()</strong></p>
+<p><span style="color: #0000ff;"><strong><strong>ThreadPool自定义线程池版本二使用代码</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> lib.ska <span style="color: #0000ff;">import</span> ThreadPool <span style="color: #008000;">#</span><span style="color: #008000;">导入线程池模块</span>
+<span style="color: #0000ff;">import</span> time <span style="color: #008000;">#</span><span style="color: #008000;">导入时间模块</span>
+
+<span style="color: #0000ff;">def</span> f2(i): <span style="color: #008000;">#</span><span style="color: #008000;">定义回调函数</span>
+    <span style="color: #0000ff;">print</span>(i) <span style="color: #008000;">#</span><span style="color: #008000;">打印线程执行函数的返回值，回调函数的形式参数接收的，线程执行函数的返回值</span>
+
+<span style="color: #0000ff;">def</span> f1(i): <span style="color: #008000;">#</span><span style="color: #008000;">定义线程执行函数</span>
+    time.sleep(1) <span style="color: #008000;">#</span><span style="color: #008000;">睡眠1秒</span>
+    <span style="color: #0000ff;">print</span>(i) <span style="color: #008000;">#</span><span style="color: #008000;">打印申请线程时传进来的参数</span>
+    <span style="color: #0000ff;">return</span> <span style="color: #800000;">"</span><span style="color: #800000;">回调</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">返回值给回调函数</span>
+<span style="color: #000000;">
+pool </span>= ThreadPool.ThreadPool(5) <span style="color: #008000;">#</span><span style="color: #008000;">创建线程池对象</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(100): <span style="color: #008000;">#</span><span style="color: #008000;">循环</span>
+    pool.run(f1,(i,),f2) <span style="color: #008000;">#</span><span style="color: #008000;">到线程池申请线程</span>
+pool.close() <span style="color: #008000;">#</span><span style="color: #008000;">执行完所有的任务后，所有线程停止</span><span style="color: #008000;">
+#</span><span style="color: #008000;">pool.terminate() #无论是否还有任务，终止线程</span></pre>
+</div>
+<p><span style="color: #0000ff;"><strong>自定义线程池版本二原理图</strong></span></p>
+<p><span style="color: #0000ff;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161010033435734-195605274.png" alt="" /></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff; font-size: 18pt;"><strong>协程</strong></span></p>
+<p><span style="color: #000000;"><strong>协程又叫（<strong>微线程</strong>），就是在一个线程里可以创建多个协程，由程序员来控制什么时候执行那条协程，协程可以用一条线程，同时执行多个任务，适用于IO密集型场景</strong></span></p>
+<p>&nbsp;</p>
+<p>协程存在的意义：对于多线程应用，CPU通过切片的方式来切换线程间的执行，线程切换时需要耗时（保存状态，下次继续）。协程，则只使用一个线程，在一个线程中规定某个代码块执行顺序。<br />协程的适用场景：当程序中存在大量不需要CPU的操作时（IO），适用于协程；</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff; font-size: 18pt;"><strong>greenlet最基础协程模块 第三方模块</strong></span></p>
+<p><span style="color: #ff0000;"><strong>greenlet()创建协程对象【有参】</strong></span><br /><strong>使用方法：自定义变量 = greenlet(协程执行函数)</strong><br /><strong>格式：gr1 = greenlet(test1)</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>switch()执行指定的协程，switch()前面为指定要执行的协程对象名称【无参】</strong></span><br /><span style="color: #ff0000;"><strong>如果协程执行函数里，遇到switch()时就会跳出当前协程执行函数，并记录当前跳出位置，去执行遇到switch()指定的线程，记录的跳出位置下次进入时，从跳出位置开始</strong></span><br /><strong>使用方法：要执行的协程对象变量.switch()</strong><br /><strong>格式：gr1.switch()</strong></p>
+<p><span style="color: #0000ff;"><strong>简单协程代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> greenlet <span style="color: #0000ff;">import</span> greenlet <span style="color: #008000;">#</span><span style="color: #008000;">导入协程模块</span>
+
+<span style="color: #0000ff;">def</span> test1():    <span style="color: #008000;">#</span><span style="color: #008000;">定义协程执行函数</span>
+    <span style="color: #0000ff;">print</span>(12)   <span style="color: #008000;">#</span><span style="color: #008000;">打印12</span>
+    gr2.switch()    <span style="color: #008000;">#</span><span style="color: #008000;">执行指定的协程，switch()前面为指定要执行的协程对象名称，执行gr2协程</span>
+    <span style="color: #0000ff;">print</span>(34)   <span style="color: #008000;">#</span><span style="color: #008000;">打印34</span>
+    gr2.switch()    <span style="color: #008000;">#</span><span style="color: #008000;">执行指定的协程，switch()前面为指定要执行的协程对象名称，执行gr1协程</span>
+
+<span style="color: #0000ff;">def</span> test2():    <span style="color: #008000;">#</span><span style="color: #008000;">定义协程执行函数</span>
+    <span style="color: #0000ff;">print</span>(56) <span style="color: #008000;">#</span><span style="color: #008000;">打印56</span>
+    gr1.switch()    <span style="color: #008000;">#</span><span style="color: #008000;">执行指定的协程，switch()前面为指定要执行的协程对象名称，执行gr1协程</span>
+    <span style="color: #0000ff;">print</span>(78) <span style="color: #008000;">#</span><span style="color: #008000;">打印78</span>
+<span style="color: #000000;">
+gr1 </span>= greenlet(test1) <span style="color: #008000;">#</span><span style="color: #008000;">创建协程对象，传入协程执行函数</span>
+gr2 = greenlet(test2) <span style="color: #008000;">#</span><span style="color: #008000;">创建协程对象，传入协程执行函数</span>
+gr1.switch() <span style="color: #008000;">#</span><span style="color: #008000;">执行指定的协程，switch()前面为指定要执行的协程对象名称，执行gr1协程</span></pre>
+</div>
+<p><span style="color: #0000ff;">&nbsp;<strong>简单协程原理图</strong></span></p>
+<p><span style="color: #0000ff;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161010223244368-1210385773.png" alt="" /></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff; font-size: 18pt;"><strong>gevent协程模块</strong></span></p>
+<p><span style="color: #000000; font-size: 16px;"><strong><strong><strong>gevent协程模块是基于</strong>greenlet模块改进的，也是第三方模块</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong>joinall()创建协程对象【有参】</strong></span><br /><span style="color: #ff0000;"><strong>参数是列表类型的，创建协程spawn()方法</strong></span><br /><strong>使用方法：模块名称.joinall([gevent.spawn(线程执行函数)])</strong><br /><strong>格式：gevent.joinall([gevent.spawn(foo), gevent.spawn(bar), gevent.spawn(ba),])</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>spawn()创建协程【有参】</strong></span><br /><span style="color: #ff0000;"><strong>参数是协程执行函数名称</strong></span><br /><strong>使用方法：gevent模块名称.joinall([gevent.spawn(协程执行函数名称), gevent.spawn(协程执行函数名称), gevent.spawn(协程执行函数名称),])</strong><br /><strong>格式：gevent.joinall([gevent.spawn(foo), gevent.spawn(bar), gevent.spawn(ba),])</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>sleep()跳出协程执行函数，执行协程对象里的，下一个协程，并记录当前跳出位置，再次进入当前协程执行函数时，从当前跳出位置开始</strong></span><br /><strong>使用方法：模块名称.sleep(0)</strong><br /><strong>格式：gevent.sleep(0)</strong></p>
+<p><span style="color: #0000ff;"><strong><strong>gevent简单协程代码</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> gevent  <span style="color: #008000;">#</span><span style="color: #008000;">导入协程模块</span>
+
+<span style="color: #0000ff;">def</span> foo():  <span style="color: #008000;">#</span><span style="color: #008000;">定义协程执行函数</span>
+    <span style="color: #0000ff;">print</span>(12<span style="color: #000000;">)
+    gevent.sleep(0) </span><span style="color: #008000;">#</span><span style="color: #008000;">执行协程对象里下一条协程，如果已经是最后一条协程，就返回第一条协程执行</span>
+    <span style="color: #0000ff;">print</span>(34<span style="color: #000000;">)
+
+</span><span style="color: #0000ff;">def</span> bar():  <span style="color: #008000;">#</span><span style="color: #008000;">定义协程执行函数</span>
+    <span style="color: #0000ff;">print</span>(56<span style="color: #000000;">)
+    gevent.sleep(0) </span><span style="color: #008000;">#</span><span style="color: #008000;">执行协程对象里下一条协程，如果已经是最后一条协程，就返回第一条协程执行</span>
+    <span style="color: #0000ff;">print</span>(78<span style="color: #000000;">)
+
+</span><span style="color: #0000ff;">def</span> ba():  <span style="color: #008000;">#</span><span style="color: #008000;">定义协程执行函数</span>
+    <span style="color: #0000ff;">print</span>(910<span style="color: #000000;">)
+    gevent.sleep(0) </span><span style="color: #008000;">#</span><span style="color: #008000;">执行协程对象里下一条协程，如果已经是最后一条协程，就返回第一条协程执行</span>
+    <span style="color: #0000ff;">print</span>(1112<span style="color: #000000;">)
+
+gevent.joinall([    </span><span style="color: #008000;">#</span><span style="color: #008000;">定义协程对象</span>
+    gevent.spawn(foo),  <span style="color: #008000;">#</span><span style="color: #008000;">创建协程</span>
+    gevent.spawn(bar),  <span style="color: #008000;">#</span><span style="color: #008000;">创建协程</span>
+    gevent.spawn(ba),   <span style="color: #008000;">#</span><span style="color: #008000;">创建协程</span>
+<span style="color: #000000;">])
+
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 12</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 56</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 910</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 34</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 78</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1112</span></pre>
+</div>
+<p><span style="color: #0000ff;">&nbsp;<strong><strong>gevent简单协程原理图</strong></strong></span></p>
+<p><span style="color: #0000ff;"><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161011073115024-476334773.png" alt="" /></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>遇到IO操作自动切换：</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> gevent <span style="color: #0000ff;">import</span> monkey; monkey.patch_all() <span style="color: #008000;">#</span><span style="color: #008000;">导入模块目录里的，gevent目录，里的monkey模块的patch_all()方法</span>
+<span style="color: #0000ff;">import</span> gevent   <span style="color: #008000;">#</span><span style="color: #008000;">导入协程模块</span>
+<span style="color: #0000ff;">import</span> requests <span style="color: #008000;">#</span><span style="color: #008000;">模拟浏览器请求模块</span>
+
+<span style="color: #0000ff;">def</span> f(url): <span style="color: #008000;">#</span><span style="color: #008000;">创建协程执行函数</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">GET: %s</span><span style="color: #800000;">'</span> % url)  <span style="color: #008000;">#</span><span style="color: #008000;">打印字符串格式化GET:+函数参数url</span>
+    resp = requests.get(url)    <span style="color: #008000;">#</span><span style="color: #008000;">将url发送http请求</span>
+    data = resp.text    <span style="color: #008000;">#</span><span style="color: #008000;">获取http字符串代码</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">%d 请求返回 %s.</span><span style="color: #800000;">'</span> % (len(data), url)) <span style="color: #008000;">#</span><span style="color: #008000;">打印字符串格式化，http字符串代码字符串数和url地址</span>
+
+<span style="color: #800000;">"""</span><span style="color: #800000;">
+相当于三条协程同时发url请求，那条协程先完成请求就先获取那条协程的返回数据
+也就是，协程在发IO请求时不会等待发送的请求返回数据完成，就自动切换下一条线程开始发下一条请求了，所有协程请求发完后，那条请求先返回数据完成，就先获取那条请求的数据
+</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+gevent.joinall([    </span><span style="color: #008000;">#</span><span style="color: #008000;">创建协程对象</span>
+        gevent.spawn(f, <span style="color: #800000;">'</span><span style="color: #800000;">https://www.python.org/</span><span style="color: #800000;">'</span>), <span style="color: #008000;">#</span><span style="color: #008000;">创建协程，传入执行函数和执行函数参数</span>
+        gevent.spawn(f, <span style="color: #800000;">'</span><span style="color: #800000;">https://www.yahoo.com/</span><span style="color: #800000;">'</span>),  <span style="color: #008000;">#</span><span style="color: #008000;">创建协程，传入执行函数和执行函数参数</span>
+        gevent.spawn(f, <span style="color: #800000;">'</span><span style="color: #800000;">https://github.com/</span><span style="color: #800000;">'</span>), <span style="color: #008000;">#</span><span style="color: #008000;">创建协程，传入执行函数和执行函数参数</span>
+])</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;">&nbsp;<strong>遇到IO操作自动切换原理图</strong></span></p>
+<p><span style="color: #0000ff;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161011090210321-620779852.png" alt="" /></strong></span></p></div>

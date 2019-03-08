@@ -1,0 +1,152 @@
+第三百六十三节，Python分布式爬虫打造搜索引擎Scrapy精讲—elasticsearch(搜索引擎)的mget和bulk批量操作
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百六十三节，Python分布式爬虫打造搜索引擎Scrapy精讲—elasticsearch(搜索引擎)的mget和bulk批量操作</strong></p>
+<p><span style="color: #0000ff"><strong>注意：前面讲到的各种操作都是一次http请求操作一条数据，<span style="color: #ff0000">如果想要操作多条数据就会产生多次请求</span>，所以就有了mget和bulk批量操作，<span style="color: #ff0000">mget和bulk批量操作是一次请求可以操作多条数据</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong>1、mget批量操作（查询）</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>批量操作(<strong>同一个索引</strong>同一个表里的批量查询)</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>说明：</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">mget批量操作(同一个表里的批量查询)</span>
+<span style="color: #000000">GET _mget
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">docs</span><span style="color: #800000">"</span><span style="color: #000000">:[
+    {
+      </span><span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">索引名称</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">表名称</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span><span style="color: #000000">:id号
+    },
+    {
+      </span><span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">索引名称</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">表名称</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span><span style="color: #000000">:id号
+    }
+    ]
+}</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>代码：</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">mget批量操作(同一个表里的批量查询)</span>
+<span style="color: #000000">GET _mget
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">docs</span><span style="color: #800000">"</span><span style="color: #000000">:[
+    {
+      </span><span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">jobbole</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">job</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:<span style="background-color: #ff99cc">1</span><span style="color: #000000">
+    },
+    {
+      </span><span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">jobbole</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">job</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:<span style="background-color: #ff99cc">2</span><span style="color: #000000">
+    }
+    ]
+}</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170830203703155-2103193735.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>&nbsp;</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>批量操作(同一个索引同一个表里的不同id批量查询)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">批量操作(同一个索引同一个表里的不同id批量查询)</span>
+GET jobbole/job/<span style="color: #000000">_mget
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">ids</span><span style="color: #800000">"</span>:[1,2<span style="color: #000000">]
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>批量操作(同一个索引不同表里的批量查询)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">mget批量操作(同一个索引不同表里的批量查询)</span>
+GET jobbole/<span style="color: #000000">_mget
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">docs</span><span style="color: #800000">"</span><span style="color: #000000">:[
+    {
+      </span><span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">job</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:1<span style="color: #000000">
+    },
+    {
+      </span><span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">job2</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:1<span style="color: #000000">
+    }
+    ]
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>批量操作(不同索引不同表里的批量查询，相当于数据库的组合查询)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">mget批量操作(不同索引不同表里的批量查询)</span>
+<span style="color: #000000">GET _mget
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">docs</span><span style="color: #800000">"</span><span style="color: #000000">:[
+    {
+      </span><span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">jobbole</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">job</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:<span style="background-color: #ff99cc">1</span><span style="color: #000000">
+    },
+    {
+      </span><span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">yuxiou</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">biao</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:<span style="background-color: #ff99cc">2</span><span style="color: #000000">
+    }
+    ]
+}</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170830204312655-1948985119.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>2、bulk批量操作(增删改)</strong></span><br><strong>批量导入可以合并多个操作，比如index,delete,update,create等等。也可以帮助从一个索引导入到另一个索引</strong></p>
+<p><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170830210941921-975536967.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>bulk批量操作批量添加数据</strong></span></p>
+<p><span style="color: #ff0000"><strong>说明：添加一条数据由两行代码实现，第一行设置添加数据的索引名称、表、id，第二行设置添加数据的字段和值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">_bulk批量添加数据</span>
+<span style="color: #000000">POST _bulk
+</span><span style="background-color: #ffff00"><span style="color: #008000">#</span><span style="color: #008000">设置添加数据的索引名称、表、id</span>
+{<span style="color: #800000">"</span><span style="color: #800000">index</span><span style="color: #800000">"</span>:{<span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">jobbole</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">job</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">4</span><span style="color: #800000">"</span><span style="color: #000000">}}
+</span><span style="color: #008000">#</span><span style="color: #008000">设置添加数据的字段和值</span>
+{<span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">爬虫开发</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">salary_min</span><span style="color: #800000">"</span>: 15000,<span style="color: #800000">"</span><span style="color: #800000">city</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">北京</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company</span><span style="color: #800000">"</span>: {<span style="color: #800000">"</span><span style="color: #800000">name</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">百度</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company_addr</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">北京市软件园</span><span style="color: #800000">"</span>},<span style="color: #800000">"</span><span style="color: #800000">publish_date</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">2017-4-16</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>: 15<span style="color: #000000">}
+</span></span><span style="background-color: #ff99cc"><span style="color: #008000">#</span><span style="color: #008000">设置添加数据的索引名称、表、id</span>
+{<span style="color: #800000">"</span><span style="color: #800000">index</span><span style="color: #800000">"</span>:{<span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">jobbole</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">job</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">5</span><span style="color: #800000">"</span><span style="color: #000000">}}
+</span><span style="color: #008000">#</span><span style="color: #008000">设置添加数据的字段和值</span>
+{<span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">微信开发</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">salary_min</span><span style="color: #800000">"</span>: 15000,<span style="color: #800000">"</span><span style="color: #800000">city</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">北京</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company</span><span style="color: #800000">"</span>: {<span style="color: #800000">"</span><span style="color: #800000">name</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">百度</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company_addr</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">北京市软件园</span><span style="color: #800000">"</span>},<span style="color: #800000">"</span><span style="color: #800000">publish_date</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">2017-4-16</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>: 15}</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>代码：</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">POST _bulk
+{</span><span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">index</span><span style="color: #800000">"</span>:{<span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">jobbole</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">job</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">4</span><span style="color: #800000">"</span><span style="color: #000000">}}
+{</span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">爬虫开发</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">salary_min</span><span style="color: #800000">"</span>: 15000,<span style="color: #800000">"</span><span style="color: #800000">city</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">北京</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company</span><span style="color: #800000">"</span>: {<span style="color: #800000">"</span><span style="color: #800000">name</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">百度</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company_addr</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">北京市软件园</span><span style="color: #800000">"</span>},<span style="color: #800000">"</span><span style="color: #800000">publish_date</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">2017-4-16</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>: 15<span style="color: #000000">}
+{</span><span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">index</span><span style="color: #800000">"</span>:{<span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">jobbole</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">job</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">5</span><span style="color: #800000">"</span><span style="color: #000000">}}
+{</span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">微信开发</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">salary_min</span><span style="color: #800000">"</span>: 15000,<span style="color: #800000">"</span><span style="color: #800000">city</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">北京</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company</span><span style="color: #800000">"</span>: {<span style="color: #800000">"</span><span style="color: #800000">name</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">百度</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company_addr</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">北京市软件园</span><span style="color: #800000">"</span>},<span style="color: #800000">"</span><span style="color: #800000">publish_date</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">2017-4-16</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>: 15}</pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170830213644155-328025923.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>bulk批量操作批量创建数据(添加)</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">POST _bulk
+{</span><span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">create</span><span style="color: #800000">"</span>:{<span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">jobbole</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">job</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">6</span><span style="color: #800000">"</span><span style="color: #000000">}}
+{</span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">开发</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">salary_min</span><span style="color: #800000">"</span>: 100,<span style="color: #800000">"</span><span style="color: #800000">city</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">北京</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company</span><span style="color: #800000">"</span>: {<span style="color: #800000">"</span><span style="color: #800000">name</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">百度</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company_addr</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">北京市软件园</span><span style="color: #800000">"</span>},<span style="color: #800000">"</span><span style="color: #800000">publish_date</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">2017-4-16</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>: 15}</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>bulk批量操作批量删除数据</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">POST _bulk
+{</span><span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">delete</span><span style="color: #800000">"</span>:{<span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">jobbole</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">job</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">5</span><span style="color: #800000">"</span><span style="color: #000000">}}
+{</span><span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">delete</span><span style="color: #800000">"</span>:{<span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">jobbole</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">job</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">6</span><span style="color: #800000">"</span>}}</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>bulk批量操作批量修改数据</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">POST _bulk
+{</span><span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">update</span><span style="color: #800000">"</span>:{<span style="color: #800000">"</span><span style="color: #800000">_index</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">jobbole</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_type</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">job</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">_id</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">1</span><span style="color: #800000">"</span><span style="color: #000000">}}
+{</span><span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">doc</span><span style="color: #800000">"</span>:{<span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">开发</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">salary_min</span><span style="color: #800000">"</span>: 100,<span style="color: #800000">"</span><span style="color: #800000">city</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">北京</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company</span><span style="color: #800000">"</span>: {<span style="color: #800000">"</span><span style="color: #800000">name</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">百度</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company_addr</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">北京市软件园</span><span style="color: #800000">"</span>},<span style="color: #800000">"</span><span style="color: #800000">publish_date</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">2017-4-16</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>: 15}}</pre>
+</div>
+<p>&nbsp;</p></div>

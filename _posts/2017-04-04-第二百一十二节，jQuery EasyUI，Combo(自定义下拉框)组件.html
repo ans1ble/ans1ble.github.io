@@ -1,0 +1,677 @@
+第二百一十二节，jQuery EasyUI，Combo(自定义下拉框)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，Combo(自定义下拉框)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404202726378-793173216.png" alt=""></p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式 </strong></p>
+<p><strong>　　2.属性列表 </strong></p>
+<p><strong>　　3.事件列表 </strong></p>
+<p><strong>　　4.方法列表</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 中 Combo(自定义下拉框)组件的使用方法，<span style="color: #0000ff">这个组件依赖于 ValidateBox(验证框)组件</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<p><span style="color: #000000"><strong>自定义下拉框不能通过标签的方式进行创建。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>JS 加载调用</strong></span></p>
+<p><span style="color: #ff0000"><strong>combo()将元素执行自定义下拉框方法</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        required: </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        multiple: </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>如果要实现自定义下来选择(图片、文本、按钮均可)，需要配合一些代码。</strong></p>
+<p><strong>列：</strong></p>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">&lt;!--</span><span style="color: #008000">下拉组件框</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #0000ff">&gt;</span> 
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">下拉区块</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="food"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="color:#99BBE8;background:#fafafa;padding:5px;"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        请选择一个食物
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="padding:10px"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="food"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="01"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>煎饼果子<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="food"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="02"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>牛腩米线<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="food"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="03"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>水果沙拉<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="food"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="04"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>蛋黄派<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="food"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="05"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>其他<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>js</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        required: </span><span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">不能为空</span>
+        multiple: <span style="color: #0000ff">false</span>     <span style="color: #008000">//</span><span style="color: #008000">是否支持多选</span>
+<span style="color: #000000">    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));  <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();    <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text(); <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel'<span style="color: #000000">);
+    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><span style="color: #ff0000; font-size: 18pt; background-color: #ffff00"><strong>Combo 属性，扩展自 ValidateBox <strong>(验证框)</strong>属性,所以验证方面的参照<strong>ValidateBox&nbsp;<strong>(验证框)章节即可</strong></strong></strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404180523394-830614484.png" alt=""></p>
+<p><span style="color: #000000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404180530441-2042155733.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>width &nbsp; number <span style="color: #0000ff">组件的宽度</span>。默认值 auto。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        <span style="color: #ff0000">width:</span></span><span style="color: #ff0000">400</span><span style="color: #000000"><span style="color: #ff0000">,</span>
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>height &nbsp; number <span style="color: #0000ff">组件的高度</span>。默认值22。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        <span style="color: #ff0000">height:</span></span><span style="color: #ff0000">30</span><span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>panelWidth &nbsp; number <span style="color: #0000ff">下拉面板宽度</span>。默认值 null。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">,
+        <span style="color: #ff0000">panelWidth:</span></span><span style="color: #ff0000">300</span><span style="color: #000000"><span style="color: #ff0000">,</span>
+        panelHeight:</span>100<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>panelHeight &nbsp; number <span style="color: #0000ff">下拉面板高度</span>。默认值200。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">,
+        panelWidth:</span>300<span style="color: #000000">,
+        <span style="color: #ff0000">panelHeight:</span></span><span style="color: #ff0000">100</span><span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>multiple &nbsp; boolean 定义是否支持多选。默认值 false。,<span style="color: #0000ff">没什么用</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>selectOnNavigation &nbsp; boolean 定义是否允许使用键盘导航来选择项目。默认值 true。<span style="color: #0000ff"><strong>没什么用</strong></span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>separator &nbsp; string 在多选的时候使用何种分隔符进行分割。默认值’,’。<span style="color: #0000ff"><strong><strong>没什么用</strong></strong></span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>editable &nbsp; boolean <span style="color: #0000ff">定义用户是否可以直接输入文本到字段中</span>。默认值 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">,
+        <span style="color: #ff0000">editable:</span></span><span style="color: #ff0000">false      //定义用户是否可以直接输入文本到字段中。默认值 true。</span>
+<span style="color: #000000">    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>disabled &nbsp; boolean <span style="color: #0000ff">设置启用/禁用字段</span>。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">,
+        disabled:</span><span style="color: #0000ff">true</span>     <span style="color: #008000">//</span><span style="color: #008000">设置启用/禁用字段。默认值 false。</span>
+<span style="color: #000000">    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>readonly &nbsp; boolean <span style="color: #0000ff">设置该字段为读写/只读模式</span>。默认值false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">,
+        <span style="color: #ff0000">readonly:</span></span><span style="color: #ff0000">false     //设置该字段为读写/只读模式。默认值false。</span>
+<span style="color: #000000">    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>hasDownArrow &nbsp; boolean <span style="color: #0000ff">定义是否显示向下箭头按钮</span>。默认值true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">,
+        hasDownArrow:</span><span style="color: #0000ff">false</span>     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示向下箭头按钮。默认值true。</span>
+<span style="color: #000000">    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>value &nbsp; string <span style="color: #0000ff">字段的默认值。</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">,
+        value:</span>2    <span style="color: #008000">//</span><span style="color: #008000">字段的默认值。</span>
+<span style="color: #000000">    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>delay &nbsp; number最后一次输入事件与执行搜索之间的延迟间隔（执行自动完成功能的延迟间隔）默认值200。<span style="color: #0000ff">可以输入的时候输入后多少时间自动下拉</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">,
+        delay:</span>2000    <span style="color: #008000">//</span><span style="color: #008000">可以输入的时候输入后多少时间自动下拉</span>
+<span style="color: #000000">    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>keyHandler &nbsp; object <span style="color: #0000ff">在用户按下键的时候调用一个函数</span>。后面会讲到</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">PS：这里有些属性无法在单独组件使用中体现它的效果，需要配合整个表单或服务器 支持。在后面的课程中设计到综合使用的时候再去了解。</span><br></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．事件列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404192454191-1705347647.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onShowPanel &nbsp; none 当下拉面板显示的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">,
+        <span style="color: #ff0000">onShowPanel:</span></span><span style="color: #ff0000">function () {
+            alert('当下拉面板显示的时候触发'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onHidePanel &nbsp; none 当下拉面板隐藏的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">,
+        <span style="color: #ff0000">onHidePanel:</span></span><span style="color: #ff0000">function () {
+            alert('当下拉面板隐藏的时候触发'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onChange &nbsp; newValue, oldValue 当字段值改变的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">,
+        <span style="color: #ff0000">onChange:</span></span><span style="color: #ff0000">function (newValue, oldValue) {
+            alert('当字段值改变的时候触发');
+            //newValue接收当前改变的值，oldValue改变前的值
+            alert(newValue + '|' +</span><span style="color: #000000"><span style="color: #ff0000"> oldValue);
+        }</span>
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404193347347-1511603941.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404193354660-373176713.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404193403191-2117403609.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>options &nbsp; none 返回属性对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').combo('options'));  <span style="color: #008000">//</span><span style="color: #008000">返回属性对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>panel &nbsp; none 返回下拉面板对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').combo('panel'));  <span style="color: #008000">//</span><span style="color: #008000">返回下拉面板对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>textbox &nbsp; none 返回文本框对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').combo('textbox'));  <span style="color: #008000">//</span><span style="color: #008000">返回文本框对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>destroy &nbsp; none 销毁该组件。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    $(</span>'#box').combo('destroy');  <span style="color: #008000">//</span><span style="color: #008000">销毁该组件</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>resize &nbsp; width 调整组件宽度。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    $(</span>'#box').combo('resize','100');  <span style="color: #008000">//</span><span style="color: #008000">调整组件宽度</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>showPanel &nbsp; none <span style="color: #0000ff">显示下拉面板</span>。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    $(</span>'#box').combo('showPanel');  <span style="color: #008000">//</span><span style="color: #008000">显示下拉面板</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>hidePanel &nbsp; none 隐藏下拉面板。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    $(</span>'#box').combo('hidePanel');  <span style="color: #008000">//</span><span style="color: #008000">隐藏下拉面板</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>disable &nbsp; none 禁用组件。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    $(</span>'#box').combo('disable');  <span style="color: #008000">//</span><span style="color: #008000">禁用组件</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>enable &nbsp; none 启用组件。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    $(</span>'#box').combo('enable');  <span style="color: #008000">//</span><span style="color: #008000">启用组件</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>readonly &nbsp; mode 启用/禁用只读模式。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    $(</span>'#box').combo('readonly',<span style="color: #0000ff">true</span>);  <span style="color: #008000">//</span><span style="color: #008000">启用/禁用只读模式。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>validate &nbsp; none <span style="color: #0000ff">验证输入的值是否有效</span>。<span style="color: #0000ff">返回验证结果对象</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    <span style="color: #ff0000">$(document).click(</span></span><span style="color: #ff0000">function () {
+        alert($('#box').combo('validate'</span><span style="color: #000000"><span style="color: #ff0000">));
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>isValid &nbsp; none <span style="color: #0000ff">返回验证结果</span>。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    <span style="color: #ff0000">$(document).click(</span></span><span style="color: #ff0000">function () {
+        alert($('#box').combo('isValid'</span><span style="color: #000000"><span style="color: #ff0000">));
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>clear &nbsp; none 清除控件的值。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    <span style="color: #ff0000">$(document).click(</span></span><span style="color: #ff0000">function () {
+        $('#box').combo('clear'</span><span style="color: #000000"><span style="color: #ff0000">);
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>reset &nbsp; none 重置控件的值。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    <span style="color: #ff0000">$(document).dblclick(</span></span><span style="color: #ff0000">function () {
+        $('#box').combo('reset'</span><span style="color: #000000"><span style="color: #ff0000">);
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getText &nbsp; none 获取输入的文本。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    <span style="color: #ff0000">$(document).dblclick(</span></span><span style="color: #ff0000">function () {
+        alert($('#box').combo('getText'</span><span style="color: #000000"><span style="color: #ff0000">));
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>setText &nbsp; text 设置输入的文本。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #ff0000">var s = $(this).next('span').text();</span>                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).<span style="color: #ff0000">combo('setText', s)</span>.combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getValues &nbsp; none 获取组件值的数组。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    <span style="color: #ff0000">$(document).dblclick(</span></span><span style="color: #ff0000">function () {
+        alert($('#box').combo('getValues'</span><span style="color: #000000"><span style="color: #ff0000">));
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>setValues &nbsp; values 设置组件值的数组。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    <span style="color: #ff0000">$(document).dblclick(</span></span><span style="color: #ff0000">function () {
+        alert($('#box').combo('setValues',[52</span><span style="color: #000000"><span style="color: #ff0000">]));
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getValue &nbsp; none 获取组件的值。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> v = $(<span style="color: #0000ff">this</span>).val();                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').combo('setValue', v).combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+    <span style="color: #ff0000">$(document).dblclick(</span></span><span style="color: #ff0000">function () {
+        alert($('#box').combo('getValue'</span><span style="color: #000000"><span style="color: #ff0000">));
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>setValue &nbsp; value 设置组件的值。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).combo({
+        width:</span>400<span style="color: #000000">,
+        height:</span>30<span style="color: #000000">
+    });
+    $(</span>'#food').appendTo($('#box').combo('panel'));                               <span style="color: #008000">//</span><span style="color: #008000">将下拉区块添加到下拉框里</span>
+    $('#food input').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #ff0000">var v = $(this).val();</span>                                                   <span style="color: #008000">//</span><span style="color: #008000">获取到选择的value值</span>
+        <span style="color: #0000ff">var</span> s = $(<span style="color: #0000ff">this</span>).next('span').text();                                     <span style="color: #008000">//</span><span style="color: #008000">获取span里的内容</span>
+        $('#box').<span style="color: #ff0000">combo('setValue', v)</span>.combo('setText', s).combo('hidePanel');   <span style="color: #008000">//</span><span style="color: #008000">将value值添加到组件value里，将span里的内容添加是组件输入框，最后关闭下拉面板</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>我们可以使用$.fn.combo.defaults 重写默认值对象。<span style="color: #0000ff">见前面</span></strong></span></p></div>

@@ -1,0 +1,1653 @@
+第一百一十二节，JavaScript浏览器检测
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">JavaScript浏览器检测</span></strong></span></p>
+<p>&nbsp;</p>
+<p align="left"><strong>学习要点：</strong></p>
+<p>&nbsp;</p>
+<p align="left"><strong>1.navigator对象</strong></p>
+<p>&nbsp;</p>
+<p align="left"><strong>2.客户端检测</strong></p>
+<p align="left"><strong>由于每个浏览器都具有自己独到的扩展，所以在开发阶段来判断浏览器是一个非常重要的步骤。虽然浏览器开发商在公共接口方面投入了很多精力，努力的去支持最常用的公共功能；但在现实中，浏览器之间的差异，以及不同浏览器的“怪癖”却是非常多的，因此客户端检测除了是一种补救措施，更是一种行之有效的开发策略。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．</strong><strong>navigator</strong><strong>对象</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>navigator对象是window对象旗下的对象</strong></strong></span></p>
+<p align="left"><span style="color: #000000"><strong>navigator对象最早由Netscape Navigator2.0引入的navigator对象，现在已经成为识别客户端浏览器的事实标准。与之前的BOM对象一样，每个浏览器中 的navigator对象也都有一套自己的属性。</strong></span></p>
+<p align="center">&nbsp;</p>
+<p align="center"><span style="color: #ff0000"><strong>navigator对象的属性或方法</strong></span></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="120">
+<p align="center"><strong>属性或方法</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>说明</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>IE</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>Firefox</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>Safari/Chrome</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>Opera</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>appCodeName</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>浏览器的名称。通常是Mozilla，即使在非Mozilla浏览器中也是如此</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>3.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>7.0+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>appName</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>完整的浏览器名称</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>3.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>7.0+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>appMinorVersion</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>次版本信息</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>9.5+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>appVersion</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>浏览器的版本。一般不与实际的浏览器版本对应</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>3.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>7.0+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>buildID</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>浏览器编译版本</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>2.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>cookieEnabled</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>表示cookie是否启用</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>7.0+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>cpuClass</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>客户端计算机中使用的CPU类型(x86、68K、Alpha、PPC、other)</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>javaEnabled()</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>表示当前浏览器中是否启用了Java</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>7.0+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>language</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>浏览器的主语言</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>7.0+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>mimeTypes</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>在浏览器中注册的MIME类型数组</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>7.0+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>onLine</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>表示浏览器是否连接到了因特网</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>9.5+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>opsProfile</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>似乎早就不用了。无法查询</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>oscpu</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>客户端计算机的操作系统或使用的CPU</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>platform</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>浏览器所在的系统平台</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>7.0+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>plugins</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>浏览器中安装的插件信息的数组</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>7.0+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>preference()</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>设置用户的首选项</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.5+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>product</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>产品名称（如Gecko）</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>productSub</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>关于产品的次要信息（如Gecko的版本）</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>registerContentHandler()</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>针对特定的MIME类型讲一个站点注册为处理程序</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>2.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>registerProtocolHandler()</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>针对特定的协议将一个站点注册为处理程序</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>2.0</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>securityPolicy</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>已经废弃。安全策略的名称</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>systemLanguage</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>操作系统的语言</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>taintEnabled()</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>已经废弃。表示是否运行变量被修改</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>7.0+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>userAgent</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>浏览器的用户代理字符串</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>3.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>7.0+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>userLanguage</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>操作系统的默认语言</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>7.0+</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>userProfile</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>借以访问用户个人信息的对象</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>4.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>vendor</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>浏览器的品牌</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+<tr>
+<td width="120">
+<p align="center"><strong>verdorSub</strong></p>
+</td>
+<td width="201">
+<p align="center"><strong>有关供应商的次要信息</strong></p>
+</td>
+<td width="45">
+<p align="center"><strong>-</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="66">
+<p align="center"><strong>1.0+</strong></p>
+</td>
+<td width="48">
+<p align="center"><strong>-</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>1.浏览器及版本号</strong></span></p>
+<p align="left"><strong>不同的浏览器支持的功能、属性和方法各有不同。比如IE和Firefox显示的页面可能就会有所略微不同。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>appName浏览器名称，不怎么精确</strong></span></p>
+<div class="cnblogs_code">
+<pre>alert('浏览器名称：' + navigator.appName);</pre>
+</div>
+<p><span style="color: #ff0000"><strong>appVersion浏览器版本</strong></span></p>
+<div class="cnblogs_code">
+<pre>alert('浏览器版本：' +<span style="color: #000000"> navigator.appVersion);
+</span><span style="color: #008000">//</span><span style="color: #008000">返回：浏览器版本：5.0 (Windows)</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>userAgent浏览器用户代理字符串，用户浏览器相关信息【常用】</strong></span></p>
+<div class="cnblogs_code">
+<pre>alert('浏览器用户代理字符串：' +<span style="color: #000000"> navigator.userAgent);
+</span><span style="color: #008000">//</span><span style="color: #008000">返回：Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>platform浏览器所在的系统【常用】</strong></span></p>
+<div class="cnblogs_code">
+<pre>alert('浏览器所在的系统：' +<span style="color: #000000"> navigator.platform);
+</span><span style="color: #008000">//</span><span style="color: #008000">返回：浏览器所在的系统：Win32</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>2.浏览器嗅探器【推荐】</strong></span></p>
+<p align="left"><strong>浏览器嗅探器是一段程序，有了它，浏览器检测就变得简单了。我们这里提供了一个browserdetect.js文件，用于判断浏览器的名称、版本号及操作系统。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong><strong><strong>browserdetect.js文件，<strong>浏览器嗅探器模块源码</strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> BrowserDetect =<span style="color: #000000"> {
+    init: </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">this</span>.browser = <span style="color: #0000ff">this</span>.searchString(<span style="color: #0000ff">this</span>.dataBrowser) || "An unknown browser"<span style="color: #000000">;
+        </span><span style="color: #0000ff">this</span>.version = <span style="color: #0000ff">this</span><span style="color: #000000">.searchVersion(navigator.userAgent)
+            </span>|| <span style="color: #0000ff">this</span><span style="color: #000000">.searchVersion(navigator.appVersion)
+            </span>|| "an unknown version"<span style="color: #000000">;
+        </span><span style="color: #0000ff">this</span>.OS = <span style="color: #0000ff">this</span>.searchString(<span style="color: #0000ff">this</span>.dataOS) || "an unknown OS"<span style="color: #000000">;
+    },
+    searchString: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (data) {
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i=0;i&lt;data.length;i++<span style="color: #000000">)    {
+            </span><span style="color: #0000ff">var</span> dataString =<span style="color: #000000"> data[i].string;
+            </span><span style="color: #0000ff">var</span> dataProp =<span style="color: #000000"> data[i].prop;
+            </span><span style="color: #0000ff">this</span>.versionSearchString = data[i].versionSearch ||<span style="color: #000000"> data[i].identity;
+            </span><span style="color: #0000ff">if</span><span style="color: #000000"> (dataString) {
+                </span><span style="color: #0000ff">if</span> (dataString.indexOf(data[i].subString) != -1<span style="color: #000000">)
+                    </span><span style="color: #0000ff">return</span><span style="color: #000000"> data[i].identity;
+            }
+            </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span><span style="color: #000000"> (dataProp)
+                </span><span style="color: #0000ff">return</span><span style="color: #000000"> data[i].identity;
+        }
+    },
+    searchVersion: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (dataString) {
+        </span><span style="color: #0000ff">var</span> index = dataString.indexOf(<span style="color: #0000ff">this</span><span style="color: #000000">.versionSearchString);
+        </span><span style="color: #0000ff">if</span> (index == -1) <span style="color: #0000ff">return</span><span style="color: #000000">;
+        </span><span style="color: #0000ff">return</span> parseFloat(dataString.substring(index+<span style="color: #0000ff">this</span>.versionSearchString.length+1<span style="color: #000000">));
+    },
+    dataBrowser: [
+        {
+            string: navigator.userAgent,
+            subString: </span>"Chrome"<span style="color: #000000">,
+            identity: </span>"Chrome"<span style="color: #000000">
+        },
+        {     string: navigator.userAgent,
+            subString: </span>"OmniWeb"<span style="color: #000000">,
+            versionSearch: </span>"OmniWeb/"<span style="color: #000000">,
+            identity: </span>"OmniWeb"<span style="color: #000000">
+        },
+        {
+            string: navigator.vendor,
+            subString: </span>"Apple"<span style="color: #000000">,
+            identity: </span>"Safari"<span style="color: #000000">,
+            versionSearch: </span>"Version"<span style="color: #000000">
+        },
+        {
+            prop: window.opera,
+            identity: </span>"Opera"<span style="color: #000000">,
+            versionSearch: </span>"Version"<span style="color: #000000">
+        },
+        {
+            string: navigator.vendor,
+            subString: </span>"iCab"<span style="color: #000000">,
+            identity: </span>"iCab"<span style="color: #000000">
+        },
+        {
+            string: navigator.vendor,
+            subString: </span>"KDE"<span style="color: #000000">,
+            identity: </span>"Konqueror"<span style="color: #000000">
+        },
+        {
+            string: navigator.userAgent,
+            subString: </span>"Firefox"<span style="color: #000000">,
+            identity: </span>"Firefox"<span style="color: #000000">
+        },
+        {
+            string: navigator.vendor,
+            subString: </span>"Camino"<span style="color: #000000">,
+            identity: </span>"Camino"<span style="color: #000000">
+        },
+        {        </span><span style="color: #008000">//</span><span style="color: #008000"> for newer Netscapes (6+)</span>
+<span style="color: #000000">            string: navigator.userAgent,
+            subString: </span>"Netscape"<span style="color: #000000">,
+            identity: </span>"Netscape"<span style="color: #000000">
+        },
+        {
+            string: navigator.userAgent,
+            subString: </span>"MSIE"<span style="color: #000000">,
+            identity: </span>"Internet Explorer"<span style="color: #000000">,
+            versionSearch: </span>"MSIE"<span style="color: #000000">
+        },
+        {
+            string: navigator.userAgent,
+            subString: </span>"Gecko"<span style="color: #000000">,
+            identity: </span>"Mozilla"<span style="color: #000000">,
+            versionSearch: </span>"rv"<span style="color: #000000">
+        },
+        {         </span><span style="color: #008000">//</span><span style="color: #008000"> for older Netscapes (4-)</span>
+<span style="color: #000000">            string: navigator.userAgent,
+            subString: </span>"Mozilla"<span style="color: #000000">,
+            identity: </span>"Netscape"<span style="color: #000000">,
+            versionSearch: </span>"Mozilla"<span style="color: #000000">
+        }
+    ],
+    dataOS : [
+        {
+            string: navigator.platform,
+            subString: </span>"Win"<span style="color: #000000">,
+            identity: </span>"Windows"<span style="color: #000000">
+        },
+        {
+            string: navigator.platform,
+            subString: </span>"Mac"<span style="color: #000000">,
+            identity: </span>"Mac"<span style="color: #000000">
+        },
+        {
+               string: navigator.userAgent,
+               subString: </span>"iPhone"<span style="color: #000000">,
+               identity: </span>"iPhone/iPod"<span style="color: #000000">
+        },
+        {
+            string: navigator.platform,
+            subString: </span>"Linux"<span style="color: #000000">,
+            identity: </span>"Linux"<span style="color: #000000">
+        }
+    ]
+
+};
+BrowserDetect.init();</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>将browserdetect.js文件，放到工程目录，并将文件引入html页面即可使用模块的方法</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="167">
+<p align="center"><strong>调用方式</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>说明</strong></p>
+</td>
+</tr>
+<tr>
+<td width="167">
+<p align="center"><strong>BrowserDetect.browser</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>浏览器的名称，例如Firefox，IE</strong></p>
+</td>
+</tr>
+<tr>
+<td width="167">
+<p align="center"><strong>BrowserDetect.version</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>浏览器的版本，比如，7、11</strong></p>
+</td>
+</tr>
+<tr>
+<td width="167">
+<p align="center"><strong>BrowserDetect.OS</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>浏览器所宿主的操作系统，比如Windows、Linux</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>alert(BrowserDetect.browser);            <span style="color: #008000">//</span><span style="color: #008000">浏览器名称</span><span style="color: #008000">
+//</span><span style="color: #008000">Firefox</span>
+alert(BrowserDetect.version);                <span style="color: #008000">//</span><span style="color: #008000">版本</span><span style="color: #008000">
+//</span><span style="color: #008000">50</span>
+alert(BrowserDetect.OS);                <span style="color: #008000">//</span><span style="color: #008000">系统</span><span style="color: #008000">
+//</span><span style="color: #008000">Windows</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>3.检测插件</strong></span></p>
+<p align="left"><strong>插件是一类特殊的程序。他可以扩展浏览器的功能，通过下载安装完成。比如，在线音乐、视频动画等等插件。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>plugins属性，这是一个数组。存储在浏览器已安装插件的完整列表。IE不支持</strong></span></p>
+<div class="cnblogs_code">
+<pre>alert(navigator.plugins);<span style="color: #008000">//</span><span style="color: #008000">返回数组</span><span style="color: #008000">
+//</span><span style="color: #008000">[object PluginArray]</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>plugins属性下的属性</strong></span></p>
+<p align="left">&nbsp;</p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="167">
+<p align="center"><strong>属性</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>含义</strong></p>
+</td>
+</tr>
+<tr>
+<td width="167">
+<p align="center"><strong>name</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>插件名</strong></p>
+</td>
+</tr>
+<tr>
+<td width="167">
+<p align="center"><strong>filename</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>插件的磁盘文件名</strong></p>
+</td>
+</tr>
+<tr>
+<td width="167">
+<p align="center"><strong>length</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>plugins数组的元素个数</strong></p>
+</td>
+</tr>
+<tr>
+<td width="167">
+<p align="center"><strong>description</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>插件的描述信息</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>列出所有的插件名</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">列出所有的插件名</span>
+<span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; navigator.plugins.length; i ++) {  <span style="color: #008000">//</span><span style="color: #008000">根据数组的长度循环次数</span>
+    document.write('插件名称：'+ navigator.plugins[i].name + '&lt;br /&gt;'); <span style="color: #008000">//</span><span style="color: #008000">循环出插件名称</span>
+    document.write('插件的磁盘文件名：'+ navigator.plugins[i].filename + '&lt;br /&gt;'); <span style="color: #008000">//</span><span style="color: #008000">循环出插件的磁盘文件名</span>
+    document.write('插件的描述信息：'+ navigator.plugins[i].description + '&lt;br /&gt;'); <span style="color: #008000">//</span><span style="color: #008000">循环出插件的描述信息</span>
+    document.write('&lt;br&gt;'<span style="color: #000000">);
+}</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>&nbsp;检测非IE浏览器插件是否存在</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">检测非IE浏览器插件是否存在</span>
+<span style="color: #0000ff">function</span> hasPlugin(name) {  <span style="color: #008000">//</span><span style="color: #008000">创建函数</span>
+    <span style="color: #0000ff">var</span> name = name.toLowerCase(); <span style="color: #008000">//</span><span style="color: #008000">将接收的字母转换成小写</span>
+    <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; navigator.plugins.length; i ++) {  <span style="color: #008000">//</span><span style="color: #008000">根据浏览器插件长度循环次数</span>
+        <span style="color: #0000ff">if</span> (navigator.plugins[i].name.toLowerCase().indexOf(name) &gt; -1) { <span style="color: #008000">//</span><span style="color: #008000">判断循环到的浏览器插件名称转换小写后，用正则查找传入的插件名称是否存在，返回值大于-1说明存在</span>
+            <span style="color: #0000ff">return</span> <span style="color: #0000ff">true</span>; <span style="color: #008000">//</span><span style="color: #008000">存在返回真</span>
+<span style="color: #000000">        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">false</span>; <span style="color: #008000">//</span><span style="color: #008000">不存在返回假</span>
+<span style="color: #000000">}
+
+alert(hasPlugin(</span>'Flash'));                        <span style="color: #008000">//</span><span style="color: #008000">检测Flash是否存在</span>
+alert(hasPlugin('java'));                        <span style="color: #008000">//</span><span style="color: #008000">检测Java是否存在</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>4.ActiveX，IE浏览器没有插件的说法，采用的<strong>ActiveX控件</strong></strong></span></p>
+<p align="left"><strong>IE浏览器没有插件，但提供了ActiveX控件。ActiveX控件一种在Web页面中嵌入对象或组件的方法。</strong></p>
+<p align="left"><strong>由于在JS中，我们无法把所有已安装的ActiveX控件遍历出来，但我们还是可以去验证是否安装了此控件。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>检测IE中的控件</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>ActiveXObject()判断浏览器是否支持控件，如果支持控件接收控件名称检测控件是否存在，存在就可以new ActiveXObject对象，否则出错，参数控件唯一标识符</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">检测IE中的控件</span>
+<span style="color: #0000ff">function</span> hasIEPlugin(name) {  <span style="color: #008000">//</span><span style="color: #008000">创建函数</span>
+    <span style="color: #0000ff">try</span> {   <span style="color: #008000">//</span><span style="color: #008000">尝试执行，执行成功就执行里面的代码，如果出错就执行catch里面的代码</span>
+        <span style="color: #0000ff">new</span> ActiveXObject(name); <span style="color: #008000">//</span><span style="color: #008000">判断浏览器是否支持控件，如果支持控件接收控件名称检测控件是否存在，存在就可以new ActiveXObject对象，否则出错</span>
+        <span style="color: #0000ff">return</span> <span style="color: #0000ff">true</span>; <span style="color: #008000">//</span><span style="color: #008000">如果new ActiveXObject对象成功返回真</span>
+    } <span style="color: #0000ff">catch</span><span style="color: #000000"> (e) {
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">false</span>; <span style="color: #008000">//</span><span style="color: #008000">如果出错返回假</span>
+<span style="color: #000000">    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">检测Flash</span>
+alert(hasIEPlugin('ShockwaveFlash.ShockwaveFlash'));<span style="color: #008000">//</span><span style="color: #008000">执行函数，传入唯一标识符</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>PS：ShockwaveFlash.ShockwaveFlash是IE中代表FLASH的标识符，你需要检查哪种控件，必须先获取它的标识符</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>跨浏览器检测是否支持Flash，就是将上面两者结合应用</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">检测非IE浏览器插件是否存在</span>
+<span style="color: #0000ff">function</span> hasPlugin(name) {  <span style="color: #008000">//</span><span style="color: #008000">创建函数</span>
+    <span style="color: #0000ff">var</span> name = name.toLowerCase(); <span style="color: #008000">//</span><span style="color: #008000">将接收的字母转换成小写</span>
+    <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; navigator.plugins.length; i ++) {  <span style="color: #008000">//</span><span style="color: #008000">根据浏览器插件长度循环次数</span>
+        <span style="color: #0000ff">if</span> (navigator.plugins[i].name.toLowerCase().indexOf(name) &gt; -1) { <span style="color: #008000">//</span><span style="color: #008000">判断循环到的浏览器插件名称转换小写后，用正则查找传入的插件名称是否存在，返回值大于-1说明存在</span>
+            <span style="color: #0000ff">return</span> <span style="color: #0000ff">true</span>; <span style="color: #008000">//</span><span style="color: #008000">存在返回真</span>
+<span style="color: #000000">        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">false</span>; <span style="color: #008000">//</span><span style="color: #008000">不存在返回假</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">检测IE中的控件</span>
+<span style="color: #0000ff">function</span> hasIEPlugin(name) {  <span style="color: #008000">//</span><span style="color: #008000">创建函数</span>
+    <span style="color: #0000ff">try</span> {   <span style="color: #008000">//</span><span style="color: #008000">尝试执行，执行成功就执行里面的代码，如果出错就执行catch里面的代码</span>
+        <span style="color: #0000ff">new</span> ActiveXObject(name); <span style="color: #008000">//</span><span style="color: #008000">判断浏览器是否支持控件，如果支持控件接收控件名称检测控件是否存在，存在就可以new ActiveXObject对象，否则出错</span>
+        <span style="color: #0000ff">return</span> <span style="color: #0000ff">true</span>; <span style="color: #008000">//</span><span style="color: #008000">如果new ActiveXObject对象成功返回真</span>
+    } <span style="color: #0000ff">catch</span><span style="color: #000000"> (e) {
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">false</span>; <span style="color: #008000">//</span><span style="color: #008000">如果出错返回假</span>
+<span style="color: #000000">    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器检测是否支持Flash</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> hasFlash() {
+    </span><span style="color: #008000">//</span><span style="color: #008000">首先调用上面函数，检测非IE浏览器</span>
+    <span style="color: #0000ff">var</span> result = hasPlugin('Flash');  <span style="color: #008000">//</span><span style="color: #008000">调用非IE浏览器插件是否存在接收插件名称，如果返回假，说明两个情况，一是插件不存在，二是IE浏览器</span>
+    <span style="color: #0000ff">if</span> (!result) {  <span style="color: #008000">//</span><span style="color: #008000">如果非IE浏览器插件是否存返回假</span>
+        result = hasIEPlugin('ShockwaveFlash.ShockwaveFlash'); <span style="color: #008000">//</span><span style="color: #008000">执行检测IE中的控件函数，接收控件唯一标识符名称，</span>
+        <span style="color: #008000">//</span><span style="color: #008000">如果返回真，说明是IE浏览器，如果返回假，说明没有Flash插件</span>
+<span style="color: #000000">    }
+    </span><span style="color: #0000ff">return</span> result; <span style="color: #008000">//</span><span style="color: #008000">最终返回结果</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">检测Flash</span>
+alert(hasFlash()); <span style="color: #008000">//</span><span style="color: #008000">执行检测函数</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>5.MIME类型，IE浏览器不支持</strong></span></p>
+<p align="left"><strong>MIME是指多用途因特网邮件扩展。它是通过因特网发送邮件消息的标准格式。现在也被用于在因特网中交换各种类型的文件。</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>PS：mimeType[]数组在IE中不产生输出。</strong></span></p>
+<p align="center"><span style="color: #ff0000"><strong>mimeTypes对象的属性</strong></span></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="167">
+<p align="center"><strong>属性</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>含义</strong></p>
+</td>
+</tr>
+<tr>
+<td width="167">
+<p align="center"><strong>type</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>MIME类型名</strong></p>
+</td>
+</tr>
+<tr>
+<td width="167">
+<p align="center"><strong>description</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>MIME类型的描述信息</strong></p>
+</td>
+</tr>
+<tr>
+<td width="167">
+<p align="center"><strong>enabledPlugin</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>指定MIME类型配置好的plugin对象引用</strong></p>
+</td>
+</tr>
+<tr>
+<td width="167">
+<p align="center"><strong>suffixes</strong></p>
+</td>
+<td width="334">
+<p align="center"><strong>MIME类型所有可能的文件扩展名</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>mimeTypes MIME类型返回数组</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">mimeTypes MIME类型返回数组</span>
+<span style="color: #000000">alert(navigator.mimeTypes);
+</span><span style="color: #008000">//</span><span style="color: #008000">返回：[object MimeTypeArray]/</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>遍历非IE下所有MIME类型信息</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">遍历非IE下所有MIME类型信息</span>
+<span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; navigator.mimeTypes.length; i++<span style="color: #000000">) {
+    </span><span style="color: #0000ff">if</span> (navigator.mimeTypes[i].enabledPlugin != <span style="color: #0000ff">null</span><span style="color: #000000">) {
+        document.write(</span>'&lt;dl&gt;'<span style="color: #000000">);
+        document.write(</span>'&lt;dd&gt;类型名称：' + navigator.mimeTypes[i].type + '&lt;/dd&gt;'<span style="color: #000000">);
+        document.write(</span>'&lt;dd&gt;类型引用：' + navigator.mimeTypes[i].enabledPlugin.name + '&lt;/dd&gt;'<span style="color: #000000">);
+        document.write(</span>'&lt;dd&gt;类型描述：' + navigator.mimeTypes[i].description + '&lt;/dd&gt;'<span style="color: #000000">);
+        document.write(</span>'&lt;dd&gt;类型后缀：' + navigator.mimeTypes[i].suffixes + '&lt;/dd&gt;'<span style="color: #000000">);
+        document.write(</span>'&lt;/dl&gt;'<span style="color: #000000">)
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>二．客户端检测</strong></span></p>
+<p align="left"><strong>客户端检测一共分为三种，分别为：能力检测、怪癖检测和用户代理检测，通过这三种检测方案，我们可以充分的了解当前浏览器所处系统、所支持的语法、所具有的特殊性能。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>1.能力检测</strong></span></p>
+<p align="left"><strong>能力检测又称作为特性检测，检测的目标不是识别特定的浏览器，而是识别浏览器的能力。能力检测不必估计特定的浏览器，只需要确定当前的浏览器是否支持特定的能力，就可以给出可行的解决方案。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">能力检测</span>
+<span style="color: #0000ff">var</span> width = window.innerWidth;                <span style="color: #008000">//</span><span style="color: #008000">返回浏览器本身的宽度，返回数字类型</span>
+
+<span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> width != 'number') {                <span style="color: #008000">//</span><span style="color: #008000">如果返回不是数字类型，说明是IE，就使用document</span>
+    <span style="color: #0000ff">if</span> (document.compatMode == 'CSS1Compat'<span style="color: #000000">) {
+        width </span>=<span style="color: #000000"> document.documentElement.clientWidth;
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        width </span>= document.body.clientWidth;    <span style="color: #008000">//</span><span style="color: #008000">非标准模式使用body</span>
+<span style="color: #000000">    }
+}
+alert(width);</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>PS：上面其实有两块地方使用了能力检测，第一个就是是否支持innerWidth的检测，第二个就是是否是标准模式的检测，这两个都是能力检测</strong></span></p>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>2.怪癖检测(bug检测)</strong></span></p>
+<p align="left"><strong>与能力检测类似，怪癖检测的目标是识别浏览器的特殊行为。但与能力检测确认浏览器支持什么能力不同，怪癖检测是想要知道浏览器存在什么缺陷(bug)。</strong></p>
+<p align="left"><strong>bug一般属于个别浏览器独有，在大多数新版本的浏览器被修复。在后续的开发过程中，如果遇到浏览器bug我们再详细探讨。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box =<span style="color: #000000"> {
+    toString : </span><span style="color: #0000ff">function</span> () {}                    <span style="color: #008000">//</span><span style="color: #008000">创建一个toString()，和原型中重名了,IE就不打印了</span>
+<span style="color: #000000">};
+</span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> o <span style="color: #0000ff">in</span><span style="color: #000000"> box) {
+    alert(o);                                </span><span style="color: #008000">//</span><span style="color: #008000">IE浏览器的一个bug，不识别了</span>
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>3.用户代理检测</strong></span></p>
+<p align="left"><strong>用户代理检测通过检测用户代理字符串来确定实际使用的浏览器。在每一次HTTP请求过程中，用户代理字符串是作为响应首部发送的，而且该字符串可以通过JavaScript的navigator.userAgent属性访问。</strong></p>
+<p align="left"><strong>用户代理代理检测，主要通过navigator.userAgent来获取用户代理字符串的，通过这组字符串，我们来获取当前浏览器的版本号、浏览器名称、系统名称。</strong></p>
+<p align="left"><strong>PS：在服务器端，通过检测用户代理字符串确定用户使用的浏览器是一种比较广为接受的做法。但在客户端，这种测试被当作是一种万不得已的做法，且饱受争议，其优先级排在能力检测或怪癖检测之后。饱受争议的原因，是因为它具有一定的欺骗性。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>userAgent获取用户代理字符串，通过这组字符串，我们来获取当前浏览器的版本号、浏览器名称、系统名称。</strong></span></p>
+<div class="cnblogs_code">
+<pre>document.write(navigator.userAgent);            <span style="color: #008000">//</span><span style="color: #008000">页面形式输出得到用户代理字符串</span><span style="color: #008000">
+//</span><span style="color: #008000">返回：Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0 （火狐浏览器）</span><span style="color: #008000">
+//</span><span style="color: #008000">Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; InfoPath.2; rv:11.0) like Gecko （IE浏览器）</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>各种浏览器返回信息</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>Firefox14.0.1</strong></span></p>
+<p align="left"><strong>Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20100101 Firefox/14.0.1</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #0000ff"><strong>Firefox3.6.28</strong></span></p>
+<p align="left"><strong>Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.28) Gecko/20120306 Firefox/3.6.28</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #0000ff"><strong>Chrome20.0.1132.57 m</strong></span></p>
+<p align="left"><strong>Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #0000ff"><strong>Safari5.1.7</strong></span></p>
+<p align="left"><strong>Mozilla/5.0 (Windows NT 5.1) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #0000ff"><strong>IE7.0</strong></span></p>
+<p align="left"><strong>Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #0000ff"><strong>IE8.0</strong></span></p>
+<p align="left"><strong>Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #0000ff"><strong>IE6.0</strong></span></p>
+<p align="left"><strong>Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #0000ff"><strong>Opera12.0</strong></span></p>
+<p align="left"><strong>Opera/9.80 (Windows NT 5.1; U; zh-cn) Presto/2.10.289 Version/12.00</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #0000ff"><strong>Opera7.54</strong></span></p>
+<p align="left"><strong>Opera/7.54 (Windows NT 5.1; U) [en]</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #0000ff"><strong>Opera8</strong></span></p>
+<p align="left"><strong>Opera/8.0 (Window NT 5.1; U; en)</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #0000ff"><strong>Konqueror (Linux集成，基于KHTML呈现引擎的浏览器)</strong></span></p>
+<p align="left"><strong>Mozilla/5.0 (compatible; Konqueror/3.5; SunOS) KHTML/3.5.0 (like Gecko)</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #000000"><strong>只要仔细的阅读这些字符串，我们可以发现，这些字符串包含了浏览器的名称、版本和所宿主的操作系统。</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>浏览器<strong>引擎</strong></strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>每个浏览器有它自己的呈现引擎：所谓呈现引擎，就是用来排版网页和解释浏览器的引擎。通过代理字符串发现，我们归纳出浏览器对应的引擎：</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>IE -- Trident，&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IE8体现出来了，之前的未体现</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>Firefox -- Gecko，</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>Opera -- Presto，&nbsp; 旧版本根本无法体现呈现引擎</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>Chrome -- WebKit&nbsp; WebKit是KHTML呈现引擎的一个分支，后独立开来</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>Safari -- WebKit</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>Konqueror -- KHTML</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong><strong>浏览器<strong>引擎检测</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> client = <span style="color: #0000ff">function</span> () {                        <span style="color: #008000">//</span><span style="color: #008000">创建一个自我执行构造函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">初始化浏览器引擎</span>
+    <span style="color: #0000ff">var</span> engine = {                            <span style="color: #008000">//</span><span style="color: #008000">创建对象呈现引擎</span>
+        ie : <span style="color: #0000ff">false</span><span style="color: #000000">,
+        gecko : </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        webkit : </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        khtml : </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        opera : </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+
+        ver : </span>0                            <span style="color: #008000">//</span><span style="color: #008000">具体的版本号</span>
+<span style="color: #000000">    };
+
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">核心引擎检测程序区</span>
+    <span style="color: #0000ff">var</span> ua = navigator.userAgent;  <span style="color: #008000">//</span><span style="color: #008000">得到用户代理字符串</span>
+<span style="color: #000000">    alert(ua);
+    </span><span style="color: #008000">//</span><span style="color: #008000">检测opera浏览器</span>
+    <span style="color: #0000ff">if</span>(window.opera){  <span style="color: #008000">//</span><span style="color: #008000">opera浏览器支持opera对象，判断opera对象返回真，说明是opera引擎浏览器在访问</span>
+        engine.opera = <span style="color: #0000ff">true</span>; <span style="color: #008000">//</span><span style="color: #008000">将浏览器引擎opera改为真</span>
+        engine.ver = window.opera.version(); <span style="color: #008000">//</span><span style="color: #008000">使用opera.version()方法获取版本号，重新赋值给览器引擎ver</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">接下来，我们通过正则表达式来获取WebKit引擎和它的版本号。谷歌和苹果浏览器</span>
+    }<span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (/AppleWebKit\/(\S+)/<span style="color: #000000">.test(ua)){
+        engine.ver </span>= RegExp['$1'];                <span style="color: #008000">//</span><span style="color: #008000">获取WebKit版本号</span>
+        engine.webkit = <span style="color: #0000ff">true</span>;                  <span style="color: #008000">//</span><span style="color: #008000">将浏览器引擎webkit改为真</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">下面，我们通过正则表达式来获取Gecko引擎和它的版本号，火狐浏览器</span>
+    }<span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span>(/rv:([^\)]+)\) Gecko\/\d{8}/.test(ua)){   <span style="color: #008000">//</span><span style="color: #008000">获取Gecko和它的版本号</span>
+        engine.ver = RegExp['$1'<span style="color: #000000">];
+        engine.gecko </span>= <span style="color: #0000ff">true</span>;               <span style="color: #008000">//</span><span style="color: #008000">将浏览器引擎gecko改为真</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">最后，我们通过正则表达式来获取IE的引擎和它的版本号。因为IE8之前没有呈现引擎，所以，我们只有通过"MSIE"这个共有的字符串来获取。</span>
+    }<span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span>(/MSIE ([^;]+)/<span style="color: #000000">.test(ua)){
+        engine.ver </span>= RegExp['$1']; <span style="color: #008000">//</span><span style="color: #008000">获取IE和它的版本号</span>
+        engine.ie = <span style="color: #0000ff">true</span>; <span style="color: #008000">//</span><span style="color: #008000">将浏览器引擎ie改为真</span>
+<span style="color: #000000">    }
+
+    </span><span style="color: #0000ff">return</span> {                           <span style="color: #008000">//</span><span style="color: #008000">创建对象</span>
+        engine : engine                    <span style="color: #008000">//</span><span style="color: #008000">返回呈现引擎对象</span>
+<span style="color: #000000">    };
+}();                                        </span><span style="color: #008000">//</span><span style="color: #008000">自我执行</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">判断打印区</span><span style="color: #008000">
+//</span><span style="color: #008000">opera引擎</span>
+<span style="color: #0000ff">if</span>(client.engine.opera){ <span style="color: #008000">//</span><span style="color: #008000">判断opera对象返回真，说明是opera浏览器在访问</span>
+    alert('目前使用的是opera引擎浏览器，版本号为' + client.engine.ver); <span style="color: #008000">//</span><span style="color: #008000">打印出浏览器名称和版本号</span>
+<span style="color: #000000">}
+</span><span style="color: #008000">//</span><span style="color: #008000">引擎webkit,谷歌和苹果浏览器</span>
+<span style="color: #0000ff">if</span><span style="color: #000000">(client.engine.webkit){
+    alert(</span>'目前使用的是WebKit引擎浏览器，版本号为' + client.engine.ver); <span style="color: #008000">//</span><span style="color: #008000">打印出浏览器名称和版本号</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">引擎Gecko，火狐浏览器</span>
+<span style="color: #0000ff">if</span><span style="color: #000000">(client.engine.gecko){
+    alert(</span>'目前使用的是WebKit引擎浏览器，版本号为' + client.engine.ver); <span style="color: #008000">//</span><span style="color: #008000">打印出浏览器名称和版本号</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">引擎ie,ie浏览器</span>
+<span style="color: #0000ff">if</span><span style="color: #000000">(client.engine.ie){
+    alert(</span>'目前使用的是ie引擎浏览器，版本号为' + client.engine.ver); <span style="color: #008000">//</span><span style="color: #008000">打印出浏览器名称和版本号</span>
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>由上面的情况，我们需要检测呈现引擎可以分为五大类：IE、Gecko、WebKit、KHTML和Opera。</strong></span></p>
+<p align="left"><strong>var client = function () {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //创建一个对象</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var engine = { &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //呈现引擎</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ie : false,</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gecko : false,</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; webkit : false,</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; khtml : false,</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; opera : false,</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ver : 0&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //具体的版本号</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return {&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine : engine&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //返回呈现引擎对象</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };</strong></p>
+<p align="left"><strong>}();&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //自我执行</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><strong>alert(client.engine.ie);&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //获取ie</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #0000ff; background-color: #ffffff"><strong>以上的代码实现了五大引擎的初始化工作，分别给予true的初值，并且设置版本号为0。</strong></span></p>
+<p align="left"><span style="color: #0000ff; background-color: #ffffff"><strong>下面我们首先要做的是判断Opera，因为Opera浏览器支持window.opera对象，通过这个对象，我们可以很容易获取到Opera的信息。</strong></span></p>
+<p align="left"><strong>for (var p in window.opera) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //获取window.opera对象信息</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; document.write(p + "&lt;br /&gt;");</strong></p>
+<p align="left"><strong>}</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (window.opera) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //判断opera浏览器</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.ver = window.opera.version();&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //获取opera呈现引擎版本</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.opera = true;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //设置真</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>接下来，我们通过正则表达式来获取WebKit引擎和它的版本号。</strong></span></p>
+<p align="left"><strong>else if (/AppleWebKit\/(\S+)/.test(ua)) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //正则WebKit</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.ver = RegExp['$1'];&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //获取WebKit版本号</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.webkit = true;</strong></p>
+<p align="left"><strong>}</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>然后，我们通过正则表达式来获取KHTML引擎和它的版本号。由于这款浏览器基于Linux，我们无法测试。</strong></span></p>
+<p align="left"><strong>//获取KHTML和它的版本号</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if (/KHTML\/(\S+)/.test(ua) || /Konqueror\/([^;]+)/.test(ua)) {</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.ver = RegExp['$1'];</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.khtml = true;</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>下面，我们通过正则表达式来获取Gecko引擎和它的版本号。</strong></span></p>
+<p align="left"><strong>else if (/rv:([^\)]+)\) Gecko\/\d{8}/.test(ua)) {&nbsp;&nbsp;&nbsp;&nbsp; //获取Gecko和它的版本号</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.ver = RegExp['$1'];</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.gecko = true;</strong></p>
+<p align="left"><strong>}</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>最后，我们通过正则表达式来获取IE的引擎和它的版本号。因为IE8之前没有呈现引擎，所以，我们只有通过"MSIE"这个共有的字符串来获取。</strong></span></p>
+<p align="left"><strong>else if (/MSIE ([^;]+)/.test(ua)) {&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //获取IE和它的版本号</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.ver = RegExp['$1'];</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.ie = true;</strong></p>
+<p align="left"><strong>}</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>上面获取各个浏览器的引擎和引擎的版本号，但大家也发现了，其实有些确实是浏览器的版本号。所以，下面，我们需要进行浏览器名称的获取和浏览器版本号的获取。</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>根据目前的浏览器市场份额，我们可以给一下浏览器做检测：IE、Firefox、konq、opera、chrome、safari。</strong></span></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var browser = {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //浏览器对象</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ie : false,</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; firefox : false,</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; konq : false,</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; opera : false,</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; chrome : false,</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; safari : false,</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ver : 0,&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //具体版本</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name : ''&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //具体的浏览器名称</strong></p>
+<p align="left"><strong>};</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>对于获取IE浏览器的名称和版本，可以直接如下：</strong></span></p>
+<p align="left"><strong>else if (/MSIE ([^;]+)/.test(ua)) {</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.ver = browser.ver = RegExp['$1'];&nbsp;&nbsp;&nbsp;&nbsp; //设置版本</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.ie = browser.ie = true;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //填充保证为true</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; browser.name = 'Internet Explorer';&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //设置名称</strong></p>
+<p align="left"><strong>}</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>对于获取Firefox浏览器的名称和版本，可以如下：</strong></span></p>
+<p align="left"><strong>else if (/rv:([^\)]+)\) Gecko\/\d{8}/.test(ua)) {</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.ver = RegExp['$1'];</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.gecko = true;</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (/Firefox\/(\S+)/.test(ua)) {</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; browser.ver = RegExp['$1'];&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //设置版本</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; browser.firefox = true;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //填充保证为true</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; browser.name = 'Firefox';&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //设置名称</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</strong></p>
+<p align="left"><strong>}</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>对于获取Chrome和safari浏览器的名称和版本，可以如下：</strong></span></p>
+<p align="left"><strong>else if (/AppleWebKit\/(\S+)/.test(ua)) {</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.ver = RegExp['$1'];</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; engine.webkit = parseFloat(engine.ver);</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (/Chrome\/(\S+)/.test(ua)) {</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; browser.ver = RegExp['$1'];</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; browser.chrome = true;</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; browser.name = 'Chrome';</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else if (/Version\/(\S+)/.test(ua)) {</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; browser.ver = RegExp['$1'];</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; browser.chrome = true;</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; browser.name = 'Safari';</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</strong></p>
+<p align="left"><strong>}</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>PS：对于Safari3之前的低版本，需要做WebKit的版本号近似映射。而这里，我们将不去深究，已提供代码。</strong></span></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>浏览器的名称和版本号，我们已经准确的获取到，最后，我们想要去获取浏览器所宿主的操作系统。</strong></span></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var system = {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //操作系统</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; win : false,&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //windows</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mac : false,&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //Mac</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; x11 : false&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //Unix、Linux</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var p = navigator.platform;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //获取系统</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; system.win = p.indexOf('Win') == 0;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //判断是否是windows</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; system.mac = p.indexOf('Mac') == 0;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //判断是否是mac</strong></p>
+<p align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //判断是否是Unix、Linux</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>PS：这里我们也可以通过用户代理字符串获取到windows相关的版本，这里我们就不去深究了，提供代码和对应列表。</strong></span></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="70">
+<p align="center"><strong>Windows版本</strong></p>
+</td>
+<td width="124">
+<p align="center"><strong>IE4+</strong></p>
+</td>
+<td width="129">
+<p align="center"><strong>Gecko</strong></p>
+</td>
+<td width="126">
+<p align="center"><strong>Opera &lt; 7</strong></p>
+</td>
+<td width="125">
+<p align="center"><strong>Opera 7+</strong></p>
+</td>
+<td width="122">
+<p align="center"><strong>WebKit</strong></p>
+</td>
+</tr>
+<tr>
+<td width="70">
+<p><strong>95</strong></p>
+</td>
+<td width="124">
+<p><strong>"Windows 95"</strong></p>
+</td>
+<td width="129">
+<p><strong>"Win95"</strong></p>
+</td>
+<td width="126">
+<p><strong>"Windows 95"</strong></p>
+</td>
+<td width="125">
+<p><strong>"Windows 95"</strong></p>
+</td>
+<td width="122">
+<p><strong>n/a</strong></p>
+</td>
+</tr>
+<tr>
+<td width="70">
+<p><strong>98</strong></p>
+</td>
+<td width="124">
+<p><strong>"Windows 98"</strong></p>
+</td>
+<td width="129">
+<p><strong>"Win98"</strong></p>
+</td>
+<td width="126">
+<p><strong>"Windows 98"</strong></p>
+</td>
+<td width="125">
+<p><strong>"Windows 98"</strong></p>
+</td>
+<td width="122">
+<p><strong>n/a</strong></p>
+</td>
+</tr>
+<tr>
+<td width="70">
+<p><strong>NT4.0</strong></p>
+</td>
+<td width="124">
+<p><strong>"Windows NT"</strong></p>
+</td>
+<td width="129">
+<p><strong>"WinNT4.0"</strong></p>
+</td>
+<td width="126">
+<p><strong>"Windows NT 4.0"</strong></p>
+</td>
+<td width="125">
+<p><strong>"Windows NT 4.0"</strong></p>
+</td>
+<td width="122">
+<p><strong>n/a</strong></p>
+</td>
+</tr>
+<tr>
+<td width="70">
+<p><strong>2000</strong></p>
+</td>
+<td width="124">
+<p><strong>"Windows NT 5.0"</strong></p>
+</td>
+<td width="129">
+<p><strong>"Windows NT5.0"</strong></p>
+</td>
+<td width="126">
+<p><strong>"Windows 2000"</strong></p>
+</td>
+<td width="125">
+<p><strong>"Windows NT 5.0"</strong></p>
+</td>
+<td width="122">
+<p><strong>n/a</strong></p>
+</td>
+</tr>
+<tr>
+<td width="70">
+<p><strong>ME</strong></p>
+</td>
+<td width="124">
+<p><strong>"Win 9X 4.90"</strong></p>
+</td>
+<td width="129">
+<p><strong>"Win 9x 4.90"</strong></p>
+</td>
+<td width="126">
+<p><strong>"Windows ME"</strong></p>
+</td>
+<td width="125">
+<p><strong>"Win 9X 4.90"</strong></p>
+</td>
+<td width="122">
+<p><strong>n/a</strong></p>
+</td>
+</tr>
+<tr>
+<td width="70">
+<p><strong>XP</strong></p>
+</td>
+<td width="124">
+<p><strong>"Windows NT 5.1"</strong></p>
+</td>
+<td width="129">
+<p><strong>"Windows NT 5.1"</strong></p>
+</td>
+<td width="126">
+<p><strong>"Windows XP"</strong></p>
+</td>
+<td width="125">
+<p><strong>"Windows NT 5.1"</strong></p>
+</td>
+<td width="122">
+<p><strong>"Windows NT 5.1"</strong></p>
+</td>
+</tr>
+<tr>
+<td width="70">
+<p><strong>Vista</strong></p>
+</td>
+<td width="124">
+<p><strong>"Windows NT 6.0"</strong></p>
+</td>
+<td width="129">
+<p><strong>"Windows NT 6.0"</strong></p>
+</td>
+<td width="126">
+<p><strong>n/a</strong></p>
+</td>
+<td width="125">
+<p><strong>"Windows NT 6.0"</strong></p>
+</td>
+<td width="122">
+<p><strong>"Windows NT 6.0"</strong></p>
+</td>
+</tr>
+<tr>
+<td width="70">
+<p><strong>7</strong></p>
+</td>
+<td width="124">
+<p><strong>"Windows NT 6.1"</strong></p>
+</td>
+<td width="129">
+<p><strong>"Windows NT 6.1"</strong></p>
+</td>
+<td width="126">
+<p><strong>n/a</strong></p>
+</td>
+<td width="125">
+<p><strong>"Windows NT 6.1"</strong></p>
+</td>
+<td width="122">
+<p><strong>"Windows NT 6.1"</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>&nbsp;浏览器检测完整版</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> client = <span style="color: #0000ff">function</span><span style="color: #000000">(){
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">rendering engines</span>
+    <span style="color: #0000ff">var</span> engine =<span style="color: #000000"> {            
+        ie: </span>0<span style="color: #000000">,
+        gecko: </span>0<span style="color: #000000">,
+        webkit: </span>0<span style="color: #000000">,
+        khtml: </span>0<span style="color: #000000">,
+        opera: </span>0<span style="color: #000000">,
+
+        </span><span style="color: #008000">//</span><span style="color: #008000">complete version</span>
+        ver: <span style="color: #0000ff">null</span><span style="color: #000000">  
+    };
+    
+    </span><span style="color: #008000">//</span><span style="color: #008000">browsers</span>
+    <span style="color: #0000ff">var</span> browser =<span style="color: #000000"> {
+        
+        </span><span style="color: #008000">//</span><span style="color: #008000">browsers</span>
+        ie: 0<span style="color: #000000">,
+        firefox: </span>0<span style="color: #000000">,
+        safari: </span>0<span style="color: #000000">,
+        konq: </span>0<span style="color: #000000">,
+        opera: </span>0<span style="color: #000000">,
+        chrome: </span>0<span style="color: #000000">,
+
+        </span><span style="color: #008000">//</span><span style="color: #008000">specific version</span>
+        ver: <span style="color: #0000ff">null</span><span style="color: #000000">
+    };
+
+    
+    </span><span style="color: #008000">//</span><span style="color: #008000">platform/device/OS</span>
+    <span style="color: #0000ff">var</span> system =<span style="color: #000000"> {
+        win: </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        mac: </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        x11: </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        
+        </span><span style="color: #008000">//</span><span style="color: #008000">mobile devices</span>
+        iphone: <span style="color: #0000ff">false</span><span style="color: #000000">,
+        ipod: </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        ipad: </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        ios: </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        android: </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        nokiaN: </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        winMobile: </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        
+        </span><span style="color: #008000">//</span><span style="color: #008000">game systems</span>
+        wii: <span style="color: #0000ff">false</span><span style="color: #000000">,
+        ps: </span><span style="color: #0000ff">false</span><span style="color: #000000"> 
+    };    
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">detect rendering engines/browsers</span>
+    <span style="color: #0000ff">var</span> ua =<span style="color: #000000"> navigator.userAgent;    
+    </span><span style="color: #0000ff">if</span><span style="color: #000000"> (window.opera){
+        engine.ver </span>= browser.ver =<span style="color: #000000"> window.opera.version();
+        engine.opera </span>= browser.opera =<span style="color: #000000"> parseFloat(engine.ver);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (/AppleWebKit\/(\S+)/<span style="color: #000000">.test(ua)){
+        engine.ver </span>= RegExp["$1"<span style="color: #000000">];
+        engine.webkit </span>=<span style="color: #000000"> parseFloat(engine.ver);
+        
+        </span><span style="color: #008000">//</span><span style="color: #008000">figure out if it's Chrome or Safari</span>
+        <span style="color: #0000ff">if</span> (/Chrome\/(\S+)/<span style="color: #000000">.test(ua)){
+            browser.ver </span>= RegExp["$1"<span style="color: #000000">];
+            browser.chrome </span>=<span style="color: #000000"> parseFloat(browser.ver);
+        } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (/Version\/(\S+)/<span style="color: #000000">.test(ua)){
+            browser.ver </span>= RegExp["$1"<span style="color: #000000">];
+            browser.safari </span>=<span style="color: #000000"> parseFloat(browser.ver);
+        } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+            </span><span style="color: #008000">//</span><span style="color: #008000">approximate version</span>
+            <span style="color: #0000ff">var</span> safariVersion = 1<span style="color: #000000">;
+            </span><span style="color: #0000ff">if</span> (engine.webkit &lt; 100<span style="color: #000000">){
+                safariVersion </span>= 1<span style="color: #000000">;
+            } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (engine.webkit &lt; 312<span style="color: #000000">){
+                safariVersion </span>= 1.2<span style="color: #000000">;
+            } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (engine.webkit &lt; 412<span style="color: #000000">){
+                safariVersion </span>= 1.3<span style="color: #000000">;
+            } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                safariVersion </span>= 2<span style="color: #000000">;
+            }   
+            
+            browser.safari </span>= browser.ver =<span style="color: #000000"> safariVersion;        
+        }
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (/KHTML\/(\S+)/.test(ua) || /Konqueror\/([^;]+)/<span style="color: #000000">.test(ua)){
+        engine.ver </span>= browser.ver = RegExp["$1"<span style="color: #000000">];
+        engine.khtml </span>= browser.konq =<span style="color: #000000"> parseFloat(engine.ver);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (/rv:([^\)]+)\) Gecko\/\d{8}/<span style="color: #000000">.test(ua)){    
+        engine.ver </span>= RegExp["$1"<span style="color: #000000">];
+        engine.gecko </span>=<span style="color: #000000"> parseFloat(engine.ver);
+        
+        </span><span style="color: #008000">//</span><span style="color: #008000">determine if it's Firefox</span>
+        <span style="color: #0000ff">if</span> (/Firefox\/(\S+)/<span style="color: #000000">.test(ua)){
+            browser.ver </span>= RegExp["$1"<span style="color: #000000">];
+            browser.firefox </span>=<span style="color: #000000"> parseFloat(browser.ver);
+        }
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (/MSIE ([^;]+)/<span style="color: #000000">.test(ua)){    
+        engine.ver </span>= browser.ver = RegExp["$1"<span style="color: #000000">];
+        engine.ie </span>= browser.ie =<span style="color: #000000"> parseFloat(engine.ver);
+    }
+    
+    </span><span style="color: #008000">//</span><span style="color: #008000">detect browsers</span>
+    browser.ie =<span style="color: #000000"> engine.ie;
+    browser.opera </span>=<span style="color: #000000"> engine.opera;
+    
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">detect platform</span>
+    <span style="color: #0000ff">var</span> p =<span style="color: #000000"> navigator.platform;
+    system.win </span>= p.indexOf("Win") == 0<span style="color: #000000">;
+    system.mac </span>= p.indexOf("Mac") == 0<span style="color: #000000">;
+    system.x11 </span>= (p == "X11") || (p.indexOf("Linux") == 0<span style="color: #000000">);
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">detect windows operating systems</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (system.win){
+        </span><span style="color: #0000ff">if</span> (/Win(?:dows )?([^do]{2})\s?(\d+\.\d+)?/<span style="color: #000000">.test(ua)){
+            </span><span style="color: #0000ff">if</span> (RegExp["$1"] == "NT"<span style="color: #000000">){
+                </span><span style="color: #0000ff">switch</span>(RegExp["$2"<span style="color: #000000">]){
+                    </span><span style="color: #0000ff">case</span> "5.0"<span style="color: #000000">:
+                        system.win </span>= "2000"<span style="color: #000000">;
+                        </span><span style="color: #0000ff">break</span><span style="color: #000000">;
+                    </span><span style="color: #0000ff">case</span> "5.1"<span style="color: #000000">:
+                        system.win </span>= "XP"<span style="color: #000000">;
+                        </span><span style="color: #0000ff">break</span><span style="color: #000000">;
+                    </span><span style="color: #0000ff">case</span> "6.0"<span style="color: #000000">:
+                        system.win </span>= "Vista"<span style="color: #000000">;
+                        </span><span style="color: #0000ff">break</span><span style="color: #000000">;
+                    </span><span style="color: #0000ff">case</span> "6.1"<span style="color: #000000">:
+                        system.win </span>= "7"<span style="color: #000000">;
+                        </span><span style="color: #0000ff">break</span><span style="color: #000000">;
+                    </span><span style="color: #0000ff">default</span><span style="color: #000000">:
+                        system.win </span>= "NT"<span style="color: #000000">;
+                        </span><span style="color: #0000ff">break</span><span style="color: #000000">;                
+                }                            
+            } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (RegExp["$1"] == "9x"<span style="color: #000000">){
+                system.win </span>= "ME"<span style="color: #000000">;
+            } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                system.win </span>= RegExp["$1"<span style="color: #000000">];
+            }
+        }
+    }
+    
+    </span><span style="color: #008000">//</span><span style="color: #008000">mobile devices</span>
+    system.iphone = ua.indexOf("iPhone") &gt; -1<span style="color: #000000">;
+    system.ipod </span>= ua.indexOf("iPod") &gt; -1<span style="color: #000000">;
+    system.ipad </span>= ua.indexOf("iPad") &gt; -1<span style="color: #000000">;
+    system.nokiaN </span>= ua.indexOf("NokiaN") &gt; -1<span style="color: #000000">;
+    
+    </span><span style="color: #008000">//</span><span style="color: #008000">windows mobile</span>
+    <span style="color: #0000ff">if</span> (system.win == "CE"<span style="color: #000000">){
+        system.winMobile </span>=<span style="color: #000000"> system.win;
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (system.win == "Ph"<span style="color: #000000">){
+        </span><span style="color: #0000ff">if</span>(/Windows Phone OS (\d+.\d+)/<span style="color: #000000">.test(ua)){;
+            system.win </span>= "Phone"<span style="color: #000000">;
+            system.winMobile </span>= parseFloat(RegExp["$1"<span style="color: #000000">]);
+        }
+    }
+    
+    
+    </span><span style="color: #008000">//</span><span style="color: #008000">determine iOS version</span>
+    <span style="color: #0000ff">if</span> (system.mac &amp;&amp; ua.indexOf("Mobile") &gt; -1<span style="color: #000000">){
+        </span><span style="color: #0000ff">if</span> (/CPU (?:iPhone )?OS (\d+_\d+)/<span style="color: #000000">.test(ua)){
+            system.ios </span>= parseFloat(RegExp.$1.replace("_", "."<span style="color: #000000">));
+        } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+            system.ios </span>= 2;  <span style="color: #008000">//</span><span style="color: #008000">can't really detect - so guess</span>
+<span style="color: #000000">        }
+    }
+    
+    </span><span style="color: #008000">//</span><span style="color: #008000">determine Android version</span>
+    <span style="color: #0000ff">if</span> (/Android (\d+\.\d+)/<span style="color: #000000">.test(ua)){
+        system.android </span>= parseFloat(RegExp.$1<span style="color: #000000">);
+    }
+    
+    </span><span style="color: #008000">//</span><span style="color: #008000">gaming systems</span>
+    system.wii = ua.indexOf("Wii") &gt; -1<span style="color: #000000">;
+    system.ps </span>= /playstation/<span style="color: #000000">i.test(ua);
+    
+    </span><span style="color: #008000">//</span><span style="color: #008000">return it</span>
+    <span style="color: #0000ff">return</span><span style="color: #000000"> {
+        engine:     engine,
+        browser:    browser,
+        system:     system        
+    };
+
+}();</span></pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,633 @@
+第六十七节，html表单元素
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">html表单元素</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 16px"><strong>学习要点： </strong></span><br><span style="font-size: 16px"><strong>　　1.表单元素总汇 </strong></span><br><span style="font-size: 16px"><strong>     　　2.表单元素解析</strong></span></p>
+<p><strong><span style="font-size: 16px">本章主要探讨HTML5中表单元素，表单元素用于获取用户的输入数据。</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;</span></strong></p>
+<p><strong><span style="font-size: 16px">一．表单元素总汇</span></strong></p>
+<p><strong><span style="font-size: 16px">HTML5的表单中，提供了各种可供用户输入的表单控件。</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 元素名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; form&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示HTML表单</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; input&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示用来收集用户输入数据的控件</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; textarea&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示可以输入多行文本的控件</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; select&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示用来提供一组固定的选项</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; option&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示提供提供一个选项</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; optgroup&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示一组相关的option元素</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; button&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示可用来提交或重置的表单按钮（或一般按钮）</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; datalist&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 定义一组提供给用户的建议值</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fieldset&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示一组表单元素</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; legend&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示fieldset元素的说明性标签</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示表单元素的说明标签</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; output&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示计算结果</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;</span></strong></p>
+<p><strong><span style="font-size: 16px">二．表单元素解析</span></strong></p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 16px">1.&lt;form&gt;定义表单</span></strong></span></p>
+<p><strong><span style="font-size: 16px">解释：&lt;form&gt;元素主要是定义本身是一组表单。</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 元素属性 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 说明</span></strong></p>
+<p><strong><span style="font-size: 16px"><strong>&nbsp; &nbsp; &nbsp; 　method&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　 &nbsp;表示表单的发送方式：有POST和GET两种，默认GET，<strong><strong>GET方式发送明码发送，在接收页面的url可以看到?表单元素名称=元素值</strong></strong></strong></span></strong></p>
+<p><strong><span style="font-size: 16px"><strong><strong><strong>　　　　　　　　　　　　　　　<strong><strong>POST方式发送，为加密的发送，接收页面的url看不到表单信息</strong></strong></strong></strong></strong></span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　表示表单提交的页面，也就是接收表单的页面</span></strong></p>
+<p><strong><span style="font-size: 16px">　　　enctype　　　　　　　　<strong>表示浏览器对发送给服务器的数据所采用的编码格式，只有上传我文件是才用到，<strong><strong><strong><strong>multipart/form-data</strong></strong></strong></strong></strong></span></strong></p>
+<p><strong><span style="font-size: 16px"><strong>　　　　　　　　　　　　　　　<strong>有三种：application/x-www-form-urlencoded（默认编码，enctype&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 不能将文件上传到服务器）、</strong></strong></span></strong></p>
+<p><strong><span style="font-size: 16px"><strong><strong>　　　　　　　　　　　　　　　<strong>multipart/form-data （用于上传文件到服务器）、</strong></strong></strong></span></strong></p>
+<p><strong><span style="font-size: 16px"><strong><strong><strong>　　　　　　　　　　　　　　 &nbsp;&nbsp;<strong>text/plain （未规范的编码，不&nbsp;建议使用，不同浏览器理解不同）</strong></strong></strong></strong></span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　 &nbsp;&nbsp;设置表单名称，以便程序调用</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　&nbsp;target&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　 &nbsp;&nbsp; &nbsp;设置提交时的目标位置：_blank、_parent、_self、_top，</span></strong></p>
+<p><strong><span style="font-size: 16px">　　　　　　　　　　　　　　 &nbsp;&nbsp;<strong>也就是接收表单页面以什么方式打开，</strong><strong>是新建页面打开，还是当前页面打开，默认当前页面打开</strong></span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; autocomplete　 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<strong>设置浏览器记住用户输入的数据，实现自动完成表单。默认</strong></span></strong><strong><span style="font-size: 16px">为on自动完成，如果不想自动完成则设置off。就是输入框记录输入过的信息</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp; 　 &nbsp;&nbsp;novalidate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　&nbsp;设置是否执行客户端数据有效性检查，后面课程讲解。</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #ff0000"> enctype</span><span style="color: #0000ff">="multipart/form-data"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161013220944843-591400597.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 16px">2.&lt;input&gt;表示用户输入数据，输入框</span></strong></span></p>
+<p><strong style="line-height: 1.5"><span style="font-size: 16px">解释：&lt;input&gt;元素默认情况会出现一个单行文本框，有五个属性。</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 属性名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp; autofocus&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　让光标聚焦在某个input元素上，让用户直接输入，不用点击输入框，光标就在输入框里</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp; disabled&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;禁用input元素，也就是输入框不能输入内容</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp; autocomplete&nbsp; 　　　　单独设置input元素的自动完成功能，<strong>就是输入框记录输入过的信息</strong></span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; form&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　让表单外的元素和指定的表单挂钩提交，<strong>也就是在表单外的输入框要给表单form标签挂钩，数据才能提交出去</strong></span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　&nbsp;input元素的类型，内容较多，将在下节课展开讲解</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name &nbsp; &nbsp; &nbsp; &nbsp;　　　　 &nbsp;&nbsp;定义input元素的名称，以便接收到相应的值</span></strong></p>
+<p><strong><span style="font-size: 16px">　　value　　　　　　　 &nbsp;设置输入框默认值</span></strong></p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 16px">聚焦光标</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> autofocus</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161013221920156-1274682577.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>禁用input元素，也就是输入框不能输入内容</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> disabled</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161013222436343-278736558.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px">&nbsp;</span></strong></p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 16px">&nbsp;</span></strong><strong><span style="font-size: 16px">禁止自动完成，<strong>就是输入框记录输入过的信息，如果表单全局做了设置，可以在给输入框做单独的设置</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>设置输入框默认值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="123"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161013223533515-628548693.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 16px">表单外的input输入框，也就是在表单外的输入框要给表单form标签挂钩，数据才能提交出去，方法是输入框form=表单id值，如&lt;input name="email"form="register"&gt;</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="register"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+     ...
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="email"</span><span style="color: #ff0000">form</span><span style="color: #0000ff">="register"</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 16px">3.&lt;label&gt;添加说明标签，将数框用<strong>&lt;label&gt;包起来，有两个用途，一个是点击用户名能定位光标，一个是利于css样式布局</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>用户名:<span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="123"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161013225905234-87578525.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>for属性关联输入框，<strong>for值为输入框id值，关联后点击用户名也能定位光标</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="yhm"</span><span style="color: #0000ff">&gt;</span>用户名:<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="yhm"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="123"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong><span style="font-size: 16px">解释：&lt;label&gt;元素可以关联input，让用户体验更好。且更加容易设置CSS样式。</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;</span></strong></p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 16px">4.&lt;fieldset&gt;对表单进行编组</span></strong></span></p>
+<p><strong><span style="font-size: 16px">解释：&lt;fieldset&gt;元素可以将一些表单元素组织在一起，形成一个整体。</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp; 属性名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　给分组定义一个名称</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; form&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　&nbsp;让表单外的分组与表单挂钩，<strong>form 等于表单id值，这样表单外的分组数据才能提交</strong></span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp; disabled&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　 &nbsp;&nbsp;禁用分组内的表单，就是分组内的输入框不能输入内容</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">fieldset </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="shur"</span><span style="color: #ff0000"> disabled</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="yhm"</span><span style="color: #0000ff">&gt;</span>用户名:<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="yhm"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="123"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">fieldset</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014070426296-646532797.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px">&nbsp;</span></strong></p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 16px">5.&lt;legend&gt;添加分组说明标签，<strong>给分组加上一个标题，写在分组里</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">fieldset </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="shur"</span><span style="color: #ff0000"> disabled</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">legend</span><span style="color: #0000ff">&gt;</span>这是一个分组<span style="color: #0000ff">&lt;/</span><span style="color: #800000">legend</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="yhm"</span><span style="color: #0000ff">&gt;</span>用户名:<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="yhm"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="123"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">fieldset</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong><span style="font-size: 16px">效果：</span></strong></p>
+<p><strong><span style="font-size: 16px"><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014070741609-850738372.png" alt=""></span></strong></p>
+<p><strong><span style="font-size: 16px">解释：&lt;legend&gt;元素给分组加上一个标题。</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;</span></strong></p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 16px">6.&lt;button&gt;添加按钮</span></strong></span></p>
+<p><strong><span style="font-size: 16px">&lt;button type="submit"&gt;&lt; button&gt;</span></strong></p>
+<p><strong><span style="font-size: 16px">解释：&lt;button&gt;元素添加一个按钮，type属性有如下几个值：</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;值名称 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;　　 属性值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;说明</span></strong></p>
+<p><strong><span style="font-size: 16px">　　type</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示按钮的作用是提交表单，默认</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　　　　 reset&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示按钮的作用是重置表单，还原表单默认值，如果没有默认值就是重置为空</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　button&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示按钮为一般性按钮，没有任何作用</span></strong><strong><span style="font-size: 16px">提交表单，按钮，主要结合js使用</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="yhm"</span><span style="color: #0000ff">&gt;</span>用户名:<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="yhm"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="submit"</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="reset"</span><span style="color: #0000ff">&gt;</span>重置<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="button"</span><span style="color: #0000ff">&gt;</span>按钮<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014072510109-450707289.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 16px"><strong>button</strong>的type属性为submit时，提交时还会提供额外的属性。也就是提交时更改&lt;<strong>form&gt;标签的属性</strong></span></strong></span></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 属性名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; form&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　指定按钮关联的表单，在表单外的提交，关联到一个表单，属性值为<strong>&lt;<strong>form&gt;标签的id值</strong></strong></span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp; formaction&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;覆盖form元素的action属性，提教时更改<strong><strong>&lt;<strong>form&gt;标签的<strong>action属性，<strong>formaction的值就会等于<strong><strong><strong>&lt;<strong>form&gt;标签的<strong>action属性</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #ff0000"> enctype</span><span style="color: #0000ff">="multipart/form-data"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button </span><span style="color: #ff0000">formaction</span><span style="color: #0000ff">="http://www.haosou.com"</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp; formenctype&nbsp; 　　　 &nbsp;覆盖form元素的enctype属性，原理同上</span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp; formmethod &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 覆盖form元素的method属性<strong>，原理同上</strong></span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;&nbsp;&nbsp; formtarget &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 覆盖form元素的target属性<strong>，原理同上</strong></span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;formnovalidate &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 覆盖form元素的novalidate属性<strong>，原理同上</strong></span></strong></p>
+<p><strong><span style="font-size: 16px">&nbsp;</span></strong></p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 16px">表单外关联提交，<strong>指定按钮关联的表单，在表单外的提交，关联到一个表单，form属性值为<strong>&lt;<strong>form&gt;标签的id值</strong></strong></strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="jk"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #ff0000"> enctype</span><span style="color: #0000ff">="multipart/form-data"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">button </span><span style="color: #ff0000">form</span><span style="color: #0000ff">="jk"</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong><span style="font-size: 18pt">input元素详解</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 16px">&nbsp;input元素的type属性，输入框</span></strong></span></p>
+<p><strong>type属性总汇</strong></p>
+<p><strong>input元素可以用来生成一个供用户输入数据的简单文本框。在默认的情况下，什么样的数据均可以输入。而通过不同的属性值，可以限制输入的内容。</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 属性名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　一个单行文本框，默认行为</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　&nbsp; 隐藏字符的密码框</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; search&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　搜索框，在某些浏览器键入内容会出现叉标记取消</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp; submit、reset、button　　 &nbsp;生成一个提交按钮、重置按钮、普通按钮</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; number、range&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　&nbsp;只能输入数值的框；只能输入在一个数值范围的框</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; checkbox、radio&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;复选框，用户勾选框；单选框，只能在几个中选一个</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; image、color&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp;生成一个图片按钮，颜色代码按钮</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; email、tel、url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp;生成一个检测电子邮件、号码、网址的文本框</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp; date、month、time、</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; week、datetime、 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;获取日期和时间</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; datetime-local</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hidden&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　&nbsp; 生成一个隐藏控件</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp; &nbsp;&nbsp;生成一个上传控件</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>input元素的属性type值为text时，输入框</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014090615609-543734035.png" alt=""></strong></p>
+<p><span style="color: #0000ff"><strong><strong>input元素的属性type值为text时</strong>，呈现的就是一个可以输入任意字符的文本框，这也是默认行为。并且，还提供了一些额外的属性。</strong></span></p>
+<p><span style="color: #000000"><strong>属性名称 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 属性值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 　　　　　　说明</strong></span></p>
+<p><strong>&nbsp;list&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　&lt;datalist&gt;标签的id值　　　　　　　　指定为文本框提供建议值的datalist元素，其值为datalist元素的id值，就是给输入框设置下拉</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> list</span><span style="color: #0000ff">="abc"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">datalist </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="abc"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>苹果<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">方法1，选择苹果输入框输入苹果</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="2"</span><span style="color: #0000ff">&gt;</span>香蕉<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">方法2，选择香蕉输入框输入2</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">datalist</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014095650765-199074828.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><strong>maxlength&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　最大输入数　　　　　　　　　　　　　设置文本框最大字符长度</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> maxlength</span><span style="color: #0000ff">="5"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong> &nbsp; <img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014095832593-1170127690.png" alt="">&nbsp;&nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong> pattern&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　设置内容　　　　　　　　　　　　 &nbsp; &nbsp; &nbsp;&nbsp;用于输入验证的正则表达式，输入内容与设置内容相同才能提交</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> pattern</span><span style="color: #0000ff">="456789"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>&nbsp;效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014100135953-164322633.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><strong> placeholder &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;设置输入框提示内容 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 输入字符的提示，给输入框写一个提示信息</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入用户名"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>&nbsp;效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014100253750-1675558720.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><strong> readonly &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 无 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;文本框处于只读状态，数据可以提交</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="gffff"</span><span style="color: #ff0000"> readonly</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>&nbsp;效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014100417062-1858497772.png" alt=""> &nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong>disabled &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 无 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;本框处于禁用状态，数据不可提交</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="gffff"</span><span style="color: #ff0000"> disabled</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>&nbsp;效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014100518062-1229396187.png" alt=""> &nbsp; &nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp; size &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;像素 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 设置文本框宽度</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> size</span><span style="color: #0000ff">="100"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>&nbsp;效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014100625437-2073055722.png" alt=""> &nbsp; &nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong>value &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 默认值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 设置文本框初始值</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="456"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>&nbsp;效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014100718937-1052209372.png" alt=""> &nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong> required &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;无 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 表明用户必须输入一个值，否则无法通过输入验证，提交会提示输入信息</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000">  required </span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014100836562-416582398.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>input元素的属性type值为password时，密码框</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="password"</span><span style="color: #ff0000">  required </span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014104153953-2047457042.png" alt=""></p>
+<p><span style="color: #000000"><strong><strong>input元素的属性type值为password时，一般用于密码框的输入，所有的字符都会显示星号。 密码框也有一些额外属性。&nbsp;</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong>属性名称 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 属性值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 说明</strong></span></p>
+<p><strong>maxlength &nbsp; &nbsp; &nbsp; &nbsp;　　字符长度数　　　　　　　　设置密码框最大字符长度，超过设置的长度不能输入</strong></p>
+<p><strong>pattern &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;设置密码内容 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;用于输入验证的正则表达式，输入密码与设置密码不相同不能提交</strong></p>
+<p><strong>placeholder &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 设置密码框提示信息 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 输入密码的提示</strong></p>
+<p><strong>readonly &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 无 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 密码框处于只读状态，默认值可以提交</strong></p>
+<p><strong>disabled&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　无　　　　　　 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;文本框处于禁用状态，不能提交</strong></p>
+<p><strong>size &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 像素 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 设置密码框宽度</strong></p>
+<p><strong>value &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;设置默认值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 设置密码框初始值</strong></p>
+<p><strong>required &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;无 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;表明用户必须输入同一个值，没有输入内容无法提交，给出提示</strong></p>
+<p><strong>注意：使用方法给输入框一样</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>input元素的属性type值为search时，搜索框</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="mch"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="search"</span><span style="color: #ff0000">  required </span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>搜索<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014105413531-1435768794.png" alt=""></strong></p>
+<p><strong><strong>和文本框一致，在除火狐浏览器的其他现代浏览器，会显示一个叉来取消 搜索内容。额外属性也和text输入框一致。参照输入框</strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong>input元素的属性type值为number时，带输入拖动框</strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="number"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="xz"</span><span style="color: #ff0000"> min</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> max</span><span style="color: #0000ff">="100"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="10"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014112047375-2085154215.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong>input元素的属性type值为range时，不带输入拖动框</strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="range"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="xz"</span><span style="color: #ff0000"> min</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> max</span><span style="color: #0000ff">="100"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="10"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014112659671-2016790668.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>注意：以上两种拖动框，不同浏览器可能显示方式不同。生成一个数值范围文本框，只是样式是拖动式。两种拖动框额外属性如下：</strong></span><br><br></p>
+<p><strong><span style="color: #0000ff">属性名称 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;属性值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 说明</span></strong></p>
+<p><strong>list　　　　　　　　&lt;datalist&gt;标签的id值　　　　　　　　指定为文本框提供建议值的datalist元素，其值为datalist元素的id值，详情见输入框list属性</strong></p>
+<p><strong>min&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　设置最小数值　　　　　　　　　　　　 &nbsp;设置可接受的最小值</strong></p>
+<p><strong>max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;设置最大数值　　　　　　　　　　　　 &nbsp;设定可接受的最大值</strong></p>
+<p><strong>readonly&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　 无　　　　　　　　　　　　　　　　　 &nbsp;设置文本框内容只读</strong></p>
+<p><strong>required&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　 无　　　　　　　　　　　　　　　　　 &nbsp;表明用户必须输入一个值，否则无法通过输入验证</strong></p>
+<p><strong>step &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 步长数&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;指定上下调节值的步长，比如设置2，拖动滑块就是2468这样2位步长的跨度</strong></p>
+<p><strong>value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 设置默认值　　　　　　　　　　　　　　指定初始值</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong>input元素的属性type值为date、month、time、week、datetime、datetime-local系列时，时间日期系统框</strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="date"</span><span style="color: #0000ff">&gt;</span>  <span style="color: #008000">&lt;!--</span><span style="color: #008000">年月日</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="month"</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">年月</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="time"</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">时分</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="week"</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">年周</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="datetime"</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">年月日时分</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="datetime-local"</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">系统时区，年月日时分</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014120203781-944139254.png" alt=""></strong></p>
+<p><span style="color: #0000ff"><strong>实现文本框可以获取日期和时间的值，但支持的浏览器不完整。我们测试Chrome 和Opera支持，其他浏览器尚未支持。所以，在获取日期和时间，目前还是推荐使用jQuery&nbsp;等前端库来实现日历功能。额外属性和number一致。</strong></span></p>
+<p><strong>属性名称 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;属性值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 说明</strong></p>
+<p><strong>list　　　　　　　　&lt;datalist&gt;标签的id值　　　　　　　　指定为文本框提供建议值的datalist元素，其值为datalist元素的id值，详情见输入框list属性</strong></p>
+<p><strong>min&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　设置最小数值　　　　　　　　　　　　 &nbsp;设置可接受的最小值</strong></p>
+<p><strong>max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;设置最大数值　　　　　　　　　　　　 &nbsp;设定可接受的最大值</strong></p>
+<p><strong>readonly&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　 无　　　　　　　　　　　　　　　　　 &nbsp;设置文本框内容只读</strong></p>
+<p><strong>required&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　 无　　　　　　　　　　　　　　　　　 &nbsp;表明用户必须输入一个值，否则无法通过输入验证</strong></p>
+<p><strong>value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 设置默认值　　　　　　　　　　　　　　指定初始值</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong>input元素的属性type值为</strong></strong></strong></strong></strong>color时，颜色选择框</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="color"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="yse"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014123922250-1237022934.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><strong>解释：实现文本框获取颜色的功能，最新的现代浏览器测试后IE不支持，其余的都能 显示一个颜色对话框提供选择。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong>input元素的属性type值为checkbox</strong></strong></strong></strong></strong></strong>时，复选框，也就是多选框</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    音乐:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="yse"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="5"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    体育:</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="tu"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="6"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014125233093-375020926.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>input元素的属性type值为radio时，单选框</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="yse"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="5"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">男
+    </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="yse"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="6"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">女
+    </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014125954218-648538352.png" alt=""></strong></p>
+<p><strong>复选框或单选框。额外属性如下：&nbsp;</strong></p>
+<p><span style="color: #0000ff"><strong>属性名称 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 属性值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;说明</strong></span></p>
+<p><strong>checked &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 无 &nbsp; &nbsp;　　　　　　&nbsp; 设置复选框、单选框是否为勾选状态</strong></p>
+<p><strong>required &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;无 &nbsp; &nbsp;　　　　　　 &nbsp;表示用户必须勾选，否则无法通过验证，没有勾选会给提示</strong></p>
+<p><strong>value &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 默认值 &nbsp; &nbsp;　　　　 &nbsp;设置复选框、单选框勾选状态时提交的数据。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>input元素的属性type值为submit、reset、button时，生成按钮</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="submit"</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">生成一个提交按钮</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="reset"</span><span style="color: #0000ff">&gt;</span>  <span style="color: #008000">&lt;!--</span><span style="color: #008000">生成一个重置按钮</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="button"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="按钮"</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">生成一个普通按钮</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>解释：生成一个按钮，三种模式：提交、重置和一般按钮，如果是submit提交时，还提供了和&lt;button&gt;元素一样的额外属性：formaction、formenctype、formmethod、formtarget和formnovalidate。详情见<strong>&lt;button&gt;元素<strong>额外属性</strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong>input元素的属性type值为</strong></strong>image时，图片提交按钮</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sdf"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="image"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="723.png"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014194017015-1618817076.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><strong>解释：生成一个图片按钮，点击图片就实现提交功能，并且传送了分区响应数据。图片 按钮也提供了一些额外属性。</strong></p>
+<p><span style="color: #0000ff"><strong>属性名称 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 属性值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;说明</strong></span></p>
+<p><strong>&nbsp;</strong><strong>src&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　　图片路径　　 　　　　　指定要显示图像的URL</strong></p>
+<p><strong>&nbsp;</strong><strong>alt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　说明文字　　　　　　　&nbsp;提供图片的文字说明</strong></p>
+<p><strong>&nbsp;</strong><strong>width&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　像素　 　　　　　　　　图像的长度</strong></p>
+<p><strong>&nbsp;</strong><strong>height&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　像素　 　　　　　　　　图像的高度</strong></p>
+<p><strong>提交额外属性formaction、formenctype、formmethod、formtarget 和formnovalidate。<strong>详情见<strong>&lt;button&gt;元素<strong>额外属性</strong></strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong>input元素的属性type值为email、tel、url时，邮件地址框，电话框，网址框</strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="email"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sdf1"</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">邮件地址框</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="tel"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sdf2"</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">电话框</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="ur"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sdf3"</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">网址框</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014195541484-1131682398.png" alt=""></strong></p>
+<p><strong>解释：email为电子邮件格式、tel为电话格式、url为网址格式。但对于这几种类型，浏览器支持是不同的email支持比较好，现在浏览器都支持格 式验证；tel基本不支持；url支持一般，部分浏览器只要检测到http://就能通过。<strong>额外属性和text 一致。详情见输入框</strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong>input元素的属性type值</strong></strong></strong></strong></strong></strong></strong></strong>为hidden时，隐藏框</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="hidden"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="id"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span> 
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>解释：生成一个隐藏控件，一般用于表单提交时关联主键ID提交，而这个数据作为隐藏存在</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>input元素的属性type值</strong></strong></strong></strong></strong></strong></strong></strong></strong>为file时，上传框</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="file"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="shch"</span><span style="color: #ff0000"> accept</span><span style="color: #0000ff">="image/png,image/ipg"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014202024578-915618608.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><strong>解释：生成一个文件上传控件，用于文件的上传。额外提供了一些属性：</strong></p>
+<p><span style="color: #0000ff"><strong> 属性名称 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 属性值 &nbsp; &nbsp;　　　　　　 说明 </strong></span></p>
+<p><strong> accept &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;指定上传类型 &nbsp;&nbsp;　　　　指定接受的MIME类型 </strong></p>
+<p><strong> required &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;无 &nbsp; &nbsp;　　　　　　　　表明用户必须提供一个值，否则无法通过验证</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>&lt;select&gt; 下拉框</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">select </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="shuig"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span>苹果<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="2"</span><span style="color: #0000ff">&gt;</span>香蕉<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="3"</span><span style="color: #0000ff">&gt;</span>甘蔗<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">select</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014212219093-1895405749.png" alt=""></strong></p>
+<p><strong>&lt;optgroup&gt;分组元素</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">select </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="shp"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">optgroup </span><span style="color: #ff0000">label</span><span style="color: #0000ff">="水果类"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span>苹果<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span>香蕉<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">optgroup</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">optgroup </span><span style="color: #ff0000">label</span><span style="color: #0000ff">="粗粮"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span>大米<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span>小麦<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">optgroup</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">select</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014214450625-357251860.png" alt=""></strong></p>
+<p><strong>解释：&lt;select&gt;下拉列表元素至少包含一个&lt;option&gt;子元素，才能形成有效的选项列表。&lt;select&gt;元素包含两个子元素&lt;option&gt;项目元素和&lt;optgroup&gt;分组元素，还包含了一些额外属性。&nbsp;</strong></p>
+<p><span style="color: #0000ff"><strong><strong>&lt;</strong><strong>select&gt;</strong>属性名称 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;　　属性值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;　　 　　　　说明</strong></span></p>
+<p><strong>&nbsp;</strong><strong>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　给下拉框设置一个名称　　　　　 &nbsp;设定提交时的名称</strong></p>
+<p><strong>&nbsp;</strong><strong>disabled&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　无　　　　　　　　　　　　　　　将下拉列表禁用</strong></p>
+<p><strong>&nbsp;</strong><strong>form&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　值为&lt;<strong>&nbsp;</strong><strong>form&nbsp;</strong>&gt;表单id值　　　　　&nbsp;将表单外的下拉列表与某个表单挂钩</strong></p>
+<p><strong>&nbsp;</strong><strong>size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　　　　　行数　　　 　　　　　　　　　　 设置下拉列表的高度</strong></p>
+<p><strong>&nbsp;</strong><strong>multiple&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　无　　　　　　　　　　　　　　 &nbsp;&nbsp;设置是否可以多选</strong></p>
+<p><strong>autofocus 　　　　　　　　 &nbsp;无　　　　　　　　　　　　　　　获取焦点</strong></p>
+<p><strong>required &nbsp; 　　　　　　　　 &nbsp;无　　　　　　　　　　　　　　　选择验证，设置后必须选择才能通过</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>&lt;textarea&gt;文本框</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">textarea </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="wb"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入您的内容"</span><span style="color: #ff0000"> required</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">textarea</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014215747765-1828042172.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;解释：生成一个可变更大小的多行文本框。属性如下：</strong></p>
+<p><span style="color: #0000ff"><strong>&nbsp;<strong>&lt;textarea&gt;</strong></strong><strong>属性名称 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;属性值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;　　　　　　　　说明</strong></span></p>
+<p><strong>&nbsp;</strong><strong>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　　　　 &nbsp;名称　&nbsp; 　　　　　　　　　　　　　设定提交时的名称</strong></p>
+<p><strong>&nbsp;</strong><strong>form&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　值为&lt;<strong>form&nbsp;</strong>&gt;标签的id值　　　　　 &nbsp;将表单外的多行文本框与某个表单挂钩</strong></p>
+<p><strong>&nbsp;</strong><strong>readonl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　无　　　　　　　　　　　　　　　 &nbsp;设置多行文本框只读</strong></p>
+<p><strong>&nbsp;</strong><strong>disabled&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　 &nbsp;无　　　　　　　　　　　　　　　 &nbsp;将多行文本框禁用</strong></p>
+<p><strong>&nbsp;</strong><strong>maxlength&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　 &nbsp;字符数　　　　　　　　　　　　　　设置最大可输入的字符长度</strong></p>
+<p><strong>&nbsp;</strong><strong>autofocus&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　无　　　　　　　　　　　　　　　 &nbsp;&nbsp;获取焦点</strong></p>
+<p><strong>&nbsp;</strong><strong>placeholder&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　 提示信息　　　　　　　　　　　　　设置输入时的提示信息</strong></p>
+<p><strong>&nbsp;</strong><strong>rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　 &nbsp;文本框行高数　　　　　　　　　　　设置行数</strong></p>
+<p><strong>&nbsp;</strong><strong>cols&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　　　　 &nbsp;<strong>文本框列宽高数</strong>　 　　　　　　　　 &nbsp;设置列数</strong></p>
+<p><strong>&nbsp;</strong><strong>wrap&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　 &nbsp;<strong>soft和hard</strong>　　　　　　　　　　　 &nbsp;设置文字长度超出文本框宽度时，是否插入换行符，有soft（否）和hard（是）两种</strong></p>
+<p><strong>&nbsp;</strong><strong>required&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　 &nbsp;无　　　　　　　　　　　　　　　　设置必须输入值，否则无法通过验证</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>output计算结果，计算两个文本框之间的值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">oninput</span><span style="color: #0000ff">="res.value = num1.valueAsNumber* num2.valueAsNumber"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="number"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="num1"</span><span style="color: #0000ff">&gt;</span>x <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="number"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="num2"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">output </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="num1 num2"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="res"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161014222725250-1809383878.png" alt=""></strong></p>
+<p><strong>解释：output就是计算两个文本框之间的值，其实就是内嵌了JavaScript功能</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>输入验证</strong></span></p>
+<p><span style="color: #000000"><strong>HTML5对表单提供了输入验证检查方式，但这种验证还是比较简陋的，并且不同的浏览器支持的成熟度还不同。在大部分情况 ，可能还是要借助jQuer 等前端库来实现丰富的验证功能和显示效果。</strong></span></p>
+<p><span style="color: #0000ff"><strong>输入框验证required，必须填写一个值</strong> </span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> required</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #0000ff">拖动框验证，限定在某一个范围内</span> </strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="number"</span><span style="color: #ff0000"> min</span><span style="color: #0000ff">="10"</span><span style="color: #ff0000"> max</span><span style="color: #0000ff">="100"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>使用正则表达式 验证</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="hm"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入区号+座机"</span><span style="color: #ff0000"> pattern</span><span style="color: #0000ff">="^[\d]{2,4}\-[\d]{6,8}$"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>浏览器支持的成熟度还不同</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>禁止表单验证novalidate</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="get"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="rgj"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="2.html"</span><span style="color: #ff0000"> novalidate</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p></div>

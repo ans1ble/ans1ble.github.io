@@ -1,0 +1,99 @@
+第七十七节，CSS3前缀和rem长度单位
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">CSS3前缀和rem长度单位</span></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong><br><strong>    1.CSS3前缀 </strong><br><strong>    2.长度单位rem</strong></p>
+<p><strong>本章主要探讨HTML5中CSS在发展中实行标准化的一些问题，重点探讨CSS3中新属性前缀问题和新的单位rem。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">一 CSS3前缀</span> </strong><br><strong>    在CSS3的很多新属性推出时，这些属性还处在不太稳定的阶段，随时可能被剔除。而此时的浏览器厂商为了实现这些属性，采用前缀方法。各大厂商前缀列表如下：</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;浏览器&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 厂商前缀</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Chrome、Safari &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -webkit-</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opera&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -o-</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Firefox &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -moz-</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Internet Explorer &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -ms-</strong></p>
+<p>我们之前学习过几个CSS3的新属性，比如：box-shadow、border-radius、opacity 等。这几个属性我们在前面的使用中，并没有添加所谓的浏览器厂商前缀。那是因为，这些属性已经在主流浏览器或版本成为了标准。具体进化步骤如下：</p>
+<p>&nbsp;&nbsp;&nbsp; 1.属性尚未提出，这个属性所有浏览器不可用；</p>
+<p>&nbsp;&nbsp;&nbsp; 2.属性被提出，但未列入标准，浏览器厂商通过私有前缀来支持该属性；</p>
+<p>&nbsp;&nbsp;&nbsp; 3.属性被列入标准，可以使用前缀或不使用前缀来实现属性特性；</p>
+<p>&nbsp;&nbsp;&nbsp; 4.属性不需要再使用前缀，所有浏览器都稳定支持。</p>
+<p>&nbsp;</p>
+<p><strong>我们就拿border-radius举例，它是CSS3的标准属性。早期的时候处于实验阶段，尚未列入标准时，需要使用厂商前缀。具体浏览器支持度如下：</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;属性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　浏览器&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　带前缀版本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　不带前缀版本 标准/实验</strong></p>
+<p><strong>&nbsp;border-radius&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; IE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 不支持 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 　　　　9.0+</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;Firefox&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;&nbsp;3.0需带-moz-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&nbsp;4.0+</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp;　　　　　　　　　　 &nbsp; Safari&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;&nbsp;　　　3.1需带-webkit-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　5.1+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 标准</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　 &nbsp;&nbsp; Chrome&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &nbsp; 4.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　&nbsp;5.0+</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　 &nbsp; Opera&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　不支持 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;10.5+</strong></p>
+<p><strong>如果是手机等移动端一般采用的是IOS或安卓系统，那么基本上它的引擎是webkit，直接参考-webkit-即可。在CSS3手册上，Chrome支持border-radius的版本为13.0，而部分教材和文章上写到只要5.0。当然，这里可能表达的含义可能不同。而截至到2015年4月份最新的Chrome版本已经到41.0了，所以，不管是5.0还是13.0都是老古董了，没必要深究。Opera支持border-radius版本为11.5，而目前的版本是28.0，也无伤大雅了。而被列入标准的box-shadow和opacity基本与border-radius前缀版本一致。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>因为目前处在标准阶段，没必要写前缀了</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">div </span>{<span style="color: #ff0000"> 
+    border-radius</span>:<span style="color: #0000ff"> 50px</span>; 
+} </pre>
+</div>
+<p><strong><span style="color: #ff0000">实验阶段的写法&nbsp;</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">div </span>{<span style="color: #ff0000"> 
+     -webkit-border-radius</span>:<span style="color: #0000ff"> 50px</span>;<span style="color: #ff0000"> 
+     -moz-border-radius</span>:<span style="color: #0000ff"> 50px</span>;<span style="color: #ff0000"> 
+     border-radius</span>:<span style="color: #0000ff"> 50px</span>; 
+} </pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>实验阶段的写法有三句，分别解释一下：-webkit-表示Chrome浏览器的私有属性前缀、-moz-表示Firefox私有属性前缀，如果是处于实验阶段的旧版本浏览器，那么不支持border-radius，从而通过厂商前缀的方式来支持。如果是新版浏览器，已经是处于标准阶段，那么又有两种说法：1.如果新版浏览器废弃了前缀，那么前缀写法就不支持了，仅支持标准写法；2.如果新版浏览器没有废弃前缀，那么两种写法都可以，但要注意顺序，且属性值要保持一致。 </strong></p>
+<p><strong>如果同时出现四个前缀+一个标准写法，四个前缀是当实验阶段时让四种引擎的浏览器厂商支持自己的私有属性，一个标准写法表示当这个属性列入标准后，使用新版浏览器运行时直接执行这个标准属性。</strong></p>
+<p><span style="color: #ff0000"><strong>前缀写法写在标准后面，且值不一样，就会出现问题</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">div </span>{<span style="color: #ff0000"> 
+     border-radius</span>:<span style="color: #0000ff"> 50px</span>;<span style="color: #ff0000"> 
+     -webkit-border-radius</span>:<span style="color: #0000ff">100px</span>; 
+} </pre>
+</div>
+<p><strong>特别注意：1.IE的前缀-ms-，和Opera的前缀-o-，在border-radius中不存在；2.现在的Opera浏览器也支持-webkit-前缀，-webkit-border-radius就能支持；3.Safari for Windows已被苹果公司在2012年放弃，遗留版本为5.1.7。</strong></p>
+<p><strong>最后说明：W3C官方的立场表示实验阶段的属性仅为了测试，未来有可能修改或删除，而大量的开发者也认为在实际项目中不应该使用前缀，而使用一种优雅降级保证一定的用户体验，而通过渐进增减的方式让新版高级浏览器保证最高的效果。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">二 长度单位rem</span> </strong><br><strong>    CSS3引入了一些新的尺寸单位，这里重点推荐一个：rem或者成为(根em)。目前主流的现代浏览器都很稳定的支持。它和em、百分比不同的是，它不是与父元素挂钩，而是相对于根元素&lt;html&gt;的文本大小来计算的，这样能更好的统一整体页面的风格。</strong></p>
+<p>&nbsp;</p>
+<p><strong>这里做几个解释，我们在之前的Web设计中大量使用了px单位进行布局。因为，早期的固定布局使用px较为方便，逐渐养成了这种习惯。而使用rem单位其实更加灵活，尤其是在修改样式时，只需要修改一下挂钩根元素的那个大小即可，无须每个元素一个个修改。W3C推出了直接基于根元素单位：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">html</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 5px</span>;
+}<span style="color: #800000">
+h1</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 3rem</span>;
+}<span style="color: #800000">
+h2</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 2.5rem</span>;
+}<span style="color: #800000">
+h3</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 2rem</span>;
+}<span style="color: #800000">
+h4</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 1.5rem</span>;
+}<span style="color: #800000">
+
+&lt;h1&gt;这是标题1&lt;/h1&gt;
+&lt;h2&gt;这是标题2&lt;/h2&gt;
+&lt;h3&gt;这是标题3&lt;/h3&gt;
+&lt;h4&gt;这是标题4&lt;/h4&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>简单的说就是，在html根设置一个文字大小的像素px，然后html里面的元素用rem单位来定义，如html根元素文字大小为5px，里面的h1标签为3rem，也就是h1的文字大小是根5px的3倍，5乘以3就是15px，以此计算，这样如果以后想改变页面整体的大小，只需要改变根文字大小即可，因为其他标签会根据根大小来自适应</strong></span></p>
+<p><span style="color: #ff0000"><strong>注意：html根文字大默认是16px，所以调试阶段根一般为16px</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>rem浏览器支持情况</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 浏览器 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; rem单位</strong></p>
+<p><strong>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opera &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 11.6+</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Firefox &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3.6+</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Safari&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.0+</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Chrome &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 6.0+</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 9.0+</strong></p>
+<p><span style="font-size: 14pt; color: #ff0000"><strong>单位计算</strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>要设置的像素除以根基准=rem单位</strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>rem单位乘以根基准=像素</strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>换算子元素宽度站父元素宽度的百分之几，子元素宽度除以父元素宽度=子元素宽度站父元素宽度的百分之几</strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>将子元素宽度站父元素宽度的百分之几换算成像素，子元素宽度的百分之几乘以父元素的宽度=子元素的像素</strong></span></p></div>

@@ -1,0 +1,149 @@
+第二百八十七节，MySQL数据库-条件语句、循环语句、动态执行SQL语句
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>MySQL数据库-条件语句、循环语句、动态执行SQL语句</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>1、if条件语句</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">delimiter \\
+</span><span style="color: #0000ff">CREATE</span> <span style="color: #0000ff">PROCEDURE</span><span style="color: #000000"> proc_if ()
+</span><span style="color: #0000ff">BEGIN</span>
+    
+    <span style="color: #0000ff">declare</span> i <span style="color: #0000ff">int</span> <span style="color: #0000ff">default</span> <span style="color: #800000; font-weight: bold">0</span><span style="color: #000000">;
+    </span><span style="background-color: #ffff00"><span style="color: #0000ff; background-color: #ff99cc">if</span> i <span style="color: #808080">=</span> <span style="color: #800000; font-weight: bold">1</span> <span style="color: #0000ff; background-color: #ff99cc">THEN</span>
+        <span style="color: #0000ff">SELECT</span> <span style="color: #800000; font-weight: bold">1</span><span style="color: #000000">;
+    <span style="background-color: #ff99cc">ELSEIF</span> i </span><span style="color: #808080">=</span> <span style="color: #800000; font-weight: bold">2</span> <span style="color: #0000ff; background-color: #ff99cc">THEN</span>
+        <span style="color: #0000ff">SELECT</span> <span style="color: #800000; font-weight: bold">2</span><span style="color: #000000">;
+    </span><span style="color: #0000ff; background-color: #ff99cc">ELSE</span>
+        <span style="color: #0000ff">SELECT</span> <span style="color: #800000; font-weight: bold">7</span><span style="color: #000000">;
+    </span><span style="background-color: #ff99cc"><span style="color: #0000ff">END</span> <span style="color: #0000ff">IF</span><span style="color: #000000">;
+
+</span></span></span><span style="color: #0000ff">END</span><span style="color: #000000">\\
+delimiter ;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>2、循环语句</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong>while循环</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">delimiter \\
+</span><span style="color: #0000ff">CREATE</span> <span style="color: #0000ff">PROCEDURE</span><span style="color: #000000"> proc_while ()
+</span><span style="color: #0000ff">BEGIN</span>
+
+    <span style="color: #0000ff">DECLARE</span> num <span style="color: #0000ff">INT</span><span style="color: #000000"> ;
+    </span><span style="color: #0000ff">SET</span> num <span style="color: #808080">=</span> <span style="color: #800000; font-weight: bold">0</span><span style="color: #000000"> ;
+    </span><span style="background-color: #ffff00"><span style="color: #0000ff; background-color: #ff99cc">WHILE</span> num <span style="color: #808080">&lt;</span> <span style="color: #800000; font-weight: bold">10</span><span style="color: #000000; background-color: #ff99cc"> DO
+        </span><span style="color: #0000ff">SELECT</span><span style="color: #000000">
+            num ;
+        </span><span style="color: #0000ff">SET</span> num <span style="color: #808080">=</span> num <span style="color: #808080">+</span> <span style="color: #800000; font-weight: bold">1</span><span style="color: #000000"> ;
+    </span><span style="background-color: #ff99cc"><span style="color: #0000ff">END</span> <span style="color: #0000ff">WHILE</span><span style="color: #000000"> ;
+
+</span></span></span><span style="color: #0000ff">END</span><span style="color: #000000">\\
+delimiter ;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>repeat循环</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">delimiter \\
+</span><span style="color: #0000ff">CREATE</span> <span style="color: #0000ff">PROCEDURE</span><span style="color: #000000"> proc_repeat ()
+</span><span style="color: #0000ff">BEGIN</span>
+
+    <span style="color: #0000ff">DECLARE</span> i <span style="color: #0000ff">INT</span><span style="color: #000000"> ;
+    </span><span style="color: #0000ff">SET</span> i <span style="color: #808080">=</span> <span style="color: #800000; font-weight: bold">0</span><span style="color: #000000"> ;
+    <span style="background-color: #ff99cc">repeat
+        </span></span><span style="background-color: #ffff00"><span style="color: #0000ff">select</span><span style="color: #000000"> i;
+        </span><span style="color: #0000ff">set</span> i <span style="color: #808080">=</span> i <span style="color: #808080">+</span> <span style="color: #800000; font-weight: bold">1</span><span style="color: #000000">;
+        <span style="background-color: #ff99cc">until i </span></span><span style="background-color: #ff99cc"><span style="color: #808080">&gt;=</span> <span style="color: #800000; font-weight: bold">5</span>
+    <span style="color: #0000ff">end</span><span style="color: #000000"> repeat;
+
+</span></span></span><span style="color: #0000ff">END</span><span style="color: #000000">\\
+delimiter ;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>loop循环</strong></span></p>
+<p><span style="color: #ff0000"><strong>iterate loop_label退出循环</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">BEGIN</span>
+    
+    <span style="color: #0000ff">declare</span> i <span style="color: #0000ff">int</span> <span style="color: #0000ff">default</span> <span style="color: #800000; font-weight: bold">0</span><span style="color: #000000">;
+    <span style="background-color: #ff99cc">loop_label: loop
+        
+        </span></span><span style="background-color: #ffff00"><span style="color: #0000ff">set</span> i<span style="color: #808080">=</span>i<span style="color: #808080">+</span><span style="color: #800000; font-weight: bold">1</span><span style="color: #000000">;
+        </span><span style="color: #0000ff">if</span> i<span style="color: #808080">&lt;</span><span style="color: #800000; font-weight: bold">8</span> <span style="color: #0000ff">then</span><span style="color: #000000; background-color: #ff99cc">
+            iterate loop_label;
+        </span><span style="color: #0000ff">end</span> <span style="color: #0000ff">if</span><span style="color: #000000">;
+        </span><span style="color: #0000ff">if</span> i<span style="color: #808080">&gt;=</span><span style="color: #800000; font-weight: bold">10</span> <span style="color: #0000ff">then</span><span style="color: #000000; background-color: #ff99cc">
+            leave loop_label;
+        </span><span style="color: #0000ff">end</span> <span style="color: #0000ff">if</span><span style="color: #000000">;
+        </span><span style="color: #0000ff">select</span><span style="color: #000000"> i;
+    </span><span style="background-color: #ff99cc"><span style="color: #0000ff">end</span><span style="color: #000000"> loop loop_label;
+
+</span></span></span><span style="color: #0000ff">END</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>3、动态执行SQL语句</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong>动态执行SQL语句，也就是执行一个存储过程来动态执行<strong>SQL语句</strong></strong></strong></span></p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong><strong>举例：有这样一张表</strong></strong></span></p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170616194600150-951831581.png" alt=""></strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>写一个存储过程无参，获取表里id大于11的数据</strong></span></p>
+<p><span style="color: #ff0000"><strong>PREPARE prod FROM<span style="color: #0000ff">存储过程里将字符串解析为sql语句执行，后面跟字符串类型的sql语句</span></strong></span></p>
+<p><span style="color: #ff0000"><strong>EXECUTE prod USING<span style="color: #0000ff">替换sql语句中的占位符，后面跟要替换占位符的、占位符变量，(sql语句中的占位符是?号)</span></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">delimiter $$
+</span><span style="color: #0000ff">DROP</span> <span style="color: #0000ff">PROCEDURE</span> <span style="color: #0000ff">IF</span> <span style="color: #808080">EXISTS</span> proc_sql $$ <span style="color: #008080">--</span><span style="color: #008080"> 判断proc_sql存储过程存在删除</span>
+<span style="color: #0000ff">CREATE</span> <span style="color: #0000ff">PROCEDURE</span> proc_sql () <span style="color: #008080">--</span><span style="color: #008080"> 创建proc_sql存储过程</span>
+<span style="color: #0000ff">BEGIN</span>
+    <span style="color: #0000ff">declare</span> p1 <span style="color: #0000ff">int</span>;  <span style="color: #008080">--</span><span style="color: #008080"> 设置p1变量</span>
+    <span style="color: #0000ff">set</span> p1 <span style="color: #808080">=</span> <span style="color: #800000; font-weight: bold">11</span>;     <span style="color: #008080">--</span><span style="color: #008080"> 赋值p1变量等于11</span>
+    <span style="color: #0000ff">set</span> <span style="color: #008000; background-color: #ff99cc">@p1</span> <span style="color: #808080">=</span> p1;    <span style="color: #008080">--</span><span style="color: #008080"> 赋值字符串占位符变量等于p1</span>
+
+    <span style="background-color: #ffff00"><span style="color: #0000ff">PREPARE</span> prod <span style="color: #0000ff">FROM</span></span> <span style="color: #ff0000">'</span><span style="color: #ff0000">select * from tb2 where nid &gt; <span style="background-color: #ff99cc">?</span></span><span style="color: #ff0000">'</span>;  <span style="color: #008080">--</span><span style="color: #008080"> 解析字符串为sql语句</span>
+    <span style="background-color: #ffff00"><span style="color: #0000ff">EXECUTE</span> prod USING</span> <span style="color: #008000; background-color: #ff99cc">@p1</span>;   <span style="color: #008080">--</span><span style="color: #008080"> 执行sql语句，并且用占位符变量替换sql语句中的?号</span>
+    <span style="background-color: #ffff00"><span style="color: #0000ff">DEALLOCATE</span> <span style="color: #0000ff">prepare</span> prod;</span>  <span style="color: #008080">--</span><span style="color: #008080"> 释放解析和执行sql语句</span>
+
+<span style="color: #0000ff">END</span><span style="color: #000000"> $$
+delimiter ;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>执行存储过程，动态执行sql语句</strong></span></p>
+<div class="cnblogs_code">
+<pre>CALL proc_sql();  <span style="color: #008080">--</span><span style="color: #008080"> 执行存储过程，动态执行sql语句</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170616195912571-355451995.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>写一个存储过程有参，动态传参获取数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">delimiter $$
+</span><span style="color: #0000ff">DROP</span> <span style="color: #0000ff">PROCEDURE</span> <span style="color: #0000ff">IF</span> <span style="color: #808080">EXISTS</span> proc_sql $$ <span style="color: #008080">--</span><span style="color: #008080"> 判断proc_sql存储过程存在删除</span>
+<span style="color: #0000ff">CREATE</span> <span style="color: #0000ff">PROCEDURE</span> proc_sql (          <span style="color: #008080">--</span><span style="color: #008080"> 创建proc_sql存储过程</span>
+    <span style="color: #808080">in</span> <span style="background-color: #ffff00">zfchsql</span> <span style="color: #0000ff">CHAR</span>(<span style="color: #800000; font-weight: bold">90</span>),       <span style="color: #008080">--</span><span style="color: #008080">  zfchsql接收字符串最大90字符，接收sql语句</span>
+    <span style="color: #808080">in</span> <span style="background-color: #ff99cc">shuzi</span> <span style="color: #0000ff">INT</span>(<span style="color: #800000; font-weight: bold">20</span>)           <span style="color: #008080">--</span><span style="color: #008080">  shuzi接收整数类型，最大20字符，接收一个id数</span>
+<span style="color: #000000">) 
+</span><span style="color: #0000ff">BEGIN</span>
+        <span style="color: #008080">--</span><span style="color: #008080"> 因为解析字符串为sql语句，和替换sql语句的占位符，需要用户变量，也就是有@的变量，所以需要重新赋值成用户变量</span>
+        <span style="color: #0000ff">SET</span> <span style="color: #008000; background-color: #ffff00">@zfchsql</span> <span style="color: #808080">=</span><span style="color: #000000"><span style="background-color: #ffff00"> zfchsql</span>;
+        </span><span style="color: #0000ff">SET</span> <span style="color: #008000; background-color: #ff99cc">@shuzi</span> <span style="color: #808080">=</span><span style="color: #000000"><span style="background-color: #ff99cc"> shuzi</span>;
+
+    </span><span style="color: #0000ff">PREPARE</span> prod <span style="color: #0000ff">FROM</span> <span style="color: #008000; background-color: #ffff00">@zfchsql</span>;  <span style="color: #008080">--</span><span style="color: #008080"> 将接收到的字符串解析为sql语句</span>
+    <span style="color: #0000ff">EXECUTE</span> prod USING <span style="color: #008000; background-color: #ff99cc">@shuzi</span>;   <span style="color: #008080">--</span><span style="color: #008080"> 将接收到的整数，替换sql语句中的?号占位符</span>
+    <span style="color: #0000ff">DEALLOCATE</span> <span style="color: #0000ff">prepare</span> prod;  <span style="color: #008080">--</span><span style="color: #008080"> 释放解析和执行的sql语句</span>
+
+<span style="color: #0000ff">END</span><span style="color: #000000"> $$
+delimiter ;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>传入参数动态执行sql语句</strong></span></p>
+<div class="cnblogs_code">
+<pre>CALL proc_sql(<span style="color: #ff0000">'</span><span style="color: #ff0000">select * from usr where id &gt; ?</span><span style="color: #ff0000">'</span>,<span style="color: #800000; font-weight: bold">5</span>);  <span style="color: #008080">--</span><span style="color: #008080"> 传入参数动态执行sql语句</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170616204120275-1888416253.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>重点：动态执行sql语句，可以防止sql注入，</strong></span></p>
+<div class="cnblogs_code">
+<pre>CALL proc_sql(<span style="color: #ff0000">'</span><span style="color: #ff0000">select * from usr <span style="background-color: #ff99cc">-- where id &gt; ?</span></span><span style="color: #ff0000">'</span>,<span style="color: #800000; font-weight: bold">5</span>);  <span style="color: #008080">--</span><span style="color: #008080"> 传入参数动态执行sql语句</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170616205318415-303512658.png" alt=""></p>
+<p>&nbsp;</p></div>

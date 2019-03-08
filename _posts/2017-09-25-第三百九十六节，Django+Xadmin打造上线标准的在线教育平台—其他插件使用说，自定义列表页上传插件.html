@@ -1,0 +1,428 @@
+第三百九十六节，Django+Xadmin打造上线标准的在线教育平台—其他插件使用说，自定义列表页上传插件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百九十六节，Django+Xadmin打造上线标准的在线教育平台—其他插件使用说，自定义列表页上传插件</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>设置后台列表页面字段统计</strong></span></p>
+<p><strong>在当前APP里的adminx.py文件里的数据表管理器里设置</strong></p>
+<p><span style="color: #ff0000"><strong>aggregate_fields = {'字段名称':'sum为统计数，min为统计时间'}</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">class</span> CourseAdmin(object):               <span style="color: #008000">#</span><span style="color: #008000"> 自定义数据表管理器类</span>
+
+    <span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台显示字段</span>
+    list_display = [<span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">desc</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">detail</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">degree</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">learn_times</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">students</span><span style="color: #800000">'</span><span style="color: #000000">,
+                    </span><span style="color: #800000">'</span><span style="color: #800000">fav_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">image</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">click_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">add_time</span><span style="color: #800000">'</span><span style="color: #000000">]
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台搜索字段，注意：搜索字段如果有时间类型会报错</span>
+    search_fields = [<span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">desc</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">detail</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">degree</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">learn_times</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">students</span><span style="color: #800000">'</span><span style="color: #000000">,
+                     </span><span style="color: #800000">'</span><span style="color: #800000">fav_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">image</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">click_nums</span><span style="color: #800000">'</span><span style="color: #000000">]
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台过滤器帅选字段，时间用过滤器来做</span>
+    list_filter = [<span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">desc</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">detail</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">degree</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">learn_times</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">students</span><span style="color: #800000">'</span><span style="color: #000000">,
+                   </span><span style="color: #800000">'</span><span style="color: #800000">fav_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">image</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">click_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">add_time</span><span style="color: #800000">'</span><span style="color: #000000">]
+    model_icon </span>= <span style="color: #800000">'</span><span style="color: #800000">fa fa-clone</span><span style="color: #800000">'</span><span style="color: #000000">
+    style_fields </span>= {<span style="color: #800000">'</span><span style="color: #800000">detail</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">ueditor</span><span style="color: #800000">'</span><span style="color: #000000">}
+    </span><span style="color: #008000">#</span><span style="color: #008000"> import_excel = True</span>
+    <span style="background-color: #ff99cc">aggregate_fields = {<span style="color: #800000">'</span><span style="color: #800000">fav_nums</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">sum</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ff99cc">}</span>
+
+xadmin.site.register(Course, CourseAdmin)     </span><span style="color: #008000">#</span><span style="color: #008000"> 将数据表注册到xadmin后台显示</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170925173946214-1653676581.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong>自定义列表页上传插件</strong></span></p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170929133629419-880085366.png" alt=""></strong></span></p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170929133934747-263348416.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong>注册插件APP</strong></span></p>
+<div class="cnblogs_code">
+<pre>INSTALLED_APPS =<span style="color: #000000"> [
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.admin</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.contenttypes</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.sessions</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.messages</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.staticfiles</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app_users</span><span style="color: #800000">'</span>,                        <span style="color: #008000">#</span><span style="color: #008000"> 注册 APP</span>
+    <span style="color: #800000">'</span><span style="color: #800000">app_courses</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app_organization</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app_operation</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">xadmin</span><span style="color: #800000">'</span>,                           <span style="color: #008000">#</span><span style="color: #008000"> 注册xadmin的app</span>
+    <span style="color: #800000">'</span><span style="color: #800000">reversion</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">crispy_forms</span><span style="color: #800000">'</span>,                     <span style="color: #008000">#</span><span style="color: #008000"> 注册xadmin的依赖app</span>
+    <span style="color: #800000">'</span><span style="color: #800000">captcha</span><span style="color: #800000">'</span>,                          <span style="color: #008000">#</span><span style="color: #008000"> 注册验证码app</span>
+    <span style="color: #800000">'</span><span style="color: #800000">pure_pagination</span><span style="color: #800000">'</span>,                  <span style="color: #008000">#</span><span style="color: #008000"> 注册分页app</span>
+    <span style="color: #800000">'</span><span style="color: #800000">DjangoUeditor</span><span style="color: #800000">'</span>,                    <span style="color: #008000">#</span><span style="color: #008000"> 注册DjangoUeditor的APP</span>
+    <span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">wen_jian_shang_chuanpy</span><span style="color: #800000">'</span>,           <span style="color: #008000">#</span><span style="color: #008000"> 注册上传插件app</span></span>
+]</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>配置插件上传URL路由逻辑</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> extra_apps.wen_jian_shang_chuanpy.shang_chuan_wen_jian <span style="color: #0000ff">import</span></span><span style="color: #000000"><span style="background-color: #ff99cc"> Shang_chuan_wen_jian</span>
+urlpatterns </span>=<span style="color: #000000"> [
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^xadmin/</span><span style="color: #800000">'</span><span style="color: #000000">, xadmin.site.urls),
+
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^index.html</span><span style="color: #800000">'</span>, TemplateView.as_view(template_name=<span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span>), name=<span style="color: #800000">'</span><span style="color: #800000">index</span><span style="color: #800000">'</span><span style="color: #000000">),
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 注册</span>
+    url(r<span style="color: #800000">'</span><span style="color: #800000">^register.html</span><span style="color: #800000">'</span>, zhu_ce.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">register</span><span style="color: #800000">'</span><span style="color: #000000">),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^captcha/</span><span style="color: #800000">'</span>, include(<span style="color: #800000">'</span><span style="color: #800000">captcha.urls</span><span style="color: #800000">'</span>), name=<span style="color: #800000">'</span><span style="color: #800000">captcha</span><span style="color: #800000">'</span><span style="color: #000000">),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^active/(?P&lt;active_de&gt;.*)/$</span><span style="color: #800000">'</span>, active_code.as_view(), name=<span style="color: #800000">"</span><span style="color: #800000">user_active</span><span style="color: #800000">"</span><span style="color: #000000">),
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 登录</span>
+    url(r<span style="color: #800000">'</span><span style="color: #800000">^login.html</span><span style="color: #800000">'</span>, TemplateView.as_view(template_name=<span style="color: #800000">'</span><span style="color: #800000">login.html</span><span style="color: #800000">'</span>), name=<span style="color: #800000">'</span><span style="color: #800000">login</span><span style="color: #800000">'</span><span style="color: #000000">),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^deng_lu</span><span style="color: #800000">'</span>, deng_lu.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">deng_lu</span><span style="color: #800000">'</span><span style="color: #000000">),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^logout</span><span style="color: #800000">'</span>, logout.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">deng_lu</span><span style="color: #800000">'</span><span style="color: #000000">),
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 授课机构</span>
+    url(r<span style="color: #800000">'</span><span style="color: #800000">^org_list.html</span><span style="color: #800000">'</span>, org_list.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">org_list</span><span style="color: #800000">'</span><span style="color: #000000">),
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 专门处理静态资源请求映射，也就是media上传文件夹里的请求映射</span>
+    url(r<span style="color: #800000">'</span><span style="color: #800000">media/(?P&lt;path&gt;.*)$</span><span style="color: #800000">'</span>, serve, {<span style="color: #800000">'</span><span style="color: #800000">document_root</span><span style="color: #800000">'</span><span style="color: #000000">: MEDIA_ROOT}),
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 配置静态文件访问</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> url(r'static/(?P&lt;path&gt;.*)$', serve, {'document_root': STATIC_ROOT}),</span>
+<span style="color: #000000">
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">course_comment.html</span><span style="color: #800000">'</span>, course_comment.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">course_comment</span><span style="color: #800000">'</span><span style="color: #000000">),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">usercenter_info.html</span><span style="color: #800000">'</span>, usercenter_info.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">usercenter_info</span><span style="color: #800000">'</span><span style="color: #000000">),
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 上传头像</span>
+    url(r<span style="color: #800000">'</span><span style="color: #800000">touxiang/</span><span style="color: #800000">'</span>, touxiang.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">touxiang</span><span style="color: #800000">'</span><span style="color: #000000">),
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 配置DjangoUeditor富文本路由映射</span>
+    url(r<span style="color: #800000">'</span><span style="color: #800000">^ueditor/</span><span style="color: #800000">'</span>, include(<span style="color: #800000">'</span><span style="color: #800000">DjangoUeditor.urls</span><span style="color: #800000">'</span><span style="color: #000000">)),
+
+    </span><span style="background-color: #ff99cc"><span style="color: #008000">#</span><span style="color: #008000"> 配置后台上传映射</span>
+    url(r<span style="color: #800000">'</span><span style="color: #800000">^shang_chuan_wen_jian/</span><span style="color: #800000">'</span>, Shang_chuan_wen_jian, name=<span style="color: #800000">'</span><span style="color: #800000">Shang_chuan_wen_jian</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ff99cc">),</span>
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong>models.py里<strong>要上传文件</strong>的类里自定义函数，函数里执行插件里的一个函数</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">class</span><span style="color: #000000"> CourseResource(models.Model):
+    course </span>= models.ForeignKey(Course, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">外键课程表</span><span style="color: #800000">'</span><span style="color: #000000">)
+    name </span>= models.CharField(max_length=100, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程资源名称</span><span style="color: #800000">'</span><span style="color: #000000">)
+    download </span>= models.FileField(upload_to=<span style="color: #800000">'</span><span style="color: #800000">course/resource/%Y/%m</span><span style="color: #800000">'</span>, storage=ImageStorage(), verbose_name=<span style="color: #800000">'</span><span style="color: #800000">资源文件</span><span style="color: #800000">'</span>, max_length=100<span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">添加日期</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">课程资源表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+        </span><span style="color: #008000">#</span><span style="color: #008000"> 自定义列</span>
+<span style="background-color: #ccffff">
+    <span style="color: #0000ff">def</span><span style="color: #000000"> xiougai(self):
+        </span><span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> extra_apps.wen_jian_shang_chuanpy.shang_chuan_wen_jian <span style="color: #0000ff">import</span></span><span style="color: #000000"><span style="background-color: #ff99cc"> book_hanshu</span>
+        <span style="background-color: #ff99cc">book </span></span><span style="background-color: #ff99cc">= book_hanshu(self.download, self.id, <span style="color: #800000">'</span><span style="color: #800000">app_courses</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">CourseResource</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">download</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #0000ff">return</span> book  <span style="color: #008000">#</span><span style="color: #008000"> 返回HTML显示到页面</span></span>
+    xiougai.short_description = <span style="color: #800000">'</span><span style="color: #800000">修改文件</span><span style="color: #800000">'</span></span>
+
+    <span style="color: #0000ff">def</span> <span style="color: #800080">__str__</span><span style="color: #000000">(self):
+        </span><span style="color: #0000ff">return</span> self.name</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong>adminx.py里开启插件</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">class</span><span style="color: #000000"> CourseResourceAdmin(object):
+    list_display </span>= [<span style="color: #800000">'</span><span style="color: #800000">course</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">download</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">add_time</span><span style="color: #800000">'</span>, <span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">xiougai</span><span style="color: #800000">'</span></span><span style="color: #000000">]
+    search_fields </span>= [<span style="color: #800000">'</span><span style="color: #800000">course</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">download</span><span style="color: #800000">'</span><span style="color: #000000">]
+    list_filter </span>= [<span style="color: #800000">'</span><span style="color: #800000">course</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">download</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">add_time</span><span style="color: #800000">'</span><span style="color: #000000">]
+    model_icon </span>= <span style="color: #800000">'</span><span style="color: #800000">fa fa-hdd-o</span><span style="color: #800000">'</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> list_editable = ['download']</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> show_detail_fields = ['download']</span>
+    <span style="background-color: #ff99cc">shang_chuan_wen_jian =</span><span style="color: #000000"><span style="background-color: #ff99cc"> True
+</span>
+xadmin.site.register(CourseResource, CourseResourceAdmin)</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong>插件文件shang_chuan_wen_jian.py</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> json
+</span><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render, HttpResponse, redirect
+</span><span style="color: #0000ff">from</span> django.views.decorators.csrf <span style="color: #0000ff">import</span><span style="color: #000000"> csrf_exempt,csrf_protect
+</span><span style="color: #0000ff">from</span> django.utils.safestring <span style="color: #0000ff">import</span> mark_safe                       <span style="color: #008000">#</span><span style="color: #008000"> 允许执行html代码</span>
+
+<span style="color: #0000ff">from</span> xadmin.sites <span style="color: #0000ff">import</span><span style="color: #000000"> site
+</span><span style="color: #0000ff">from</span> xadmin.views <span style="color: #0000ff">import</span><span style="color: #000000"> BaseAdminPlugin, ListAdminView, CommAdminView, ModelAdminView
+
+</span><span style="color: #0000ff">from</span> MxOnline <span style="color: #0000ff">import</span><span style="color: #000000"> settings
+</span><span style="color: #0000ff">from</span> apps.utils.uploadfile <span style="color: #0000ff">import</span><span style="color: #000000"> Uploadfile
+
+
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> book_hanshu(download, id, app, models_biao, ziduan):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    :第一个参数，接收上传数据字段的数据库数据
+    :第二个参数，接收上传数据字段的数据库数据id
+    :第三个参数，接收当前的APP名称
+    :第四个参数，接收当前数据表的类名
+    :第五个参数，接收，当前上传字段名称
+    :return:
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    book </span>= <span style="color: #800000">"""</span><span style="color: #800000">
+    &lt;div class="modal fade" id="myModal"&gt;
+        &lt;div class="modal-dialog"&gt;
+            &lt;div class="modal-content"&gt;
+                &lt;div class="modal-header"&gt;
+                    &lt;button type="button" class="close" data-dismiss="modal"&gt;
+                        &lt;span&gt;&amp;times;&lt;/span&gt;&lt;/button&gt;
+                    &lt;h4 class="modal-title"&gt;上传文件&lt;/h4&gt;&lt;/div&gt;
+                &lt;div class="modal-body"&gt;
+                    &lt;form method="post" enctype="multipart/form-data"&gt;
+                        &lt;div id="yuan_shi" class="alert alert-success"&gt;&lt;/div&gt;
+                        &lt;div id="tishi" class="alert alert-success"&gt;请选择您要上传的文件&lt;/div&gt;
+                        &lt;input id="file" class="btn btn-default" type="file" name="file"/&gt;
+                        &lt;input id='app' value="" type="hidden" name="app"/&gt;
+                        &lt;input id='models_biao' value="" type="hidden" name="models_biao"/&gt;
+                        &lt;input id='n_id' value="" type="hidden" name="n_id"/&gt;
+                        &lt;input id='ziduan' value="" type="hidden" name="ziduan"/&gt;
+                        &lt;span id="daxiao"&gt;&lt;/span&gt;&lt;br/&gt;
+                        &lt;span id="daxiao2"&gt;&lt;/span&gt;&lt;br/&gt;
+                        &lt;div id="jdt" class="progress"&gt;
+                            &lt;div id="prog" class="progress-bar" style="min-width:20px; width: 0%;"&gt;0%&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+                &lt;div class="modal-footer"&gt;
+                    &lt;button id="shch_anllou" type="button" class="btn btn-primary"&gt;
+                        上传文件
+                    &lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!--data-toggle="modal"声明事件切换类型，modal表示模态框类型(Bootstrap)--&gt;
+    &lt;!--data-target="#myModal"&gt;声明事件操作对象，#myModal表示点击后关闭id为#myModal的元素(Bootstrap)--&gt;
+    &lt;span&gt;&lt;/span&gt;
+    &lt;button n_nr="{download}" n_id='{n_id}' app='{app}' models_biao='{models_biao}' ziduan='{ziduan}' class="btn btn-primary btn-xs xiou_gai" data-toggle="modal" data-target="#myModal"&gt;
+        点击修改
+    &lt;/button&gt;
+    </span><span style="color: #800000">"""</span>.format(download=download, n_id=id, app=app, models_biao=models_biao, ziduan=<span style="color: #000000">ziduan)
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> mark_safe(book)
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> 上传逻辑</span>
+<span style="color: #000000">@csrf_exempt
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> Shang_chuan_wen_jian(request):
+    </span><span style="color: #0000ff">if</span> request.method == <span style="color: #800000">"</span><span style="color: #800000">POST</span><span style="color: #800000">"</span><span style="color: #000000">:
+        file </span>= request.FILES.get(<span style="color: #800000">'</span><span style="color: #800000">file</span><span style="color: #800000">'</span>)                    <span style="color: #008000">#</span><span style="color: #008000"> 获取上传文件对象</span>
+        xieru_wjian = Uploadfile(<span style="color: #800000">'</span><span style="color: #800000">course/resource</span><span style="color: #800000">'</span><span style="color: #000000">,file)
+
+        app </span>= request.POST.get(<span style="color: #800000">'</span><span style="color: #800000">app</span><span style="color: #800000">'</span>)                       <span style="color: #008000">#</span><span style="color: #008000"> 获取前台传过来的APP名称</span>
+        models_biao = request.POST.get(<span style="color: #800000">'</span><span style="color: #800000">models_biao</span><span style="color: #800000">'</span>)       <span style="color: #008000">#</span><span style="color: #008000"> 获取前台传过来的数据表名称</span>
+        n_id = request.POST.get(<span style="color: #800000">'</span><span style="color: #800000">n_id</span><span style="color: #800000">'</span>)                     <span style="color: #008000">#</span><span style="color: #008000"> 获取前台传过来的数据id</span>
+        ziduan = request.POST.get(<span style="color: #800000">'</span><span style="color: #800000">ziduan</span><span style="color: #800000">'</span>)                 <span style="color: #008000">#</span><span style="color: #008000"> 获取要修改的字段</span>
+
+        <span style="color: #008000">#</span><span style="color: #008000"> 动态导入数据库模块</span>
+        orm = <span style="color: #800080">__import__</span>(<span style="color: #800000">'</span><span style="color: #800000">{0}.models</span><span style="color: #800000">'</span>.format(app),models_biao,fromlist=<span style="color: #000000">True)
+        pd_models_biao </span>= hasattr(orm,models_biao)           <span style="color: #008000">#</span><span style="color: #008000"> 判断当前数据表是否存在</span>
+        <span style="color: #0000ff">if</span> pd_models_biao <span style="color: #0000ff">and</span><span style="color: #000000"> xieru_wjian:
+            hq_models_biao </span>= getattr(orm,models_biao)       <span style="color: #008000">#</span><span style="color: #008000"> 如果存在，找到数据表类</span>
+            xieru =<span style="color: #000000"> {ziduan:xieru_wjian}
+            biao </span>= hq_models_biao.objects.filter(id=n_id).update(**<span style="color: #000000">xieru)
+            </span><span style="color: #0000ff">if</span><span style="color: #000000"> biao:
+                </span><span style="color: #0000ff">return</span> HttpResponse(json.dumps({<span style="color: #800000">'</span><span style="color: #800000">url</span><span style="color: #800000">'</span><span style="color: #000000">:xieru_wjian}))
+        </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+            </span><span style="color: #0000ff">return</span> HttpResponse(<span style="color: #800000">'</span><span style="color: #800000">数据表不存在</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">return</span> HttpResponse(<span style="color: #800000">''</span><span style="color: #000000">)
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> EditablePlugin(BaseAdminPlugin):
+    shang_chuan_wen_jian </span>=<span style="color: #000000"> False
+
+    </span><span style="color: #0000ff">def</span> init_request(self, *args, **<span style="color: #000000">kwargs):
+        </span><span style="color: #0000ff">return</span><span style="color: #000000"> bool(self.shang_chuan_wen_jian)
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 在网页头部注入js[列表页，内容页]</span>
+    <span style="color: #0000ff">def</span><span style="color: #000000"> block_extrahead(self, context, nodes):
+        js </span>= <span style="color: #800000">'</span><span style="color: #800000">&lt;script type="text/javascript" src="{0}"&gt;&lt;/script&gt;</span><span style="color: #800000">'</span>.format(settings.STATIC_URL + <span style="color: #800000">'</span><span style="color: #800000">shang_chuan_wen_jian.js</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #008000">#</span><span style="color: #008000"> js += '&lt;script type="text/javascript" src="{0}"&gt;&lt;/script&gt;'.format(settings.STATIC_URL + 'jquery.form.js')</span>
+<span style="color: #000000">        nodes.append(js)
+
+
+site.register_plugin(EditablePlugin, ListAdminView)         </span><span style="color: #008000">#</span><span style="color: #008000"> 列表逻辑</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong>js文件</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+ * Created by admin on 2017/9/26.
+ </span><span style="color: #008000">*/</span><span style="color: #000000">
+jQuery(</span><span style="color: #0000ff">function</span><span style="color: #000000"> ($) {
+
+    </span><span style="color: #0000ff">var</span> totalSize = 0<span style="color: #000000">;
+
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">初始化隐藏进度条</span>
+    $('#jdt'<span style="color: #000000">).hide();
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">绑定所有type=file的元素的onchange事件的处理函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">当选定文件时触发函数</span>
+    $(':file').change(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> file = <span style="color: #0000ff">this</span>.files[0]; <span style="color: #008000">//</span><span style="color: #008000">假设file标签没打开multiple属性，那么只取第一个文件就行了</span>
+        name =<span style="color: #000000"> file.name;
+        size </span>=<span style="color: #000000"> file.size;
+        type </span>=<span style="color: #000000"> file.type;
+        url </span>= window.URL.createObjectURL(file); <span style="color: #008000">//</span><span style="color: #008000">获取本地文件的url，如果是图片文件，可用于预览图片</span>
+
+        <span style="color: #008000">//</span><span style="color: #008000">$(this).next().html("文件名：" + name + " 文件类型：" + type + " 文件大小：" + size + " url: " + url);</span>
+<span style="color: #000000">
+        totalSize </span>+= size;<span style="color: #008000">//</span><span style="color: #008000">字节</span>
+        <span style="color: #0000ff">var</span> mb = parseInt(totalSize / 1024 / 1024<span style="color: #000000">);
+        $(</span>"#daxiao").html("总大小: " + totalSize + "-字节"<span style="color: #000000">);
+        $(</span>"#daxiao2").html("总大小: " + mb + "-mb"<span style="color: #000000">);
+
+    });
+
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击修改按钮时触发函数</span>
+    $('.xiou_gai').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取需要传递到后台的参数</span>
+        <span style="color: #0000ff">var</span> n_nr = $(<span style="color: #0000ff">this</span>).attr('n_nr'<span style="color: #000000">);
+        </span><span style="color: #0000ff">var</span> n_id = $(<span style="color: #0000ff">this</span>).attr('n_id'<span style="color: #000000">);
+        </span><span style="color: #0000ff">var</span> app = $(<span style="color: #0000ff">this</span>).attr('app'<span style="color: #000000">);
+        </span><span style="color: #0000ff">var</span> models_biao = $(<span style="color: #0000ff">this</span>).attr('models_biao'<span style="color: #000000">);
+        </span><span style="color: #0000ff">var</span> ziduan = $(<span style="color: #0000ff">this</span>).attr('ziduan'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">将参数填充到表单以便提交后台</span>
+        $('#yuan_shi').text('原始文件：' +<span style="color: #000000"> n_nr);
+        $(</span>'#n_id'<span style="color: #000000">).val(n_id);
+        $(</span>'#app'<span style="color: #000000">).val(app);
+        $(</span>'#models_biao'<span style="color: #000000">).val(models_biao);
+        $(</span>'#ziduan'<span style="color: #000000">).val(ziduan);
+    });
+
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">向表单区域添加一个form标签</span>
+    $('#myModal').wrap('&lt;form id="form" method="post" enctype="multipart/form-data"&gt;'<span style="color: #000000">);
+    $(</span>'#form').wrap('&lt;div id="form_zhuti"&gt;'<span style="color: #000000">);
+
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击上传按钮后触发函数</span>
+    $('#shch_anllou').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> file_zhi = $('#file'<span style="color: #000000">).val();
+        </span><span style="color: #0000ff">if</span><span style="color: #000000"> (file_zhi){
+            upload()
+        }</span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+            $(</span>'#tishi').attr('class','alert alert-danger'<span style="color: #000000">)
+        }
+
+    });
+
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击选择框后恢复提示框颜色</span>
+    $('#file').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $(</span>'#tishi').attr('class','alert alert-success'<span style="color: #000000">);
+        $(</span>'#tishi').text('请选择您要上传的文件'<span style="color: #000000">)
+    });
+
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">ajax提交函数</span>
+    <span style="color: #0000ff">function</span><span style="color: #000000"> upload() {
+        </span><span style="color: #008000">//</span><span style="color: #008000">创建FormData对象，初始化为form表单中的数据。需要添加其他数据可使用formData.append("property", "value");</span>
+        <span style="color: #0000ff">var</span> formData = <span style="color: #0000ff">new</span> FormData($('#form_zhuti form')[0<span style="color: #000000">]);
+        $(</span>'#jdt'<span style="color: #000000">).show();
+        $.ajax({
+            url: </span>"/shang_chuan_wen_jian/"<span style="color: #000000">,
+            type: </span>"POST"<span style="color: #000000">,
+            data: formData,
+            dataType: </span>'json'<span style="color: #000000">,
+            </span><span style="color: #008000">//</span><span style="color: #008000">获取ajaxSettings中的xhr对象，为它的upload属性绑定progress事件的处理函数</span>
+            xhr: <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                myXhr </span>=<span style="color: #000000"> $.ajaxSettings.xhr();
+                </span><span style="color: #008000">//</span><span style="color: #008000">检查upload属性是否存在</span>
+                <span style="color: #0000ff">if</span><span style="color: #000000"> (myXhr.upload) {
+                    </span><span style="color: #008000">//</span><span style="color: #008000">绑定progress事件的回调函数</span>
+                    myXhr.upload.addEventListener('progress', progressHandlingFunction, <span style="color: #0000ff">false</span><span style="color: #000000">);
+                }
+                </span><span style="color: #0000ff">return</span> myXhr; <span style="color: #008000">//</span><span style="color: #008000">xhr对象返回给jQuery使用</span>
+<span style="color: #000000">            },
+            success: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (result) {
+                </span><span style="color: #008000">//</span><span style="color: #008000">返回json格式，里面是上传成功后的URL</span>
+                <span style="color: #008000">//</span><span style="color: #008000"> alert(result.url);</span>
+                $('#yuan_shi'<span style="color: #000000">).text(result.url);
+                $(</span>'#tishi').text('恭喜上传成功！'<span style="color: #000000">);
+                $(</span>'#tishi').attr('class','alert alert-info'<span style="color: #000000">);
+                $(</span>'#tishi').attr({'style':'font-size:20px;font-weight:bold;'<span style="color: #000000">});
+
+                </span><span style="color: #008000">//</span><span style="color: #008000">睡眠</span>
+                setTimeout(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                    </span><span style="color: #008000">//</span><span style="color: #008000"> window.location.reload();   //刷新浏览器</span>
+                    top.location.reload();   <span style="color: #008000">//</span><span style="color: #008000">刷新页面</span>
+                }, 2000<span style="color: #000000">);
+
+            },
+            contentType: </span><span style="color: #0000ff">false</span>,  <span style="color: #008000">//</span><span style="color: #008000">必须false才会自动加上正确的Content-Type</span>
+            processData: <span style="color: #0000ff">false</span>,  <span style="color: #008000">//</span><span style="color: #008000">必须false才会避开jQuery对 formdata 的默认处理</span>
+            error:<span style="color: #0000ff">function</span><span style="color: #000000"> (xhr, status, info){
+                $(</span>'#tishi').attr('class','alert alert-danger'<span style="color: #000000">);
+                $(</span>'#tishi').text('遗憾上传出错了'<span style="color: #000000">)
+            }
+        });
+    }
+
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">上传进度回调函数：</span>
+    <span style="color: #0000ff">function</span><span style="color: #000000"> progressHandlingFunction(e) {
+        </span><span style="color: #0000ff">if</span><span style="color: #000000"> (e.lengthComputable) {
+            </span><span style="color: #0000ff">var</span> percent = e.loaded / e.total * 100<span style="color: #000000">;
+            </span><span style="color: #0000ff">var</span> bfbi = percent.toFixed(2) + "%"<span style="color: #000000">;
+            $(</span>'#prog').attr("style", 'width:' + bfbi); <span style="color: #008000">//</span><span style="color: #008000">更新数据到进度条</span>
+            $('#prog'<span style="color: #000000">).html(bfbi);
+            </span><span style="color: #008000">//</span><span style="color: #008000"> $('#daxiao3').html(e.loaded + "/" + e.total+" bytes. " + percent.toFixed(2) + "%");</span>
+<span style="color: #000000">        }
+    }
+
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">当上传框关闭后触发</span>
+    $('#myModal').on('hide.bs.modal', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">当模态框关闭是清空表单和参数</span>
+        $('#yuan_shi').text(''<span style="color: #000000">);
+        $(</span>'#n_id').val(''<span style="color: #000000">);
+        $(</span>'#app').val(''<span style="color: #000000">);
+        $(</span>'#models_biao').val(''<span style="color: #000000">);
+        $(</span>'#file').val(''<span style="color: #000000">);
+        $(</span>'#daxiao').text(''<span style="color: #000000">);
+        $(</span>'#daxiao2').text(''<span style="color: #000000">);
+        $(</span>'#jdt'<span style="color: #000000">).hide();
+        $(</span>'#prog').attr("style", {'width': 0}); <span style="color: #008000">//</span><span style="color: #008000">更新数据到进度条</span>
+        $('#prog').html(0<span style="color: #000000">);
+        $(</span>'#tishi').attr('class','alert alert-success'<span style="color: #000000">);
+        $(</span>'#ziduan').val(''<span style="color: #000000">);
+    });
+
+
+
+
+
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong>最终效果</strong></span></p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170929140229950-802863403.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p>补充：<strong>adminx.py 注册管理器，接收每次后台提交的请求，进行逻辑处理</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 录音作品</span>
+<span style="color: #0000ff">class</span><span style="color: #000000"><span style="background-color: #ff99cc"> app_zuopinAdmin</span>(object):
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台显示字段</span>
+    list_display = [<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">title</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">psrc</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">lu_yin_shang_chuan</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">yangsrc</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">yamg_yin_shit</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">shen_chen_yang_yin</span><span style="color: #800000">'</span><span style="color: #000000">]
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台搜索字段，注意：搜索字段如果有时间类型会报错</span>
+    search_fields = [<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">title</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">des</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">key</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">psrc</span><span style="color: #800000">'</span><span style="color: #000000">]
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> # 设置xadmin后台过滤器帅选字段，时间用过滤器来做</span>
+    list_filter = [<span style="color: #800000">'</span><span style="color: #800000">title</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">des</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">key</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">xing_bie</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">yu_zhong</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">ti_cai</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">shi_jian</span><span style="color: #800000">'</span><span style="color: #000000">]
+    </span>
+<span style="background-color: #ffff00">    <span style="color: #0000ff">def</span> post(<span style="background-color: #ff99cc">self, request, *args, **</span><span style="color: #000000"><span style="background-color: #ff99cc">kwargs</span>):
+   </span>
+        逻辑处理</span><br><br><span style="background-color: #ffff00">
+        <span style="color: #008000">#</span><span style="color: #008000"> 一定要这样返回，否则会出错</span>
+        <span style="color: #0000ff">return</span> super(<span style="background-color: #ff99cc">app_zuopinAdmin</span>, self).post(<span style="background-color: #ff99cc">request, *args, **</span><span style="color: #000000"><span style="background-color: #ff99cc">kwargs</span>)
+
+</span></span><span style="color: #008000">#</span><span style="color: #008000"> 管理器重写后重新注册</span>
+xadmin.site.register(Zuopin, app_zuopinAdmin)</pre>
+</div>
+<p>&nbsp;</p></div>

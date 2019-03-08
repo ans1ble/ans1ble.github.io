@@ -1,0 +1,305 @@
+第二百零三节，jQuery EasyUI，Window(窗口)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，Window(窗口)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170401173118477-1222626233.png" alt=""></p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式 </strong></p>
+<p><strong>　　2.属性列表</strong></p>
+<p><strong> 　　3.事件列表 </strong></p>
+<p><strong>　　4.方法列表</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 中 Window(窗口)组件的使用方法，这个组件依赖于 <span style="color: #0000ff">Panel（面 板）组件、resizable(调整大小)和 draggable(拖动)组件。</span>这个组件扩展与 Panel 组件， 最大的优势就是调整大小和拖动以及内部布局。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<p><span style="color: #0000ff"><strong>class 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="easyui-window"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="My Window"</span><span style="color: #ff0000">
+     style</span><span style="color: #0000ff">="width:600px;height:400px"</span><span style="color: #ff0000">
+     data-options</span><span style="color: #0000ff">="iconCls:'icon-save',modal:true"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    窗口
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>window()让一个元素，执行窗口方法</strong></span></p>
+<p><span style="color: #0000ff"><strong>JS 加载调用</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        width: </span>600<span style="color: #000000">,
+        height: </span>400<span style="color: #000000">,
+        modal: </span><span style="color: #0000ff">true</span><span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><span style="color: #0000ff"><strong>窗口属性扩展自 Panel(面板)，窗口新增或重新定义的属性如下：</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170401152452742-850446016.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170401152500602-1189319152.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>title &nbsp; string 窗口的标题文本。默认值为“New Window”。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        title:</span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>collapsible &nbsp; boolean 定义是否显示可折叠按钮。默认值为 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        title:</span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+        collapsible:<span style="color: #0000ff">false</span>   <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认值为 true。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>minimizable &nbsp; boolean 定义是否显示最小化按钮。默认值为 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        title:</span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+        collapsible:<span style="color: #0000ff">false</span>,   <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认值为 true。</span>
+        minimizable:<span style="color: #0000ff">false</span>   <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认值为 true。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>maximizable &nbsp; boolean 定义是否显示最大化按钮。默认值为 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        title:</span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+        collapsible:<span style="color: #0000ff">false</span>,   <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认值为 true。</span>
+        minimizable:<span style="color: #0000ff">false</span>,   <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认值为 true。</span>
+        maximizable:<span style="color: #0000ff">false</span>   <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认值为 true。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>closable &nbsp; boolean 定义是否显示关闭按钮。默认值为 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        title:</span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+        collapsible:<span style="color: #0000ff">false</span>,   <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认值为 true。</span>
+        minimizable:<span style="color: #0000ff">false</span>,   <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认值为 true。</span>
+        maximizable:<span style="color: #0000ff">false</span>,   <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认值为 true。</span>
+        closable:<span style="color: #0000ff">false</span>      <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。默认值为 true。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>closed &nbsp; boolean 定义是否可以关闭窗口。默认值为 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        title:</span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+        collapsible:<span style="color: #0000ff">false</span>,   <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认值为 true。</span>
+        minimizable:<span style="color: #0000ff">false</span>,   <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认值为 true。</span>
+        maximizable:<span style="color: #0000ff">false</span>,   <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认值为 true。</span>
+        closable:<span style="color: #0000ff">false</span>,      <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。默认值为 true。</span>
+        closed:<span style="color: #0000ff">true</span>         <span style="color: #008000">//</span><span style="color: #008000">定义是否关闭窗口。默认值为 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>zIndex &nbsp; number 窗口 Z 轴坐标。默认值为9000。<span style="color: #0000ff">也就是外层等级，设置层级关系</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        title:</span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+        zIndex:99999          <span style="color: #008000">//</span><span style="color: #008000">窗口 Z 轴坐标。默认值为9000。也就是外层等级，设置层级关系</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>draggable &nbsp; boolean 定义是否能够拖拽窗口。默认值为 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        title:</span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+        zIndex:99999,          <span style="color: #008000">//</span><span style="color: #008000">窗口 Z 轴坐标。默认值为9000。也就是外层等级，设置层级关系</span>
+        draggable:<span style="color: #0000ff">false</span>     <span style="color: #008000">//</span><span style="color: #008000">定义是否能够拖拽窗口。默认值为 true。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>resizable &nbsp; boolean 定义是否能够改变窗口大小。默认值为true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        title:</span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+        zIndex:99999,          <span style="color: #008000">//</span><span style="color: #008000">窗口 Z 轴坐标。默认值为9000。也就是外层等级，设置层级关系</span>
+        draggable:<span style="color: #0000ff">false</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否能够拖拽窗口。默认值为 true。</span>
+        resizable:<span style="color: #0000ff">false</span>     <span style="color: #008000">//</span><span style="color: #008000">定义是否能够改变窗口大小。默认值为true。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>shadow &nbsp; boolean 如果设置为 true，在窗体显示的时候显示阴影。默认值为 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        width: </span>600<span style="color: #000000">,
+        height: </span>400<span style="color: #000000">,
+        title:</span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+        zIndex:99999,          <span style="color: #008000">//</span><span style="color: #008000">窗口 Z 轴坐标。默认值为9000。也就是外层等级，设置层级关系</span>
+        draggable:<span style="color: #0000ff">false</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否能够拖拽窗口。默认值为 true。</span>
+        resizable:<span style="color: #0000ff">false</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否能够改变窗口大小。默认值为true。</span>
+        shadow:<span style="color: #0000ff">false</span>        <span style="color: #008000">//</span><span style="color: #008000">如果设置为 true，在窗体显示的时候显示阴影。默认值为 true。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>inline &nbsp; boolean定义如何布局窗口，如果设置为 true，窗口将显示在它的父容器中，否则将显示在所有元素的上面。默认值为 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        width: </span>400<span style="color: #000000">,
+        height: </span>200<span style="color: #000000">,
+        title:</span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+        zIndex:99999,          <span style="color: #008000">//</span><span style="color: #008000">窗口 Z 轴坐标。默认值为9000。也就是外层等级，设置层级关系</span>
+        draggable:<span style="color: #0000ff">false</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否能够拖拽窗口。默认值为 true。</span>
+        resizable:<span style="color: #0000ff">false</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否能够改变窗口大小。默认值为true。</span>
+        shadow:<span style="color: #0000ff">false</span>,        <span style="color: #008000">//</span><span style="color: #008000">如果设置为 true，在窗体显示的时候显示阴影。默认值为 true。</span>
+        inline:<span style="color: #0000ff">false</span>         <span style="color: #008000">//</span><span style="color: #008000">定义如何布局窗口，如果设置为 true，窗口将显示在它的父容器中，否则将显示在所有元素的上面。默认值为 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>modal &nbsp; boolean 定义是否将窗体显示为模式化窗口。默认值为 true。<span style="color: #0000ff">是否显示遮罩</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        width: </span>400<span style="color: #000000">,
+        height: </span>200<span style="color: #000000">,
+        title:</span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+        zIndex:99999,          <span style="color: #008000">//</span><span style="color: #008000">窗口 Z 轴坐标。默认值为9000。也就是外层等级，设置层级关系</span>
+        draggable:<span style="color: #0000ff">false</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否能够拖拽窗口。默认值为 true。</span>
+        resizable:<span style="color: #0000ff">false</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否能够改变窗口大小。默认值为true。</span>
+        shadow:<span style="color: #0000ff">false</span>,        <span style="color: #008000">//</span><span style="color: #008000">如果设置为 true，在窗体显示的时候显示阴影。默认值为 true。</span>
+        inline:<span style="color: #0000ff">false</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义如何布局窗口，如果设置为 true，窗口将显示在它的父容器中，否则将显示在所有元素的上面。默认值为 false。</span>
+        modal:<span style="color: #0000ff">true</span>          <span style="color: #008000">//</span><span style="color: #008000">定义是否将窗体显示为模式化窗口。默认值为 true。是否显示遮罩</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>还有其他属性可以用Panel(面板)的属性，因为他继承Panel(面板)</strong></span></p>
+<p><span style="color: #ff0000"><strong>PS：以上属性是 Window 自行扩展或代替 Panel 的属性，本身 Window 就是依赖于 Panel 的。所以，上面没有涉及到的属性，请查看 Panel 的属性即可。比如：</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">这里的 fit 和 iconCls 来自 Panel 属性</span>
+$('#box'<span style="color: #000000">).window({
+    width : </span>600<span style="color: #000000">,
+    height : </span>400<span style="color: #000000">,
+    modal : </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    fit : </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    iconCls : </span>'icon-add'<span style="color: #000000">,
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．事件列表</strong></span></p>
+<p><span style="color: #ff0000"><strong>窗口的事件完整继承自 Panel(面板)。所以，直接参考 Panel 面板的事件即可。<span style="color: #0000ff">事件见<strong>Panel(面板)事件</strong></span></strong></span></p>
+<p><span style="color: #0000ff"><strong>如：</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        width: </span>400<span style="color: #000000">,
+        height: </span>200<span style="color: #000000">,
+        title: </span>'窗口标题',   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+        onClose: <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            alert(</span>'关闭后触发！'<span style="color: #000000">);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．方法列表</strong></span></p>
+<p><span style="color: #0000ff"><strong>窗口的方法扩展自 Panel(面板)，窗口新增方法如下：</strong></span></p>
+<p><span style="color: #0000ff"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170401160255102-278495190.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>window &nbsp; none 返回外部窗口对象</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        width: </span>400<span style="color: #000000">,
+        height: </span>200<span style="color: #000000">,
+        title: </span>'窗口标题'   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').window('window'));     <span style="color: #008000">//</span><span style="color: #008000">返回外部窗口对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>hcenter &nbsp; none 仅水平居中窗口。<span style="color: #0000ff">当窗口位置发生改变时，将窗口重新<strong>仅水平居中窗口</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        width: </span>400<span style="color: #000000">,
+        height: </span>200<span style="color: #000000">,
+        title: </span>'窗口标题'   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+<span style="color: #000000">    });
+    $(</span>'#box').window('hcenter');     <span style="color: #008000">//</span><span style="color: #008000">仅水平居中窗口。</span>
+});</pre>
+</div>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">//</span><span style="color: #008000">单击时调整位置</span>
+    $(document).click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $(</span>'#box').window('move'<span style="color: #000000">, {
+            left: </span>0<span style="color: #000000">,
+            top: </span>0<span style="color: #000000">,
+        });
+    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">双击时恢复各种居中</span>
+    $(document).dblclick(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">替换成 center 或 vcenter 亦可</span>
+        $('#box').window('hcenter'<span style="color: #000000">);
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>vcenter &nbsp; none 仅垂直居中窗口。<span style="color: #0000ff"><strong>当窗口位置发生改变时，将窗口重新<strong>仅垂直居中窗口</strong></strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        width: </span>400<span style="color: #000000">,
+        height: </span>200<span style="color: #000000">,
+        title: </span>'窗口标题'   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+<span style="color: #000000">    });
+    $(</span>'#box').window('vcenter');     <span style="color: #008000">//</span><span style="color: #008000">当窗口位置发生改变时，将窗口重新仅垂直居中窗口</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>center &nbsp; none 将窗口绝对居中。<span style="color: #0000ff"><strong>当窗口位置发生改变时，将窗口重新<strong>绝对</strong><strong>居中窗口</strong></strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).window({
+        width: </span>400<span style="color: #000000">,
+        height: </span>200<span style="color: #000000">,
+        title: </span>'窗口标题'   <span style="color: #008000">//</span><span style="color: #008000">窗口的标题文本。默认值为“New Window”。</span>
+<span style="color: #000000">    });
+    $(</span>'#box').window('center');     <span style="color: #008000">//</span><span style="color: #008000">当窗口位置发生改变时，将窗口重新绝对居中窗口</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>其他方法见<strong>Panel(面板)的方法</strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>使用$.fn.window.defaults 重写默认值对象。<span style="color: #0000ff">见前面的</span></strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>window 组件最强大的地方就是可以<span style="color: #0000ff">内部布局和添加 linkbutton。</span> 具体布局方法如下：</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><span style="color: #0000ff"> 1.外部用 window 组件包裹一下；</span></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><span style="color: #0000ff"> 2.内部用 layout 组件左右各分配一个，底部分配一个； </span></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><span style="color: #0000ff">3.底部添加一个按钮即可。</span></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="easyui-window"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:400px;height:250px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="easyui-layout"</span><span style="color: #ff0000"> data-options</span><span style="color: #0000ff">="fit:true,"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">data-options</span><span style="color: #0000ff">="region:'west',split:true,"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:100px;"</span><span style="color: #0000ff">&gt;</span>左边<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">data-options</span><span style="color: #0000ff">="region:'center'"</span><span style="color: #0000ff">&gt;</span>内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">data-options</span><span style="color: #0000ff">="region:'south',border:false"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="height:40px;text-align:right;padding:5px 5px 0 0"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="easyui-linkbutton"</span><span style="color: #ff0000"> data-options</span><span style="color: #0000ff">="iconCls:'icon-ok'"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:80px;"</span><span style="color: #0000ff">&gt;</span>确认<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="easyui-linkbutton"</span><span style="color: #ff0000"> data-options</span><span style="color: #0000ff">="iconCls:'icon-cancel'"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:80px;"</span><span style="color: #0000ff">&gt;</span>取消<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p></div>

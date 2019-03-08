@@ -1,0 +1,128 @@
+jQuery补充，模拟图片放大镜
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery补充，模拟图片放大镜</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170511195014707-435249857.png" alt=""></strong></p>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="css/fdj.css"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="outer"</span><span style="color: #0000ff">&gt;</span>                     <span style="color: #008000">&lt;!--</span><span style="color: #008000">放大镜主体div</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="small_box"</span><span style="color: #0000ff">&gt;</span>             <span style="color: #008000">&lt;!--</span><span style="color: #008000">放大镜小图区域</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="float"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>       <span style="color: #008000">&lt;!--</span><span style="color: #008000">小图里的玻璃罩区域</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/small.jpg"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="big_box"</span><span style="color: #0000ff">&gt;</span>               <span style="color: #008000">&lt;!--</span><span style="color: #008000">放大镜大图区域</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/big.jpg"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="jquery/jquery.min.js"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="fdj.js"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>css</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8";
+*</span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0</span>;
+}<span style="color: #800000">
+.outer</span>{                         <span style="color: #008000">/*</span><span style="color: #008000">放大镜主体div</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 350px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 350px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff">5px solid #0f68ee</span>;
+}<span style="color: #800000">
+.outer .small_box</span>{              <span style="color: #008000">/*</span><span style="color: #008000">放大镜小图区域</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> relative</span>;
+}<span style="color: #800000">
+.outer .small_box .float</span>{       <span style="color: #008000">/*</span><span style="color: #008000">放大镜小图区域里的玻璃罩</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 175px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 175px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #ABC7E2</span>;<span style="color: #ff0000">
+    opacity</span>:<span style="color: #0000ff"> 0.4</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> none</span>;
+}<span style="color: #800000">
+.outer .big_box</span>{                <span style="color: #008000">/*</span><span style="color: #008000">放大镜大图区域</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 400px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 400px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff">5px solid #0f68ee</span>;<span style="color: #ff0000">
+    overflow</span>:<span style="color: #0000ff">hidden</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff"> 370px</span>;<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> none</span>;
+}<span style="color: #800000">
+.outer .big_box img</span>{<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;
+}</pre>
+</div>
+<p><span style="color: #0000ff"><strong>js</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+ * Created by admin on 2017/5/10.
+ </span><span style="color: #008000">*/</span><span style="color: #000000">
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000"> 当鼠标悬浮到小图片区域的时候，执行鼠标悬浮事件</span>
+    $('.outer .small_box').mouseover(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $(</span>'.outer .small_box .float').css('display','block');           <span style="color: #008000">//</span><span style="color: #008000">显示小图片区域里的玻璃罩</span>
+        $('.outer .big_box').css('display','block');                    <span style="color: #008000">//</span><span style="color: #008000">显示大图片区域</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">当前鼠标离开小图片区域的时候，执行鼠标离开事件</span>
+    $('.outer .small_box').mouseout(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $(</span>'.outer .small_box .float').css('display','none');            <span style="color: #008000">//</span><span style="color: #008000">隐藏小图片区域里的玻璃罩</span>
+        $('.outer .big_box').css('display','none');                     <span style="color: #008000">//</span><span style="color: #008000">隐藏大图片区域</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000"> 当鼠标在小图片区域移动的时候，执行鼠标移动事件</span>
+    $('.outer .small_box').mousemove(<span style="color: #0000ff">function</span><span style="color: #000000"> (e) {
+        </span><span style="color: #0000ff">var</span> _event = e || window.event;                                 <span style="color: #008000">//</span><span style="color: #008000">接收事件里的event对象信息</span>
+
+        <span style="color: #0000ff">var</span> small_box_height = $('.outer .small_box').height();         <span style="color: #008000">//</span><span style="color: #008000">获取小图区域div的高度</span>
+        <span style="color: #0000ff">var</span> small_box_width = $('.outer .small_box').width();           <span style="color: #008000">//</span><span style="color: #008000">获取小图区域div的宽度</span>
+
+        <span style="color: #0000ff">var</span> float_height = $('.outer .small_box .float').height();      <span style="color: #008000">//</span><span style="color: #008000">获取小图区域里的玻璃罩高度</span>
+        <span style="color: #0000ff">var</span> float_width = $('.outer .small_box .float').width();        <span style="color: #008000">//</span><span style="color: #008000">获取小图区域里的玻璃罩宽度</span>
+
+        <span style="color: #0000ff">var</span> float_height_ban = $('.outer .small_box .float').height()/2;    //获取小图区域里的玻璃罩一半高度
+        <span style="color: #0000ff">var</span> float_width_ban = $('.outer .small_box .float').width()/2;      //获取小图区域里的玻璃罩一半宽度
+
+        <span style="color: #008000">//</span><span style="color: #008000">换算玻璃罩滑动值</span>
+        <span style="color: #0000ff">var</span> mouse_left = _event.clientX - float_width_ban;                  <span style="color: #008000">//</span><span style="color: #008000">将鼠标点与左边边距，减去玻璃罩的一半，就是玻璃罩横向滑动值</span>
+        <span style="color: #0000ff">var</span> mouse_top = _event.clientY - float_height_ban;                  <span style="color: #008000">//</span><span style="color: #008000">将鼠标点与上边边距，减去玻璃罩的一百，就是玻璃罩纵向滑动值</span>
+
+        <span style="color: #0000ff">if</span> (mouse_left &lt; 0){                                                <span style="color: #008000">//</span><span style="color: #008000">玻璃罩横向滑动值，如果小于0</span>
+            mouse_left = 0;                                                 <span style="color: #008000">//</span><span style="color: #008000">将璃罩横向滑动值，设置为0</span>
+        }<span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (mouse_left &gt;small_box_width - float_width){               <span style="color: #008000">//</span><span style="color: #008000">判断璃罩横向滑动值，如果大于了小图区域宽度减去玻璃罩宽度，说明璃罩横向滑动值向右已经超出了小图区域</span>
+            mouse_left = small_box_width - float_width;                     <span style="color: #008000">//</span><span style="color: #008000">将璃罩横向滑动值，设置成小图区域宽度减去玻璃罩宽度，就是横向滑动值向右到头</span>
+<span style="color: #000000">        }
+
+        </span><span style="color: #0000ff">if</span> (mouse_top &lt; 0){                                                 <span style="color: #008000">//</span><span style="color: #008000">玻璃罩纵向滑动值，如果小于0</span>
+            mouse_top = 0;                                                  <span style="color: #008000">//</span><span style="color: #008000">将璃罩纵向滑动值，设置为0</span>
+        }<span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (mouse_top &gt;small_box_height - float_height){              <span style="color: #008000">//</span><span style="color: #008000">判断璃罩纵向滑动值，如果大于了小图区域高度减去玻璃罩高度，说明璃罩纵向滑动值向下已经超出了小图区域</span>
+            mouse_top = small_box_height - float_height;                    <span style="color: #008000">//</span><span style="color: #008000">将璃罩纵向滑动值，设置成小图区域高度减去玻璃罩高度，就是纵向滑动值向下到头</span>
+<span style="color: #000000">        }
+
+        $(</span>'.outer .small_box .float').css('left',mouse_left + 'px');        <span style="color: #008000">//</span><span style="color: #008000">获取到玻璃罩纵向滑动值</span>
+        $('.outer .small_box .float').css('top',mouse_top + 'px');          <span style="color: #008000">//</span><span style="color: #008000">获取到玻璃罩横向滑动值</span>
+
+        <span style="color: #008000">//</span><span style="color: #008000">换算大图滑动比例</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将大图片的宽度减去大图容器div宽度，除以小图容器div宽度减去玻璃罩宽度，等于大图反向横向滑动比例</span>
+        <span style="color: #0000ff">var</span> percentX = ($('.outer .big_box img').width()-$('.outer .big_box').width())/(small_box_width-float_width);
+        <span style="color: #008000">//</span><span style="color: #008000">将大图片的高度减去大图容器div高度，除以小图容器div高度减去玻璃罩高度，等于大图反向纵向滑动比例</span>
+        <span style="color: #0000ff">var</span> percentY = ($('.outer .big_box img').height()-$('.outer .big_box').height())/(small_box_height-float_height);
+<span style="color: #000000">
+        $(</span>'.outer .big_box img').css('left',-percentX*mouse_left+'px'); <span style="color: #008000">//</span><span style="color: #008000">反向横向滑动比例，除以玻璃罩横向滑动值，等于大图横向滑动值</span>
+        $('.outer .big_box img').css('top',-percentY*mouse_top+'px');   <span style="color: #008000">//</span><span style="color: #008000">反向纵向滑动比例，除以玻璃罩纵向滑动值，等于大图纵向滑动值</span>
+<span style="color: #000000">    });
+
+});</span></pre>
+</div>
+<p>&nbsp;</p></div>

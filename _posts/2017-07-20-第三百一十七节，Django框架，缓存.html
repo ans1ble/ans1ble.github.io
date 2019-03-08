@@ -1,0 +1,275 @@
+第三百一十七节，Django框架，缓存
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百一十七节，Django框架，缓存</strong></p>
+<p><strong>由于Django是动态网站，所有每次请求均会去数据进行相应的操作，当程序访问量大时，耗时必然会更加明显，最简单解决方式是使用：缓存，缓存将一个某个views的返回值保存至内存或者memcache中，5分钟内再有人来访问时，则不再去执行view中的操作，而是直接从内存或者Redis中之前缓存的内容拿到，并返回。</strong></p>
+<p>&nbsp;</p>
+<p><strong>Django中提供了6种缓存方式：</strong><br><strong>　　1、开发调试，没有实质用途，只是配置了缓存配置</strong><br><strong>　　2、内存，将缓存保存在本地内存</strong><br><strong>　　3、文件，将缓存保存在本地文件</strong><br><strong>　　4、数据库，将缓存保存在数据库</strong><br><strong>　　5、Memcache缓存（python-memcached模块）将缓存保存在<strong>Memcache，用的<strong>python-memcached模块</strong></strong></strong><br><strong>　　6、Memcache缓存（pylibmc模块）<strong>将缓存保存在<strong>Memcache，用的<strong>pylibmc</strong><strong>模块</strong></strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>配置</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong>1、开发调试配置，</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">缓存配置</span><span style="color: #008000">
+#</span><span style="color: #008000"> 自定义缓存key</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"><span style="background-color: #ff99cc"> default_key_func</span>(key, key_prefix, version):
+    </span><span style="color: #0000ff">return</span> <span style="color: #800000">'</span><span style="color: #800000">%s:%s:%s</span><span style="color: #800000">'</span> %<span style="color: #000000"> (key_prefix, version, key)
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> 配置：</span>
+CACHES =<span style="color: #000000"> {
+    </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+        </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">django.core.cache.backends.dummy.DummyCache</span><span style="color: #800000">'</span>,   <span style="color: #008000">#</span><span style="color: #008000"> 开发调试，引擎</span>
+        <span style="color: #800000">'</span><span style="color: #800000">TIMEOUT</span><span style="color: #800000">'</span>: 300,                                             <span style="color: #008000">#</span><span style="color: #008000"> 缓存超时时间（默认300秒，None表示永不过期，0表示立即过期）如果使用中没设置，这里启用</span>
+        <span style="color: #800000">'</span><span style="color: #800000">OPTIONS</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">'</span><span style="color: #800000">MAX_ENTRIES</span><span style="color: #800000">'</span>: 300,                                     <span style="color: #008000">#</span><span style="color: #008000"> 最大缓存个数（默认300）</span>
+            <span style="color: #800000">'</span><span style="color: #800000">CULL_FREQUENCY</span><span style="color: #800000">'</span>: 3,                                    <span style="color: #008000">#</span><span style="color: #008000"> 缓存到达最大个数之后，剔除缓存个数的比例，即：1/CULL_FREQUENCY（默认3，删除百分之3）</span>
+<span style="color: #000000">        },
+        </span><span style="color: #800000">'</span><span style="color: #800000">KEY_PREFIX</span><span style="color: #800000">'</span>: <span style="color: #800000">''</span>,                                           <span style="color: #008000">#</span><span style="color: #008000"> 缓存key的前缀（默认空）</span>
+        <span style="color: #800000">'</span><span style="color: #800000">VERSION</span><span style="color: #800000">'</span>: 1,                                               <span style="color: #008000">#</span><span style="color: #008000"> 缓存key的版本（默认1），设置后缓存key会是，KEY_PREFIX前缀加VERSION版本</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 'KEY_FUNCTION': <span style="background-color: #ff99cc">default_key_func</span>                           # 生成key的函数（默认函数会生成为：【前缀:版本:key】）</span>
+<span style="color: #000000">    }
+}</span></pre>
+</div>
+<p><strong><span style="color: #ff0000">2、内存配置</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">缓存配置</span><span style="color: #008000">
+#</span><span style="color: #008000"> 自定义缓存key</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> default_key_func(key, key_prefix, version):
+    </span><span style="color: #0000ff">return</span> <span style="color: #800000">'</span><span style="color: #800000">%s:%s:%s</span><span style="color: #800000">'</span> %<span style="color: #000000"> (key_prefix, version, key)
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> 配置：</span>
+CACHES =<span style="color: #000000"> {
+    </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+        </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">django.core.cache.backends.locmem.LocMemCache</span><span style="color: #800000">'</span>,     <span style="color: #008000">#</span><span style="color: #008000">配置内存引擎</span>
+        <span style="color: #800000">'</span><span style="color: #800000">LOCATION</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">unique-snowflake</span><span style="color: #800000">'</span>,                                 <span style="color: #008000">#</span><span style="color: #008000">配置内存缓存名称</span>
+
+        <span style="color: #800000">'</span><span style="color: #800000">TIMEOUT</span><span style="color: #800000">'</span>: 300,                     <span style="color: #008000">#</span><span style="color: #008000"> 缓存超时时间（默认300秒，None表示永不过期，0表示立即过期）如果使用中没设置，这里启用</span>
+        <span style="color: #800000">'</span><span style="color: #800000">OPTIONS</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">'</span><span style="color: #800000">MAX_ENTRIES</span><span style="color: #800000">'</span>: 300,             <span style="color: #008000">#</span><span style="color: #008000"> 最大缓存个数（默认300）</span>
+            <span style="color: #800000">'</span><span style="color: #800000">CULL_FREQUENCY</span><span style="color: #800000">'</span>: 3,            <span style="color: #008000">#</span><span style="color: #008000"> 缓存到达最大个数之后，剔除缓存个数的比例，即：1/CULL_FREQUENCY（默认3，删除百分之3）</span>
+<span style="color: #000000">        },
+        </span><span style="color: #800000">'</span><span style="color: #800000">KEY_PREFIX</span><span style="color: #800000">'</span>: <span style="color: #800000">''</span>,                   <span style="color: #008000">#</span><span style="color: #008000"> 缓存key的前缀（默认空）</span>
+        <span style="color: #800000">'</span><span style="color: #800000">VERSION</span><span style="color: #800000">'</span>: 1,                       <span style="color: #008000">#</span><span style="color: #008000"> 缓存key的版本（默认1），设置后缓存key会是，KEY_PREFIX前缀加VERSION版本</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 'KEY_FUNCTION': default_key_func         # 生成key的函数（默认函数会生成为：【前缀:版本:key】）</span>
+<span style="color: #000000">    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">3、文件配置</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">缓存配置</span><span style="color: #008000">
+#</span><span style="color: #008000"> 自定义缓存key</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> default_key_func(key, key_prefix, version):
+    </span><span style="color: #0000ff">return</span> <span style="color: #800000">'</span><span style="color: #800000">%s:%s:%s</span><span style="color: #800000">'</span> %<span style="color: #000000"> (key_prefix, version, key)
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> 配置：</span>
+CACHES =<span style="color: #000000"> {
+    </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+        </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">django.core.cache.backends.filebased.FileBasedCache</span><span style="color: #800000">'</span>,     <span style="color: #008000">#</span><span style="color: #008000">配置文件引擎</span>
+        <span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">LOCATION</span><span style="color: #800000">'</span>: os.path.join(BASE_DIR,<span style="color: #800000">'</span><span style="color: #800000">huancuen</span><span style="color: #800000">'</span>), </span>                       <span style="color: #008000">#</span><span style="color: #008000">配置文件缓存路径,当前工程下的huancuen文件夹</span>
+
+        <span style="color: #800000">'</span><span style="color: #800000">TIMEOUT</span><span style="color: #800000">'</span>: 300,                     <span style="color: #008000">#</span><span style="color: #008000"> 缓存超时时间（默认300秒，None表示永不过期，0表示立即过期）如果使用中没设置，这里启用</span>
+        <span style="color: #800000">'</span><span style="color: #800000">OPTIONS</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">'</span><span style="color: #800000">MAX_ENTRIES</span><span style="color: #800000">'</span>: 300,             <span style="color: #008000">#</span><span style="color: #008000"> 最大缓存个数（默认300）</span>
+            <span style="color: #800000">'</span><span style="color: #800000">CULL_FREQUENCY</span><span style="color: #800000">'</span>: 3,            <span style="color: #008000">#</span><span style="color: #008000"> 缓存到达最大个数之后，剔除缓存个数的比例，即：1/CULL_FREQUENCY（默认3，删除百分之3）</span>
+<span style="color: #000000">        },
+        </span><span style="color: #800000">'</span><span style="color: #800000">KEY_PREFIX</span><span style="color: #800000">'</span>: <span style="color: #800000">''</span>,                   <span style="color: #008000">#</span><span style="color: #008000"> 缓存key的前缀（默认空）</span>
+        <span style="color: #800000">'</span><span style="color: #800000">VERSION</span><span style="color: #800000">'</span>: 1,                       <span style="color: #008000">#</span><span style="color: #008000"> 缓存key的版本（默认1），设置后缓存key会是，KEY_PREFIX前缀加VERSION版本</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 'KEY_FUNCTION': default_key_func         # 生成key的函数（默认函数会生成为：【前缀:版本:key】）</span>
+<span style="color: #000000">    }
+}</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>4、数据库配置，这种方式不推荐，缓存本来就是解决数据库访问量，结果还是要访问数据库</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 配置：</span>
+CACHES =<span style="color: #000000"> {
+    </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+        </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">django.core.cache.backends.db.DatabaseCache</span><span style="color: #800000">'</span>,     <span style="color: #008000">#</span><span style="color: #008000">配置数据库引擎</span>
+        <span style="color: #800000">'</span><span style="color: #800000">LOCATION</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">my_cache_table</span><span style="color: #800000">'</span>,                                 <span style="color: #008000">#</span><span style="color: #008000">配置数据库表，注意：执行创建表命令 python manage.py createcachetable</span>
+
+        <span style="color: #800000">'</span><span style="color: #800000">TIMEOUT</span><span style="color: #800000">'</span>: 300,                     <span style="color: #008000">#</span><span style="color: #008000"> 缓存超时时间（默认300秒，None表示永不过期，0表示立即过期）如果使用中没设置，这里启用</span>
+        <span style="color: #800000">'</span><span style="color: #800000">OPTIONS</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">'</span><span style="color: #800000">MAX_ENTRIES</span><span style="color: #800000">'</span>: 300,             <span style="color: #008000">#</span><span style="color: #008000"> 最大缓存个数（默认300）</span>
+            <span style="color: #800000">'</span><span style="color: #800000">CULL_FREQUENCY</span><span style="color: #800000">'</span>: 3,            <span style="color: #008000">#</span><span style="color: #008000"> 缓存到达最大个数之后，剔除缓存个数的比例，即：1/CULL_FREQUENCY（默认3，删除百分之3）</span>
+<span style="color: #000000">        },
+        </span><span style="color: #800000">'</span><span style="color: #800000">KEY_PREFIX</span><span style="color: #800000">'</span>: <span style="color: #800000">''</span>,                   <span style="color: #008000">#</span><span style="color: #008000"> 缓存key的前缀（默认空）</span>
+        <span style="color: #800000">'</span><span style="color: #800000">VERSION</span><span style="color: #800000">'</span>: 1,                       <span style="color: #008000">#</span><span style="color: #008000"> 缓存key的版本（默认1），设置后缓存key会是，KEY_PREFIX前缀加VERSION版本</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 'KEY_FUNCTION': default_key_func         # 生成key的函数（默认函数会生成为：【前缀:版本:key】）</span>
+<span style="color: #000000">    }
+}</span></pre>
+</div>
+<p><strong><span style="color: #ff0000">5、Memcache缓存（python-memcached模块）配置</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 此缓存使用python-memcached模块连接memcache，3种连接方式</span>
+<span style="color: #000000">
+    CACHES </span>=<span style="color: #000000"> {
+        </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.core.cache.backends.memcached.MemcachedCache</span><span style="color: #800000">'</span><span style="color: #000000">,  <span style="color: #008000">#连接引擎
+            </span></span><span style="color: #800000">'</span><span style="color: #800000">LOCATION</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">127.0.0.1:11211</span><span style="color: #800000">'</span><span style="color: #000000">,　　　　　　　　　　　　　　　　　　　　　 <span style="color: #008000">#服务器IP和端口</span>
+        }
+    }
+
+    CACHES </span>=<span style="color: #000000"> {
+        </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.core.cache.backends.memcached.MemcachedCache</span><span style="color: #800000">'</span><span style="color: #000000">,　　<span style="color: #008000">#连接引擎
+            </span></span><span style="color: #800000">'</span><span style="color: #800000">LOCATION</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">unix:/tmp/memcached.sock</span><span style="color: #800000">'</span><span style="color: #000000">,　　　　　　　　　　　　　　　　　
+        }
+    }   
+
+    CACHES </span>=<span style="color: #000000"> {
+        </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.core.cache.backends.memcached.MemcachedCache</span><span style="color: #800000">'</span><span style="color: #000000">, <span style="color: #008000">#连接引擎
+            </span></span><span style="color: #800000">'</span><span style="color: #800000">LOCATION</span><span style="color: #800000">'</span><span style="color: #000000">: [　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　<span style="color: #008000">#多服务器IP和端口
+                </span></span><span style="color: #800000">'</span><span style="color: #800000">172.19.26.240:11211</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">172.19.26.242:11211</span><span style="color: #800000">'</span><span style="color: #000000">,
+            ]
+        }
+    }<br><span style="color: #008000">#其他参数同上</span></span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>6、Memcache缓存（pylibmc模块）配置</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 此缓存使用pylibmc模块连接memcache，3种连接方式</span>
+<span style="color: #000000">    
+    CACHES </span>=<span style="color: #000000"> {
+        </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.core.cache.backends.memcached.PyLibMCCache</span><span style="color: #800000">'</span><span style="color: #000000">,　　<span style="color: #008000">#连接引擎
+            </span></span><span style="color: #800000">'</span><span style="color: #800000">LOCATION</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">127.0.0.1:11211</span><span style="color: #800000">'</span><span style="color: #000000">,　　　　　　　　　　　　　　　　　　　　　<span style="color: #008000">#ip端口</span>
+        }
+    }
+
+    CACHES </span>=<span style="color: #000000"> {
+        </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.core.cache.backends.memcached.PyLibMCCache</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">LOCATION</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">/tmp/memcached.sock</span><span style="color: #800000">'</span><span style="color: #000000">,
+        }
+    }   
+
+    CACHES </span>=<span style="color: #000000"> {
+        </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.core.cache.backends.memcached.PyLibMCCache</span><span style="color: #800000">'</span><span style="color: #000000">,　　<span style="color: #008000">#连接引擎
+            </span></span><span style="color: #800000">'</span><span style="color: #800000">LOCATION</span><span style="color: #800000">'</span><span style="color: #000000">: [　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　<span style="color: #008000">#多服务器ip端口
+                </span></span><span style="color: #800000">'</span><span style="color: #800000">172.19.26.240:11211</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">172.19.26.242:11211</span><span style="color: #800000">'</span><span style="color: #000000">,
+            ]
+        }
+    }<br><span style="color: #008000">#其他参数同上</span></span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>缓存应用</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong>注意：以上任意那种方式的缓存，在应用上都是一样的，<span style="color: #0000ff">应用首先要在全局配置缓存参数</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffff00; color: #ff0000"><strong>1、全站应用缓存，不常用</strong></span></p>
+<p>使用中间件，经过一系列的认证等操作，如果内容在缓存中存在，则使用FetchFromCacheMiddleware获取内容并返回给用户，当返回给用户之前，判断缓存中是否已经存在，如果不存在则UpdateCacheMiddleware会将缓存保存至缓存，从而实现全站缓存</p>
+<p><strong>Django提供了两个写好的中间件，用于全站缓存</strong></p>
+<div class="cnblogs_code">
+<pre>MIDDLEWARE =<span style="color: #000000"> [
+        </span><span style="color: #800000">'</span><span style="color: #800000">django.middleware.cache.UpdateCacheMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,  #当请求来的时候判断缓存是否存在，如果不存在写入缓存
+        </span><span style="color: #008000">#</span><span style="color: #008000"> 其他中间件...</span>
+        <span style="color: #800000">'</span><span style="color: #800000">django.middleware.cache.FetchFromCacheMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">, #如果缓存存在,在缓存里拿数据
+    ]</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>全站缓存中间件注册</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">中间件</span>
+MIDDLEWARE =<span style="color: #000000"> [
+    </span><span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">django.middleware.cache.UpdateCacheMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span></span><span style="color: #008000">#</span><span style="color: #008000"> 'app1.chajian.zhong_jian_jian.zhongjianjian',</span>
+    <span style="color: #800000">'</span><span style="color: #800000">django.middleware.security.SecurityMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.sessions.middleware.SessionMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.middleware.common.CommonMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 'django.middleware.csrf.CsrfViewMiddleware',   #</span>
+    <span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth.middleware.AuthenticationMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.messages.middleware.MessageMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.middleware.clickjacking.XFrameOptionsMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">django.middleware.cache.FetchFromCacheMiddleware</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ff99cc">,</span>
+]</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>只要在中间件列表里注册了这两个缓存中间件，就自动缓存全站了</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>2、单独视图缓存</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong>就是在逻辑处理函数上用上缓存装饰器，这样被用上缓存装饰器的逻辑处理的页面将自动缓存，<span style="background-color: #ffffff; color: #0000ff">要去掉全局的缓存中间件</span></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><span style="background-color: #ffffff">导入缓存装饰器模块<span style="color: #0000ff">&nbsp;from django.views.decorators.cache import cache_page</span></span></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><span style="background-color: #ffffff"><span style="color: #0000ff">@cache_page(60)</span>缓存装饰器，用在要缓存的逻辑处理函数上，参数是缓存时间秒</span></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render,redirect
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> time
+
+</span><span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> django.views.decorators.cache <span style="color: #0000ff">import</span> cache_page</span> <span style="color: #008000">#</span><span style="color: #008000">导入缓存装饰器</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="background-color: #ff99cc">@cache_page(5)</span>  <span style="color: #008000">#</span><span style="color: #008000">运用缓存装饰器，缓存保存时间5秒</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    t </span>=<span style="color: #000000"> time.time()
+    </span><span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">app1/index.html</span><span style="color: #800000">'</span>,locals())</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>3、局部模板使用缓存</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong>就是在html模板里应用，指定一个页面的某一个区块缓存</strong></span></p>
+<p><strong><span style="color: #0000ff">{% load cache %}</span>#在模板页面导入局部缓存模块</strong></p>
+<p><span style="color: #0000ff"><strong>{% cache 缓存时间 自定义缓存名称 %}</strong></span><br><strong>   　　需要缓存的区块</strong><br><span style="color: #0000ff"><strong>{% endcache %}</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000; background-color: #ff99cc">{% load cache %}
+</span><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/css"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="/static/css/tou.css"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span><span style="color: #000000; background-color: #ff99cc">
+
+{% cache 5 suij %}
+   {{ t }}
+{% endcache %}
+
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>将缓存保存在Redis</strong></span></p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong>首先安装<strong>Redis缓存软件</strong></strong></span></p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong><strong>然后安装<strong>Django中使用<strong>Redis缓存的第三方模块 <span style="color: #ff0000">django-redis</span></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong>配置</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">缓存配置</span><span style="color: #008000">
+#</span><span style="color: #008000"> 自定义缓存key</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> default_key_func(key, key_prefix, version):
+    </span><span style="color: #0000ff">return</span> <span style="color: #800000">'</span><span style="color: #800000">%s:%s:%s</span><span style="color: #800000">'</span> %<span style="color: #000000"> (key_prefix, version, key)
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> 配置：</span>
+CACHES =<span style="color: #000000"> {
+    </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+        </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">django_redis.cache.RedisCache</span><span style="color: #800000">"</span>,     <span style="color: #008000">#</span><span style="color: #008000">配置文件引擎</span>
+        <span style="color: #800000">'</span><span style="color: #800000">LOCATION</span><span style="color: #800000">'</span>: <span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">redis://127.0.0.1:6379</span><span style="color: #800000">"</span>,                        <span style="color: #008000">#</span><span style="color: #008000">配置文件缓存路径</span>
+
+        <span style="color: #800000">'</span><span style="color: #800000">TIMEOUT</span><span style="color: #800000">'</span>: 300,                     <span style="color: #008000">#</span><span style="color: #008000"> 缓存超时时间（默认300秒，None表示永不过期，0表示立即过期）如果使用中没设置，这里启用</span>
+        <span style="color: #800000">'</span><span style="color: #800000">OPTIONS</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">CLIENT_CLASS</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">django_redis.client.DefaultClient</span><span style="color: #800000">"</span></span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">MAX_ENTRIES</span><span style="color: #800000">'</span>: 300,             <span style="color: #008000">#</span><span style="color: #008000"> 最大缓存个数（默认300）</span>
+            <span style="color: #800000">'</span><span style="color: #800000">CULL_FREQUENCY</span><span style="color: #800000">'</span>: 3,            <span style="color: #008000">#</span><span style="color: #008000"> 缓存到达最大个数之后，剔除缓存个数的比例，即：1/CULL_FREQUENCY（默认3，删除百分之3）</span>
+<span style="color: #000000">        },
+        </span><span style="color: #800000">'</span><span style="color: #800000">KEY_PREFIX</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">jxiou</span><span style="color: #800000">'</span>,                   <span style="color: #008000">#</span><span style="color: #008000"> 缓存key的前缀（默认空）</span>
+        <span style="color: #800000">'</span><span style="color: #800000">VERSION</span><span style="color: #800000">'</span>: 1,                       <span style="color: #008000">#</span><span style="color: #008000"> 缓存key的版本（默认1），设置后缓存key会是，KEY_PREFIX前缀加VERSION版本</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 'KEY_FUNCTION': default_key_func         # 生成key的函数（默认函数会生成为：【前缀:版本:key】）</span>
+<span style="color: #000000">    }
+}</span></pre>
+</div>
+<h4><span style="color: #ff0000"><strong>配置默认连接池</strong></span></h4>
+<p><span style="color: #0000ff"><strong>配置默认连接池很简单, 你只需要在&nbsp;<code class="docutils literal"><span class="pre">CACHES</span></code>&nbsp;中使用&nbsp;<code class="docutils literal"><span class="pre">CONNECTION_POOL_KWARGS</span></code>&nbsp;设置连接池的最大连接数量即可:</strong></span></p>
+<div class="cnblogs_code">
+<pre>CACHES =<span style="color: #000000"> {
+    </span><span style="color: #800000">"</span><span style="color: #800000">default</span><span style="color: #800000">"</span><span style="color: #000000">: {
+        </span><span style="color: #800000">"</span><span style="color: #800000">BACKEND</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">django_redis.cache.RedisCache</span><span style="color: #800000">"</span><span style="color: #000000">,
+        ...
+        </span><span style="color: #800000">"</span><span style="color: #800000">OPTIONS</span><span style="color: #800000">"</span><span style="color: #000000">: {
+            </span><span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">CONNECTION_POOL_KWARGS</span><span style="color: #800000">"</span>: {<span style="color: #800000">"</span><span style="color: #800000">max_connections</span><span style="color: #800000">"</span>: 100</span><span style="color: #000000"><span style="background-color: #ff99cc">}</span>
+        }
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>更多教程 &nbsp; http://django-redis-chs.readthedocs.io/zh_CN/latest/#id12</strong></p>
+<p><strong>使用同上</strong></p>
+<p>&nbsp;</p></div>

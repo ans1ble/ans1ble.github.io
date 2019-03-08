@@ -1,0 +1,813 @@
+第一百一十五节，JavaScript，DOM操作表格
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">JavaScript，DOM操作表格</span></strong></span></p>
+<p>&nbsp;</p>
+<p align="left"><strong>学习要点：</strong></p>
+<p align="left"><strong>1.操作表格</strong></p>
+<p align="left"><strong>DOM在操作生成HTML上，还是比较简明的。不过，由于浏览器总是存在兼容和陷阱，导致最终的操作就不是那么简单方便了。本章主要了解一下DOM操作表格和样式的一些知识。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>一．操作表格</strong></span></p>
+<p align="left"><strong>&lt;table&gt;标签是HTML中结构最为复杂的一个，我们可以通过DOM来创建生成它，或者HTML DOM来操作它。(PS：HTML DOM提供了更加方便快捷的方式来操作HTML，有手册)。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>使用DOM来创建个表格，很繁琐【不推荐】</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">使用DOM来创建这个表格</span>
+    <span style="color: #0000ff">var</span> table = document.createElement('table'); <span style="color: #008000">//</span><span style="color: #008000">创建table元素节点</span>
+    table.border = 1;    <span style="color: #008000">//</span><span style="color: #008000">设置table元素节点边框宽度</span>
+    table.width = 300;   <span style="color: #008000">//</span><span style="color: #008000">设置table元素节点宽度</span>
+
+    <span style="color: #0000ff">var</span> caption = document.createElement('caption');  <span style="color: #008000">//</span><span style="color: #008000">创建表格标题caption元素节点</span>
+    table.appendChild(caption);  <span style="color: #008000">//</span><span style="color: #008000">将标题caption元素节点，添加到table元素节点的子节点末尾</span>
+    caption.appendChild(document.createTextNode('人员表')); <span style="color: #008000">//</span><span style="color: #008000">创建一个文本将它添加到标题caption元素节点里</span>
+
+    <span style="color: #0000ff">var</span> thead = document.createElement('thead'<span style="color: #000000">);
+    table.appendChild(thead);
+
+    </span><span style="color: #0000ff">var</span> tr = document.createElement('tr'<span style="color: #000000">);
+    thead.appendChild(tr);
+
+    </span><span style="color: #0000ff">var</span> th1 = document.createElement('th'<span style="color: #000000">);
+    </span><span style="color: #0000ff">var</span> th2 = document.createElement('th'<span style="color: #000000">);
+    </span><span style="color: #0000ff">var</span> th3 = document.createElement('th'<span style="color: #000000">);
+
+    tr.appendChild(th1);
+    th1.appendChild(document.createTextNode(</span>'姓名'<span style="color: #000000">));
+    tr.appendChild(th2);
+    th2.appendChild(document.createTextNode(</span>'年龄'<span style="color: #000000">));
+
+    document.body.appendChild(table);
+
+};</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：使用DOM来创建表格其实已经没有什么难度，就是有点儿小烦而已。下面我们再使用HTML DOM来获取和创建这个相同的表格。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>HTML DOM创建或者获取表格更清晰方便，比DOM好的多</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="center"><span style="color: #ff0000"><strong>HTML DOM中，给这些元素标签提供了一些属性和方法</strong></span></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="153">
+<p align="center"><strong>属性或方法</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>说明</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>caption</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>保存着&lt;caption&gt;元素的引用</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>tBodies</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>保存着&lt;tbody&gt;元素的HTMLCollection集合</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>tFoot</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>保存着对&lt;tfoot&gt;元素的引用</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>tHead</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>保存着对&lt;thead&gt;元素的引用</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>rows</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>保存着对&lt;tr&gt; 元素的HTMLCollection集合</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>createTHead()</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>创建&lt;thead&gt;元素，并返回引用</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>createTFoot()</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>创建&lt;tfoot&gt;元素，并返回引用</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>createCaption()</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>创建&lt;caption&gt;元素，并返回引用</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>deleteTHead()</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>删除&lt;thead&gt;元素</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>deleteTFoot()</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>删除&lt;tfoot&gt;元素</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>deleteCaption()</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>删除&lt;caption&gt;元素</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>deleteRow(pos)</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>删除指定的行</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>insertRow(pos)</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>向rows集合中的指定位置插入一行</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="center"><span style="color: #ff0000"><strong>&lt;tbody&gt;元素添加的属性和方法</strong></span></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="153">
+<p align="center"><strong>属性或方法</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>说明</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>rows</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>保存着&lt;tbody&gt;元素中行的HTMLCollection</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>deleteRow(pos)</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>删除指定位置的行</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>insertRow(pos)</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>向rows集合中的指定位置插入一行，并返回引用</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="center"><span style="color: #ff0000"><strong>&lt;tr&gt;元素添加的属性和方法</strong></span></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="153">
+<p align="center"><strong>属性或方法</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>说明</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>cells</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>保存着&lt;tr&gt;元素中单元格的HTMLCollection</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>deleteCell(pos)</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>删除指定位置的单元格</strong></p>
+</td>
+</tr>
+<tr>
+<td width="153">
+<p align="center"><strong>insertCell(pos)</strong></p>
+</td>
+<td width="349">
+<p align="center"><strong>向cells集合的指定位置插入一个单元格，并返回引用</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：因为表格较为繁杂，层次也多，在使用之前所学习的DOM只是来获取某个元素会非常难受，所以使用HTML DOM会清晰很多</strong></span></p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong><strong>HTML DOM获取表格</strong></strong></span></p>
+<p align="left"><span style="color: #ff00ff; background-color: #ffffff"><strong><strong>首先要通过id或者名称，获取到table节点</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>caption属性，获取或设置表格的&lt;caption&gt;标题标签</strong></span><br><strong>使用方式：</strong><br><strong>table节点.caption</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    alert(table.caption);   <span style="color: #008000">//</span><span style="color: #008000">caption属性，获取表格的caption标题标签节点</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：[object HTMLTableCaptionElement]</span>
+    alert(table.caption.innerHTML); <span style="color: #008000">//</span><span style="color: #008000">查看标题节点里的文本内容</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：人员表</span>
+    table.caption.innerHTML = '标题修改了'<span style="color: #000000">;
+    alert(table.caption.innerHTML); </span><span style="color: #008000">//</span><span style="color: #008000">查看标题节点里的文本内容</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：标题修改了</span>
+<span style="color: #000000">
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>tHead属性，获取表格的&lt;thead&gt;表头标签节点</strong></span><br><strong>使用方式：</strong><br><strong>table节点.tHead</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    alert(table.tHead);  <span style="color: #008000">//</span><span style="color: #008000">tHead属性，获取表格的&lt;thead&gt;表头标签节点</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：[object HTMLTableSectionElement]</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>tFoot属性，获取表格的&lt;tfoot&gt;表尾标签节点</strong></span><br><strong>使用方式：</strong><br><strong>table节点.tFoot</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    alert(table.tFoot);  <span style="color: #008000">//</span><span style="color: #008000">tFoot属性，获取表格的&lt;tfoot&gt;表尾标签节点</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：[object HTMLTableSectionElement]</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>tBodies属性，获取表格的&lt;tbody&gt;表主体标签节点，因为主体可以有多个，所以tBodies属性返回的集合</strong></span><br><strong>使用方式：</strong><br><strong>table节点.tBodies</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    alert(table.tBodies);  <span style="color: #008000">//</span><span style="color: #008000">tBodies属性，获取表格的&lt;tbody&gt;表主体标签节点，因为主体可以有多个，所以tBodies属性返回的集合</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：[object HTMLCollection]</span>
+    alert(table.tBodies[0]); <span style="color: #008000">//</span><span style="color: #008000">获取第一个&lt;tbody&gt;标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：[object HTMLTableSectionElement]</span>
+};</pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：在一个表格中&lt;thead&gt;和&lt;tfoot&gt;是唯一的，只能有一个。而&lt;tbody&gt;不是唯一的可以有多个，这样导致最后返回的&lt;thead&gt;和&lt;tfoot&gt;是元素引用，而&lt;tbody&gt;返回的是元素集合。</strong></span></p>
+<p><span style="color: #ff0000"><strong>rows属性，获取表格的行签节点，因为行可以有多个，所以rows属性返回的集合</strong></span><br><strong>使用方式：</strong><br><strong>table节点.rows</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    alert(table.rows);  <span style="color: #008000">//</span><span style="color: #008000">rows属性，获取表格的&lt;tr&gt;主体里的行签节点，因为行可以有多个，所以rows属性返回的集合</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：[object HTMLCollection]</span>
+    alert(table.rows.length); <span style="color: #008000">//</span><span style="color: #008000">获取&lt;tr&gt;标签长度</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：4</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>获取表格主体&lt;tbody&gt;的&lt;tr&gt;里的行签节点</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    alert(table.tBodies[0].rows);  <span style="color: #008000">//</span><span style="color: #008000">获取表格主体第一个&lt;tbody&gt;的&lt;tr&gt;里的行签节点</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：[object HTMLCollection]</span>
+    alert(table.tBodies[0].rows.length); <span style="color: #008000">//</span><span style="color: #008000">获取&lt;tr&gt;标签长度</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：2</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>cells属性，获取表格的&lt;tr&gt;里的&lt;td&gt;单元格节点，cells属性返回的集合</strong></span><br><strong>使用方式：</strong><br><strong>rows[0]行节点.cells</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    alert(table.tBodies[0].rows[0]);  <span style="color: #008000">//</span><span style="color: #008000">获取第一个表格主体里的第一个&lt;tr&gt;标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：[object HTMLCollection]</span>
+    <span style="color: #008000">//</span><span style="color: #008000">cells属性，获取表格的&lt;tr&gt;里的&lt;td&gt;单元格节点，cells属性返回的集合</span>
+    alert(table.tBodies[0].rows[0].cells);  <span style="color: #008000">//</span><span style="color: #008000">获取第一个表格主体&lt;tbody&gt;里的第一个&lt;tr&gt;标签里的单元格&lt;td&gt;</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回;[object HTMLCollection]</span>
+    alert(table.tBodies[0].rows[0].cells.length); <span style="color: #008000">//</span><span style="color: #008000">查看单元格&lt;td&gt;的长度</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回;3</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>获取&lt;td&gt;单元格里的文本内容</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    alert(table.tBodies[0].rows[0]);  <span style="color: #008000">//</span><span style="color: #008000">获取第一个表格主体里的第一个&lt;tr&gt;标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回：[object HTMLCollection]</span>
+    <span style="color: #008000">//</span><span style="color: #008000">cells属性，获取表格的&lt;tr&gt;里的&lt;td&gt;单元格节点，cells属性返回的集合</span>
+    alert(table.tBodies[0].rows[0].cells);  <span style="color: #008000">//</span><span style="color: #008000">获取第一个表格主体&lt;tbody&gt;里的第一个&lt;tr&gt;标签里的单元格&lt;td&gt;</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回;[object HTMLCollection]</span>
+    alert(table.tBodies[0].rows[0].cells[0].innerHTML); <span style="color: #008000">//</span><span style="color: #008000">查看第一个单元格&lt;td&gt;的文本内容</span>
+    <span style="color: #008000">//</span><span style="color: #008000">返回;张三</span>
+};</pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>按HTML DOM来删除标题、表头、表尾、行、单元格</strong></span></p>
+<p align="left">&nbsp;</p>
+<p><span style="color: #ff0000"><strong>deleteCaption()方法，删除表格的标题&lt;caption&gt;节点</strong></span><br><strong>使用方式：</strong><br><strong>table节点.deleteCaption()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    table.deleteCaption();  <span style="color: #008000">//</span><span style="color: #008000">deleteCaption()方法，删除表格的标题&lt;caption&gt;节点</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>deleteTHead()方法，删除表格的表头&lt;thead&gt;节点</strong></span><br><strong>使用方式：</strong><br><strong>table节点.deleteTHead()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    table.deleteTHead();  <span style="color: #008000">//</span><span style="color: #008000">deleteTHead()方法，删除表格的表头&lt;thead&gt;节点</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>deleteTFoot()方法，删除表格的表尾&lt;tfoot&gt;节点</strong></span><br><strong>使用方式：</strong><br><strong>table节点.deleteTFoot()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    table.deleteTFoot();  <span style="color: #008000">//</span><span style="color: #008000">deleteTFoot()方法，删除表格的表尾&lt;tfoot&gt;节点</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>deleteRow()方法，删除表格的行&lt;tr&gt;节点，参数是要删除第几个tr标签</strong></span><br><strong>使用方式：</strong><br><strong>tr父节点.deleteRow(要删除第几个tr)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    table.tBodies[0].deleteRow(0);  <span style="color: #008000">//</span><span style="color: #008000">deleteRow()方法，删除表格的行&lt;tr&gt;节点</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>deleteCell()方法，删除表格的单元格&lt;td&gt;节点，参数是要删除第几个td标签</strong></span><br><strong>使用方式：</strong><br><strong>td父节点.deleteCell(要删除第几个td标签)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+&lt;table border="1" width="300"&gt;
+    &lt;caption&gt;人员表&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;姓名&lt;/th&gt;
+            &lt;th&gt;性别&lt;/th&gt;
+            &lt;th&gt;年龄&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;男&lt;/td&gt;
+            &lt;td&gt;20&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李四&lt;/td&gt;
+            &lt;td&gt;女&lt;/td&gt;
+            &lt;td&gt;22&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td colspan="3"&gt;合计：N&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+window.onload </span>= <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.getElementsByTagName('table')[0]; <span style="color: #008000">//</span><span style="color: #008000">通过名称获取到table标签节点</span>
+    table.tBodies[0].rows[1].deleteCell(1);  <span style="color: #008000">//</span><span style="color: #008000">deleteCell()方法，删除表格的单元格&lt;td&gt;节点，参数是要删除第几个td标签</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>&nbsp;添加表格</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>&nbsp;给&lt;body&gt;添加<span class="nodeCloseLabelBox repTarget ">&lt;<span class="nodeTag ">table&gt;标签</span></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.createElement('table');  <span style="color: #008000">//</span><span style="color: #008000">创建一个元素table标签节点</span>
+    table.width = 300; <span style="color: #008000">//</span><span style="color: #008000">设置table标签宽度</span>
+    table.border = 1;  <span style="color: #008000">//</span><span style="color: #008000">table标签边框宽度</span><span style="color: #000000">
+    document.body.appendChild(table); </span><span style="color: #008000">//</span><span style="color: #008000">将table标签添加到body的子节点里</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>createCaption()方法，给表格&lt;table&gt;，添加标题标签&lt;caption&gt;</strong></span><br><strong>使用方式：</strong><br><strong>&lt;caption&gt;父节点.createCaption()</strong></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.createElement('table');  <span style="color: #008000">//</span><span style="color: #008000">创建一个元素table标签节点</span>
+    table.width = 300; <span style="color: #008000">//</span><span style="color: #008000">设置table标签宽度</span>
+    table.border = 1;  <span style="color: #008000">//</span><span style="color: #008000">table标签边框宽度</span>
+<span style="color: #000000">
+    table.createCaption().innerHTML </span>= '人员表';  <span style="color: #008000">//</span><span style="color: #008000">createCaption()方法，给表格&lt;table&gt;，添加标题标签&lt;caption&gt;</span>
+    document.body.appendChild(table); <span style="color: #008000">//</span><span style="color: #008000">将table标签添加到body的子节点里</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>createTHead()方法，给表格&lt;table&gt;，添加表头标签&lt;thead&gt;，返回引用</strong></span><br><strong>使用方式：</strong><br><strong>&lt;thead&gt;父节点.createTHead()</strong></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.createElement('table');  <span style="color: #008000">//</span><span style="color: #008000">创建一个元素table标签节点</span>
+    table.width = 300; <span style="color: #008000">//</span><span style="color: #008000">设置table标签宽度</span>
+    table.border = 1;  <span style="color: #008000">//</span><span style="color: #008000">table标签边框宽度</span>
+    document.body.appendChild(table); <span style="color: #008000">//</span><span style="color: #008000">将table标签添加到body的子节点里</span>
+<span style="color: #000000">
+    table.createCaption().innerHTML </span>= '人员表';  <span style="color: #008000">//</span><span style="color: #008000">createCaption()方法，给表格&lt;table&gt;，添加标题标签&lt;caption&gt;</span>
+    <span style="color: #0000ff">var</span> thead = table.createTHead();  <span style="color: #008000">//</span><span style="color: #008000">createTHead()方法，给表格&lt;table&gt;，添加表头标签&lt;thead&gt;</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>insertRow()方法，给表格添加行标签&lt;tr&gt;，参数添加第几行，<strong>返回引用</strong></strong></span><br><strong>使用方式：</strong><br><strong>&lt;tr&gt;父节点.insertRow()</strong></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.createElement('table');  <span style="color: #008000">//</span><span style="color: #008000">创建一个元素table标签节点</span>
+    table.width = 300; <span style="color: #008000">//</span><span style="color: #008000">设置table标签宽度</span>
+    table.border = 1;  <span style="color: #008000">//</span><span style="color: #008000">table标签边框宽度</span>
+    document.body.appendChild(table); <span style="color: #008000">//</span><span style="color: #008000">将table标签添加到body的子节点里</span>
+<span style="color: #000000">
+    table.createCaption().innerHTML </span>= '人员表';  <span style="color: #008000">//</span><span style="color: #008000">createCaption()方法，给表格&lt;table&gt;，添加标题标签&lt;caption&gt;</span>
+    <span style="color: #0000ff">var</span> thead = table.createTHead();  <span style="color: #008000">//</span><span style="color: #008000">createTHead()方法，给表格&lt;table&gt;，添加表头标签&lt;thead&gt;</span>
+    thead.insertRow(0);  <span style="color: #008000">//</span><span style="color: #008000">insertRow()方法，给表格添加行标签&lt;tr&gt;</span>
+};</pre>
+</div>
+<p><span style="color: #ff0000"><strong>insertCell()方法，给表格添加单元格标签&lt;td&gt;,参数创建第几个td</strong></span><br><strong>使用方式：</strong><br><strong>&lt;td&gt;父节点.insertCell()</strong></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> table = document.createElement('table');  <span style="color: #008000">//</span><span style="color: #008000">创建一个元素table标签节点</span>
+    table.width = 300; <span style="color: #008000">//</span><span style="color: #008000">设置table标签宽度</span>
+    table.border = 1;  <span style="color: #008000">//</span><span style="color: #008000">table标签边框宽度</span>
+    document.body.appendChild(table); <span style="color: #008000">//</span><span style="color: #008000">将table标签添加到body的子节点里</span>
+<span style="color: #000000">
+    table.createCaption().innerHTML </span>= '人员表';  <span style="color: #008000">//</span><span style="color: #008000">createCaption()方法，给表格&lt;table&gt;，添加标题标签&lt;caption&gt;</span>
+    <span style="color: #0000ff">var</span> thead = table.createTHead();  <span style="color: #008000">//</span><span style="color: #008000">createTHead()方法，给表格&lt;table&gt;，添加表头标签&lt;thead&gt;</span>
+    <span style="color: #0000ff">var</span> tr = thead.insertRow(0);  <span style="color: #008000">//</span><span style="color: #008000">insertRow()方法，给表格添加行标签&lt;tr&gt;</span>
+    tr.insertCell(0).innerHTML = '数据1';  <span style="color: #008000">//</span><span style="color: #008000">insertCell()方法，给表格添加单元格标签&lt;td&gt;,参数创建第几个td</span>
+    tr.insertCell(1).innerHTML = '数据2'<span style="color: #000000">;
+    tr.insertCell(</span>2).innerHTML = '数据3'<span style="color: #000000">;
+};</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>在创建表格的时候&lt;table&gt;、&lt;tbody&gt;、&lt;th&gt;没有特定的方法，需要使用document来创建。也可以模拟已有的方法编写特定的函数即可，例如：insertTH()之类的。</strong></span></p>
+<p>&nbsp;</p></div>

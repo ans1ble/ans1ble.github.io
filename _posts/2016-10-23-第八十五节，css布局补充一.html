@@ -1,0 +1,365 @@
+第八十五节，css布局补充一
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">css布局补充一</span></strong></span></p>
+<p><span style="color: #ff0000"><strong>图片边框问题</strong></span></p>
+<p><span style="color: #000000; font-size: 18px"><strong>注意css布局时img图片标签默认有的浏览器有边框，所以大多时候需要去除图片的边框</strong></span></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">CSS各种居中方法</span></strong></p>
+<p><span style="color: #ff0000"><strong>水平居中的text-align:center 和 margin:0 auto</strong></span><br> <br><strong>这两种方法都是用来水平居中的，前者是针对父元素进行设置而后者则是对子元素。他们起作用的首要条件是子元素必须没有被float影响，否则一切都是无用功。margin:0 auto</strong><br><strong>也可以被写成margin:0 auto 0 auto。不能理解的童鞋们可以自己去找找关于css缩写的内容。</strong></p>
+<p><br> <br><span style="color: #ff0000"><strong>垂直居中的line-height</strong></span><br> <br><strong>什么？！margin在垂直居中里不起作用了？显然事情确实如此，我们仅有margin:0 auto的用法而没有auto 0的情况。至于line-height，他也是作用在父元素上，当他的值等于父元素的height值时</strong><br><strong>，内部的文字就会自动的垂直居中了。此处好像仅仅只能是文字而已，遗憾。</strong><br> </p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>利用position定位来实现元素的水平和垂直居中</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161024110301125-1677138120.png" alt=""></strong></span></p>
+<p><strong>html代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="a"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="b"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>这是一段文本<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>css代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8";
+*</span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0</span>;
+}<span style="color: #800000">
+.a</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 400px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 300px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #ff3820</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">将父元素绝对定位</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> relative</span>;
+}<span style="color: #800000">
+.b</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 50px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #3437ff</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">将子元素相对定位</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">定位上面百分之五十</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 50%</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">定位左边百分之五十</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff"> 50%</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">外边距左边负元素宽度的一半</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    margin-left</span>:<span style="color: #0000ff"> -50px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">外边距上负元素高度的一半</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    margin-top</span>:<span style="color: #0000ff"> -25px</span>;
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>css布局边距问题</strong></span></p>
+<p><strong>有的标签有默认边距，布局起来不方便，我们一般在布局的时候，会先用*将所以内外边距去除</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">*</span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff">0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff">0</span>;
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>利用position: absolute;相对定位来布局管理后台</strong></span></p>
+<p><span style="color: #000000"><strong>css代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8";
+*</span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff">0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff">0</span>;<span style="color: #ff0000">
+    overflow</span>:<span style="color: #0000ff"> hidden</span>;
+}<span style="color: #800000">
+body</span>{<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #00C5CE</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #FFFFFF</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">头部区域</span><span style="color: #008000">*/</span><span style="color: #800000">
+.tou</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> auto</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 100px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #00C5CE</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff">center</span>;<span style="color: #ff0000">
+    border-bottom</span>:<span style="color: #0000ff"> 4px solid #fef6ff</span>;
+}<span style="color: #800000">
+.tou h1</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    font-weight</span>:<span style="color: #0000ff"> bold</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 100px</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">左边导航区域</span><span style="color: #008000">*/</span><span style="color: #800000">
+div .dh</span>{<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #5DA7AA</span>;<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 180px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 572px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 4px solid #3B5521</span>;<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 6px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">将导航区域相对定位</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff"> 0</span>;
+}<span style="color: #800000">
+div .dh h3</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 182px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 25px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #2E5FC4</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 15px</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 25px</span>;
+}<span style="color: #800000">
+div .dh ul li</span>{<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #A2D3D3</span>;<span style="color: #ff0000">
+    margin-top</span>:<span style="color: #0000ff"> 2px</span>;<span style="color: #ff0000">
+    margin-bottom</span>:<span style="color: #0000ff"> 2px</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #1618ff</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 2px solid #A2D3D3</span>;<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 6px</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">内容区域</span><span style="color: #008000">*/</span><span style="color: #800000">
+div .lr</span>{<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 572px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">内容区域相对定位</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff"> 190px</span>;<span style="color: #ff0000">
+    right</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    bottom</span>:<span style="color: #0000ff"> 50px</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 104px</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #1618ff</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #D3EAEF</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 4px solid #3B5521</span>;<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 6px</span>;<span style="color: #ff0000">
+    overflow</span>:<span style="color: #0000ff"> scroll</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">底部区域</span><span style="color: #008000">*/</span><span style="color: #800000">
+div .db</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> auto</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 42px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #5DA7AA</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">底部相对定位</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 687px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    right</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    bottom</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 42px</span>;
+}</pre>
+</div>
+<p><strong>html代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="zh-cn"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="utf-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>后台管理系统<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/css"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="1.css"</span><span style="color: #0000ff">/&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">头部</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tou"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>欢迎登陆后台管理系统<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">主体</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="zht"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dh"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;</span>导航中心<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>列表1<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>列表2<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>列表3<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>列表4<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>列表5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="lr"</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+         <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>这是内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="db"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    玉秀文化传播版权所有&amp;#169;
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果图：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161023170053295-1888707244.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>利用font-awesome图片和position定位来实现文本框图标</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161023193354498-83100617.png" alt=""></strong></span></p>
+<p><strong>css代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8";
+.shrk</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 190px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> auto</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #194aff</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> relative</span>;
+}<span style="color: #800000">
+.shrk input</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 170px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 25px</span>;<span style="color: #ff0000">
+    padding-right</span>:<span style="color: #0000ff"> 25px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 2px solid #2758ff</span>;<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 6px</span>;
+}<span style="color: #800000">
+.shrk span</span>{
+    <span style="color: #008000">/*</span><span style="color: #008000">定位图片</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    right</span>:<span style="color: #0000ff"> 0px</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 8px</span>;<span style="color: #ff0000">
+    opacity</span>:<span style="color: #0000ff"> 0.7</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #2758ff</span>;
+}</pre>
+</div>
+<p><strong>html代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="zh-cn"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="utf-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>输入框<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/css"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="font-awesome-4.6.3/css/font-awesome.css"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/css"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="1.css"</span><span style="color: #0000ff">/&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="shrk"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="fa fa-user"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong class="fl">利用<strong>position定位来设置</strong>模态对话框</strong></span></p>
+<p><span style="color: #ff0000"><strong class="fl"><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161024102215218-1650843312.png" alt=""></strong></span></p>
+<p><strong>html代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">&lt;!--</span><span style="color: #008000">网页层</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="wy"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>这是网页层<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">遮罩层</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="mt"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">提示层</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tshk"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>提示框<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>css代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8";
+*</span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">网页层</span><span style="color: #008000">*/</span><span style="color: #800000">
+.wy</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> auto</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2000px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #ffd41e</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">遮罩层</span><span style="color: #008000">*/</span><span style="color: #800000">
+.mt</span>{<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> fixed</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    right</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    bottom</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    z-index</span>:<span style="color: #0000ff"> 1</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff">black</span>;<span style="color: #ff0000">
+    opacity</span>:<span style="color: #0000ff"> 0.8</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">提示层</span><span style="color: #008000">*/</span><span style="color: #800000">
+.tshk</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 400px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 300px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff">aliceblue</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> fixed</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 50%</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff"> 50%</span>;<span style="color: #ff0000">
+    z-index</span>:<span style="color: #0000ff"> 2</span>;<span style="color: #ff0000">
+    margin-left</span>:<span style="color: #0000ff"> -200px</span>;<span style="color: #ff0000">
+    margin-top</span>:<span style="color: #0000ff"> -150px</span>;
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>布局购物商城的购买数量加减框</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161024134327453-1884271014.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><strong>html代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="a"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="b"</span><span style="color: #0000ff">&gt;</span>-<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="c"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="d"</span><span style="color: #0000ff">&gt;</span>+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>css代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8";
+*</span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0</span>;
+}<span style="color: #800000">
+.a</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 150px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    margin-top</span>:<span style="color: #0000ff"> 10px</span>;<span style="color: #ff0000">
+    margin-left</span>:<span style="color: #0000ff"> 10px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 1px solid #C6C6C6</span>;<span style="color: #ff0000">
+    cursor</span>:<span style="color: #0000ff"> pointer</span>;
+}<span style="color: #800000">
+.b</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #C6C6C6</span>;<span style="color: #ff0000">
+    border-right</span>:<span style="color: #0000ff"> 1px solid #9B9898</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 20px</span>;<span style="color: #ff0000">
+    float</span>:<span style="color: #0000ff"> left</span>;
+}<span style="color: #800000">
+.c</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 88px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    float</span>:<span style="color: #0000ff"> left</span>;
+}<span style="color: #800000">
+.c input</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 88px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 30px</span>;
+}<span style="color: #800000">
+.d</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #C6C6C6</span>;<span style="color: #ff0000">
+    border-left</span>:<span style="color: #0000ff"> 1px solid #9B9898</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 20px</span>;<span style="color: #ff0000">
+    float</span>:<span style="color: #0000ff"> right</span>;
+}</pre>
+</div>
+<p>&nbsp;</p></div>

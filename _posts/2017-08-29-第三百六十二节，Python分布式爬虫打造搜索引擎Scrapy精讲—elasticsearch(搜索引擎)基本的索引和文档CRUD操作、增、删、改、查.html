@@ -1,0 +1,318 @@
+第三百六十二节，Python分布式爬虫打造搜索引擎Scrapy精讲—elasticsearch(搜索引擎)基本的索引和文档CRUD操作、增、删、改、查
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百六十二节，Python分布式爬虫打造搜索引擎Scrapy精讲—elasticsearch(搜索引擎)基本的索引和文档CRUD操作<span style="color: #0000ff">、增、删、改、查</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong>elasticsearch(搜索引擎)基本的索引和文档CRUD操作</strong></strong></span></p>
+<p><strong><strong>也就是<strong>基本的索引和文档、<span style="background-color: #ffffff; color: #0000ff">增、删、改、查</span>、操作</strong></strong></strong></p>
+<p><strong><strong><strong>注意：以下操作都是在<strong><span style="color: #0000ff">kibana</span>里操作的</strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong><strong><strong>elasticsearch(搜索引擎)都是基于<span style="color: #0000ff">http方法</span>来操作的</strong></strong></strong></strong></strong></strong></p>
+<p><strong><span style="color: #0000ff">GET <span style="color: #000000">请求指定的页面信息，并且返回实体主体</span></span></strong></p>
+<p><strong><span style="color: #0000ff">POST <span style="color: #000000">向指定资源提交数据进行处理请求，数据被包含在请求体中，POST请求可能会导致新的资源的建立和/或已有资源的修改</span></span></strong></p>
+<p><strong><span style="color: #0000ff">PUT <span style="color: #000000">向服务器传送的数据取代指定的文档的内容</span></span></strong></p>
+<p><strong><span style="color: #0000ff">DELETE <span style="color: #000000">请求服务器删除指定的页面</span></span></strong></p>
+<p><strong><strong><strong><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170829201554124-375494180.png" alt=""></strong></strong></strong></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>1、索引初始化，相当于创建一个数据库</strong></span></p>
+<p><span style="color: #000000"><strong>用<strong><strong><strong><strong><span style="color: #0000ff">kibana</span>创建</strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong>代码说明</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 初始化索引(也就是创建数据库)</span><span style="color: #008000">
+#</span><span style="color: #008000"> PUT 索引名称</span>
+<span style="color: #800000">"""</span><span style="color: #800000">
+PUT jobbole                             #设置索引名称
+{
+  "settings": {                         #设置
+    "index": {                          #索引
+      "number_of_shards":5,             #设置分片数
+      "number_of_replicas":1            #设置副本数
+    }
+  }
+}
+</span><span style="color: #800000">"""</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 初始化索引(也就是创建数据库)</span><span style="color: #008000">
+#</span><span style="color: #008000"> PUT 索引名称</span>
+<span style="background-color: #ff99cc"><span style="color: #000000">
+PUT jobbole                             
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">settings</span><span style="color: #800000">"</span><span style="color: #000000">: {                         
+    </span><span style="color: #800000">"</span><span style="color: #800000">index</span><span style="color: #800000">"</span><span style="color: #000000">: {                          
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_shards</span><span style="color: #800000">"</span>:5<span style="color: #000000">,             
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_replicas</span><span style="color: #800000">"</span>:1<span style="color: #000000">            
+    }
+  }
+}</span></span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170829222142218-1526547648.png" alt=""></p>
+<p><strong>&nbsp;<span style="color: #0000ff">我们也可以使用可视化根据创建索引</span></strong></p>
+<p><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170829222955046-1554050379.png" alt=""></strong></p>
+<p><span style="color: #ff0000"><strong>注意：索引一旦创建，分片数量不可修改，副本数量可以修改的</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>2、获取索引的settings(设置信息)</strong></span></p>
+<p><span style="color: #ff0000"><strong>GET 索引名称/_settings &nbsp; <span style="color: #0000ff">获取指定索引的<strong>settings(设置信息)</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 初始化索引(也就是创建数据库)</span><span style="color: #008000">
+#</span><span style="color: #008000"> PUT 索引名称</span>
+<span style="color: #000000">PUT jobbole                             
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">settings</span><span style="color: #800000">"</span><span style="color: #000000">: {                         
+    </span><span style="color: #800000">"</span><span style="color: #800000">index</span><span style="color: #800000">"</span><span style="color: #000000">: {                          
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_shards</span><span style="color: #800000">"</span>:5<span style="color: #000000">,             
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_replicas</span><span style="color: #800000">"</span>:1<span style="color: #000000">            
+    }
+  }
+}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">获取指定索引的settings(设置信息)</span>
+<span style="background-color: #ff99cc">GET jobbole/_settings</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170829224556968-132954206.png" alt=""></p>
+<p><span style="color: #ff0000"><strong><strong>GET _all/_settings　<span style="color: #0000ff"><strong>获取所有索引的<strong>settings(设置信息)</strong></strong></span></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 初始化索引(也就是创建数据库)</span><span style="color: #008000">
+#</span><span style="color: #008000"> PUT 索引名称</span>
+<span style="color: #000000">PUT jobbole                             
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">settings</span><span style="color: #800000">"</span><span style="color: #000000">: {                         
+    </span><span style="color: #800000">"</span><span style="color: #800000">index</span><span style="color: #800000">"</span><span style="color: #000000">: {                          
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_shards</span><span style="color: #800000">"</span>:5<span style="color: #000000">,             
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_replicas</span><span style="color: #800000">"</span>:1<span style="color: #000000">            
+    }
+  }
+}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">获取索引的settings(设置信息)</span><span style="color: #008000">
+#</span><span style="color: #008000">GET jobbole/_settings</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">获取所有索引的settings(设置信息)</span>
+<span style="background-color: #ff99cc">GET _all/_settings</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170829231103905-822184736.png" alt=""></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>GET .索引名称,索引名称/_settings &nbsp; <span style="color: #0000ff">获取多个索引的settings(设置信息)</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 初始化索引(也就是创建数据库)</span><span style="color: #008000">
+#</span><span style="color: #008000"> PUT 索引名称</span>
+<span style="color: #000000">PUT jobbole                             
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">settings</span><span style="color: #800000">"</span><span style="color: #000000">: {                         
+    </span><span style="color: #800000">"</span><span style="color: #800000">index</span><span style="color: #800000">"</span><span style="color: #000000">: {                          
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_shards</span><span style="color: #800000">"</span>:5<span style="color: #000000">,             
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_replicas</span><span style="color: #800000">"</span>:1<span style="color: #000000">            
+    }
+  }
+}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">获取索引的settings(设置信息)</span><span style="color: #008000">
+#</span><span style="color: #008000">GET jobbole/_settings</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">获取所有索引的settings(设置信息)</span><span style="color: #008000">
+#</span><span style="color: #008000">GET _all/_settings</span>
+<span style="background-color: #ff99cc">GET .kibana,jobbole/_settings</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170829231856577-1538672286.png" alt=""></p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>3、更新索引的settings(设置信息)</strong></span></p>
+<p><span style="color: #ff0000"><strong>PUT 索引名称/_settings &nbsp; <span style="color: #0000ff">更新指定索引的设置信息</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 初始化索引(也就是创建数据库)</span><span style="color: #008000">
+#</span><span style="color: #008000"> PUT 索引名称</span>
+<span style="color: #000000">PUT jobbole                             
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">settings</span><span style="color: #800000">"</span><span style="color: #000000">: {                         
+    </span><span style="color: #800000">"</span><span style="color: #800000">index</span><span style="color: #800000">"</span><span style="color: #000000">: {                          
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_shards</span><span style="color: #800000">"</span>:5<span style="color: #000000">,             
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_replicas</span><span style="color: #800000">"</span>:1<span style="color: #000000">            
+    }
+  }
+}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">更新指定索引的settings(设置信息)</span>
+<span style="background-color: #ff99cc">PUT jobbole/<span style="color: #000000">_settings
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">number_of_replicas</span><span style="color: #800000">"</span>:2<span style="color: #000000">
+}
+
+</span></span><span style="color: #008000">#</span><span style="color: #008000">获取索引的settings(设置信息)</span>
+GET jobbole/_settings</pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170829234731655-201022997.png" alt=""></p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>4、获取索引的(索引信息)</strong></span></p>
+<p><span style="color: #ff0000"><strong>GET _all &nbsp;<span style="color: #0000ff">获取所有索引的索引信息</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 初始化索引(也就是创建数据库)</span><span style="color: #008000">
+#</span><span style="color: #008000"> PUT 索引名称</span>
+<span style="color: #000000">PUT jobbole                             
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">settings</span><span style="color: #800000">"</span><span style="color: #000000">: {                         
+    </span><span style="color: #800000">"</span><span style="color: #800000">index</span><span style="color: #800000">"</span><span style="color: #000000">: {                          
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_shards</span><span style="color: #800000">"</span>:5<span style="color: #000000">,             
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_replicas</span><span style="color: #800000">"</span>:1<span style="color: #000000">            
+    }
+  }
+}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">获取索引的settings(设置信息)</span><span style="color: #008000">
+#</span><span style="color: #008000">GET jobbole/_settings</span>
+<span style="color: #000000; background-color: #ff99cc">
+GET _all</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170830000356952-838559762.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>GET 索引名称 &nbsp;<span style="color: #0000ff">获取指定的索引信息</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 初始化索引(也就是创建数据库)</span><span style="color: #008000">
+#</span><span style="color: #008000"> PUT 索引名称</span>
+<span style="color: #000000">PUT jobbole                             
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">settings</span><span style="color: #800000">"</span><span style="color: #000000">: {                         
+    </span><span style="color: #800000">"</span><span style="color: #800000">index</span><span style="color: #800000">"</span><span style="color: #000000">: {                          
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_shards</span><span style="color: #800000">"</span>:5<span style="color: #000000">,             
+      </span><span style="color: #800000">"</span><span style="color: #800000">number_of_replicas</span><span style="color: #800000">"</span>:1<span style="color: #000000">            
+    }
+  }
+}
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000">获取索引的settings(设置信息)</span><span style="color: #008000">
+#</span><span style="color: #008000">GET jobbole/_settings</span><span style="color: #008000">
+#</span><span style="color: #008000">GET _all</span>
+<span style="background-color: #ff99cc">GET jobbole</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170830001225499-1322377197.png" alt=""></p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>5、保存文档(相当于数据库的写入数据)</strong></span></p>
+<p><span style="color: #ff0000"><strong>PUT <span style="color: #0000ff">index(索引名称)</span>/<span style="color: #0000ff">type(相当于表名称)</span>/<span style="color: #0000ff">1(相当于id)</span>{字段：值} &nbsp; &nbsp;<span style="color: #0000ff">保存文档自定义id(<strong>相当于数据库的写入数据)</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">保存文档(相当于数据库的写入数据)</span>
+PUT jobbole/job/1<span style="color: #000000">
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">python分布式爬虫开发</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">salary_min</span><span style="color: #800000">"</span>:15000<span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">city</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">北京</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">company</span><span style="color: #800000">"</span><span style="color: #000000">:{
+    </span><span style="color: #800000">"</span><span style="color: #800000">name</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">百度</span><span style="color: #800000">"</span><span style="color: #000000">,
+    </span><span style="color: #800000">"</span><span style="color: #800000">company_addr</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">北京市软件园</span><span style="color: #800000">"</span><span style="color: #000000">
+  },
+  </span><span style="color: #800000">"</span><span style="color: #800000">publish_date</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">2017-4-16</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>:15<span style="color: #000000">
+}</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170830004021921-849626349.png" alt=""></p>
+<p><strong>&nbsp;可视化查看</strong></p>
+<p><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170830004948593-1157563538.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>POST <span style="color: #0000ff">index(索引名称)</span>/<span style="color: #0000ff">type(相当于表名称)</span>/<span style="color: #0000ff">{字段：值}</span> &nbsp; &nbsp;保存文档自动生成id(相当于数据库的写入数据)</strong></span></p>
+<p><span style="color: #ff0000"><strong>注意：自动生成id需要用<strong>POST方法</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">保存文档(相当于数据库的写入数据)</span>
+POST jobbole/<span style="color: #000000">job
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">html开发</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">salary_min</span><span style="color: #800000">"</span>:15000<span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">city</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">上海</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">company</span><span style="color: #800000">"</span><span style="color: #000000">:{
+    </span><span style="color: #800000">"</span><span style="color: #800000">name</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">微软</span><span style="color: #800000">"</span><span style="color: #000000">,
+    </span><span style="color: #800000">"</span><span style="color: #800000">company_addr</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">上海市软件园</span><span style="color: #800000">"</span><span style="color: #000000">
+  },
+  </span><span style="color: #800000">"</span><span style="color: #800000">publish_date</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">2017-4-16</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>:15<span style="color: #000000">
+}</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170830010321124-559261472.png" alt=""></p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>6、获取文档(相当于查询数据)</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="background-color: #ffffff; color: #0000ff">GET 索引名称/表名称/id </span>&nbsp; 获取指定的文档所有信息</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">获取文档(相当于查询数据)</span>
+<span style="background-color: #ff99cc">GET jobbole/job/1</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170830174629858-331854582.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">GET 索引名称/表名称/id?_source</span>&nbsp; 获取指定文档的所有字段</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">GET 索引名称/表名称/id?_source=字段名称,字段名称,字段名称&nbsp;</span> 获取指定文档的多个指定字段</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">GET 索引名称/表名称/id?_source=字段名称</span>&nbsp; 获取指定文档的一个指定字段</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">获取指定文档的所有字段</span>
+GET jobbole/job/1<span style="color: #000000">?_source
+</span><span style="color: #008000">#</span><span style="color: #008000">获取指定文档的多个指定字段</span>
+GET jobbole/job/1?_source=<span style="color: #000000">title,city,company
+</span><span style="color: #008000">#</span><span style="color: #008000">获取指定文档的一个指定字段</span>
+GET jobbole/job/1?_source=title</pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170830183318874-1363304614.png" alt=""></p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>7、修改文档(相当于修改数据)</strong></span></p>
+<p><span style="color: #ff0000"><strong>修改文档(用保存文档的方式，进行覆盖来修改文档)原有数据全部被覆盖</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">修改文档(用保存文档的方式，进行覆盖来修改文档)</span>
+PUT jobbole/job/1<span style="color: #000000">
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">python分布式爬虫开发</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">salary_min</span><span style="color: #800000">"</span>:15000<span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">city</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">北京</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">company</span><span style="color: #800000">"</span><span style="color: #000000">:{
+    </span><span style="color: #800000">"</span><span style="color: #800000">name</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">百度</span><span style="color: #800000">"</span><span style="color: #000000">,
+    </span><span style="color: #800000">"</span><span style="color: #800000">company_addr</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">北京市软件园</span><span style="color: #800000">"</span><span style="color: #000000">
+  },
+  </span><span style="color: #800000">"</span><span style="color: #800000">publish_date</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">2017-4-16</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>:20<span style="color: #000000">
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>修改文档(增量修改，没修改的原数据不变)【推荐】</strong></span></p>
+<div class="cnblogs_code">
+<pre>POST 索引名称/表/id/<span style="color: #000000">_update
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">doc</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">字段</span><span style="color: #800000">"</span><span style="color: #000000">:值,
+    </span><span style="color: #800000">"</span><span style="color: #800000">字段</span><span style="color: #800000">"</span><span style="color: #000000">:值
+  }
+}</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">修改文档(增量修改，没修改的原数据不变)</span>
+POST jobbole/job/1/<span style="color: #000000">_update
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">doc</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>:20<span style="color: #000000">,
+    </span><span style="color: #800000">"</span><span style="color: #800000">city</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">天津</span><span style="color: #800000">"</span><span style="color: #000000">
+  }
+}</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170830190658733-458548632.png" alt=""></p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>8、删除索引，删除文档</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">DELETE 索引名称/表/id</span> 删除索引里的一个指定文档</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">DELETE 索引名称</span> 删除一个指定索引</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">删除索引里的一个指定文档</span>
+DELETE jobbole/job/1
+<span style="color: #008000">#</span><span style="color: #008000">删除一个指定索引</span>
+DELETE jobbole</pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,1014 @@
+第五十节，面向对象基本介绍
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>一，面向对象基础1</strong><br />c#、Java:只能用面向对象编程<br />Ruby、python、php:函数编程 + 面向对象</p>
+<p>1.面向过程编程2<br />	　　就是程序最底层的实现过程<br />2.函数式编程3<br />	　　就是将最底层的实现过程封装到函数里，调用函数的方法编程<br />3面向对象编程4<br />	　　<span style="color: #ff0000;">就是将若干函数封装到一个类里，调用类来实现里面的函数方法</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>注意：面向对象不是所有情况都适用</strong></span>&nbsp;5</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>面向对象编程6</strong></span><br /><span style="color: #000000;">需要定义一个类 ，将功能函数写在类里，这样类里面的函数就叫做，实现一个类功能的方法，要使用这个类的方法时，创建这个类的对象赋值给一个变量，通过对象变量找到这个类下面的功能函数来实现（功能）的方法</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">class</span> fgjk: <span style="color: #008000;">#</span><span style="color: #008000;">定义一个类,在类里写函数来实现类的方法</span>
+    <span style="color: #0000ff;">def</span> f1(self,a): <span style="color: #008000;">#</span><span style="color: #008000;">方法1</span>
+        <span style="color: #0000ff;">return</span> a + 1
+    <span style="color: #0000ff;">def</span> f2(self,b): <span style="color: #008000;">#</span><span style="color: #008000;">方法2</span>
+        <span style="color: #0000ff;">pass</span>
+    <span style="color: #0000ff;">def</span> f3(self,c): <span style="color: #008000;">#</span><span style="color: #008000;">方法3</span>
+        <span style="color: #0000ff;">pass</span><span style="color: #000000;">
+
+a1 </span>= fgjk() <span style="color: #008000;">#</span><span style="color: #008000;">创建类对象赋值给一个变量</span>
+a2 = a1.f1(3) <span style="color: #008000;">#</span><span style="color: #008000;">调用类下面的一个函数传入参数，来实现一个功能，叫做方法</span>
+<span style="color: #0000ff;">print</span>(a2) <span style="color: #008000;">#</span><span style="color: #008000;">打印出这个方法的结果</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">输出fgjk类下面的f1()方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 4</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>class关键字，定义一个类7</strong></span></p>
+<p><strong>功能：<strong>定义一个类</strong></strong></p>
+<p><strong>使用方法：<strong>class 类名称:</strong></strong></p>
+<p><strong><strong>格式：class fgjk:</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">class</span> fgjk: <span style="color: #008000;">#</span><span style="color: #008000;">定义一个类,在类里写函数来实现类的方法</span>
+    <span style="color: #0000ff;">def</span> f1(self,a): <span style="color: #008000;">#</span><span style="color: #008000;">方法1</span>
+        <span style="color: #0000ff;">return</span> a + 1
+    <span style="color: #0000ff;">def</span> f2(self,b): <span style="color: #008000;">#</span><span style="color: #008000;">方法2</span>
+        <span style="color: #0000ff;">pass</span>
+    <span style="color: #0000ff;">def</span> f3(self,c): <span style="color: #008000;">#</span><span style="color: #008000;">方法3</span>
+        <span style="color: #0000ff;">pass</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>定义好类后，将功能函数（方法）写在类里，注意：类里面的函数有一个必写值self8</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">class</span> fgjk: <span style="color: #008000;">#</span><span style="color: #008000;">定义一个类,在类里写函数来实现类的方法</span>
+    <span style="color: #0000ff;">def</span> f1(self,a): <span style="color: #008000;">#</span><span style="color: #008000;">方法1</span>
+        <span style="color: #0000ff;">return</span> a + 1
+    <span style="color: #0000ff;">def</span> f2(self,b): <span style="color: #008000;">#</span><span style="color: #008000;">方法2</span>
+        <span style="color: #0000ff;">pass</span>
+    <span style="color: #0000ff;">def</span> f3(self,c): <span style="color: #008000;">#</span><span style="color: #008000;">方法3</span>
+        <span style="color: #0000ff;">pass</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>self</strong><strong>是一个形式参数，这个形式参数是用来，在执行类方法时接收类对象返回值的，9</strong></span></p>
+<p>注意：类对象的返回值是由python自动当做实参，传入类方法函数的<strong>self</strong>，不需要我们写，由python自动完成</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">定义类和类的方法</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">class</span> fgjk: <span style="color: #008000;">#</span><span style="color: #008000;">定义一个类,在类里写函数来实现类的方法</span>
+    <span style="color: #0000ff;">def</span> f1(self,a): <span style="color: #008000;">#</span><span style="color: #008000;">方法1</span>
+        <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">打印self接收的类对象值</span><span style="color: #800000;">"</span><span style="color: #000000;">,self)
+        </span><span style="color: #0000ff;">return</span> a <span style="color: #008000;">#</span><span style="color: #008000;">返回值</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建类的对象和是使用类的方法</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+a1 </span>= fgjk() <span style="color: #008000;">#</span><span style="color: #008000;">创建类对象赋值给一个变量</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">打印类对象值</span><span style="color: #800000;">"</span><span style="color: #000000;">,a1)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">注意：类对象的值是由python自动当做实参，传入类方法函数的，不需要我们写，由python自动完成，相当于下面写的a1.f1(a1,3)</span>
+a2 = a1.f1(3) <span style="color: #008000;">#</span><span style="color: #008000;">调用类下面的一个函数传入参数，来实现一个功能，叫做方法</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">打印返回值</span><span style="color: #800000;">"</span>,a2) <span style="color: #008000;">#</span><span style="color: #008000;">打印出这个方法的结果</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 打印类对象值 &lt;__main__.fgjk object at 0x0000006685D37160&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 打印self接收的类对象值 &lt;__main__.fgjk object at 0x0000006685D37160&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 打印返回值 3</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>定义好类和写好函数方法后，创建这个类的对象赋值给一个变量，通过变量找到这个类下面的功能函数来实现（功能）的方法 &nbsp;， 创建类对象也叫做（创建Foo类的实列）10</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">定义类和类的方法</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">class</span> fgjk: <span style="color: #008000;">#</span><span style="color: #008000;">定义一个类,在类里写函数来实现类的方法</span>
+    <span style="color: #0000ff;">def</span> f1(self,a): <span style="color: #008000;">#</span><span style="color: #008000;">方法1</span>
+        <span style="color: #0000ff;">return</span> a + 1
+    <span style="color: #0000ff;">def</span> f2(self,b): <span style="color: #008000;">#</span><span style="color: #008000;">方法2</span>
+        <span style="color: #0000ff;">pass</span>
+    <span style="color: #0000ff;">def</span> f3(self,c): <span style="color: #008000;">#</span><span style="color: #008000;">方法3</span>
+        <span style="color: #0000ff;">pass</span>
+
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建类对象和使用类的方法</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+a1 </span>= fgjk() <span style="color: #008000;">#</span><span style="color: #008000;">创建类对象赋值给一个变量</span>
+a2 = a1.f1(3) <span style="color: #008000;">#</span><span style="color: #008000;">调用类下面的一个函数传入参数，来实现一个功能，叫做方法</span>
+<span style="color: #0000ff;">print</span>(a2) <span style="color: #008000;">#</span><span style="color: #008000;">打印出这个方法的结果</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">输出fgjk类下面的f1()方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 4</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>面向对象原理图11</strong></span></p>
+<p><span style="color: #ff0000;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160916195941414-445809866.png" alt="" /></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18pt; color: #0000ff;"><strong>封装12</strong></span></p>
+<p><span style="font-size: 16px; color: #000000;"><strong>封装就是给对象封装普通字段</strong></span></p>
+<p><span style="color: #ff0000;"><strong>面向对象封装之，在类的对象里封装变量和变量值，非主流方法【不推荐】13</strong></span><br />就是在类的对象里封装变量和变量值，封装后使用类函数方法时不需要传值，在类函数方法里通过self来获取类对象里的值即可</p>
+<p><strong><span style="color: #0000ff;">给类对象添加变量：创建对象变量.要添加的变量名称 = 变量值 &nbsp;如a1.zhi =</span>&nbsp; xx</strong></p>
+<p><span style="color: #0000ff;"><strong>类方法函数获取对象变量：在方法函数里通过接收对象的self来获取，self.添加的类对象变量名称，这样就可以获取到类对象的值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">面向对象封装之，给类对象封装变量和变量值</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">class</span> fgjk: <span style="color: #008000;">#</span><span style="color: #008000;">定义一个类,在类里写函数来实现类的方法</span>
+    <span style="color: #0000ff;">def</span> f1(self): <span style="color: #008000;">#</span><span style="color: #008000;">方法1</span>
+        b = self.zhi + 5 <span style="color: #008000;">#</span><span style="color: #008000;">获取类对象里的zhi变量的值加5</span>
+        c = b + self.zhi2 <span style="color: #008000;">#</span><span style="color: #008000;">用b结果加类对象里的zhi2变量值</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> c
+</span><span style="color: #800000;">"""</span><span style="color: #800000;">创建类的对象和使用类的方法</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+a1 </span>= fgjk() <span style="color: #008000;">#</span><span style="color: #008000;">创建类对象赋值给一个变量</span>
+a1.zhi = 5 <span style="color: #008000;">#</span><span style="color: #008000;">给类对象封装一个变量和值</span>
+a1.zhi2 = 10 <span style="color: #008000;">#</span><span style="color: #008000;">给类对象封装一个变量和值</span>
+a2 = a1.f1() <span style="color: #008000;">#</span><span style="color: #008000;">执行类方法</span>
+<span style="color: #0000ff;">print</span>(a2) <span style="color: #008000;">#</span><span style="color: #008000;">打印出方法结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 20</span></pre>
+</div>
+<p><span style="color: #0000ff;"><strong>面向对象封装之，在类的对象里封装变量和变量值原理图14</strong></span></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160917121545570-1705522176.png" alt="" /></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__init__()构造方法，面向对象封装之，给类对象封装变量和变量值，主流方法 15</strong></span></p>
+<p><span style="color: #000000;"><strong><strong>__init__(self)类方法函数，如果类里有定义<strong><strong>__init__(self)类方法函数，创建对象后会自动执行<strong><strong>__init__(self)方法函数的</strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong><strong><strong>使用方法：<strong><strong>__init__(self,后面可以定义变量类接收对象传值然后封装到对象)</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000;">就是不在从类对象那里封装变量和值，从类的__init__(self)方法，向对象封装变量和值，因为只要创建对象后，python就会默认执行类的__init__(self)方法，然而对象的返回值是自动通过对象传值给类方法的self形式参数的，所以可以根据这个形式参数接收到的对象，向对象里封装变量和变量值</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">面向对象封装之，给类对象封装变量和变量值，主流方法</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">class</span> fgjk: <span style="color: #008000;">#</span><span style="color: #008000;">定义一个类,在类里写函数来实现类的方法</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(self)
+        self.adc </span>= <span style="color: #800000;">"</span><span style="color: #800000;">你好</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">通过self接收到的对象，向对象里封装变量和变量值</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(self.adc)
+</span><span style="color: #800000;">"""</span><span style="color: #800000;">创建类的对象和使用类的方法</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+a1 </span>= fgjk() <span style="color: #008000;">#</span><span style="color: #008000;">创建类对象赋值给一个变量,并把类对象返回值传给类里面的方法函数的self形式参数</span>
+a1.f1() <span style="color: #008000;">#</span><span style="color: #008000;">执行类的方法函数</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;__main__.fgjk object at 0x000000A5E652C518&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 你好</span></pre>
+</div>
+<p><span style="color: #0000ff;">通过类方法的self给对象封装变量原理图16</span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160917173748523-89445721.png" alt="" /></p>
+<p><span style="color: #ff0000;"><strong><strong>__init__()</strong><strong>构造方法，</strong>面向对象封装之，给类对象封装变量和变量值，主流方法2【推荐】17</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">面向对象封装之，给类对象封装变量和变量值，主流方法</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+a </span>= <span style="color: #800000;">"</span><span style="color: #800000;">变量值</span><span style="color: #800000;">"</span>
+<span style="color: #0000ff;">class</span> fgjk: <span style="color: #008000;">#</span><span style="color: #008000;">定义一个类,在类里写函数来实现类的方法</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self,b):
+        </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(self)
+        self.adc </span>= b <span style="color: #008000;">#</span><span style="color: #008000;">通过self接收到的对象，向对象里封装变量和变量值</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(self.adc)
+</span><span style="color: #800000;">"""</span><span style="color: #800000;">创建类的对象和使用类的方法</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+a1 </span>= fgjk(a) <span style="color: #008000;">#</span><span style="color: #008000;">创建类对象赋值给一个变量,并把类对象返回值传给类里面的方法函数的self形式参数</span>
+a1.f1() <span style="color: #008000;">#</span><span style="color: #008000;">执行类的方法函数</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;__main__.fgjk object at 0x000000A5E652C518&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 变量值</span></pre>
+</div>
+<p><span style="color: #0000ff;"><strong>主流方法2【推荐】原理图18</strong></span></p>
+<p><span style="color: #0000ff;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160917175800414-521684546.png" alt="" /></strong></span></p>
+<p><strong>注意:我们一般都是用构造方法2</strong></p>
+<p><span style="color: #ff0000;"><strong>__del__(self)解释器销毁对象时自动调用，我们只需要知道一些就行，这是python自动完成的，叫做析构方法19</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>封装总结20</strong></span></p>
+<p><span style="color: #ff0000;"><strong>使用场景，当同一类型的方法具有相同参数时，直接封装到对象即可</strong></span></p>
+<p><span style="color: #ff0000;"><strong>使用场景2：把类当做模板，创建多个对象（每个对象内封装的数据可以不一样）</strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>创建类对象，和<strong><strong>__init__()</strong></strong>构造封装对象变量，叫做初始化</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong>给对象封装的变量，叫做给对象创建普通字段</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18pt; color: #0000ff;"><strong>继承21</strong></span></p>
+<p><span style="font-size: 16px; color: #ff0000;"><strong>继承就是在定义类b时，可以在b类名称后面加上()括号里写上另外一个a类的名称，这样b类就会继承a类里的方法22</strong></span></p>
+<p><span style="color: #ff0000;"><strong>1.子类（派生类）、继承父类（基类）中的所有功能23</strong></span><br /><span style="color: #ff0000;"><strong>2.Python类可以同时继承多个父类（基类）（c#/Java不可以）24</strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>3.继承的优先级，继承里有相同方法的优先级25</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>　　</strong></strong><span style="color: #000000;">子类（派生类）、和父类（基类）同时存在一个方法是时，优先找子类（派生类），</span></span></p>
+<p><span style="color: #000000;">　　如果是一个类继承了多个类，而且继承的多个类中有同样的方法是，优先从子类（派生类）()括号里的父类（基类）左边优先</span></p>
+<p><span style="color: #000000;">　　如果是嵌套式继承，也就是一个类继承了多个基类，并且多个基类又继承了多个基类，这时是自己本身类优先，然后是上一级基类左边第一个优先，再者是左边第一个基类的上级基类优先，再者是左边第二基类优先以此类推</span></p>
+<p><span style="color: #000000;">　　<span style="color: #ff0000;">也就是说，首先是自身优先，然后是基类左边优先，然后是基类左边深度优先，以此类推的</span></span></p>
+<p><span style="color: #000000;"><span style="color: #ff0000;">　　如果嵌套式继承，最后有两个类都继承了同一个基类，这个被两个类继承的类不在深度查找，是最后查找这个类的</span></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">class</span> lei: <span style="color: #008000;">#</span><span style="color: #008000;">定义lei类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,wb = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">接收定义lei对象里的传值</span>
+        self.wb = wb <span style="color: #008000;">#</span><span style="color: #008000;">将定义lei对象里的传值封装到lei对象里</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">f1</span><span style="color: #800000;">"</span>,self.wb) <span style="color: #008000;">#</span><span style="color: #008000;">打印f1和，lei对象里封装的wb变量</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">f2</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f3(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">f3</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+</span><span style="color: #0000ff;">class</span> lei2(lei): <span style="color: #008000;">#</span><span style="color: #008000;">定义lei2类并继承lei类的方法</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,wb2 = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">接收定义lei2对象里的传值</span>
+        self.wb2 = wb2 <span style="color: #008000;">#</span><span style="color: #008000;">#将定义lei2对象里的传值封装到lei2对象里</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> j1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">j1</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> j2(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">j2</span><span style="color: #800000;">"</span>,self.wb2) <span style="color: #008000;">#</span><span style="color: #008000;">打印j2和，lei2对象里封装的wb2变量</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> j3(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">j3</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+a </span>= lei(<span style="color: #800000;">"</span><span style="color: #800000;">你好</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建lei类对象，并传值到lei类__init__方法</span>
+a.f1() <span style="color: #008000;">#</span><span style="color: #008000;">执行类里的f1()方法</span>
+<span style="color: #000000;">
+b </span>= lei2(<span style="color: #800000;">"</span><span style="color: #800000;">我好</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建lei2类对象，并传值到lei2类__init__方法</span>
+b.f3() <span style="color: #008000;">#</span><span style="color: #008000;">执行lei2类继承的lei里的f3()方法</span>
+b.j2() <span style="color: #008000;">#</span><span style="color: #008000;">执行lei2类里的j2()方法</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> f1 你好</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> f3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> j2 我好</span></pre>
+</div>
+<p><span style="color: #0000ff;"><strong>继承原理图26</strong></span></p>
+<p><span style="color: #0000ff;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160918160703318-1594850535.png" alt="" /></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>继承优先级说明图27</strong></span></p>
+<p><span style="color: #ff0000;"><strong>自身优先图28</strong></span></p>
+<p><span style="color: #ff0000;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160918172233715-1938643485.png" alt="" /></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>基类左边第一个优先图29</strong></span></p>
+<p><span style="color: #ff0000;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160918173118221-444932529.png" alt="" /></strong></span></p>
+<p><span style="color: #ff0000;"><strong>左边深度优先图30</strong></span></p>
+<p><span style="color: #ff0000;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160918174451466-267614034.png" alt="" /></strong></span></p>
+<p><span style="color: #ff0000;"><strong>&nbsp;最后有两个类都继承了同一个基类，这个被两个类继承的类不在深度查找，是最后查找这个类的31</strong></span></p>
+<p><span style="color: #ff0000;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160918180908568-499960954.png" alt="" /></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>继承重点，self.XXX()继承容易错点，如果一个类继承了多个基类，并且基类里有self.XXX()方法，self实际就是创建的对象，self.xxx()就是又回到了创建对象的类里去找xxx()方法，如果创建的自身类里没有xxx()方法，就又从继承基类的左边第一个开始查找，在之深度等，以此按照前面说的优先级执行32</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhi = <span style="color: #800000;">""</span><span style="color: #000000;">):
+        self.zhi </span>=<span style="color: #000000;"> zhi
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">class</span> b: <span style="color: #008000;">#</span><span style="color: #008000;">定义b类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhi = <span style="color: #800000;">""</span><span style="color: #000000;">):
+        self.zhi </span>=<span style="color: #000000;"> zhi
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> b1(self):
+        self.f1()
+</span><span style="color: #0000ff;">class</span> c: <span style="color: #008000;">#</span><span style="color: #008000;">定义c类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhi = <span style="color: #800000;">""</span><span style="color: #000000;">):
+        self.zhi </span>=<span style="color: #000000;"> zhi
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">c</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">class</span> d(b,c,a): <span style="color: #008000;">#</span><span style="color: #008000;">定义d类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhi = <span style="color: #800000;">""</span><span style="color: #000000;">):
+        self.zhi </span>=<span style="color: #000000;"> zhi
+fsa </span>= d(<span style="color: #800000;">"</span><span style="color: #800000;">传值</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建d类对象</span>
+fsa.b1() <span style="color: #008000;">#</span><span style="color: #008000;">执行d类对象的类里面的b1()方法，类里面没有b1方法，就到继承的基类左边第一个b类里去找b1方法，找到b1方法执行，然而b1里是执行的对象里面的f1方法，这样就又回到了d类里去找f1方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> c</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>self.XXX()继承原理图33</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160918223859724-1748733037.png" alt="" />&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>super()内置函数【推荐】，在一个类里获取上一级父类基类的，__init__方法里的对象封装值，注意只能获取上一级基类的<strong>__init__方法里的对象封装值34</strong></strong></span></p>
+<p><span style="color: #000000;"><strong><strong>使用方法：super(子类派生类名称,self).__init__()</strong></strong></span></p>
+<p><span style="color: #000000;"><strong><strong>格式：super(b,self).__init__()</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">class</span> c: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zf </span>= <span style="color: #800000;">"</span><span style="color: #800000;">狗shi</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">c</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zhi </span>= <span style="color: #800000;">"</span><span style="color: #800000;">动物</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">class</span> b(a): <span style="color: #008000;">#</span><span style="color: #008000;">定义b类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zh </span>= <span style="color: #800000;">"</span><span style="color: #800000;">猫</span><span style="color: #800000;">"</span><span style="color: #000000;">
+        super(b,self).</span><span style="color: #800080;">__init__</span>() <span style="color: #008000;">#</span><span style="color: #008000;">获取上一级父类基类的，__init__方法里的对象封装值</span>
+        <span style="color: #0000ff;">print</span>(self.zhi) <span style="color: #008000;">#</span><span style="color: #008000;">打印出获取到的，上一级父类基类的，__init__方法里的对象封装值</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> b1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">b</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+c </span>=<span style="color: #000000;"> b()
+c.f1()
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 动物</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> a</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>被获取类名称.__init__(self)在一个类里获取另外一个类的__init__方法里的对象封装值，注意，可以获取有继承关系的，也可以获取无继承关系的类35</strong></span></p>
+<p><strong>使用方法：<strong>被获取类名称.__init__(self)</strong></strong></p>
+<p><strong>格式：c.__init__(self)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">class</span> c: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zf </span>= <span style="color: #800000;">"</span><span style="color: #800000;">狗shi</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">c</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zhi </span>= <span style="color: #800000;">"</span><span style="color: #800000;">动物</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">class</span> b(a): <span style="color: #008000;">#</span><span style="color: #008000;">定义b类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zh </span>= <span style="color: #800000;">"</span><span style="color: #800000;">猫</span><span style="color: #800000;">"</span><span style="color: #000000;">
+        c.</span><span style="color: #800080;">__init__</span>(self) <span style="color: #008000;">#</span><span style="color: #008000;">在一个类里获取另外一个类的__init__方法里的对象封装值，注意，可以获取有继承关系的，也可以获取无继承关系的类</span>
+        <span style="color: #0000ff;">print</span>(self.zf) <span style="color: #008000;">#</span><span style="color: #008000;">打印获取到的，另外一个类的__init__方法里的对象封装值</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> b1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">b</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+c </span>=<span style="color: #000000;"> b()
+c.f1()
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 狗shi</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> a</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong><span style="font-size: 18pt;">多态36</span></strong></span></p>
+<p><span style="color: #000000; font-size: 16px;"><strong>多态就是多种形态</strong></span></p>
+<p>&nbsp;</p>
+<p><strong>python自身支持多态</strong><br /><span style="color: #ff0000;"><strong>多态的简单理解就是，定义一个函数，创建类对象，把类对象当做实际参数传给函数的形式参数，在函数里通过形式参数接收到的类对象来执行对象类里的方法，也就是向函数传不同的对象，就执行不同对象类的方法</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">多态，多种形态</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">class</span> ab: <span style="color: #008000;">#</span><span style="color: #008000;">定义ab类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhi = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">定义__init__方法接收类对象传的值</span>
+        self.zhi = zhi <span style="color: #008000;">#</span><span style="color: #008000;">将类对象传值封装到对象里吧，给对象封装一个字段</span>
+    <span style="color: #0000ff;">def</span> f1(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义类方法</span>
+        <span style="color: #0000ff;">print</span>(self.zhi) <span style="color: #008000;">#</span><span style="color: #008000;">打印ab类对象里封装的zhi字段</span>
+
+<span style="color: #0000ff;">class</span> cd: <span style="color: #008000;">#</span><span style="color: #008000;">定义cd类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhi = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">定义__init__方法接收类对象传的值</span>
+        self.zhi = zhi <span style="color: #008000;">#</span><span style="color: #008000;">将类对象传值封装到对象里吧，给对象封装一个字段</span>
+    <span style="color: #0000ff;">def</span> f1(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义类方法</span>
+        <span style="color: #0000ff;">print</span>(self.zhi) <span style="color: #008000;">#</span><span style="color: #008000;">打印cd类对象里封装的zhi字段</span>
+
+<span style="color: #0000ff;">def</span> ef(fang): <span style="color: #008000;">#</span><span style="color: #008000;">定义一个函数，设置一个形式参数接收类对象</span>
+    fang.f1() <span style="color: #008000;">#</span><span style="color: #008000;">接收对象，并执行对象的类里面的f1()方法</span>
+<span style="color: #000000;">
+ef(ab(</span><span style="color: #800000;">"</span><span style="color: #800000;">你好</span><span style="color: #800000;">"</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">执行函数，创建ab类对象当做实参传值给ef函数</span>
+ef(cd(<span style="color: #800000;">"</span><span style="color: #800000;">我好</span><span style="color: #800000;">"</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">执行函数，创建cd类对象当做实参传值给ef函数</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 你好</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 我好</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>&nbsp;多态原理图37</strong></span></p>
+<p><span style="color: #ff0000;"><strong><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160918201044019-802210060.png" alt="" /></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong><span style="font-size: 18pt;">面向对象的进阶38</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>成员39</strong></span><br />类下面的方法为类的成员<br />对象下面的封装字段为对象成员</p>
+<p><span style="color: #0000ff;"><strong>利用反射来操作类里的成员40</strong></span></p>
+<p><span style="color: #ff0000;"><strong>hasattr()内置反射函数，到指定类查找指定方法是否存在，和到指定的对象下查找，对象下的封装变量是否存在，或者到指定对象查找对象类里的指定方法，存在返回True,否则返回False</strong></span></p>
+<p><span style="color: #ff0000;"><strong>注意：对象有对象指针指向了类，所有也能用<strong>hasattr()函数通过对象来查找类里的方法，所以推荐通过对象来查找，既可以查找类又可以查找对象下的字段</strong></strong></span></p>
+<p><span style="color: #000000;"><strong>使用方法：</strong><strong><strong>hasattr(要查找的类名称或对象名称,字符串形式要查找的方法名称或对象封装名称)</strong></strong></span><span style="color: #000000;"><strong><strong>41</strong></strong></span></p>
+<p><span style="color: #000000;"><strong><strong>格式：hasattr(c,"f1")</strong></strong></span></p>
+<p><span style="color: #000000;">到指定类查找指定方法是否存在</span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">class</span> c: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zf </span>= <span style="color: #800000;">"</span><span style="color: #800000;">狗shi</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">c</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zhi </span>= <span style="color: #800000;">"</span><span style="color: #800000;">动物</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+fa </span>= hasattr(c,<span style="color: #800000;">"</span><span style="color: #800000;">f1</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">hasattr()内置函数，到指定类查找指定方法是否存在，和到指定的对象下查找，对象下的封装变量是否存在，存在返回True,否则返回False</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(fa)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> True</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>到指定的对象下查找对象下的封装变量是否存在</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">class</span> c: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zf </span>= <span style="color: #800000;">"</span><span style="color: #800000;">狗shi</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">c</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zhi </span>= <span style="color: #800000;">"</span><span style="color: #800000;">动物</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+fa </span>= hasattr(a(),<span style="color: #800000;">"</span><span style="color: #800000;">zhi</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">hasattr()内置函数，到指定类查找指定方法是否存在，和到指定的对象下查找，对象下的封装变量是否存在，存在返回True,否则返回False</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(fa) 
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> True</span></pre>
+</div>
+<p>到指定对象查找对象类里的指定方法</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">class</span> c: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zf </span>= <span style="color: #800000;">"</span><span style="color: #800000;">狗shi</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">c</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zhi </span>= <span style="color: #800000;">"</span><span style="color: #800000;">动物</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+fa </span>= hasattr(a(),<span style="color: #800000;">"</span><span style="color: #800000;">f1</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">hasattr()内置函数，到指定类查找指定方法是否存在，和到指定的对象下查找，对象下的封装变量是否存在，存在返回True,否则返回False</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(fa)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> True</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>getattr()内置反射函数，到指定的对象下找到，对象下的封装变量赋值给一个变量，或者到指定对象找到对象类里的指定方法赋值给一个变量42</strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>注意：对象有对象指针指向了类，所有也能用<strong>hasattr()函数通过对象来查找类里的方法，所以推荐通过对象来查找，既可以查找类又可以查找对象下的字段</strong></strong></strong></span></p>
+<p><span><strong>使用方法：<strong>getattr</strong><strong>(要查找的对象,字符串形式要查找的方法名称或对象封装名称)</strong></strong></span></p>
+<p><span><strong>格式：fa = getattr(c(),"f1")</strong></span></p>
+<p>到指定对象找到对象类里的指定方法赋值给一个变量，并执行方法</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">class</span> c: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zf </span>= <span style="color: #800000;">"</span><span style="color: #800000;">狗shi</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">c</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zhi </span>= <span style="color: #800000;">"</span><span style="color: #800000;">动物</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+fa </span>= getattr(c(),<span style="color: #800000;">"</span><span style="color: #800000;">f1</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">getattr()内置反射函数，到指定的对象下找到，对象下的封装变量赋值给一个变量，或者到指定对象找到对象类里的指定方法赋值给一个变量</span>
+fa() <span style="color: #008000;">#</span><span style="color: #008000;">执行找到的类方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> c</span></pre>
+</div>
+<p>到指定的对象下找到，对象下的封装变量赋值给一个变量</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">class</span> c: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zf </span>= <span style="color: #800000;">"</span><span style="color: #800000;">狗shi</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">c</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zhi </span>= <span style="color: #800000;">"</span><span style="color: #800000;">动物</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+fa </span>= getattr(c(),<span style="color: #800000;">"</span><span style="color: #800000;">zf</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">getattr()内置反射函数，到指定的对象下找到，对象下的封装变量赋值给一个变量，或者到指定对象找到对象类里的指定方法赋值给一个变量</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(fa)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 狗shi</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>用反射操作面向对象成员43</strong></span></p>
+<p><span style="color: #ff0000;"><strong>根据字符串方式的面向对象模块，和字符串方式的类方法，用反射来执行面向对象44</strong></span></p>
+<p><span style="color: #000000;">面向对象模块</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> c: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zf </span>= <span style="color: #800000;">"</span><span style="color: #800000;">狗shi</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">c</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        self.zhi </span>= <span style="color: #800000;">"</span><span style="color: #800000;">动物</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">a222</span><span style="color: #800000;">"</span>)</pre>
+</div>
+<p>反射操作面向对象模块里的成员</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">根据字符串方式的面向对象模块，和字符串方式的类方法，用反射来执行面向对象</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+a </span>= <span style="color: #800000;">"</span><span style="color: #800000;">lib.ska.mk</span><span style="color: #800000;">"</span>    <span style="color: #008000;">#</span><span style="color: #008000;">面向对象模块路径</span>
+b = <span style="color: #800000;">"</span><span style="color: #800000;">f1</span><span style="color: #800000;">"</span>            <span style="color: #008000;">#</span><span style="color: #008000;">类方法名称</span>
+c = <span style="color: #800080;">__import__</span>(a,fromlist=True)     <span style="color: #008000;">#</span><span style="color: #008000;">反射方式导入面向对象模块</span>
+d = hasattr(c.a(),b)                <span style="color: #008000;">#</span><span style="color: #008000;">查找模块里的a类里是否有f1方法，返回布尔值</span>
+<span style="color: #0000ff;">if</span> d:                               <span style="color: #008000;">#</span><span style="color: #008000;">判断模块里的a类里是否有f1方法</span>
+    f1 = getattr(c.a(),b)           <span style="color: #008000;">#</span><span style="color: #008000;">如果有就找到f1方法赋值给一个变量</span>
+    f1()                            <span style="color: #008000;">#</span><span style="color: #008000;">执行找到a类里的f1方法</span>
+<span style="color: #0000ff;">else</span><span style="color: #000000;">:
+    </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">a类里没有f1方法</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> a222</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff; font-size: 18pt;"><strong>静态字段45</strong></span></p>
+<p><span style="color: #ff0000; font-size: 16px;"><strong>静态字段，也就是在类里面定义变量，提供类里的所有方法调用，这样能很好的实现多个类有一个相同数据的情况46</strong></span></p>
+<p><span style="color: #ff0000; font-size: 16px;"><strong>注意：静态字段是通过，类名称.静态字段名称来访问的，对象封装的普通字段，是通过self.普通字段名称来访问的</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    shux = <span style="color: #800000;">"</span><span style="color: #800000;">动物</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    <span style="color: #0000ff;">def</span> f1(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义方法</span>
+        <span style="color: #0000ff;">print</span>(a.shux, self.zhu) <span style="color: #008000;">#</span><span style="color: #008000;">打印类的静态字段和对象封装的普通字段</span>
+    <span style="color: #0000ff;">def</span> f2(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义方法</span>
+        <span style="color: #0000ff;">print</span>(a.shux, self.zhu) <span style="color: #008000;">#</span><span style="color: #008000;">打印类的静态字段和对象封装的普通字段</span>
+    <span style="color: #0000ff;">def</span> f3(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义方法</span>
+        <span style="color: #0000ff;">print</span>(a.shux, self.zhu) <span style="color: #008000;">#</span><span style="color: #008000;">打印类的静态字段和对象封装的普通字段</span>
+s = a(<span style="color: #800000;">"</span><span style="color: #800000;">猫</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建对象并传值</span>
+s.f1() <span style="color: #008000;">#</span><span style="color: #008000;">执行对象类里的f1()方法</span>
+f = a(<span style="color: #800000;">"</span><span style="color: #800000;">狗</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建对象并传值</span>
+f.f2() <span style="color: #008000;">#</span><span style="color: #008000;">执行对象类里的f2()方法</span>
+b = a(<span style="color: #800000;">"</span><span style="color: #800000;">猪</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建对象并传值</span>
+b.f3() <span style="color: #008000;">#</span><span style="color: #008000;">执行对象类里的f3()方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 动物 猫</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 动物 狗</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 动物 猪</span></pre>
+</div>
+<p>静态字段原理图47</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160919202100356-959135393.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff; font-size: 18pt;"><strong><strong>静态方法48</strong></strong></span></p>
+<p><span style="color: #ff0000; font-size: 16px;"><strong><strong>就是在类里定义普通函数，函数上面用上装饰符@</strong></strong></span><span style="color: #ff0000;"><span style="font-size: 16px; line-height: 24px;"><strong>staticmethod，静态方法不需要传self参数，静态方法通过类来访问，不需要创建对象就可以访问</strong></span></span></p>
+<p><span style="color: #ff0000;"><span style="color: #ff0000;"><strong>@staticmethod在类里声明一个静态方法49</strong></span></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    @staticmethod <span style="color: #008000;">#</span><span style="color: #008000;">定义静态方法</span>
+    <span style="color: #0000ff;">def</span> f1(): <span style="color: #008000;">#</span><span style="color: #008000;">静态方法</span>
+        <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">静态方法</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">def</span> f3(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义方法</span>
+        <span style="color: #0000ff;">print</span><span style="color: #000000;">(a.shux, self.zhu)
+a.f1()
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 静态方法</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>静态方法原理图50</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160919213048621-2044795041.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong><span style="font-size: 18pt;">类方法51</span></strong></span></p>
+<p><span style="color: #ff0000; font-size: 16px;"><strong>就是在类里定义一个函数，函数上面用上装饰符@classmethod，函数里有一个必写形式参数cls用来接收类名称</strong></span></p>
+<p><span style="color: #ff0000; font-size: 16px;"><strong><strong>@classmethod在类里声明一个类方法52</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    @classmethod <span style="color: #008000;">#</span><span style="color: #008000;">定义类方法</span>
+    <span style="color: #0000ff;">def</span> f1(cls): <span style="color: #008000;">#</span><span style="color: #008000;">自动将类名称传值给cls形参</span>
+        <span style="color: #0000ff;">print</span>(cls) <span style="color: #008000;">#</span><span style="color: #008000;">打印cls接收到的类名称</span>
+    <span style="color: #0000ff;">def</span> f3(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义方法</span>
+        <span style="color: #0000ff;">print</span><span style="color: #000000;">(a.shux, self.zhu)
+a.f1()
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;class '__main__.a'&gt;</span></pre>
+</div>
+<p>类方法原理图53</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160919224221231-1494046300.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong><span style="font-size: 18pt;">特性方法54</span></strong></span></p>
+<p><span style="color: #ff0000; font-size: 16px;"><strong><strong>@property特性方法55</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong>就是在类里定义一个普通方法函数，函数上面用上装饰符@property，函数里有一个必写形式参数self用来接收对象地址，也可以给方法封装普通字段</strong></span></p>
+<p><span style="color: #ff0000;"><strong>特性方法与普通方法的区别：就是执行特性方法函数时不用写()括号，特性方法就是将普通方法伪造成通过对象获取的字段，特殊方法获取到返回值后是可以重新赋值的</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    @property <span style="color: #008000;">#</span><span style="color: #008000;">声明特性方法</span>
+    <span style="color: #0000ff;">def</span> f1(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义特性方法</span>
+        te = <span style="color: #800000;">"</span><span style="color: #800000;">{}方法</span><span style="color: #800000;">"</span><span style="color: #000000;">.format(self.zhu)
+        </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(te)
+    </span><span style="color: #0000ff;">def</span> f3(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义方法</span>
+        <span style="color: #0000ff;">print</span><span style="color: #000000;">(a.shux, self.zhu)
+s </span>= a(<span style="color: #800000;">"</span><span style="color: #800000;">特性</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+s.f1 </span><span style="color: #008000;">#</span><span style="color: #008000;">执行对象类里的f1特性方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 特性方法<br />s.f1 = "重新赋值"   #<strong>特殊方法获取到返回值后是可以重新赋值的</strong></span></pre>
+</div>
+<p>特性方法原理图56</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160919234141574-1059945332.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>设置特性方法：就是给特性方法设置值57</strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>@方法名称.setter给特性方法设置值58</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong>就是在类里的特性方法下面，写一个给特性方法名称一样的方法函数，<strong>函数上面用上装饰符</strong>@方法名称.setter，在方法里设置一个形式参数来接收，执行设置特性方法传值，执行设置特性方法时，将特性方法 = 要设置的值即可</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    @property <span style="color: #008000;">#</span><span style="color: #008000;">声明特性方法</span>
+    <span style="color: #0000ff;">def</span> f1(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义特性方法</span>
+        te = <span style="color: #800000;">"</span><span style="color: #800000;">{}方法</span><span style="color: #800000;">"</span><span style="color: #000000;">.format(self.zhu)
+        </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(te)
+    @f1.setter  </span><span style="color: #008000;">#</span><span style="color: #008000;">设置特性方法</span>
+    <span style="color: #0000ff;">def</span> f1(self,v): <span style="color: #008000;">#</span><span style="color: #008000;">设置特性方法</span>
+        <span style="color: #0000ff;">print</span>(v) <span style="color: #008000;">#</span><span style="color: #008000;">打印设置的特性方法值</span>
+        self.zhu = v <span style="color: #008000;">#</span><span style="color: #008000;">将设置的特性方法值替换对象封装的普通字段</span>
+s = a(<span style="color: #800000;">"</span><span style="color: #800000;">特性</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+s.f1 </span><span style="color: #008000;">#</span><span style="color: #008000;">执行对象类里的f1特性方法</span>
+s.f1 = <span style="color: #800000;">"</span><span style="color: #800000;">设置特性方法值</span><span style="color: #800000;">"</span><span style="color: #000000;">
+s.f1
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 特性方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 设置特性方法值</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 设置特性方法值方法</span></pre>
+</div>
+<p>&nbsp;设置特性方法原理图59</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160920151818356-2088253711.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 18pt; color: #0000ff;">成员修饰符60</span></strong><br /><span style="color: #ff0000;"><strong>修饰成员的使用权限对成员：静态字段、普通字段、普通方法、静态方法、类方法、特性方法，进行成员权限修饰61</strong></span><br /><span style="color: #ff0000;"><strong>	　　公有：就是没加__修饰符的成员，既可以在类里面访问，也可以通过类或者对象外部访问</strong></span><br /><span style="color: #ff0000;"><strong>	　　私有：就是加上__修饰符的成员，通过对象或者类无法外部访问，只能在类内部访问，外部要想访问必须在类的内部定义一个公有</strong></span><span style="color: #ff0000;"><strong>方法，在公有方法里执行要想访问的私有成员，通过公有方法来间接的访问私有成员，注意：一个类的私有方法只有类自己内部可以使用，&nbsp;</strong></span><span style="color: #ff0000;"><strong>而且无法被继承。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__类成员修饰符，用于修饰类的成员私有权限，用了__修饰符的私有成员只有类自身内部可以访问。62</strong></span></p>
+<p>&nbsp;<span style="color: #ff0000;"><strong>静态字段修饰符63</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #800080;">__jt</span> = <span style="color: #800000;">"</span><span style="color: #800000;">静态字段</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(a.<span style="color: #800080;">__jt</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        </span><span style="color: #0000ff;">pass</span>
+<span style="color: #008000;">#</span><span style="color: #008000;">print(a.__jt) #静态字段加修饰符后外部不可以访问</span>
+f = a() <span style="color: #008000;">#</span><span style="color: #008000;">定义对像</span>
+f.f1() <span style="color: #008000;">#</span><span style="color: #008000;">可以通过类里的f1方法间接访问</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 静态字段</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>普通字段修饰符64</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.<span style="color: #800080;">__zhu</span> = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里，封装普通字段</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(self.<span style="color: #800080;">__zhu</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        </span><span style="color: #0000ff;">pass</span><span style="color: #000000;">
+f </span>= a(<span style="color: #800000;">"</span><span style="color: #800000;">普通字段</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">定义对象</span><span style="color: #008000;">
+#</span><span style="color: #008000;">print(f.zhu) #普通字段加修饰符后外部不可以访问</span>
+f.f1() <span style="color: #008000;">#</span><span style="color: #008000;">通过类里的f1方法可以间接访问对象里封装的普通字段</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 普通字段</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>普通方法修饰符65</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.<span style="color: #800080;">__zhu</span> = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里，封装普通字段</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__f1</span><span style="color: #000000;">(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">普通方法</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        self.</span><span style="color: #800080;">__f1</span><span style="color: #000000;">()
+f </span>= a() <span style="color: #008000;">#</span><span style="color: #008000;">定义对象</span><span style="color: #008000;">
+#</span><span style="color: #008000;">f.__f1() #普通方法加修饰符后外部不可以访问</span>
+f.f2() <span style="color: #008000;">#</span><span style="color: #008000;">通过类里的f2方法可以间接访问加修饰符的f1普通方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 普通方法</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>静态方法修饰符66</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.<span style="color: #800080;">__zhu</span> = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里，封装普通字段</span>
+    @staticmethod <span style="color: #008000;">#</span><span style="color: #008000;">定义静态方法</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__f1</span><span style="color: #000000;">():
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">静态方法</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        a.</span><span style="color: #800080;">__f1</span><span style="color: #000000;">()
+</span><span style="color: #008000;">#</span><span style="color: #008000;">a.__f1() #静态方法加修饰符后外部不可以访问</span>
+f = a() <span style="color: #008000;">#</span><span style="color: #008000;">定义对象</span>
+f.f2() <span style="color: #008000;">#</span><span style="color: #008000;">通过类里的f2方法可以间接访问加修饰符的f1静态方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 静态方法</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>类方法修饰符67</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.<span style="color: #800080;">__zhu</span> = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里，封装普通字段</span>
+    @classmethod <span style="color: #008000;">#</span><span style="color: #008000;">定义类方法</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__f1</span><span style="color: #000000;">(cls):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">类方法</span><span style="color: #800000;">"</span><span style="color: #000000;">,cls)
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        a.</span><span style="color: #800080;">__f1</span><span style="color: #000000;">()
+</span><span style="color: #008000;">#</span><span style="color: #008000;">a.__f1() #类方法加修饰符后外部不可以访问</span>
+f = a() <span style="color: #008000;">#</span><span style="color: #008000;">定义对象</span>
+f.f2() <span style="color: #008000;">#</span><span style="color: #008000;">通过类里的f2方法可以间接访问加修饰符的f1类方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 类方法 &lt;class '__main__.a'&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>特性方法修饰符68</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.<span style="color: #800080;">__zhu</span> = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里，封装普通字段</span>
+    @property <span style="color: #008000;">#</span><span style="color: #008000;">定义特性方法</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__f1</span><span style="color: #000000;">(self):
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">特性方法</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        self.</span><span style="color: #800080;">__f1</span><span style="color: #000000;">
+f </span>= a() <span style="color: #008000;">#</span><span style="color: #008000;">定义对象</span><span style="color: #008000;">
+#</span><span style="color: #008000;">f.__f1 #特性方法加修饰符后外部不可以访问</span>
+f.f2() <span style="color: #008000;">#</span><span style="color: #008000;">通过类里的f2方法可以间接访问加修饰符的f1特性方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 特性方法</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>成员修饰符之特殊手段，外部访问类的私有成员【不到万不得已不使用】69</strong></span></p>
+<p><span style="color: #000000;"><strong>方法：类名称或者对象名称._类名称__私有字段名称</strong></span></p>
+<p><span style="color: #000000;"><strong>格式：a._a__jt</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #800080;">__jt</span> = <span style="color: #800000;">"</span><span style="color: #800000;">静态字段</span><span style="color: #800000;">"</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">print</span>(a.<span style="color: #800080;">__jt</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        </span><span style="color: #0000ff;">pass</span>
+<span style="color: #0000ff;">print</span>(a._a__jt) <span style="color: #008000;">#</span><span style="color: #008000;">特殊手段外部访问类的私有成员</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 静态字段</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong><span style="font-size: 18pt;">类成员之特殊方法70</span></strong></span></p>
+<p><span style="color: #ff0000;"><strong>__call__方法是类里的一个特殊方法，当类里定义了这个方法时，创建对象后在对象后面加上()括号，也可以在对象变量后面加括号是一样的，会自动执行类里的__call__方法71</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__call__</span>(self, args): <span style="color: #008000;">#</span><span style="color: #008000;">定义__call__方法</span>
+        <span style="color: #0000ff;">print</span><span style="color: #000000;">(args,self.zhu)
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        </span><span style="color: #0000ff;">pass</span><span style="color: #000000;">
+f </span>= a(<span style="color: #800000;">"</span><span style="color: #800000;">方法</span><span style="color: #800000;">"</span>)(<span style="color: #800000;">"</span><span style="color: #800000;">__call__</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> __call__ 方法</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__call__</span>(self, args): <span style="color: #008000;">#</span><span style="color: #008000;">定义__call__方法</span>
+        <span style="color: #0000ff;">print</span><span style="color: #000000;">(args,self.zhu)
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        </span><span style="color: #0000ff;">pass</span><span style="color: #000000;">
+f </span>= a(<span style="color: #800000;">"</span><span style="color: #800000;">方法</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+f(</span><span style="color: #800000;">"</span><span style="color: #800000;">__call__</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> __call__ 方法</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160920190931027-1290411042.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__getitem__方法是类里的一个特殊方法，当类里定义了这个方法时，创建对象后在对象后面加上[]中括号，会自动执行类里的__getitem__方法，并将[]中括号里的值传给__getitem__方法的形式参数。72</strong></span></p>
+<p><span style="color: #ff0000;"><strong>注意：对象后面加上[1:2:3],也是执行类的<strong>__getitem__方法</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__getitem__</span>(self, item): <span style="color: #008000;">#</span><span style="color: #008000;">创建__getitem__方法</span>
+        s = self.zhu + item <span style="color: #008000;">#</span><span style="color: #008000;">将创建对象封装的普通字段，加上执行__getitem__方法时的传值，相加后并返回值</span>
+        <span style="color: #0000ff;">return</span> s <span style="color: #008000;">#</span><span style="color: #008000;">返回值</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        </span><span style="color: #0000ff;">pass</span><span style="color: #000000;">
+f </span>= a(10) <span style="color: #008000;">#</span><span style="color: #008000;">创建对象传值</span>
+b = f[10] <span style="color: #008000;">#</span><span style="color: #008000;">执行__getitem__方法并传值给__getitem__方法</span>
+<span style="color: #0000ff;">print</span>(b) <span style="color: #008000;">#</span><span style="color: #008000;">打印__getitem__方法返回值</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 20</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160920194305512-1493122981.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>对象后面加上[1:2:3],也是执行类的<strong>__getitem__方法</strong></strong>&nbsp;73</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__getitem__</span>(self, item): <span style="color: #008000;">#</span><span style="color: #008000;">创建__getitem__方法,将[]中括号里的数据重新封装成一个slice对象传给item</span>
+        <span style="color: #0000ff;">print</span>(item) <span style="color: #008000;">#</span><span style="color: #008000;">打印接收到的slice对象元素</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        </span><span style="color: #0000ff;">pass</span><span style="color: #000000;">
+f </span>= a() <span style="color: #008000;">#</span><span style="color: #008000;">创建对象传值</span>
+b = f[10:12:3] <span style="color: #008000;">#</span><span style="color: #008000;">执行__getitem__方法并传值给__getitem__方法</span>
+<span style="color: #0000ff;">print</span>(b) <span style="color: #008000;">#</span><span style="color: #008000;">打印__getitem__方法返回值</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 20</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__setitem__方法是类里的一个特殊方法，当类里定义了这个方法时，创建对象后在对象后面加上[xxx]=xxx中括号等于，会自动执行类里的__setitem__方法，并将[xxx]=xxx中括号和等于里的值传给__setitem__方法的形式参数74</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__setitem__</span>(self, key, value): <span style="color: #008000;">#</span><span style="color: #008000;">定义__setitem__方法</span>
+        <span style="color: #0000ff;">print</span>(key,value) <span style="color: #008000;">#</span><span style="color: #008000;">打印[xxx] = xxx 传值</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        </span><span style="color: #0000ff;">pass</span><span style="color: #000000;">
+f </span>= a() <span style="color: #008000;">#</span><span style="color: #008000;">创建对象传值</span>
+f[<span style="color: #800000;">"</span><span style="color: #800000;">键</span><span style="color: #800000;">"</span>] = <span style="color: #800000;">"</span><span style="color: #800000;">值</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">执行__setitem__方法并传值给__setitem____方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 键 值</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160920201003762-1700288740.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__delitem__方法是类里的一个特殊方法，当类里定义了这个方法时，创建对象后在对象后面加上del对象名称[xxx]中括号，会自动执行类里的__delitem__方法，并将[xxx]中括号里的值传给__delitem__方法的形式参数75</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__delitem__</span>(self, key): <span style="color: #008000;">#</span><span style="color: #008000;">定义__delitem__方法</span>
+        <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">删除</span><span style="color: #800000;">"</span>,key) <span style="color: #008000;">#</span><span style="color: #008000;">操作[xxx]里传来的值</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        </span><span style="color: #0000ff;">pass</span><span style="color: #000000;">
+f </span>= a() <span style="color: #008000;">#</span><span style="color: #008000;">创建对象传值</span>
+<span style="color: #0000ff;">del</span> f[<span style="color: #800000;">"</span><span style="color: #800000;">键</span><span style="color: #800000;">"</span>] <span style="color: #008000;">#</span><span style="color: #008000;">执行__delitem__方法，并传值给__delitem__方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 删除 键</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160920202116871-2063405646.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__iter__方法是类里的一个特殊方法，当类里定义了这个方法时，创建对象后只要for循环对象，会自动执行类里的__iter__方法，如__iter__方法里是一个生成器，for循环就会循环出生成器里的结果76</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__iter__</span>(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义__iter__方法</span>
+        <span style="color: #0000ff;">yield</span> 1 <span style="color: #008000;">#</span><span style="color: #008000;">生成器</span>
+        <span style="color: #0000ff;">yield</span> 2
+        <span style="color: #0000ff;">yield</span> 3
+        <span style="color: #0000ff;">yield</span> 4
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">pass</span><span style="color: #000000;">
+s </span>= a() <span style="color: #008000;">#</span><span style="color: #008000;">创建对象</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> s: <span style="color: #008000;">#</span><span style="color: #008000;">循环对象</span>
+    <span style="color: #0000ff;">print</span>(i) <span style="color: #008000;">#</span><span style="color: #008000;">循环打印出生成器里的数据</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 4</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160920230314949-1849349359.png" alt="" /></p>
+<p><span style="color: #ff0000;"><strong>&nbsp;</strong></span></p>
+<p><span style="color: #ff0000;"><strong>__str__方法是类里的一个特殊方法，当类里定义了这个方法时，创建对象后只要print打印对象或者str(对象)时就，会自动执行类里的__str__方法77</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,vas): <span style="color: #008000;">#</span><span style="color: #008000;">定义__init__方法，接收对象传值</span>
+        self.fds = vas <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装成对象普通字段</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__str__</span>(self): <span style="color: #008000;">#</span><span style="color: #008000;">定义__str__方法</span>
+        <span style="color: #0000ff;">return</span> self.fds <span style="color: #008000;">#</span><span style="color: #008000;">返回对象里的普通字段</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(self):
+        </span><span style="color: #0000ff;">pass</span><span style="color: #000000;">
+f </span>= a(<span style="color: #800000;">"</span><span style="color: #800000;">str方法</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(f) <span style="color: #008000;">#</span><span style="color: #008000;">打印对象时自动执行__str__方法</span>
+<span style="color: #000000;">
+b </span>= str(f) <span style="color: #008000;">#</span><span style="color: #008000;">str(对象)时也会执行__str__方法</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> str方法</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> str方法</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__dict__查看对象或者类里的成员78</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">class</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">定义a类</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self,zhu = <span style="color: #800000;">""</span>): <span style="color: #008000;">#</span><span style="color: #008000;">初始化__init__接收对象传值</span>
+        self.zhu = zhu <span style="color: #008000;">#</span><span style="color: #008000;">将对象传值封装到对象里</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__getitem__</span>(self, item): <span style="color: #008000;">#</span><span style="color: #008000;">创建__getitem__方法,将[]中括号里的数据重新封装成一个slice对象传给item</span>
+        <span style="color: #0000ff;">print</span>(item) <span style="color: #008000;">#</span><span style="color: #008000;">打印接收到的slice对象元素</span>
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> f2(self):
+        </span><span style="color: #0000ff;">pass</span><span style="color: #000000;">
+f </span>= a(<span style="color: #800000;">"</span><span style="color: #800000;">zhi</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">创建对象传值</span>
+<span style="color: #0000ff;">print</span>(f.<span style="color: #800080;">__dict__</span>) <span style="color: #008000;">#</span><span style="color: #008000;">查看对象里的成员</span>
+<span style="color: #0000ff;">print</span>(a.<span style="color: #800080;">__dict__</span>) <span style="color: #008000;">#</span><span style="color: #008000;">查看类里的成员</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {'zhu': 'zhi'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {'__init__': &lt;function a.__init__ at 0x00000036345AE510&gt;, 'f2': &lt;function a.f2 at 0x00000036345AE620&gt;, '__getitem__': &lt;function a.__getitem__ at 0x00000036345AE598&gt;, '__weakref__': &lt;attribute '__weakref__' of 'a' objects&gt;, '__dict__': &lt;attribute '__dict__' of 'a' objects&gt;, '__module__': '__main__', '__doc__': None}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>可以忽略，源码创建类原理79</strong></span></p>
+<p><span style="color: #ff0000;"><strong>&nbsp;__new__ python创建类源码方法80</strong></span></p>
+<p><span style="color: #ff0000;"><strong>&nbsp;__metaclass__&nbsp;<strong>python创建类源码方法81</strong></strong></span></p>
+<p><span style="color: #000000;">阅读以下代码：</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> Foo(object):
+ 
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self):
+        </span><span style="color: #0000ff;">pass</span><span style="color: #000000;">
+ 
+obj </span>= Foo()   <span style="color: #008000;">#</span><span style="color: #008000;"> obj是通过Foo类实例化的对象</span></pre>
+</div>
+<p>上述代码中，obj 是通过 Foo 类实例化的对象，其实，不仅 obj 是一个对象，Foo类本身也是一个对象，因为在<strong>Python中一切事物都是对象</strong>。</p>
+<p>如果按照一切事物都是对象的理论：obj对象是通过执行Foo类的构造方法创建，那么Foo类对象应该也是通过执行某个类的 构造方法 创建。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">print</span> type(obj) <span style="color: #008000;">#</span><span style="color: #008000;"> 输出：&lt;class '__main__.Foo'&gt;     表示，obj 对象由Foo类创建</span>
+<span style="color: #0000ff;">print</span> type(Foo) <span style="color: #008000;">#</span><span style="color: #008000;"> 输出：&lt;type 'type'&gt;              表示，Foo类对象由 type 类创建</span></pre>
+</div>
+<p>所以，<strong>obj对象是Foo类的一个实例</strong>，<strong>Foo类对象是 type 类的一个实例</strong>，即：Foo类对象 是通过type类的构造方法创建。</p>
+<p>那么，创建类就可以有两种方式：</p>
+<p><strong>普通方式</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> Foo(object):
+ 
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> func(self):
+        </span><span style="color: #0000ff;">print</span> <span style="color: #800000;">'</span><span style="color: #800000;">hello wupeiqi</span><span style="color: #800000;">'</span></pre>
+</div>
+<p><strong>特殊方式（type类的构造函数）</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">def</span><span style="color: #000000;"> func(self):
+    </span><span style="color: #0000ff;">print</span> <span style="color: #800000;">'</span><span style="color: #800000;">hello wupeiqi</span><span style="color: #800000;">'</span><span style="color: #000000;">
+ 
+Foo </span>= type(<span style="color: #800000;">'</span><span style="color: #800000;">Foo</span><span style="color: #800000;">'</span>,(object,), {<span style="color: #800000;">'</span><span style="color: #800000;">func</span><span style="color: #800000;">'</span><span style="color: #000000;">: func})
+</span><span style="color: #008000;">#</span><span style="color: #008000;">type第一个参数：类名</span><span style="color: #008000;">
+#</span><span style="color: #008000;">type第二个参数：当前类的基类</span><span style="color: #008000;">
+#</span><span style="color: #008000;">type第三个参数：类的成员</span></pre>
+</div>
+<p>＝＝》 类 是由 type 类实例化产生</p>
+<p>那么问题来了，类默认是由 type 类实例化产生，type类中如何实现的创建类？类又是如何创建对象？</p>
+<p>答：类中有一个属性&nbsp;__metaclass__，其用来表示该类由 谁 来实例化创建，所以，我们可以为&nbsp;__metaclass__ 设置一个type类的派生类，从而查看 类 创建的过程。</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160920233924652-663655048.png" alt="" /></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> MyType(type):
+
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self, what, bases=None, dict=<span style="color: #000000;">None):
+        super(MyType, self).</span><span style="color: #800080;">__init__</span><span style="color: #000000;">(what, bases, dict)
+
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__call__</span>(self, *args, **<span style="color: #000000;">kwargs):
+        obj </span>= self.<span style="color: #800080;">__new__</span>(self, *args, **<span style="color: #000000;">kwargs)
+
+        self.</span><span style="color: #800080;">__init__</span><span style="color: #000000;">(obj)
+
+</span><span style="color: #0000ff;">class</span><span style="color: #000000;"> Foo(object):
+
+    </span><span style="color: #800080;">__metaclass__</span> =<span style="color: #000000;"> MyType
+
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self, name):
+        self.name </span>=<span style="color: #000000;"> name
+
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__new__</span>(cls, *args, **<span style="color: #000000;">kwargs):
+        </span><span style="color: #0000ff;">return</span> object.<span style="color: #800080;">__new__</span>(cls, *args, **<span style="color: #000000;">kwargs)
+
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 第一阶段：解释器从上到下执行代码创建Foo类</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 第二阶段：通过Foo类创建obj对象</span>
+obj = Foo()</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>重点总结82</strong></span></p>
+<p><span style="color: #ff0000;"><strong>面向对象三大特性：83</strong></span><br />	封装、继承、多态</p>
+<p><span style="color: #ff0000;"><strong>成员：84</strong></span><br />	字段：普通字段(每个对象都有一份相同数据时)、静态字段(每个对象都不同的数据时)<br />	方法：静态方法(无需使用对象封装的内容时)、类方法(需要获取对象名称时)、普通方法(使用对象中的数据时)<br />	特性方法：特性方法(将方法伪造成字段时)<br />	特殊方法：对象后写上执行属性，就会自动执行特殊方法</p>
+<p><span style="color: #ff0000;"><strong>类成员访问方法：85</strong></span><br />通过类访问的有：静态字段，静态方法，类方法<br />通过对象访问的有：普通字段，普通方法，特性方法<br />一般有self的方法用对象访问，无self的方法用类来访问</p>
+<p><span style="color: #ff0000;"><strong>成员修饰符：86</strong></span><br />修饰成员的使用权限对成员：静态字段、普通字段、普通方法、静态方法、类方法、特性方法，进行成员权限修饰<br />	公有：就是没加__修饰符的成员，既可以在类里面访问，也可以通过类或者对象外部访问<br />	私有：就是加上__修饰符的成员，通过对象或者类无法外部访问，只能在类内部访问，外部要想访问必须在类的内部定义一个公有方法，在公有方法里执行要想访问的私有成员，通过公有方法来间接的访问私有成员
+<br />，注意：一个类的私有方法只有类自己内部可以使用，而且无法被继承。</p>
+<p><span style="color: #ff0000;"><strong>特殊方法对应的执行属性：87</strong></span><br />类名称(xxx):创建对象并执行类的__init__方法<br />对象变量(xxx):执行类的__call__方法<br />对象变量[xxx]:执行类的__getitem__方法<br />对象变量[x:x:x]:执行类的__getitem__方法<br />对象变量[xxx]=xxx:执行类的__setitem__方法<br />del对象变量[xxx]:执行类的__delitem__方法<br />for循环对象变量:执行类的__iter__方法</p></div>

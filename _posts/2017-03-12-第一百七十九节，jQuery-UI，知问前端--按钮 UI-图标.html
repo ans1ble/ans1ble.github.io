@@ -1,0 +1,164 @@
+第一百七十九节，jQuery-UI，知问前端--按钮 UI-图标
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery-UI，知问前端--按钮 UI</strong></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.使用 button 按钮 </strong></p>
+<p><strong>　　2.修改 button 样式 </strong></p>
+<p><strong>　　3.button()方法的属性 </strong></p>
+<p><strong>　　4.button('action', param) </strong></p>
+<p><strong>　　5.单选、复选按钮</strong></p>
+<p><strong>按钮（button），可以给生硬的原生按钮或者文本提供更多丰富多彩的外观。它不单单 可以设置按钮或文本，还可以设置单选按钮和多选按钮。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．使用 button 按钮 </strong></span></p>
+<p><strong>使用 button 按钮 UI 的时候，不一定必须是 input 按钮形式，普通的文本也可以设置成 button 按钮。</strong></p>
+<div class="cnblogs_code">
+<pre>$('#search_button').button();</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．修改 button 样式 </strong></span></p>
+<p><strong>在弹出的 button 对话框中，在火狐浏览器中打开 Firebug 或者右击-&gt;查看元素。这样， 我们可以看看 button 的样式，根据样式进行修改。我们为了和网站主题符合，对 dialog 的 标题背景进行修改。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">//无须修改 ui 里的 CSS，直接用 style.css 替代掉
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default </span>{<span style="color: #ff0000">
+background</span>:<span style="color: #0000ff">url(../img/ui_header_bg.png)</span>;
+}<span style="color: #800000">
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active </span>{<span style="color: #ff0000">
+background</span>:<span style="color: #0000ff">url(../img/ui_white.png)</span>;
+}</pre>
+</div>
+<p><strong>注意：其他修改方案类似。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．button()方法的属性 </strong></span></p>
+<p><strong>按钮方法有两种形式：1.button(options)，options 是以对象键值对的形式传参，每个键 值对表示一个选项；2.button('action', param)，action 是操作对话框方法的字符串，param 则 是 options 的某个选项。</strong></p>
+<p><span style="color: #ff0000"><strong>button()方法,将一个按钮元素，执行按钮效果，参数接收一个对象，以键值对方式设置各种参数</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170313143942807-1446788265.png" alt=""></p>
+<p>&nbsp;<strong>jQuery-UI，图标</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170313160240291-755075625.jpg" alt=""></p>
+<p><span style="color: #ff0000"><strong>disabled false/布尔值 默认为 false，设置为 true 时，按钮是非激活的。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>label 无/字符串 对应按钮上的文字。如果没有，HTML 内容将被作为按钮的文字。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>icons 无/字符串对应按钮上的图标。在按钮文字前面和后面都可以放置一个图标，通过对象键值对的方式完成：</strong></span><br><span style="color: #ff0000"><strong>{</strong></span><br><span style="color: #ff0000"><strong>primary : 'ui-icon-search',</strong></span><br><span style="color: #ff0000"><strong>secondary : 'ui-icon-search'</strong></span><br><span style="color: #ff0000"><strong>}</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>text true/布尔值 当时设置为 false 时，不会显示文字，但必须指定一个图标。</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>    $('#search_button'<span style="color: #000000">).button({
+        </span><span style="color: #008000">//</span><span style="color: #008000">disabled:true,        //disabled false/布尔值 默认为 false，设置为 true 时，按钮是非激活的。</span>
+        label:'搜索',            <span style="color: #008000">//</span><span style="color: #008000">label 无/字符串 对应按钮上的文字。如果没有，HTML 内容将被作为按钮的文字。</span>
+        icons:{                 <span style="color: #008000">//</span><span style="color: #008000">icons 无/字符串对应按钮上的图标。在按钮文字前面和后面都可以放置一个图标，通过对象键值对的方式完成</span>
+            primary : 'ui-icon-search',    <span style="color: #008000">//</span><span style="color: #008000">按钮文字前图标</span>
+            secondary : 'ui-icon-search'   <span style="color: #008000">//</span><span style="color: #008000">按钮文字后图标</span>
+<span style="color: #000000">        },
+        text:</span><span style="color: #0000ff">false</span>                         <span style="color: #008000">//</span><span style="color: #008000">隐藏按钮文字</span>
+    });</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>button 的事件方法create</strong></span></p>
+<p><strong>注意：对于 button 的事件方法，只有一个：create，当创建 button 时调用。</strong></p>
+<div class="cnblogs_code">
+<pre>    $('#search_button'<span style="color: #000000">).button({
+        create:</span><span style="color: #0000ff">function</span> () {   <span style="color: #008000">//</span><span style="color: #008000">当创建 button 时调用</span>
+            alert('创建'<span style="color: #000000">);
+        }
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．button('action', param) </strong></span></p>
+<p><strong>button('action', param)方法能设置和获取按钮。action 表示指定操作的方式。</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170313151206463-278501044.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>button('disable') jQuery 对象 禁用按钮</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#search_button'<span style="color: #000000">).button({
+        label:</span>'搜索'<span style="color: #000000">
+    });
+    $(</span>'#search_button').button('disable');     <span style="color: #008000">//</span><span style="color: #008000">button('disable') jQuery 对象 禁用按钮</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>button('enable') jQuery 对象 启用按钮</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#search_button'<span style="color: #000000">).button({
+        label:</span>'搜索'<span style="color: #000000">
+    });
+    $(</span>'#search_button').button('disable');     <span style="color: #008000">//</span><span style="color: #008000">button('disable') jQuery 对象 禁用按钮</span>
+    $('#search_button').button('enable');     <span style="color: #008000">//</span><span style="color: #008000">button('enable') jQuery 对象 启用按钮</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>button('destroy') jQuery 对象 删除按钮，直接阻断了 button。</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#search_button'<span style="color: #000000">).button({
+        label:</span>'搜索'<span style="color: #000000">
+    });
+    $(</span>'#search_button').button('destroy');   <span style="color: #008000">//</span><span style="color: #008000">button('destroy') jQuery 对象 删除按钮，直接阻断了 button。</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>button('refresh') jQuery 对象 更新按钮布局。</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#search_button'<span style="color: #000000">).button({
+        label:</span>'搜索'<span style="color: #000000">
+    });
+    $(</span>'#search_button').button('refresh');   <span style="color: #008000">//</span><span style="color: #008000">button('refresh') jQuery 对象 更新按钮布局。</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>button('widget') jQuery 对象 获取按钮的 jQuery 对象</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#search_button'<span style="color: #000000">).button({
+        label:</span>'搜索'<span style="color: #000000">
+    });
+    alert($(</span>'#search_button').button('widget'));   <span style="color: #008000">//</span><span style="color: #008000">button('widget') jQuery 对象 获取按钮的 jQuery 对象</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>button('option', param) 一般值 获取 options 属性的值，第二个参数是要获取的属性，</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#search_button'<span style="color: #000000">).button({
+        label:</span>'搜索'<span style="color: #000000">
+    });
+    alert($(</span>'#search_button').button('option', 'label'));   <span style="color: #008000">//</span><span style="color: #008000">button('option', param) 一般值 获取 options 属性的值</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>button('option', param, value) jQuery 对象 设置 options 属性的值，<strong>第二个参数是要设置的属性，第三个参数是要设置的值</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#search_button'<span style="color: #000000">).button({
+        label:</span>'搜索'<span style="color: #000000">
+    });
+    $(</span>'#search_button').button('option', 'label','搜索一下');   <span style="color: #008000">//</span><span style="color: #008000">button('option', param, value) jQuery 对象 设置 options 属性的值，第二个参数是要设置的属性，第三个参数是要设置的值</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>五．单选框、复选框 </strong></span></p>
+<p><strong>button 按钮不但可以设置普通的按钮，对于单选框、复选框同样有效。</strong></p>
+<p><span style="color: #ff0000"><strong><strong>单选框</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="reg"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sex"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="male"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="male"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="male"</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">input</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sex"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="female"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="female"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="female"</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">input</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">jQuery 单选框</span>
+$('#reg input[type=radio]'<span style="color: #000000">).button();
+</span><span style="color: #008000">//</span><span style="color: #008000">jQuery 单选框改</span>
+$('#reg').buttonset();</pre>
+</div>
+<p><span style="color: #ff0000"><strong>复选框</strong></span></p>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="reg"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="color"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="red"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="red"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="red"</span><span style="color: #0000ff">&gt;</span>红<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">input</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="color"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="green"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="green"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="green"</span><span style="color: #0000ff">&gt;</span>绿<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">input</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="color"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="yellow"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="yellow"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="yellow"</span><span style="color: #0000ff">&gt;</span>黄<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">input</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="color"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="orange"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="orange"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="orange"</span><span style="color: #0000ff">&gt;</span>橙<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">input</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre>        <span style="color: #008000">//</span><span style="color: #008000">复选框</span>
+        $('#reg input[type=checkbox]'<span style="color: #000000">).button();
+        </span><span style="color: #008000">//</span><span style="color: #008000">复选框改</span>
+        $('#reg').buttonset();</pre>
+</div>
+<p><span style="color: #ff0000"><strong>&nbsp;buttonset()将一个元素下的所有按钮，单选框，复选框，执行按钮化ui</strong></span></p></div>

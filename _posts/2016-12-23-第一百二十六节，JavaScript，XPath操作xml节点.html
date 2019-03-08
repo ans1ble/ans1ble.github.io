@@ -1,0 +1,1036 @@
+第一百二十六节，JavaScript，XPath操作xml节点
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="font-size: 18pt; color: #0000ff"><strong>第一百二十六节，JavaScript，XPath操作xml节点</strong></span></p>
+<p>&nbsp;</p>
+<p align="left"><strong>学习要点：</strong></p>
+<p align="left"><strong>1.IE中的XPath</strong></p>
+<p align="left"><strong>2.W3C中的XPath</strong></p>
+<p align="left"><strong>3.XPath跨浏览器兼容</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>XPath是一种节点查找手段，对比之前使用标准DOM去查找XML中的节点方式，大大降低了查找难度，方便开发者使用。但是，DOM3级以前的标准并没有就XPath做出规范；直到DOM3在首次推荐到标准规范行列。大部分浏览器实现了这个标准，IE则以自己的方式实现了XPath。</strong></p>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>一．IE中的XPath</strong></span></p>
+<p align="left"><strong>在IE8及之前的浏览器，XPath是采用内置基于ActiveX的XML DOM文档对象实现的。在每一个节点上提供了两个方法：selectSingleNode()和selectNodes()。</strong></p>
+<p align="left"><strong>selectSingleNode()方法接受一个XPath模式（也就是查找路径），找到匹配的第一个节点并将它返回，没有则返回null。</strong></p>
+<p><span style="color: #ff0000"><strong>selectSingleNode()方法，查找xml节点，查找单一节点如果有相同的节点只返回第一个节点，有参参数是要查找的节点路径，此方法只支持IE并且是IE9以下</strong></span><br><strong>使用方式</strong><br><strong>XML DOM对象.selectSingleNode('要查找的节点路径')</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> xml = '&lt;root&gt;&lt;user id="5"&gt;Lee&lt;/user&gt;&lt;user id="6"&gt;Koko&lt;/user&gt;&lt;/root&gt;';  <span style="color: #008000">//</span><span style="color: #008000">定义xml字符串</span>
+<span style="color: #0000ff">var</span> xmldom = getXMLDOM(xml); <span style="color: #008000">//</span><span style="color: #008000">创建XML DOM对象,接收xml字符串</span><span style="color: #008000">
+//</span><span style="color: #008000">通过XML DOM对象查找xml标签节点</span>
+<span style="color: #0000ff">var</span> chzhao = xmldom.selectSingleNode('root/user'); <span style="color: #008000">//</span><span style="color: #008000">selectSingleNode()方法，查找xml节点，有参参数是要查找的节点路径，此方法只支持IE并且是IE9以下</span>
+alert(serializeXML(chzhao)); <span style="color: #008000">//</span><span style="color: #008000">执行序列化函数，序列化查找到的节点</span>
+alert(chzhao.tagName); <span style="color: #008000">//</span><span style="color: #008000">打印查找到的元素标签名称</span>
+alert(chzhao.firstChild.nodeValue); <span style="color: #008000">//</span><span style="color: #008000">打印查找到的元素文本内容</span>
+
+
+
+<span style="color: #008000">//</span><span style="color: #008000">首先，我们需要跨浏览器获取XML DOM</span>
+<span style="color: #0000ff">function</span> getXMLDOM(xmlStr) {  <span style="color: #008000">//</span><span style="color: #008000">自定义跨浏览器创建xml DOM对象，接收一个参数xml字符串</span>
+    <span style="color: #0000ff">var</span> xmlDom = <span style="color: #0000ff">null</span>;  <span style="color: #008000">//</span><span style="color: #008000">初始化一个对象</span>
+
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.DOMParser != 'undefined') {        <span style="color: #008000">//</span><span style="color: #008000">判断DOMParser类型不等于undefined说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建DOMParser对象，并且创建xml DOM对象</span>
+        xmlDom = (<span style="color: #0000ff">new</span> DOMParser()).parseFromString(xmlStr, 'text/xml'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取错误信息的parsererror标签</span>
+        <span style="color: #0000ff">var</span> errors = xmlDom.getElementsByTagName('parsererror'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">判断错误信息标签返回集合长度大于0，说明xml有错误</span>
+        <span style="color: #0000ff">if</span> (errors.length &gt; 0<span style="color: #000000">) {
+            </span><span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，获取到第一个错误标签，并且获取到他的文本内容</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' + errors[0<span style="color: #000000">].firstChild.nodeValue);
+        }
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持DOMParser类型，尝试IE的方法</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.ActiveXObject != 'undefined') {    <span style="color: #008000">//</span><span style="color: #008000">判断ActiveXObject类型不等于undefined说明支持</span>
+        <span style="color: #0000ff">var</span> version = [  <span style="color: #008000">//</span><span style="color: #008000">创建一个数组，元素分别为3个xml版本</span>
+            'MSXML2.DOMDocument.6.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument.3.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument'<span style="color: #000000">
+        ];
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; version.length; i++) {  <span style="color: #008000">//</span><span style="color: #008000">根据数组的长度循环次数</span>
+            <span style="color: #0000ff">try</span><span style="color: #000000"> {
+                </span><span style="color: #008000">//</span><span style="color: #008000">尝试着执行每次循环到的xml版本，创建xml对象</span>
+                xmlDom = <span style="color: #0000ff">new</span><span style="color: #000000"> ActiveXObject(version[i]);
+            } </span><span style="color: #0000ff">catch</span> (e) {  <span style="color: #008000">//</span><span style="color: #008000">如果出错跳过执行第二次循环</span>
+                <span style="color: #008000">//</span><span style="color: #008000">跳过</span>
+<span style="color: #000000">            }
+        }
+        xmlDom.loadXML(xmlStr);  </span><span style="color: #008000">//</span><span style="color: #008000">载入xml字符串</span>
+        <span style="color: #0000ff">if</span> (xmlDom.parseError != 0) {  <span style="color: #008000">//</span><span style="color: #008000">判断载入xml错误返回代码，如果不等于0说明xml有错</span>
+            <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，返回错误的解释信息</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' +<span style="color: #000000"> xmlDom.parseError.reason);
+        }
+    } </span><span style="color: #0000ff">else</span> {  <span style="color: #008000">//</span><span style="color: #008000">如果 上面两种方式都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出您所使用的系统或浏览器不支持XML DOM！</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('您所使用的系统或浏览器不支持XML DOM！'<span style="color: #000000">);
+    }
+
+    </span><span style="color: #0000ff">return</span> xmlDom;  <span style="color: #008000">//</span><span style="color: #008000">最后返回创建的xmlDOM对象</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">其次，我们还必须跨浏览器序列化XML</span>
+<span style="color: #0000ff">function</span> serializeXML(xmlDom) {  <span style="color: #008000">//</span><span style="color: #008000">序列化xml函数，接收xmlDOM对象对象</span>
+    <span style="color: #0000ff">var</span> xml = '';  <span style="color: #008000">//</span><span style="color: #008000">初始化一个变量等于空字符串</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> XMLSerializer != 'undefined') {  <span style="color: #008000">//</span><span style="color: #008000">判断XMLSerializer类型，不等于undefined，说明支持序列化</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，创建XMLSerializer对象，并且使用serializeToString方法序列化</span>
+        xml = (<span style="color: #0000ff">new</span><span style="color: #000000"> XMLSerializer()).serializeToString(xmlDom);
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持XMLSerializer类型</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> xmlDom.xml != 'undefined') { <span style="color: #008000">//</span><span style="color: #008000">判断IE方式xmlDOM对象下的xml属性是否等于undefined，不等于说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，序列化xml</span>
+        xml =<span style="color: #000000"> xmlDom.xml;
+    } </span><span style="color: #0000ff">else</span> { <span style="color: #008000">//</span><span style="color: #008000">如果上面两种都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出无法解析XML！错误信息</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('无法解析XML！'<span style="color: #000000">);
+    }
+    </span><span style="color: #0000ff">return</span> xml; <span style="color: #008000">//</span><span style="color: #008000">最后返回序列化</span>
+}</pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>上下文节点</strong></span></p>
+<p align="left"><strong>上下文节点：我们通过xmlDom这个对象实例调用方法，而xmlDom这个对象实例其实就是一个上下文节点，这个节点指针指向的是根，也就是root元素之前。那么如果我们把这个指针指向user元素之前，那么结果就会有所变化。</strong></p>
+<p align="left"><span style="color: #ff00ff"><strong>通过xmlDom，并且使用root/user的路径</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">通过xmlDom，并且使用root/user的路径</span>
+
+<span style="color: #0000ff">var</span> user = xmlDom.selectSingleNode('root/user'<span style="color: #000000">);
+
+alert(user.tagName);                                                </span><span style="color: #008000">//</span><span style="color: #008000">user</span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>通过xmlDom.documentElement，并且使用user路径，省去了root</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">通过xmlDom.documentElement，并且使用user路径，省去了root</span>
+
+<span style="color: #0000ff">var</span> user = xmlDom.documentElement.selectSingleNode('user'<span style="color: #000000">);
+
+alert(user.tagName);                                                </span><span style="color: #008000">//</span><span style="color: #008000">user</span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>通过xmlDom，并且使用user路径，省去了root</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">通过xmlDom，并且使用user路径，省去了root</span>
+
+<span style="color: #0000ff">var</span> user = xmlDom.selectSingleNode('user'<span style="color: #000000">);
+
+alert(user.tagName);                                                </span><span style="color: #008000">//</span><span style="color: #008000">找不到了，出错</span><strong>&nbsp;</strong></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>PS：xmlDom和xmlDom.documentElement都是上下文节点，主要就是定位当前路径查找的指针，而xmlDom对象实例的指针就是在最根上。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>XPath</strong><strong>常用语法</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff00ff"><strong>通过user[n]来获取第n+1条节点，PS：XPath其实是按1为起始值的，也就是通过索引位置来获取对应的标签</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">通过user[n]来获取第n+1条节点，PS：XPath其实是按1为起始值的</span>
+<span style="color: #0000ff">var</span> user = xmlDom.selectSingleNode('root/user[1]'<span style="color: #000000">);
+alert(user.xml);</span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>通过text()获取节点内的值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">通过text()获取节点内的值</span>
+<span style="color: #0000ff">var</span> user = xmlDom.selectSingleNode('root/user/text()'<span style="color: #000000">);
+alert(user.xml);
+alert(user.nodeValue);</span></pre>
+</div>
+<p align="left"><strong><span style="color: #ff00ff">通过//user 表示在整个xml获取到user节点，不关心任何层次，通过双斜杠获取节点</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">通过//user表示在整个xml获取到user节点，不关心任何层次</span>
+<span style="color: #0000ff">var</span> user = xmlDom.selectSingleNode('//user'<span style="color: #000000">);
+alert(user.xml);    </span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>通过root//user表示在root包含的层次下获取到user节点，在root内不关心任何层次，<strong>通过指定节点下双斜杠获取节点</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">通过root//user表示在root包含的层次下获取到user节点，在root内不关心任何层次</span>
+<span style="color: #0000ff">var</span> user = xmlDom.selectSingleNode('root//user'<span style="color: #000000">);
+alert(user.tagName);    </span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>通过root/user[@id=6]表示获取user中id=6的节点，通过id获取指定节点</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">通过root/user[@id=6]表示获取user中id=6的节点</span>
+<span style="color: #0000ff">var</span> user = xmlDom.selectSingleNode('root/user[@id=6]'<span style="color: #000000">);
+alert(user.xml);    </span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>PS：更多的XPath语法，可以参考XPath手册或者XML DOM手册进行参考，这里只提供了最常用的语法。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p><span style="color: #ff0000"><strong>selectNodes()方法，查找xml节点，返回相同名称的节点集合，有参参数是要查找的节点路径，此方法只支持IE并且是IE9以下</strong></span><br><strong>使用方式</strong><br><strong>XML DOM对象.selectNodes('要查找的节点路径')</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> xml = '&lt;root&gt;&lt;user id="5"&gt;Lee&lt;/user&gt;&lt;user id="6"&gt;Koko&lt;/user&gt;&lt;/root&gt;';  <span style="color: #008000">//</span><span style="color: #008000">定义xml字符串</span>
+<span style="color: #0000ff">var</span> xmldom = getXMLDOM(xml); <span style="color: #008000">//</span><span style="color: #008000">创建XML DOM对象,接收xml字符串</span><span style="color: #008000">
+//</span><span style="color: #008000">通过XML DOM对象查找xml标签节点</span>
+<span style="color: #0000ff">var</span> chzhao = xmldom.selectNodes('root/user'); <span style="color: #008000">//</span><span style="color: #008000">selectNodes()方法，查找xml节点，返回相同名称的节点集合，有参参数是要查找的节点路径，此方法只支持IE并且是IE9以下</span>
+alert(chzhao.length); <span style="color: #008000">//</span><span style="color: #008000">查看节点集合长度</span>
+alert(serializeXML(chzhao[0])); <span style="color: #008000">//</span><span style="color: #008000">通过索引，执行序列化函数，序列化查找到的节点</span>
+alert(chzhao[0].tagName); <span style="color: #008000">//</span><span style="color: #008000">通过索引打印查找到的元素标签名称</span>
+alert(chzhao[0].firstChild.nodeValue); <span style="color: #008000">//</span><span style="color: #008000">通过索引打印查找到的元素文本内容</span>
+
+
+
+<span style="color: #008000">//</span><span style="color: #008000">首先，我们需要跨浏览器获取XML DOM</span>
+<span style="color: #0000ff">function</span> getXMLDOM(xmlStr) {  <span style="color: #008000">//</span><span style="color: #008000">自定义跨浏览器创建xml DOM对象，接收一个参数xml字符串</span>
+    <span style="color: #0000ff">var</span> xmlDom = <span style="color: #0000ff">null</span>;  <span style="color: #008000">//</span><span style="color: #008000">初始化一个对象</span>
+
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.DOMParser != 'undefined') {        <span style="color: #008000">//</span><span style="color: #008000">判断DOMParser类型不等于undefined说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建DOMParser对象，并且创建xml DOM对象</span>
+        xmlDom = (<span style="color: #0000ff">new</span> DOMParser()).parseFromString(xmlStr, 'text/xml'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取错误信息的parsererror标签</span>
+        <span style="color: #0000ff">var</span> errors = xmlDom.getElementsByTagName('parsererror'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">判断错误信息标签返回集合长度大于0，说明xml有错误</span>
+        <span style="color: #0000ff">if</span> (errors.length &gt; 0<span style="color: #000000">) {
+            </span><span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，获取到第一个错误标签，并且获取到他的文本内容</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' + errors[0<span style="color: #000000">].firstChild.nodeValue);
+        }
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持DOMParser类型，尝试IE的方法</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.ActiveXObject != 'undefined') {    <span style="color: #008000">//</span><span style="color: #008000">判断ActiveXObject类型不等于undefined说明支持</span>
+        <span style="color: #0000ff">var</span> version = [  <span style="color: #008000">//</span><span style="color: #008000">创建一个数组，元素分别为3个xml版本</span>
+            'MSXML2.DOMDocument.6.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument.3.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument'<span style="color: #000000">
+        ];
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; version.length; i++) {  <span style="color: #008000">//</span><span style="color: #008000">根据数组的长度循环次数</span>
+            <span style="color: #0000ff">try</span><span style="color: #000000"> {
+                </span><span style="color: #008000">//</span><span style="color: #008000">尝试着执行每次循环到的xml版本，创建xml对象</span>
+                xmlDom = <span style="color: #0000ff">new</span><span style="color: #000000"> ActiveXObject(version[i]);
+            } </span><span style="color: #0000ff">catch</span> (e) {  <span style="color: #008000">//</span><span style="color: #008000">如果出错跳过执行第二次循环</span>
+                <span style="color: #008000">//</span><span style="color: #008000">跳过</span>
+<span style="color: #000000">            }
+        }
+        xmlDom.loadXML(xmlStr);  </span><span style="color: #008000">//</span><span style="color: #008000">载入xml字符串</span>
+        <span style="color: #0000ff">if</span> (xmlDom.parseError != 0) {  <span style="color: #008000">//</span><span style="color: #008000">判断载入xml错误返回代码，如果不等于0说明xml有错</span>
+            <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，返回错误的解释信息</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' +<span style="color: #000000"> xmlDom.parseError.reason);
+        }
+    } </span><span style="color: #0000ff">else</span> {  <span style="color: #008000">//</span><span style="color: #008000">如果 上面两种方式都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出您所使用的系统或浏览器不支持XML DOM！</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('您所使用的系统或浏览器不支持XML DOM！'<span style="color: #000000">);
+    }
+
+    </span><span style="color: #0000ff">return</span> xmlDom;  <span style="color: #008000">//</span><span style="color: #008000">最后返回创建的xmlDOM对象</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">其次，我们还必须跨浏览器序列化XML</span>
+<span style="color: #0000ff">function</span> serializeXML(xmlDom) {  <span style="color: #008000">//</span><span style="color: #008000">序列化xml函数，接收xmlDOM对象对象</span>
+    <span style="color: #0000ff">var</span> xml = '';  <span style="color: #008000">//</span><span style="color: #008000">初始化一个变量等于空字符串</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> XMLSerializer != 'undefined') {  <span style="color: #008000">//</span><span style="color: #008000">判断XMLSerializer类型，不等于undefined，说明支持序列化</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，创建XMLSerializer对象，并且使用serializeToString方法序列化</span>
+        xml = (<span style="color: #0000ff">new</span><span style="color: #000000"> XMLSerializer()).serializeToString(xmlDom);
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持XMLSerializer类型</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> xmlDom.xml != 'undefined') { <span style="color: #008000">//</span><span style="color: #008000">判断IE方式xmlDOM对象下的xml属性是否等于undefined，不等于说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，序列化xml</span>
+        xml =<span style="color: #000000"> xmlDom.xml;
+    } </span><span style="color: #0000ff">else</span> { <span style="color: #008000">//</span><span style="color: #008000">如果上面两种都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出无法解析XML！错误信息</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('无法解析XML！'<span style="color: #000000">);
+    }
+    </span><span style="color: #0000ff">return</span> xml; <span style="color: #008000">//</span><span style="color: #008000">最后返回序列化</span>
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>二．W3C</strong><strong>下的XPath</strong></span></p>
+<p align="left"><strong>在DOM3级XPath规范定义的类型中，最重要的两个类型是XPathEvaluator和XPathResult。其中，XPathEvaluator用于在特定上下文对XPath表达式求值。</strong></p>
+<p align="center"><span style="color: #ff0000"><strong>XPathEvaluator的方法</strong></span></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="177">
+<p align="center"><strong>方法</strong></p>
+</td>
+<td width="359">
+<p align="center"><strong>说明</strong></p>
+</td>
+</tr>
+<tr>
+<td width="177">
+<p align="center"><strong>createExpression(e, n)</strong></p>
+</td>
+<td width="359">
+<p align="center"><strong>将XPath表达式及命名空间转化成XPathExpression</strong></p>
+</td>
+</tr>
+<tr>
+<td width="177">
+<p align="center"><strong>createNSResolver(n)</strong></p>
+</td>
+<td width="359">
+<p align="center"><strong>根据n命名空间创建一个新的XPathNSResolver对象</strong></p>
+</td>
+</tr>
+<tr>
+<td width="177">
+<p align="center"><strong>evaluate(e, c, n ,t ,r)</strong></p>
+</td>
+<td width="359">
+<p align="center"><strong>结合上下文来获取XPath表达式的值</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left"><strong>W3C实现XPath查询节点比IE来的复杂，首先第一步就是需要得到XPathResult对象的实例。得到这个对象实例有两种方法，一种是通过创建XPathEvaluator对象执行evaluate()方法，另一种是直接通过上下文节点对象(比如xmlDom)来执行evaluate()方法。</strong></p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>XPathResult对象</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>XPathEvaluator</strong>类型</strong></span></p>
+<p align="left"><span style="color: #ff00ff"><strong>第一个方式，首先new&nbsp;<strong>XPathEvaluator</strong><strong>类型，然后执行<strong>XPathEvaluator</strong><strong><strong>类型下的<strong>evaluate()方法来创建<strong><strong><strong><strong>XPathResult对象</strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>evaluate()方法，创建XPathResult对象有5个参数，1要查找的xml标签路径，2上下文节点对象也就是XMLDOM对象，3命名空间求解器(通常是null)，4返回结果类型，5保存结果的XPathResult对象(通常是null)。</strong></span><br><strong>使用方式：</strong><br><strong>XPathResult对象.evaluate(要查找的xml标签路径,XMLDOM对象,null,返回结果类型,null)</strong></p>
+<p align="center"><span style="color: #ff0000"><strong>对于返回的结果类型，有10中不同的类型，常用的是红字的两个类型</strong></span></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="219">
+<p align="center"><strong>常量</strong></p>
+
+
+
+
+
+</td>
+<td width="317">
+<p align="center"><strong>说明</strong></p>
+
+
+
+
+
+</td>
+
+
+
+
+
+</tr>
+<tr>
+<td width="219">
+<p align="center"><strong>XPathResult.ANY_TYPE</strong></p>
+
+
+
+
+
+</td>
+<td width="317">
+<p align="center"><strong>返回符合XPath表达式类型的数据</strong></p>
+
+
+
+
+
+</td>
+
+
+
+
+
+</tr>
+<tr>
+<td width="219">
+<p align="center"><strong>XPathResult.ANY_UNORDERED_NODE_TYPE</strong></p>
+
+
+
+
+
+</td>
+<td width="317">
+<p align="center"><strong>返回匹配节点的节点集合，但顺序可能与文档中的节点的顺序不匹配</strong></p>
+
+
+
+
+
+</td>
+
+
+
+
+
+</tr>
+<tr>
+<td width="219">
+<p align="center"><strong>XPathResult.BOOLEAN_TYPE</strong></p>
+
+
+
+
+
+</td>
+<td width="317">
+<p align="center"><strong>返回布尔值</strong></p>
+
+
+
+
+
+</td>
+
+
+
+
+
+</tr>
+<tr>
+<td width="219">
+<p align="center"><span style="color: #ff0000"><strong>XPathResult.FIRST_ORDERED_NODE_TYPE</strong></span></p>
+
+
+
+
+
+</td>
+<td width="317">
+<p align="center"><strong>返回只包含一个节点的节点集合，且这个节点是在文档中第一个匹配的节点</strong></p>
+
+
+
+
+
+</td>
+
+
+
+
+
+</tr>
+<tr>
+<td width="219">
+<p align="center"><strong>XPathResult.NUMBER_TYPE</strong></p>
+
+
+
+
+
+</td>
+<td width="317">
+<p align="center"><strong>返回数字值</strong></p>
+
+
+
+
+
+</td>
+
+
+
+
+
+</tr>
+<tr>
+<td width="219">
+<p align="center"><span style="color: #ff0000"><strong>XPathResult.ORDERED_NODE_ITERATOR_TYPE</strong></span></p>
+
+
+
+
+
+</td>
+<td width="317">
+<p align="center"><strong>返回匹配节点的节点集合，顺序为节点在文档中出现的顺序。这是最常用到的结果类型</strong></p>
+
+
+
+
+
+</td>
+
+
+
+
+
+</tr>
+<tr>
+<td width="219">
+<p align="center"><strong>XPathResult.ORDERED_NODE_SNAPSHOT_TYPE</strong></p>
+
+
+
+
+
+</td>
+<td width="317">
+<p align="center"><strong>返回节点集合快照，在文档外捕获节点，这样将来对文档的任何修改都不会影响这个节点列表</strong></p>
+
+
+
+
+
+</td>
+
+
+
+
+
+</tr>
+<tr>
+<td width="219">
+<p align="center"><strong>XPathResult.STRING_TYPE</strong></p>
+
+
+
+
+
+</td>
+<td width="317">
+<p align="center"><strong>返回字符串值</strong></p>
+
+
+
+
+
+</td>
+
+
+
+
+
+</tr>
+<tr>
+<td width="219">
+<p align="center"><strong>XPathResult.UNORDERED_NODE_ITERATOR_TYPE</strong></p>
+
+
+
+
+
+</td>
+<td width="317">
+<p align="center"><strong>返回匹配节点的节点集合，不过顺序可能不会按照节点在文档中出现的顺序排列</strong></p>
+
+
+
+
+
+</td>
+
+
+
+
+
+</tr>
+<tr>
+<td width="219">
+<p align="center"><strong>XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE</strong></p>
+
+
+
+
+
+</td>
+<td width="317">
+<p align="center"><strong>返回节点集合快照，在文档外捕获节点，这样将来对文档的任何修改都不会影响这个节点列表</strong></p>
+
+
+
+
+
+</td>
+
+
+
+
+
+</tr>
+
+
+
+
+
+</tbody>
+
+
+
+
+
+</table>
+
+
+
+
+
+</div>
+<p align="left"><strong>PS：上面的常量过于繁重，对于我们只需要学习了解，其实也就需要两个：1.获取一个单一节、2.获取一个节点集合。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>两种方式创建<strong><strong><strong><strong><strong><strong><strong><strong><strong>XPathResult对象</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p align="left"><span style="color: #ff00ff"><strong>使用XPathEvaluator对象创建XPathResult</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> xml = '&lt;root&gt;&lt;user id="5"&gt;Lee&lt;/user&gt;&lt;user id="6"&gt;Koko&lt;/user&gt;&lt;/root&gt;';  <span style="color: #008000">//</span><span style="color: #008000">定义xml字符串</span>
+<span style="color: #0000ff">var</span> xmldom = getXMLDOM(xml); <span style="color: #008000">//</span><span style="color: #008000">创建XML DOM对象,接收xml字符串</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">使用XPathEvaluator对象创建XPathResult</span>
+<span style="color: #0000ff">var</span> eva = <span style="color: #0000ff">new</span> XPathEvaluator();  <span style="color: #008000">//</span><span style="color: #008000">创建XPathResult对象</span><span style="color: #008000">
+//</span><span style="color: #008000">evaluate()方法，创建XPathResult对象有5个参数，1要查找的xml标签路径，2上下文节点对象也就是XMLDOM对象，3命名空间求解器(通常是null)，4返回结果类型，5保存结果的XPathResult对象(通常是null)。</span>
+<span style="color: #0000ff">var</span> result = eva.evaluate('root/user', xmldom , <span style="color: #0000ff">null</span>,XPathResult.FIRST_ORDERED_NODE_TYPE, <span style="color: #0000ff">null</span><span style="color: #000000">);
+alert(result); </span><span style="color: #008000">//</span><span style="color: #008000">返回单一节点集合</span>
+
+
+
+<span style="color: #008000">//</span><span style="color: #008000">首先，我们需要跨浏览器获取XML DOM</span>
+<span style="color: #0000ff">function</span> getXMLDOM(xmlStr) {  <span style="color: #008000">//</span><span style="color: #008000">自定义跨浏览器创建xml DOM对象，接收一个参数xml字符串</span>
+    <span style="color: #0000ff">var</span> xmlDom = <span style="color: #0000ff">null</span>;  <span style="color: #008000">//</span><span style="color: #008000">初始化一个对象</span>
+
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.DOMParser != 'undefined') {        <span style="color: #008000">//</span><span style="color: #008000">判断DOMParser类型不等于undefined说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建DOMParser对象，并且创建xml DOM对象</span>
+        xmlDom = (<span style="color: #0000ff">new</span> DOMParser()).parseFromString(xmlStr, 'text/xml'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取错误信息的parsererror标签</span>
+        <span style="color: #0000ff">var</span> errors = xmlDom.getElementsByTagName('parsererror'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">判断错误信息标签返回集合长度大于0，说明xml有错误</span>
+        <span style="color: #0000ff">if</span> (errors.length &gt; 0<span style="color: #000000">) {
+            </span><span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，获取到第一个错误标签，并且获取到他的文本内容</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' + errors[0<span style="color: #000000">].firstChild.nodeValue);
+        }
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持DOMParser类型，尝试IE的方法</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.ActiveXObject != 'undefined') {    <span style="color: #008000">//</span><span style="color: #008000">判断ActiveXObject类型不等于undefined说明支持</span>
+        <span style="color: #0000ff">var</span> version = [  <span style="color: #008000">//</span><span style="color: #008000">创建一个数组，元素分别为3个xml版本</span>
+            'MSXML2.DOMDocument.6.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument.3.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument'<span style="color: #000000">
+        ];
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; version.length; i++) {  <span style="color: #008000">//</span><span style="color: #008000">根据数组的长度循环次数</span>
+            <span style="color: #0000ff">try</span><span style="color: #000000"> {
+                </span><span style="color: #008000">//</span><span style="color: #008000">尝试着执行每次循环到的xml版本，创建xml对象</span>
+                xmlDom = <span style="color: #0000ff">new</span><span style="color: #000000"> ActiveXObject(version[i]);
+            } </span><span style="color: #0000ff">catch</span> (e) {  <span style="color: #008000">//</span><span style="color: #008000">如果出错跳过执行第二次循环</span>
+                <span style="color: #008000">//</span><span style="color: #008000">跳过</span>
+<span style="color: #000000">            }
+        }
+        xmlDom.loadXML(xmlStr);  </span><span style="color: #008000">//</span><span style="color: #008000">载入xml字符串</span>
+        <span style="color: #0000ff">if</span> (xmlDom.parseError != 0) {  <span style="color: #008000">//</span><span style="color: #008000">判断载入xml错误返回代码，如果不等于0说明xml有错</span>
+            <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，返回错误的解释信息</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' +<span style="color: #000000"> xmlDom.parseError.reason);
+        }
+    } </span><span style="color: #0000ff">else</span> {  <span style="color: #008000">//</span><span style="color: #008000">如果 上面两种方式都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出您所使用的系统或浏览器不支持XML DOM！</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('您所使用的系统或浏览器不支持XML DOM！'<span style="color: #000000">);
+    }
+
+    </span><span style="color: #0000ff">return</span> xmlDom;  <span style="color: #008000">//</span><span style="color: #008000">最后返回创建的xmlDOM对象</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">其次，我们还必须跨浏览器序列化XML</span>
+<span style="color: #0000ff">function</span> serializeXML(xmlDom) {  <span style="color: #008000">//</span><span style="color: #008000">序列化xml函数，接收xmlDOM对象对象</span>
+    <span style="color: #0000ff">var</span> xml = '';  <span style="color: #008000">//</span><span style="color: #008000">初始化一个变量等于空字符串</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> XMLSerializer != 'undefined') {  <span style="color: #008000">//</span><span style="color: #008000">判断XMLSerializer类型，不等于undefined，说明支持序列化</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，创建XMLSerializer对象，并且使用serializeToString方法序列化</span>
+        xml = (<span style="color: #0000ff">new</span><span style="color: #000000"> XMLSerializer()).serializeToString(xmlDom);
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持XMLSerializer类型</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> xmlDom.xml != 'undefined') { <span style="color: #008000">//</span><span style="color: #008000">判断IE方式xmlDOM对象下的xml属性是否等于undefined，不等于说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，序列化xml</span>
+        xml =<span style="color: #000000"> xmlDom.xml;
+    } </span><span style="color: #0000ff">else</span> { <span style="color: #008000">//</span><span style="color: #008000">如果上面两种都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出无法解析XML！错误信息</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('无法解析XML！'<span style="color: #000000">);
+    }
+    </span><span style="color: #0000ff">return</span> xml; <span style="color: #008000">//</span><span style="color: #008000">最后返回序列化</span>
+}</pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>使用上下文节点对象(xmlDom)创建XPathResult对象，就是直接在XMLDOM对象执行evaluate()方法</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> xml = '&lt;root&gt;&lt;user id="5"&gt;Lee&lt;/user&gt;&lt;user id="6"&gt;Koko&lt;/user&gt;&lt;/root&gt;';  <span style="color: #008000">//</span><span style="color: #008000">定义xml字符串</span>
+<span style="color: #0000ff">var</span> xmldom = getXMLDOM(xml); <span style="color: #008000">//</span><span style="color: #008000">创建XML DOM对象,接收xml字符串</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">使用上下文节点对象(xmlDom)创建XPathResult</span>
+<span style="color: #0000ff">var</span> result = xmldom.evaluate('root/user', xmldom, <span style="color: #0000ff">null</span>,XPathResult.FIRST_ORDERED_NODE_TYPE, <span style="color: #0000ff">null</span><span style="color: #000000">);
+alert(result);  </span><span style="color: #008000">//</span><span style="color: #008000">返回单一节点集合</span>
+
+
+<span style="color: #008000">//</span><span style="color: #008000">首先，我们需要跨浏览器获取XML DOM</span>
+<span style="color: #0000ff">function</span> getXMLDOM(xmlStr) {  <span style="color: #008000">//</span><span style="color: #008000">自定义跨浏览器创建xml DOM对象，接收一个参数xml字符串</span>
+    <span style="color: #0000ff">var</span> xmlDom = <span style="color: #0000ff">null</span>;  <span style="color: #008000">//</span><span style="color: #008000">初始化一个对象</span>
+
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.DOMParser != 'undefined') {        <span style="color: #008000">//</span><span style="color: #008000">判断DOMParser类型不等于undefined说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建DOMParser对象，并且创建xml DOM对象</span>
+        xmlDom = (<span style="color: #0000ff">new</span> DOMParser()).parseFromString(xmlStr, 'text/xml'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取错误信息的parsererror标签</span>
+        <span style="color: #0000ff">var</span> errors = xmlDom.getElementsByTagName('parsererror'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">判断错误信息标签返回集合长度大于0，说明xml有错误</span>
+        <span style="color: #0000ff">if</span> (errors.length &gt; 0<span style="color: #000000">) {
+            </span><span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，获取到第一个错误标签，并且获取到他的文本内容</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' + errors[0<span style="color: #000000">].firstChild.nodeValue);
+        }
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持DOMParser类型，尝试IE的方法</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.ActiveXObject != 'undefined') {    <span style="color: #008000">//</span><span style="color: #008000">判断ActiveXObject类型不等于undefined说明支持</span>
+        <span style="color: #0000ff">var</span> version = [  <span style="color: #008000">//</span><span style="color: #008000">创建一个数组，元素分别为3个xml版本</span>
+            'MSXML2.DOMDocument.6.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument.3.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument'<span style="color: #000000">
+        ];
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; version.length; i++) {  <span style="color: #008000">//</span><span style="color: #008000">根据数组的长度循环次数</span>
+            <span style="color: #0000ff">try</span><span style="color: #000000"> {
+                </span><span style="color: #008000">//</span><span style="color: #008000">尝试着执行每次循环到的xml版本，创建xml对象</span>
+                xmlDom = <span style="color: #0000ff">new</span><span style="color: #000000"> ActiveXObject(version[i]);
+            } </span><span style="color: #0000ff">catch</span> (e) {  <span style="color: #008000">//</span><span style="color: #008000">如果出错跳过执行第二次循环</span>
+                <span style="color: #008000">//</span><span style="color: #008000">跳过</span>
+<span style="color: #000000">            }
+        }
+        xmlDom.loadXML(xmlStr);  </span><span style="color: #008000">//</span><span style="color: #008000">载入xml字符串</span>
+        <span style="color: #0000ff">if</span> (xmlDom.parseError != 0) {  <span style="color: #008000">//</span><span style="color: #008000">判断载入xml错误返回代码，如果不等于0说明xml有错</span>
+            <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，返回错误的解释信息</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' +<span style="color: #000000"> xmlDom.parseError.reason);
+        }
+    } </span><span style="color: #0000ff">else</span> {  <span style="color: #008000">//</span><span style="color: #008000">如果 上面两种方式都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出您所使用的系统或浏览器不支持XML DOM！</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('您所使用的系统或浏览器不支持XML DOM！'<span style="color: #000000">);
+    }
+
+    </span><span style="color: #0000ff">return</span> xmlDom;  <span style="color: #008000">//</span><span style="color: #008000">最后返回创建的xmlDOM对象</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">其次，我们还必须跨浏览器序列化XML</span>
+<span style="color: #0000ff">function</span> serializeXML(xmlDom) {  <span style="color: #008000">//</span><span style="color: #008000">序列化xml函数，接收xmlDOM对象对象</span>
+    <span style="color: #0000ff">var</span> xml = '';  <span style="color: #008000">//</span><span style="color: #008000">初始化一个变量等于空字符串</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> XMLSerializer != 'undefined') {  <span style="color: #008000">//</span><span style="color: #008000">判断XMLSerializer类型，不等于undefined，说明支持序列化</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，创建XMLSerializer对象，并且使用serializeToString方法序列化</span>
+        xml = (<span style="color: #0000ff">new</span><span style="color: #000000"> XMLSerializer()).serializeToString(xmlDom);
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持XMLSerializer类型</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> xmlDom.xml != 'undefined') { <span style="color: #008000">//</span><span style="color: #008000">判断IE方式xmlDOM对象下的xml属性是否等于undefined，不等于说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，序列化xml</span>
+        xml =<span style="color: #000000"> xmlDom.xml;
+    } </span><span style="color: #0000ff">else</span> { <span style="color: #008000">//</span><span style="color: #008000">如果上面两种都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出无法解析XML！错误信息</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('无法解析XML！'<span style="color: #000000">);
+    }
+    </span><span style="color: #0000ff">return</span> xml; <span style="color: #008000">//</span><span style="color: #008000">最后返回序列化</span>
+}</pre>
+</div>
+<p align="left"><strong>相对而言，第二种简单方便一点，但evaluate方法有五个属性：1.XPath路径、2.上下文节点对象、3.命名空间求解器(通常是null)、4.返回结果类型、5保存结果的XPathResult对象(通常是null)。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>获取xml节点</strong></span></p>
+<p align="left"><span style="color: #ff00ff"><strong>1.获取一个单一节点</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>singleNodeValue属性，得到XPathResult对象里的<strong>单一</strong>节点对象，获取返回类型XPathResult.FIRST_ORDERED_NODE_TYPE<strong>的节点对象</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> xml = '&lt;root&gt;&lt;user id="5"&gt;Lee&lt;/user&gt;&lt;user id="6"&gt;Koko&lt;/user&gt;&lt;/root&gt;';  <span style="color: #008000">//</span><span style="color: #008000">定义xml字符串</span>
+<span style="color: #0000ff">var</span> xmldom = getXMLDOM(xml); <span style="color: #008000">//</span><span style="color: #008000">创建XML DOM对象,接收xml字符串</span>
+
+<span style="color: #0000ff">var</span> result = xmldom.evaluate('root/user', xmldom, <span style="color: #0000ff">null</span>,XPathResult.FIRST_ORDERED_NODE_TYPE, <span style="color: #0000ff">null</span><span style="color: #000000">);
+</span><span style="color: #0000ff">if</span> (result !== <span style="color: #0000ff">null</span><span style="color: #000000">) {
+    </span><span style="color: #008000">//</span><span style="color: #008000">singleNodeValue属性，得到XPathResult对象里的节点对象</span>
+    alert(result.singleNodeValue.tagName);            <span style="color: #008000">//</span><span style="color: #008000">打印出节点的标签名称</span>
+<span style="color: #000000">}
+
+
+
+</span><span style="color: #008000">//</span><span style="color: #008000">首先，我们需要跨浏览器获取XML DOM</span>
+<span style="color: #0000ff">function</span> getXMLDOM(xmlStr) {  <span style="color: #008000">//</span><span style="color: #008000">自定义跨浏览器创建xml DOM对象，接收一个参数xml字符串</span>
+    <span style="color: #0000ff">var</span> xmlDom = <span style="color: #0000ff">null</span>;  <span style="color: #008000">//</span><span style="color: #008000">初始化一个对象</span>
+
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.DOMParser != 'undefined') {        <span style="color: #008000">//</span><span style="color: #008000">判断DOMParser类型不等于undefined说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建DOMParser对象，并且创建xml DOM对象</span>
+        xmlDom = (<span style="color: #0000ff">new</span> DOMParser()).parseFromString(xmlStr, 'text/xml'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取错误信息的parsererror标签</span>
+        <span style="color: #0000ff">var</span> errors = xmlDom.getElementsByTagName('parsererror'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">判断错误信息标签返回集合长度大于0，说明xml有错误</span>
+        <span style="color: #0000ff">if</span> (errors.length &gt; 0<span style="color: #000000">) {
+            </span><span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，获取到第一个错误标签，并且获取到他的文本内容</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' + errors[0<span style="color: #000000">].firstChild.nodeValue);
+        }
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持DOMParser类型，尝试IE的方法</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.ActiveXObject != 'undefined') {    <span style="color: #008000">//</span><span style="color: #008000">判断ActiveXObject类型不等于undefined说明支持</span>
+        <span style="color: #0000ff">var</span> version = [  <span style="color: #008000">//</span><span style="color: #008000">创建一个数组，元素分别为3个xml版本</span>
+            'MSXML2.DOMDocument.6.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument.3.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument'<span style="color: #000000">
+        ];
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; version.length; i++) {  <span style="color: #008000">//</span><span style="color: #008000">根据数组的长度循环次数</span>
+            <span style="color: #0000ff">try</span><span style="color: #000000"> {
+                </span><span style="color: #008000">//</span><span style="color: #008000">尝试着执行每次循环到的xml版本，创建xml对象</span>
+                xmlDom = <span style="color: #0000ff">new</span><span style="color: #000000"> ActiveXObject(version[i]);
+            } </span><span style="color: #0000ff">catch</span> (e) {  <span style="color: #008000">//</span><span style="color: #008000">如果出错跳过执行第二次循环</span>
+                <span style="color: #008000">//</span><span style="color: #008000">跳过</span>
+<span style="color: #000000">            }
+        }
+        xmlDom.loadXML(xmlStr);  </span><span style="color: #008000">//</span><span style="color: #008000">载入xml字符串</span>
+        <span style="color: #0000ff">if</span> (xmlDom.parseError != 0) {  <span style="color: #008000">//</span><span style="color: #008000">判断载入xml错误返回代码，如果不等于0说明xml有错</span>
+            <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，返回错误的解释信息</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' +<span style="color: #000000"> xmlDom.parseError.reason);
+        }
+    } </span><span style="color: #0000ff">else</span> {  <span style="color: #008000">//</span><span style="color: #008000">如果 上面两种方式都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出您所使用的系统或浏览器不支持XML DOM！</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('您所使用的系统或浏览器不支持XML DOM！'<span style="color: #000000">);
+    }
+
+    </span><span style="color: #0000ff">return</span> xmlDom;  <span style="color: #008000">//</span><span style="color: #008000">最后返回创建的xmlDOM对象</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">其次，我们还必须跨浏览器序列化XML</span>
+<span style="color: #0000ff">function</span> serializeXML(xmlDom) {  <span style="color: #008000">//</span><span style="color: #008000">序列化xml函数，接收xmlDOM对象对象</span>
+    <span style="color: #0000ff">var</span> xml = '';  <span style="color: #008000">//</span><span style="color: #008000">初始化一个变量等于空字符串</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> XMLSerializer != 'undefined') {  <span style="color: #008000">//</span><span style="color: #008000">判断XMLSerializer类型，不等于undefined，说明支持序列化</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，创建XMLSerializer对象，并且使用serializeToString方法序列化</span>
+        xml = (<span style="color: #0000ff">new</span><span style="color: #000000"> XMLSerializer()).serializeToString(xmlDom);
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持XMLSerializer类型</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> xmlDom.xml != 'undefined') { <span style="color: #008000">//</span><span style="color: #008000">判断IE方式xmlDOM对象下的xml属性是否等于undefined，不等于说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，序列化xml</span>
+        xml =<span style="color: #000000"> xmlDom.xml;
+    } </span><span style="color: #0000ff">else</span> { <span style="color: #008000">//</span><span style="color: #008000">如果上面两种都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出无法解析XML！错误信息</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('无法解析XML！'<span style="color: #000000">);
+    }
+    </span><span style="color: #0000ff">return</span> xml; <span style="color: #008000">//</span><span style="color: #008000">最后返回序列化</span>
+}</pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>2.获取节点集合</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>&nbsp;iterateNext()方法，得到XPathResult对象里的集合节点对象，获取返回类型XPathResult.ORDERED_NODE_ITERATOR_TYPE的节点对象</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> xml = '&lt;root&gt;&lt;user id="5"&gt;Lee&lt;/user&gt;&lt;user id="6"&gt;Koko&lt;/user&gt;&lt;/root&gt;';  <span style="color: #008000">//</span><span style="color: #008000">定义xml字符串</span>
+<span style="color: #0000ff">var</span> xmldom = getXMLDOM(xml); <span style="color: #008000">//</span><span style="color: #008000">创建XML DOM对象,接收xml字符串</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">使用上下文节点对象(xmlDom)创建XPathResult,返回类型为xml标签集合</span>
+<span style="color: #0000ff">var</span> result = xmldom.evaluate('root/user', xmldom, <span style="color: #0000ff">null</span>,XPathResult.ORDERED_NODE_ITERATOR_TYPE, <span style="color: #0000ff">null</span><span style="color: #000000">);
+</span><span style="color: #0000ff">if</span> (result !== <span style="color: #0000ff">null</span>) {  <span style="color: #008000">//</span><span style="color: #008000">判断集合不为空</span>
+    <span style="color: #0000ff">var</span> nodes = []; <span style="color: #008000">//</span><span style="color: #008000">创建空数组</span>
+    <span style="color: #0000ff">var</span> node = result.iterateNext();  <span style="color: #008000">//</span><span style="color: #008000">获取到集合里的一个标签对象</span>
+    <span style="color: #0000ff">while</span> (node !== <span style="color: #0000ff">null</span>) { <span style="color: #008000">//</span><span style="color: #008000">判断获取集合里的一个标签对象不为空，循环这个节点集合</span>
+        nodes.push(node); <span style="color: #008000">//</span><span style="color: #008000">将循环到的节点添加到初始化数组</span>
+        node = result.iterateNext(); <span style="color: #008000">//</span><span style="color: #008000">再次取集合里的一个标签对象，进行迭代</span>
+<span style="color: #000000">    }
+}
+
+alert(serializeXML(nodes[</span>0])); <span style="color: #008000">//</span><span style="color: #008000">序列化打印第一个节点</span>
+alert(serializeXML(nodes[1])); <span style="color: #008000">//</span><span style="color: #008000">序列化打印第二个节点</span>
+
+
+
+
+<span style="color: #008000">//</span><span style="color: #008000">首先，我们需要跨浏览器获取XML DOM</span>
+<span style="color: #0000ff">function</span> getXMLDOM(xmlStr) {  <span style="color: #008000">//</span><span style="color: #008000">自定义跨浏览器创建xml DOM对象，接收一个参数xml字符串</span>
+    <span style="color: #0000ff">var</span> xmlDom = <span style="color: #0000ff">null</span>;  <span style="color: #008000">//</span><span style="color: #008000">初始化一个对象</span>
+
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.DOMParser != 'undefined') {        <span style="color: #008000">//</span><span style="color: #008000">判断DOMParser类型不等于undefined说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建DOMParser对象，并且创建xml DOM对象</span>
+        xmlDom = (<span style="color: #0000ff">new</span> DOMParser()).parseFromString(xmlStr, 'text/xml'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取错误信息的parsererror标签</span>
+        <span style="color: #0000ff">var</span> errors = xmlDom.getElementsByTagName('parsererror'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">判断错误信息标签返回集合长度大于0，说明xml有错误</span>
+        <span style="color: #0000ff">if</span> (errors.length &gt; 0<span style="color: #000000">) {
+            </span><span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，获取到第一个错误标签，并且获取到他的文本内容</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' + errors[0<span style="color: #000000">].firstChild.nodeValue);
+        }
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持DOMParser类型，尝试IE的方法</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.ActiveXObject != 'undefined') {    <span style="color: #008000">//</span><span style="color: #008000">判断ActiveXObject类型不等于undefined说明支持</span>
+        <span style="color: #0000ff">var</span> version = [  <span style="color: #008000">//</span><span style="color: #008000">创建一个数组，元素分别为3个xml版本</span>
+            'MSXML2.DOMDocument.6.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument.3.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument'<span style="color: #000000">
+        ];
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; version.length; i++) {  <span style="color: #008000">//</span><span style="color: #008000">根据数组的长度循环次数</span>
+            <span style="color: #0000ff">try</span><span style="color: #000000"> {
+                </span><span style="color: #008000">//</span><span style="color: #008000">尝试着执行每次循环到的xml版本，创建xml对象</span>
+                xmlDom = <span style="color: #0000ff">new</span><span style="color: #000000"> ActiveXObject(version[i]);
+            } </span><span style="color: #0000ff">catch</span> (e) {  <span style="color: #008000">//</span><span style="color: #008000">如果出错跳过执行第二次循环</span>
+                <span style="color: #008000">//</span><span style="color: #008000">跳过</span>
+<span style="color: #000000">            }
+        }
+        xmlDom.loadXML(xmlStr);  </span><span style="color: #008000">//</span><span style="color: #008000">载入xml字符串</span>
+        <span style="color: #0000ff">if</span> (xmlDom.parseError != 0) {  <span style="color: #008000">//</span><span style="color: #008000">判断载入xml错误返回代码，如果不等于0说明xml有错</span>
+            <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，返回错误的解释信息</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' +<span style="color: #000000"> xmlDom.parseError.reason);
+        }
+    } </span><span style="color: #0000ff">else</span> {  <span style="color: #008000">//</span><span style="color: #008000">如果 上面两种方式都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出您所使用的系统或浏览器不支持XML DOM！</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('您所使用的系统或浏览器不支持XML DOM！'<span style="color: #000000">);
+    }
+
+    </span><span style="color: #0000ff">return</span> xmlDom;  <span style="color: #008000">//</span><span style="color: #008000">最后返回创建的xmlDOM对象</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">其次，我们还必须跨浏览器序列化XML</span>
+<span style="color: #0000ff">function</span> serializeXML(xmlDom) {  <span style="color: #008000">//</span><span style="color: #008000">序列化xml函数，接收xmlDOM对象对象</span>
+    <span style="color: #0000ff">var</span> xml = '';  <span style="color: #008000">//</span><span style="color: #008000">初始化一个变量等于空字符串</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> XMLSerializer != 'undefined') {  <span style="color: #008000">//</span><span style="color: #008000">判断XMLSerializer类型，不等于undefined，说明支持序列化</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，创建XMLSerializer对象，并且使用serializeToString方法序列化</span>
+        xml = (<span style="color: #0000ff">new</span><span style="color: #000000"> XMLSerializer()).serializeToString(xmlDom);
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持XMLSerializer类型</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> xmlDom.xml != 'undefined') { <span style="color: #008000">//</span><span style="color: #008000">判断IE方式xmlDOM对象下的xml属性是否等于undefined，不等于说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，序列化xml</span>
+        xml =<span style="color: #000000"> xmlDom.xml;
+    } </span><span style="color: #0000ff">else</span> { <span style="color: #008000">//</span><span style="color: #008000">如果上面两种都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出无法解析XML！错误信息</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('无法解析XML！'<span style="color: #000000">);
+    }
+    </span><span style="color: #0000ff">return</span> xml; <span style="color: #008000">//</span><span style="color: #008000">最后返回序列化</span>
+}</pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>PS：节点集合的获取方式，是通过迭代器遍历而来的，我们保存到数据中就模拟出IE相似的风格。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>三．XPath</strong><strong>跨浏览器兼容</strong></span></p>
+<p align="left"><strong>如果要做W3C和IE的跨浏览器兼容，我们要思考几个问题：1.如果传递一个节点的下标，IE是从0开始计算，W3C从1开始计算，可以通过传递获取下标进行增1减1的操作来进行。2.独有的功能放弃，为了保证跨浏览器。3.只获取单一节点和节点列表即可，基本可以完成所有的操作。</strong></p>
+<p align="left"><span style="color: #ff00ff"><strong>&nbsp;跨浏览器获取单一节点</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> xml = '&lt;root&gt;&lt;user id="5"&gt;Lee&lt;/user&gt;&lt;user id="6"&gt;Koko&lt;/user&gt;&lt;/root&gt;';  <span style="color: #008000">//</span><span style="color: #008000">定义xml字符串</span>
+<span style="color: #0000ff">var</span> xmldom = getXMLDOM(xml); <span style="color: #008000">//</span><span style="color: #008000">创建XML DOM对象,接收xml字符串</span>
+<span style="color: #0000ff">var</span> jied = selectSingleNode(xmldom,'root/user');  <span style="color: #008000">//</span><span style="color: #008000">执行跨浏览器获取单一节点函数</span>
+alert(serializeXML(jied));  <span style="color: #008000">//</span><span style="color: #008000">序列化节点标签</span>
+
+
+
+<span style="color: #008000">//</span><span style="color: #008000">跨浏览器获取单一节点，返回单一节点对象</span>
+<span style="color: #0000ff">function</span> selectSingleNode(xmlDom, xpath) {  <span style="color: #008000">//</span><span style="color: #008000">加收两个参数，参数1XML DOM对象，参数二要查找的标签路径</span>
+    <span style="color: #0000ff">var</span> node = <span style="color: #0000ff">null</span>;  <span style="color: #008000">//</span><span style="color: #008000">初始化</span>
+
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> xmlDom.evaluate != 'undefined') {  <span style="color: #008000">//</span><span style="color: #008000">判断XML DOM对象下的evaluate方法不等于undefined，说明支持，就用ie9以下的方式</span>
+        <span style="color: #0000ff">var</span> patten = /\[(\d+)\]/g;  <span style="color: #008000">//</span><span style="color: #008000">正则</span>
+        <span style="color: #0000ff">var</span> flag = xpath.match(patten); <span style="color: #008000">//</span><span style="color: #008000">返回正则匹配到的字符串</span>
+        <span style="color: #0000ff">var</span> num = 0; <span style="color: #008000">//</span><span style="color: #008000">初始化</span>
+        <span style="color: #0000ff">if</span> (flag !== <span style="color: #0000ff">null</span><span style="color: #000000">) {
+            num </span>= parseInt(RegExp.$1) + 1<span style="color: #000000">;
+            xpath </span>= xpath.replace(patten, '[' + num + ']'<span style="color: #000000">);
+        }
+        </span><span style="color: #0000ff">var</span> result = xmlDom.evaluate(xpath, xmlDom, <span style="color: #0000ff">null</span>,XPathResult.FIRST_ORDERED_NODE_TYPE, <span style="color: #0000ff">null</span><span style="color: #000000">);
+        </span><span style="color: #0000ff">if</span> (result !== <span style="color: #0000ff">null</span><span style="color: #000000">) {
+            node </span>=<span style="color: #000000"> result.singleNodeValue;
+        }
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> xmlDom.selectSingleNode != 'undefined') {  <span style="color: #008000">//</span><span style="color: #008000">w3c方式</span>
+        node =<span style="color: #000000"> xmlDom.selectSingleNode(xpath);
+    }
+
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> node;
+}
+
+
+</span><span style="color: #008000">//</span><span style="color: #008000">首先，我们需要跨浏览器获取XML DOM</span>
+<span style="color: #0000ff">function</span> getXMLDOM(xmlStr) {  <span style="color: #008000">//</span><span style="color: #008000">自定义跨浏览器创建xml DOM对象，接收一个参数xml字符串</span>
+    <span style="color: #0000ff">var</span> xmlDom = <span style="color: #0000ff">null</span>;  <span style="color: #008000">//</span><span style="color: #008000">初始化一个对象</span>
+
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.DOMParser != 'undefined') {        <span style="color: #008000">//</span><span style="color: #008000">判断DOMParser类型不等于undefined说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建DOMParser对象，并且创建xml DOM对象</span>
+        xmlDom = (<span style="color: #0000ff">new</span> DOMParser()).parseFromString(xmlStr, 'text/xml'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取错误信息的parsererror标签</span>
+        <span style="color: #0000ff">var</span> errors = xmlDom.getElementsByTagName('parsererror'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">判断错误信息标签返回集合长度大于0，说明xml有错误</span>
+        <span style="color: #0000ff">if</span> (errors.length &gt; 0<span style="color: #000000">) {
+            </span><span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，获取到第一个错误标签，并且获取到他的文本内容</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' + errors[0<span style="color: #000000">].firstChild.nodeValue);
+        }
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持DOMParser类型，尝试IE的方法</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.ActiveXObject != 'undefined') {    <span style="color: #008000">//</span><span style="color: #008000">判断ActiveXObject类型不等于undefined说明支持</span>
+        <span style="color: #0000ff">var</span> version = [  <span style="color: #008000">//</span><span style="color: #008000">创建一个数组，元素分别为3个xml版本</span>
+            'MSXML2.DOMDocument.6.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument.3.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument'<span style="color: #000000">
+        ];
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; version.length; i++) {  <span style="color: #008000">//</span><span style="color: #008000">根据数组的长度循环次数</span>
+            <span style="color: #0000ff">try</span><span style="color: #000000"> {
+                </span><span style="color: #008000">//</span><span style="color: #008000">尝试着执行每次循环到的xml版本，创建xml对象</span>
+                xmlDom = <span style="color: #0000ff">new</span><span style="color: #000000"> ActiveXObject(version[i]);
+            } </span><span style="color: #0000ff">catch</span> (e) {  <span style="color: #008000">//</span><span style="color: #008000">如果出错跳过执行第二次循环</span>
+                <span style="color: #008000">//</span><span style="color: #008000">跳过</span>
+<span style="color: #000000">            }
+        }
+        xmlDom.loadXML(xmlStr);  </span><span style="color: #008000">//</span><span style="color: #008000">载入xml字符串</span>
+        <span style="color: #0000ff">if</span> (xmlDom.parseError != 0) {  <span style="color: #008000">//</span><span style="color: #008000">判断载入xml错误返回代码，如果不等于0说明xml有错</span>
+            <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，返回错误的解释信息</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' +<span style="color: #000000"> xmlDom.parseError.reason);
+        }
+    } </span><span style="color: #0000ff">else</span> {  <span style="color: #008000">//</span><span style="color: #008000">如果 上面两种方式都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出您所使用的系统或浏览器不支持XML DOM！</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('您所使用的系统或浏览器不支持XML DOM！'<span style="color: #000000">);
+    }
+
+    </span><span style="color: #0000ff">return</span> xmlDom;  <span style="color: #008000">//</span><span style="color: #008000">最后返回创建的xmlDOM对象</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">其次，我们还必须跨浏览器序列化XML</span>
+<span style="color: #0000ff">function</span> serializeXML(xmlDom) {  <span style="color: #008000">//</span><span style="color: #008000">序列化xml函数，接收xmlDOM对象对象</span>
+    <span style="color: #0000ff">var</span> xml = '';  <span style="color: #008000">//</span><span style="color: #008000">初始化一个变量等于空字符串</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> XMLSerializer != 'undefined') {  <span style="color: #008000">//</span><span style="color: #008000">判断XMLSerializer类型，不等于undefined，说明支持序列化</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，创建XMLSerializer对象，并且使用serializeToString方法序列化</span>
+        xml = (<span style="color: #0000ff">new</span><span style="color: #000000"> XMLSerializer()).serializeToString(xmlDom);
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持XMLSerializer类型</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> xmlDom.xml != 'undefined') { <span style="color: #008000">//</span><span style="color: #008000">判断IE方式xmlDOM对象下的xml属性是否等于undefined，不等于说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，序列化xml</span>
+        xml =<span style="color: #000000"> xmlDom.xml;
+    } </span><span style="color: #0000ff">else</span> { <span style="color: #008000">//</span><span style="color: #008000">如果上面两种都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出无法解析XML！错误信息</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('无法解析XML！'<span style="color: #000000">);
+    }
+    </span><span style="color: #0000ff">return</span> xml; <span style="color: #008000">//</span><span style="color: #008000">最后返回序列化</span>
+}</pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>跨浏览器获取节点集合</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> xml = '&lt;root&gt;&lt;user id="5"&gt;Lee&lt;/user&gt;&lt;user id="6"&gt;Koko&lt;/user&gt;&lt;/root&gt;';  <span style="color: #008000">//</span><span style="color: #008000">定义xml字符串</span>
+<span style="color: #0000ff">var</span> xmldom = getXMLDOM(xml); <span style="color: #008000">//</span><span style="color: #008000">创建XML DOM对象,接收xml字符串</span>
+<span style="color: #0000ff">var</span> jied = selectNodes(xmldom,'root/user');  <span style="color: #008000">//</span><span style="color: #008000">执行跨浏览器获取集合节点函数</span>
+alert(serializeXML(jied[0]));  <span style="color: #008000">//</span><span style="color: #008000">序列化节点标签</span>
+
+
+<span style="color: #008000">//</span><span style="color: #008000">跨浏览器获取节点集合，返回节点集合</span>
+<span style="color: #0000ff">function</span> selectNodes(xmlDom, xpath) { <span style="color: #008000">//</span><span style="color: #008000">接收两个参数，参数1XML DOM对象，参数2要查找的节点标签路径</span>
+    <span style="color: #0000ff">var</span> nodes =<span style="color: #000000"> [];
+
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> xmlDom.evaluate != 'undefined'<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> patten = /\[(\d+)\]/<span style="color: #000000">g;
+        </span><span style="color: #0000ff">var</span> flag =<span style="color: #000000"> xpath.match(patten);
+        </span><span style="color: #0000ff">var</span> num = 0<span style="color: #000000">;
+        </span><span style="color: #0000ff">if</span> (flag !== <span style="color: #0000ff">null</span><span style="color: #000000">) {
+            num </span>= parseInt(RegExp.$1) + 1<span style="color: #000000">;
+            xpath </span>= xpath.replace(patten, '[' + num + ']'<span style="color: #000000">);
+        }
+        </span><span style="color: #0000ff">var</span> node = <span style="color: #0000ff">null</span><span style="color: #000000">;
+        </span><span style="color: #0000ff">var</span> result = xmlDom.evaluate('root/user', xmlDom, <span style="color: #0000ff">null</span>, XPathResult.ORDERED_NODE_ITERATOR_TYPE, <span style="color: #0000ff">null</span><span style="color: #000000">);
+        </span><span style="color: #0000ff">if</span> (result !== <span style="color: #0000ff">null</span><span style="color: #000000">) {
+            </span><span style="color: #0000ff">while</span> ((node = result.iterateNext()) !== <span style="color: #0000ff">null</span><span style="color: #000000">) {
+                nodes.push(node);
+            }
+        }
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> xmlDom.selectNodes != 'undefined'<span style="color: #000000">) {
+        nodes </span>=<span style="color: #000000"> xmlDom.selectNodes(xpath);
+    }
+
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> nodes;
+}
+
+
+</span><span style="color: #008000">//</span><span style="color: #008000">首先，我们需要跨浏览器获取XML DOM</span>
+<span style="color: #0000ff">function</span> getXMLDOM(xmlStr) {  <span style="color: #008000">//</span><span style="color: #008000">自定义跨浏览器创建xml DOM对象，接收一个参数xml字符串</span>
+    <span style="color: #0000ff">var</span> xmlDom = <span style="color: #0000ff">null</span>;  <span style="color: #008000">//</span><span style="color: #008000">初始化一个对象</span>
+
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.DOMParser != 'undefined') {        <span style="color: #008000">//</span><span style="color: #008000">判断DOMParser类型不等于undefined说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建DOMParser对象，并且创建xml DOM对象</span>
+        xmlDom = (<span style="color: #0000ff">new</span> DOMParser()).parseFromString(xmlStr, 'text/xml'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取错误信息的parsererror标签</span>
+        <span style="color: #0000ff">var</span> errors = xmlDom.getElementsByTagName('parsererror'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">判断错误信息标签返回集合长度大于0，说明xml有错误</span>
+        <span style="color: #0000ff">if</span> (errors.length &gt; 0<span style="color: #000000">) {
+            </span><span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，获取到第一个错误标签，并且获取到他的文本内容</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' + errors[0<span style="color: #000000">].firstChild.nodeValue);
+        }
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持DOMParser类型，尝试IE的方法</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.ActiveXObject != 'undefined') {    <span style="color: #008000">//</span><span style="color: #008000">判断ActiveXObject类型不等于undefined说明支持</span>
+        <span style="color: #0000ff">var</span> version = [  <span style="color: #008000">//</span><span style="color: #008000">创建一个数组，元素分别为3个xml版本</span>
+            'MSXML2.DOMDocument.6.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument.3.0'<span style="color: #000000">,
+            </span>'MSXML2.DOMDocument'<span style="color: #000000">
+        ];
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; version.length; i++) {  <span style="color: #008000">//</span><span style="color: #008000">根据数组的长度循环次数</span>
+            <span style="color: #0000ff">try</span><span style="color: #000000"> {
+                </span><span style="color: #008000">//</span><span style="color: #008000">尝试着执行每次循环到的xml版本，创建xml对象</span>
+                xmlDom = <span style="color: #0000ff">new</span><span style="color: #000000"> ActiveXObject(version[i]);
+            } </span><span style="color: #0000ff">catch</span> (e) {  <span style="color: #008000">//</span><span style="color: #008000">如果出错跳过执行第二次循环</span>
+                <span style="color: #008000">//</span><span style="color: #008000">跳过</span>
+<span style="color: #000000">            }
+        }
+        xmlDom.loadXML(xmlStr);  </span><span style="color: #008000">//</span><span style="color: #008000">载入xml字符串</span>
+        <span style="color: #0000ff">if</span> (xmlDom.parseError != 0) {  <span style="color: #008000">//</span><span style="color: #008000">判断载入xml错误返回代码，如果不等于0说明xml有错</span>
+            <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，返回错误的解释信息</span>
+            <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('XML解析错误：' +<span style="color: #000000"> xmlDom.parseError.reason);
+        }
+    } </span><span style="color: #0000ff">else</span> {  <span style="color: #008000">//</span><span style="color: #008000">如果 上面两种方式都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出您所使用的系统或浏览器不支持XML DOM！</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('您所使用的系统或浏览器不支持XML DOM！'<span style="color: #000000">);
+    }
+
+    </span><span style="color: #0000ff">return</span> xmlDom;  <span style="color: #008000">//</span><span style="color: #008000">最后返回创建的xmlDOM对象</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">其次，我们还必须跨浏览器序列化XML</span>
+<span style="color: #0000ff">function</span> serializeXML(xmlDom) {  <span style="color: #008000">//</span><span style="color: #008000">序列化xml函数，接收xmlDOM对象对象</span>
+    <span style="color: #0000ff">var</span> xml = '';  <span style="color: #008000">//</span><span style="color: #008000">初始化一个变量等于空字符串</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> XMLSerializer != 'undefined') {  <span style="color: #008000">//</span><span style="color: #008000">判断XMLSerializer类型，不等于undefined，说明支持序列化</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，创建XMLSerializer对象，并且使用serializeToString方法序列化</span>
+        xml = (<span style="color: #0000ff">new</span><span style="color: #000000"> XMLSerializer()).serializeToString(xmlDom);
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不支持XMLSerializer类型</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> xmlDom.xml != 'undefined') { <span style="color: #008000">//</span><span style="color: #008000">判断IE方式xmlDOM对象下的xml属性是否等于undefined，不等于说明支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">给xml重新赋值，序列化xml</span>
+        xml =<span style="color: #000000"> xmlDom.xml;
+    } </span><span style="color: #0000ff">else</span> { <span style="color: #008000">//</span><span style="color: #008000">如果上面两种都不支持</span>
+        <span style="color: #008000">//</span><span style="color: #008000">创建一个错误对象，抛出无法解析XML！错误信息</span>
+        <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('无法解析XML！'<span style="color: #000000">);
+    }
+    </span><span style="color: #0000ff">return</span> xml; <span style="color: #008000">//</span><span style="color: #008000">最后返回序列化</span>
+}</pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>PS：在传递xpath路径时，没有做验证判断是否合法，有兴趣的同学可以自行完成。在XML还有一个重要章节是XSLT和EX4，由于在使用频率的缘故，我们暂且搁置。</strong></span></p></div>

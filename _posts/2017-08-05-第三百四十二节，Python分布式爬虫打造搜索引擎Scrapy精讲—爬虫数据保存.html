@@ -1,0 +1,131 @@
+第三百四十二节，Python分布式爬虫打造搜索引擎Scrapy精讲—爬虫数据保存
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百四十二节，Python分布式爬虫打造搜索引擎Scrapy精讲—爬虫数据保存</strong></p>
+<p><span style="color: #ff0000"><strong>注意：数据保存的操作都是在<span style="color: #0000ff">pipelines.py</span>文件里操作的</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>将数据保存为json文件</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><span style="color: #0000ff">spider</span>是一个信号检测</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+
+<span style="color: #008000">#</span><span style="color: #008000"> Define your item pipelines here</span><span style="color: #008000">
+#
+#</span><span style="color: #008000"> Don't forget to add your pipeline to the ITEM_PIPELINES setting</span><span style="color: #008000">
+#</span><span style="color: #008000"> See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html</span>
+<span style="color: #0000ff">from</span> scrapy.pipelines.images <span style="color: #0000ff">import</span> ImagesPipeline  <span style="color: #008000">#</span><span style="color: #008000">导入图片下载器模块</span>
+<span style="color: #0000ff">import</span><span style="color: #000000; background-color: #ff99cc"> codecs
+</span><span style="color: #0000ff">import</span><span style="color: #000000; background-color: #ff99cc"> json
+
+
+</span><span style="background-color: #ffff00"><span style="color: #0000ff">class</span> AdcPipeline(object):                      <span style="color: #008000">#</span><span style="color: #008000">定义数据处理类，必须继承object</span>
+    <span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span><span style="color: #000000">(self):
+        <span style="background-color: #ff99cc">self.file </span></span><span style="background-color: #ff99cc">= codecs.open(<span style="color: #800000">'</span><span style="color: #800000">shuju.json</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">w</span><span style="color: #800000">'</span>, encoding=<span style="color: #800000">'</span><span style="color: #800000">utf-8</span><span style="color: #800000">'</span>)</span>  <span style="color: #008000">#</span><span style="color: #008000">初始化时打开json文件</span>
+    <span style="color: #0000ff">def</span> process_item(self, <span style="background-color: #ff99cc">item</span>, spider):       <span style="color: #008000">#</span><span style="color: #008000">process_item(item)为数据处理函数，接收一个item，item里就是爬虫最后yield item 来的数据对象</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> print('文章标题是：' + item['title'][0])</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> print('文章缩略图url是：' + item['img'][0])</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> print('文章缩略图保存路径是：' + item['img_tplj'])  #接收图片下载器填充的，图片下载后的路径</span>
+
+        <span style="color: #008000">#</span><span style="color: #008000">将数据保存为json文件</span>
+        <span style="background-color: #ff99cc">lines = json.dumps(dict(item), ensure_ascii=False) + <span style="color: #800000">'</span><span style="color: #800000">\n</span><span style="color: #800000">'</span></span>   <span style="color: #008000">#</span><span style="color: #008000">将数据对象转换成json格式</span>
+        <span style="background-color: #ff99cc">self.file.write(lines)</span>          <span style="color: #008000">#</span><span style="color: #008000">将json格式数据写入文件</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">return</span><span style="color: #000000"> item
+</span><span style="color: #0000ff">def</span> spider_closed(self,spider):     <span style="color: #008000">#</span><span style="color: #008000">创建一个方法继承spider，spider是一个信号，当前数据操作完成后触发这个方法</span>
+        self.file.close()               <span style="color: #008000">#</span><span style="color: #008000">关闭打开文件</span></span></span>
+
+<span style="color: #0000ff">class</span> imgPipeline(ImagesPipeline):                      <span style="color: #008000">#</span><span style="color: #008000">自定义一个图片下载内，继承crapy内置的ImagesPipeline图片下载器类</span>
+    <span style="color: #0000ff">def</span> item_completed(self, results, item, info):      <span style="color: #008000">#</span><span style="color: #008000">使用ImagesPipeline类里的item_completed()方法获取到图片下载后的保存路径</span>
+        <span style="color: #0000ff">for</span> ok, value <span style="color: #0000ff">in</span><span style="color: #000000"> results:
+            img_lj </span>= value[<span style="color: #800000">'</span><span style="color: #800000">path</span><span style="color: #800000">'</span>]     <span style="color: #008000">#</span><span style="color: #008000">接收图片保存路径</span>
+            <span style="color: #008000">#</span><span style="color: #008000"> print(ok)</span>
+            item[<span style="color: #800000">'</span><span style="color: #800000">img_tplj</span><span style="color: #800000">'</span>] = img_lj  <span style="color: #008000">#</span><span style="color: #008000">将图片保存路径填充到items.py里的字段里</span>
+        <span style="color: #0000ff">return</span> item                    <span style="color: #008000">#</span><span style="color: #008000">将item给items.py 文件的容器函数</span>
+
+    <span style="color: #008000">#</span><span style="color: #008000">注意：自定义图片下载器设置好后，需要在</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170805183224678-1268829778.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>将数据保存到数据库</strong></span></p>
+<p><span style="color: #000000"><strong>我们使用一个ORM框架sqlalchemy模块，保存数据</strong></span></p>
+<p><span style="color: #ff0000"><strong>数据库操作文件</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">from</span> sqlalchemy.ext.declarative <span style="color: #0000ff">import</span><span style="color: #000000"> declarative_base
+</span><span style="color: #0000ff">from</span> sqlalchemy <span style="color: #0000ff">import</span><span style="color: #000000"> Column
+</span><span style="color: #0000ff">from</span> sqlalchemy <span style="color: #0000ff">import</span><span style="color: #000000"> Integer, String, TIMESTAMP
+</span><span style="color: #0000ff">from</span> sqlalchemy <span style="color: #0000ff">import</span><span style="color: #000000"> ForeignKey, UniqueConstraint, Index
+</span><span style="color: #0000ff">from</span> sqlalchemy.orm <span style="color: #0000ff">import</span><span style="color: #000000"> sessionmaker, relationship
+</span><span style="color: #0000ff">from</span> sqlalchemy <span style="color: #0000ff">import</span><span style="color: #000000"> create_engine
+
+</span><span style="color: #008000">#</span><span style="color: #008000">配置数据库引擎信息</span>
+ENGINE = create_engine(<span style="color: #800000">"</span><span style="color: #800000">mysql+pymysql://root:279819@127.0.0.1:3306/cshi?charset=utf8</span><span style="color: #800000">"</span>, max_overflow=10, echo=<span style="color: #000000">True)
+
+Base </span>= declarative_base()       <span style="color: #008000">#</span><span style="color: #008000">创建一个SQLORM基类</span>
+
+<span style="background-color: #ff99cc"><span style="color: #0000ff">class</span> SendMsg(Base):            <span style="color: #008000">#</span><span style="color: #008000">设计表</span>
+    <span style="color: #800080">__tablename__</span> = <span style="color: #800000">'</span><span style="color: #800000">sendmsg</span><span style="color: #800000">'</span><span style="color: #000000">
+
+    id </span>= Column(Integer, primary_key=True, autoincrement=<span style="color: #000000">True)
+    title </span>= Column(String(300<span style="color: #000000">))
+    img_tplj </span>= Column(String(300<span style="color: #000000">))
+
+
+
+</span></span><span style="color: #0000ff">def</span><span style="color: #000000"><span style="background-color: #ff99cc"> init_db()</span>:
+    Base.metadata.create_all(ENGINE)        </span><span style="color: #008000">#</span><span style="color: #008000">向数据库创建指定表</span>
+
+<span style="color: #0000ff">def</span><span style="color: #000000"><span style="background-color: #ff99cc"> drop_db()</span>:
+    Base.metadata.drop_all(ENGINE)          </span><span style="color: #008000">#</span><span style="color: #008000">向数据库删除指定表</span>
+
+<span style="color: #0000ff">def</span><span style="color: #000000"><span style="background-color: #ff99cc"> session()</span>:
+    cls </span>= sessionmaker(bind=ENGINE)         <span style="color: #008000">#</span><span style="color: #008000">创建sessionmaker类,操作表</span>
+    <span style="color: #0000ff">return</span><span style="color: #000000"> cls()
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> drop_db()         #删除表</span><span style="color: #008000">
+#</span><span style="color: #008000"> init_db()         #创建表</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>pipelines.py文件</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+
+<span style="color: #008000">#</span><span style="color: #008000"> Define your item pipelines here</span><span style="color: #008000">
+#
+#</span><span style="color: #008000"> Don't forget to add your pipeline to the ITEM_PIPELINES setting</span><span style="color: #008000">
+#</span><span style="color: #008000"> See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html</span>
+<span style="color: #0000ff">from</span> scrapy.pipelines.images <span style="color: #0000ff">import</span> ImagesPipeline  <span style="color: #008000">#</span><span style="color: #008000">导入图片下载器模块</span>
+<span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> adc <span style="color: #0000ff">import</span> shujuku as ORM                      <span style="color: #008000">#</span><span style="color: #008000">导入数据库文件</span>
+</span>
+<span style="color: #0000ff">class</span> AdcPipeline(object):                      <span style="color: #008000">#</span><span style="color: #008000">定义数据处理类，必须继承object</span>
+    <span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span><span style="color: #000000">(self):
+        <span style="background-color: #ff99cc">ORM.init_db()</span>                           </span><span style="color: #008000">#</span><span style="color: #008000">创建数据库表</span>
+    <span style="color: #0000ff">def</span> process_item(self, item, spider):       <span style="color: #008000">#</span><span style="color: #008000">process_item(item)为数据处理函数，接收一个item，item里就是爬虫最后yield item 来的数据对象</span>
+        <span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">文章标题是：</span><span style="color: #800000">'</span> + item[<span style="color: #800000">'</span><span style="color: #800000">title</span><span style="color: #800000">'</span><span style="color: #000000">][0])
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">文章缩略图url是：</span><span style="color: #800000">'</span> + item[<span style="color: #800000">'</span><span style="color: #800000">img</span><span style="color: #800000">'</span><span style="color: #000000">][0])
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">文章缩略图保存路径是：</span><span style="color: #800000">'</span> + item[<span style="color: #800000">'</span><span style="color: #800000">img_tplj</span><span style="color: #800000">'</span>])  <span style="color: #008000">#</span><span style="color: #008000">接收图片下载器填充的，图片下载后的路径</span>
+<span style="background-color: #ff99cc"><span style="color: #000000">
+        mysq </span>=<span style="color: #000000"> ORM.session()
+        shuju </span>= ORM.SendMsg(title=item[<span style="color: #800000">'</span><span style="color: #800000">title</span><span style="color: #800000">'</span>][0], img_tplj=item[<span style="color: #800000">'</span><span style="color: #800000">img_tplj</span><span style="color: #800000">'</span><span style="color: #000000">])
+        mysq.add(shuju)
+        mysq.commit()
+        </span><span style="color: #0000ff">return</span><span style="color: #000000"> item
+
+
+
+
+
+
+</span></span><span style="color: #0000ff">class</span> imgPipeline(ImagesPipeline):                      <span style="color: #008000">#</span><span style="color: #008000">自定义一个图片下载内，继承crapy内置的ImagesPipeline图片下载器类</span>
+    <span style="color: #0000ff">def</span> item_completed(self, results, item, info):      <span style="color: #008000">#</span><span style="color: #008000">使用ImagesPipeline类里的item_completed()方法获取到图片下载后的保存路径</span>
+        <span style="color: #0000ff">for</span> ok, value <span style="color: #0000ff">in</span><span style="color: #000000"> results:
+            img_lj </span>= value[<span style="color: #800000">'</span><span style="color: #800000">path</span><span style="color: #800000">'</span>]     <span style="color: #008000">#</span><span style="color: #008000">接收图片保存路径</span>
+            <span style="color: #008000">#</span><span style="color: #008000"> print(ok)</span>
+            item[<span style="color: #800000">'</span><span style="color: #800000">img_tplj</span><span style="color: #800000">'</span>] = img_lj  <span style="color: #008000">#</span><span style="color: #008000">将图片保存路径填充到items.py里的字段里</span>
+        <span style="color: #0000ff">return</span> item                    <span style="color: #008000">#</span><span style="color: #008000">将item给items.py 文件的容器函数</span>
+
+    <span style="color: #008000">#</span><span style="color: #008000">注意：自定义图片下载器设置好后，需要在</span></pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,512 @@
+第一百一十九节，JavaScript事件入门
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">JavaScript事件入门</span></strong></span></p>
+<p>&nbsp;</p>
+<p align="left"><strong>学习要点：</strong></p>
+<p align="left"><strong>1.事件介绍</strong></p>
+<p align="left"><strong>2.内联模型</strong></p>
+<p align="left"><strong>3.脚本模型</strong></p>
+<p align="left"><strong>4.事件处理函数</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>JavaScript事件是由访问Web页面的用户引起的一系列操作，例如：用户点击。当用户执行某些操作的时候，再去执行一系列代码。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>一．</strong><strong>事件介绍</strong></span></p>
+<p align="left"><strong>事件一般是用于浏览器和用户操作进行交互。最早是IE和Netscape Navigator中出现，作为分担服务器端运算负载的一种手段。直到几乎所有的浏览器都支持事件处理。而DOM2级规范开始尝试以一种复合逻辑的方式标准化DOM事件。IE9、Firefox、Opera、Safari和Chrome全都已经实现了“DOM2级事件”模块的核心部分。IE8之前浏览器仍然使用其专有事件模型。</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>JavaScript有三种事件模型：内联模型、脚本模型和DOM2模型。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>二．内联模型</strong></span></p>
+<p align="left"><strong>这种模型是最传统接单的一种处理事件的方法。在内联模型中，事件处理函数是HTML标签的一个属性，用于处理指定事件。虽然内联在早期使用较多，但它是和HTML混写的，并没有与HTML分离。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>onclick事件处理函数，也就是鼠标点击后执行一个事件</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>在HTML中把事件处理函数作为属性执行JS代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="button"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="按钮"</span><span style="color: #ff0000"> onclick</span><span style="color: #0000ff">="alert('Lee');"</span>  <span style="color: #0000ff">/&gt;</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>在HTML中把事件处理函数作为属性执行JS函数</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">&lt;!--</span><span style="color: #008000">也可以在js文件里写一个函数，在元素标签里写一个事件，用户点击后执行js文件里的函数</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="button"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="按钮"</span><span style="color: #ff0000"> onclick</span><span style="color: #0000ff">="box();"</span>  <span style="color: #0000ff">/&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>PS：函数不得放到window.onload里面，这样就看不见了</strong></span></p>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>三．</strong><strong>脚本模型</strong></span></p>
+<p align="left"><span style="color: #000000"><strong>由于内联模型违反了HTML与JavaScript代码层次分离的原则。为了解决这个问题，我们可以在JavaScript中处理事件。这种处理方式就是脚本模型。</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>脚本模型1</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    input.onclick = <span style="color: #0000ff">function</span> () {    <span style="color: #008000">//</span><span style="color: #008000">通过元素节点执行一个事件，当用户点击后执行这个匿名函数</span>
+        alert('Lee'); <span style="color: #008000">//</span><span style="color: #008000">弹窗打印字符串</span>
+<span style="color: #000000">    };
+};</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>脚本模型2</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件，点击后执行box函数</span>
+    input.onclick = box;  <span style="color: #008000">//</span><span style="color: #008000">这里要注意是函数名称，不要加括号，否则会自动执行函数</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">box函数</span>
+    <span style="color: #0000ff">function</span> box() {    <span style="color: #008000">//</span><span style="color: #008000">通过元素节点执行一个事件，当用户点击后执行这个匿名函数</span>
+        alert('Lee'); <span style="color: #008000">//</span><span style="color: #008000">弹窗打印字符串</span>
+<span style="color: #000000">    }
+};</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>四．</strong><strong>事件处理函数</strong></span></p>
+<p align="left"><strong>JavaScript可以处理的事件类型为：<span style="color: #ff0000">鼠标事件、键盘事件、HTML事件</span>。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="center"><span style="color: #ff0000"><strong>JavaScript事件处理函数及其使用列表</strong></span></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="95">
+<p align="center"><strong>事件处理函数</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>影响的元素</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>何时发生</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onabort</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>图像</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当图像加载被中断时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onblur</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>窗口、框架、所有表单对象</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当焦点从对象上移开时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onchange</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>输入框，选择框和文本区域</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当改变一个元素的值且失去焦点时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onclick</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>链接、按钮、表单对象、图像映射区域</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当用户单击对象时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>ondblclick</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>链接、按钮、表单对象</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当用户双击对象时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>ondragdrop</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>窗口</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当用户将一个对象拖放到浏览器窗口时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onError</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>脚本</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当脚本中发生语法错误时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onfocus</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>窗口、框架、所有表单对象</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当单击鼠标或者将鼠标移动聚焦到窗口或框架时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onkeydown</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>文档、图像、链接、表单</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当按键被按下时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onkeypress</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>文档、图像、链接、表单</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当按键被按下然后松开时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onkeyup</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>文档、图像、链接、表单</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当按键被松开时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onload</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>主题、框架集、图像</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>文档或图像加载后</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onunload</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>主体、框架集</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>文档或框架集卸载后</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onmouseout</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>链接</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当图标移除链接时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onmouseover</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>链接</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当鼠标移到链接时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onmove</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>窗口</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当浏览器窗口移动时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onreset</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>表单复位按钮</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>单击表单的reset按钮</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onresize</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>窗口</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当选择一个表单对象时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onselect</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>表单元素</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当选择一个表单对象时</strong></p>
+</td>
+</tr>
+<tr>
+<td width="95">
+<p align="center"><strong>onsubmit</strong></p>
+</td>
+<td width="217">
+<p align="center"><strong>表单</strong></p>
+</td>
+<td width="210">
+<p align="center"><strong>当发送表格到服务器时</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #000000"><strong>PS：所有的事件处理函数都会都有两个部分组成，on + 事件名称，例如click事件的事件处理函数就是：onclick。在这里，我们主要谈论脚本模型的方式来构建事件，违反分离原则的内联模式，我们忽略掉。</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>对于每一个事件，它都有自己的触发范围和方式，如果超出了触发范围和方式，事件处理将失效。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; font-size: 14pt; background-color: #ffff00"><strong>1.鼠标事件，页面所有元素都可触发</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>onclick：当用户单击鼠标按钮或按下回车键时触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件，点击后执行匿名函数</span>
+    input.onclick = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'你好'<span style="color: #000000">)
+    }
+};</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>ondblclick：当用户双击主鼠标按钮时触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件，点击后执行匿名函数</span>
+    input.ondblclick = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'Lee'<span style="color: #000000">);
+    };
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onmousedown：当用户按下了鼠标还未弹起时触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件，点击后执行匿名函数</span>
+    input.onmousedown = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'Lee'<span style="color: #000000">);
+    };
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onmouseup：当用户释放鼠标按钮时触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件，点击后执行匿名函数</span>
+    input.onmouseup = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'Lee'<span style="color: #000000">);
+    };
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onmouseover：当鼠标移到某个元素上方时触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件，点击后执行匿名函数</span>
+    input.onmouseover = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'Lee'<span style="color: #000000">);
+    };
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onmouseout：当鼠标移出某个元素上方时触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件，点击后执行匿名函数</span>
+    input.onmouseout = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'Lee'<span style="color: #000000">);
+    };
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onmousemove：当鼠标指针在元素上移动时触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件，点击后执行匿名函数</span>
+    input.onmousemove = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'Lee'<span style="color: #000000">);
+    };
+};</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong><span style="font-size: 14pt">2.键盘事件</span></strong></span></p>
+<p align="left"><span style="color: #ff0000; font-size: 16px; background-color: #ffffff"><strong>onkeydown：当用户按下键盘上任意键触发，如果按住不放，会重复触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>onkeydown = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    alert(</span>'Lee'<span style="color: #000000">);
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onkeypress：当用户按下键盘上的字符键触发，如果按住不放，会重复触发。代表字符的键</strong></span></p>
+<div class="cnblogs_code">
+<pre>onkeypress = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    alert(</span>'Lee'<span style="color: #000000">);
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onkeyup：当用户释放键盘上的键触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>onkeyup = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    alert(</span>'Lee'<span style="color: #000000">);
+};</span></pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; font-size: 14pt; background-color: #ffff00"><strong>3.HTML事件</strong></span></p>
+<p align="left"><span style="color: #ff0000; font-size: 16px; background-color: #ffffff"><strong>onload：当页面完全加载后在window上面触发，或当框架集加载完毕后在框架集上触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    alert(</span>'Lee'<span style="color: #000000">);
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onunload：当页面完全卸载后在window上面触发，或当框架集卸载后在框架集上触发。测试需要刷新后才能看到</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onunload = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    alert(</span>'Lee'<span style="color: #000000">);
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onselect：当用户选择文本框(input或textarea)中的一个或多个字符触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">&lt;input type="text" value="文本"/&gt;</span>
+window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件</span>
+    input.onselect = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'Lee'<span style="color: #000000">);
+    };
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>&nbsp;onchange：当文本框(input或textarea)内容改变且失去焦点后触发。也就是修改文本框内容后，鼠标在网页的其他任意地方点击后激发</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">&lt;input type="text" value="文本"/&gt;</span>
+window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件</span>
+    input.onchange = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'Lee'<span style="color: #000000">);
+    };
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onfocus：当页面或者元素获得焦点时在window及相关元素上面触发。比如，当鼠标点击输入框获得焦点时激发</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">&lt;input type="text" value="文本"/&gt;</span>
+window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件</span>
+    input.onfocus = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'Lee'<span style="color: #000000">);
+    };
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onblur：当页面或元素失去焦点时在window及相关元素上触发。。比如，当鼠标点击输入框后鼠标离开输入框后，点击页面其他部位激发<br></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">&lt;input type="text" value="文本"/&gt;</span>
+window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> input = document.getElementsByTagName('input')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件</span>
+    input.onblur = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'Lee'<span style="color: #000000">);
+    };
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onsubmit：当用户点击提交按钮在&lt;form&gt;元素上触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;input type="text" value="文本"/&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button </span><span style="color: #008080; background-color: #ffffff">type="submit"</span><span style="color: #008000">&gt;提交&lt;/button&gt;</span><span style="color: #008000"> <br>//</span><span style="color: #008000"> &lt;/form&gt;</span> window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span> <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span> <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span> <span style="color: #0000ff">var</span> form = document.getElementsByTagName('form')[0]; <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span> <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件</span> form.onsubmit = <span style="color: #0000ff">function</span><span> () { alert(</span>'Lee'<span>); }; };</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onreset：当用户点击重置按钮在&lt;form&gt;元素上触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;input type="text" value="文本"/&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button type="submit"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button type="reset"&gt;重置&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">脚本模型，事件</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个元素节点</span>
+    <span style="color: #0000ff">var</span> form = document.getElementsByTagName('form')[0];        <span style="color: #008000">//</span><span style="color: #008000">得到input对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">通过元素对象，添加一个事件</span>
+    form.onreset = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'Lee'<span style="color: #000000">);
+    };
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onresize：当窗口或框架的大小变化时在window或框架上触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onresize = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    alert(</span>'Lee'<span style="color: #000000">);
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>onscroll：当用户滚动带滚动条的元素时触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onscroll = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    alert(</span>'Lee'<span style="color: #000000">);
+};</span></pre>
+</div>
+<p>&nbsp;</p></div>

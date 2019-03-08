@@ -1,0 +1,86 @@
+第九十二节，html5+css3移动手机端流体布局，开篇知识
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">html5+css3移动手机端流体布局，开篇知识</span></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>将项目设计成移动端可访问的页面，项目采用的是流体布局。也就是宽度以百分比自适应的，因为手机的屏幕大小不一致&nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．整体设计</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 首先 我们要了解一下测试工具。这里提供两种测试工具 一种是Chrome自带的移动端测试工具 另一种是OperaMobile移动端测试工具。这里主要以Chrome为准 他模拟了主流的手机，并且引擎是webkit，首先 我们介绍一下分辨率 通过Chrome移动端测试工具可以得知 一般分辨率最小的不会小于320了 最大的不超过640。这时有人会疑问 我的手机分辨率是一千多呢 为什么设计的时候还是640像素？比如iphone6plus的分辨率为：1080x1920(有一些设计者称实际分辨率：1242 x 2208)，而它的逻辑分辨率为：414x736。没有超过640，通过页面缩放技术进行缩小而不会失真。而如果是ipad，分辨率为：1563x2048，而它的逻辑分辨率则为768x1024，所以，如果设置640的页面，会在竖屏出现白边。其次 我们看下典型的两种设计 一种是全屏流体设计 另一种是固屏流体设计。下面</strong></p>
+<p><strong>有几个代表网站：</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 全屏类：</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.腾讯新闻：http://xw.qq.com/</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.途牛旅游：http://m.tuniu.com/</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 固屏类：</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.京东商城：http://m.jd.com/</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.淘宝网：http://m.taobao.com/</strong></p>
+<p>&nbsp;</p>
+<p><strong>如果只是兼容移动手机端 那么不管是固屏还是全屏都是一样。从设计难度上来说 固屏貌似更容易一点点 因为全屏设计 在电脑上设计 完全放大又失真 设计起来比较难受，我们这里推荐使用固屏。当然 全屏设计 在PC端和PAD平板也可以无缝浏览 但图片却会失真。固屏虽然会留有白边 但图片不会失真。再当然 用了PAD或PC端 为什么却访问用手机网页呢？除了设计师，还有谁会去这么做？所以，没必要。</strong></p>
+<p><strong>我们的案例还是瓢城旅行社 只不过在头部导航部分使用了全屏其他部位使用固屏幕。测试了大部分机型和手持设备浏览器 都能正常访问。但不排除又个别机型或浏览器可能有错位现象。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．必要知识</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>禁止网页缩放，保证字体在手机端的大小和清晰度</strong></strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 做移动站有一个必要的知识 就是关于屏幕宽度以及缩放问题。我们习惯性的在&lt;head&gt; 标签之间增加一个&lt;meta&gt;标签：</strong></p>
+<p><strong>&nbsp; &nbsp;&lt;meta <span class="html-attribute-name">name="<span class="html-attribute-value">viewport" <span class="html-attribute-name">content="<span class="html-attribute-value">width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"&gt;</span></span></span></span> &nbsp; 在网页头部加上这段解决缩放问题</strong></p>
+<p><strong>&nbsp;说明：</strong></p>
+<p><strong>&nbsp; &nbsp; <span style="color: #0000ff">窗口设定</span></strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; name="viewport"</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>&nbsp; &nbsp; 页面大小屏幕等宽</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp; width=device-width</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp; &nbsp; <span style="color: #0000ff">初始缩放比例 1.0表示原始比例大小</span></strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; initial-scale=1.0</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp; &nbsp; <span style="color: #0000ff">允许缩放的最小比例</span></strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; minimum-scale=1.0</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp; &nbsp; <span style="color: #0000ff">允许缩放的最大比例</span></strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; maximum-scale=1.0</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp; &nbsp; <span style="color: #0000ff">用户是否可以缩放，这里no表示不可以</span></strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; user-scalable=no</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>图片自适应</strong></span></p>
+<p><span style="color: #ff0000"><strong>保证小于图片分辨率的手机，自适应等宽屏幕</strong></span></p>
+<p><strong>图片一定要能够自适应等比例缩放 才能保证布局的 正确性。</strong></p>
+<p><strong>方法：将图片的img标签转换成区块，将最大宽度设置为100%，这样图片就会自适应了</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">        img</span>{<span style="color: #ff0000">
+            display</span>:<span style="color: #0000ff"> block</span>;<span style="color: #ff0000">
+            max-width</span>:<span style="color: #0000ff"> 100%</span>;
+        }</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>最终效果</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161027111938796-2032709294.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><strong>可以看到，图片已经自适应缩小，而且字体没有缩放，很清晰</strong></p>
+<p>&nbsp;</p>
+<p><strong>html+css<strong>代码</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">自适应手机，禁止缩放</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="viewport"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>瓢城旅行社<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">&lt;link rel="stylesheet" href="css/index.css"&gt;</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">style </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/css"</span><span style="color: #0000ff">&gt;</span><span style="background-color: #f5f5f5; color: #800000">
+        img</span><span style="background-color: #f5f5f5; color: #000000">{</span><span style="background-color: #f5f5f5; color: #ff0000">
+            display</span><span style="background-color: #f5f5f5; color: #000000">:</span><span style="background-color: #f5f5f5; color: #0000ff"> block</span><span style="background-color: #f5f5f5; color: #000000">;</span><span style="background-color: #f5f5f5; color: #ff0000">
+            max-width</span><span style="background-color: #f5f5f5; color: #000000">:</span><span style="background-color: #f5f5f5; color: #0000ff"> 100%</span><span style="background-color: #f5f5f5; color: #000000">;</span>
+        <span style="background-color: #f5f5f5; color: #000000">}</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">style</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">图片自适应</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/tour1.jpg"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+1111
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>&nbsp;</strong></p>
+<p>&nbsp;</p></div>

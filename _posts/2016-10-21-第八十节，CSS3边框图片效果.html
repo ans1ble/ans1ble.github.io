@@ -1,0 +1,150 @@
+第八十节，CSS3边框图片效果
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="font-size: 18pt; color: #0000ff"><strong>CSS3边框图片效果</strong></span></p>
+<p>&nbsp;</p>
+<p><br><strong>学习要点： </strong><br><strong>    1.属性初探 </strong><br><strong>    2.属性解释 </strong><br><strong>    3.简写和版本</strong></p>
+<p><strong>本章主要探讨HTML5中CSS3中边框图片背景的效果，通过这个新属性让边框更加的丰富多彩。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．属性解释</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp; CSS3提供了一个新的属性集合，用这几个属性可以嵌入图片形式的边框。这样，边框就可以自定义了。</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 1.border-image-source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //引入背景图片地址</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 2.border-image-slice &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//切割引入背景图片</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 3.border-image-width &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //边框图片的宽度</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 4.border-image-repeat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //边框背景图片的排列方式</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 5.border-image-outset&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //边框背景向外扩张</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 6.border-image &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //上面五个属性的简写方式</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">二．属性解释</span> </strong><br><strong>    要实现边框背景，我们对图片也有一定的要求，否则效果不能完全体现出来。图片可以通过九宫格的切分来了解它。</strong></p>
+<p>&nbsp;</p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161021120755201-193088216.png" alt="">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161021120812748-1428731033.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><strong>如上图所示，九宫格并不一定要求每一个格子大小都相同。当然，如果相同的话，制作边框背景就相对容易一点。首先，用Photoshop软件分析一下这个标准九宫格的总体大小和每个格子的大小。最终得出图片总大小为81p 正方形，四个角的大小为27p 的正方形，其余五个角也是27p 。那么，第一步：先创建一个盒子区域，大小为400x400的矩形。然后设置引入边框图像。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>border-image-source引入边框图像</strong></span></p>
+<p><strong>单单只有这句话，webkit引擎下的浏览器会在盒子区块的四个角看到一丁点图像的影子。而其他浏览器什么都看不到。这是由于没有设置边框背景图像的宽度导致的。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 400px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 300px</span>;<span style="color: #ff0000">
+    border-image-source</span>:<span style="color: #0000ff"> url(border.png)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>border-image-width设置边框图像宽度，上右下左，可以设置四个值</strong></span></p>
+<p><strong>这里设置的是边框图像的宽度，而不是边框宽度。当你设置边框宽度，你会发现，文本会偏移。而边框图像的宽度不会挤压文本。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 400px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 300px</span>;<span style="color: #ff0000">
+    border-image-source</span>:<span style="color: #0000ff"> url(border.png)</span>;<span style="color: #ff0000">
+    border-image-width</span>:<span style="color: #0000ff"> 81px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>border-width设置边框的宽度</strong></span></p>
+<p><strong>以上设置完毕后，支持边框背景图片的浏览器会在四个角落铺上这张图片的完整形式。这个时候需要通过引入切割属性来配置背景图片的显示方式。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 400px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 300px</span>;<span style="color: #ff0000">
+    border-image-source</span>:<span style="color: #0000ff"> url(border.png)</span>;<span style="color: #ff0000">
+    border-image-width</span>:<span style="color: #0000ff"> 81px</span>;<span style="color: #ff0000">
+    border-width</span>:<span style="color: #0000ff"> 20px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>border-image-slice设置切割属性的大小</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #000000">这里的27不需要设置p 像素，因为它默认就是像素。设置27之后，我们会发现边框的四个角正好是橘红色的四个角。那么你可以逐步放大或逐步放下这个值，来体验一下它的变化。</span>&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 400px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 300px</span>;<span style="color: #ff0000">
+    border-image-source</span>:<span style="color: #0000ff"> url(border.png)</span>;<span style="color: #ff0000">
+    border-image-width</span>:<span style="color: #0000ff"> 27px</span>;<span style="color: #ff0000">
+    border-width</span>:<span style="color: #0000ff"> 20px</span>;<span style="color: #ff0000">
+    border-image-slice</span>:<span style="color: #0000ff"> 27</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>从27逐步放大到81，四个角都慢慢缩小，各自显示一个完整的图像</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; border-image-slice: 81;</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>从27逐步缩小到0，发现四个角都慢慢变大，配合fill整体显示一个完整图像</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; border-image-slice: 0 fill;</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>上面只是单独设置了一个像素表示四个边切割的大小，你也可以设置百分比、浮点值或者分别设置四个变的大小。</strong></p>
+<p><strong>33.5%差不多27</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; border-image-slice: 33.5%;</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>上下设置27，左右设置0</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; border-image-slice: 27 0;</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>如果想让边框背景向外扩张，那么可以进行扩张设置。向外扩张20p ，也可以是浮点值，比如2.2</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; border-image-outset: 20px;</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>四个角设定好之后，我们要设定四个变的显示排列方式。使用border-image-repeat 属性，有四个值提供使用，分别如下表：</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 属性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stretch&nbsp; 　　　　　　　　指定用拉伸方式填充边框背景图。默认值。</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repeat&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 指定用平铺方式来填充边框背景图。当图片碰到边界时，如果超过则被截断。</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp;round　　　　　　　　 &nbsp;&nbsp;指定用平铺方式来填充边框背景图。图片会根据边框的尺寸动态调整图片的大小，直至正好可以铺满整个边框。</strong></p>
+<p><strong>　　 &nbsp;space　　　　　　　　 &nbsp;&nbsp;指定用平铺方式来填充边框背景图。图片会根据边框的尺寸动态调整图片的之间的间距，直至正好可以铺满整个边框。</strong></p>
+<p>&nbsp;</p>
+<p><strong>拉伸方式填充，当然，通过上右下左设置四个边均可</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; border-image-repeat: stretch;</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>平铺填充，超过则被截断</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; border-image-repeat: repeat;</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>平铺填充，动态调整图片大小直至铺满</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; border-image-repeat: round;</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>平铺填充，动态调整图片的间距直至铺满</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; border-image-repeat: space;</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>另一个按钮的小例子</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; div {</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; width: 400px;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; height: 40px;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; border-image-source: url(button.png);</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; border-image-width: 10px;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; border-image-slice: 10fill;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; border-image-repeat: stretch;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; }</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．简写和版本</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp; border-image: url(border.png) 27/27p round;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 对于支持的浏览器及版本如下表：</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　Opera&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　 Firefo&nbsp;&nbsp;&nbsp;&nbsp; 　　　　Chrome&nbsp;&nbsp;&nbsp; 　　　　Safari&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　IE</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp; 部分支持需带前缀 　　 &nbsp;11.5~12.1 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3.5 ~ 14 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 4 ~ 14 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3.1~5.1 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;无</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 支持需带前缀&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 无 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 无 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 无 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 无 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;无</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 支持不带前缀 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 15+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;15+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;15+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;6+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 11.0+</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>兼容加上前缀&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 400px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 300px</span>;<span style="color: #ff0000">
+    -webkit-border-image</span>:<span style="color: #0000ff"> url(border.png) 27/27px round</span>;<span style="color: #ff0000">
+    -moz-border-image</span>:<span style="color: #0000ff"> url(border.png) 27/27px round</span>;<span style="color: #ff0000">
+    -o-border-image</span>:<span style="color: #0000ff"> url(border.png) 27/27px round</span>;<span style="color: #ff0000">
+    border-image</span>:<span style="color: #0000ff"> url(border.png) 27/27px round</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>&nbsp;</strong></p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>
+<p><strong>&nbsp;</strong></p>
+<p>&nbsp;</p></div>

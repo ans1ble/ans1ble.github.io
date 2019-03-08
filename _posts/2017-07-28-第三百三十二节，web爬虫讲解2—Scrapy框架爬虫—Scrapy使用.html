@@ -1,0 +1,117 @@
+第三百三十二节，web爬虫讲解2—Scrapy框架爬虫—Scrapy使用
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百三十二节，web爬虫讲解2—Scrapy框架爬虫—Scrapy使用</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>xpath表达式</strong></span><br><span style="color: #ff0000"><strong>　　<span style="color: #0000ff">//x</span> 表示向下查找n层指定标签，如：//div 表示查找所有div标签</strong></span><br><span style="color: #ff0000"><strong>　　<span style="color: #0000ff">/x</span> 表示向下查找一层指定的标签</strong></span><br><span style="color: #ff0000"><strong>　　<span style="color: #0000ff">/@x</span> 表示查找指定属性的值,可以连缀如：@id @src</strong></span><br><span style="color: #ff0000"><strong>　　<span style="color: #0000ff">[@属性名称="属性值"]</span>表示查找指定属性等于指定值的标签,可以连缀 ，如查找class名称等于指定名称的标签 </strong></span><br><span style="color: #ff0000"><strong>　　<span style="color: #0000ff">/text()</span> 获取标签文本类容</strong></span><br><span style="color: #ff0000"><strong>　　<span style="color: #0000ff">[x]</span> 通过索引获取集合里的指定一个元素</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>1、将xpath表达式过滤出来的结果进行正则匹配，用正则取最终内容</strong></span><br><strong>最后.re('正则')</strong></p>
+<div class="cnblogs_code">
+<pre>xpath(<span style="color: #800000">'</span><span style="color: #800000">//div[@class="showlist"]/li//img</span><span style="color: #800000">'</span>)[0]<span style="background-color: #ff99cc">.re(<span style="color: #800000">'</span><span style="color: #800000">alt="(\w+)</span><span style="color: #800000">'</span>)</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>2、在选择器规则里应用正则进行过滤</strong></span><br><strong>[re:正则规则]</strong></p>
+<div class="cnblogs_code">
+<pre>xpath(<span style="color: #800000">'</span><span style="color: #800000">//div<span style="background-color: #ff99cc">[re:test(@class, "showlist")]</span></span><span style="color: #800000">'</span>).extract() </pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">实战使用Scrapy获取一个电商网站的、<span style="color: #0000ff">商品标题、商品链接、和评论数</span></span></strong></p>
+<p><strong><span style="color: #ff0000"><img src="https://images2017.cnblogs.com/blog/955761/201707/955761-20170728195725102-1675869960.png" alt=""></span></strong></p>
+<p><strong><span style="color: #ff0000">分析源码</span></strong></p>
+<p><strong><span style="color: #ff0000"><img src="https://images2017.cnblogs.com/blog/955761/201707/955761-20170728195754868-654625771.png" alt=""></span></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>第一步、编写<strong>items.py容器文件</strong></strong></span></p>
+<p><span style="color: #000000"><strong>我们已经知道了我们要获取的是、<strong>商品标题、商品链接、和评论数</strong></strong></span></p>
+<p><strong>在<span style="color: #ff0000">items.py</span>创建容器接收爬虫获取到的数据</strong></p>
+<p><strong>设置爬虫获取到的信息容器类，必须继承<span style="color: #ff0000">scrapy.Item</span>类</strong></p>
+<p><span style="color: #000000"><strong><span style="color: #ff0000"><strong>scrapy.Field()方法，</strong><span style="color: #0000ff">定义变量用scrapy.Field()方法接收爬虫指定字段的信息</span></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+
+<span style="color: #008000">#</span><span style="color: #008000"> Define here the models for your scraped items</span><span style="color: #008000">
+#
+#</span><span style="color: #008000"> See documentation in:</span><span style="color: #008000">
+#</span><span style="color: #008000"> http://doc.scrapy.org/en/latest/topics/items.html</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+
+</span><span style="color: #008000">#</span><span style="color: #008000">items.py,文件是专门用于，接收爬虫获取到的数据信息的，就相当于是容器文件</span>
+
+<span style="color: #0000ff">class</span> AdcItem(<span style="background-color: #ff99cc">scrapy.Item</span>):    <span style="color: #008000">#</span><span style="color: #008000">设置爬虫获取到的信息容器类</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> define the fields for your item here like:</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> name = scrapy.Field()</span>
+    <span style="background-color: #ff99cc">title = scrapy.Field()</span>      <span style="color: #008000">#</span><span style="color: #008000">接收爬虫获取到的title信息</span>
+    <span style="background-color: #ff99cc">link = scrapy.Field()</span>       <span style="color: #008000">#</span><span style="color: #008000">接收爬虫获取到的连接信息</span>
+    <span style="background-color: #ff99cc">comment = scrapy.Field()</span>    <span style="color: #008000">#</span><span style="color: #008000">接收爬虫获取到的商品评论数</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>第二步、编写pach<strong>.py爬虫文件</strong></strong></span></p>
+<p><span style="color: #000000"><strong>定义爬虫类，必须继承<span style="color: #ff0000">scrapy.Spider</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">name</span>设置爬虫名称</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">allowed_domains</span>设置爬取域名</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">start_urls</span>设置爬取网址</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">parse(response)</span>爬虫回调函数，接收response，response里是获取到的html数据对象</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">xpath()</span>过滤器，参数是xpath表达式</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">extract()</span>获取html数据对象里的数据</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">yield item</span> 接收了数据的容器对象，返回给pipelies.py</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> adc.items <span style="color: #0000ff">import</span> AdcItem  <span style="color: #008000">#</span><span style="color: #008000">导入items.py里的AdcItem类，容器类</span>
+
+<span style="color: #0000ff">class</span> PachSpider(scrapy.Spider):                 <span style="color: #008000">#</span><span style="color: #008000">定义爬虫类，必须继承scrapy.Spider</span>
+    <span style="background-color: #ff99cc">name = <span style="color: #800000">'</span><span style="color: #800000">pach</span><span style="color: #800000">'</span></span>                                <span style="color: #008000">#</span><span style="color: #008000">设置爬虫名称</span>
+    <span style="background-color: #ff99cc">allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">search.dangdang.com</span><span style="color: #800000">'</span>]</span>    <span style="color: #008000">#</span><span style="color: #008000">爬取域名</span>
+    <span style="background-color: #ff99cc">start_urls = [<span style="color: #800000">'</span><span style="color: #800000">http://category.dangdang.com/pg1-cid4008149.html</span><span style="color: #800000">'</span>]</span>     <span style="color: #008000">#</span><span style="color: #008000">爬取网址</span>
+
+    <span style="color: #0000ff">def</span> parse(self, response):                   <span style="color: #008000">#</span><span style="color: #008000">parse回调函数</span>
+        <span style="background-color: #ff99cc">item = AdcItem()</span>                         <span style="color: #008000">#</span><span style="color: #008000">实例化容器对象</span>
+        <span style="background-color: #ff99cc">item[<span style="color: #800000">'</span><span style="color: #800000">title</span><span style="color: #800000">'</span>] = response.xpath(<span style="color: #800000">'</span><span style="color: #800000">//p[@class="name"]/a/text()</span><span style="color: #800000">'</span>).extract()</span>  <span style="color: #008000">#</span><span style="color: #008000">表达式过滤获取到数据赋值给，容器类里的title变量</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> print(rqi['title'])</span>
+        <span style="background-color: #ff99cc">item[<span style="color: #800000">'</span><span style="color: #800000">link</span><span style="color: #800000">'</span>] = response.xpath(<span style="color: #800000">'</span><span style="color: #800000">//p[@class="name"]/a/@href</span><span style="color: #800000">'</span>).extract()</span>    <span style="color: #008000">#</span><span style="color: #008000">表达式过滤获取到数据赋值给，容器类里的link变量</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> print(rqi['link'])</span>
+        <span style="background-color: #ff99cc">item[<span style="color: #800000">'</span><span style="color: #800000">comment</span><span style="color: #800000">'</span>] = response.xpath(<span style="color: #800000">'</span><span style="color: #800000">//p[@class="star"]//a/text()</span><span style="color: #800000">'</span>).extract()</span> <span style="color: #008000">#</span><span style="color: #008000">表达式过滤获取到数据赋值给，容器类里的comment变量</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> print(rqi['comment'])</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">yield</span> item</span>   <span style="color: #008000">#</span><span style="color: #008000">接收了数据的容器对象，返回给pipelies.py</span></pre>
+</div>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong><strong><strong>robots协议</strong></strong></strong></strong></span></p>
+<p><strong>注意：如果获取的网站在<span style="color: #ff0000">robots.txt文件</span>里设置了，禁止爬虫爬取协议，那么将无法爬取，因为<strong>scrapy默认是遵守这个<strong>robots这个国际协议的，如果想不遵守这个协议，需要在<span style="color: #ff0000">settings.py</span>设置</strong></strong></strong></p>
+<p><strong><strong><strong>到<strong><strong><strong><span style="color: #ff0000">settings.py</span>文件里找到<span style="color: #ff0000">ROBOTSTXT_OBEY</span>变量，这个变量等于<span style="color: #ff0000">False</span>不遵守robots协议，等于<span style="color: #ff0000">True</span>遵守robots协议</strong></strong></strong></strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> Obey robots.txt rules</span>
+ROBOTSTXT_OBEY = False   <span style="color: #008000">#</span><span style="color: #008000">不遵循robots协议</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #000000; background-color: #ffff00"><strong><span style="color: #ff0000"><strong>第三步、编写pipelines.py<strong>数据处理文件</strong></strong></span></strong></span></p>
+<p><span style="color: #0000ff"><strong>如果需要<strong><strong><span style="color: #ff0000">pipelines.py</span>里的数据处理类能工作，需在<strong><strong><strong><span style="color: #ff0000">settings.py</span>设置文件里的<span style="color: #ff0000">ITEM_PIPELINES</span>变量里注册数据处理类</strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> Configure item pipelines</span><span style="color: #008000">
+#</span><span style="color: #008000"> See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html</span>
+ITEM_PIPELINES =<span style="color: #000000"> {
+   </span><span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">adc.pipelines.AdcPipeline</span><span style="color: #800000">'</span>: 300</span>,  <span style="color: #008000">#</span><span style="color: #008000">注册adc.pipelines.AdcPipeline类，后面一个数字参数表示执行等级，数值越大越先执行</span>
+}</pre>
+</div>
+<p><strong>注册后pipelines.py里的数据处理类就能工作</strong></p>
+<p><strong>定义数据处理类，必须继承object</strong><br><span style="color: #ff0000"><strong><span style="color: #0000ff">process_item(item)</span>为数据处理函数，接收一个item，item里就是爬虫最后yield item 来的数据对象</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+
+<span style="color: #008000">#</span><span style="color: #008000"> Define your item pipelines here</span><span style="color: #008000">
+#
+#</span><span style="color: #008000"> Don't forget to add your pipeline to the ITEM_PIPELINES setting</span><span style="color: #008000">
+#</span><span style="color: #008000"> See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html</span>
+
+
+<span style="color: #0000ff">class</span> <span style="background-color: #ff99cc">AdcPipeline(object)</span>:                      <span style="color: #008000">#</span><span style="color: #008000">定义数据处理类，必须继承object</span>
+    <span style="color: #0000ff">def</span> <span style="background-color: #ff99cc">process_item(self, <span style="background-color: #ffff00">item</span>, spider)</span>:       <span style="color: #008000">#</span><span style="color: #008000">process_item(item)为数据处理函数，接收一个item，item里就是爬虫最后yield item 来的数据对象</span>
+        <span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span> range(0,len(<span style="background-color: #ff99cc">item[<span style="color: #800000">'</span><span style="color: #800000">title</span><span style="color: #800000">'</span>]</span>)):   <span style="color: #008000">#</span><span style="color: #008000">可以通过item['容器名称']来获取对应的数据列表</span>
+            title = item[<span style="color: #800000">'</span><span style="color: #800000">title</span><span style="color: #800000">'</span><span style="color: #000000">][i]
+            </span><span style="color: #0000ff">print</span><span style="color: #000000">(title)
+            link </span>= item[<span style="color: #800000">'</span><span style="color: #800000">link</span><span style="color: #800000">'</span><span style="color: #000000">][i]
+            </span><span style="color: #0000ff">print</span><span style="color: #000000">(link)
+            comment </span>= item[<span style="color: #800000">'</span><span style="color: #800000">comment</span><span style="color: #800000">'</span><span style="color: #000000">][i]
+            </span><span style="color: #0000ff">print</span><span style="color: #000000">(comment)
+        </span><span style="color: #0000ff">return</span> item</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>最后执行</strong></span></p>
+<p><span style="color: #000000"><strong>执行爬虫文件，scrapy crawl pach --nolog</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201707/955761-20170728211110852-317850222.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>可以看到我们需要的数据已经拿到了</strong></span></p>
+<p>&nbsp;</p></div>

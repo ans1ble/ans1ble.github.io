@@ -1,0 +1,163 @@
+第四百零四节，python网站第三方登录，social-auth-app-django模块，
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第四百零四节，python网站第三方登录，social-auth-app-django模块，</strong></p>
+<p>&nbsp;</p>
+<p><strong><strong>social-auth-app-django模块是专门用于Django的第三方登录<span style="background-color: #ffff00">OAuth2协议</span>模块</strong></strong></p>
+<p><strong><strong>目前流行的第三方登录都采用了<strong><strong>OAuth2协议</strong></strong></strong></strong></p>
+<p><strong><strong>安装</strong></strong></p>
+<div class="cnblogs_code">
+<pre>pip install -i https://pypi.douban.com/simple social-auth-app-django</pre>
+</div>
+<p><strong>依赖关系</strong></p>
+<div class="cnblogs_code">
+<pre>PyJWT-1.5.3<span style="color: #000000"> 
+certifi</span>-2017.7.27.1<span style="color: #000000"> 
+chardet</span>-3.0.4<span style="color: #000000"> 
+defusedxml</span>-0.5<span style="color: #000000">.0 
+idna</span>-2.6<span style="color: #000000"> 
+oauthlib</span>-2.0.4<span style="color: #000000"> 
+python3</span>-openid-3.1<span style="color: #000000">.0 
+requests</span>-2.18.4<span style="color: #000000"> 
+requests</span>-oauthlib-0.8<span style="color: #000000">.0 
+six</span>-1.11<span style="color: #000000">.0 
+social</span>-auth-app-django-1.2<span style="color: #000000">.0 
+social</span>-auth-core-1.4<span style="color: #000000">.0 
+urllib3</span>-1.22</pre>
+</div>
+<p><strong>&nbsp;使用文档&nbsp;http://coding.imooc.com/lesson/131.html#mid=7393</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>使用配置</strong></span></p>
+<p><span style="color: #ff0000"><strong>1.将social_django添加到app配置，settings.py</strong></span></p>
+<div class="cnblogs_code">
+<pre>INSTALLED_APPS =<span style="color: #000000"> [
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.admin</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.contenttypes</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.sessions</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.messages</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.staticfiles</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app1</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="background-color: #ffff00"><span style="color: #800000">'</span><span style="color: #800000">social_django</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ffff00">,</span>
+]</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre>DATABASES =<span style="color: #000000"> {
+    </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+        </span><span style="color: #800000">'</span><span style="color: #800000">ENGINE</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.db.backends.mysql</span><span style="color: #800000">'</span>,                           <span style="color: #008000">#</span><span style="color: #008000"> 配置数据库引擎名称</span>
+        <span style="color: #800000">'</span><span style="color: #800000">NAME</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">jxiou</span><span style="color: #800000">'</span>,                                                <span style="color: #008000">#</span><span style="color: #008000"> 数据库名称</span>
+        <span style="color: #800000">'</span><span style="color: #800000">USER</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">test_user</span><span style="color: #800000">'</span>,                                            <span style="color: #008000">#</span><span style="color: #008000"> 数据库用户名</span>
+        <span style="color: #800000">'</span><span style="color: #800000">PASSWORD</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">test_user</span><span style="color: #800000">'</span>,                                        <span style="color: #008000">#</span><span style="color: #008000"> 数据库密码</span>
+        <span style="color: #800000">'</span><span style="color: #800000">HOST</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>,                                            <span style="color: #008000">#</span><span style="color: #008000"> 数据库链接地址,为服务器ip</span>
+        <span style="color: #800000">'</span><span style="color: #800000">PORT</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">3306</span><span style="color: #800000">'</span>,                                                 <span style="color: #008000">#</span><span style="color: #008000"> 数据库端口</span>
+<span style="color: #000000">    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>2，输入命令migrate来生成第三方登录需要的表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171014103938621-1501820060.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>3.配置需要的第三方登录模块，<strong>settings.py</strong></strong></span></p>
+<p><span style="color: #000000"><strong>第三方登录模块放在<span style="color: #ff0000">social_core</span>插件下的<span style="color: #ff0000">backends</span>目录，里面有很多第三方登录模块，比如，微信，微博，QQ等</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171014105049590-1121501247.png" alt=""></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 设置要使用的第三方登录</span>
+AUTHENTICATION_BACKENDS =<span style="color: #000000"> (
+    </span><span style="background-color: #ffff00"><span style="color: #800000">'</span><span style="color: #800000">social_core.backends.weixin.WeixinOAuth2</span><span style="color: #800000">'</span>,         <span style="color: #008000">#</span><span style="color: #008000"> 使用微信登录</span>
+    <span style="color: #800000">'</span><span style="color: #800000">social_core.backends.qq.QQOAuth2</span><span style="color: #800000">'</span>,                 <span style="color: #008000">#</span><span style="color: #008000"> 使用QQ登录</span>
+    <span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth.backends.ModelBackend</span><span style="color: #800000">'</span>,        <span style="color: #008000">#</span><span style="color: #008000"> 指定django的ModelBackend类</span></span>
+)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>4.配置第三方登录路由url</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="background-color: #ffff00"><span style="color: #0000ff">from</span> django.conf.urls <span style="color: #0000ff">import</span> url, include</span>                   <span style="color: #008000">#</span><span style="color: #008000"> 导入django自在的include逻辑</span>
+<span style="color: #0000ff">from</span> django.contrib <span style="color: #0000ff">import</span><span style="color: #000000"> admin
+</span><span style="color: #0000ff">from</span> app1.views <span style="color: #0000ff">import</span><span style="color: #000000"> alipaview
+
+urlpatterns </span>=<span style="color: #000000"> [
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^admin/</span><span style="color: #800000">'</span><span style="color: #000000">, admin.site.urls),
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 支付宝返回url</span>
+    url(r<span style="color: #800000">'</span><span style="color: #800000">^alipa/</span><span style="color: #800000">'</span>, alipaview, name=<span style="color: #800000">'</span><span style="color: #800000">alipa</span><span style="color: #800000">'</span><span style="color: #000000">),
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 第三方登录</span>
+   <span style="background-color: #ffff00"> url(<span style="color: #800000">''</span>, include(<span style="color: #800000">'</span><span style="color: #800000">social_django.urls</span><span style="color: #800000">'</span>, namespace=<span style="color: #800000">'</span><span style="color: #800000">social</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ffff00">))</span>
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>5.配置&nbsp;TEMPLATES，settings.py</strong></span></p>
+<p><span style="color: #ff0000"><strong>配置这里，当用户登录的时候，如果用户不存在，会自动在用户表创建用户，并且关联用户信息</strong></span></p>
+<div class="cnblogs_code">
+<pre>TEMPLATES =<span style="color: #000000"> [
+    {
+        </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.template.backends.django.DjangoTemplates</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">DIRS</span><span style="color: #800000">'</span>: [os.path.join(BASE_DIR, <span style="color: #800000">'</span><span style="color: #800000">templates</span><span style="color: #800000">'</span><span style="color: #000000">)]
+        ,
+        </span><span style="color: #800000">'</span><span style="color: #800000">APP_DIRS</span><span style="color: #800000">'</span><span style="color: #000000">: True,
+        </span><span style="color: #800000">'</span><span style="color: #800000">OPTIONS</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">'</span><span style="color: #800000">context_processors</span><span style="color: #800000">'</span><span style="color: #000000">: [
+                </span><span style="color: #800000">'</span><span style="color: #800000">django.template.context_processors.debug</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">django.template.context_processors.request</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth.context_processors.auth</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.messages.context_processors.messages</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="background-color: #ffff00"><span style="color: #800000">'</span><span style="color: #800000">social_django.context_processors.backends</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">social_django.context_processors.login_redirect</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ffff00">,</span>
+            ],
+        },
+    },
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>使用第三方配置</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 设置要使用的第三方登录</span>
+AUTHENTICATION_BACKENDS =<span style="color: #000000"> (
+    </span><span style="color: #800000">'</span><span style="color: #800000">social_core.backends.weibo.WeiboOAuth2</span><span style="color: #800000">'</span>,           <span style="color: #008000">#</span><span style="color: #008000"> 使用微博登录</span>
+    <span style="color: #800000">'</span><span style="color: #800000">social_core.backends.weixin.WeixinOAuth2</span><span style="color: #800000">'</span>,         <span style="color: #008000">#</span><span style="color: #008000"> 使用微信登录</span>
+    <span style="color: #800000">'</span><span style="color: #800000">social_core.backends.qq.QQOAuth2</span><span style="color: #800000">'</span>,                 <span style="color: #008000">#</span><span style="color: #008000"> 使用QQ登录</span>
+    <span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth.backends.ModelBackend</span><span style="color: #800000">'</span>,        <span style="color: #008000">#</span><span style="color: #008000"> 指定django的ModelBackend类</span>
+<span style="color: #000000">)
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> 配置微博开放平台授权</span><span style="color: #008000">
+#</span><span style="color: #008000"> SOCIAL_AUTH_要使用登录模块的名称大小_KEY，其他如QQ相同</span>
+SOCIAL_AUTH_WEIBO_KEY = <span style="color: #800000">'</span><span style="color: #800000">1359594035</span><span style="color: #800000">'</span><span style="color: #000000">
+SOCIAL_AUTH_WEIBO_SECRET </span>= <span style="color: #800000">'</span><span style="color: #800000">7d33714722f4e5572c116ce2b2433a99</span><span style="color: #800000">'</span>
+
+<span style="color: #008000">#</span><span style="color: #008000"> 登录成功后跳转页面</span>
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = <span style="color: #800000">'</span><span style="color: #800000">/index/</span><span style="color: #800000">'</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>配置后，启动程序，根据url来构造请求地址和，回调地址</strong></span></p>
+<div class="cnblogs_code">
+<pre>urlpatterns =<span style="color: #000000"> [
+    </span><span style="color: #008000">#</span><span style="color: #008000"> authentication / association</span>
+    <span style="color: #008000">#</span><span style="color: #008000"><span style="background-color: #ff99cc"> &lt;backend&gt;</span>是一个变量接收要使用登录模块的名称小写</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> 请求URL</span>
+    <span style="background-color: #ffff00">url(r<span style="color: #800000">'</span><span style="color: #800000">^<span style="background-color: #ccffff">login/</span>(?P<span style="background-color: #ff99cc">&lt;backend&gt;</span>[^/]+){0}$</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ffff00">.format(extra), views.auth,</span>
+        name</span>=<span style="color: #800000">'</span><span style="color: #800000">begin</span><span style="color: #800000">'</span><span style="color: #000000">),
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 回调URL</span>
+    <span style="background-color: #ffff00">url(r<span style="color: #800000">'</span><span style="color: #800000">^<span style="background-color: #ccffff">complete/</span>(?P<span style="background-color: #ff99cc">&lt;backend&gt;</span>[^/]+){0}$</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ffff00">.format(extra), views.complete,</span>
+        name</span>=<span style="color: #800000">'</span><span style="color: #800000">complete</span><span style="color: #800000">'</span><span style="color: #000000">),
+    </span><span style="color: #008000">#</span><span style="color: #008000"> disconnection</span>
+    url(r<span style="color: #800000">'</span><span style="color: #800000">^disconnect/(?P&lt;backend&gt;[^/]+){0}$</span><span style="color: #800000">'</span><span style="color: #000000">.format(extra), views.disconnect,
+        name</span>=<span style="color: #800000">'</span><span style="color: #800000">disconnect</span><span style="color: #800000">'</span><span style="color: #000000">),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^disconnect/(?P&lt;backend&gt;[^/]+)/(?P&lt;association_id&gt;\d+){0}$</span><span style="color: #800000">'</span><span style="color: #000000">
+        .format(extra), views.disconnect, name</span>=<span style="color: #800000">'</span><span style="color: #800000">disconnect_individual</span><span style="color: #800000">'</span><span style="color: #000000">),
+]</span></pre>
+</div>
+<p><strong>请求URL构造为：http://域名或者ip/<span style="background-color: #ccffff">login</span>/使用模块名称小写/</strong></p>
+<p><strong>如：http://127.0.0.1:8000/<span style="background-color: #ccffff">login</span>/weibo/</strong></p>
+<p>&nbsp;</p>
+<p><strong>回调URL构造为：http://域名或者ip/<span style="background-color: #ccffff">complete</span>/使用模块名称小写/</strong></p>
+<p><strong>如：http://127.0.0.1:8000/<span style="background-color: #ccffff">complete</span>/weibo/</strong></p>
+<p><strong>回调URL一般需要设置到开放平台的后台</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>前台页面可以调用，请求url</strong></span></p>
+<div class="cnblogs_code">
+<pre>&lt;a href=<span style="color: #800000">"</span><span style="color: #800000">{% url </span><span style="color: #800000">"</span>social:begin<span style="color: #800000">"</span> <span style="color: #800000">"</span>weibo<span style="color: #800000">"</span><span style="color: #800000"> %}</span><span style="color: #800000">"</span>&gt;微博登录&lt;/a&gt;</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>social_auth_usersocialauth 数据表里就是管理用户表的信息</strong></span></p>
+<p><strong><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171014155859090-771889935.png" alt=""></strong></p>
+<p>&nbsp;</p></div>

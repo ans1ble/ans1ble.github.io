@@ -1,0 +1,70 @@
+第二十八节，递归
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><pre><span style="font-size: 16px;"><strong>递归的表现形式（此列不是递归只是说明递归的表现形式）<br /></strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">递归的表现形式（此列不是递归只是说明递归的表现形式）</span>
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> f1():
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800000;">"</span><span style="color: #800000;">递归的表现形式</span><span style="color: #800000;">"</span>    <span style="color: #008000;">#</span><span style="color: #008000;">f1函数里的功能，返回"递归的表现形式"字符串</span>
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> f2():
+    r </span>= f1()    <span style="color: #008000;">#</span><span style="color: #008000;">执行f1函数</span>
+    <span style="color: #0000ff;">return</span> r    <span style="color: #008000;">#</span><span style="color: #008000;">返回f1函数的结果</span>
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> f3():
+    r </span>= f2()    <span style="color: #008000;">#</span><span style="color: #008000;">执行f2函数</span>
+    <span style="color: #0000ff;">return</span> r    <span style="color: #008000;">#</span><span style="color: #008000;">返回f2函数的结果</span>
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> f4():
+    r </span>= f3()    <span style="color: #008000;">#</span><span style="color: #008000;">执行f3函数</span>
+    <span style="color: #0000ff;">return</span> r    <span style="color: #008000;">#</span><span style="color: #008000;">返回f3函数的结果</span>
+<span style="color: #000000;">
+adc </span>= f4()  <span style="color: #008000;">#</span><span style="color: #008000;">执行f4函数</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(adc)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">打印出 递归的表现形式</span><span style="color: #008000;">
+#</span><span style="color: #008000;">递归就是嵌套式请求，向第一层请求，程序会自动一层一层的将请求信息传递到底层，然后将结果在一层一层的传递回来</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201607/955761-20160727231628638-1362189620.png" alt="" /></p>
+<p>&nbsp;</p>
+<pre><strong><span style="font-size: 16px;">初识递归<br />程序本身自己调用自己称之为递归，类似于俄罗斯套娃，体现在代码中：用户执行最外（N）层函数，最外侧调用N-1层函数，N-1层函数调用N-2层函数...<br /><img src="https://images2015.cnblogs.com/blog/955761/201607/955761-20160727234303184-989353650.png" alt="" /><br /></span></strong></pre>
+<pre><span style="font-size: 16px;"><strong>递归最简单原理<br />程序本身自己调用自己称之为递归，类似于俄罗斯套娃，体现在代码中：用户执行函数，而函数里又在执行函数本身，相当于写了一个死循环函数,一般都需要用一个判断来决定递归深度<br /></strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">def</span> f(a):   <span style="color: #008000;">#</span><span style="color: #008000;">自定义函数</span>
+    f(a)    <span style="color: #008000;">#</span><span style="color: #008000;">再次执行本身函数</span>
+f(1) <span style="color: #008000;">#</span><span style="color: #008000;">执行函数，触发函数循环</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201607/955761-20160728023806825-2033157737.png" alt="" /></p>
+<pre><br /><br /><span style="font-size: 16px;"><strong>用递归写一个斐波那契数列，0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233，377，610，987</strong><strong>&nbsp;<br /></strong></span></pre>
+<pre><strong><span style="font-size: 16px;">斐波那契数列每前两位相加等于第3位</span><br /><br /></strong></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">用递归写一个斐波那契数列</span>
+<span style="color: #0000ff;">def</span> f1(i, a, b):    <span style="color: #008000;">#</span><span style="color: #008000;">自定义函数接收参数传值</span>
+    <span style="color: #0000ff;">print</span>(a)    <span style="color: #008000;">#</span><span style="color: #008000;">打印每次递归的a</span>
+    <span style="color: #0000ff;">if</span> i == 5:  <span style="color: #008000;">#</span><span style="color: #008000;">判断每次递归的i是否等于5</span>
+        <span style="color: #0000ff;">return</span>  <span style="color: #008000;">#</span><span style="color: #008000;">如果i等于5就return返回，返回没写返回值就什么都不返回，只是结束函数代码块终止递归</span>
+    c = a + b   <span style="color: #008000;">#</span><span style="color: #008000;">将接收到的a加以b重新赋值给c</span>
+    r = f1(i + 1, b, c) <span style="color: #008000;">#</span><span style="color: #008000;">将接收到的i加以1，接收到的b，新赋值给c,当做参数在次执行传入函数本身进行递归</span>
+f1(1, 0, 1) <span style="color: #008000;">#</span><span style="color: #008000;">调用执行函数</span></pre>
+</div>
+<p><img src="//images2015.cnblogs.com/blog/955761/201607/955761-20160730171334247-1927848602.png" alt="" /></p>
+<pre><strong><br /><br /></strong></pre>
+<pre><strong><span style="font-size: 16px;">只取一个递归次数的斐波那契数，也就是取递归某一次的斐波那契数<br /></span></strong></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">只取一个递归次数的斐波那契数，也就是取递归某一次的斐波那契数</span>
+<span style="color: #0000ff;">def</span> f1(i, a, b):  <span style="color: #008000;">#</span><span style="color: #008000;">自定义函数接收参数传值</span>
+    <span style="color: #0000ff;">if</span> i == 5:   <span style="color: #008000;">#</span><span style="color: #008000;">判断每次递归的i是否等于5</span>
+        <span style="color: #0000ff;">return</span> a   <span style="color: #008000;">#</span><span style="color: #008000;">如果i等于5就return返回a，结束函数代码块终止递归</span>
+    c = a + b       <span style="color: #008000;">#</span><span style="color: #008000;">将接收到的a加以b重新赋值给c</span>
+    r = f1(i + 1, b, c) <span style="color: #008000;">#</span><span style="color: #008000;">将接收到的i加以1，接收到的b，新赋值给c,当做参数在次执行传入函数本身进行递归</span>
+    <span style="color: #0000ff;">return</span> r   <span style="color: #008000;">#</span><span style="color: #008000;">接收满足条件后返回的a并且递归方式返回给上一次执行函数</span>
+sf = f1(1, 0, 1) <span style="color: #008000;">#</span><span style="color: #008000;">调用执行函数</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(sf)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">打印出结果  3</span></pre>
+</div>
+<pre></pre>
+<p><img src="//images2015.cnblogs.com/blog/955761/201607/955761-20160730170813638-1900659637.png" alt="" /></p>
+<pre><strong><span style="font-size: 16px;">&nbsp;</span></strong></pre>
+<pre><strong>&nbsp;</strong></pre></div>

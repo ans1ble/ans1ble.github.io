@@ -1,0 +1,70 @@
+第一百六十八节，jQuery，表单选择器
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong>jQuery，表单选择器</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000"><strong>学习要点： </strong></span></p>
+<p><span style="color: #000000"><strong>　　1.常规选择器 </strong></span></p>
+<p><span style="color: #000000"><strong>　　2.表单选择器 </strong></span></p>
+<p><span style="color: #000000"><strong>　　3.表单过滤器</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000"><strong>表单作为 HTML 中一种特殊的元素，操作方法较为多样性和特殊性，开发者不但可以 使用之前的常规选择器或过滤器，也可以使用 jQuery 为表单专门提供的选择器和过滤器来 准确的定位表单元素。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．常规选择器</strong></span></p>
+<p><span style="color: #000000"><strong> 我们可以使用 id、类(class)和元素名来获取表单字段，如果是表单元素，都必须含有 name 属性，还可以结合属性选择器来精确定位。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$('input').val(); <span style="color: #008000">//</span><span style="color: #008000">元素名定位，默认获取第一个</span>
+$('input').eq(1).val(); <span style="color: #008000">//</span><span style="color: #008000">同上，获取第二个</span>
+$('input[type=password]').val(); <span style="color: #008000">//</span><span style="color: #008000">选择 type 为 password 的字段</span>
+$('input[name=user]').val(); <span style="color: #008000">//</span><span style="color: #008000">选择 name 为 user 的字段</span></pre>
+</div>
+<p><strong>那么对于 id 和类(class)用法比较类似，也可以结合属性选择器来精确的定位，在这里我 们不在重复。对于表单中的其他元素名比如：textarea、select 和 button 等，原理一样，不在 重复。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．表单选择器 </strong></span></p>
+<p><strong>虽然可以使用常规选择器来对表单的元素进行定位，但有时还是不能满足开发者灵活多 变的需求。所以，jQuery 为表单提供了专用的选择器。</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170306223356953-1020990704.png" alt=""></strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170306223408469-855096840.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>:input 选取所有 input、textarea、select 和 button 元素 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:text 选择所有单行文本框，即 type=text 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:password 选择所有密码框，即 type=password 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:radio 选择所有单选框，即 type=radio 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:checkbox 选择所有复选框，即 type=checkbox 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:submit 选取所有提交按钮，即 type=submit 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:reset 选取所有重置按钮，即 type=reset 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:image 选取所有图像按钮，即 type=image 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:button 选择所有普通按钮，即 button 元素 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:file 选择所有文件按钮，即 type=file 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:hidden 选择所有不可见字段，即 type=hidden 集合元素</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$(':input').size(); <span style="color: #008000">//</span><span style="color: #008000">获取所有表单字段元素</span>
+$('<span style="color: #000000">:text).size(); //获取单行文本框元素
+$(</span>':password'<span style="color: #000000">).size(); //获取密码栏元素
+$(</span>':radio).size(); <span style="color: #008000">//</span><span style="color: #008000">获取单选框元素</span>
+$('<span style="color: #000000">:checkbox).size(); //获取复选框元素
+$(</span>':submit).size(); <span style="color: #008000">//</span><span style="color: #008000">获取提交按钮元素</span>
+$('<span style="color: #000000">:reset).size(); //获取重置按钮元素
+$(</span>':image).size(); <span style="color: #008000">//</span><span style="color: #008000">获取图片按钮元素</span>
+$('<span style="color: #000000">:file).size(); //获取文件按钮元素
+$(</span>':button).size(); <span style="color: #008000">//</span><span style="color: #008000">获取普通按钮元素</span>
+$(':hidden).size(); //获取隐藏字段元素</pre>
+</div>
+<p><span style="color: #0000ff"><strong>注意：这些选择器都是返回元素集合，如果想获取某一个指定的元素，最好结合一下属 性选择器。比如：</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(':text[name=user]).size(); //获取单行文本框 name=user 的元素</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．表单过滤器 </strong></span></p>
+<p><strong>jQuery 提供了四种表单过滤器，分别在是否可以用、是否选定来进行表单字段的筛选过 滤。</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170306224126906-1319490426.png" alt=""></strong></p>
+<p><span style="color: #ff0000"><strong>:enabled 选取所有可用元素 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:disabled 选取所有不可用元素 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:checked 选取所有被选中的元素，单选和复选字段 集合元素</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>:selected 选取所有被选中的元素，下拉列表 集合元素</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(':enabled').size(); <span style="color: #008000">//</span><span style="color: #008000">获取可用元素</span>
+$('<span style="color: #000000">:disabled).size(); //获取不可用元素
+$(</span>':checked).size(); <span style="color: #008000">//</span><span style="color: #008000">获取单选、复选框中被选中的元素</span>
+$(':selected).size(); //获取下拉列表中被选中的元素</pre>
+</div>
+<p>&nbsp;</p></div>

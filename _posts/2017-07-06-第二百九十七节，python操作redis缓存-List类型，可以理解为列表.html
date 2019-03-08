@@ -1,0 +1,525 @@
+第二百九十七节，python操作redis缓存-List类型，可以理解为列表
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>python操作redis缓存-List类型，可以理解为列表，<span style="color: #ff0000">是可以有重复元素的列表</span></strong></p>
+<p>&nbsp;</p>
+<p><strong>List操作，redis中的List在在内存中按照一个name对应一个List来存储。如图：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170706113531706-1955793302.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">lpush(name,values)</span>在name对应的list中添加元素，每个新的元素都添加到列表的最左边</strong></span><br><strong>如：</strong><br><strong>　　lpush('adc8868', 11,22,33)</strong><br><strong>  　　保存顺序为:[ 33,22,11]</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                            <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.<span style="background-color: #ff99cc">lpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)</span>                                     <span style="color: #008000">#</span><span style="color: #008000">lpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最左边</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'33', b'22', b'11']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">rpush(name,values)</span>在name对应的list中添加元素，每个新的元素都添加到列表的最右边</strong></span><br><strong>如：</strong><br><strong>　　rpush('adc8868', 11,22,33)</strong><br><strong>　　保存顺序为:[ 11,22,33]</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                            <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.<span style="background-color: #ff99cc">rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)</span>                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'11', b'22', b'33']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">lpushx(name,value)</span>在name对应的list中添加元素，只有name已经存在时，值添加到列表的最左边</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                            <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+r.<span style="background-color: #ff99cc">lpushx(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,44)</span>                                          <span style="color: #008000">#</span><span style="color: #008000">lpushx(name,value)在name对应的list中添加元素，只有name已经存在时，值添加到列表的最左边</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'44', b'11', b'22', b'33']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">rpushx(name, value)</span>在name对应的list中添加元素，只有name已经存在时，值添加到列表的最右边</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                            <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+r.<span style="background-color: #ff99cc">rpushx(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,44)</span>                                          <span style="color: #008000">#</span><span style="color: #008000">rpushx(name, value)在name对应的list中添加元素，只有name已经存在时，值添加到列表的最右边</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000">[b'11', b'22', b'33', b'44']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">llen(name)</span>name对应的list元素的个数</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                            <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+<span style="color: #0000ff">print</span>(r.<span style="background-color: #ff99cc">llen(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>)</span>)                                        <span style="color: #008000">#</span><span style="color: #008000">llen(name)name对应的list元素的个数</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> 3</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'11', b'22', b'33']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">linsert(name, where, refvalue, value))</span>在name对应的列表的某一个值前或后插入一个新值</strong></span><br><strong> 参数：</strong><br><strong>    　　name，redis的name</strong><br><strong>    　　where，BEFORE或AFTER，BEFORE(前)或AFTER(后)</strong><br><strong>    　　refvalue，标杆值，即：在那个元素值前后插入数据</strong><br><strong>    　　value，要插入的数据</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                            <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+r.<span style="background-color: #ff99cc">linsert(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">BEFORE</span><span style="color: #800000">'</span>,22,44)</span>                              <span style="color: #008000">#</span><span style="color: #008000">linsert(name, where, refvalue, value))在name对应的列表的某一个值前或后插入一个新值</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'11', b'44', b'22', b'33']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">lset(name, index, value)</span>对name对应的list中的某一个索引位置重新赋值</strong></span><br><strong>参数：</strong><br><strong>    　　name，redis的name</strong><br><strong>    　　index，list的索引位置</strong><br><strong>    　　value，要设置的值</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+r.<span style="background-color: #ff99cc">lset(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,1,55)</span>                                          <span style="color: #008000">#</span><span style="color: #008000">lset(name, index, value)对name对应的list中的某一个索引位置重新赋值</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000">[b'11', b'55', b'33']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">lrem(name, value, num)</span>在name对应的list中删除指定的值</strong></span><br><strong> 参数：</strong><br><strong>    　　name，redis的name</strong><br><strong>    　　value，要删除的值</strong><br><strong>    　　num，  num=0，删除列表中所有的指定值；</strong><br><strong>           　　　　 &nbsp; &nbsp;&nbsp;num=2,从前到后，删除2个；</strong><br><strong>           　　　　 &nbsp; &nbsp; num=-2,从后向前，删除2个</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+r.<span style="background-color: #ff99cc">lrem(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,22,num=0)</span>                                      <span style="color: #008000">#</span><span style="color: #008000">lrem(name, value, num)在name对应的list中删除指定的值</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000">[b'11', b'33']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">lpop(name)</span>在name对应的列表的左侧获取第一个元素并在列表中移除，返回值则是第一个元素</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+<span style="color: #0000ff">print</span>(r.<span style="background-color: #ff99cc">lpop(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>)</span>)                                        <span style="color: #008000">#</span><span style="color: #008000">lpop(name)在name对应的列表的左侧获取第一个元素并在列表中移除，返回值则是第一个元素</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> b'11'</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'22', b'33']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">rpop(name)</span>在name对应的列表的右侧获取第一个元素并在列表中移除，返回值则是第一个元素</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+<span style="color: #0000ff">print</span>(r.<span style="background-color: #ff99cc">rpop(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>)</span>)                                        <span style="color: #008000">#</span><span style="color: #008000">rpop(name)在name对应的列表的右侧获取第一个元素并在列表中移除，返回值则是第一个元素</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> b'33'</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'11', b'22']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">lindex(name, index)</span>在name对应的列表中根据索引获取列表元素</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+<span style="color: #0000ff">print</span>(r.<span style="background-color: #ff99cc">lindex(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,2)</span>)                                    <span style="color: #008000">#</span><span style="color: #008000">lindex(name, index)在name对应的列表中根据索引获取列表元素</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> b'33'</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'11', b'22', b'33']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">lrange(name, start, end)</span>在name对应的列表分片获取数据</strong></span><br><strong>参数：</strong><br><strong>    　　name，redis的name</strong><br><strong>    　　start，索引的起始位置</strong><br><strong>    　　end，索引结束位置</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+<span style="color: #0000ff">print</span>(r.<span style="background-color: #ff99cc">lrange(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,0,1)</span>)                                  <span style="color: #008000">#</span><span style="color: #008000">lrange(name, start, end)在name对应的列表分片获取数据</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'11', b'22']</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'11', b'22', b'33']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">ltrim(name, start, end)</span>在name对应的列表中移除没有在start-end索引之间的值</strong></span><br><strong>参数：</strong><br><strong>    　　name，redis的name</strong><br><strong>    　　start，索引的起始位置</strong><br><strong>    　　end，索引结束位置</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+<span style="color: #0000ff">print</span>(r.<span style="background-color: #ff99cc">ltrim(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,0,1)</span>)                                   <span style="color: #008000">#</span><span style="color: #008000">ltrim(name, start, end)在name对应的列表中移除没有在start-end索引之间的值</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> True</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'11', b'22']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">rpoplpush(src, dst)</span>从一个列表取出最右边的元素，同时将其添加至另一个列表的最左边</strong></span><br><strong>参数：</strong><br><strong>    　　src，要取数据的列表的name</strong><br><strong>    　　dst，要添加数据的列表的name</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,11,22,33)                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+<span style="color: #0000ff">print</span>(r.<span style="background-color: #ff99cc">rpoplpush(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">adc</span><span style="color: #800000">'</span>)</span>)                             <span style="color: #008000">#</span><span style="color: #008000">rpoplpush(src, dst)从一个列表取出最右边的元素，同时将其添加至另一个列表的最左边</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> b'33'</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'11', b'22']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>自定义增量迭代</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.<span style="background-color: #ffff99">rpush(<span style="color: #800000">'</span><span style="color: #800000">adc8861</span><span style="color: #800000">'</span>,11,22,33)</span>                                     <span style="color: #008000">#</span><span style="color: #008000">rpush(name,values)在name对应的list中添加元素，每个新的元素都添加到列表的最右边</span>
+
+
+
+<span style="color: #008000">#</span><span style="color: #008000">由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要自定义迭代器：</span>
+<span style="background-color: #ffff99">liebiao =<span style="color: #000000"> []
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> list_iter(name):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    list_count </span>=<span style="color: #000000"> r.llen(name)
+    </span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(list_count):
+        </span><span style="color: #0000ff">yield</span><span style="color: #000000"> r.lindex(name, index)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用</span>
+<span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> list_iter(<span style="color: #800000">'</span><span style="color: #800000">adc8861</span><span style="color: #800000">'</span><span style="color: #000000">):
+    liebiao.append(item)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(liebiao)
+
+</span></span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'11', b'22', b'33']</span></pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,357 @@
+第一百八十节，jQuery-UI，知问前端--消息提示 UI
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery-UI，知问前端--<strong>消息提示 UI</strong></strong></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.HTML 部分 </strong></p>
+<p><strong>　　2.CSS 部分 </strong></p>
+<p><strong>　　3.jQuery 部分</strong></p>
+<p><strong>通过前面已学的 jQuery UI 部件，我们来创建一个注册表单。</strong></p>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="reg"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="会员注册"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="user"</span><span style="color: #0000ff">&gt;</span>帐号：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="请输入帐号，不小于2 位！"</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="star"</span><span style="color: #0000ff">&gt;</span>*<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="pass"</span><span style="color: #0000ff">&gt;</span>密码：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="pass"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="pass"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="请输入密码，不小于6 位！"</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="star"</span><span style="color: #0000ff">&gt;</span>*<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="email"</span><span style="color: #0000ff">&gt;</span>邮箱：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="email"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="email"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="请输入电子邮件！"</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="star"</span><span style="color: #0000ff">&gt;</span>*<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>性别：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sex"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="male"</span><span style="color: #ff0000"> checked</span><span style="color: #0000ff">="checked"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="male"</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">input</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sex"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="female"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="female"</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">input</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="date"</span><span style="color: #0000ff">&gt;</span>生日：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="date"</span><span style="color: #ff0000"> readonly</span><span style="color: #0000ff">="readonly"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="date"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>css</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">注册框</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg </span>{<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 15px</span>;
+}<span style="color: #800000">
+
+#reg p </span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 10px 0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0</span>;
+}<span style="color: #800000">
+
+#reg p label </span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 14px</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #666</span>;
+}<span style="color: #800000">
+
+#reg p .star </span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> red</span>;
+}<span style="color: #800000">
+
+#reg .text </span>{<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 4px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 1px solid #ccc</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> #fff</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 25px</span>;<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    text-indent</span>:<span style="color: #0000ff"> 5px</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #666</span>;
+}</pre>
+</div>
+<p><strong>js</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">注册框</span>
+    $('#reg_a').on('click',<span style="color: #0000ff">function</span> () {   <span style="color: #008000">//</span><span style="color: #008000">将注册框，执行对话框方法</span>
+        $('#reg'<span style="color: #000000">).dialog({
+            autoOpen : </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+            modal : </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+            resizable : </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+            width : </span>320<span style="color: #000000">,
+            height : </span>340<span style="color: #000000">,
+            buttons : {
+                </span>'提交' : <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                    
+                }
+            }
+        });
+        $(</span>'#reg').buttonset();      <span style="color: #008000">//</span><span style="color: #008000">将单选框，执行按钮方法</span>
+    });</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>消息提示 UI</strong></span></p>
+<p><span style="color: #000000"><strong>工具提示（tooltip），是一个非常实用的 UI。它彻底扩展了 HTML 中的 title 属性，让 提示更加丰富，更加可控制，全面提升了用户体验。</strong></span></p>
+<p><span style="color: #ff0000"><strong>tooltip()方法，将元素，有title属性的执行提示信息方法，提示信息为title值，鼠标移入提示，鼠标移出消失，接收一个对象</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．调用 tooltip()方法 </strong></span></p>
+<p><span style="color: #000000"><strong>在调用 tooltip()方法之前，首先需要针对元素设置相应 title 属性。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="请输入帐号，不小于 2 位！"</span> <span style="color: #0000ff">/&gt;</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre>$('#user').tooltip();</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．修改 tooltip()样式 </strong></span></p>
+<p><strong>在弹出的 tooltip 提示框后，在火狐浏览器中打开 Firebug 或者右击-&gt;查看元素。这样， 我们可以看看 tooltip 的样式，根据样式进行修改。</strong></p>
+<p><span style="color: #0000ff"><strong>可以在自定义css里修改，比如颜色</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">.ui-tooltip</span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #ff1c24</span>;
+}</pre>
+</div>
+<p><strong>注意：其他修改方案类似。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．tooltip()方法的属性 </strong></span></p>
+<p><strong>对话框方法有两种形式：1.tooltip(options)，options 是以对象键值对的形式传参，每个 键值对表示一个选项；2.tooltip('action', param)，action 是操作对话框方法的字符串，param 则是 options 的某个选项。</strong></p>
+<p><span style="color: #ff0000"><strong>tooltip 外观选项</strong></span></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170313174900291-503199455.png" alt=""></strong></p>
+<p><span style="color: #ff0000"><strong>disabled false/布尔值 设置为 true，将禁止显示工具提示。</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            disabled : </span><span style="color: #0000ff">true</span>              <span style="color: #008000">//</span><span style="color: #008000">将禁止显示工具提示</span>
+        });</pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>content 无/字符串 设置 title 内容。建议还是在htnl里设置<strong>title</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            </span><span style="color: #008000">//</span><span style="color: #008000"> disabled : true              //将禁止显示工具提示</span>
+            content : '提示信息'             <span style="color: #008000">//</span><span style="color: #008000">content 无/字符串 设置 title 内容。建议还是在htnl里设置title</span>
+        });</pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>items 无/字符串 设置选择器以限定范围。，也就是选择器，限定指定元素下的<strong><strong>title才启用消息提示</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('[title]').tooltip({          <span style="color: #008000">//</span><span style="color: #008000">选择了所有的title</span>
+            <span style="color: #008000">//</span><span style="color: #008000">限定了只有input，的title才启用提示</span>
+            items : 'input'             <span style="color: #008000">//</span><span style="color: #008000">items 无/字符串 设置选择器以限定范围。，也就是选择器，限定指定元素下的title才启用消息提示</span>
+        });</pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>tooltipClass 无/字符串 引入 class 形式的 CSS 样式。以<strong>class形式引入样式，也就是在<strong>tooltipClass属性里设置一个css选择器名称，然后用这个名称到css写样式</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            tooltipClass : </span>'anl'  <span style="color: #008000">//</span><span style="color: #008000">tooltipClass 无/字符串 引入 class 形式的 CSS 样式。以class形式引入样式，也就是在tooltipClass属性里设置一个css选择器名称，然后用这个名称到css写样式</span>
+        });</pre>
+</div>
+<p>css</p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">.anl</span>{<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #23ff2e</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #ff1c24</span>;
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>tooltip 页面位置选项</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170313183040745-187972013.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>position 对象 使用对象的键值对赋值，有两个属性：my 和 at表示坐标。my 是以目标点左下角为基准，at 以my 为基准。</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                </span><span style="color: #008000">//</span><span style="color: #008000"> my : 'left top',  //设置提示框相当对于元素出现的横坐标，设置提示框相当对于元素出现的竖坐标</span>
+                my : 'left center'<span style="color: #000000">,
+                at : </span>'right+5 center'<span style="color: #000000">
+            }
+        });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>tooltip 视觉选项</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170313190123651-2113999586.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>show false/布尔值 显示对话框时，默认采用淡入效果。</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>hide false 布尔值 关闭对话框时，默认采用淡出效果。</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            },
+            show : </span><span style="color: #0000ff">false</span>,   <span style="color: #008000">//</span><span style="color: #008000">关闭淡入</span>
+            hide : <span style="color: #0000ff">false</span>    <span style="color: #008000">//</span><span style="color: #008000">关闭淡出</span>
+        });</pre>
+</div>
+<p><span style="color: #0000ff"><strong>注意：设置 true 后，默认为淡入淡出，如果想使用别的特效，可以使用以下表格中的字 符串参数。</strong></span></p>
+<p><span style="color: #ff0000"><strong>show 和 hide 可选特效</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170313190629495-1595358445.png" alt=""></strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170313190642338-1205783167.png" alt=""></p>
+<p><span style="color: #ff00ff"><strong>blind 工具提示从顶部显示或消失</strong></span></p>
+<p><br><span style="color: #ff00ff"><strong>bounce 工具提示断断续续地显示或消失，垂直运动</strong></span></p>
+<p><br><span style="color: #ff00ff"><strong>clip 工具提示从中心垂直地显示或消失</strong></span></p>
+<p><br><span style="color: #ff00ff"><strong>slide 工具提示从左边显示或消失</strong></span></p>
+<p><br><span style="color: #ff00ff"><strong>drop 工具提示从左边显示或消失，有透明度变化</strong></span></p>
+<p><br><span style="color: #ff00ff"><strong>fold 工具提示从左上角显示或消失</strong></span></p>
+<p><br><span style="color: #ff00ff"><strong>highlight 工具提示显示或消失，伴随着透明度和背景色的变化</strong></span></p>
+<p><br><span style="color: #ff00ff"><strong>puff 工具提示从中心开始缩放。显示时“收缩”，消失时“生长”</strong></span></p>
+<p><br><span style="color: #ff00ff"><strong>scale 工具提示从中心开始缩放。显示时“生长”，消失时“收缩”</strong></span></p>
+<p><br><span style="color: #ff00ff"><strong>pulsate 工具提示以闪烁形式显示或消失</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            },
+            show : </span>'scale',   <span style="color: #008000">//</span><span style="color: #008000">scale 工具提示从中心开始缩放。显示时“生长”，消失时“收缩”</span>
+            hide : 'scale'<span style="color: #000000">
+        });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>tooltip 行为选项</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170313191326666-1754886944.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>track false/布尔值 设置为 true，能跟随鼠标移动。</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            },
+            track : </span><span style="color: #0000ff">true</span>   <span style="color: #008000">//</span><span style="color: #008000">能跟随鼠标移动</span>
+        });</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．tooltip()方法的事件 </strong></span></p>
+<p><strong>除了属性设置外，tooltip()方法也提供了大量的事件。这些事件可以给各种不同状态时 提供回调函数。这些回调函数中的 this 值等于对话框内容的 div 对象，不是整个对话框的 div。</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170313192257713-266166639.png" alt=""></strong></p>
+<p><span style="color: #ff0000"><strong>create当工具提示被创建时会调用 create 方法，该方法有两个参数(event, ui)。此事件中的 ui 参数为空。</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            },
+            create : </span><span style="color: #0000ff">function</span> () {    <span style="color: #008000">//</span><span style="color: #008000">create当工具提示被创建时会调用</span>
+                alert('创建时'<span style="color: #000000">);
+            }
+        });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>open当工具提示被显示时，会调用 open 方法，该方法有两个参数(event, ui)。此事件中的 ui 有一个参数 tooltip，返回是工具提示的 jQuery 对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            },
+            open : </span><span style="color: #0000ff">function</span> () {    <span style="color: #008000">//</span><span style="color: #008000">open当工具提示被显示时</span>
+                alert('被显示时'<span style="color: #000000">);
+            }
+        });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>close当工具提示关闭时，会调用 close 方法。关闭的工具提示可以用 tooltip('open')重新打开。该方法有两个参数(event,ui)。此事件中的 ui 有一个参数 tooltip，返回是工具提示的 jQuery 对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            },
+            close : </span><span style="color: #0000ff">function</span> () {    <span style="color: #008000">//</span><span style="color: #008000">close当工具提示关闭时</span>
+                alert('关闭时'<span style="color: #000000">);
+            }
+        });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>tooltip('action', param)方法</strong></span></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170313193021073-1305881789.png" alt=""></strong></p>
+<p><span style="color: #ff00ff"><strong>tooltip('open') jQuery 对象 打开工具提示</strong></span></p>
+<div class="cnblogs_code">
+<pre> $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            }
+        });
+        $(</span>'#reg input[title]').tooltip('open');   <span style="color: #008000">//</span><span style="color: #008000">tooltip('open') jQuery 对象 打开工具提示</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff00ff"><strong>tooltip('close') jQuery 对象 关闭工具提示</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            }
+        });
+        $(</span>'#reg input[title]').tooltip('close');   <span style="color: #008000">//</span><span style="color: #008000">tooltip('close') jQuery 对象 关闭工具提示</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff00ff"><strong>tooltip('disable') jQuery 对象 禁用工具提示</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            }
+        });
+        $(</span>'#reg input[title]').tooltip('disable');   <span style="color: #008000">//</span><span style="color: #008000">tooltip('disable') jQuery 对象 禁用工具提示</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff00ff"><strong>tooltip('enable') jQuery 对象 启用工具提示</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            }
+        });
+        $(</span>'#reg input[title]').tooltip('enable');   <span style="color: #008000">//</span><span style="color: #008000">tooltip('enable') jQuery 对象 启用工具提示</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff00ff"><strong>tooltip('destroy') jQuery 对象 删除工具提示，直接阻断了 tooltip。</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            }
+        });
+        $(</span>'#reg input[title]').tooltip('destroy');   <span style="color: #008000">//</span><span style="color: #008000">tooltip('destroy') jQuery 对象 删除工具提示，直接阻断了 tooltip。</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff00ff"><strong>tooltip('widget') jQuery 对象 获取工具提示的 jQuery 对象</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            }
+        });
+        $(</span>'#reg input[title]').tooltip('widget');   <span style="color: #008000">//</span><span style="color: #008000">tooltip('widget') jQuery 对象 获取工具提示的 jQuery 对象</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff00ff"><strong>tooltip('option', param) 一般值 获取 options 属性的值，第二个参数是要获取的属性名称</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            }
+        });
+        alert($(</span>'#reg input[title]').tooltip('option', 'position'));   <span style="color: #008000">//</span><span style="color: #008000">tooltip('option', param) 一般值 获取 options 属性的值，第二个参数是要获取的属性名称</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff00ff"><strong>tooltip('option', param, value) jQuery 对象 设置 options 属性的值，<strong>第二个参数是要设置的属性名称，第三个参数是要设置的属性值</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg input[title]'<span style="color: #000000">).tooltip({
+            content : </span>'改变文字'<span style="color: #000000">,
+            position : {
+                my : </span>'left top'<span style="color: #000000">
+            }
+        });
+        $(</span>'#reg input[title]').tooltip('option', 'content','提示');   <span style="color: #008000">//</span><span style="color: #008000">tooltip('option', param, value) jQuery 对象 设置 options 属性的值，第二个参数是要设置的属性名称，第三个参数是要设置的属性值</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>五．tooltip()中使用 on() </strong></span></p>
+<p><strong>在 tooltip 的事件中，提供了使用 on()方法处理的事件方法。</strong></p>
+<p><span style="color: #ff0000"><strong>on()方法触发的对话框事件</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170313194507916-2147161154.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>tooltipopen&nbsp;显示时触发</strong></span></p>
+<div class="cnblogs_code">
+<pre>        $('#reg').on('tooltipopen',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            alert(</span>'显示时触发'<span style="color: #000000">);
+        });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>tooltipclose 每一次移动时触发</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>        $('#reg').on('tooltipclose',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            alert(</span>'每一次移动时触发'<span style="color: #000000">);
+        });</span></pre>
+</div>
+<p>&nbsp;</p></div>

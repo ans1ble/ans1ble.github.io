@@ -1,0 +1,1492 @@
+第四百一十五节，python常用排序算法学习
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第四百一十五节，python常用排序算法学习</strong></p>
+<p>&nbsp;</p>
+<h3>常用排序</h3>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top" width="91">
+<p><strong>名称</strong></p>
+</td>
+<td valign="top" width="84">
+<p><strong>复杂度</strong></p>
+</td>
+<td valign="top" width="306">
+<p><strong>说明</strong></p>
+</td>
+<td valign="top" width="126">
+<p><strong>备注</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="91">
+<p>冒泡排序<br><span id="IL_AD2" class="IL_AD">Bubble&nbsp;<span id="IL_AD3" class="IL_AD">Sort</span></span></p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="84">
+<p>O(N*N)</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="306">
+<p>将待排序的元素看作是竖着排列的“气泡”，较小的元素比较轻，从而要往上浮</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="126">
+<p>&nbsp;</p>
+
+
+
+
+
+
+
+
+</td>
+
+
+
+
+
+
+
+
+</tr>
+<tr>
+<td valign="top" width="91">
+<p>插入排序</p>
+<p><span id="IL_AD1" class="IL_AD">Insertion&nbsp;sort</span></p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="84">
+<p>O(N*N)</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="306">
+<p>逐一取出元素，在已经排序的元素序列中从后向前扫描，放到适当的位置</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="126">
+<p>起初，已经排序的元素序列为空</p>
+
+
+
+
+
+
+
+
+</td>
+
+
+
+
+
+
+
+
+</tr>
+<tr>
+<td valign="top" width="91">
+<p>选择排序</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="84">
+<p>O(N*N)</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="306">
+<p>首先在未排序序列中找到最小元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小元素，然后放到排序序列末尾。以此递归。</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="126">
+<p>&nbsp;</p>
+
+
+
+
+
+
+
+
+</td>
+
+
+
+
+
+
+
+
+</tr>
+<tr>
+<td valign="top" width="91">
+<p>快速排序</p>
+<p>Quick&nbsp;Sort</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="84">
+<p>O(n *log<sub>2</sub>(n))</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="306">
+<p>先选择中间值，然后把比它小的放在左边，大的放在右边（具体的实现是从两边找，找到一对后交换）。然后对两边分别使用这个过程（递归）。</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="126">
+<p>&nbsp;</p>
+
+
+
+
+
+
+
+
+</td>
+
+
+
+
+
+
+
+
+</tr>
+<tr>
+<td valign="top" width="91">
+<p>堆排序HeapSort</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="84">
+<p>O(n *log<sub>2</sub>(n))</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="306">
+<p>利用堆（heaps）这种数据结构来构造的一种排序算法。堆是一个近似完全二叉树结构，并同时满足堆属性：即子节点的键值或索引总是小于（或者大于）它的父节点。</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="126">
+<p>近似完全二叉树</p>
+
+
+
+
+
+
+
+
+</td>
+
+
+
+
+
+
+
+
+</tr>
+<tr>
+<td valign="top" width="91">
+<p>希尔排序</p>
+<p>SHELL</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="84">
+<p>O(n<sup>1+</sup><sup>￡</sup>)</p>
+<p>0&lt;￡&lt;1</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="306">
+<p>选择一个步长(Step) ,然后按间隔为步长的单元进行排序.递归,步长逐渐变小,直至为1.</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="126">
+<p>&nbsp;</p>
+
+
+
+
+
+
+
+
+</td>
+
+
+
+
+
+
+
+
+</tr>
+<tr>
+<td valign="top" width="91">
+<p>箱排序<br>Bin&nbsp;Sort</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="84">
+<p>O(n)</p>
+
+
+
+
+
+
+
+
+</td>
+<td valign="top" width="306">
+<p>设置若干个箱子，把关键字等于&nbsp;k&nbsp;的记录全都装入到第k&nbsp;个箱子里&nbsp;(&nbsp;分配&nbsp;)&nbsp;，然后按序号依次将各非空的箱子首尾连接起来&nbsp;(&nbsp;收集&nbsp;)&nbsp;。</p>
+
+
+
+
+
+
+
+
+</td>
+<td rowspan="2" valign="top" width="126">
+<p>分配排序的一种：通过"&nbsp;分配&nbsp;"&nbsp;和&nbsp;"&nbsp;收集&nbsp;"&nbsp;过程来实现排序。</p>
+
+
+
+
+
+
+
+
+</td>
+
+
+
+
+
+
+
+
+</tr>
+
+
+
+
+
+
+
+
+</tbody>
+
+
+
+
+
+
+
+
+</table>
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+<h4><span style="color: #ff0000"><strong>冒泡排序（Bubble Sort）</strong></span></h4>
+<div class="para">冒泡排序（Bubble Sort），是一种<a href="http://baike.baidu.com/view/92404.htm" target="_blank">计算机科学</a>领域的较简单的<a href="http://baike.baidu.com/view/297739.htm" target="_blank">排序算法</a>。</div>
+<div class="para">它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。</div>
+<div class="para">这个算法的名字由来是因为越大的元素会经由交换慢慢“浮”到数列的顶端，故名。</div>
+<div class="para">&nbsp;
+<div class="cnblogs_code">
+<pre>data_set = [9, 1, 22, 31, 45, 3, 6, 2, 11<span style="color: #000000">]
+
+loop_count </span>=<span style="color: #000000"> 0
+</span><span style="color: #0000ff">for</span> j <span style="color: #0000ff">in</span><span style="color: #000000"> range(len(data_set)):
+    </span><span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> range(len(
+            data_set) </span>- j - 1):  <span style="color: #008000">#</span><span style="color: #008000"> -1 是因为每次比对的都 是i 与i +1,不减1的话,最后一次对比会超出list 获取范围,-j是因为,每一次大loop就代表排序好了一个最大值,放在了列表最后面,下次loop就不用再运算已经排序好了的值 了</span>
+        <span style="color: #0000ff">if</span> data_set[i] &gt; data_set[i + 1]:  <span style="color: #008000">#</span><span style="color: #008000"> switch</span>
+            tmp =<span style="color: #000000"> data_set[i]
+            data_set[i] </span>= data_set[i + 1<span style="color: #000000">]
+            data_set[i </span>+ 1] =<span style="color: #000000"> tmp
+        loop_count </span>+= 1
+    <span style="color: #0000ff">print</span><span style="color: #000000">(data_set)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(data_set)
+</span><span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">loop times</span><span style="color: #800000">"</span>, loop_count)</pre>
+</div>
+<div class="cnblogs_code">
+<pre>E:\Evns\jxiou\Scripts\python.exe H:/shipbfq/22<span style="color: #000000">.py
+[</span>1, 9, 22, 31, 3, 6, 2, 11, 45<span style="color: #000000">]
+[</span>1, 9, 22, 3, 6, 2, 11, 31, 45<span style="color: #000000">]
+[</span>1, 9, 3, 6, 2, 11, 22, 31, 45<span style="color: #000000">]
+[</span>1, 3, 6, 2, 9, 11, 22, 31, 45<span style="color: #000000">]
+[</span>1, 3, 2, 6, 9, 11, 22, 31, 45<span style="color: #000000">]
+[</span>1, 2, 3, 6, 9, 11, 22, 31, 45<span style="color: #000000">]
+[</span>1, 2, 3, 6, 9, 11, 22, 31, 45<span style="color: #000000">]
+[</span>1, 2, 3, 6, 9, 11, 22, 31, 45<span style="color: #000000">]
+[</span>1, 2, 3, 6, 9, 11, 22, 31, 45<span style="color: #000000">]
+[</span>1, 2, 3, 6, 9, 11, 22, 31, 45<span style="color: #000000">]
+loop times </span>36</pre>
+</div>
+<p>&nbsp;</p>
+</div>
+<div class="para">
+<h4><span style="color: #ff0000"><strong>选择排序</strong></span></h4>
+<p>该算法通过选择最小未排序的项目，然后将其与下一个要填充的项目进行交换。</p>
+<p>选择排序的工作原理如下：在整个数组中查找最小元素，一旦找到它，就将它与数组的第一个元素交换（最小元素）。然后查找剩余数组中的最小元素（没有第一个元素的数组），并将其与第二个元素交换。然后查找剩余数组中的最小元素（没有第一个元素和第二个元素的数组），并将其与第三个元素交换，以此类推。下面是一个例子，</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #000000">
+data_set </span>= [9, 1, 22, 31, 45, 3, 6, 2, 11<span style="color: #000000">]
+
+smallest_num_index </span>= 0  <span style="color: #008000">#</span><span style="color: #008000"> 初始列表最小值,默认为第一个</span>
+<span style="color: #000000">
+loop_count </span>=<span style="color: #000000"> 0
+</span><span style="color: #0000ff">for</span> j <span style="color: #0000ff">in</span><span style="color: #000000"> range(len(data_set)):
+    </span><span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> range(j, len(data_set)):
+        </span><span style="color: #0000ff">if</span> data_set[i] &lt; data_set[smallest_num_index]:  <span style="color: #008000">#</span><span style="color: #008000"> 当前值 比之前选出来的最小值 还要小,那就把它换成最小值</span>
+            smallest_num_index =<span style="color: #000000"> i
+        loop_count </span>+= 1
+    <span style="color: #0000ff">else</span><span style="color: #000000">:
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">smallest num is </span><span style="color: #800000">"</span><span style="color: #000000">, data_set[smallest_num_index])
+        tmp </span>=<span style="color: #000000"> data_set[smallest_num_index]
+        data_set[smallest_num_index] </span>=<span style="color: #000000"> data_set[j]
+        data_set[j] </span>=<span style="color: #000000"> tmp
+
+    </span><span style="color: #0000ff">print</span><span style="color: #000000">(data_set)
+    </span><span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">loop times</span><span style="color: #800000">"</span>, loop_count)</pre>
+</div>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>E:\Evns\jxiou\Scripts\python.exe H:/shipbfq/22<span style="color: #000000">.py
+smallest num </span><span style="color: #0000ff">is</span>  1<span style="color: #000000">
+[</span>1, 9, 22, 31, 45, 3, 6, 2, 11<span style="color: #000000">]
+loop times </span>9<span style="color: #000000">
+smallest num </span><span style="color: #0000ff">is</span>  2<span style="color: #000000">
+[</span>1, 2, 22, 31, 45, 3, 6, 9, 11<span style="color: #000000">]
+loop times </span>17<span style="color: #000000">
+smallest num </span><span style="color: #0000ff">is</span>  3<span style="color: #000000">
+[</span>1, 2, 3, 31, 45, 22, 6, 9, 11<span style="color: #000000">]
+loop times </span>24<span style="color: #000000">
+smallest num </span><span style="color: #0000ff">is</span>  6<span style="color: #000000">
+[</span>1, 2, 3, 6, 45, 22, 31, 9, 11<span style="color: #000000">]
+loop times </span>30<span style="color: #000000">
+smallest num </span><span style="color: #0000ff">is</span>  9<span style="color: #000000">
+[</span>1, 2, 3, 6, 9, 22, 31, 45, 11<span style="color: #000000">]
+loop times </span>35<span style="color: #000000">
+smallest num </span><span style="color: #0000ff">is</span>  11<span style="color: #000000">
+[</span>1, 2, 3, 6, 9, 11, 31, 45, 22<span style="color: #000000">]
+loop times </span>39<span style="color: #000000">
+smallest num </span><span style="color: #0000ff">is</span>  22<span style="color: #000000">
+[</span>1, 2, 3, 6, 9, 11, 22, 45, 31<span style="color: #000000">]
+loop times </span>42<span style="color: #000000">
+smallest num </span><span style="color: #0000ff">is</span>  31<span style="color: #000000">
+[</span>1, 2, 3, 6, 9, 11, 22, 31, 45<span style="color: #000000">]
+loop times </span>44<span style="color: #000000">
+smallest num </span><span style="color: #0000ff">is</span>  45<span style="color: #000000">
+[</span>1, 2, 3, 6, 9, 11, 22, 31, 45<span style="color: #000000">]
+loop times </span>45</pre>
+</div>
+<p>&nbsp;最坏情况下的运行时复杂度是O（n2）。</p>
+<p>&nbsp;</p>
+<h4><span style="color: #ff0000"><strong>插入排序(Insertion Sort)</strong></span></h4>
+<p><strong>插入排序(Insertion Sort)的基本思想是：将列表分为2部分，左边为排序好的部分，右边为未排序的部分，循环整个列表，每次将一个待排序的记录，按其关键字大小插入到前面已经排好序的子序列中的适当位置，直到全部记录插入完成为止。</strong></p>
+<p>&nbsp;<img src="https://images2018.cnblogs.com/blog/955761/201804/955761-20180424111625714-2021298430.png" alt=""></p>
+<p>&nbsp;</p>
+<p>插入排序非常类似于整扑克牌。</p>
+<p>在开始摸牌时，左手是空的，牌面朝下放在桌上。接着，一次从桌上摸起一张牌，并将它插入到左手一把牌中的正确位置上。为了找到这张牌的正确位置，要将它与手中已有的牌从右到左地进行比较。无论什么时候，左手中的牌都是排好序的。</p>
+<p>也许你没有意识到，但其实你的思考过程是这样的：现在抓到一张7，把它和手里的牌从右到左依次比较，7比10小，应该再往左插，7比5大，好，就插这里。为什么比较了10和5就可以确定7的位置？为什么不用再比较左边的4和2呢？因为这里有一个重要的前提：手里的牌已经是排好序的。现在我插了7之后，手里的牌仍然是排好序的，下次再抓到的牌还可以用这个方法插入。编程对一个数组进行插入排序也是同样道理，但和插入扑克牌有一点不同，不可能在两个相邻的存储单元之间再插入一个单元，因此要将插入点之后的数据依次往后移动一个单元。</p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #000000">
+source </span>= [92, 77, 67, 8, 6, 84, 55, 85, 43, 67<span style="color: #000000">]
+
+</span><span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span> range(1<span style="color: #000000">, len(source)):
+    current_val </span>= source[index]  <span style="color: #008000">#</span><span style="color: #008000"> 先记下来每次大循环走到的第几个元素的值</span>
+    position =<span style="color: #000000"> index
+
+    </span><span style="color: #0000ff">while</span> position &gt; 0 <span style="color: #0000ff">and</span> source[position - 1] &gt; current_val:  <span style="color: #008000">#</span><span style="color: #008000"> 当前元素的左边的紧靠的元素比它大,要把左边的元素一个一个的往右移一位,给当前这个值插入到左边挪一个位置出来</span>
+        source[position] = source[position - 1]  <span style="color: #008000">#</span><span style="color: #008000"> 把左边的一个元素往右移一位</span>
+        position -= 1  <span style="color: #008000">#</span><span style="color: #008000"> 只一次左移只能把当前元素一个位置 ,还得继续左移只到此元素放到排序好的列表的适当位置 为止</span>
+<span style="color: #000000">
+    source[position] </span>= current_val  <span style="color: #008000">#</span><span style="color: #008000"> 已经找到了左边排序好的列表里不小于current_val的元素的位置,把current_val放在这里</span>
+    <span style="color: #0000ff">print</span>(source)</pre>
+</div>
+<div class="cnblogs_code">
+<pre>E:\Evns\jxiou\Scripts\python.exe H:/shipbfq/22<span style="color: #000000">.py
+[</span>77, 92, 67, 8, 6, 84, 55, 85, 43, 67<span style="color: #000000">]
+[</span>67, 77, 92, 8, 6, 84, 55, 85, 43, 67<span style="color: #000000">]
+[</span>8, 67, 77, 92, 6, 84, 55, 85, 43, 67<span style="color: #000000">]
+[</span>6, 8, 67, 77, 92, 84, 55, 85, 43, 67<span style="color: #000000">]
+[</span>6, 8, 67, 77, 84, 92, 55, 85, 43, 67<span style="color: #000000">]
+[</span>6, 8, 55, 67, 77, 84, 92, 85, 43, 67<span style="color: #000000">]
+[</span>6, 8, 55, 67, 77, 84, 85, 92, 43, 67<span style="color: #000000">]
+[</span>6, 8, 43, 55, 67, 77, 84, 85, 92, 67<span style="color: #000000">]
+[</span>6, 8, 43, 55, 67, 67, 77, 84, 85, 92]</pre>
+</div>
+<p>&nbsp;</p>
+<p>更容易理解的版本</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+data_set = [9, 1, 22, 9, 31, -5, 45, 3, 6, 2, 11<span style="color: #000000">]
+</span><span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> range(len(data_set)):
+    </span><span style="color: #008000">#</span><span style="color: #008000"> position  = i</span>
+    <span style="color: #0000ff">while</span> i &gt; 0 <span style="color: #0000ff">and</span> data_set[i] &lt; data_set[i - 1]:  <span style="color: #008000">#</span><span style="color: #008000"> 右边小于左边相邻的值</span>
+        tmp =<span style="color: #000000"> data_set[i]
+        data_set[i] </span>= data_set[i - 1<span style="color: #000000">]
+        data_set[i </span>- 1] =<span style="color: #000000"> tmp
+        i </span>-= 1
+<span style="color: #0000ff">print</span>(data_set)</pre>
+</div>
+<div class="cnblogs_code">
+<pre>E:\Evns\jxiou\Scripts\python.exe H:/shipbfq/22<span style="color: #000000">.py
+[</span>-5, 1, 2, 3, 6, 9, 9, 11, 22, 31, 45]</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h4><span style="color: #ff0000">快速排序（quick sort）</span></h4>
+<p>设要排序的<a href="http://baike.baidu.com/view/209670.htm" target="_blank">数组</a>是A[0]……A[N-1]，首先任意选取一个数据（通常选用数组的第一个数）作为关键数据，然后将所有比它小的数都放到它前面，所有比它大的数都放到它后面，这个过程称为一趟快速排序。值得注意的是，快速排序不是一种稳定的<a href="http://baike.baidu.com/view/297739.htm" target="_blank">排序算法</a>，也就是说，多个相同的值的相对位置也许会在算法结束时产生变动　　</p>
+<p><em>注：在待排序的文件中，若存在多个关键字相同的记录，经过排序后这些具有相同关键字的记录之间的相对次序保持不变，该排序方法是稳定的；若具有相同关键字的记录之间的相对次序发生改变，则称这种排序方法是不稳定的。</em><br><em>要注意的是，排序算法的稳定性是针对所有输入实例而言的。即在所有可能的输入实例中，只要有一个实例使得算法不满足稳定性要求，则该排序算法就是不稳定的。</em>&nbsp;</p>
+<div class="para-title level-2">
+<p class="title-text"><strong>排序演示</strong></p>
+
+
+
+</div>
+<h3 class="anchor-list"><a class="lemma-anchor para-title" name="2_1"></a><a class="lemma-anchor " name="sub19016_2_1"></a><a class="lemma-anchor " name="示例"></a></h3>
+<div class="para-title level-3">
+<p class="title-text"><strong>示例</strong></p>
+
+
+
+</div>
+<div class="para">假设用户输入了如下数组：</div>
+<table class="table-view log-set-param">
+<tbody>
+<tr>
+<td align="left" valign="top" width="78">
+<div class="para">下标</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">0</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">1</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">2</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">3</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">4</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">5</div>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td align="left" valign="top" width="78">
+<div class="para">数据</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">6</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">2</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">7</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">3</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">8</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">9</div>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+</tbody>
+
+
+
+</table>
+<div class="para">创建变量i=0（指向第一个数据）, j=5(指向最后一个数据), k=6(<a href="http://baike.baidu.com/view/1201049.htm" target="_blank">赋值</a>为第一个数据的值)。</div>
+<div class="para">我们要把所有比k小的数移动到k的左面，所以我们可以开始寻找比6小的数，从j开始，从右往左找，不断递减变量j的值，我们找到第一个下标3的数据比6小，于是把数据3移到下标0的位置，把下标0的数据6移到下标3，完成第一次比较：</div>
+<table class="table-view log-set-param">
+<tbody>
+<tr>
+<td align="left" valign="top" width="78">
+<div class="para">下标</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">0</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">1</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">2</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">3</td>
+<td align="left" valign="top" width="78">
+<div class="para">4</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">5</div>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td align="left" valign="top" width="78">
+<div class="para">数据</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">3</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">2</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">7</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">6</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">8</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">9</div>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+</tbody>
+
+
+
+</table>
+<div class="para">i=0 j=3 k=6</div>
+<div class="para">接着，开始第二次比较，这次要变成找比k大的了，而且要从前往后找了。递加变量i，发现下标2的数据是第一个比k大的，于是用下标2的数据7和j指向的下标3的数据的6做交换，数据状态变成下表：</div>
+<table class="table-view log-set-param">
+<tbody>
+<tr>
+<td align="left" valign="top" width="78">
+<div class="para">下标</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">0</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">1</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">2</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">3</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">4</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">5</div>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td align="left" valign="top" width="78">
+<div class="para">数据</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">3</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">2</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">6</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">7</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">8</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">9</div>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+</tbody>
+
+
+
+</table>
+<div class="para">i=2 j=3 k=6</div>
+<div class="para">称上面两次比较为一个循环。</div>
+<div class="para">接着，再递减变量j，不断重复进行上面的循环比较。</div>
+<div class="para">在本例中，我们进行一次循环，就发现i和j“碰头”了：他们都指向了下标2。于是，第一遍比较结束。得到结果如下，凡是k(=6)左边的数都比它小，凡是k右边的数都比它大：</div>
+<table class="table-view log-set-param">
+<tbody>
+<tr>
+<td align="left" valign="top" width="78">
+<div class="para">下标</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">0</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">1</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">2</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">3</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">4</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">5</div>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td align="left" valign="top" width="78">
+<div class="para">数据</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">3</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">2</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">6</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">7</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">8</div>
+
+
+
+</td>
+<td align="left" valign="top" width="78">
+<div class="para">9</div>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+</tbody>
+
+
+
+</table>
+<div class="para">如果i和j没有碰头的话，就递加i找大的，还没有，就再递减j找小的，如此反复，不断循环。注意判断和寻找是同时进行的。</div>
+<div class="para">然后，对k两边的数据，再分组分别进行上述的过程，直到不能再分组为止。</div>
+<div class="para">注意：第一遍快速排序不会直接得到最终结果，只会把比k大和比k小的数分到k的两边。为了得到最后结果，需要再次对下标2两边的数组分别执行此步骤，然后再分解数组，直到数组不能再分解为止（只有一个数据），才能得到正确结果。</div>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> _*_coding:utf-8_*_</span>
+<span style="color: #800080">__author__</span> = <span style="color: #800000">'</span><span style="color: #800000">Alex Li</span><span style="color: #800000">'</span>
+
+
+<span style="color: #0000ff">def</span><span style="color: #000000"> quick_sort(array, left, right):
+    </span><span style="color: #800000">'''</span><span style="color: #800000">
+
+    :param array:
+    :param left: 列表的第一个索引
+    :param right: 列表最后一个元素的索引
+    :return:
+    </span><span style="color: #800000">'''</span>
+    <span style="color: #0000ff">if</span> left &gt;=<span style="color: #000000"> right:
+        </span><span style="color: #0000ff">return</span><span style="color: #000000">
+    low </span>=<span style="color: #000000"> left
+    high </span>=<span style="color: #000000"> right
+    key </span>= array[low]  <span style="color: #008000">#</span><span style="color: #008000"> 第一个值</span>
+
+    <span style="color: #0000ff">while</span> low &lt; high:  <span style="color: #008000">#</span><span style="color: #008000"> 只要左右未遇见</span>
+        <span style="color: #0000ff">while</span> low &lt; high <span style="color: #0000ff">and</span> array[high] &gt; key:  <span style="color: #008000">#</span><span style="color: #008000"> 找到列表右边比key大的值 为止</span>
+            high -= 1
+        <span style="color: #008000">#</span><span style="color: #008000"> 此时直接 把key(array[low]) 跟 比它大的array[high]进行交换</span>
+        array[low] =<span style="color: #000000"> array[high]
+        array[high] </span>=<span style="color: #000000"> key
+
+        </span><span style="color: #0000ff">while</span> low &lt; high <span style="color: #0000ff">and</span> array[low] &lt;= key:  <span style="color: #008000">#</span><span style="color: #008000"> 找到key左边比key大的值，这里为何是&lt;=而不是&lt;呢？你要思考。。。</span>
+            low += 1
+            <span style="color: #008000">#</span><span style="color: #008000"> array[low] =</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 找到了左边比k大的值 ,把array[high](此时应该刚存成了key) 跟这个比key大的array[low]进行调换</span>
+        array[high] =<span style="color: #000000"> array[low]
+        array[low] </span>=<span style="color: #000000"> key
+
+    quick_sort(array, left, low </span>- 1)  <span style="color: #008000">#</span><span style="color: #008000"> 最后用同样的方式对分出来的左边的小组进行同上的做法</span>
+    quick_sort(array, low + 1, right)  <span style="color: #008000">#</span><span style="color: #008000"> 用同样的方式对分出来的右边的小组进行同上的做法</span>
+
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">'</span><span style="color: #800000">__main__</span><span style="color: #800000">'</span><span style="color: #000000">:
+    array </span>= [96, 14, 10, 9, 6, 99, 16, 5, 1, 3, 2, 4, 1, 13, 26, 18, 2, 45, 34, 23, 1, 7, 3, 22, 19, 2<span style="color: #000000">]
+    </span><span style="color: #008000">#</span><span style="color: #008000"> array = [8,4,1, 14, 6, 2, 3, 9,5, 13, 7,1, 8,10, 12]</span>
+    <span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">before sort:</span><span style="color: #800000">"</span><span style="color: #000000">, array)
+    quick_sort(array, 0, len(array) </span>- 1<span style="color: #000000">)
+
+    </span><span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">-------final -------</span><span style="color: #800000">"</span><span style="color: #000000">)
+    </span><span style="color: #0000ff">print</span>(array)</pre>
+</div>
+<div class="cnblogs_code">
+<pre>E:\Evns\jxiou\Scripts\python.exe H:/shipbfq/22<span style="color: #000000">.py
+before sort: [</span>96, 14, 10, 9, 6, 99, 16, 5, 1, 3, 2, 4, 1, 13, 26, 18, 2, 45, 34, 23, 1, 7, 3, 22, 19, 2<span style="color: #000000">]
+</span>-------final -------<span style="color: #000000">
+[</span>1, 1, 1, 2, 2, 2, 3, 3, 4, 5, 6, 7, 9, 10, 13, 14, 16, 18, 19, 22, 23, 26, 34, 45, 96, 99]</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>二叉树</h2>
+<div class="para">
+<h3>树的特征和定义</h3>
+<div class="para"><br class="Apple-interchange-newline">　　树是一种重要的非线性<a href="http://baike.baidu.com/view/9900.htm" target="_blank">数据结构</a>，直观地看，它是<a href="http://baike.baidu.com/view/38785.htm" target="_blank">数据元素</a>（在树中称为结点）按分支关系组织起来的结构，很象自然界中的树那样。<a href="http://baike.baidu.com/view/1661473.htm" target="_blank">树结构</a>在客观世界中广泛存在，如人类社会的族谱和各种社会组织机构都可用树形象表示。树在计算机领域中也得到广泛应用，如在编译源程序时，可用树表示源程序的语法结构。又如在<a href="http://baike.baidu.com/view/7809.htm" target="_blank">数据库系统</a>中，树型结构也是信息的重要组织形式之一。一切具有层次关系的问题都可用树来描述。</div>
+<div class="para">&nbsp;</div>
+<p>树(Tree)是元素的集合。我们先以比较直观的方式介绍树。下面的数据结构是一个树：</p>
+<p><img src="https://images0.cnblogs.com/blog/413416/201303/16224218-92e0f06926b443a9845653b27b2187d8.png" alt=""></p>
+<p>树有多个节点(node)，用以储存元素。某些节点之间存在一定的关系，用连线表示，连线称为边(edge)。边的上端节点称为父节点，下端称为子节点。树像是一个不断分叉的树根。</p>
+<p>每个节点可以有多个子节点(children)，而该节点是相应子节点的父节点(parent)。比如说，3,5是6的子节点，6是3,5的父节点；1,8,7是3的子节点, 3是1,8,7的父节点。树有一个没有父节点的节点，称为根节点(root)，如图中的6。没有子节点的节点称为叶节点(leaf)，比如图中的1,8,9,5节点。从图中还可以看到，上面的树总共有4个层次，6位于第一层，9位于第四层。树中节点的最大层次被称为深度。也就是说，该树的深度(depth)为4。</p>
+<p>&nbsp;</p>
+<p>如果我们从节点3开始向下看，而忽略其它部分。那么我们看到的是一个以节点3为根节点的树：</p>
+<p><img src="https://images0.cnblogs.com/blog/413416/201303/16232143-93d719390c3e472c9768534d0a27e70f.png" alt=""></p>
+<p>三角形代表一棵树</p>
+<p>再进一步，如果我们定义孤立的一个节点也是一棵树的话，原来的树就可以表示为根节点和子树(subtree)的关系:</p>
+<p><img src="https://images0.cnblogs.com/blog/413416/201303/16233042-9861fb0986b74612b35faa40d49804f3.png" alt=""></p>
+<p>&nbsp;</p>
+<p>上述观察实际上给了我们一种严格的定义树的方法：</p>
+<p>1. 树是元素的集合。</p>
+<p>2. 该集合可以为空。这时树中没有元素，我们称树为空树 (empty tree)。</p>
+<p>3. 如果该集合不为空，那么该集合有一个根节点，以及0个或者多个子树。根节点与它的子树的根节点用一个边(edge)相连。</p>
+<p>上面的第三点是以递归的方式来定义树，也就是在定义树的过程中使用了树自身(子树)。由于树的递归特征，许多树相关的操作也可以方便的使用递归实现。我们将在后面看到。</p>
+<p>&nbsp;</p>
+<h3>树的实现</h3>
+<p>树的示意图已经给出了树的一种内存实现方式: 每个节点储存元素和多个指向子节点的指针。然而，子节点数目是不确定的。一个父节点可能有大量的子节点，而另一个父节点可能只有一个子节点，而树的增删节点操作会让子节点的数目发生进一步的变化。这种不确定性就可能带来大量的内存相关操作，并且容易造成内存的浪费。</p>
+<p>一种经典的实现方式如下:</p>
+<p><img src="https://images0.cnblogs.com/blog/413416/201303/16235249-529d7d9dafee4f7192e6c57094372004.png" alt=""></p>
+<h3>树的内存实现</h3>
+<p>拥有同一父节点的两个节点互为兄弟节点(sibling)。上图的实现方式中，每个节点包含有一个指针指向第一个子节点，并有另一个指针指向它的下一个兄弟节点。这样，我们就可以用统一的、确定的结构来表示每个节点。</p>
+<p>&nbsp;</p>
+<p>计算机的文件系统是树的结构，比如<a title="发布于2012-09-09 00:24" href="http://www.cnblogs.com/vamei/archive/2012/09/09/2676792.html">Linux文件管理背景知识</a>中所介绍的。在UNIX的文件系统中，每个文件(文件夹同样是一种文件)，都可以看做是一个节点。非文件夹的文件被储存在叶节点。文件夹中有指向父节点和子节点的指针(在UNIX中，文件夹还包含一个指向自身的指针，这与我们上面见到的树有所区别)。在git中，也有类似的树状结构，用以表达整个文件系统的版本变化 (参考<a class="titlelink" href="http://www.cnblogs.com/vamei/archive/2013/02/21/2918069.html">版本管理三国志</a>)。</p>
+<p><img src="https://images0.cnblogs.com/blog/413416/201303/16230341-b8873fc15d314641ae33399d473cf2d2.jpg" alt="" width="599" height="446"></p>
+
+
+
+</div>
+<div class="para">&nbsp;</div>
+<div class="para">&nbsp;</div>
+<div class="para">&nbsp;</div>
+<div class="para">&nbsp;</div>
+<div class="para">&nbsp;</div>
+<h3 class="para"><strong>&nbsp;二叉树</strong>：　</h3>
+<div class="para">
+<p>二叉树是由n（n≥0）个结点组成的有限集合、每个结点最多有两个子树的有序树。它或者是空集，或者是由一个根和称为左、右子树的两个不相交的二叉树组成。</p>
+<p>特点：</p>
+<p>（1）二叉树是有序树，即使只有一个子树，也必须区分左、右子树；</p>
+<p>（2）二叉树的每个结点的度不能大于2，只能取0、1、2三者之一；</p>
+<p>（3）二叉树中所有结点的形态有5种：空结点、无左右子树的结点、只有左子树的结点、只有右子树的结点和具有左右子树的结点。</p>
+
+
+
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/720333/201605/720333-20160512103827577-1398737286.jpg" alt=""></p>
+<p>&nbsp;</p>
+<p>二叉树(binary)是一种特殊的树。二叉树的每个节点最多只能有2个子节点：</p>
+<p><img src="https://images0.cnblogs.com/blog/413416/201303/17000135-75060e3ee81847c6892d2167710b4317.png" alt=""></p>
+<p>二叉树</p>
+<p>由于二叉树的子节点数目确定，所以可以直接采用上图方式在内存中实现。每个节点有一个左子节点(left children)和右子节点(right children)。左子节点是左子树的根节点，右子节点是右子树的根节点。</p>
+<p>&nbsp;</p>
+<p>如果我们给二叉树加一个额外的条件，就可以得到一种被称作二叉搜索树(binary search tree)的特殊二叉树。二叉搜索树要求：<strong>每个节点都不比它左子树的任意元素小，而且不比它的右子树的任意元素大。</strong></p>
+<p>(如果我们假设树中没有重复的元素，那么上述要求可以写成：每个节点比它左子树的任意节点大，而且比它右子树的任意节点小)</p>
+<p><img src="https://images0.cnblogs.com/blog/413416/201303/17001935-1b9faa8518a14f95b3bb9eb3083f683c.png" alt=""></p>
+<p>二叉搜索树，注意树中元素的大小</p>
+<p>二叉搜索树可以方便的实现搜索算法。在搜索元素x的时候，我们可以将x和根节点比较:</p>
+<p>1. 如果x等于根节点，那么找到x，停止搜索 (终止条件)</p>
+<p>2. 如果x小于根节点，那么搜索左子树</p>
+<p>3. 如果x大于根节点，那么搜索右子树</p>
+<p>二叉搜索树所需要进行的操作次数最多与树的深度相等。n个节点的二叉搜索树的深度最多为n，最少为log(n)。</p>
+<p>&nbsp;</p>
+<h3 dir="ltr">二叉树的遍历</h3>
+<blockquote dir="ltr">
+<p dir="ltr">遍历即将树的所有结点访问且仅访问一次。按照根节点位置的不同分为前序遍历，中序遍历，后序遍历。</p>
+<blockquote dir="ltr">
+<p dir="ltr">前序遍历：根节点-&gt;左子树-&gt;右子树</p>
+<p dir="ltr">中序遍历：左子树-&gt;根节点-&gt;右子树</p>
+<p dir="ltr">后序遍历：左子树-&gt;右子树-&gt;根节点</p>
+
+
+
+</blockquote>
+<p dir="ltr">例如：求下面树的三种遍历</p>
+<p dir="ltr">&nbsp;<img src="http://hi.csdn.net/attachment/201109/21/0_13166086420zyt.gif" alt=""></p>
+<blockquote dir="ltr">
+<p dir="ltr">前序遍历：abdefgc</p>
+<p dir="ltr">中序遍历：debgfac</p>
+<p dir="ltr">后序遍历：edgfbca</p>
+
+
+
+</blockquote>
+
+
+
+</blockquote>
+<p>&nbsp;</p>
+<h3>&nbsp;二叉树的类型</h3>
+<div class="para">(1)<a href="http://baike.baidu.com/view/427107.htm" target="_blank">完全二叉树</a>——若设二叉树的高度为h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数，第h层有<a href="http://baike.baidu.com/view/2335663.htm" target="_blank">叶子结点</a>，并且叶子结点都是从左到右依次排布，这就是<a href="http://baike.baidu.com/view/427107.htm" target="_blank">完全二叉树</a>。</div>
+<div class="para">(2)<a href="http://baike.baidu.com/view/427110.htm" target="_blank">满二叉树</a>——除了叶结点外每一个结点都有左右子叶且叶子结点都处在最底层的二叉树。</div>
+<div class="para">(3)平衡二叉树——平衡二叉树又被称为AVL树（区别于AVL算法），它是一棵二叉排序树，且具有以下性质：它是一棵空树或它的左右两个子树的高度差的绝对值不超过1，并且左右两个子树都是一棵平衡二叉树<a class="sup-anchor" name="ref_[2]_88806"></a></div>
+<div class="para">
+<p>如何判断一棵树是完全二叉树？按照定义，</p>
+<p>教材上的说法：一个深度为k，节点个数为 2^k - 1 的二叉树为满二叉树。这个概念很好理解，</p>
+<p>就是一棵树，深度为k，并且没有空位。</p>
+<p>首先对满二叉树按照广度优先遍历（从左到右）的顺序进行编号。</p>
+<p>一颗深度为k二叉树，有n个节点，然后，也对这棵树进行编号，如果所有的编号都和满二叉树对应，那么这棵树是完全二叉树。</p>
+<p>&nbsp;</p>
+<p><a href="http://images.cnblogs.com/cnblogs_com/niniwzw/WindowsLiveWriter/956d56030ec9_11E66/image_2.png"><img title="image" src="https://images.cnblogs.com/cnblogs_com/niniwzw/WindowsLiveWriter/956d56030ec9_11E66/image_thumb.png" alt="image" width="612" height="491" border="0"></a></p>
+<p>&nbsp;</p>
+
+
+
+</div>
+<div class="para">&nbsp;</div>
+<h4 class="para">如何判断平衡二叉树？</h4>
+<div class="para">
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/hytdsky/609806/o_2008111712242127.jpg"><img title="2008111712242127" src="http://p.blog.csdn.net/images/p_blog_csdn_net/hytdsky/609806/o_2008111712242127_thumb.jpg" alt="2008111712242127" width="412" height="336" border="0"></a></p>
+<p>（b）左边的图 左子数的高度为3，右子树的高度为1，相差超过1</p>
+<p>（b）右边的图 -2的左子树高度为0&nbsp; 右子树的高度为2，相差超过1</p>
+
+
+
+</div>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">class</span><span style="color: #000000"> TreeNode(object):
+    </span><span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span>(self, data=0, left=0, right=<span style="color: #000000">0):
+        self.data </span>=<span style="color: #000000"> data
+        self.left </span>=<span style="color: #000000"> left
+        self.right </span>=<span style="color: #000000"> right
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> BTree(object):
+    </span><span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span>(self, root=<span style="color: #000000">0):
+        self.root </span>=<span style="color: #000000"> root
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> preOrder(self, treenode):
+        </span><span style="color: #0000ff">if</span> treenode <span style="color: #0000ff">is</span><span style="color: #000000"> 0:
+            </span><span style="color: #0000ff">return</span>
+        <span style="color: #0000ff">print</span><span style="color: #000000">(treenode.data)
+        self.preOrder(treenode.left)
+        self.preOrder(treenode.right)
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> inOrder(self, treenode):
+        </span><span style="color: #0000ff">if</span> treenode <span style="color: #0000ff">is</span><span style="color: #000000"> 0:
+            </span><span style="color: #0000ff">return</span><span style="color: #000000">
+        self.inOrder(treenode.left)
+        </span><span style="color: #0000ff">print</span><span style="color: #000000">(treenode.data)
+        self.inOrder(treenode.right)
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> postOrder(self, treenode):
+        </span><span style="color: #0000ff">if</span> treenode <span style="color: #0000ff">is</span><span style="color: #000000"> 0:
+            </span><span style="color: #0000ff">return</span><span style="color: #000000">
+        self.postOrder(treenode.left)
+        self.postOrder(treenode.right)
+        </span><span style="color: #0000ff">print</span><span style="color: #000000">(treenode.data)
+
+
+</span><span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">'</span><span style="color: #800000">__main__</span><span style="color: #800000">'</span><span style="color: #000000">:
+    n1 </span>= TreeNode(data=1<span style="color: #000000">)
+    n2 </span>= TreeNode(2<span style="color: #000000">, n1, 0)
+    n3 </span>= TreeNode(3<span style="color: #000000">)
+    n4 </span>= TreeNode(4<span style="color: #000000">)
+    n5 </span>= TreeNode(5<span style="color: #000000">, n3, n4)
+    n6 </span>= TreeNode(6<span style="color: #000000">, n2, n5)
+    n7 </span>= TreeNode(7<span style="color: #000000">, n6, 0)
+    n8 </span>= TreeNode(8<span style="color: #000000">)
+    root </span>= TreeNode(<span style="color: #800000">'</span><span style="color: #800000">root</span><span style="color: #800000">'</span><span style="color: #000000">, n7, n8)
+
+    bt </span>=<span style="color: #000000"> BTree(root)
+    </span><span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">preOrder</span><span style="color: #800000">"</span>.center(50, <span style="color: #800000">'</span><span style="color: #800000">-</span><span style="color: #800000">'</span><span style="color: #000000">))
+    </span><span style="color: #0000ff">print</span><span style="color: #000000">(bt.preOrder(bt.root))
+
+    </span><span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">inOrder</span><span style="color: #800000">"</span>.center(50, <span style="color: #800000">'</span><span style="color: #800000">-</span><span style="color: #800000">'</span><span style="color: #000000">))
+    </span><span style="color: #0000ff">print</span><span style="color: #000000">(bt.inOrder(bt.root))
+
+    </span><span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">postOrder</span><span style="color: #800000">"</span>.center(50, <span style="color: #800000">'</span><span style="color: #800000">-</span><span style="color: #800000">'</span><span style="color: #000000">))
+    </span><span style="color: #0000ff">print</span>(bt.postOrder(bt.root))</pre>
+</div>
+<div class="cnblogs_code">
+<pre>E:\Evns\jxiou\Scripts\python.exe H:/shipbfq/22<span style="color: #000000">.py
+</span>---------------------preOrder---------------------<span style="color: #000000">
+root
+</span>7
+6
+2
+1
+5
+3
+4
+8<span style="color: #000000">
+None
+</span>---------------------inOrder----------------------
+1
+2
+6
+3
+5
+4
+7<span style="color: #000000">
+root
+</span>8<span style="color: #000000">
+None
+</span>--------------------postOrder---------------------
+1
+2
+3
+4
+5
+6
+7
+8<span style="color: #000000">
+root
+None</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2><span style="color: #ff0000">堆排序</span></h2>
+<p>堆排序，顾名思义，就是基于堆。因此先来介绍一下堆的概念。<br>堆分为最大堆和最小堆，其实就是完全二叉树。最大堆要求节点的元素都要大于其孩子，最小堆要求节点元素都小于其左右孩子，两者对左右孩子的大小关系不做任何要求，其实很好理解。有了上面的定义，我们可以得知，<strong>处于最大堆的根节点的元素一定是这个堆中的最大值</strong>。其实我们的堆排序算法就是抓住了堆的这一特点，每次都取堆顶的元素，将其放在序列最后面，然后将剩余的元素重新调整为最大堆，依次类推，最终得到排序的序列。</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>堆排序就是把堆顶的最大数取出,</strong></span></p>
+<p><span style="color: #ff0000"><strong>将剩余的堆继续调整为最大堆,具体过程在第二块有介绍,以递归实现</strong></span></p>
+<p><span style="color: #ff0000"><strong>剩余部分调整为最大堆后,再次将堆顶的最大数取出,再将剩余部分调整为最大堆,这个过程持续到剩余数只有一个时结束</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/720333/201605/720333-20160513231644421-1610219508.png" alt=""></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">_*_coding:utf-8_*_</span>
+<span style="color: #800080">__author__</span> = <span style="color: #800000">'</span><span style="color: #800000">Alex Li</span><span style="color: #800000">'</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> time,random
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> sift_down(arr, node, end):
+    root </span>=<span style="color: #000000"> node
+    </span><span style="color: #008000">#</span><span style="color: #008000">print(root,2*root+1,end)</span>
+    <span style="color: #0000ff">while</span><span style="color: #000000"> True:
+        </span><span style="color: #008000">#</span><span style="color: #008000"> 从root开始对最大堆调整</span>
+<span style="color: #000000"> 
+        child </span>= 2 * root +1  <span style="color: #008000">#</span><span style="color: #008000">left child</span>
+        <span style="color: #0000ff">if</span> child  &gt;<span style="color: #000000"> end:
+            </span><span style="color: #008000">#</span><span style="color: #008000">print('break',)</span>
+            <span style="color: #0000ff">break</span>
+        <span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">v:</span><span style="color: #800000">"</span><span style="color: #000000">,root,arr[root],child,arr[child])
+        </span><span style="color: #0000ff">print</span><span style="color: #000000">(arr)
+        </span><span style="color: #008000">#</span><span style="color: #008000"> 找出两个child中交大的一个</span>
+        <span style="color: #0000ff">if</span> child + 1 &lt;= end <span style="color: #0000ff">and</span> arr[child] &lt; arr[child + 1]: <span style="color: #008000">#</span><span style="color: #008000">如果左边小于右边</span>
+            child += 1 <span style="color: #008000">#</span><span style="color: #008000">设置右边为大</span>
+ 
+        <span style="color: #0000ff">if</span> arr[root] &lt;<span style="color: #000000"> arr[child]:
+            </span><span style="color: #008000">#</span><span style="color: #008000"> 最大堆小于较大的child, 交换顺序</span>
+            tmp =<span style="color: #000000"> arr[root]
+            arr[root] </span>=<span style="color: #000000"> arr[child]
+            arr[child]</span>=<span style="color: #000000"> tmp
+ 
+            </span><span style="color: #008000">#</span><span style="color: #008000"> 正在调整的节点设置为root</span>
+            <span style="color: #008000">#</span><span style="color: #008000">print("less1:", arr[root],arr[child],root,child)</span>
+<span style="color: #000000"> 
+            root </span>= child <span style="color: #008000">#
+</span>            <span style="color: #008000">#</span><span style="color: #008000">[3, 4, 7, 8, 9, 11, 13, 15, 16, 21, 22, 29]</span>
+            <span style="color: #008000">#</span><span style="color: #008000">print("less2:", arr[root],arr[child],root,child)</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            </span><span style="color: #008000">#</span><span style="color: #008000"> 无需调整的时候, 退出</span>
+            <span style="color: #0000ff">break</span>
+    <span style="color: #008000">#</span><span style="color: #008000">print(arr)</span>
+    <span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">-------------</span><span style="color: #800000">'</span><span style="color: #000000">)
+ 
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> heap_sort(arr):
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 从最后一个有子节点的孩子还是调整最大堆</span>
+    first = len(arr) // 2 -1
+    <span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span> range(first, -1, -1<span style="color: #000000">):
+        sift_down(arr, i, len(arr) </span>- 1<span style="color: #000000">)
+    </span><span style="color: #008000">#</span><span style="color: #008000">[29, 22, 16, 9, 15, 21, 3, 13, 8, 7, 4, 11]</span>
+    <span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">--------end---</span><span style="color: #800000">'</span><span style="color: #000000">,arr)
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 将最大的放到堆的最后一个, 堆-1, 继续调整排序</span>
+    <span style="color: #0000ff">for</span> end <span style="color: #0000ff">in</span> range(len(arr) -1, 0, -1<span style="color: #000000">):
+        arr[0], arr[end] </span>=<span style="color: #000000"> arr[end], arr[0]
+        sift_down(arr, 0, end </span>- 1<span style="color: #000000">)
+        </span><span style="color: #008000">#</span><span style="color: #008000">print(arr)</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> main():
+    </span><span style="color: #008000">#</span><span style="color: #008000"> [7, 95, 73, 65, 60, 77, 28, 62, 43]</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> [3, 1, 4, 9, 6, 7, 5, 8, 2, 10]</span>
+    <span style="color: #008000">#</span><span style="color: #008000">l = [3, 1, 4, 9, 6, 7, 5, 8, 2, 10]</span>
+    <span style="color: #008000">#</span><span style="color: #008000">l = [16,9,21,13,4,11,3,22,8,7,15,27,0]</span>
+    array = [16,9,21,13,4,11,3,22,8,7,15,29<span style="color: #000000">]
+    </span><span style="color: #008000">#</span><span style="color: #008000">array = []</span>
+    <span style="color: #008000">#</span><span style="color: #008000">for i in range(2,5000):</span>
+    <span style="color: #008000">#</span><span style="color: #008000">    #print(i)</span>
+    <span style="color: #008000">#</span><span style="color: #008000">    array.append(random.randrange(1,i))</span>
+ 
+    <span style="color: #0000ff">print</span><span style="color: #000000">(array)
+    start_t </span>=<span style="color: #000000"> time.time()
+    heap_sort(array)
+    end_t </span>=<span style="color: #000000"> time.time()
+    </span><span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">cost:</span><span style="color: #800000">"</span>,end_t -<span style="color: #000000">start_t)
+    </span><span style="color: #0000ff">print</span><span style="color: #000000">(array)
+    </span><span style="color: #008000">#</span><span style="color: #008000">print(l)</span>
+    <span style="color: #008000">#</span><span style="color: #008000">heap_sort(l)</span>
+    <span style="color: #008000">#</span><span style="color: #008000">print(l)</span>
+ 
+ 
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    main()</span></pre>
+</div>
+<p>人类能理解的版本</p>
+<div class="cnblogs_code">
+<pre>　dataset = [16,9,21,3,13,14,23,6,4,11,3,15,99,8,22<span style="color: #000000">]
+ </span> 
+  <span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span> range(len(dataset)-1,0,-1<span style="color: #000000">):
+ </span>     <span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">-------</span><span style="color: #800000">"</span>,dataset[0:i+1<span style="color: #000000">],len(dataset),i)
+ </span>     <span style="color: #008000">#</span><span style="color: #008000">for index in range(int(len(dataset)/2),0,-1):</span>
+      <span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span> range(int((i+1)/2),0,-1<span style="color: #000000">):
+ </span>         <span style="color: #0000ff">print</span><span style="color: #000000">(index)
+ </span>         p_index =<span style="color: #000000"> index
+ </span> 
+         l_child_index = p_index *2 - 1
+         r_child_index = p_index *2
+         <span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">l index</span><span style="color: #800000">"</span>,l_child_index,<span style="color: #800000">'</span><span style="color: #800000">r index</span><span style="color: #800000">'</span><span style="color: #000000">,r_child_index)
+</span>         p_node = dataset[p_index-1<span style="color: #000000">]
+</span>         left_child =<span style="color: #000000">  dataset[l_child_index]
+</span> 
+         <span style="color: #0000ff">if</span> p_node &lt; left_child:  <span style="color: #008000">#</span><span style="color: #008000"> switch p_node with  left child</span>
+             dataset[p_index - 1], dataset[l_child_index] =<span style="color: #000000"> left_child, p_node
+</span>             <span style="color: #008000">#</span><span style="color: #008000"> redefine p_node after the switch ,need call this val below</span>
+             p_node = dataset[p_index - 1<span style="color: #000000">]
+</span> 
+         <span style="color: #0000ff">if</span> r_child_index &lt; len(dataset[0:i+1]): <span style="color: #008000">#</span><span style="color: #008000">avoid right out of list index range</span>
+         <span style="color: #008000">#</span><span style="color: #008000">if r_child_index &lt; len(dataset[0:i]): #avoid right out of list index range</span>
+             <span style="color: #008000">#</span><span style="color: #008000">print(left_child)</span>
+             right_child =<span style="color: #000000">  dataset[r_child_index]
+</span>             <span style="color: #0000ff">print</span><span style="color: #000000">(p_index,p_node,left_child,right_child)
+</span> 
+             <span style="color: #008000">#</span><span style="color: #008000"> if p_node &lt;  left_child: #switch p_node with  left child</span>
+             <span style="color: #008000">#</span><span style="color: #008000">     dataset[p_index - 1] , dataset[l_child_index] = left_child,p_node</span>
+             <span style="color: #008000">#</span><span style="color: #008000">     # redefine p_node after the switch ,need call this val below</span>
+             <span style="color: #008000">#</span><span style="color: #008000">     p_node = dataset[p_index - 1]</span>
+             <span style="color: #008000">#
+</span>             <span style="color: #0000ff">if</span> p_node &lt; right_child: <span style="color: #008000">#</span><span style="color: #008000">swith p_node with right child</span>
+                 dataset[p_index - 1] , dataset[r_child_index] =<span style="color: #000000"> right_child,p_node
+</span>                 <span style="color: #008000">#</span><span style="color: #008000"> redefine p_node after the switch ,need call this val below</span>
+                 p_node = dataset[p_index - 1<span style="color: #000000">]
+</span> 
+         <span style="color: #0000ff">else</span><span style="color: #000000">:
+</span>             <span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">p node [%s] has no right child</span><span style="color: #800000">"</span> %<span style="color: #000000"> p_node)
+</span> 
+ 
+     <span style="color: #008000">#</span><span style="color: #008000">最后这个列表的第一值就是最大堆的值，把这个最大值放到列表最后一个， 把神剩余的列表再调整为最大堆</span>
+ 
+     <span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">switch i index</span><span style="color: #800000">"</span><span style="color: #000000">, i, dataset[0], dataset[i] )
+</span>     <span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">before switch</span><span style="color: #800000">"</span>,dataset[0:i+1<span style="color: #000000">])
+</span>     dataset[0],dataset[i] =<span style="color: #000000"> dataset[i],dataset[0]
+</span>     <span style="color: #0000ff">print</span>(dataset)</pre>
+</div>
+<p>&nbsp;</p>
+<h4><span style="color: #ff0000">&nbsp;</span></h4>
+<h4><span style="color: #ff0000">希尔排序（shell sort）</span></h4>
+<p>希尔排序(Shell Sort)是插入排序的一种。也称缩小增量排序，是直接插入排序算法的一种更高效的改进版本,该方法的基本思想是：先将整个待排元素序列分割成若干个子序列（由相隔某个“增量”的元素组成的）分别进行直接插入排序，然后依次缩减增量再进行排序，待整个序列中的元素基本有序（增量足够小）时，再对全体元素进行一次直接插入排序。<strong>因为直接插入排序在元素基本有序的情况下（接近最好情况），效率是很高的</strong>，因此希尔排序在时间效率比直接插入排序有较大提高</p>
+<p><img src="https://images2015.cnblogs.com/blog/720333/201610/720333-20161002174834302-1621007528.png" alt=""></p>
+<p>首先要明确一下增量的取法：</p>
+<p>&nbsp; &nbsp; &nbsp; 第一次增量的取法为： d=count/2;</p>
+<p>&nbsp; &nbsp; &nbsp; 第二次增量的取法为: &nbsp;d=(count/2)/2;</p>
+<p>&nbsp; &nbsp; &nbsp; 最后一直到: d=1;</p>
+<p>看上图观测的现象为：</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; d=3时：将40跟50比，因50大，不交换。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;将20跟30比，因30大，不交换。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;将80跟60比，因60小，交换。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; d=2时：将40跟60比，不交换，拿60跟30比交换，此时交换后的30又比前面的40小，又要将40和30交换，如上图。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;将20跟50比，不交换，继续将50跟80比，不交换。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; d=1时：这时就是前面讲的插入排序了，不过此时的序列已经差不多有序了，所以给插入排序带来了很大的性能提高。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">import</span><span style="color: #000000"> time,random
+
+</span><span style="color: #008000">#</span><span style="color: #008000">source = [8, 6, 4, 9, 7, 3, 2, -4, 0, -100, 99]</span><span style="color: #008000">
+#</span><span style="color: #008000">source = [92, 77, 8,67, 6, 84, 55, 85, 43, 67]</span>
+<span style="color: #000000">
+source </span>= [ random.randrange(10000+i) <span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span> range(10000<span style="color: #000000">)]
+</span><span style="color: #008000">#</span><span style="color: #008000">print(source)</span>
+<span style="color: #000000">
+
+
+step </span>= int(len(source)/2) <span style="color: #008000">#</span><span style="color: #008000">分组步长</span>
+<span style="color: #000000">
+t_start </span>=<span style="color: #000000"> time.time()
+
+
+</span><span style="color: #0000ff">while</span> step &gt;<span style="color: #000000">0:
+    </span><span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">---step ---</span><span style="color: #800000">"</span><span style="color: #000000">, step)
+    </span><span style="color: #008000">#</span><span style="color: #008000">对分组数据进行插入排序</span>
+
+    <span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span><span style="color: #000000"> range(0,len(source)):
+        </span><span style="color: #0000ff">if</span> index + step &lt;<span style="color: #000000"> len(source):
+            current_val </span>= source[index] <span style="color: #008000">#</span><span style="color: #008000">先记下来每次大循环走到的第几个元素的值</span>
+            <span style="color: #0000ff">if</span> current_val &gt; source[index+step]: <span style="color: #008000">#</span><span style="color: #008000">switch</span>
+                source[index], source[index+step] = source[index+<span style="color: #000000">step], source[index]
+
+    step </span>= int(step/2<span style="color: #000000">)
+</span><span style="color: #0000ff">else</span>: <span style="color: #008000">#</span><span style="color: #008000">把基本排序好的数据再进行一次插入排序就好了</span>
+    <span style="color: #0000ff">for</span> index <span style="color: #0000ff">in</span> range(1<span style="color: #000000">, len(source)):
+        current_val </span>= source[index]  <span style="color: #008000">#</span><span style="color: #008000"> 先记下来每次大循环走到的第几个元素的值</span>
+        position =<span style="color: #000000"> index
+
+        </span><span style="color: #0000ff">while</span> position &gt; 0 <span style="color: #0000ff">and</span><span style="color: #000000"> source[
+                    position </span>- 1] &gt; current_val:  <span style="color: #008000">#</span><span style="color: #008000"> 当前元素的左边的紧靠的元素比它大,要把左边的元素一个一个的往右移一位,给当前这个值插入到左边挪一个位置出来</span>
+            source[position] = source[position - 1]  <span style="color: #008000">#</span><span style="color: #008000"> 把左边的一个元素往右移一位</span>
+            position -= 1  <span style="color: #008000">#</span><span style="color: #008000"> 只一次左移只能把当前元素一个位置 ,还得继续左移只到此元素放到排序好的列表的适当位置 为止</span>
+<span style="color: #000000">
+        source[position] </span>= current_val  <span style="color: #008000">#</span><span style="color: #008000"> 已经找到了左边排序好的列表里不小于current_val的元素的位置,把current_val放在这里</span>
+    <span style="color: #0000ff">print</span><span style="color: #000000">(source)
+
+t_end </span>= time.time() -<span style="color: #000000"> t_start
+
+</span><span style="color: #0000ff">print</span>(<span style="color: #800000">"</span><span style="color: #800000">cost:</span><span style="color: #800000">"</span>,t_end)</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div></div>

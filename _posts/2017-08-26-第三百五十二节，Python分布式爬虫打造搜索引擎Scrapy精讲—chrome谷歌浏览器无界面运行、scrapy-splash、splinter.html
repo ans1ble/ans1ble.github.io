@@ -1,0 +1,60 @@
+第三百五十二节，Python分布式爬虫打造搜索引擎Scrapy精讲—chrome谷歌浏览器无界面运行、scrapy-splash、splinter
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><br><strong>第三百五十二节，Python分布式爬虫打造搜索引擎Scrapy精讲—chrome谷歌浏览器无界面运行、scrapy-splash、 splinter</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>1、chrome谷歌浏览器无界面运行</strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong>chrome谷歌浏览器无界面运行，主要运行在Linux系统，<span style="background-color: #ff99cc">windows系统下不支持</span></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong><strong><strong>chrome谷歌浏览器无界面运行需要一个模块，pyvirtualdisplay模块</strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong><strong><strong>需要先安装<strong><strong><strong><strong><strong><strong>pyvirtualdisplay模块</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><span style="color: #0000ff">Display(visible=0, size=(800, 600))</span>设置浏览器，visible=0表示不显示界面，size=(800, 600)表示浏览器尺寸</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.http <span style="color: #0000ff">import</span><span style="color: #000000"> Request,FormRequest
+</span><span style="color: #0000ff">from</span> selenium <span style="color: #0000ff">import</span> webdriver                  <span style="color: #008000">#</span><span style="color: #008000"> 导入selenium模块来操作浏览器软件</span>
+<span style="color: #0000ff">from</span> scrapy.xlib.pydispatch <span style="color: #0000ff">import</span> dispatcher   <span style="color: #008000">#</span><span style="color: #008000"> 信号分发器</span>
+<span style="color: #0000ff">from</span> scrapy <span style="color: #0000ff">import</span> signals                      <span style="color: #008000">#</span><span style="color: #008000"> 信号</span>
+
+<span style="color: #0000ff">class</span> PachSpider(scrapy.Spider):                            <span style="color: #008000">#</span><span style="color: #008000">定义爬虫类，必须继承scrapy.Spider</span>
+    name = <span style="color: #800000">'</span><span style="color: #800000">pach</span><span style="color: #800000">'</span>                                           <span style="color: #008000">#</span><span style="color: #008000">设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">www.taobao.com</span><span style="color: #800000">'</span>]                    <span style="color: #008000">#</span><span style="color: #008000">爬取域名</span>
+
+    <span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span>(self):                                                                                 <span style="color: #008000">#</span><span style="color: #008000">初始化</span>
+
+<span style="background-color: #ff99cc">        <span style="color: #0000ff">from</span> pyvirtualdisplay <span style="color: #0000ff">import</span><span style="color: #000000"> Display
+        display </span>= Display(visible=0, size=(800, 600</span><span style="color: #000000"><span style="background-color: #ff99cc">))
+        display.start()</span>
+
+        self.browser </span>= webdriver.Chrome(executable_path=<span style="color: #800000">'</span><span style="color: #800000">H:/py/16/adc/adc/Firefox/chromedriver.exe</span><span style="color: #800000">'</span>)    <span style="color: #008000">#</span><span style="color: #008000">创建谷歌浏览器对象</span>
+        super(PachSpider, self).<span style="color: #800080">__init__</span>()                                                              <span style="color: #008000">#</span><span style="color: #008000">设置可以获取上一级父类基类的，__init__方法里的对象封装值</span>
+        dispatcher.connect(self.spider_closed, signals.spider_closed)       <span style="color: #008000">#</span><span style="color: #008000">dispatcher.connect()信号分发器，第一个参数信号触发函数，第二个参数是触发信号，signals.spider_closed是爬虫结束信号</span>
+
+        <span style="color: #008000">#</span><span style="color: #008000">运行到此处时，就会去中间件执行，RequestsChrometmiddware中间件了</span>
+
+    <span style="color: #0000ff">def</span> spider_closed(self, spider):                                        <span style="color: #008000">#</span><span style="color: #008000">信号触发函数</span>
+        <span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">爬虫结束 停止爬虫</span><span style="color: #800000">'</span><span style="color: #000000">)
+        self.browser.quit()                                                 </span><span style="color: #008000">#</span><span style="color: #008000">关闭浏览器</span>
+
+    <span style="color: #0000ff">def</span> start_requests(self):    <span style="color: #008000">#</span><span style="color: #008000">起始url函数，会替换start_urls</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> [Request(
+            url</span>=<span style="color: #800000">'</span><span style="color: #800000">https://www.taobao.com/</span><span style="color: #800000">'</span><span style="color: #000000">,
+            callback</span>=<span style="color: #000000">self.parse
+        )]
+
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> parse(self, response):
+        title </span>= response.css(<span style="color: #800000">'</span><span style="color: #800000">title::text</span><span style="color: #800000">'</span><span style="color: #000000">).extract()
+        </span><span style="color: #0000ff">print</span>(title)</pre>
+</div>
+<p><span style="color: #ff0000"><strong>&nbsp;注意：Linux系统下会出现错误</strong></span></p>
+<p><span style="color: #0000ff"><strong>报错：easyprocess.EasyProcessCheckInstalledError: cmd=['Xvfb', '-help'] OSError=[Errno 2] No such file or directory</strong></span></p>
+<p><span style="color: #ff0000"><strong>需要两个步骤解决</strong></span></p>
+<p><span style="color: #ff0000"><strong>　　1.执行命令：</strong></span><span style="color: #0000ff"><strong>sudo apt-get install xvfb &nbsp; &nbsp;安装<strong>xvfb软件</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><span style="color: #ff0000">　　2.执行命令：</span>pip install xvfbwrapper &nbsp; 安装<strong><strong>xvfbwrapper模块</strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>以下只是提到一下，前面讲的selenium模块操作浏览器已经够用了</strong></span></p>
+<p><span style="color: #ff0000"><strong>2、scrapy-splash，也是<strong>scrapy获取动态网页的方案，这里就不介绍了，详情：<span style="color: #0000ff">https://github.com/scrapy-plugins/scrapy-splash</span></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong>3、splinter，是一个操作浏览器的模块 详情：<span style="color: #0000ff">https://github.com/cobrateam/splinter</span></strong></strong></strong></span></p>
+<p>&nbsp;</p></div>

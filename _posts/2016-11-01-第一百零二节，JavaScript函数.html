@@ -1,0 +1,329 @@
+第一百零二节，JavaScript函数
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">JavaScript函数</span></strong></span></p>
+<p>&nbsp;</p>
+<p align="left"><strong>学习要点：</strong></p>
+<p>&nbsp;</p>
+<p align="left"><strong>1.函数声明</strong></p>
+<p>&nbsp;</p>
+<p align="left"><strong>2.return返回值</strong></p>
+<p>&nbsp;</p>
+<p align="left"><strong>3.arguments对象</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>函数是定义一次但却可以调用或执行任意多次的一段JS代码。函数有时会有参数，即函数被调用时指定了值的局部变量。函数常常使用这些参数来计算一个返回值，这个值也成为函数调用表达式的值。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>一．</strong><strong>函数声明</strong></span></p>
+<p align="left"><strong>函数对任何语言来说都是一个核心的概念。通过函数可以封装任意多条语句，而且可以在任何地方、任何时候调用执行。ECMAScript中的函数使用function关键字来声明，后跟一组参数以及函数体。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>function关键字声明函数</strong></strong></span></p>
+<p align="left"><span style="color: #000000"><strong><strong>无参函数：</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> box() {                               <span style="color: #008000">//</span><span style="color: #008000">没有参数的函数</span>
+    alert('只有函数被调用，我才会被之执行'<span style="color: #000000">);   
+}
+box();                                    </span><span style="color: #008000">//</span><span style="color: #008000">直接调用执行函数</span></pre>
+</div>
+<p><strong>有参函数：</strong></p>
+<p><span style="color: #0000ff"><strong>如果有参函数在调用时没有传参数，会自动赋值参数为undefined</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> box(name, age) {                    <span style="color: #008000">//</span><span style="color: #008000">带参数的函数</span>
+    alert('你的姓名：'+name+'，年龄：'+<span style="color: #000000">age);
+}
+box(</span>'李炎恢',28);                            <span style="color: #008000">//</span><span style="color: #008000">调用函数，并传参</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>二．</strong><strong>return</strong><strong>返回值，关键字，给函数定义返回值</strong></span></p>
+<p align="left"><strong>带参和不带参的函数，都没有定义返回值，而是调用后直接执行的。实际上，任何函数都可以通过return语句跟后面的要返回的值来实现返回值。</strong></p>
+<p align="left"><strong>无参定义返回值：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> box() {                            <span style="color: #008000">//</span><span style="color: #008000">没有参数的函数</span>
+    <span style="color: #0000ff">return</span> '我被返回了！';                    <span style="color: #008000">//</span><span style="color: #008000">通过return把函数的最终值返回</span>
+<span style="color: #000000">}            
+alert(box());                                </span><span style="color: #008000">//</span><span style="color: #008000">调用函数会得到返回值，然后外面输出</span></pre>
+</div>
+<p><strong>有参定义返回值：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> box(name, age) {                    <span style="color: #008000">//</span><span style="color: #008000">有参数的函数</span>
+    <span style="color: #0000ff">return</span> '你的姓名：'+name+'，年龄：'+age;<span style="color: #008000">//</span><span style="color: #008000">通过return 把函数的最终值返回</span>
+<span style="color: #000000">}
+alert(box(</span>'李炎恢', 28));                        <span style="color: #008000">//</span><span style="color: #008000">调用函数得到返回值，然后外面输出</span></pre>
+</div>
+<p align="left"><strong>我们还可以把函数的返回值赋给一个变量，然后通过变量进行操作。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span><span style="color: #000000"> box(num1, num2) {
+    </span><span style="color: #0000ff">return</span> num1 *<span style="color: #000000"> num2;
+}
+</span><span style="color: #0000ff">var</span> num = box(10, 5);                        <span style="color: #008000">//</span><span style="color: #008000">函数得到的返回值赋给变量</span>
+alert(num);   </pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>return语句还有一个功能就是退出当前函数，注意和break的区别。</strong></span></p>
+<p align="left"><strong>PS：break用在循环和switch分支语句里。</strong></p>
+<p><strong>注意：函数里一旦遇到<strong>return返回关键字后，下面还有代码就不会执行了</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span><span style="color: #000000"> box(num) {
+    </span><span style="color: #0000ff">if</span> (num &lt; 5)  <span style="color: #0000ff">return</span> num;            <span style="color: #008000">//</span><span style="color: #008000">满足条件，就返回num</span>
+    <span style="color: #0000ff">return</span> 100;                            <span style="color: #008000">//</span><span style="color: #008000">返回之后，就不执行下面的语句了</span>
+<span style="color: #000000">}
+alert(box(</span>2));                          <span style="color: #008000">//</span><span style="color: #008000">打印函数变量</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>三．</strong><strong>arguments</strong><strong>对象</strong></span></p>
+<p align="left"><strong>ECMAScript函数不介意传递进来多少参数，也不会因为参数不统一而错误。实际上，函数体内可以通过arguments对象来接收传递进来的参数。</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>也就是函数可以不设置形式参数，在函数里可以用<strong>arguments来接收实际参数的传参，</strong></strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong><strong><strong>arguments以数组下标方式类获取实际参数</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span><span style="color: #000000"> box() {
+    </span><span style="color: #0000ff">return</span> arguments[0]+' | '+arguments[1];        <span style="color: #008000">//</span><span style="color: #008000">arguments[0]，将调用函数时传的参数，当做数组索引下标的方式获取到</span>
+                                                <span style="color: #008000">//</span><span style="color: #008000">arguments[0]，就是获取传参的第一个参数1</span>
+                                                <span style="color: #008000">//</span><span style="color: #008000">arguments[1]，就是获取传参的第二个参数2</span>
+<span style="color: #000000">}
+alert(box(</span>1,2,3,4,5,6));                        <span style="color: #008000">//</span><span style="color: #008000">传递参数</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>arguments对象的length属性可以得到参数的数量。</strong></span></p>
+<p><span style="color: #000000"><strong>也就是<strong>arguments对象的length属性可以检查到，调用函数时传了多少个实际参数</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span><span style="color: #000000"> box() {
+    </span><span style="color: #0000ff">return</span> arguments.length;                    <span style="color: #008000">//</span><span style="color: #008000">得到6</span>
+<span style="color: #000000">}
+alert(box(</span>1,2,3,4,5,6));</pre>
+</div>
+<p align="left"><strong>我们可以利用length这个属性，来智能的判断有多少参数，然后把参数进行合理的应用。比如，要实现一个加法运算，将所有传进来的数字累加，而数字的个数又不确定。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span><span style="color: #000000"> box() {
+    </span><span style="color: #0000ff">var</span> sum = 0<span style="color: #000000">;
+    </span><span style="color: #0000ff">if</span> (arguments.length == 0) <span style="color: #0000ff">return</span> sum;        <span style="color: #008000">//</span><span style="color: #008000">如果没有参数，返回sum变量</span>
+    <span style="color: #0000ff">for</span>(<span style="color: #0000ff">var</span> i = 0;i &lt; arguments.length; i++) {    <span style="color: #008000">//</span><span style="color: #008000">如果有，就统计有多少位参数，循环对应次数，然后就累加</span>
+        sum = sum +<span style="color: #000000"> arguments[i];
+    }
+    </span><span style="color: #0000ff">return</span> sum;                            <span style="color: #008000">//</span><span style="color: #008000">返回累加结果26</span>
+<span style="color: #000000">}
+alert(box(</span>5,9,12));</pre>
+</div>
+<p align="left"><strong>ECMAScript中的函数，没有像其他高级语言那种函数重载功能。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span><span style="color: #000000"> box(num) {
+    </span><span style="color: #0000ff">return</span> num + 100<span style="color: #000000">;
+}
+</span><span style="color: #0000ff">function</span> box (num) {                        <span style="color: #008000">//</span><span style="color: #008000">会执行这个函数</span>
+    <span style="color: #0000ff">return</span> num + 200<span style="color: #000000">;
+}
+alert(box(</span>50));                                <span style="color: #008000">//</span><span style="color: #008000">返回结果</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="font-size: 18pt; color: #0000ff"><strong>函数补充，<strong>Function类型</strong></strong></span></p>
+<p align="left"><strong>学习要点：</strong></p>
+<p align="left"><strong>1.函数的声明方式</strong></p>
+<p align="left"><strong>2.作为值的函数</strong></p>
+<p align="left"><strong>3.函数的内部属性</strong></p>
+<p align="left"><strong>4.函数属性和方法</strong></p>
+<p align="left">&nbsp;</p>
+<p><strong>在ECMAScript中，Function(函数)类型实际上是对象。每个函数都是Function类型的实例，而且都与其他引用类型一样具有属性和方法。由于函数是对象，因此函数名实际上也是一个指向函数对象的指针。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．</strong><strong>函数的声明方式</strong></span></p>
+<p><strong><span style="color: #ff0000">1.普通的函数声明</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span><span style="color: #000000"> box(num1, num2) {
+    </span><span style="color: #0000ff">return</span> num1+<span style="color: #000000"> num2;
+}
+alert(box(</span>1,2));</pre>
+</div>
+<p><span style="color: #ff0000"><strong>2.使用变量初始化函数</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box= <span style="color: #0000ff">function</span><span style="color: #000000">(num1, num2) {
+    </span><span style="color: #0000ff">return</span> num1 +<span style="color: #000000"> num2;
+};
+alert(box(</span>1,2));</pre>
+</div>
+<p><span style="color: #ff0000"><strong>3.使用Function构造函数【不推荐】</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box= <span style="color: #0000ff">new</span> Function('num1', 'num2' ,'return num1 + num2'<span style="color: #000000">);
+alert(box(</span>1,2));</pre>
+</div>
+<p><strong>PS：第三种方式我们不推荐，因为这种语法会导致解析两次代码（第一次解析常规ECMAScript代码，第二次是解析传入构造函数中的字符串），从而影响性能。但我们可以通过这种语法来理解"函数是对象，函数名是指针"的概念。</strong></p>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>二．作为值的函数</strong></span></p>
+<p align="left"><strong>ECMAScript中的函数名本身就是变量，所以函数也可以作为值来使用。也就是说，不仅可以像传递参数一样把一个函数传递给另一个函数，而且可以将一个函数作为另一个函数的结果返回。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>将一个函数当做参数传给另外一个函数</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> box(sumFunction, num) {              <span style="color: #008000">//</span><span style="color: #008000">定义函数box</span>
+    <span style="color: #0000ff">return</span> sumFunction(num);                  <span style="color: #008000">//</span><span style="color: #008000">返回执行box函数，并传出参数10</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">function</span> sum(num) {                          <span style="color: #008000">//</span><span style="color: #008000">定义函数sum</span>
+    <span style="color: #0000ff">return</span> num + 10;                         <span style="color: #008000">//</span><span style="color: #008000">返回传入参数加10</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">var</span> result = box(sum, 10);                    <span style="color: #008000">//</span><span style="color: #008000">执行函数box，将sum函数当做参数传入box函数</span>
+alert(result);</pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>三．</strong><strong>函数内部属性</strong></span></p>
+<p align="left"><strong>在函数内部，有两个特殊的对象：arguments和this。arguments是一个类数组对象，包含着传入函数中的所有参数，主要用途是保存函数参数。但这个对象还有一个名叫callee的属性，该属性是一个指针，指向拥有这个arguments对象的函数。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>阶乘递归</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span><span style="color: #000000"> box(num) {
+    </span><span style="color: #0000ff">if</span> (num &lt;= 1<span style="color: #000000">) {
+        </span><span style="color: #0000ff">return</span> 1<span style="color: #000000">;
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #0000ff">return</span> num * box(num-1);            <span style="color: #008000">//</span><span style="color: #008000">4 * 3 * 2 * 1=24阶乘，递归</span>
+<span style="color: #000000">    }
+}
+alert(box(</span>4));</pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>对于阶乘函数一般要用到递归算法，所以函数内部一定会调用自身；如果函数名不改变是没有问题的，但一旦改变函数名，内部的自身调用需要逐一修改。为了解决这个问题，我们可以使用arguments.callee来代替。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong><span lang="EN-US">callee属性，<strong>该属性是一个指针，指向拥有这个arguments对象的函数</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span><span style="color: #000000"> box(num) {
+    </span><span style="color: #0000ff">if</span> (num &lt;= 1<span style="color: #000000">) {
+        </span><span style="color: #0000ff">return</span> 1<span style="color: #000000">;
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #0000ff">return</span> num * arguments.callee(num-1);        <span style="color: #008000">//</span><span style="color: #008000">使用callee来执行box函数自身</span>
+<span style="color: #000000">    }
+}
+alert(box(</span>4));</pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>this属性</strong></span></p>
+<p align="left"><strong>函数内部另一个特殊对象是this，其行为与Java和C#中的this大致相似。换句话说，this引用的是函数，数据以执行操作的对象，或者说函数调用语句所处的那个作用域。PS：当在全局作用域中调用函数时，this对象引用的就是window。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>window是一个对象，而且是js里面最大的对象，是最外围的对象</strong></span></p>
+<div class="cnblogs_code">
+<pre>alert(window);         <span style="color: #008000">//</span><span style="color: #008000">打印对象，返回[object Window]</span>
+alert(<span style="color: #0000ff">typeof</span> window); <span style="color: #008000">//</span><span style="color: #008000">查看对象类型</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>this在全局作用域中时<strong>this就是<strong>window对象</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>alert(<span style="color: #0000ff">this</span>); <span style="color: #008000">//</span><span style="color: #008000">返回[object Window]</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>全局变量都是Window的属性</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">全局变量都是Window的属性</span>
+<span style="color: #0000ff">var</span> color = "红色的";   <span style="color: #008000">//</span><span style="color: #008000">声明一个变量</span>
+alert(window.color);    <span style="color: #008000">//</span><span style="color: #008000">通过Window属性打印变量</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>通过this打印全局变量</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> color = "红色的";   <span style="color: #008000">//</span><span style="color: #008000">声明一个变量</span>
+alert(<span style="color: #0000ff">this</span>.color);    <span style="color: #008000">//</span><span style="color: #008000">通过this属性打印变量,全局变量也可以通过this来打印，也等同于通过Window打印</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>window.color = "红色"; 相当于var color = "红色";</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.color = "红色"; <span style="color: #008000">//</span><span style="color: #008000">相当于var color = "红色";</span>
+<span style="color: #000000">alert(color);
+</span><span style="color: #0000ff">var</span> color = "红色"<span style="color: #000000">;
+alert(color);</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>this在对象里面的指向的对象本身</strong></span></p>
+<p><span style="color: #0000ff"><strong>注意：<strong>this在对象里面的指向的对象本身</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = {                   <span style="color: #008000">//</span><span style="color: #008000">创建一个对象</span>
+    color:"蓝色",             <span style="color: #008000">//</span><span style="color: #008000">对象里的一个字段，等同于一个变量</span>
+    saycolor:<span style="color: #0000ff">function</span>(){     <span style="color: #008000">//</span><span style="color: #008000">对象里的一个方法，也就是匿名函数</span>
+        alert(<span style="color: #0000ff">this</span>.color);   <span style="color: #008000">//</span><span style="color: #008000">此时的this指向的是box对象本身，</span>
+<span style="color: #000000">    }
+};
+box.saycolor();              </span><span style="color: #008000">//</span><span style="color: #008000">执行对象里面的saycolor()方法</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>this在函数与对象里面的区别</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.color = '红色的';                    <span style="color: #008000">//</span><span style="color: #008000">或者var color = '红色的';也行</span>
+
+<span style="color: #0000ff">var</span> box = {                                <span style="color: #008000">//</span><span style="color: #008000">创建一个对象</span>
+    color : '蓝色的'                       <span style="color: #008000">//</span><span style="color: #008000">定义一个字段</span>
+<span style="color: #000000">};
+
+</span><span style="color: #0000ff">function</span> sayColor() {                     <span style="color: #008000">//</span><span style="color: #008000">创建一个普通函数</span>
+    alert(<span style="color: #0000ff">this</span>.color);                       <span style="color: #008000">//</span><span style="color: #008000">打印this下面的color</span>
+<span style="color: #000000">}
+sayColor();                                </span><span style="color: #008000">//</span><span style="color: #008000">此时执行函数，函数里的this指向的window，所以打印的window.color</span><span style="color: #008000">
+//</span><span style="color: #008000">返回红色的</span>
+<span style="color: #000000">
+box.sayColor </span>= sayColor;                   <span style="color: #008000">//</span><span style="color: #008000">将sayColor()函数，追加到box对象里，此时sayColor()函数里的this就在对象里了，this在对象里指向的就是对象本身</span>
+box.sayColor();                            <span style="color: #008000">//</span><span style="color: #008000">此时执行box对象里的sayColor()函数，打印的就是对象里面的color</span><span style="color: #008000">
+//</span><span style="color: #008000">返回蓝色的</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000">四．<strong>函数属性和方法</strong></span></p>
+<p align="left"><strong>ECMAScript中的函数是对象，因此函数也有属性和方法。每个函数都包含两个属性：length和prototype。其中，length属性表示函数希望接收的命名参数的个数。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>length属性表示函数希望接收的命名参数的个数。</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span><span style="color: #000000"> box(name,age){
+    alert(name </span>+<span style="color: #000000"> age);
+}
+box(</span>5,6); <span style="color: #008000">//</span><span style="color: #008000">执行函数</span>
+<span style="color: #000000">
+alert(box.length); </span><span style="color: #008000">//</span><span style="color: #008000">查看函数希望接收的命名参数的个数</span><span style="color: #008000">
+//</span><span style="color: #008000">返回2</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000" lang="EN-US">prototype属性</span></strong></p>
+<p>&nbsp;</p>
+<p align="left"><strong>PS：对于prototype属性，它是保存所有实例方法的真正所在，也就是原型。这个属性，我们将在面向对象一章详细介绍。而prototype下有两个方法：apply()和call()，每个函数都包含这两个非继承而来的方法。这两个方法的用途都在特定的作用域中调用函数，实际上等于设置函数体内this对象的值。<span style="color: #0000ff">简单一句话理解就是<strong>apply()和call()方法可以冒充一个函数执行</strong></span></strong></p>
+<p align="left"><span style="color: #ff0000"><strong>&nbsp;apply()方法冒充另外一个函数，第一个参数是要冒充的函数的作用域,第二个参数是数组类型的形式参数，用于接收函数的形式参数</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>冒充一个函数，实际上就是将要冒充的函数指向指定的作用域去执行</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> box(num1,num2){       <span style="color: #008000">//</span><span style="color: #008000">原函数</span>
+    <span style="color: #0000ff">return</span> num1 +<span style="color: #000000"> num2;
+}
+alert(box(</span>1,2));  <span style="color: #008000">//</span><span style="color: #008000">执行打印返回数据</span>
+
+<span style="color: #0000ff">function</span> saybox(num1,num2){                     <span style="color: #008000">//</span><span style="color: #008000">冒充box函数执行，实际就是调用了box函数</span>
+    <span style="color: #0000ff">return</span> box.apply(<span style="color: #0000ff">this</span>,[num1,num2]);         <span style="color: #008000">//</span><span style="color: #008000">用apply方法冒充另外一个函数，第一个参数是要冒充的函数的作用域，此时this就是box函数的作用域，this就是window</span>
+                                                 <span style="color: #008000">//</span><span style="color: #008000">第二个参数是数组类型的形式参数，用于接收函数的形式参数</span>
+<span style="color: #000000">}
+alert(saybox(</span>3,4)); <span style="color: #008000">//</span><span style="color: #008000">执行冒充函数</span></pre>
+</div>
+<pre><span style="color: #0000ff"><strong><span style="font-size: 16px">第二个参也可以用arguments属性类接收实际参数</span><br></strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> box(num1,num2){       <span style="color: #008000">//</span><span style="color: #008000">原函数</span>
+    <span style="color: #0000ff">return</span> num1 +<span style="color: #000000"> num2;
+}
+alert(box(</span>1,2));  <span style="color: #008000">//</span><span style="color: #008000">执行打印返回数据</span>
+
+<span style="color: #0000ff">function</span> saybox(num1,num2){                     <span style="color: #008000">//</span><span style="color: #008000">冒充box函数执行，实际就是调用了box函数</span>
+    <span style="color: #0000ff">return</span> box.apply(<span style="color: #0000ff">this</span>,arguments);         <span style="color: #008000">//</span><span style="color: #008000">用apply方法冒充另外一个函数，第一个参数是要冒充的函数的作用域，此时this就是box函数的作用域，this就是window</span>
+                                                 <span style="color: #008000">//</span><span style="color: #008000">第二个参也可以用arguments属性类接收实际参数</span>
+<span style="color: #000000">}
+alert(saybox(</span>3,4)); <span style="color: #008000">//</span><span style="color: #008000">执行冒充函数</span></pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>call()方法于apply()方法相同，他们的区别仅仅在于接收参数的方式不同。对于call()方法而言，第一个参数是作用域，没有变化，变化只是其余的参数都是直接传递给函数的。</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>冒充一个函数，实际上就是将要冒充的函数指向指定的作用域去执行</strong></strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>和apply区别在于后面的传参</strong></span></p>
+<pre></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> box(num1,num2){       <span style="color: #008000">//</span><span style="color: #008000">原函数</span>
+    <span style="color: #0000ff">return</span> num1 +<span style="color: #000000"> num2;
+}
+alert(box(</span>1,2));  <span style="color: #008000">//</span><span style="color: #008000">执行打印返回数据</span>
+
+<span style="color: #0000ff">function</span> saybox(num1,num2){                     <span style="color: #008000">//</span><span style="color: #008000">冒充box函数执行，实际就是调用了box函数</span>
+    <span style="color: #0000ff">return</span> box.call(<span style="color: #0000ff">this</span>,num1,num2);            <span style="color: #008000">//</span><span style="color: #008000">用call方法冒充另外一个函数，第一个参数是要冒充的函数的作用域，此时this就是box函数的作用域，this就是window</span>
+                                                 <span style="color: #008000">//</span><span style="color: #008000">作用域后面的参数是形式参数，原函数有多少个形式参数，就需要写多少个形式参数</span>
+<span style="color: #000000">}
+alert(saybox(</span>3,4)); <span style="color: #008000">//</span><span style="color: #008000">执行冒充函数</span></pre>
+</div>
+<pre></pre>
+<p align="left"><span style="color: #ff0000"><strong>事实上，传递参数并不是apply()和call()方法真正的用武之地；它们经常使用的地方是能够扩展函数赖以运行的作用域。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> color = '红色的';                    <span style="color: #008000">//</span><span style="color: #008000">或者window.color = '红色的';也行</span>
+
+<span style="color: #0000ff">var</span> box =<span style="color: #000000"> {
+    color : </span>'蓝色的'<span style="color: #000000">
+};
+
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> sayColor() {
+    alert(</span><span style="color: #0000ff">this</span><span style="color: #000000">.color);
+}
+sayColor();                            </span><span style="color: #008000">//</span><span style="color: #008000">执行sayColor()函数，此时函数里的this作用域是window，所以打印的是红色</span>
+<span style="color: #000000">
+sayColor.call(</span><span style="color: #0000ff">this</span>);                        <span style="color: #008000">//</span><span style="color: #008000">这句话的意思是冒充this下的sayColor函数执行，作用域在window</span>
+sayColor.call(window);                        <span style="color: #008000">//</span><span style="color: #008000">这句话的意思是冒充window下的sayColor函数执行，作用域在window</span>
+sayColor.call(box);                            <span style="color: #008000">//</span><span style="color: #008000">这句话的意思是冒充box对象下的sayColor函数执行，作用域在box，</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>冒充一个函数，实际上就是将要冒充的函数指向指定的作用域去执行</strong></span></p>
+<p align="left"><strong>这个例子是之前作用域理解的例子修改而成，我们可以发现当我们使用call(box)方法的时候，sayColor()方法的运行环境已经变成了box对象里了。</strong></p>
+<p align="left"><strong>使用call()或者apply()来扩充作用域的最大好处，就是对象不需要与方法发生任何耦合关系(耦合，就是互相关联的意思，扩展和维护会发生连锁反应)。也就是说，box对象和sayColor()方法之间不会有多余的关联操作，比如 box.sayColor = sayColor;也就是不需要将方法追加到对象里</strong></p>
+<pre><span style="color: #0000ff"><strong>&nbsp;</strong></span></pre></div>

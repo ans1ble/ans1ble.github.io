@@ -1,0 +1,242 @@
+第九十三节，html5+css3移动手机端流体布局，基础CSS,头部设计,轮播设计,底部设计
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">html5+css3移动手机端流体布局，基础CSS,头部设计,轮播设计,底部设计</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; font-size: 16px"><strong>基础CSS</strong></span></p>
+<p><span style="color: #000000; font-size: 16px"><strong>首先将通用css属性写好</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8";
+</span><span style="color: #008000">/*</span><span style="color: #008000">通用样式</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">去除所有元素的内外边距</span><span style="color: #008000">*/</span><span style="color: #800000">
+*</span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">去除所有ul里li的小圆点</span><span style="color: #008000">*/</span><span style="color: #800000">
+ul</span>{<span style="color: #ff0000">
+    list-style-type</span>:<span style="color: #0000ff"> none</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">去除所有a的下划线</span><span style="color: #008000">*/</span><span style="color: #800000">
+a</span>{<span style="color: #ff0000">
+    text-decoration</span>:<span style="color: #0000ff"> none</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">将图片转换成区块，将图片最大宽度设置成100%,使图片自适应</span><span style="color: #008000">*/</span><span style="color: #800000">
+img</span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> block</span>;<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 100%</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">通用样式结束</span><span style="color: #008000">*/</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; font-size: 16px"><strong>头部设计</strong></span></p>
+<p><strong>&nbsp;我们用新单位rem就是以根元素挂钩来计算大小，首先将<strong>根元素字体设置成16px作为基准</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">html</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 16px</span>;
+}</pre>
+</div>
+<p><strong>这后面的单位就以这基准的rem就是倍数来计算，<span style="color: #ff0000">区块宽度基本用max-width最大宽度设定和百分比来设置，这样小于这个宽度的也能自适应</span></strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">宽度设置，与rem单位计算</span></strong></p>
+<p><span style="color: #000000"><strong>注意：手机网站，手机屏幕尺寸不一样，宽度不能做绝对宽度，只能用最大宽度和百分比来做，</strong></span></p>
+<p><span style="color: #000000"><strong>rem是与根元素挂钩的，我们的根元素<strong><strong>字体设置成16px作为基准，</strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong>页面最大宽度为640像素</strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong>所以我们设置导航的最大宽度为40ren，换算方式是要设置的宽度像素除以根基准像素，得出的就是rem的单位，（<strong><strong><strong>640除以16=40</strong></strong></strong>），所以导航的最大宽度设置为40rem也就是640像素</strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong>导航高度设置45像素</strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong>就是45除以根基准，（45除以16=2.8125）我们就设置成2.8rem</strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong>&nbsp;</strong></strong></strong></span></p>
+<p><span style="color: #ff0000; font-size: 14pt"><strong><strong><strong><strong>单位计算</strong></strong></strong></strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong><strong><strong><strong>要设置的像素除以根基准=rem单位</strong></strong></strong></strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong><strong><strong><strong>rem单位乘以根基准=像素</strong></strong></strong></strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>换算子元素宽度站父元素宽度的百分之几，子元素宽度除以父元素宽度=子元素宽度站父元素宽度的百分之几</strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>将子元素宽度站父元素宽度的百分之几换算成像素，<strong>父元素的宽度乘以</strong>子元素宽度的百分之几=子元素的像素</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>完成效果：</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161029104832468-1196074714.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><strong>html代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">自适应手机，禁止缩放</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="viewport"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>瓢城旅行社<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="css/index.css"</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">头部导航</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">header </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="dao-hang"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang2"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>瓢城旅行社<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">nav</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>网站导航<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao shou"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="index.html"</span><span style="color: #0000ff">&gt;</span>首页<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>资讯<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>机票<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>关于<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">nav</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">header</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">图片轮播</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="lun-bo"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/adver.png"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">搜索</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="sou-su"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>搜索<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">尾部</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">footer </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="wei-bu"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="wei-bu2"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>客户端 | 触屏版 | 电脑版<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="wei-bu3"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">P</span><span style="color: #0000ff">&gt;</span>Copyright &amp;#169; YCKU 瓢城旅行社 | 苏ICP备120110119号 <span style="color: #0000ff">&lt;/</span><span style="color: #800000">P</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">footer</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>css代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8";
+</span><span style="color: #008000">/*</span><span style="color: #008000">通用样式</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">去除所有元素的内外边距</span><span style="color: #008000">*/</span><span style="color: #800000">
+html</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 16px</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">设置字体</span><span style="color: #008000">*/</span><span style="color: #800000">
+body</span>{<span style="color: #ff0000">
+    font-family</span>:<span style="color: #0000ff"> "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei UI", "Microsoft YaHei", SimHei, "\5B8B\4F53", simsun, sans-serif</span>;
+}<span style="color: #800000">
+*</span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">去除所有ul里li的小圆点</span><span style="color: #008000">*/</span><span style="color: #800000">
+ul</span>{<span style="color: #ff0000">
+    list-style-type</span>:<span style="color: #0000ff"> none</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">去除所有a的下划线</span><span style="color: #008000">*/</span><span style="color: #800000">
+a</span>{<span style="color: #ff0000">
+    text-decoration</span>:<span style="color: #0000ff"> none</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">将图片转换成区块，将图片最大宽度设置成100%,使图片自适应</span><span style="color: #008000">*/</span><span style="color: #800000">
+img</span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> block</span>;<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 100%</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">将边框算在元素尺寸内</span><span style="color: #008000">*/</span><span style="color: #800000">
+div</span>{<span style="color: #ff0000">
+    box-sizing</span>:<span style="color: #0000ff"> border-box</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">通用样式结束</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">头部导航</span><span style="color: #008000">*/</span><span style="color: #800000">
+#dao-hang .dao-hang2</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100%</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2.8rem</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #333333</span>;
+}<span style="color: #800000">
+#dao-hang .dao-hang2 h1</span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> none</span>;
+}<span style="color: #800000">
+#dao-hang .dao-hang2 h2</span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> none</span>;
+}<span style="color: #800000">
+#dao-hang .dao-hang2 ul</span>{<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 40rem</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2.8rem</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #FFFFFF</span>;
+}<span style="color: #800000">
+#dao-hang .dao-hang2 ul li</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 25%</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2.8rem</span>;<span style="color: #ff0000">
+    float</span>:<span style="color: #0000ff"> left</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 2.8rem</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 15px</span>;
+}<span style="color: #800000">
+#dao-hang .dao-hang2 ul li a</span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> block</span>;<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100%</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2.8rem</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #FFFFFF</span>;<span style="color: #ff0000">
+    font-weight</span>:<span style="color: #0000ff"> normal</span>;
+}<span style="color: #800000">
+#dao-hang .dao-hang2 ul li a:hover, #dao-hang .dao-hang2 .shou</span>{<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #000000</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">图片轮播</span><span style="color: #008000">*/</span><span style="color: #800000">
+.lun-bo</span>{<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 40rem</span>;<span style="color: #ff0000">
+    max-height</span>:<span style="color: #0000ff"> 12.5rem</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #3835ff</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">搜索</span><span style="color: #008000">*/</span><span style="color: #800000">
+.sou-su</span>{<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 40rem</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2.5rem</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #DCE1E7</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 7px 0 0 0</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> relative</span>;
+}<span style="color: #800000">
+.sou-su input</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 87%</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 26px</span>;<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> block</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 1px solid #5F89C4</span>;<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 6px</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> relative</span>;<span style="color: #ff0000">
+    outline</span>:<span style="color: #0000ff"> none</span>;
+}<span style="color: #800000">
+.sou-su button</span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> block</span>;<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 50px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 26px</span>;<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 0 6px 6px 0</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 8px</span>;<span style="color: #ff0000">
+    right</span>:<span style="color: #0000ff"> 6.2%</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> none</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #5F89C4</span>;<span style="color: #ff0000">
+    outline</span>:<span style="color: #0000ff"> none</span>;<span style="color: #ff0000">
+    cursor</span>:<span style="color: #0000ff"> pointer</span>;
+}
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">尾部</span><span style="color: #008000">*/</span><span style="color: #800000">
+.wei-bu</span>{<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 40rem</span>;<span style="color: #ff0000">;
+    min-height</span>:<span style="color: #0000ff"> 69px</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #333333</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #6F6F6F</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;
+}<span style="color: #800000">
+.wei-bu .wei-bu2</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100%</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 34px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 34px</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 17px</span>;
+}<span style="color: #800000">
+.wei-bu .wei-bu3</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100%</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 17px</span>;
+}</pre>
+</div>
+<p>&nbsp;</p></div>

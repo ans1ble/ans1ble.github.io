@@ -1,0 +1,860 @@
+第一百零九节，JavaScript面向对象与原型
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="font-size: 18pt; color: #0000ff"><strong>JavaScript面向对象与原型</strong></span></p>
+<p>&nbsp;</p>
+<p align="left"><strong>学习要点：</strong></p>
+<p align="left"><strong>1.学习条件</strong></p>
+<p align="left"><strong>2.创建对象</strong></p>
+<p align="left"><strong>3.原型</strong></p>
+<p align="left"><strong>4.继承</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>ECMAScript有两种开发模式：1.函数式(过程化)，2.面向对象(OOP)。面向对象的语言有一个标志，那就是类的概念，而通过类可以创建任意多个具有相同属性和方法的对象。但是，ECMAScript没有类的概念，因此它的对象也与基于类的语言中的对象有所不同。</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>一．学习条件</strong></span></p>
+<p align="left"><strong>在JavaScript视频课程第一节课，就已经声明过，JavaScript课程需要大量的基础。这里，我们再详细探讨一下：</strong></p>
+<p align="left"><strong>1.xhtml基础：JavaScript方方面面需要用到。</strong></p>
+<p align="left"><strong>2.扣代码基础：比如XHTML,ASP,PHP课程中的项目都有JS扣代码的过程。</strong></p>
+<p align="left"><strong>3.面向对象基础：JS的面向对象是非正统且怪异的，必须有正统面向对象基础。</strong></p>
+<p align="left"><strong>4.以上三大基础，必须是基于项目中掌握的基础，只是学习基础知识不够牢固，必须在项目中掌握上面的基础即可。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>二．创建对象</strong></span></p>
+<p align="left"><strong>创建一个对象，然后给这个对象新建属性和方法。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = <span style="color: #0000ff">new</span> Object();                    <span style="color: #008000">//</span><span style="color: #008000">创建一个Object对象</span>
+box.name = <span style="color: #800000">'</span><span style="color: #800000">Lee</span><span style="color: #800000">'</span>;                        <span style="color: #008000">//</span><span style="color: #008000">创建一个name属性并赋值</span>
+box.age = <span style="color: #800080">100</span>;                            <span style="color: #008000">//</span><span style="color: #008000">创建一个age属性并赋值</span>
+box.run = function () {                    <span style="color: #008000">//</span><span style="color: #008000">创建一个run()方法并返回值</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + <span style="color: #800000">'</span><span style="color: #800000">运行中...</span><span style="color: #800000">'</span><span style="color: #000000">;
+};
+alert(box.run());                        </span><span style="color: #008000">//</span><span style="color: #008000">输出方法的值</span>
+alert(box.name);                        <span style="color: #008000">//</span><span style="color: #008000">输出属性</span></pre>
+</div>
+<p align="left"><strong>上面创建了一个对象，并且创建属性和方法，在run()方法里的this，就是代表box对象本身。这种是JavaScript创建对象最基本的方法，但有个缺点，想创建一个类似的对象，就会产生大量的代码。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = <span style="color: #0000ff">new</span> Object();                    <span style="color: #008000">//</span><span style="color: #008000">创建一个Object对象</span>
+box.name = 'Lee';                        <span style="color: #008000">//</span><span style="color: #008000">创建一个name属性并赋值</span>
+box.age = 100;                            <span style="color: #008000">//</span><span style="color: #008000">创建一个age属性并赋值</span>
+box.run = <span style="color: #0000ff">function</span> () {                    <span style="color: #008000">//</span><span style="color: #008000">创建一个run()方法并返回值</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+};
+alert(box.run());                        </span><span style="color: #008000">//</span><span style="color: #008000">输出方法的值</span>
+alert(box.name);                        <span style="color: #008000">//</span><span style="color: #008000">输出属性</span>
+
+<span style="color: #0000ff">var</span> box2 = box;                        <span style="color: #008000">//</span><span style="color: #008000">得到box的引用</span>
+box2.name = 'Jack';                        <span style="color: #008000">//</span><span style="color: #008000">直接改变了name属性</span>
+alert(box2.run());                        <span style="color: #008000">//</span><span style="color: #008000">用box.run()发现name也改变了</span>
+
+<span style="color: #0000ff">var</span> box2 = <span style="color: #0000ff">new</span><span style="color: #000000"> Object();
+box2.name </span>= 'Jack'<span style="color: #000000">;
+box2.age </span>= 200<span style="color: #000000">;
+box2.run </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+};
+alert(box2.run());                        </span><span style="color: #008000">//</span><span style="color: #008000">这样才避免和box混淆，从而保持独立</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>工厂模式创建对象【推荐】</strong></span></p>
+<p align="left"><strong>为了解决多个类似对象声明的问题，我们可以使用一种叫做工厂模式的方法，这种方法就是为了解决实例化对象产生大量重复的问题。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> createObject(name, age) {        <span style="color: #008000">//</span><span style="color: #008000">集中实例化的函数</span>
+    <span style="color: #0000ff">var</span> obj = <span style="color: #0000ff">new</span> Object();        <span style="color: #008000">//</span><span style="color: #008000">创建一个对象</span>
+    obj.name = name;               <span style="color: #008000">//</span><span style="color: #008000">追加一个属性</span>
+    obj.age = age;                  <span style="color: #008000">//</span><span style="color: #008000">追加一个属性</span>
+    obj.run = <span style="color: #0000ff">function</span> () {        <span style="color: #008000">//</span><span style="color: #008000">追加一个方法</span>
+        <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...';   <span style="color: #008000">//</span><span style="color: #008000">在对象里面的this代表对象本身，对象里的name属性加上age属性</span>
+<span style="color: #000000">    };
+    </span><span style="color: #0000ff">return</span> obj;    <span style="color: #008000">//</span><span style="color: #008000">返回对象</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">var</span> box1 = createObject('Lee', 100);        <span style="color: #008000">//</span><span style="color: #008000">第一个实例</span>
+<span style="color: #0000ff">var</span> box2 = createObject('Jack', 200);        <span style="color: #008000">//</span><span style="color: #008000">第二个实例</span>
+<span style="color: #000000">alert(box1.run());
+alert(box2.run());                        </span><span style="color: #008000">//</span><span style="color: #008000">保持独立</span><span style="color: #008000">
+//</span><span style="color: #008000">以后要构造不同数据的实例，只需要构造一个实例传入不同参数即可，这样减少了大量重复代码</span></pre>
+</div>
+<p align="left"><strong>工厂模式解决了重复实例化的问题，但还有一个问题，那就是识别问题，因为根本无法搞清楚他们到底是哪个对象的实例。所以就有了构造函数</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>构造函数(构造方法)创建对象【重点推荐】</strong></span></p>
+<p align="left"><strong>ECMAScript中可以采用构造函数(构造方法)可用来创建特定的对象。类型于Object对象。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box(name, age) {                <span style="color: #008000">//</span><span style="color: #008000">构造函数模式创建对象</span>
+    <span style="color: #0000ff">this</span>.name = name;             <span style="color: #008000">//</span><span style="color: #008000">构造函数后台会自动new Object()创建对象；数体内的this就代表new Object()出来的对象。</span>
+    <span style="color: #0000ff">this</span>.age = age;               <span style="color: #008000">//</span><span style="color: #008000">向对象追加属性</span>
+    <span style="color: #0000ff">this</span>.run = <span style="color: #0000ff">function</span> () {     <span style="color: #008000">//</span><span style="color: #008000">向对象追加方法</span>
+        <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+    };
+}
+
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span> Box('Lee', 100);            <span style="color: #008000">//</span><span style="color: #008000">注意：构造函数对象实列化必须使用new 运算符，构造函数传参初始化对象数据</span>
+<span style="color: #0000ff">var</span> box2 = <span style="color: #0000ff">new</span> Box('Jack', 200);       <span style="color: #008000">//</span><span style="color: #008000">构造函数传参初始化对象数据</span>
+alert(box1.run());                     <span style="color: #008000">//</span><span style="color: #008000">打印box1对象实列化下的run()方法，</span>
+alert(box1 <span style="color: #0000ff">instanceof</span> Box);                <span style="color: #008000">//</span><span style="color: #008000">很清晰的识别他从属于Box</span></pre>
+</div>
+<p align="left"><strong>使用构造函数的方法，即解决了重复实例化的问题，又解决了对象识别的问题，但问题是，这里并没有new Object()，为什么可以实例化Box()，这个是哪里来的呢？</strong></p>
+<p align="left"><span style="color: #ff00ff"><strong>使用了构造函数的方法，和使用工厂模式的方法他们不同之处如下：</strong></span></p>
+<p align="left"><strong>1.构造函数方法没有显示的创建对象(new Object())；</strong></p>
+<p align="left"><strong>2.直接将属性和方法赋值给this对象；</strong></p>
+<p align="left"><strong>3.没有renturn语句。</strong></p>
+<p align="left"><span style="color: #ff00ff"><strong>构造函数的方法有一些规范：</strong></span></p>
+<p align="left"><strong>1.函数名和实例化构造名相同且大写，(PS：非强制，但这么写有助于区分构造函数和普通函数)；</strong></p>
+<p align="left"><strong>2.通过构造函数创建对象，必须使用new运算符。</strong></p>
+<p align="left"><span style="color: #ff00ff"><strong>既然通过构造函数可以创建对象，那么这个对象是哪里来的，new Object()在什么地方执行了？执行的过程如下：</strong></span></p>
+<p align="left"><strong>1.当使用了构造函数，并且new 构造函数()，那么就后台执行了new Object()；</strong></p>
+<p align="left"><strong>2.将构造函数的作用域给新对象，(即new Object()创建出的对象)，而函数体内的this就代表new Object()出来的对象。</strong></p>
+<p align="left"><strong>3.执行构造函数内的代码；</strong></p>
+<p align="left"><strong>4.返回新对象(后台直接返回)。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong><strong><strong><strong>this</strong></strong>关于this的使用</strong></strong></span></p>
+<p align="left"><strong>关于this的使用，this其实就是代表当前作用域对象的引用。如果在全局范围this就代表window对象，如果在构造函数体内，就代表当前的构造函数所声明的对象。如果是在对象内，就代表当前对象</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 2<span style="color: #000000">;
+alert(</span><span style="color: #0000ff">this</span>.box);                            <span style="color: #008000">//</span><span style="color: #008000">全局，代表window</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><strong><span style="color: #ff0000">构造函数和普通函数的唯一区别，就是他们调用的方式不同。只不过，构造函数也是函数，必须用new运算符来调用，否则就是普通函数。</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box(name, age) {                <span style="color: #008000">//</span><span style="color: #008000">构造函数模式创建对象</span>
+    <span style="color: #0000ff">this</span>.name = name;             <span style="color: #008000">//</span><span style="color: #008000">构造函数后台会自动new Object()创建对象；数体内的this就代表new Object()出来的对象。</span>
+    <span style="color: #0000ff">this</span>.age = age;               <span style="color: #008000">//</span><span style="color: #008000">向对象追加属性</span>
+    <span style="color: #0000ff">this</span>.run = <span style="color: #0000ff">function</span> () {     <span style="color: #008000">//</span><span style="color: #008000">向对象追加方法</span>
+        <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+    };
+}
+
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span> Box('Lee', 100);            <span style="color: #008000">//</span><span style="color: #008000">注意：构造函数对象实列化必须使用new 运算符，构造函数传参初始化对象数据</span>
+<span style="color: #0000ff">var</span> box2 = <span style="color: #0000ff">new</span> Box('Jack', 200);       <span style="color: #008000">//</span><span style="color: #008000">构造函数传参初始化对象数据</span>
+alert(box1.run());                     <span style="color: #008000">//</span><span style="color: #008000">打印box1对象实列化下的run()方法，</span>
+
+
+<span style="color: #0000ff">var</span> box3 = <span style="color: #0000ff">new</span> Box('Lee', 100);            <span style="color: #008000">//</span><span style="color: #008000">构造模式调用</span>
+alert(box3.run());                      <span style="color: #008000">//</span><span style="color: #008000">打印box3对象实列化下的run()方法，</span>
+<span style="color: #000000">
+Box(</span>'Lee', 20);                            <span style="color: #008000">//</span><span style="color: #008000">普通模式调用，无效</span>
+
+<span style="color: #0000ff">var</span> o = <span style="color: #0000ff">new</span> Object();        <span style="color: #008000">//</span><span style="color: #008000">创建一个对象</span>
+Box.call(o, '林贵秀', 200);                    <span style="color: #008000">//</span><span style="color: #008000">o对象冒充Box构造函数调用</span>
+alert(o.run());           <span style="color: #008000">//</span><span style="color: #008000">打印Box构造函数里的run()方法</span></pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><strong><span style="color: #ff0000">探讨构造函数内部的方法(或函数)的问题，首先看下两个实例化后的属性或方法是否相等。</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box(name, age) {                <span style="color: #008000">//</span><span style="color: #008000">构造函数模式创建对象</span>
+    <span style="color: #0000ff">this</span>.name = name;             <span style="color: #008000">//</span><span style="color: #008000">构造函数后台会自动new Object()创建对象；数体内的this就代表new Object()出来的对象。</span>
+    <span style="color: #0000ff">this</span>.age = age;               <span style="color: #008000">//</span><span style="color: #008000">向对象追加属性</span>
+    <span style="color: #0000ff">this</span>.run = <span style="color: #0000ff">function</span> () {     <span style="color: #008000">//</span><span style="color: #008000">向对象追加方法</span>
+        <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+    };
+}
+
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span> Box('Lee', 100);            <span style="color: #008000">//</span><span style="color: #008000">注意：构造函数对象实列化必须使用new 运算符，构造函数传参初始化对象数据</span>
+<span style="color: #0000ff">var</span> box2 = <span style="color: #0000ff">new</span> Box('Lee', 100);       <span style="color: #008000">//</span><span style="color: #008000">构造函数传参初始化对象数据</span>
+<span style="color: #000000">
+alert(box1.name </span>== box2.name);            <span style="color: #008000">//</span><span style="color: #008000">true，属性的值相等</span>
+alert(box1.run == box2.run);                <span style="color: #008000">//</span><span style="color: #008000">false，方法其实也是一种引用地址</span>
+alert(box1.run() == box2.run());            <span style="color: #008000">//</span><span style="color: #008000">true，方法的值相等，因为传参一致</span></pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>可以把构造函数里的方法(或函数)用new Function()方法来代替，得到一样的效果，更加证明，他们最终判断的是引用地址，唯一性。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box(name, age) {                <span style="color: #008000">//</span><span style="color: #008000">new Function()唯一性</span>
+    <span style="color: #0000ff">this</span>.name =<span style="color: #000000"> name;
+    </span><span style="color: #0000ff">this</span>.age =<span style="color: #000000"> age;
+    </span><span style="color: #0000ff">this</span>.run = <span style="color: #0000ff">new</span> Function("return this.name + this.age + '运行中...'"<span style="color: #000000">);
+}</span></pre>
+</div>
+<p align="left"><strong>我们可以通过构造函数外面绑定同一个函数的方法来保证引用地址的一致性，但这种做法没什么必要，只是加深学习了解：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span><span style="color: #000000"> Box(name, age) {
+    </span><span style="color: #0000ff">this</span>.name =<span style="color: #000000"> name;
+    </span><span style="color: #0000ff">this</span>.age =<span style="color: #000000"> age;
+    </span><span style="color: #0000ff">this</span>.run =<span style="color: #000000"> run;
+}
+
+</span><span style="color: #0000ff">function</span> run() {                        <span style="color: #008000">//</span><span style="color: #008000">通过外面调用，保证引用地址一致</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+}</span></pre>
+</div>
+<p align="left"><strong>虽然使用了全局的函数run()来解决了保证引用地址一致的问题，但这种方式又带来了一个新的问题，全局中的this在对象调用的时候是Box本身，而当作普通函数调用的时候，this又代表window。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>三．prototype</strong><strong>原型</strong></span></p>
+<p align="left"><strong>我们<span style="color: #0000ff">创建的每个函数都有一个prototype(原型)属性，这个属性是一个对象</span>，它的用途是包含可以由特定类型的所有实例共享的属性和方法。<span style="color: #0000ff">逻辑上可以这么理解：prototype通过调用构造函数而创建的那个对象的原型对象</span>。使用原型的好处可以让所有对象实例共享它所包含的属性和方法。也就是说，不必在构造函数中定义对象信息，而是可以直接将这些信息添加到原型中</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>prototype原型创建对象</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+<span style="color: #000000">
+Box.prototype.name </span>= 'Lee';                    <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.age = 100;                   <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.run = <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">在原型里添加方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+};
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span> Box();  <span style="color: #008000">//</span><span style="color: #008000">实列化对象</span>
+alert(box1.run());    <span style="color: #008000">//</span><span style="color: #008000">打印执行对象里的run方法</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>比较一下原型内的方法地址是否一致：</strong></span></p>
+<p align="left">&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+<span style="color: #000000">
+Box.prototype.name </span>= 'Lee';                    <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.age = 100;                   <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.run = <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">在原型里添加方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+};
+
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span> Box();  <span style="color: #008000">//</span><span style="color: #008000">实列化对象1</span>
+<span style="color: #0000ff">var</span> box2 = <span style="color: #0000ff">new</span> Box();  <span style="color: #008000">//</span><span style="color: #008000">实列化对象2</span>
+alert(box1.run == box2.run);                    <span style="color: #008000">//</span><span style="color: #008000">true，方法的引用地址保持一致</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>ps:由此可以看出，构造对象函数的实列的方法地址是不一样的，而原型函数构造对象的实列的方法地址是一样的</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>为了更进一步了解构造函数的声明方式和原型模式的声明方式，我们通过图示来了解一下：</strong></span></p>
+<p style="text-align: left" align="center"><span style="color: #ff0000"><strong>构造函数方式：原理图</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201611/955761-20161111172917889-957745745.png" alt=""></p>
+<p style="text-align: left" align="center"><span style="color: #ff0000"><strong>原型模式方式：原理图</strong></span></p>
+<p style="text-align: left" align="center"><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201611/955761-20161111173040452-1304134606.png" alt=""></strong></span></p>
+<p style="text-align: left" align="center">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>原型模式的执行流程：</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>1.先查找构造函数实例里的属性或方法，如果有，立刻返回；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>2.如果构造函数实例里没有，则去它的原型对象里找，如果有，就返回；</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>在原型模式声明中，多了两个属性，这两个属性都是创建对象时自动生成的。__proto__属性是实例指向原型对象的一个指针，它的作用就是指向构造函数的原型属性constructor。通过这两个属性，就可以访问到原型里的属性和方法了。</strong></p>
+<p><span style="color: #ff0000"><strong>__proto__构造对象函数里内部指向原型的指针</strong></span></p>
+<p align="left"><strong>PS：IE浏览器在脚本访问__proto__会不能识别，火狐和谷歌浏览器及其他某些浏览器均能识别。虽然可以输出，但无法获取内部信息。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+<span style="color: #000000">
+Box.prototype.name </span>= 'Lee';                    <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.age = 100;                   <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.run = <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">在原型里添加方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+};
+
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span> Box();  <span style="color: #008000">//</span><span style="color: #008000">实列化对象1</span>
+alert(box1.__proto__);                        <span style="color: #008000">//</span><span style="color: #008000">[object Object]，__proto__构造对象函数里内部指向原型的指针</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>constructor原型属性，指向的构造函数本身</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+<span style="color: #000000">
+Box.prototype.name </span>= 'Lee';                    <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.age = 100;                   <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.run = <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">在原型里添加方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+};
+
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span> Box();  <span style="color: #008000">//</span><span style="color: #008000">实列化对象1</span>
+alert(box1.constructor);                        <span style="color: #008000">//</span><span style="color: #008000">constructor原型属性，指向的构造函数本身</span><span style="color: #008000">
+//</span><span style="color: #008000">返回构造函数本身</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>isPrototypeOf()方法测试判断一个对象的实列，是否指向了对象的原型【有参实列名称】返回布尔值</strong></span></p>
+<p><strong>使用方法：</strong><br><strong>对象名称(对象构造函数).prototype.isPrototypeOf(实列名称)</strong></p>
+<p><span style="color: #0000ff"><strong>一般只要实列化了会自动指向对象的原型</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+<span style="color: #000000">
+Box.prototype.name </span>= 'Lee';                    <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.age = 100;                   <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.run = <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">在原型里添加方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+};
+
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span> Box();  <span style="color: #008000">//</span><span style="color: #008000">实列化对象1</span>
+alert(Box.prototype.isPrototypeOf(box1));<span style="color: #008000">//</span><span style="color: #008000">isPrototypeOf()方法测试判断一个对象的实列，是否指向了对象的原型</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>虽然我们可以通过对象实例访问保存在原型中的值，但却不能访问通过对象实例重写原型中的值。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+<span style="color: #000000">
+Box.prototype.name </span>= 'Lee';                    <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.age = 100;                   <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.run = <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">在原型里添加方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+};
+
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span> Box();                      <span style="color: #008000">//</span><span style="color: #008000">实列化对象1</span>
+alert(box1.name);                            <span style="color: #008000">//</span><span style="color: #008000">Lee，原型里的值</span>
+box1.name = 'Jack';                         <span style="color: #008000">//</span><span style="color: #008000">在对象里追加一个相同的属性</span>
+alert(box1.name);                            <span style="color: #008000">//</span><span style="color: #008000">Jack，就近原则，</span>
+
+<span style="color: #0000ff">var</span> box2 = <span style="color: #0000ff">new</span> Box();                        <span style="color: #008000">//</span><span style="color: #008000">实列化对象2</span>
+alert(box2.name);                            <span style="color: #008000">//</span><span style="color: #008000">Lee，原型里的值，没有被box1修改</span></pre>
+</div>
+<p style="text-align: left" align="center"><span style="color: #ff0000"><strong>构造函数实例属性和原型属性示意图</strong></span></p>
+<p style="text-align: left" align="center"><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201611/955761-20161111232626670-1617679811.png" alt=""></strong></span></p>
+<p style="text-align: left" align="center">&nbsp;</p>
+<p style="text-align: left" align="center"><span style="color: #ff0000"><strong>delete删除对象里的属性</strong></span></p>
+<p align="left"><strong>如果想要box1也能在后面继续访问到原型里的值，可以把构造函数里的属性删除即可，具体如下：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+<span style="color: #000000">
+Box.prototype.name </span>= 'Lee';                    <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.age = 100;                   <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.run = <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">在原型里添加方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+};
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span> Box();                      <span style="color: #008000">//</span><span style="color: #008000">实列化对象1</span>
+alert(box1.name);                            <span style="color: #008000">//</span><span style="color: #008000">Lee，原型里的值</span>
+box1.name = 'Jack';                         <span style="color: #008000">//</span><span style="color: #008000">在对象里追加一个相同的属性</span>
+
+<span style="color: #0000ff">delete</span> box1.name;                          <span style="color: #008000">//</span><span style="color: #008000">删除对象里添加的name属性</span>
+<span style="color: #000000">
+alert(box1.name);                            </span><span style="color: #008000">//</span><span style="color: #008000">还是返回Lee，说明对象里新添加的属性被删除了</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>hasOwnProperty()函数，判断对象的属性或者方法，是在构造函数的实列里，还是在原型里，返回布尔值，实列里返回true，否则返回false</strong></span><br><span style="color: #0000ff"><strong>使用方法：</strong></span><br><span style="color: #0000ff"><strong>对象名称(构造对象函数名称).hasOwnProperty('对象属性');</strong></span></p>
+<p align="left"><strong>如何判断属性是在构造函数的实例里，还是在原型里？可以使用hasOwnProperty()函数来验证：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+<span style="color: #000000">
+Box.prototype.name </span>= 'Lee';                    <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.age = 100;                   <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.run = <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">在原型里添加方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+};
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span> Box();                      <span style="color: #008000">//</span><span style="color: #008000">实列化对象1</span>
+alert(box1.name);                            <span style="color: #008000">//</span><span style="color: #008000">Lee，原型里的值</span>
+<span style="color: #000000">
+alert(box1.hasOwnProperty(</span>'name'));        <span style="color: #008000">//</span><span style="color: #008000">返回false，说明name属性在原型里</span>
+alert(box1.hasOwnProperty('run'));         <span style="color: #008000">//</span><span style="color: #008000">返回false，说明run方法在原型里</span>
+<span style="color: #000000">
+box1.name </span>= 'Jack';                         <span style="color: #008000">//</span><span style="color: #008000">在对象里追加一个相同的属性</span>
+alert(box1.hasOwnProperty('name'));         <span style="color: #008000">//</span><span style="color: #008000">返回true，在对象里新追加了name属性，按照就近原则，此时判断的属性在构造函数的实列里</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>in判断对象的属性是否存在，只要存在不管是在实列中还是在原型中都返回true，实列和原型中都没有就返回false</strong></span></p>
+<p><strong>使用方法：</strong><br><strong>'对象属性名称' in Box</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+<span style="color: #000000">
+Box.prototype.name </span>= 'Lee';                    <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.age = 100;                   <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.run = <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">在原型里添加方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+};
+alert(</span>'name' <span style="color: #0000ff">in</span> Box);       <span style="color: #008000">//</span><span style="color: #008000">返回true，说明对象存在这个属性</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>自定义函数判断对象属性是否只存在原型中</strong></span></p>
+<p><span style="color: #000000"><strong>我们可以通过<strong>hasOwnProperty()</strong>方法检测属性是否存在实例中，也可以通过in来判断实例或原型中是否存在属性。那么结合这两种方法，可以判断原型中是否存在属性。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+<span style="color: #000000">
+Box.prototype.name </span>= 'Lee';                    <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.age = 100;                   <span style="color: #008000">//</span><span style="color: #008000">在原型里添加属性</span>
+Box.prototype.run = <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">在原型里添加方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+};
+
+</span><span style="color: #008000">//</span><span style="color: #008000">自定义函数判断对象属性是否只存在原型中</span>
+<span style="color: #0000ff">function</span> panduan(shlh,mch){   <span style="color: #008000">//</span><span style="color: #008000">接收两个参数，第一个实列化对象名称，第二个要判断的对象属性</span>
+    <span style="color: #0000ff">return</span> !shlh.hasOwnProperty(mch) &amp;&amp; (mch <span style="color: #0000ff">in</span> shlh); <span style="color: #008000">//</span><span style="color: #008000">当实列对象里不存在这个属性，并且原型中存在时返回</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span><span style="color: #000000"> Box();
+alert(panduan(box1,</span>'name')); <span style="color: #008000">//</span><span style="color: #008000">执行判断函数，返回true，说明属性在原型中</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>字面量方式创建原型</strong></span></p>
+<p align="left"><strong>为了让属性和方法更好的体现封装的效果，并且减少不必要的输入，原型的创建可以使用字面量的方式：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+Box.prototype = {                        <span style="color: #008000">//</span><span style="color: #008000">使用字面量的方式创建原型</span>
+    name : 'Lee'<span style="color: #000000">,
+    age : </span>100<span style="color: #000000">,
+    run : </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+    }
+};
+
+</span><span style="color: #0000ff">var</span> box1 = <span style="color: #0000ff">new</span> Box();   <span style="color: #008000">//</span><span style="color: #008000">实列化对象</span>
+alert(box1.run());    <span style="color: #008000">//</span><span style="color: #008000">打印对象下面的run方法</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>字面量方式创建原型与追加原型的区别</strong></span></p>
+<p align="left"><strong>使用构造函数创建原型对象和使用字面量创建对象在使用上基本相同，但还是有一些区别，字面量创建的方式使用constructor属性不会指向实例，而会指向Object，构造函数创建的方式则相反。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">字面量方式创建原型</span>
+<span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+Box.prototype = {                        <span style="color: #008000">//</span><span style="color: #008000">使用字面量的方式创建原型，相当于新创建了一个Object对象</span>
+    name : 'Lee'<span style="color: #000000">,
+    age : </span>100<span style="color: #000000">,
+    run : </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+    }
+};
+
+</span><span style="color: #0000ff">var</span> box = <span style="color: #0000ff">new</span> Box();   <span style="color: #008000">//</span><span style="color: #008000">实列化对象</span>
+alert(box <span style="color: #0000ff">instanceof</span> Box);   <span style="color: #008000">//</span><span style="color: #008000">判断box实列化是否是Box对象类型</span><span style="color: #008000">
+//</span><span style="color: #008000">返回true</span>
+alert(box <span style="color: #0000ff">instanceof</span> Object);   <span style="color: #008000">//</span><span style="color: #008000">判断box实列化是否是Object对象类型</span><span style="color: #008000">
+//</span><span style="color: #008000">返回true</span>
+alert(box.constructor == Box);      <span style="color: #008000">//</span><span style="color: #008000">判断box实列化的原型constructor属性是否等于Box对象，也就是原型constructor属性是否指向Box对象</span><span style="color: #008000">
+//</span><span style="color: #008000">返回false</span>
+alert(box.constructor == Object);  <span style="color: #008000">//</span><span style="color: #008000">判断box实列化的原型constructor属性是否等于Object对象，也就是原型constructor属性是否指向Object对象</span><span style="color: #008000">
+//</span><span style="color: #008000">返回true</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">由此可以说明：字面量方式创建原型，原型的constructor属性不是指向构造函数的，是指向构造函数里面，字面量新建的Object对象</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>PS：字面量方式为什么constructor会指向Object？因为Box.prototype={};这种写法其实就是创建了一个新对象。而每创建一个函数，就会同时创建它prototype，这个对象也会自动获取constructor属性。所以，新对象的constructor重写了Box原来的constructor，因此会指向新对象，那个新对象没有指定构造函数，那么就默认为Object。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>字面量方式创建原型,将原型的constructor属性强制指向实列对象(构建对象函数)</strong></span></p>
+<p align="left"><strong>如果想让字面量方式的constructor指向实例对象，那么可以这么做：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">字面量方式创建原型</span>
+<span style="color: #0000ff">function</span> Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据</span>
+                                            <span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+Box.prototype = {                        <span style="color: #008000">//</span><span style="color: #008000">使用字面量的方式创建原型，相当于新创建了一个Object对象</span>
+    constructor:Box,              <span style="color: #008000">//</span><span style="color: #008000">字面量方式创建原型,将原型的constructor属性强制指向实列对象(构建对象函数)</span>
+    name : 'Lee'<span style="color: #000000">,
+    age : </span>100<span style="color: #000000">,
+    run : </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+    }
+};
+
+</span><span style="color: #0000ff">var</span> box = <span style="color: #0000ff">new</span> Box();   <span style="color: #008000">//</span><span style="color: #008000">实列化对象</span>
+alert(box <span style="color: #0000ff">instanceof</span> Box);   <span style="color: #008000">//</span><span style="color: #008000">判断box实列化是否是Box对象类型</span><span style="color: #008000">
+//</span><span style="color: #008000">返回true</span>
+alert(box <span style="color: #0000ff">instanceof</span> Object);   <span style="color: #008000">//</span><span style="color: #008000">判断box实列化是否是Object对象类型</span><span style="color: #008000">
+//</span><span style="color: #008000">返回true</span>
+alert(box.constructor == Box);      <span style="color: #008000">//</span><span style="color: #008000">判断box实列化的原型constructor属性是否等于Box对象，也就是原型constructor属性是否指向Box对象</span><span style="color: #008000">
+//</span><span style="color: #008000">返回true</span>
+alert(box.constructor == Object);  <span style="color: #008000">//</span><span style="color: #008000">判断box实列化的原型constructor属性是否等于Object对象，也就是原型constructor属性是否指向Object对象</span><span style="color: #008000">
+//</span><span style="color: #008000">返回false</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">由此可以说明：字面量方式创建原型，将原型的constructor属性强制指向实列对象(构建对象函数)，也就是原型constructor属性不在指向Object对象</span></pre>
+</div>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>原型的声明是有先后顺序的，所以，重写的原型会切断之前的原型。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {};         <span style="color: #008000">//</span><span style="color: #008000">构造对象函数</span>
+<span style="color: #000000">
+Box.prototype </span>= {            <span style="color: #008000">//</span><span style="color: #008000">构造原型</span>
+    constructor : Box,      <span style="color: #008000">//</span><span style="color: #008000">将原型强制指向构造函数</span>
+    name : 'Lee'<span style="color: #000000">,
+    age : </span>100<span style="color: #000000">,
+    run : </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+    }
+};
+
+</span><span style="color: #008000">//</span><span style="color: #008000">重写构造原型</span>
+Box.prototype =<span style="color: #000000"> {
+    age : </span>200<span style="color: #000000">
+};                        </span><span style="color: #008000">//</span><span style="color: #008000">注意：只要重写了构造原型，就会截断原来的构造原型，下面的实列化就访问不了原来的原型了</span>
+
+<span style="color: #0000ff">var</span> box = <span style="color: #0000ff">new</span> Box();                        <span style="color: #008000">//</span><span style="color: #008000">实列化对象</span>
+alert(box.run());                            <span style="color: #008000">//</span><span style="color: #008000">打印实列化对象里的run方法，因为原型被重写了，重写的原型里没有run方法，报错</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000"><strong>内置的引用类型都可以使用原型，</strong>也就是说js的各种数据类型就是一个对象，所以数据类型对象也是可以使用原型的，比如：String字符串类型，Array数组类型等，这些类型的方法就是它本身对象的原型方法</span></strong></p>
+<p><span style="color: #000000"><strong><strong>原型对象不仅仅可以在自定义对象的情况下使用，而ECMAScript内置的引用类型都可以使用这种方式，并且内置的引用类型本身也使用了原型。</strong></strong></span></p>
+<p><strong><span style="color: #ff0000">prototype查看一个方法是否是一个类型对象的原型，</span></strong></p>
+<p><strong>使用方式：</strong><br><strong>类型对象名称.prototype.要查询的方法</strong></p>
+<div class="cnblogs_code">
+<pre>alert(Array.prototype.sort);                    <span style="color: #008000">//</span><span style="color: #008000">sort就是Array类型的原型方法</span>
+alert(String.prototype.substring);                <span style="color: #008000">//</span><span style="color: #008000">substring就是String类型的原型方法</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>使用对象原型给内置数据类型拓展方法，比如字符串类型对象</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">给字符串对象添加一个原型方法</span>
+String.prototype.addstring = <span style="color: #0000ff">function</span> () {        <span style="color: #008000">//</span><span style="color: #008000">给String字符串类型添加一个addstring方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span> + '，被添加了！';                <span style="color: #008000">//</span><span style="color: #008000">this代表调用的字符串</span>
+<span style="color: #000000">};
+
+alert(</span>'Lee'.addstring());                        <span style="color: #008000">//</span><span style="color: #008000">使用这个方法</span></pre>
+</div>
+<p align="left"><strong>PS：尽管给原生的内置引用类型添加方法使用起来特别方便，但我们不推荐使用这种方法。因为它可能会导致命名冲突，不利于代码维护。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>原型的缺点和优点</strong></span></p>
+<p align="left"><strong>原型模式创建对象也有自己的缺点，它省略了构造函数传参初始化这一过程，带来的缺点就是初始化的值都是一致的。而原型最大的缺点就是它最大的优点，那就是共享。</strong></p>
+<p align="left"><strong>原型中所有属性是被很多实例共享的，共享对于函数非常合适，对于包含基本值的属性也还可以。但如果属性包含引用类型，就存在一定的问题：</strong></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>原型的优点</strong></strong></span></p>
+<p align="left"><strong>原型的优点就是数据共享，只要在原型里设置一次数据，其他的实列化都共享原型里的数据</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">字面量方式创建原型</span>
+function Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据
+                                            </span><span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+Box.prototype = {                        <span style="color: #008000">//</span><span style="color: #008000">使用字面量的方式创建原型，相当于新创建了一个Object对象</span>
+    constructor:Box,              <span style="color: #008000">//</span><span style="color: #008000">字面量方式创建原型,将原型的constructor属性强制指向实列对象(构建对象函数)</span>
+    name : <span style="color: #800000">'</span><span style="color: #800000">Lee</span><span style="color: #800000">'</span><span style="color: #000000">,
+    age : </span><span style="color: #800080">100</span><span style="color: #000000">,
+    asdc : [</span><span style="color: #800000">'</span><span style="color: #800000">哥哥</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">姐姐</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">妹妹</span><span style="color: #800000">'</span>]  <span style="color: #008000">//</span><span style="color: #008000">原型里添加一个数组</span>
+<span style="color: #000000">};
+
+</span><span style="color: #0000ff">var</span> a1 = <span style="color: #0000ff">new</span> Box();  <span style="color: #008000">//</span><span style="color: #008000">实列化对象1</span>
+alert(a1.asdc); <span style="color: #008000">//</span><span style="color: #008000">打印实列化1对里的数字
+</span><span style="color: #008000">//</span><span style="color: #008000">返回：哥哥,姐姐,妹妹</span>
+
+<span style="color: #0000ff">var</span> a2 = <span style="color: #0000ff">new</span> Box();<span style="color: #008000">//</span><span style="color: #008000">实列化对象2</span>
+alert(a2.asdc);<span style="color: #008000">//</span><span style="color: #008000">打印实列化2对里的数字
+
+</span><span style="color: #008000">//</span><span style="color: #008000">由此可见，原型的优点就是数据共享，只要在原型里设置一次数据，其他的实列化都共享原型里的数据</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong><strong>原型的缺点</strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong>原型数据是共享的无法保证每个实列化的数据独立，因为原型是共享的，有一个实列改变了原型数据，后面的实列也随之共享了改变后的数据</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">字面量方式创建原型</span>
+function Box() {}                            <span style="color: #008000">//</span><span style="color: #008000">声明一个构造对象函数，没有初始化数据
+                                            </span><span style="color: #008000">//</span><span style="color: #008000">每一个函数都有一个原型对象prototype，向原型对象添加数据时，构造对象函数会调用原型对象数据</span>
+Box.prototype = {                        <span style="color: #008000">//</span><span style="color: #008000">使用字面量的方式创建原型，相当于新创建了一个Object对象</span>
+    constructor:Box,              <span style="color: #008000">//</span><span style="color: #008000">字面量方式创建原型,将原型的constructor属性强制指向实列对象(构建对象函数)</span>
+    name : <span style="color: #800000">'</span><span style="color: #800000">Lee</span><span style="color: #800000">'</span><span style="color: #000000">,
+    age : </span><span style="color: #800080">100</span><span style="color: #000000">,
+    asdc : [</span><span style="color: #800000">'</span><span style="color: #800000">哥哥</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">姐姐</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">妹妹</span><span style="color: #800000">'</span>]  <span style="color: #008000">//</span><span style="color: #008000">原型里添加一个数组</span>
+<span style="color: #000000">};
+
+</span><span style="color: #0000ff">var</span> a1 = <span style="color: #0000ff">new</span> Box();  <span style="color: #008000">//</span><span style="color: #008000">实列化对象1</span>
+alert(a1.asdc); <span style="color: #008000">//</span><span style="color: #008000">打印实列化1对里的数字
+</span><span style="color: #008000">//</span><span style="color: #008000">返回：哥哥,姐姐,妹妹</span>
+
+<span style="color: #0000ff">var</span> a2 = <span style="color: #0000ff">new</span> Box();<span style="color: #008000">//</span><span style="color: #008000">实列化对象2</span>
+a2.asdc.push(<span style="color: #800000">'</span><span style="color: #800000">弟弟</span><span style="color: #800000">'</span>);<span style="color: #008000">//</span><span style="color: #008000">向原型里的数组添加一个元素</span>
+alert(a2.asdc);<span style="color: #008000">//</span><span style="color: #008000">打印实列化2对里的数字
+</span><span style="color: #008000">//</span><span style="color: #008000">返回：哥哥,姐姐,妹妹,弟弟</span>
+<span style="color: #000000">
+alert(a1.asdc);</span><span style="color: #008000">//</span><span style="color: #008000">此时打印实列化1也添加了数据了，因为原型是共享的，有一个实列改变了原型数据，后面的实列也随之共享了改变后的数据
+
+</span><span style="color: #008000">//</span><span style="color: #008000">由此可见，实列化1也添加了数据了，因为原型是共享的，有一个实列改变了原型数据，后面的实列也随之共享了改变后的数据</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：数据共享的缘故，导致很多开发者放弃使用原型，因为每次实例化出的数据需要保留自己的特性，而不能共享。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong><strong>组合构造函数+原型模式</strong>：<strong>也就是不共享的数据使用构造函数，共享的数据使用原型</strong></strong></span></p>
+<p align="left"><strong style="line-height: 1.5">为了解决构造传参和共享问题，可以组合构造函数+原型模式：</strong></p>
+<div class="cnblogs_code">
+<pre>function Box(name, age) {                    <span style="color: #008000">//</span><span style="color: #008000">不共享的使用构造函数</span>
+    <span style="color: #0000ff">this</span>.name = name;               <span style="color: #008000">//</span><span style="color: #008000">将传参添加到对象属性</span>
+    <span style="color: #0000ff">this</span>.age = age;                 <span style="color: #008000">//</span><span style="color: #008000">将传参添加到对象属性</span>
+    <span style="color: #0000ff">this</span>. family = [<span style="color: #800000">'</span><span style="color: #800000">父亲</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">母亲</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">妹妹</span><span style="color: #800000">'</span><span style="color: #000000">];
+}
+</span><span style="color: #008000">//</span><span style="color: #008000">字面量方式创建原型</span>
+Box.prototype = {                            <span style="color: #008000">//</span><span style="color: #008000">共享的使用原型模式</span>
+<span style="color: #000000">    constructor : Box,
+    run : function () {
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #800000">'</span><span style="color: #800000">,</span><span style="color: #800000">'</span> +<span style="color: #0000ff">this</span>.age + <span style="color: #800000">'</span><span style="color: #800000">,</span><span style="color: #800000">'</span> + <span style="color: #800000">'</span><span style="color: #800000">家庭成员</span><span style="color: #800000">'</span> + <span style="color: #800000">'</span><span style="color: #800000">,</span><span style="color: #800000">'</span> + <span style="color: #0000ff">this</span><span style="color: #000000">.family;
+    }
+};
+
+</span><span style="color: #0000ff">var</span> a1 = <span style="color: #0000ff">new</span> Box(<span style="color: #800000">'</span><span style="color: #800000">小明</span><span style="color: #800000">'</span>,<span style="color: #800080">20</span>); <span style="color: #008000">//</span><span style="color: #008000">传参实列化对象1</span>
+alert(a1.run()); <span style="color: #008000">//</span><span style="color: #008000">打印实列对象1里的原型方法
+</span><span style="color: #008000">//</span><span style="color: #008000">返回：小明,20,家庭成员,父亲,母亲,妹妹</span>
+
+<span style="color: #0000ff">var</span> a2 = <span style="color: #0000ff">new</span> Box(<span style="color: #800000">'</span><span style="color: #800000">小张</span><span style="color: #800000">'</span>,<span style="color: #800080">30</span>);<span style="color: #008000">//</span><span style="color: #008000">传参实列化对象2</span>
+alert(a2.run());<span style="color: #008000">//</span><span style="color: #008000">打印实列对象2里的原型方法
+</span><span style="color: #008000">//</span><span style="color: #008000">返回：小张,30,家庭成员,父亲,母亲,妹妹</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：这种混合模式很好的解决了传参和引用共享的大难题。是创建对象比较好的方法。</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>&nbsp;</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>动态原型模式</strong>。也就是将原型封装到构造函数里【重点推荐】</strong></span></p>
+<p align="left"><span style="color: #000000"><strong>构造函数+原型部分让人感觉又很怪异，最好就是把构造函数和原型封装到一起。为了解决这个问题，我们可以使用<strong>动态原型模式</strong>。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box(name ,age) {                    <span style="color: #008000">//</span><span style="color: #008000">将所有信息封装到函数体内</span>
+    <span style="color: #0000ff">this</span>.name = name;                 <span style="color: #008000">//</span><span style="color: #008000">添加对象属性</span>
+    <span style="color: #0000ff">this</span>.age = age;                   <span style="color: #008000">//</span><span style="color: #008000">添加对象属性</span>
+
+      <span style="color: #008000">//</span><span style="color: #008000">将原型封装到构造函数里</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> <span style="color: #0000ff">this</span>.run != 'function') {            <span style="color: #008000">//</span><span style="color: #008000">仅在第一次调用的初始化，判断run不等于方法的时候，才创建原型方法，避免每次实列都创建方法</span>
+        Box.prototype.run = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+        };
+    }
+}
+
+</span><span style="color: #0000ff">var</span> box = <span style="color: #0000ff">new</span> Box('Lee', 100); <span style="color: #008000">//</span><span style="color: #008000">实列化对象</span>
+alert(box.run()); <span style="color: #008000">//</span><span style="color: #008000">打印对象里的原型方法</span><span style="color: #008000">
+//</span><span style="color: #008000">返回：Lee100运行中...</span></pre>
+</div>
+<p align="left"><strong>当第一次调用构造函数时，run()方法发现不存在，然后初始化原型。当第二次调用，就不会初始化，并且第二次创建新对象，原型也不会再初始化了。这样及得到了封装，又实现了原型方法共享，并且属性都保持独立。</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>PS：使用动态原型模式，要注意一点，不可以再使用字面量的方式重写原型，因为会切断实例和新原型之间的联系。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>寄生构造函数</strong></span></p>
+<p align="left"><strong>以上讲解了各种方式对象创建的方法，如果这几种方式都不能满足需求，可以使用一开始那种模式：寄生构造函数。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box(name, age) {    <span style="color: #008000">//</span><span style="color: #008000">创建构建对象函数</span>
+    <span style="color: #0000ff">var</span> obj = <span style="color: #0000ff">new</span> Object();  <span style="color: #008000">//</span><span style="color: #008000">创建对象</span>
+    obj.name = name;         <span style="color: #008000">//</span><span style="color: #008000">给对象添加属性</span>
+    obj.age = age;           <span style="color: #008000">//</span><span style="color: #008000">给对象添加属性</span>
+    obj.run = <span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">给对象添加方法</span>
+        <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span>.age + '运行中...'<span style="color: #000000">;
+    };
+    </span><span style="color: #0000ff">return</span> obj; <span style="color: #008000">//</span><span style="color: #008000">返回对象</span>
+<span style="color: #000000">}
+</span><span style="color: #0000ff">var</span> asdf = Box('NIH',200<span style="color: #000000">);
+alert(asdf.run());</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>寄生构造函数，其实就是工厂模式+构造函数模式。这种模式比较通用，但不能确定对象关系，所以，在可以使用之前所说的模式时，不建议使用此模式。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong><strong>寄生构造数据类型对象的额外方法</strong></strong></span></p>
+<p align="left"><strong>在什么情况下使用寄生构造函数比较合适呢？假设要创建一个具有额外方法的引用类型。由于之前说明不建议直接String.prototype.addstring，可以通过寄生构造的方式添加。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> myString(string) {             <span style="color: #008000">//</span><span style="color: #008000">构造对象拓展函数</span>
+    <span style="color: #0000ff">var</span> str = <span style="color: #0000ff">new</span> String(string);   <span style="color: #008000">//</span><span style="color: #008000">实列化一个字符串对象</span>
+    str.addstring = <span style="color: #0000ff">function</span> () {   <span style="color: #008000">//</span><span style="color: #008000">向字符串对象里添加一个方法</span>
+        <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span> + '，被添加了！'<span style="color: #000000">;
+    };
+    </span><span style="color: #0000ff">return</span> str; <span style="color: #008000">//</span><span style="color: #008000">返回实列化的字符串</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">var</span> box = <span style="color: #0000ff">new</span> myString('Lee');            <span style="color: #008000">//</span><span style="color: #008000">实列化拓展函数传参</span>
+alert(box.addstring());                 <span style="color: #008000">//</span><span style="color: #008000">打印实列化拓展对象里的addstring()方法</span><span style="color: #008000">
+//</span><span style="color: #008000">返回：Lee，被添加了！</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>稳妥构造函数</strong></span></p>
+<p><span style="color: #000000"><strong>在一些安全的环境中，比如禁止使用this和new，这里的this是构造函数里不使用this，这里的new是在外部实例化构造函数时不使用new。这种创建方式叫做稳妥构造函数。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box(name , age) {   <span style="color: #008000">//</span><span style="color: #008000">构造函数</span>
+    <span style="color: #0000ff">var</span> obj = <span style="color: #0000ff">new</span> Object();  <span style="color: #008000">//</span><span style="color: #008000">创建一个对象</span>
+    obj.run = <span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">给对象添加一个方法</span>
+        <span style="color: #0000ff">return</span> name + age + '运行中...';        <span style="color: #008000">//</span><span style="color: #008000">直接接受函数参数name和age</span>
+<span style="color: #000000">    };
+    </span><span style="color: #0000ff">return</span> obj; <span style="color: #008000">//</span><span style="color: #008000">返回对象</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">var</span> box = Box('Lee', 100);                    <span style="color: #008000">//</span><span style="color: #008000">直接调用函数</span>
+alert(box.run());   <span style="color: #008000">//</span><span style="color: #008000">打印构造函数里的run方法</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：稳妥构造函数和寄生类似。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>四．</strong><strong>继承</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>prototype继承的方式依靠原型链完成</strong></span></p>
+<p align="left"><strong>继承是面向对象中一个比较核心的概念。其他正统面向对象语言都会用两种方式实现继承：一个是接口实现，一个是继承。而ECMAScript只支持继承，不支持接口实现，而实现继承的方式依靠原型链完成。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {                            <span style="color: #008000">//</span><span style="color: #008000">Box构造对象函数(父类)</span>
+    <span style="color: #0000ff">this</span>.name = 'Lee';                     <span style="color: #008000">//</span><span style="color: #008000">向对象里添加一个name属性</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">function</span> Desk() {                            <span style="color: #008000">//</span><span style="color: #008000">Desk构造对象函数（子类）</span>
+    <span style="color: #0000ff">this</span>.age = 100;                         <span style="color: #008000">//</span><span style="color: #008000">向对象里添加一个age属性</span>
+<span style="color: #000000">}
+
+Desk.prototype </span>= <span style="color: #0000ff">new</span> Box();                    <span style="color: #008000">//</span><span style="color: #008000">Desc继承了Box，通过原型，形成链条，子类的原型等于实列化父类</span>
+
+<span style="color: #0000ff">var</span> desk = <span style="color: #0000ff">new</span><span style="color: #000000"> Desk();
+alert(desk.age);
+alert(desk.name);                            </span><span style="color: #008000">//</span><span style="color: #008000">得到被继承的name属</span><span style="color: #008000">
+//</span><span style="color: #008000">以此让子类继承父类</span>
+
+<span style="color: #0000ff">function</span> Table() {                            <span style="color: #008000">//</span><span style="color: #008000">Table构造对象函数（孙类）</span>
+<span style="color: #0000ff">this</span>.level = 'AAAAA';                       <span style="color: #008000">//</span><span style="color: #008000">向对象里添加一个age属性</span>
+<span style="color: #000000">}
+
+Table.prototype </span>= <span style="color: #0000ff">new</span> Desk();                <span style="color: #008000">//</span><span style="color: #008000">Table继承了Desk，通过原型，形成链条，孙类的原型等于实列化子类</span>
+
+<span style="color: #0000ff">var</span> table = <span style="color: #0000ff">new</span><span style="color: #000000"> Table();
+alert(table.name);                            </span><span style="color: #008000">//</span><span style="color: #008000">继承了Box的name属性</span>
+alert(table.age);                           <span style="color: #008000">//</span><span style="color: #008000">继承了Desk的age属性</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201611/955761-20161113211925764-1365917034.png" alt=""></p>
+<p><strong>ps如果一个对象的实列和原型里都有相同的一个属性，按照就近原则，先到实列中查找，实列中没有在到原型中</strong></p>
+<p>&nbsp;</p>
+<p align="left"><strong>以上原型链继承还缺少一环，那就是Obejct，所有的构造函数都继承自Obejct。而继承Object是自动完成的，并不需要程序员手动继承。</strong></p>
+<p align="left"><span style="color: #ff0000; background-color: #ffffff"><strong>经过继承后的实例，他们的从属关系会怎样呢？</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box() {                            <span style="color: #008000">//</span><span style="color: #008000">Box构造对象函数(父类)</span>
+    <span style="color: #0000ff">this</span>.name = 'Lee';                     <span style="color: #008000">//</span><span style="color: #008000">向对象里添加一个name属性</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">function</span> Desk() {                            <span style="color: #008000">//</span><span style="color: #008000">Desk构造对象函数（子类）</span>
+    <span style="color: #0000ff">this</span>.age = 100;                         <span style="color: #008000">//</span><span style="color: #008000">向对象里添加一个age属性</span>
+<span style="color: #000000">}
+
+Desk.prototype </span>= <span style="color: #0000ff">new</span> Box();                    <span style="color: #008000">//</span><span style="color: #008000">Desc继承了Box，通过原型，形成链条，子类的原型等于实列化父类</span>
+
+<span style="color: #0000ff">function</span> Table() {                            <span style="color: #008000">//</span><span style="color: #008000">Table构造对象函数（孙类）</span>
+<span style="color: #0000ff">this</span>.level = 'AAAAA';                       <span style="color: #008000">//</span><span style="color: #008000">向对象里添加一个age属性</span>
+<span style="color: #000000">}
+
+Table.prototype </span>= <span style="color: #0000ff">new</span> Desk();                <span style="color: #008000">//</span><span style="color: #008000">Table继承了Desk，通过原型，形成链条，孙类的原型等于实列化子类</span>
+
+<span style="color: #0000ff">var</span> table = <span style="color: #0000ff">new</span> Table(); <span style="color: #008000">//</span><span style="color: #008000">实列化Table对象</span>
+<span style="color: #0000ff">var</span> desk = <span style="color: #0000ff">new</span> Desk();   <span style="color: #008000">//</span><span style="color: #008000">实列化Desk对象</span>
+<span style="color: #000000">
+alert(table </span><span style="color: #0000ff">instanceof</span> Object);                <span style="color: #008000">//</span><span style="color: #008000">true，判断table实列化是否从属于Object对象</span>
+alert(desk <span style="color: #0000ff">instanceof</span> Table);                    <span style="color: #008000">//</span><span style="color: #008000">false，判断desk实列化是否从属于Table对象，因为desk是Table的父类不从属</span>
+alert(table <span style="color: #0000ff">instanceof</span> Desk);                    <span style="color: #008000">//</span><span style="color: #008000">true，判断table实列化是否从属于Desk对象</span>
+alert(table <span style="color: #0000ff">instanceof</span> Box);                    <span style="color: #008000">//</span><span style="color: #008000">true，判断table实列化是否从属于Box对象</span></pre>
+</div>
+<p><strong>在JavaScript里，被继承的函数称为超类型(父类，基类也行，其他语言叫法)，继承的函数称为子类型(子类，派生类)。继承也有之前问题，比如字面量重写原型会中断关系，使用引用类型的原型，并且子类型还无法给超类型传递参数。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>借用构造函数（<strong>对象冒充</strong>）继承</strong></span></p>
+<p align="left"><strong>为了解决引用共享和超类型无法传参的问题，我们采用一种叫借用构造函数的技术，或者称为对象冒充(伪造对象、经典继承)的技术来解决这两种问题。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box(age) {   <span style="color: #008000">//</span><span style="color: #008000">构造对象函数</span>
+    <span style="color: #0000ff">this</span>.name = ['Lee', 'Jack', 'Hello']; <span style="color: #008000">//</span><span style="color: #008000">向对象添加一个数组</span>
+    <span style="color: #0000ff">this</span>.age = age; <span style="color: #008000">//</span><span style="color: #008000">向对象添加一个属性</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">function</span> Desk(age) {  <span style="color: #008000">//</span><span style="color: #008000">构造对象函数</span>
+    Box.call(<span style="color: #0000ff">this</span>, age);                        <span style="color: #008000">//</span><span style="color: #008000">对象冒充，给超类型传参</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">var</span> desk = <span style="color: #0000ff">new</span> Desk(200);  <span style="color: #008000">//</span><span style="color: #008000">实列化冒充Box对象传参</span>
+<span style="color: #000000">alert(desk.age);
+alert(desk.name);
+desk.name.push(</span>'AAA');                        <span style="color: #008000">//</span><span style="color: #008000">添加的新数据，只给desk</span>
+alert(desk.name);</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>原型链+借用构造函数（对象冒充）组合继承【重点推荐】</strong></span></p>
+<p align="left"><strong>借用构造函数虽然解决了刚才两种问题，但没有原型，复用则无从谈起。所以，我们需要原型链+借用构造函数的模式，这种模式成为组合继承</strong>。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box(age) { <span style="color: #008000">//</span><span style="color: #008000">构造对象函数</span>
+    <span style="color: #0000ff">this</span>.name = ['Lee', 'Jack', 'Hello']; <span style="color: #008000">//</span><span style="color: #008000">给对象添加一个数组</span>
+    <span style="color: #0000ff">this</span>.age = age; <span style="color: #008000">//</span><span style="color: #008000">给对象添加一个方法</span>
+<span style="color: #000000">}
+
+Box.prototype.run </span>= <span style="color: #0000ff">function</span> () {    <span style="color: #008000">//</span><span style="color: #008000">给Box对象添加一个原型方法            </span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.name + <span style="color: #0000ff">this</span><span style="color: #000000">.age;
+};
+
+</span><span style="color: #0000ff">function</span> Desk(age) {  <span style="color: #008000">//</span><span style="color: #008000">对象冒充函数传参</span>
+    Box.call(<span style="color: #0000ff">this</span>, age);                        <span style="color: #008000">//</span><span style="color: #008000">将Desk对象冒充Box对象</span>
+<span style="color: #000000">}
+
+Desk.prototype </span>= <span style="color: #0000ff">new</span> Box();                    <span style="color: #008000">//</span><span style="color: #008000">原型链继承，Desk对象继承Box对象的数据</span>
+
+<span style="color: #0000ff">var</span> desk = <span style="color: #0000ff">new</span> Desk(100);    <span style="color: #008000">//</span><span style="color: #008000">实列化冒充对象传参100</span>
+alert(desk.run()); <span style="color: #008000">//</span><span style="color: #008000">打印冒充对象里的原型run()方法，也就是Box的原型方法，因为Desk对象冒充的Box对象</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>原型式继承</strong></span></p>
+<p align="left"><strong>还有一种继承模式叫做：原型式继承；这种继承借助原型并基于已有的对象创建新对象，同时还不必因此创建自定义类型。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> obj(o) {                        <span style="color: #008000">//</span><span style="color: #008000">创建一个普通函数，接收一个参数</span>
+    <span style="color: #0000ff">function</span> F() {}                        <span style="color: #008000">//</span><span style="color: #008000">创建一个构造函数</span>
+    F.prototype = o;                    <span style="color: #008000">//</span><span style="color: #008000">把普通函数的传参，赋值给构造对象的原型</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">new</span> F();                        <span style="color: #008000">//</span><span style="color: #008000">最终返回出实例化的构造函数</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">var</span> box = {                                <span style="color: #008000">//</span><span style="color: #008000">字面量创建对象</span>
+    name : 'Lee',                      <span style="color: #008000">//</span><span style="color: #008000">创建对象属性</span>
+    arr : ['哥哥','妹妹','姐姐']        <span style="color: #008000">//</span><span style="color: #008000">创建对象数组</span>
+<span style="color: #000000">};
+
+</span><span style="color: #0000ff">var</span> box1 = obj(box);        <span style="color: #008000">//</span><span style="color: #008000">将box对象当做参数传给obj函数</span>
+alert(box1.name);      <span style="color: #008000">//</span><span style="color: #008000">打印对象原型的name属性</span><span style="color: #008000">
+//</span><span style="color: #008000">返回：Lee</span>
+box1.name = 'Jack';    <span style="color: #008000">//</span><span style="color: #008000">向构造对象实列里添加一个属性</span>
+alert(box1.name);      <span style="color: #008000">//</span><span style="color: #008000">打印构造对象实列里的name</span><span style="color: #008000">
+//</span><span style="color: #008000">返回：Jack</span>
+<span style="color: #000000">
+alert(box1.arr);      </span><span style="color: #008000">//</span><span style="color: #008000">打印对象原型的arr属性</span><span style="color: #008000">
+//</span><span style="color: #008000">返回：哥哥,妹妹,姐姐</span>
+box1.arr.push('父母'); <span style="color: #008000">//</span><span style="color: #008000">向对象原型里的数字追加一个元素</span>
+alert(box1.arr);       <span style="color: #008000">//</span><span style="color: #008000">打印对象原型里追加后的数字</span><span style="color: #008000">
+//</span><span style="color: #008000">返回：哥哥,妹妹,姐姐,父母</span>
+
+<span style="color: #0000ff">var</span> box2 = obj(box);    <span style="color: #008000">//</span><span style="color: #008000">将box对象当做参数传给obj函数</span>
+alert(box2.name);       <span style="color: #008000">//</span><span style="color: #008000">打印构造对象原型里的name属性</span><span style="color: #008000">
+//</span><span style="color: #008000">返回：Lee</span>
+alert(box2.arr);        <span style="color: #008000">//</span><span style="color: #008000">引用类型共享了</span><span style="color: #008000">
+//</span><span style="color: #008000">返回：哥哥,妹妹,姐姐,父母</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>寄生式继承，把原型式+工厂模式结合而来，目的是为了封装创建对象的过程。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">临时函数</span>
+<span style="color: #0000ff">function</span> obj(o) {                        <span style="color: #008000">//</span><span style="color: #008000">创建一个普通函数，接收一个参数</span>
+    <span style="color: #0000ff">function</span> F() {}                        <span style="color: #008000">//</span><span style="color: #008000">创建一个构造函数</span>
+    F.prototype = o;                    <span style="color: #008000">//</span><span style="color: #008000">把普通函数的传参，赋值给构造对象的原型</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">new</span> F();                        <span style="color: #008000">//</span><span style="color: #008000">最终返回出实例化的构造函数</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">创建对象</span>
+<span style="color: #0000ff">var</span> box = {                                <span style="color: #008000">//</span><span style="color: #008000">字面量创建对象</span>
+    name : 'Lee',                      <span style="color: #008000">//</span><span style="color: #008000">创建对象属性</span>
+    arr : ['哥哥','妹妹','姐姐']        <span style="color: #008000">//</span><span style="color: #008000">创建对象数组</span>
+<span style="color: #000000">};
+
+</span><span style="color: #008000">//</span><span style="color: #008000">寄生函数</span>
+<span style="color: #0000ff">function</span> create(o) {                    <span style="color: #008000">//</span><span style="color: #008000">创建寄生函数，将对象当做参数传进来</span>
+    <span style="color: #0000ff">var</span> f= obj(o);                    <span style="color: #008000">//</span><span style="color: #008000">又将对象当做参数传给obj函数执行，得到的是构造对象原型实列化后的对象</span>
+    f.run = <span style="color: #0000ff">function</span> () {            <span style="color: #008000">//</span><span style="color: #008000">向构造对象里添加一个实列方法</span>
+        <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.arr;                <span style="color: #008000">//</span><span style="color: #008000">同样，会共享引用，因为还是调用的对象原型</span>
+<span style="color: #000000">    };
+    </span><span style="color: #0000ff">return</span> f;                   <span style="color: #008000">//</span><span style="color: #008000">返回最后实列后的对象</span>
+<span style="color: #000000">}
+</span><span style="color: #0000ff">var</span> box1 = create(box); <span style="color: #008000">//</span><span style="color: #008000">实列化对象，将box对象传到寄生函数，在由寄生函数传到临时函数添加成构造对象的原型</span>
+alert(box1.run());<span style="color: #008000">//</span><span style="color: #008000">打印对象实列里的run方法</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>组合式继承</strong></span></p>
+<p align="left"><strong>组合式继承是JavaScript最常用的继承模式；但，组合式继承也有一点小问题，就是超类型在使用过程中会被调用两次：一次是创建子类型的时候，另一次是在子类型构造函数的内部。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> Box(name) {     <span style="color: #008000">//</span><span style="color: #008000">构造对象函数</span>
+    <span style="color: #0000ff">this</span>.name = name;    <span style="color: #008000">//</span><span style="color: #008000">添加对象实列属性</span>
+    <span style="color: #0000ff">this</span>.arr = ['哥哥','妹妹','父母']; <span style="color: #008000">//</span><span style="color: #008000">添加对象实列数组</span>
+<span style="color: #000000">}
+
+Box.prototype.run </span>= <span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">添加对象原型方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.name;
+};
+
+</span><span style="color: #0000ff">function</span> Desk(name, age) {    <span style="color: #008000">//</span><span style="color: #008000">创建冒充对象，将Desk冒充Box对象</span>
+    Box.call(<span style="color: #0000ff">this</span>, name);  <span style="color: #008000">//</span><span style="color: #008000">第二次调用Box</span>
+    <span style="color: #0000ff">this</span>.age =<span style="color: #000000"> age;
+}
+
+Desk.prototype </span>= <span style="color: #0000ff">new</span> Box();                <span style="color: #008000">//</span><span style="color: #008000">    Desk的原型等于new Box()，也就是Desk继承 Box对象</span><span style="color: #008000">
+//</span><span style="color: #008000">第一次调用Box</span>
+
+<span style="color: #0000ff">var</span> asdf = <span style="color: #0000ff">new</span> Desk('LII',200);  <span style="color: #008000">//</span><span style="color: #008000">实列化对象</span>
+alert(asdf.run());    <span style="color: #008000">//</span><span style="color: #008000">打印对象里原型方法</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">超类型在使用过程中会被调用两次：一次是创建子类型的时候，另一次是在子类型构造函数的内部。</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>寄生组合继承【重点推荐】</strong></span></p>
+<p align="left"><strong>以上代码是之前的组合继承，那么寄生组合继承，解决了两次调用的问题。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">function</span> obj(o) {   <span style="color: #008000">//</span><span style="color: #008000">创建一个中转函数</span>
+    <span style="color: #0000ff">function</span> F() {}   <span style="color: #008000">//</span><span style="color: #008000">创建一个对象</span>
+    F.prototype = o;   <span style="color: #008000">//</span><span style="color: #008000">将函数接收到的参数添加到对象原型</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">new</span> F();   <span style="color: #008000">//</span><span style="color: #008000">返回实列对象</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">function</span> create(box, desk) {     <span style="color: #008000">//</span><span style="color: #008000">创建寄生函数，接收box, desk对象</span>
+    <span style="color: #0000ff">var</span> f = obj(box.prototype);   <span style="color: #008000">//</span><span style="color: #008000">将box对象的原型传入obj函数，得到obj实列对象</span>
+    f.constructor = desk;  <span style="color: #008000">//</span><span style="color: #008000">将obj实列对象的原型指向desk</span>
+    desk.prototype = f;  <span style="color: #008000">//</span><span style="color: #008000">将desk的原型指向f对象</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">function</span> Box(name) {      <span style="color: #008000">//</span><span style="color: #008000">创建Box对象</span>
+    <span style="color: #0000ff">this</span>.name =<span style="color: #000000"> name;
+    </span><span style="color: #0000ff">this</span>.arr = ['哥哥','妹妹','父母'<span style="color: #000000">];
+}
+
+Box.prototype.run </span>= <span style="color: #0000ff">function</span> () {   <span style="color: #008000">//</span><span style="color: #008000">添加Box原型方法</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.name;
+};
+
+</span><span style="color: #0000ff">function</span> Desk(name, age) {   <span style="color: #008000">//</span><span style="color: #008000">定义冒充对象</span>
+    Box.call(<span style="color: #0000ff">this</span><span style="color: #000000">, name);
+    </span><span style="color: #0000ff">this</span>.age =<span style="color: #000000"> age;
+}
+
+create(Box, Desk);                        </span><span style="color: #008000">//</span><span style="color: #008000">通过这里实现继承</span>
+
+<span style="color: #0000ff">var</span> desk = <span style="color: #0000ff">new</span> Desk('Lee',100<span style="color: #000000">);
+desk.arr.push(</span>'姐姐'<span style="color: #000000">);
+alert(desk.arr);
+alert(desk.run());                            </span><span style="color: #008000">//</span><span style="color: #008000">只共享了方法</span>
+
+<span style="color: #0000ff">var</span> desk2 = <span style="color: #0000ff">new</span> Desk('Jack', 200<span style="color: #000000">);
+alert(desk2.arr);                            </span><span style="color: #008000">//</span><span style="color: #008000">引用问题解决</span></pre>
+</div>
+<p>&nbsp;</p></div>

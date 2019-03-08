@@ -1,0 +1,262 @@
+第一百三十一节，JavaScript，封装库--CSS
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">JavaScript，封装库--CSS</span></strong></span></p>
+<p><span style="color: #ff00ff; font-size: 18px"><strong>将封装库里的方法，改成了原型添加方法</strong></span></p>
+<p><span style="color: #ff00ff; font-size: 18px"><strong>增加4个方法</strong></span></p>
+<p><span style="color: #ff0000"><span style="font-size: 18px; line-height: 27px"><strong>tian_jia_class()方法，给获取到的元素添加class属性，参数是class属性值，可以连缀1</strong></span></span></p>
+<p><span style="font-size: 18px; line-height: 27px; color: #ff0000"><span><strong>yi_chu_class()方法，给获取到的元素移除class属性，参数是要移除的class属性值，可以连缀2</strong></span></span></p>
+<p><span style="color: #ff0000"><span style="font-size: 18px; line-height: 27px"><span><strong>she_zhi_link_css()方法，设置link连接、或style内嵌、中的CSS样式3</strong></span></span></span></p>
+<p><span style="color: #ff0000"><span style="font-size: 18px; line-height: 27px"><strong>yi_chu_link_css()方法，移除link连接、或style内嵌、中的CSS样式4</strong></span></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><span style="font-size: 18px; line-height: 27px"><strong>封装库代码5</strong></span></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+ *feng_zhuang_ku_1.0版本，js封装库，2016/12/29日：林贵秀
+ *</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">* 前台调用
+ * 每次调用$创建库对象,使其每次调用都是独立的对象
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">var</span> $ = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">new</span><span style="color: #000000"> feng_zhuang_ku();
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*
+ *定义封装库构造函数，类库
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> feng_zhuang_ku() {
+    </span><span style="color: #008000">/*</span><span style="color: #008000">* jie_dian属性，创建数组，初始化，保存获取到的元素节点，返回数组
+     *</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">this</span>.jie_dian =<span style="color: #000000"> [];
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*对象说明：
+ * this表示对象本身
+ * 使用库，首先要  $()  创建对象
+ * 再在创建的对象下调用方法或者属性
+ *
+ * 大纲：
+ * 获取元素标签开始，行号18
+ * 元素节点操作开始，行号64
+ *
+ *
+ *</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------获取元素标签开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*获取元素标签说明：
+ * jie_dian属性，保存获取到的元素节点，返回数组,
+ * huo_qu_id()方法，通过id获取元素标签，适用于获取单个节点，
+ * huo_qu_name_zhi()方法，通过元素name值获取指定元素，适用于获取表单元素,
+ * huo_qu_name()方法，通过标签名称获取相同标签名的元素，
+ * huo_qu_class()方法，获取相同class属性的节点，将获取到的节点添加到jie_dian属性
+ * guo_lv_jie_dian()方法，获取多个节点时，过滤jie_dian属性里的数组，就是过滤掉指定索引外的元素对象
+ *</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_id()方法,通过id获取元素标签，参数是id值，将获取到的元素对象添加到，jie_dian属性,适用于获取单个节点
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_id </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (id) {
+    </span><span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian.push(document.getElementById(id));
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_name_zhi()方法，通过元素name值获取指定元素，参数是元素name值，返回元素相同name值对象集合，
+ * 循环元素集合，将每次循环到的元素对象添加到 jie_dian属性，适用于获取表单元素
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_name_zhi </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (name) {
+    </span><span style="color: #0000ff">var</span> name_zhi =<span style="color: #000000"> document.getElementsByName(name);
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; name_zhi.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian.push(name_zhi[i]);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_name()方法，通过标签名称获取相同标签名的元素，
+ * 两个参数：获取指定id下的相同标签元素，参数1标签名称，参数2指定区域id值
+ * 一个参数：获取页面所有相同标签元素，参数是标签名称
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_name </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (tag, idname) {
+    </span><span style="color: #0000ff">var</span> node = <span style="color: #0000ff">null</span><span style="color: #000000">;
+    </span><span style="color: #0000ff">if</span> (arguments.length == 2<span style="color: #000000">) {
+        node </span>=<span style="color: #000000"> document.getElementById(idname);
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        node </span>=<span style="color: #000000"> document;
+    }
+    </span><span style="color: #0000ff">var</span> name =<span style="color: #000000"> node.getElementsByTagName(tag);
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; name.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian.push(name[i]);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_class()方法，获取相同class属性的节点，将获取到的节点添加到jie_dian属性
+ * 一个参数：获取整个页面指定的class属性节点，参数是class属性值
+ * 两个参数：获取指定id区域里的class属性节点，参数1是class属性值，参数2是指定区域的id值
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_class </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (name, idname) {
+    </span><span style="color: #0000ff">var</span> node = <span style="color: #0000ff">null</span><span style="color: #000000">;
+    </span><span style="color: #0000ff">if</span> (arguments.length == 2<span style="color: #000000">) {
+        node </span>=<span style="color: #000000"> document.getElementById(idname);
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        node </span>=<span style="color: #000000"> document;
+    }
+    </span><span style="color: #0000ff">var</span> all = node.getElementsByTagName('*'<span style="color: #000000">);
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; all.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (all[i].className ==<span style="color: #000000"> name) {
+            </span><span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian.push(all[i]);
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* guo_lv_jie_dian()方法，获取多个节点时，过滤jie_dian属性里的数组，就是过滤掉指定索引外的元素对象
+ * 参数是要保留jie_dian属性里的对象索引
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.guo_lv_jie_dian </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (num) {
+    </span><span style="color: #0000ff">var</span> element = <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[num];
+    </span><span style="color: #0000ff">this</span>.jie_dian =<span style="color: #000000"> [];
+    </span><span style="color: #0000ff">this</span>.jie_dian[0] =<span style="color: #000000"> element;
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------获取元素标签结束--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------元素节点操作开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*素节点操作说明：
+ * css()方法，给获取到的元素设置ss样式,或者获取css样式，
+ * wen_ben()方法，给获取到的元素设置文本，或者获取文本
+ * click()方法，给获取到的元素添加一个点击事件，参数是一个匿名函数（包含函数功能），
+ * tian_jia_class()方法，给获取到的元素添加class属性，参数是class属性值，可以连缀
+ * yi_chu_class()方法，给获取到的元素移除class属性，参数是要移除的class属性值，可以连缀
+ * she_zhi_link_css()方法，设置link连接、或style内嵌、中的CSS样式
+ * yi_chu_link_css()方法，移除link连接、或style内嵌、中的CSS样式
+ *</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">* css()方法，给获取到的元素设置ss样式,或者获取css样式，
+ * 两个参数：设置样式，参数1样式名称，参数2样式值,设置的行内样式
+ * 一个参数：获取样式，参数是样式名称，无法连缀，获取即可用获取行内也可以获取连接
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.css </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (attr, value) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (arguments.length == 1<span style="color: #000000">) {
+            </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.getComputedStyle != 'undefined') {  <span style="color: #008000">//</span><span style="color: #008000">w3c</span>
+                <span style="color: #0000ff">return</span> window.getComputedStyle(<span style="color: #0000ff">this</span>.jie_dian[i], <span style="color: #0000ff">null</span><span style="color: #000000">)[attr];
+            } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> <span style="color: #0000ff">this</span>.jie_dian[i].currentStyle != 'undefined') {  <span style="color: #008000">//</span><span style="color: #008000">ie</span>
+                <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i].currentStyle[attr];
+            }
+        } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+            </span><span style="color: #0000ff">this</span>.jie_dian[i].style[attr] =<span style="color: #000000"> value;
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* wen_ben()方法，给获取到的元素设置文本，或者获取文本
+ * 有参：设置文本，参数是要设置的文本字符串。
+ * 无参：获取文本。无法连缀
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.wen_ben </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (str) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (arguments.length == 0<span style="color: #000000">) {
+            </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i].innerHTML;
+        }
+        </span><span style="color: #0000ff">this</span>.jie_dian[i].innerHTML =<span style="color: #000000"> str;
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* click()方法，给获取到的元素添加一个点击事件，参数是一个匿名函数（包含函数功能），
+ * 循环jie_dian属性里的节点，将每次循环的节点添加元素点击事件
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.click </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (fu) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span>.jie_dian[i].onclick =<span style="color: #000000"> fu;
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* tian_jia_class()方法，给获取到的元素添加class属性，参数是class属性值，可以连缀
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.tian_jia_class </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (classname) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (!<span style="color: #0000ff">this</span>.jie_dian[i].className.match(<span style="color: #0000ff">new</span> RegExp('(\\s|^)' + classname + '(\\s|$)'<span style="color: #000000">))) {
+            </span><span style="color: #0000ff">this</span>.jie_dian[i].className += ' ' +<span style="color: #000000"> classname;
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* yi_chu_class()方法，给获取到的元素移除class属性，参数是要移除的class属性值，可以连缀
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yi_chu_class </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (classname) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian[i].className.match(<span style="color: #0000ff">new</span> RegExp('(\\s|^)' + classname + '(\\s|$)'<span style="color: #000000">))) {
+            </span><span style="color: #0000ff">this</span>.jie_dian[i].className = <span style="color: #0000ff">this</span>.jie_dian[i].className.replace(<span style="color: #0000ff">new</span> RegExp('(\\s|^)' + classname + '(\\s|$)'), ' '<span style="color: #000000">);
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* she_zhi_link_css()方法，设置link连接、或style内嵌、中的CSS样式
+ * 在Web应用中，很少用到添加CSS规则和移除CSS规则，一般只用行内和Class；因为添加和删除原本的规则会破坏整个CSS的结构，所以使用需要非常小心。
+ * 直接在库对象下使用  如：$().she_zhi_link_css()
+ * 四个参数：
+ * 参数1，样式表索引位置，就是要操作的样式表位置索引，第几个样式表【数值】
+ * 参数2，要添加的选择器名称，【字符串】
+ * 参数3，要添加的样式名称和值，如：background:#ff2a16 【字符串】
+ * 参数4，将样式和选择器添加到样式表什么位置，【数值】
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.she_zhi_link_css </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (num, selectorText, cssText, position) {
+    </span><span style="color: #0000ff">var</span> sheet =<span style="color: #000000"> document.styleSheets[num];
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> sheet.insertRule != 'undefined'<span style="color: #000000">) {
+        sheet.insertRule(selectorText </span>+ "{" + cssText + "}"<span style="color: #000000">, position);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> sheet.addRule != 'undefined'<span style="color: #000000">) {
+        sheet.addRule(selectorText, cssText, position);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* yi_chu_link_css()方法，移除link连接、或style内嵌、中的CSS样式
+ * 在Web应用中，很少用到添加CSS规则和移除CSS规则，一般只用行内和Class；因为添加和删除原本的规则会破坏整个CSS的结构，所以使用需要非常小心。
+ * 直接在库对象下使用
+ * 两个参数：
+ * 参数1，样式表索引位置，就是要操作的样式表位置索引，第几个样式表【数值】
+ * 参数2，删除样式表里的第几个选择器【数值】
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yi_chu_link_css </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (num, position) {
+    </span><span style="color: #0000ff">var</span> sheet =<span style="color: #000000"> document.styleSheets[num];
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> sheet.deleteRule != 'undefined'<span style="color: #000000">) {
+        sheet.deleteRule(position);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span><span style="color: #000000"> sheet.removeRule) {
+        sheet.removeRule(position);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------元素节点操作结束--------------------------------------------*</span><span style="color: #008000">*/</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>前台调用代码6</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">前台调用代码</span>
+window.onload = <span style="color: #0000ff">function</span><span style="color: #000000"> (){
+    </span><span style="color: #008000">/*</span><span style="color: #008000">
+    $().huo_qu_class('hj','a').guo_lv_jie_dian(0).css('color','#ff2a16');
+    $().huo_qu_class('hj','a').guo_lv_jie_dian(1).css('color','#ff2a16');
+    $().huo_qu_class('hj','a').guo_lv_jie_dian(2).css('color','#ff2a16');
+    $().huo_qu_class('hj','a').guo_lv_jie_dian(3).css('color','#ff2a16');
+    $().huo_qu_class('hj','a').wen_ben('重置');
+    $().huo_qu_class('hj','b').tian_jia_class('b').tian_jia_class('c').tian_jia_class('d').yi_chu_class('b').yi_chu_class('c').yi_chu_class('d');
+</span><span style="color: #008000">*/</span><span style="color: #000000">
+    $().huo_qu_id(</span>'li').css('background-color','#ff2a16'<span style="color: #000000">);
+    $().huo_qu_id(</span>'li2').css('background-color','#fff133'<span style="color: #000000">);
+};</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre><span style="color: #629755; font-style: italic">&nbsp;</span></pre></div>

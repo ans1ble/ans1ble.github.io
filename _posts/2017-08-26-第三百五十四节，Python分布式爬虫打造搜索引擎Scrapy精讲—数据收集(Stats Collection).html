@@ -1,0 +1,44 @@
+第三百五十四节，Python分布式爬虫打造搜索引擎Scrapy精讲—数据收集(Stats Collection)
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百五十四节，Python分布式爬虫打造搜索引擎Scrapy精讲—数据收集(Stats Collection)</strong></p>
+<p>&nbsp;</p>
+<p>Scrapy提供了方便的收集数据的机制。数据以key/value方式存储，值大多是计数值。 该机制叫做数据收集器(Stats Collector)，可以通过 Crawler API 的属性 stats 来使用<br>无论数据收集(stats collection)开启或者关闭，数据收集器永远都是可用的。 因此您可以import进自己的模块并使用其API(增加值或者设置新的状态键(stat keys))。 该做法是为了简化数据收集的方法: 您不应该使用超过一行代码来收集您的spider，Scrpay扩展或任何您使用数据收集器代码里头的状态。</p>
+<p>数据收集器的另一个特性是(在启用状态下)很高效，(在关闭情况下)非常高效(几乎察觉不到)。</p>
+<p>数据收集器对每个spider保持一个状态表。当spider启动时，该表自动打开，当spider关闭时，自动关闭。</p>
+<p><span style="color: #ff0000"><strong>数据收集各种函数</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">stats.set_value('数据名称', 数据值)</span>设置数据</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">stats.inc_value('数据名称')</span>增加数据值，自增1</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">stats.max_value('数据名称', value)</span>当新的值比原来的值大时设置数据</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">stats.min_value('数据名称', value)</span>当新的值比原来的值小时设置数据</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">stats.get_value('数据名称')</span>获取数据值</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">stats.get_stats()</span>获取所有数据</strong></span></p>
+<p><span style="color: #ff0000"><strong>举例：</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.http <span style="color: #0000ff">import</span><span style="color: #000000"> Request,FormRequest
+
+
+</span><span style="color: #0000ff">class</span> PachSpider(scrapy.Spider):                            <span style="color: #008000">#</span><span style="color: #008000">定义爬虫类，必须继承scrapy.Spider</span>
+    name = <span style="color: #800000">'</span><span style="color: #800000">pach</span><span style="color: #800000">'</span>                                           <span style="color: #008000">#</span><span style="color: #008000">设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">www.dict.cn</span><span style="color: #800000">'</span>]                       <span style="color: #008000">#</span><span style="color: #008000">爬取域名</span>
+
+    <span style="color: #0000ff">def</span> start_requests(self):    <span style="color: #008000">#</span><span style="color: #008000">起始url函数，会替换start_urls</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> [Request(
+            url</span>=<span style="color: #800000">'</span><span style="color: #800000">http://www.dict.cn/9999998888</span><span style="color: #800000">'</span><span style="color: #000000">,
+            callback</span>=<span style="color: #000000">self.parse
+        )]
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 利用数据收集器，收集所有404的url以及，404页面数量</span>
+    handle_httpstatus_list = [404]                                  <span style="color: #008000">#</span><span style="color: #008000"> 设置不过滤404</span>
+
+    <span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span><span style="color: #000000">(self):
+        self.fail_urls </span>= []                                         <span style="color: #008000">#</span><span style="color: #008000"> 创建一个变量来储存404URL</span>
+
+    <span style="color: #0000ff">def</span> parse(self, response):                                      <span style="color: #008000">#</span><span style="color: #008000"> 回调函数</span>
+        <span style="color: #0000ff">if</span> response.status == 404:                                  <span style="color: #008000">#</span><span style="color: #008000"> 判断返回状态码如果是404</span>
+            self.fail_urls.append(response.url)                     <span style="color: #008000">#</span><span style="color: #008000"> 将URL追加到列表</span>
+            <span style="background-color: #ff99cc">self.crawler.stats.inc_value(<span style="color: #800000">'</span><span style="color: #800000">failed_url</span><span style="color: #800000">'</span>)</span>              <span style="color: #008000">#</span><span style="color: #008000"> 设置一个数据收集，值为自增，每执行一次自增1</span>
+            <span style="color: #0000ff">print</span>(self.fail_urls)                                   <span style="color: #008000">#</span><span style="color: #008000"> 打印404URL列表</span>
+            <span style="background-color: #ff99cc"><span style="color: #0000ff">print</span>(self.crawler.stats.get_value(<span style="color: #800000">'</span><span style="color: #800000">failed_url</span><span style="color: #800000">'</span>))</span>       <span style="color: #008000">#</span><span style="color: #008000"> 打印数据收集值</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            title </span>= response.css(<span style="color: #800000">'</span><span style="color: #800000">title::text</span><span style="color: #800000">'</span><span style="color: #000000">).extract()
+            </span><span style="color: #0000ff">print</span>(title)</pre>
+</div>
+<p><strong>&nbsp;更多:<span style="color: #0000ff">http://scrapy-chs.readthedocs.io/zh_CN/latest/topics/stats.html</span></strong></p></div>

@@ -1,0 +1,2363 @@
+第一百二十二节，JavaScript表单处理
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">JavaScript表单处理</span></strong></span></p>
+<p>&nbsp;</p>
+<p align="left"><strong>学习要点：</strong></p>
+<p align="left"><strong>1.表单介绍</strong></p>
+<p align="left"><strong>2.文本框脚本</strong></p>
+<p align="left"><strong>3.选择框脚本</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>为了分担服务器处理表单的压力，JavaScript提供了一些解决方案，从而大大打破了处处依赖服务器的局面。</strong></p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>一．</strong><strong>表单介绍</strong></span></p>
+<p align="left"><strong>在HTML中，表单是由&lt;form&gt;元素来表示的，而在JavaScript中，<span style="color: #0000ff">表单对应的则是HTMLFormElement类型。HTMLFormElement继承了HTMLElement</span>，因此它拥有HTML元素具有的默认属性，并且还独有自己的属性和方法：</strong></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="center"><span style="color: #ff0000"><strong>HTMLFormElement属性和方法</strong></span></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="145">
+<p align="center"><strong>属性或方法</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>说明</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>acceptCharset</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>服务器能够处理的字符集</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>action</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>接受请求的URL</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>elements</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>表单中所有控件的集合</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>enctype</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>请求的编码类型</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>length</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>表单中控件的数量</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>name</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>表单的名称</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>target</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>用于发送请求和接受响应的窗口名称</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>reset()</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>将所有表单重置</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>submit()</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>提交表单</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="center">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>获取表单&lt;form&gt;对象的方法有很多种，如下：</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> form =  document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到表单form标签</span>
+    alert(form.tagName);  <span style="color: #008000">//</span><span style="color: #008000">打印出form标签</span>
+
+    <span style="color: #0000ff">var</span> form2 = document.getElementsByTagName('form');  <span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到标签元素数组</span>
+    alert(form2[0].tagName); <span style="color: #008000">//</span><span style="color: #008000">通过数组下标，打印出form标签</span>
+
+    <span style="color: #0000ff">var</span> form3 = document.rgj;  <span style="color: #008000">//</span><span style="color: #008000">通过name名称直接获取元素【不推荐】</span>
+    alert(form3.tagName);  <span style="color: #008000">//</span><span style="color: #008000">打印出form标签</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：最后一种方法使用name名称直接获取元素，已经不推荐使用，这是向下兼容的早期用法。问题颇多，比如有两个相同名称的，变成数组；而且这种方式以后有可能会不兼容。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>forms属性，直接获取表单&lt;form&gt;标签，后面可以跟下标获取指定的&lt;form&gt;标签，也可以跟name名称来获取指定的&lt;form&gt;标签</strong></span></p>
+<p><strong>使用方式：</strong><br><strong>document.forms[下标或者name名称]</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> form = document.forms[0];  <span style="color: #008000">//</span><span style="color: #008000">forms属性，直接获取表单&lt;form&gt;标签，后面可以跟下标获取指定的&lt;form&gt;标签，也可以跟name名称来获取指定的&lt;form&gt;标签</span>
+    alert(form.tagName);  <span style="color: #008000">//</span><span style="color: #008000">打印出标签名称</span>
+
+    <span style="color: #0000ff">var</span> form2 = document.forms['rgj'<span style="color: #000000">];
+    alert(form2.tagName);  </span><span style="color: #008000">//</span><span style="color: #008000">打印出标签名称</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onsubmit表单提交事件，当用户提交表单时激发函数</strong></span><br><strong>表单form对象.onsubmit = 执行函数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> form = document.forms[0];  <span style="color: #008000">//</span><span style="color: #008000">forms属性，直接获取表单&lt;form&gt;标签，</span>
+    <span style="color: #008000">//</span><span style="color: #008000">onsubmit表单提交事件，当用户提交表单时激发函数</span>
+    addEvent(form,'submit',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'提交');  <span style="color: #008000">//</span><span style="color: #008000">当用户提交时打印提交</span>
+<span style="color: #000000">    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p><span style="color: #ff0000">&nbsp;<strong>form对象可以阻止默认行为，阻止后无法提交表单</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> form = document.forms[0];  <span style="color: #008000">//</span><span style="color: #008000">forms属性，直接获取表单&lt;form&gt;标签，</span>
+    <span style="color: #008000">//</span><span style="color: #008000">onsubmit表单提交事件，当用户提交表单时激发函数</span>
+    addEvent(form,'submit',<span style="color: #0000ff">function</span><span style="color: #000000"> (evt) {
+        preDef(evt); </span><span style="color: #008000">//</span><span style="color: #008000">阻止form默认行为，阻止后不可以提交</span>
+<span style="color: #000000">    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器兼容，阻止默认行为</span>
+<span style="color: #0000ff">function</span> preDef(evt) { <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">判断W3C，阻止默认行为，如果为真</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (e.preventDefault) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用W3C，阻止默认行为</span>
+<span style="color: #000000">        e.preventDefault();
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #008000">//</span><span style="color: #008000">否则就用ie的属性returnValue阻止行为</span>
+        e.returnValue = <span style="color: #0000ff">false</span><span style="color: #000000">;
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>submit()方法，用来自定义提交方法，也就是可以用这个方法自定义提交元素</strong></span><br><strong>使用方式：</strong><br><strong>form对象.submit()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button type="button"&gt;按钮&lt;/button&gt;     这个是普通按钮不能提交，我们可以用submit()方法自定义成提交按钮</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #0000ff">var</span> an =  document.getElementById('an');  <span style="color: #008000">//</span><span style="color: #008000">通过id获取到普通按钮</span>
+    <span style="color: #008000">//</span><span style="color: #008000">给普通按钮添加一个点击事件，点击后执行匿名函数</span>
+    addEvent(an,'click',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        get.submit();  </span><span style="color: #008000">//</span><span style="color: #008000">给表单添加提交方法</span>
+<span style="color: #000000">    })
+
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>&nbsp;PS：在表单中尽量避免使用name="submit"或id="submit"等命名，这会和submit()方法发生冲突导致无法提交。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>解决用户不停重复提交</strong></span></p>
+<p align="left"><strong>提交数据最大的问题就是重复提交表单。因为各种原因，当一条数据提交到服务器的时候会出现延迟等长时间没反映，导致用户不停的点击提交，从而使得重复提交了很多相同的请求，或造成错误、或写入数据库多条相同信息。</strong></p>
+<p align="left"><span style="color: #0000ff; background-color: #ffffff"><strong>有两种方法可以解决这种问题：第一种就是提交之后，立刻禁用点击按钮；第二种就是提交之后取消后续的表单提交操作。</strong></span></p>
+<p align="left"><span style="color: #ff00ff; background-color: #ffffff"><strong><strong>第一种就是提交之后，立刻禁用点击按钮；只适用于按钮提交【不推荐】</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">给form标签添加一个提交事件，提交后执行匿名函数</span>
+    addEvent(get,'submit',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">当第一个提交成功后，将提交按钮的disabled属性设置成true，禁止提交</span>
+        document.getElementById('tj').disabled = <span style="color: #0000ff">true</span><span style="color: #000000">;
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff; background-color: #ffffff"><strong><strong>第二种就是提交之后取消后续的表单提交操作。适用于各种提交，【推荐】</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #0000ff">var</span> jil = <span style="color: #0000ff">false</span>;  <span style="color: #008000">//</span><span style="color: #008000">记录提交</span>
+    <span style="color: #008000">//</span><span style="color: #008000">给form标签添加一个提交事件，提交后执行匿名函数</span>
+    addEvent(get,'submit',<span style="color: #0000ff">function</span><span style="color: #000000"> (evt) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">阻止表单默认行为，也就是阻止表单提交</span>
+<span style="color: #000000">        preDef(evt);
+        </span><span style="color: #008000">//</span><span style="color: #008000">如果记录等于true，表示提交过了，直接退出</span>
+        <span style="color: #0000ff">if</span> (jil == <span style="color: #0000ff">true</span>) <span style="color: #0000ff">return</span><span style="color: #000000">;
+        jil </span>= <span style="color: #0000ff">true</span>;  <span style="color: #008000">//</span><span style="color: #008000">如果没提交过，就改变记录</span>
+        get.submit();  <span style="color: #008000">//</span><span style="color: #008000">提交数据</span>
+<span style="color: #000000">    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器兼容，阻止默认行为</span>
+<span style="color: #0000ff">function</span> preDef(evt) { <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">判断W3C，阻止默认行为，如果为真</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (e.preventDefault) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用W3C，阻止默认行为</span>
+<span style="color: #000000">        e.preventDefault();
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #008000">//</span><span style="color: #008000">否则就用ie的属性returnValue阻止行为</span>
+        e.returnValue = <span style="color: #0000ff">false</span><span style="color: #000000">;
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：在某些浏览器，F5只能起到缓存刷新的效果，有可能获取不到真正的源头更新的数据。那么使用ctrl+F5就可以把源头给刷出来。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>重置表单</strong></span></p>
+<p align="left"><strong>用户点击重置按钮时，表单会被初始化。虽然这个按钮还得以保留，但目前的Web已经很少去使用了。因为用户已经填写好各种数据，不小心点了重置就会全部清空，用户体验极差。</strong></p>
+<p align="left"><strong>有两种方法调用reset事件，第一个就是直接type="reset"即可；第二个就是使用fm.reset()方法调用即可。</strong></p>
+<p><span style="color: #ff0000"><strong>onreset事件，表单重置事件，当用户点击重置后激发函数</strong></span><br><strong>使用方式：</strong><br><strong>form对象.onreset = 函数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="zhzh" type="reset"&gt;重置&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">给form标签添加一个重置事件，当点击重置后激发函数</span>
+    addEvent(get,'reset',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'你点击了重置'<span style="color: #000000">);
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>reset()方法，自定义重置方法，可以用这个给表单设置一个重置</strong></span><br><strong>使用方式：</strong><br><strong>form对象.reset()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">添加一个根元素点击事件，当在页面任意地方点击后执行函数</span>
+    addEvent(document,'click',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        get.reset();  </span><span style="color: #008000">//</span><span style="color: #008000">执行重置方法，重置表单</span>
+<span style="color: #000000">    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>表单字段</strong></span></p>
+<p align="left"><strong>如果想访问表单元素，可以使用之前章节讲到的DOM方法访问。但使用原生的DOM访问虽然比较通用，但不是很便利。表单处理中，我们建议使用HTML DOM，它有自己的elements属性，该属性是表单中所有元素的集合。</strong></p>
+<p><span style="color: #ff0000"><strong>elements属性，获取表单form元素里的表单字段，也就是form标签里的其他属于form的标签，主要只能获取到表单字段其他元素无效，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段，如果多个字段<strong>name值相同时返回相同<strong><strong>name值的字段集合</strong></strong></strong></strong></span><br><strong>使用方式：</strong><br><strong>form元素.elements</strong><br><strong>form元素.elements[下标或者name值]</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    alert(get.elements);  <span style="color: #008000">//</span><span style="color: #008000">获取表单字段集合</span>
+    alert(get.elements[0]);  <span style="color: #008000">//</span><span style="color: #008000">通过下标获取表单里的第一个元素</span>
+    alert(get.elements['mch']); <span style="color: #008000">//</span><span style="color: #008000">通过name值获取第一个元素</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>共有的表单字段属性</strong></span></p>
+<p align="left"><strong>除了&lt;fieldset&gt;元素之外，所有表单字段都拥有相同的一组属性。由于&lt;input&gt;类型可以表示多种表单字段，因此有些属性只适用于某些字段。以下罗列出共有的属性：</strong></p>
+<p align="left">&nbsp;</p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="145">
+<p align="center"><strong>属性或方法</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>说明</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>disabled</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>布尔值，表示当前字段是否被禁用</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>form</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>指向当前字段所属表单的指针，只读</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>name</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>当前字段的名称</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>readOnly</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>布尔值，表示当前字段是否只读</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>tabIndex</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>表示当前字段的切换</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>type</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>当前字段的类型</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>value</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>当前字段的值</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>重点看几个最常用的，其他使用方式相同</strong></span></p>
+<p><span style="color: #ff0000"><strong>value属性，获取或设置当前元素的value值</strong></span><br><strong>使用方式：</strong><br><strong>当前元素.value</strong><br><strong>当前元素.value = 'xxxx'</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="默认值"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit" name="mch2"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    alert(mch.value);  <span style="color: #008000">//</span><span style="color: #008000">获取当前元素的value值</span>
+    mch.value = '默认值2'; <span style="color: #008000">//</span><span style="color: #008000">设置当前元素的value值</span>
+<span style="color: #000000">
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>form属性，获取当前元素所属form标签</strong></span><br><strong>使用方式：</strong><br><strong>当前元素.form</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="默认值"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit" name="mch2"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    alert(mch.form);  <span style="color: #008000">//</span><span style="color: #008000">form属性，获取当前元素所属form标签</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>disabled属性，获取或者设置当前元素的，禁用当前字段</strong></span><br><strong>使用方式：</strong><br><strong>当前元素.disabled</strong><br><strong>当前元素.disabled = true</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="默认值"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit" name="mch2"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    alert(mch.disabled);  <span style="color: #008000">//</span><span style="color: #008000">disabled属性，获取或者设置当前元素的，禁用当前字段</span>
+    mch.disabled = <span style="color: #0000ff">true</span>; <span style="color: #008000">//</span><span style="color: #008000">设置禁用当前字段</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>type属性，获取或者设置当前元素字段类型，【极不推荐】</strong></span><br><strong>使用方式：</strong><br><strong>当前元素.type</strong><br><strong>当前元素.type = 'xxx'</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="默认值"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit" name="mch2"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    alert(mch.type);  <span style="color: #008000">//</span><span style="color: #008000">type属性，获取或者设置当前元素字段类型，</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>&nbsp;type属性获取返回属性值如下</strong></span></p>
+<p align="left"><strong>除了&lt;fieldset&gt;字段之外，所有表单字段都有type属性。对于&lt;input&gt;元素，这个值等于HTML属性的type值。对于非&lt;input&gt;元素，这个type的属性值如下：</strong></p>
+<p align="left">&nbsp;</p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="134">
+<p align="center"><strong>元素说明</strong></p>
+</td>
+<td width="225">
+<p align="center"><strong>HTML标签</strong></p>
+</td>
+<td width="153">
+<p align="center"><strong>type属性的值</strong></p>
+</td>
+</tr>
+<tr>
+<td width="134">
+<p align="center"><strong>单选列表</strong></p>
+</td>
+<td width="225">
+<p align="center"><strong>&lt;select&gt;...&lt;/select&gt;</strong></p>
+</td>
+<td width="153">
+<p align="center"><strong>select-one</strong></p>
+</td>
+</tr>
+<tr>
+<td width="134">
+<p align="center"><strong>多选列表</strong></p>
+</td>
+<td width="225">
+<p align="center"><strong>&lt;select multiple&gt;...&lt;/select&gt;</strong></p>
+</td>
+<td width="153">
+<p align="center"><strong>select-multiple</strong></p>
+</td>
+</tr>
+<tr>
+<td width="134">
+<p align="center"><strong>自定义按钮</strong></p>
+</td>
+<td width="225">
+<p align="center"><strong>&lt;button&gt;...&lt;/button&gt;</strong></p>
+</td>
+<td width="153">
+<p align="center"><strong>button</strong></p>
+</td>
+</tr>
+<tr>
+<td width="134">
+<p align="center"><strong>自定义非提交按钮</strong></p>
+</td>
+<td width="225">
+<p align="center"><strong>&lt;button type="button"&gt;...&lt;/button&gt;</strong></p>
+</td>
+<td width="153">
+<p align="center"><strong>button</strong></p>
+</td>
+</tr>
+<tr>
+<td width="134">
+<p align="center"><strong>自定义重置按钮</strong></p>
+</td>
+<td width="225">
+<p align="center"><strong>&lt;button type="reset"&gt;...&lt;/button&gt;</strong></p>
+</td>
+<td width="153">
+<p align="center"><strong>reset</strong></p>
+</td>
+</tr>
+<tr>
+<td width="134">
+<p align="center"><strong>自定义提交按钮</strong></p>
+</td>
+<td width="225">
+<p align="center"><strong>&lt;button type="submit"&gt;...&lt;/button&gt;</strong></p>
+</td>
+<td width="153">
+<p align="center"><strong>submit</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：&lt;input&gt;和&lt;button&gt;元素的type属性是可以动态修改的，而&lt;select&gt;元素的type属性则是只读的。(在不必要的情况下，建议不修改type)。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>共有的表单字段方法</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>每个表单字段都有两个方法：foucs()和blur()。</strong></p>
+<p align="left">&nbsp;</p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="145">
+<p align="center"><strong>方法</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>说明</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>focus()</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>将焦点定位到表单字段里</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>blur()</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>从元素中将焦点移走</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><span style="color: #ff0000"><strong>focus()方法，将焦点定位到表单字段里</strong></span><br><strong>使用方式：</strong><br><strong>当前元素.focus()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="默认值"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit" name="mch2"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    mch.focus(); <span style="color: #008000">//</span><span style="color: #008000">focus()方法，将焦点定位到表单字段里</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>blur()方法，从元素中将焦点移走</strong></span><br><strong>使用方式：</strong><br><strong>当前元素.blur()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="默认值"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit" name="mch2"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    mch.blur(); <span style="color: #008000">//</span><span style="color: #008000">blur()方法，从元素中将焦点移走</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>共有的表单字段事件</strong></span></p>
+<p align="left"><strong>表单共有的字段事件有以下三种：</strong></p>
+<p align="left">&nbsp;</p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="145">
+<p align="center"><strong>事件名</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>说明</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>onblur</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>当字段失去焦点时触发</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>onchange</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>对于&lt;input&gt;和&lt;textarea&gt;元素，在改变value并失去焦点时触发；对于&lt;select&gt;元素，在改变选项时触发</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>onfocus</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>当前字段获取焦点时触发</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left">&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onfocus事件，当前字段获取焦点时触发</strong></span><br><strong>使用方式：</strong><br><strong>当前元素.onfocus = 函数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="默认值"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit" name="mch2"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    <span style="color: #008000">//</span><span style="color: #008000">给当前元素添加一个onfocus事件，当前字段获取焦点时触发</span>
+    addEvent(mch,'focus',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'获取焦点'<span style="color: #000000">);
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onblur事件，当字段失去焦点时触发</strong></span><br><strong>使用方式：</strong><br><strong>当前元素.onblur = 函数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="默认值"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit" name="mch2"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    <span style="color: #008000">//</span><span style="color: #008000">给当前元素添加一个事件，onblur事件，当字段失去焦点时触发</span>
+    addEvent(mch,'blur',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'失去焦点'<span style="color: #000000">);
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onchange事件，对于&lt;input&gt;和&lt;textarea&gt;元素，在改变value并失去焦点时触发；对于&lt;select&gt;元素，在改变选项时触发</strong></span><br><strong>使用方式：</strong><br><strong>当前元素.onchange = 函数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="默认值"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;button id="tj" type="submit" name="mch2"&gt;提交&lt;/button&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    <span style="color: #008000">//</span><span style="color: #008000">给当前元素添加一个事件，onchange事件，对于&lt;input&gt;和&lt;textarea&gt;元素，在改变value并失去焦点时触发；对于&lt;select&gt;元素，在改变选项时触发</span>
+    addEvent(mch,'change',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'改变value并失去焦点'<span style="color: #000000">);
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：关于blur和change事件的关系，并没有严格的规定。在某些浏览器中，blur事件会先于change事件发生；而在其他浏览器中，则恰好相反。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>二．</strong><strong>文本框脚本</strong></span></p>
+<p align="left"><strong>在HTML中，有两种方式来表现文本框：一种是单行文本框&lt;input type="text"&gt;，一种是多行文本框&lt;textarea&gt;。虽然&lt;input&gt;在字面上有value值，而&lt;textarea&gt;却没有，但通过都可以通过value获取他们的值。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>获取单行文本框和多行文本框的<strong>value值</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    <span style="color: #0000ff">var</span> wb = get.elements['wb'];   <span style="color: #008000">//</span><span style="color: #008000">过name值获取到多行文本框</span>
+    alert(mch.value);  <span style="color: #008000">//</span><span style="color: #008000">获取单行文本框的value值</span>
+    alert(wb.value);  <span style="color: #008000">//</span><span style="color: #008000">获取多行文本框的value值</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：使用表单的value是最推荐使用的，它是HTML DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用getAttribute()获取value值。原因很简单，对value属性的修改，不一定会反映在DOM中。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff00ff"><strong>除了value值，还有一个属性对应的是defaultValue，可以得到原本的value值，不会因为值的改变而变化。</strong></span></p>
+<p><span style="color: #ff0000"><strong>defaultValue属性，获取表单原本的value值，不会因为值的改变而变化。</strong></span><br><strong>使用方式：</strong><br><strong>当前元素.defaultValue</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    mch.value = '修改';  <span style="color: #008000">//</span><span style="color: #008000">修改了value值</span>
+    alert(mch.value);   <span style="color: #008000">//</span><span style="color: #008000">获取到文本框的value值</span>
+    alert(mch.defaultValue);   <span style="color: #008000">//</span><span style="color: #008000">defaultValue属性，获取表单原本的value值，不会因为值的改变而变化。</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>select()方法，将当前文本框里的文本选中，</strong></span><br><strong>使用方式：</strong><br><strong>当前元素.select()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    mch.select();  <span style="color: #008000">//</span><span style="color: #008000">select()方法，将当前文本框里的文本选中，</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>选择部分文本</strong></span></p>
+<p align="left"><strong>在使用文本框内容的时候，我们有时要直接选定部分文本，这个行为还没有标准。Firefox的解决方案是：setSelectionRange()方法。这个方法接受两个参数：索引和长度。</strong></p>
+<p><span style="color: #ff0000"><strong>setSelectionRange()方法,选择文本框里指定范围的文本，这个方法接受两个参数：索引和长度。开始位置，选择几位,IE9以下不支持</strong></span><br><strong>使用方式：</strong><br><strong>当前对象.setSelectionRange(开始位置，选择几位)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    <span style="color: #008000">//</span><span style="color: #008000">setSelectionRange()方法,选择文本框里指定范围的文本，这个方法接受两个参数：索引和长度。开始位置，选择几位</span>
+    mch.setSelectionRange(0,3<span style="color: #000000">);
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>除了IE，其他浏览器都支持这种写法(IE9+支持)</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>IE9以下想要选择部分文本，可以使用IE的范围操作。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    <span style="color: #0000ff">var</span> range = mch.createTextRange();        <span style="color: #008000">//</span><span style="color: #008000">创建一个文本范围对象</span>
+    range.collapse(<span style="color: #0000ff">true</span>);                    <span style="color: #008000">//</span><span style="color: #008000">将指针移到起点</span>
+    range.moveStart('character', 0);            <span style="color: #008000">//</span><span style="color: #008000">移动起点，character表示逐字移动</span>
+    range.moveEnd('character', 1);                <span style="color: #008000">//</span><span style="color: #008000">移动终点，同上</span>
+    range.select();                                <span style="color: #008000">//</span><span style="color: #008000">焦点选定</span>
+<span style="color: #000000">
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>结合上面兼容浏览器方案</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    getSelectText(mch,1,4); <span style="color: #008000">//</span><span style="color: #008000">执行选择文本框里指定范围的文本函数</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">浏览器兼容，执行选择文本框里指定范围的文本函数</span>
+    <span style="color: #0000ff">function</span> getSelectText(text, start, num) {  <span style="color: #008000">//</span><span style="color: #008000">接收3个参数，参数1元素对象。参数2开始位置，参数3获取结束位置</span>
+        <span style="color: #0000ff">if</span><span style="color: #000000"> (text.setSelectionRange) {
+            text.setSelectionRange(start, num);
+            text.focus();
+        } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span><span style="color: #000000"> (text.createTextRange) {
+            </span><span style="color: #0000ff">var</span> range = text.createTextRange();        <span style="color: #008000">//</span><span style="color: #008000">创建一个文本范围对象</span>
+            range.collapse(<span style="color: #0000ff">true</span>);                    <span style="color: #008000">//</span><span style="color: #008000">将指针移到起点</span>
+            range.moveStart('character', start);            <span style="color: #008000">//</span><span style="color: #008000">移动起点，character表示逐字移动</span>
+            range.moveEnd('character', num - start);                <span style="color: #008000">//</span><span style="color: #008000">移动终点，同上</span>
+<span style="color: #000000">            range.select();
+        }
+    }
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onselect事件，选中文本框文本后触发</strong></span><br><strong>使用方式：</strong><br><strong>元素对象.onselect = 函数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    <span style="color: #008000">//</span><span style="color: #008000">onselect事件，选中文本框文本后触发</span>
+    addEvent(mch,'select',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'选择文本'<span style="color: #000000">);
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>取得选择的文本</strong></span></p>
+<p align="left"><strong>如果我们想要取得选择的那个文本，就必须使用一些手段。目前位置，没有任何规范解决这个问题。Firefox为文本框提供了两个属性：selectionStart和selectionEnd。</strong></p>
+<p><span style="color: #ff0000"><strong>selectionStart属性，获取在文本框选择文本的起始位置，IE9以下不支持</strong></span><br><span style="color: #ff0000"><strong>selectionEnd属性，获取在文本框选择文本的结束位置，IE9以下不支持</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    <span style="color: #008000">//</span><span style="color: #008000">onselect事件，选中文本框文本后触发</span>
+    addEvent(mch,'select',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(mch.selectionStart);  </span><span style="color: #008000">//</span><span style="color: #008000">selectionStart属性，获取在文本框选择文本的起始位置</span>
+        alert(mch.selectionEnd);   <span style="color: #008000">//</span><span style="color: #008000">selectionEnd属性，获取在文本框选择文本的结束位置</span>
+        <span style="color: #008000">//</span><span style="color: #008000">获取到对象的value值，在用字符串截取函数，将鼠标选择的起始位置和结束位置，传入函数截取到选择的字符串</span>
+        alert(<span style="color: #0000ff">this</span>.value.substring(<span style="color: #0000ff">this</span>.selectionStart, <span style="color: #0000ff">this</span><span style="color: #000000">.selectionEnd));
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><strong>除了IE，其他浏览器均支持这两个属性（IE9+已支持）。IE不支持，而提供了另一个方案：selection对象，属于document。这个对象保存着用户在整个文档范围内选择的文本信息。导致我们需要做浏览器兼容。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>selection对象，属于document。这个对象保存着用户在整个文档范围内选择的文本信息</strong></strong></span><span style="color: #ff0000"><strong><strong>，IE支持</strong></strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>createRange().text，获取<strong><strong>范围内选择的文本信息，<strong><strong>IE支持</strong></strong></strong></strong></strong></strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>取得选择的文本浏览器兼容</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;p id="p"&gt;&lt;/p&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> mch = get.elements['mch'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个表单字段</span>
+    <span style="color: #0000ff">var</span> p = document.getElementById('p');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取p元素标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">onselect事件，选中文本框文本后触发</span>
+    addEvent(mch,'select',<span style="color: #0000ff">function</span><span style="color: #000000"> (){
+        </span><span style="color: #008000">//</span><span style="color: #008000">p元素的文本内容等于执行自定义兼容选择文本函数，将文本框元素传入函数</span>
+        p.innerHTML =<span style="color: #000000"> getSelect(mch);
+    });
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">取得选择的文本浏览器兼容</span>
+<span style="color: #0000ff">function</span> getSelect(text) {  <span style="color: #008000">//</span><span style="color: #008000">接收元素对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持selectionStart属性</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> text.selectionStart == 'number') {  <span style="color: #008000">//</span><span style="color: #008000">说明不是IE</span>
+        <span style="color: #008000">//</span><span style="color: #008000">获取到对象的value值，在用字符串截取函数，将鼠标选择的起始位置和结束位置，传入函数截取到选择的字符串</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> text.value.substring(text.selectionStart, text.selectionEnd);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (document.selection) {  <span style="color: #008000">//</span><span style="color: #008000">说明是IE</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> document.selection.createRange().text;
+    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：有一个最大的问题，就是IE在触发select事件的时候，在选择一个字符后立即触发，而其他浏览器是选择想要的字符释放鼠标键后才触发。所以，如果使用alert()的话，导致跨浏览器的不兼容。我们没有办法让浏览器行为保持统一，但可以通过不去使用alert()来解决。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>过滤输入</strong></span></p>
+<p align="left"><strong>为了使文本框输入指定的字符，我们必须对输入进的字符进行验证。有一种做法是判断字符是否合法，这是提交后操作的。那么我们还可以在提交前限制某些字符键，</strong></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>屏蔽某些字符键，让用户不能输入不合法的字符，比如屏蔽除数字键外的字符键，这样用户就只能输入数字</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> wb = get.elements['wb'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到多行文本框</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">屏蔽非数字键的输入</span>
+    addEvent(wb, 'keypress', <span style="color: #0000ff">function</span> (evt) {  <span style="color: #008000">//</span><span style="color: #008000">给文本框添加一个键盘按键事件，当按下键盘按键时激发函数</span>
+        <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+        <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+        </span><span style="color: #0000ff">var</span> anjbm = getCharCode(e);  <span style="color: #008000">//</span><span style="color: #008000">执行自定义夸浏览器获取按键的编码函数</span>
+        <span style="color: #0000ff">var</span> anj = String.fromCharCode(anjbm); <span style="color: #008000">//</span><span style="color: #008000">将按键的编码转换成对应的按键字符</span>
+        <span style="color: #0000ff">if</span> (!/\d/.test(anj) &amp;&amp; e.charCode &gt; 8){  <span style="color: #008000">//</span><span style="color: #008000">正则判断如果输入的不是数字，并且字符键所代表字符的ASCII编码大于8</span>
+            preDef(evt); <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，也就是不能输入，只能输入数字</span>
+<span style="color: #000000">        }
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器兼容，阻止默认行为</span>
+<span style="color: #0000ff">function</span> preDef(evt) { <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">判断W3C，阻止默认行为，如果为真</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (e.preventDefault) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用W3C，阻止默认行为</span>
+<span style="color: #000000">        e.preventDefault();
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #008000">//</span><span style="color: #008000">否则就用ie的属性returnValue阻止行为</span>
+        e.returnValue = <span style="color: #0000ff">false</span><span style="color: #000000">;
+    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">夸浏览器获取按键的编码</span>
+<span style="color: #0000ff">function</span> getCharCode(evt) {  <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">如果无法直接获取event对象，说明是IE浏览器，就用IE的window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">判断event对象的charCode属性如果是数字类型</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> e.charCode == 'number'<span style="color: #000000">) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">执行charCode属性</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> e.charCode;
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #008000">//</span><span style="color: #008000">否则执行keyCode属性</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> e.keyCode;
+    }
+}</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">if</span> (!/\d/.test(anj) &amp;&amp; e.charCode &gt; 8)</pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：前半段条件判断只有数字才可以输入，导致常规按键，比如光标键、退格键、删除键等无法使用。部分浏览器比如Firfox，需要解放这些键，而非字符触发的编码均为0；在Safari3之前的浏览器，也会被阻止，而它对应的字符编码全部为8，所以最后就加上charCode &gt; 8的判断即可。</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>PS：当然，这种过滤还是比较脆落的，我们还希望能够阻止裁剪、复制、粘贴和中文字符输入操作才能真正屏蔽掉这些。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>剪贴板事件</strong></span></p>
+<p align="left"><strong>如果要阻止裁剪、复制和粘贴，那么我们可以在剪贴板相关的事件上进行处理，JavaScript提供了六组剪贴板相关的事件：</strong></p>
+<p align="left">&nbsp;</p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="145">
+<p align="center"><strong>事件名</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>说明</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>copy</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>在发生复制操作时触发</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>cut</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>在发生裁剪操作时触发</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>paste</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>在发生粘贴操作时触发</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>beforecopy</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>在发生复制操作前触发</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>beforecut</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>在发生裁剪操作前触发</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>beforepaste</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>在发生粘贴操作前触发</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>由于剪贴板没有标准，导致不同的浏览器有不同的解释。Safari、Chrome和Firefox中，凡是before前缀的事件，都需要在特定条件下触发。而IE则会在操作时之前触发带before前缀的事件。</strong></span></p>
+<p align="left"><span style="color: #ff00ff"><strong>如果我们想要禁用裁剪、复制、粘贴，那么只要阻止默认行为即可。</strong></span></p>
+<p><span style="color: #ff0000"><strong>oncut事件，在发生剪切操作时触发</strong></span><br><strong>使用方式：</strong><br><strong>元素对象.oncut = 函数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> wb = get.elements['wb'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到多行文本框</span>
+    <span style="color: #008000">//</span><span style="color: #008000">oncut事件，在发生剪切操作时触发</span>
+    addEvent(wb,'cut',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'在发生剪切操作时触发'<span style="color: #000000">);
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>阻止用户剪切行为</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> wb = get.elements['wb'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到多行文本框</span>
+    <span style="color: #008000">//</span><span style="color: #008000">oncut事件，在发生剪切操作时触发</span>
+    addEvent(wb,'cut',<span style="color: #0000ff">function</span> (evt) {  <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+        preDef(evt);  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为</span>
+<span style="color: #000000">    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器兼容，阻止默认行为</span>
+<span style="color: #0000ff">function</span> preDef(evt) { <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">判断W3C，阻止默认行为，如果为真</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (e.preventDefault) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用W3C，阻止默认行为</span>
+<span style="color: #000000">        e.preventDefault();
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #008000">//</span><span style="color: #008000">否则就用ie的属性returnValue阻止行为</span>
+        e.returnValue = <span style="color: #0000ff">false</span><span style="color: #000000">;
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>oncopy事件，在发生复制操作时触发</strong></span><br><strong>使用方式：</strong><br><strong>元素对象.oncopy = 函数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> wb = get.elements['wb'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到多行文本框</span>
+    <span style="color: #008000">//</span><span style="color: #008000">oncopy事件，在发生复制操作时触发</span>
+    addEvent(wb,'copy',<span style="color: #0000ff">function</span> (evt) {  <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+        preDef(evt);  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为,不允许复制</span>
+        alert('阻止了复制行为'<span style="color: #000000">)
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器兼容，阻止默认行为</span>
+<span style="color: #0000ff">function</span> preDef(evt) { <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">判断W3C，阻止默认行为，如果为真</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (e.preventDefault) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用W3C，阻止默认行为</span>
+<span style="color: #000000">        e.preventDefault();
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #008000">//</span><span style="color: #008000">否则就用ie的属性returnValue阻止行为</span>
+        e.returnValue = <span style="color: #0000ff">false</span><span style="color: #000000">;
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onpaste事件，在发生粘贴操作时触发</strong></span><br><strong>使用方式：</strong><br><strong>元素对象.onpaste = 函数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> wb = get.elements['wb'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到多行文本框</span>
+    <span style="color: #008000">//</span><span style="color: #008000">onpaste事件，在发生粘贴操作时触发</span>
+    addEvent(wb,'paste',<span style="color: #0000ff">function</span> (evt) {  <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+        preDef(evt);  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为,不允许粘贴</span>
+        alert('阻止了粘贴行为'<span style="color: #000000">);
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器兼容，阻止默认行为</span>
+<span style="color: #0000ff">function</span> preDef(evt) { <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">判断W3C，阻止默认行为，如果为真</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (e.preventDefault) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用W3C，阻止默认行为</span>
+<span style="color: #000000">        e.preventDefault();
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #008000">//</span><span style="color: #008000">否则就用ie的属性returnValue阻止行为</span>
+        e.returnValue = <span style="color: #0000ff">false</span><span style="color: #000000">;
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>当我们裁剪和复制的时候，我们可以访问剪贴板里的内容，但问题是FireFox，Opera浏览器不支持访问剪贴板。并且，不同的浏览器也有自己不同的理解。所以，这里我们就不在赘述。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>文本框屏蔽中文输入法</strong></span></p>
+<p align="left"><strong>最后一个问题影响到可能会影响输入的因素就是：输入法。我们知道，中文输入法，它的原理是在输入法面板上先存储文本，按下回车就写入英文文本，按下空格就写入中文文本。</strong></p>
+<p align="left"><strong>有一种解决方案是通过CSS来禁止调出输入法：</strong></p>
+<div class="cnblogs_code">
+<pre>style="ime-mode:disabled"                    <span style="color: #008000">//</span><span style="color: #008000">CSS直接编写</span>
+元素对象.style.imeMode = 'disabled';            <span style="color: #008000">//</span><span style="color: #008000">或在JS里设置也可以</span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>PS：但我们也发先，Chrome浏览器却无法禁止输入法调出。所以，为了解决谷歌浏览器的问题，最好还要使用正则验证已输入的文本。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong><strong>使用正则验证已输入的文本【推荐】</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     用户名:&lt;input type="text" name="mch" value="单行文本框"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;textarea name="wb"&gt;多行文本框&lt;/textarea&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> wb = get.elements['wb'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到多行文本框</span>
+    <span style="color: #008000">//</span><span style="color: #008000">onkeyup：当用户释放键盘上的键触发</span>
+    addEvent(wb,'keyup',<span style="color: #0000ff">function</span> (evt) {  <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+        <span style="color: #0000ff">if</span>(/[^\d]/g.test(wb.value)){  <span style="color: #008000">//</span><span style="color: #008000">正则匹配判断当用户输入非数字时</span>
+            alert('请输入数字！'<span style="color: #000000">);
+        }
+        wb.value </span>= wb.value.replace(/[^\d]/g, '');    <span style="color: #008000">//</span><span style="color: #008000">正则匹配当用户输入的是非数字时，把非数字都替换成空</span>
+<span style="color: #000000">    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>自动切换焦点</strong></span></p>
+<p align="left"><strong>为了增加表单字段的易用性，很多字段在满足一定条件时(比如长度)，就会自动切换到下一个字段上继续填写。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">  &lt;input type="text" name="user1" maxlength="1" /&gt;    //只能写1个</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;input type="text" name="user2" maxlength="2" /&gt;    //只能写2个</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;input type="text" name="user3" maxlength="3" /&gt;    //只能写3个</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #008000">//</span><span style="color: #008000">给指定元素添加一个键盘事件，当按键释放时激发自定义函数</span>
+    addEvent(get.elements['user1'], 'keyup'<span style="color: #000000">, tabforward);
+    addEvent(get.elements[</span>'user2'], 'keyup'<span style="color: #000000">, tabforward);
+    addEvent(get.elements[</span>'user3'], 'keyup'<span style="color: #000000">, tabforward);
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">自定义函数，当用户输入到指定位字符后。自动切换焦点</span>
+    <span style="color: #0000ff">function</span> tabforward(evt) {   <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+        <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+        </span><span style="color: #008000">//</span><span style="color: #008000">判断元素的value长度，如果等于maxlength设置的长度</span>
+        <span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.value.length == <span style="color: #0000ff">this</span><span style="color: #000000">.maxLength) {
+            </span><span style="color: #008000">//</span><span style="color: #008000">遍历所有字段</span>
+            <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; get.elements.length; i++<span style="color: #000000">) {
+                </span><span style="color: #008000">//</span><span style="color: #008000">找到当前字段</span>
+                <span style="color: #0000ff">if</span> (get.elements[i] == <span style="color: #0000ff">this</span><span style="color: #000000">) {
+                    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.maxLength ==<span style="color: #000000"> get.elements.length) {
+                        </span><span style="color: #008000">//</span><span style="color: #008000">中途返回</span>
+                        <span style="color: #0000ff">return</span><span style="color: #000000">;
+                    }
+                    </span><span style="color: #008000">//</span><span style="color: #008000">就把焦点移入下一个</span>
+                    get.elements[i + 1<span style="color: #000000">].focus();
+                }
+            }
+        }
+    }
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>三．</strong><strong>选择框脚本</strong></span></p>
+<p align="left"><span style="color: #ff00ff"><strong>选择框是通过&lt;select&gt;和&lt;option&gt;元素创建的，除了通用的一些属性和方法外，HTMLSelectElement类型还提供了如下的属性和方法：</strong></span></p>
+<p align="center"><span style="color: #ff0000"><strong>HTMLSelectElement对象（&lt;select&gt;元素的属性）</strong></span></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="145">
+<p align="center"><strong>属性/方法</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>说明</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>add(new,rel)</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>插入新元素，并指定位置</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>multiple</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>布尔值，是否允许多项选择</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>options</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>&lt;option&gt;元素的HTMLColletion集合</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>remove(index)</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>移除给定位置的选项</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>selectedIndex</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>基于0的选中项的索引，如果没有选中项，则值为-1</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>size</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>选择框中可见的行数</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff00ff"><strong>在DOM中，每个&lt;option&gt;元素都有一个HTMLOptionElement对象，以便访问数据，这个对象有如下一些属性：</strong></span></p>
+<p align="center"><span style="color: #ff0000"><strong>HTMLOptionElement对象（&lt;option&gt;元素的属性）</strong></span></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="145">
+<p align="center"><strong>属性</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>说明</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>index</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>当前选项在options集合中的索引</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>label</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>当前选项的标签</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>selected</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>布尔值，表示当前选项是否被选中</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>text</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>选项的文本</strong></p>
+</td>
+</tr>
+<tr>
+<td width="145">
+<p align="center"><strong>value</strong></p>
+</td>
+<td width="369">
+<p align="center"><strong>选项的值</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><span style="color: #ff0000"><strong>options属性，获取&lt;select&gt;元素里的&lt;option&gt;标签集合</strong></span><br><strong>使用方式：</strong><br><strong>select元素.options</strong><br><strong>select元素.options[0] 通过下标获取到集合里指定的&lt;option&gt;标签</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option&gt;无&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到&lt;select&gt;标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">options属性，获取&lt;select&gt;元素里的&lt;option&gt;标签集合</span>
+<span style="color: #000000">    alert(xz.options);
+    alert(xz.options[</span>0]); <span style="color: #008000">//</span><span style="color: #008000">通过下标获取到指定的&lt;option&gt;标签</span>
+    alert(xz.options[0].value); <span style="color: #008000">//</span><span style="color: #008000">获取指定&lt;option&gt;标签里的value值</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>type属性，获取&lt;select&gt;元素是多选还是单选，返回元素标签的multiple属性值</strong></span><br><strong>使用方式：</strong><br><strong>select元素.type</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option&gt;无&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到&lt;select&gt;标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">type属性，获取&lt;select&gt;元素是多选还是单选，返回元素标签的multiple属性值</span>
+<span style="color: #000000">    alert(xz.type);
+    </span><span style="color: #008000">//</span><span style="color: #008000">select-one  //表示multiple属性值是单选</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：选择框里的type属性有可能是：select-one，也有可能是：select-multiple，这取决于HTML代码中有没有multiple属性。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>获取选择框&lt;option&gt;标签元素的value值和文本</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option&gt;无&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到&lt;select&gt;标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">options属性，获取&lt;select&gt;元素里的&lt;option&gt;标签集合</span>
+    <span style="color: #008000">//</span><span style="color: #008000">获取选择框&lt;option&gt;标签元素的value值和文本</span>
+    alert(xz.options[0].value + xz.options[0<span style="color: #000000">].text);
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>PS：操作select时，最好使用HTML DOM，因为所有浏览器兼容的很好。而如果使用标准DOM，会因为不同的浏览器导致不同的结果。</strong></span></p>
+<p align="left"><span style="color: #ff00ff"><strong>PS：当选项没有value值的时候，IE会返回空字符串，其他浏览器会返回text值。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>选择选项</strong></span><br><span style="color: #ff0000"><strong>onchange事件，当&lt;select&gt;元素选择框发生改变时激发函数</strong></span><br><strong>使用方式：</strong><br><strong>&lt;select&gt;元素.onchange = 函数</strong></p>
+<p><span style="color: #ff0000"><strong>selectedIndex属性，获取&lt;select&gt;元素当前选项的索引位置，如果是多项选择，他始终返回的是第一个项。</strong></span><br><strong>使用方式：</strong><br><strong>&lt;select&gt;元素.selectedIndex</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option&gt;无&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到&lt;select&gt;标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">onchange事件，当&lt;select&gt;元素选择框发生改变时激发函数</span>
+    addEvent(xz, 'change', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">selectedIndex属性，获取&lt;select&gt;元素当前选项的索引位置</span>
+<span style="color: #000000">        alert(xz.selectedIndex);
+        alert(</span><span style="color: #0000ff">this</span>.options[<span style="color: #0000ff">this</span>.selectedIndex].text);    <span style="color: #008000">//</span><span style="color: #008000">得到当前选项的text值</span>
+        alert(<span style="color: #0000ff">this</span>.options[<span style="color: #0000ff">this</span>.selectedIndex].value);    <span style="color: #008000">//</span><span style="color: #008000">得到当前选项的value值</span>
+<span style="color: #000000">    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>selectedIndex属性还有一个用法，就是给<strong>&lt;select&gt;元素定位一个选项<strong><br></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong>使用方式：</strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong>&lt;select&gt;元素.<strong>selectedIndex = 选项索引</strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option&gt;无&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到&lt;select&gt;标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">selectedIndex属性还有一个用法，就是给&lt;select&gt;元素定位一个选项</span>
+    xz.selectedIndex = 2;  <span style="color: #008000">//</span><span style="color: #008000">将选择的第二个索引定位为默认选项</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>selected属性，判断指定的&lt;option&gt;标签是否是默认选项，返回布尔值，也可以通过selected = true 设置option当前元素为默认选项</strong></span><br><strong>使用方式：</strong><br><strong>option元素.selected</strong><br><strong>option元素.selected = true</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option&gt;无&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到&lt;select&gt;标签</span>
+    <span style="color: #0000ff">var</span> sy = xz.options[2]; <span style="color: #008000">//</span><span style="color: #008000">获取第二个&lt;option&gt;元素</span>
+    <span style="color: #008000">//</span><span style="color: #008000">selected属性，判断指定的&lt;option&gt;标签是否是默认选项，返回布尔值，也可以通过selected = true 设置option当前元素为默认选项</span>
+    alert(sy.selected); <span style="color: #008000">//</span><span style="color: #008000">查看当前&lt;option&gt;标签是否是默认选项，返回布尔值</span>
+    sy.selected = <span style="color: #0000ff">true</span>; <span style="color: #008000">//</span><span style="color: #008000">设置当前&lt;option&gt;标签为默认选项</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>而selected和selectedIndex在用途上最大的区别是，selected是返回的布尔值，所以一般用于判断上；而selectedIndex是数值，一般用于设置和获取。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option&gt;无&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到&lt;select&gt;标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">给&lt;select&gt;标签添加一个事件，当选项改变时激发函数</span>
+    addEvent(xz, 'change', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">判断第3个选项被选中时</span>
+        <span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.options[2].selected == <span style="color: #0000ff">true</span><span style="color: #000000">) {
+            alert(</span>'是默认选项！'<span style="color: #000000">);
+        }
+    });
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>添加选项</strong></span></p>
+<p align="left"><strong>如需动态的添加选项我们有两种方案：DOM和Option构造函数。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>DOM方式添加选项</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option&gt;无&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到&lt;select&gt;标签</span>
+    <span style="color: #0000ff">var</span> option = document.createElement('option');  <span style="color: #008000">//</span><span style="color: #008000">创建一个元素节点</span>
+    <span style="color: #0000ff">var</span> text = document.createTextNode('北京t');  <span style="color: #008000">//</span><span style="color: #008000">创建一个文本节点</span>
+    option.appendChild(text); <span style="color: #008000">//</span><span style="color: #008000">将文本添加到新创建的元素节点中</span>
+    option.setAttribute('value', '北京v');  <span style="color: #008000">//</span><span style="color: #008000">设置元素的属性值</span>
+    xz.appendChild(option); <span style="color: #008000">//</span><span style="color: #008000">将新创建的元素节点添加到&lt;select&gt;标签的子元素末尾</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff00ff"><strong>使用Option构造函数<strong>添加选项</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>Option()构造函数，构造一个&lt;option&gt;标签元素节点，IE9以下不支持，IE9以下<strong>Option()函数构造的<strong>&lt;option&gt;标签元素节点，不支持appendChild()添加，【不推荐appendChild()添加】</strong></strong></strong></span><br><strong>使用方式：</strong><br><strong>变量 = new Option(<strong>'text值',</strong>'value值');</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option&gt;无&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到&lt;select&gt;标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">Option()构造函数，构造一个&lt;option&gt;标签元素节点</span>
+    <span style="color: #0000ff">var</span> option = <span style="color: #0000ff">new</span> Option('t', '北京v'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">将构造的&lt;option&gt;标签元素节点，添加到&lt;select&gt;标签的子元素末尾</span>
+    xz.appendChild(option);     <span style="color: #008000">//</span><span style="color: #008000">IE出现bug</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>add()方法,用来添加Option()函数构造的&lt;option&gt;标签元素节点到&lt;select&gt;标签里,第一个参数Option()函数构造变量，参数二要添加的索引位置【推荐】IE9以下也支持</strong></span><br><strong>使用方式：</strong><br><strong>&lt;select&gt;标签.add(Option()函数构造变量，要添加的索引位置)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option&gt;无&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到&lt;select&gt;标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">Option()构造函数，构造一个&lt;option&gt;标签元素节点</span>
+    <span style="color: #0000ff">var</span> option = <span style="color: #0000ff">new</span> Option('自贡t', '自贡v'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">add()方法,用来添加Option()函数构造的&lt;option&gt;标签元素节点到&lt;select&gt;标签里</span>
+    xz.add(option,0); <span style="color: #008000">//</span><span style="color: #008000">0，表示添加到第一位</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>PS：在DOM规定，add()中两个参数是必须的，如果不确定索引，那么第二个参数设置null即可，即默认移入最后一个选项。但这是IE中规定第二个参数是可选的，所以设置null表示放入不存在的位置，导致失踪，为了兼容性，我们传递undefined即可兼容。</strong></span></p>
+<div class="cnblogs_code">
+<pre>xz.add(option, <span style="color: #0000ff">null</span>);                        <span style="color: #008000">//</span><span style="color: #008000">IE不显示了</span>
+xz.add(option, undefined);                    <span style="color: #008000">//</span><span style="color: #008000">兼容了</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>移除选项</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>有三种方式可以移除某一个选项：DOM移除、remove()方法移除和null移除。</strong></span></p>
+<p><span style="color: #ff0000"><strong>remove()方法，移除&lt;select&gt;标签里指定的&lt;option&gt;选项,参数&lt;option&gt;选项的索引位置【推荐】</strong></span><br><strong>使用方式：</strong><br><strong>select标签.remove(&lt;option&gt;选项的索引位置)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option&gt;无&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到&lt;select&gt;标签</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">removeChild删除节点里指定的子节点，获取&lt;select&gt;标签里的指定options传入方法</span>
+    <span style="color: #008000">//</span><span style="color: #008000">xz.removeChild(xz.options[0]);                //DOM移除</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">remove()方法，移除&lt;select&gt;标签里指定的&lt;option&gt;选项,参数&lt;option&gt;选项的索引位置【推荐】</span>
+    xz.remove(3);                            <span style="color: #008000">//</span><span style="color: #008000">remove()移除，推荐</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">获取到&lt;option&gt;选项设置为null</span>
+    <span style="color: #008000">//</span><span style="color: #008000">xz.options[0] = null;                        //null移除</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>PS：当第一项移除后，下面的项，往上顶，所以不停的移除第一项，即可全部移除。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>移动选项</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>如果有两个选择框，把第一个选择框里的第一项移到第二个选择框里，并且第一个选择框里的第一项被移除。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz" size="5"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="昆明v"&gt;昆明t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz2" size="5"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option&gt;无&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个&lt;select&gt;标签</span>
+    <span style="color: #0000ff">var</span> xz2 = get.elements['xz2'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第二个&lt;select&gt;标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">给第一个&lt;select&gt;标签添加一个点击事件，点击后激发函数</span>
+    addEvent(xz,'click',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">xz.selectedIndex获取到第一个&lt;select&gt;标签的当前选项的索引</span>
+        <span style="color: #008000">//</span><span style="color: #008000">xz.options[]通过索引获取到当前选项，将当前选项添加到第二个&lt;select&gt;标签里</span>
+<span style="color: #000000">        xz2.appendChild(xz.options[xz.selectedIndex]);
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>排列选项</strong></span></p>
+<p align="left"><strong>选择框提供了一个index属性，可以得到当前选项的索引值，和selectedIndex的区别是，一个是选择框对象的调用，一个是选项对象的调用。</strong></p>
+<p><span style="color: #ff0000"><strong>index属性，获取&lt;option&gt;标签当前元素的索引</strong></span><br><strong>使用方式</strong><br><strong>option元素.index</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="昆明v"&gt;昆明t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个&lt;select&gt;标签</span>
+    alert(xz.options[1<span style="color: #000000">].index);
+    </span><span style="color: #008000">//</span><span style="color: #008000">返回1</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p><span style="color: #ff00ff"><strong>排序选项</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;select name="xz"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="上海v"&gt;上海t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="杭州v"&gt;杭州t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="南京v"&gt;南京t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">         &lt;option value="昆明v"&gt;昆明t&lt;/option&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     &lt;/select&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> xz = get.elements['xz'];  <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到第一个&lt;select&gt;标签</span>
+    <span style="color: #0000ff">var</span> option = xz.options[1];  <span style="color: #008000">//</span><span style="color: #008000">获取第二个option标签选项</span>
+    <span style="color: #008000">//</span><span style="color: #008000">insertBefore将一个节点添加到，指定节点的前面。第一个参数是要添加的节点，第二个参数是要在它之前添加节点的目标节点</span>
+    <span style="color: #008000">//</span><span style="color: #008000">将第二个节点移动添加到，第一个节点前</span>
+    xz.insertBefore(option, xz.options[option.index - 1<span style="color: #000000">]);        
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>单选按钮和复选框</strong></span></p>
+<p><span style="color: #ff0000"><strong>checked属性，判断指定单选框或复选框是否被选中，返回布尔值</strong></span><br><strong>使用方式</strong><br><strong>指定单选框或复选框元素.checked</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     音乐：&lt;input type="checkbox" name="yse" value="5"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     体育：&lt;input type="checkbox" name="yse" value="6"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> checkbox = get.elements['yse']; <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到所有的单选框</span>
+    alert(checkbox[0].checked);  <span style="color: #008000">//</span><span style="color: #008000">判断指定点选框是否被选中，返回布尔值</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">循环所有单选框，打印出被选中表单的value值</span>
+    <span style="color: #008000">//</span><span style="color: #008000">根据所有单选框的长度循环次数</span>
+    <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; checkbox.length; i++) {            <span style="color: #008000">//</span><span style="color: #008000">循环单选按钮</span>
+        <span style="color: #008000">//</span><span style="color: #008000">判断每次循环到的单选框checked属性等于true，就表示此单选框被选中</span>
+        <span style="color: #0000ff">if</span> (checkbox[i].checked == <span style="color: #0000ff">true</span>) {            <span style="color: #008000">//</span><span style="color: #008000">遍历每一个找出选中的那个</span>
+            <span style="color: #008000">//</span><span style="color: #008000">打印出被选中的单选框的value值</span>
+            alert(checkbox[i].value);                <span style="color: #008000">//</span><span style="color: #008000">得到值</span>
+<span style="color: #000000">        }
+    }
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>defaultChecked属性，判断指定单选框或复选框是否是被默认选中，它获取的是原本HTML的默认选中checked属性值，而不会因为点击而改变。</strong></span><br><strong>使用方式：</strong><br><strong>指定单选框或复选框元素.defaultChecked</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;form id="get" name="rgj"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     音乐：&lt;input type="checkbox" name="yse" value="5"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000">     体育：&lt;input type="checkbox" name="yse" value="6"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/form&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">添加事件当页面加载完成后激发函数</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> get = document.getElementById('get');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到form标签</span>
+    <span style="color: #008000">//</span><span style="color: #008000">elements属性，获取表单form元素里的表单字段，返回表单字段集合，后面可以跟字段下标，获取指定字段，也可以跟name值获取指定字段</span>
+    <span style="color: #0000ff">var</span> checkbox = get.elements['yse']; <span style="color: #008000">//</span><span style="color: #008000">通过name值获取到所有的单选框</span>
+    alert(checkbox[0].defaultChecked); <span style="color: #008000">//</span><span style="color: #008000">判断单选框是否为默认选择</span>
+<span style="color: #000000">});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,186 @@
+第三百八十三节，Django+Xadmin打造上线标准的在线教育平台—第三方模块django-simple-captcha验证码
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百八十三节，Django+Xadmin打造上线标准的在线教育平台—第三方模块django-simple-captcha验证码</strong></p>
+<p>&nbsp;</p>
+<p><strong>下载地址：https://github.com/mbi/django-simple-captcha</strong></p>
+<p><strong>文档说明：http://django-simple-captcha.readthedocs.io/en/latest/usage.html</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>安装模块</strong></span></p>
+<p><strong>下载后<span style="color: #0000ff">python&nbsp;</span><strong><strong><span style="color: #0000ff">setup.py&nbsp;install</span>安装模块</strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><strong><strong><strong>在配置文件settings.py，里注册app名称<span style="color: #0000ff"><span style="color: #ff0000">captcha</span>，因为这个验证码插件，自动生成自己的一张数据库表</span></strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre>INSTALLED_APPS =<span style="color: #000000"> [
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.admin</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.contenttypes</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.sessions</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.messages</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.staticfiles</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app_users</span><span style="color: #800000">'</span>,                        <span style="color: #008000">#</span><span style="color: #008000"> 注册 APP</span>
+    <span style="color: #800000">'</span><span style="color: #800000">app_courses</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app_organization</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app_operation</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">xadmin</span><span style="color: #800000">'</span>,                           <span style="color: #008000">#</span><span style="color: #008000"> 注册xadmin的app</span>
+    <span style="color: #800000">'</span><span style="color: #800000">crispy_forms</span><span style="color: #800000">'</span>,                     <span style="color: #008000">#</span><span style="color: #008000"> 注册xadmin的依赖app</span>
+    <span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">captcha</span><span style="color: #800000">'</span></span>,                          <span style="color: #008000">#</span><span style="color: #008000"> 注册验证码app</span>
+]</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>配置图面验证码url路由映射</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.conf.urls <span style="color: #0000ff">import</span> url, <span style="background-color: #ff99cc">include</span>                   <span style="color: #008000">#</span><span style="color: #008000"> 导入django自在的include逻辑</span>
+<span style="color: #0000ff">from</span> django.contrib <span style="color: #0000ff">import</span><span style="color: #000000"> admin
+</span><span style="color: #0000ff">from</span> django.views.generic <span style="color: #0000ff">import</span> TemplateView               <span style="color: #008000">#</span><span style="color: #008000"> 导入django自带的TemplateView逻辑</span>
+
+<span style="color: #0000ff">import</span> xadmin                                               <span style="color: #008000">#</span><span style="color: #008000"> 导入xadmin</span>
+
+<span style="color: #0000ff">from</span> app_users.views <span style="color: #0000ff">import</span> deng_lu, zhu_ce, yanzhmaHandler                         <span style="color: #008000">#</span><span style="color: #008000"> 导入登录逻辑处理类</span>
+<span style="color: #000000">
+urlpatterns </span>=<span style="color: #000000"> [
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^xadmin/</span><span style="color: #800000">'</span><span style="color: #000000">, xadmin.site.urls),
+
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^index.html</span><span style="color: #800000">'</span>, TemplateView.as_view(template_name=<span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span>), name=<span style="color: #800000">'</span><span style="color: #800000">index</span><span style="color: #800000">'</span><span style="color: #000000">),
+
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^register.html</span><span style="color: #800000">'</span>, TemplateView.as_view(template_name=<span style="color: #800000">'</span><span style="color: #800000">register.html</span><span style="color: #800000">'</span>), name=<span style="color: #800000">'</span><span style="color: #800000">register</span><span style="color: #800000">'</span><span style="color: #000000">),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^zhu_ce</span><span style="color: #800000">'</span>, zhu_ce.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">zhu_ce</span><span style="color: #800000">'</span><span style="color: #000000">),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^yanzhm</span><span style="color: #800000">'</span>, yanzhmaHandler.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">yanzhm</span><span style="color: #800000">'</span><span style="color: #000000">),
+    <span style="background-color: #ff99cc">url(r</span></span><span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">^captcha/</span><span style="color: #800000">'</span>, include(<span style="color: #800000">'</span><span style="color: #800000">captcha.urls</span><span style="color: #800000">'</span>), name=<span style="color: #800000">'</span><span style="color: #800000">captcha</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ff99cc">),</span>
+
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^login.html</span><span style="color: #800000">'</span>, TemplateView.as_view(template_name=<span style="color: #800000">'</span><span style="color: #800000">login.html</span><span style="color: #800000">'</span>), name=<span style="color: #800000">'</span><span style="color: #800000">login</span><span style="color: #800000">'</span><span style="color: #000000">),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^deng_lu</span><span style="color: #800000">'</span>, deng_lu.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">deng_lu</span><span style="color: #800000">'</span><span style="color: #000000">),
+
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>生成验证码数据表</strong></span></p>
+<p><span style="color: #000000"><strong>执行migrate命令<strong>生成验证码数据表</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170914105346860-707776633.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>编写当前app下的forms.py表单验证</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span><span style="color: #008000">
+#</span><span style="color: #008000"> 表单验证</span>
+
+<span style="color: #0000ff">from</span> django <span style="color: #0000ff">import</span> forms                 <span style="color: #008000">#</span><span style="color: #008000"> 导入Django的表单验证模块</span>
+<span style="color: #0000ff">from</span> captcha.fields <span style="color: #0000ff">import</span><span style="color: #000000"> CaptchaField
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> zhu_ce_forms(forms.Form):
+    email </span>=<span style="color: #000000"> forms.EmailField(
+        required</span>=<span style="color: #000000">True,
+        max_length</span>=40<span style="color: #000000">,
+        min_length</span>=2<span style="color: #000000">,
+        error_messages</span>=<span style="color: #000000">{
+            </span><span style="color: #800000">'</span><span style="color: #800000">required</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">邮箱名不能为空</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">max_length</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">邮箱名长度不得超过40个字符</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">min_length</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">邮箱名长度不得少于2个字符</span><span style="color: #800000">'</span><span style="color: #000000">,
+        }
+    )
+    password </span>=<span style="color: #000000"> forms.CharField(
+        required</span>=<span style="color: #000000">True,
+        max_length</span>=20<span style="color: #000000">,
+        min_length</span>=2<span style="color: #000000">,
+        error_messages</span>=<span style="color: #000000">{
+            </span><span style="color: #800000">'</span><span style="color: #800000">required</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">密码不能为空</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">max_length</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">密码长度不得超过20个字符</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">min_length</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">密码长度不得少于2个字符</span><span style="color: #800000">'</span><span style="color: #000000">,
+        }
+    )
+<span style="background-color: #ff99cc"><strong>    captcha </strong></span></span><span style="background-color: #ff99cc"><strong>=<span style="color: #000000"> CaptchaField(　　　　　　　　　　　　<span style="color: #008080"># captcha名称是固定的</span>
+        required</span>=<span style="color: #000000">True,
+        error_messages</span>=<span style="color: #000000">{
+            </span><span style="color: #800000">'</span><span style="color: #800000">required</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">验证码不能为空</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">invalid</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">验证码不正确</span><span style="color: #800000">'</span><span style="color: #000000">
+        }
+    )</span></strong></span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>验证码使用</strong></span></p>
+<p><span style="color: #ff0000"><strong>在需要使用验证码表单的逻辑处理函数里使用</strong></span></p>
+<p><span style="color: #ff0000"><strong>1在get请求时实例化表单验证类，将实例化的类传输到html页面</strong></span></p>
+<p><span style="color: #ff0000"><strong>2在HTML页面接收表单类下面的captcha,会自动生成验证码包括输入框，数据库里也会生成验证码，这样包括验证等都会自动完成</strong></span></p>
+<p><span style="color: #0000ff"><strong>逻辑处理</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">import</span> io  <span style="color: #008000">#</span><span style="color: #008000"> 导入io模块</span>
+
+<span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span> render, HttpResponse                                           <span style="color: #008000">#</span><span style="color: #008000"> 导入django向浏览器返回方法</span>
+<span style="color: #0000ff">from</span> django.views.generic.base <span style="color: #0000ff">import</span><span style="color: #000000"> View
+</span><span style="color: #0000ff">from</span> django.db.models <span style="color: #0000ff">import</span> F,Q                                                            <span style="color: #008000">#</span><span style="color: #008000"> 导入F和Q</span>
+<span style="color: #0000ff">from</span> django.contrib.auth.hashers <span style="color: #0000ff">import</span> make_password, check_password                       <span style="color: #008000">#</span><span style="color: #008000"> 导入django密码加密，和密码验证</span>
+<span style="color: #0000ff">from</span> django.contrib.auth.models <span style="color: #0000ff">import</span><span style="color: #000000"> User
+
+</span><span style="color: #0000ff">from</span> app_users.forms <span style="color: #0000ff">import</span> deng_lu_forms, <span style="background-color: #ff99cc">zhu_ce_forms</span>                                    <span style="color: #008000">#</span><span style="color: #008000"> 导入登录页面表单认证</span>
+<span style="color: #0000ff">from</span> app_users.models <span style="color: #0000ff">import</span> Users                                                          <span style="color: #008000">#</span><span style="color: #008000"> 导入数据库操作</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> zhu_ce(View):
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> get(self, request):
+        <span style="background-color: #ff99cc">yanzhm </span></span><span style="background-color: #ff99cc">=<span style="color: #000000"> zhu_ce_forms()
+        </span></span><span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">register.html</span><span style="color: #800000">'</span>, {<span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">yanzhm</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ff99cc">: yanzhm}</span>)
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> post(self, request):
+        <span style="background-color: #ff99cc">f </span></span><span style="background-color: #ff99cc">=<span style="color: #000000"> zhu_ce_forms(request.POST)
+        </span><span style="color: #0000ff">if</span> f.is_valid():                                <span style="color: #008000">#</span><span style="color: #008000"> 判断认证是否成功</span>
+            tong_guo = f.cleaned_data                   <span style="color: #008000">#</span><span style="color: #008000"> 认证成功，接收用户数据</span>
+            email = tong_guo[<span style="color: #800000">'</span><span style="color: #800000">email</span><span style="color: #800000">'</span><span style="color: #000000">]
+            password </span>= tong_guo[<span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span>]</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre>                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group marb8 captcha1 {% if cuo_wu.captcha %}errorput{% endif %}"</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>验<span style="color: #ff0000">&amp;nbsp;</span>证<span style="color: #ff0000">&amp;nbsp;</span>码<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                            {{ yanzhm.captcha }}
+                        </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>验证码的各种设置在settings.py里配置</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000"># Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app_users',                        # 注册 APP
+    'app_courses',
+    'app_organization',
+    'app_operation',
+    'xadmin',                           # 注册xadmin的app
+    'crispy_forms',                     # 注册xadmin的依赖app
+    <span style="background-color: #ff99cc">'captcha',</span>                          # 注册验证码app
+]
+<span style="background-color: #ff99cc"># 格式
+CAPTCHA_OUTPUT_FORMAT = u'%(text_field)s %(hidden_field)s %(image)s'
+# 噪点样式
+CAPTCHA_NOISE_FUNCTIONS = (
+    'captcha.helpers.noise_null',       # 没有样式
+    # 'captcha.helpers.noise_arcs',     # 线
+    'captcha.helpers.noise_dots',       # 点
+)
+# 图片大小
+CAPTCHA_IMAGE_SIZE = (100, 30)
+# 字符个数
+CAPTCHA_LENGTH = 4
+# 超时(minutes)
+CAPTCHA_TIMEOUT = 1
+# 文字倾斜
+CAPTCHA_LETTER_ROTATION = (-10,10)
+# 背景颜色
+CAPTCHA_BACKGROUND_COLOR = '#FFFFFF'
+# 文字颜色
+CAPTCHA_FOREGROUND_COLOR = '#0A12E5'
+# 验证码类型
+# 图片中的文字为随机英文字母，如 mdsh
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
+# 图片中的文字为数字表达式，如1+2=
+# CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'</span></span></pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,87 @@
+第三百零一节，python操作redis缓存-管道、发布订阅
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>python操作redis缓存-管道、发布订阅</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>一、管道</strong></span></p>
+<p><strong>redis-py默认在执行每次请求都会创建（连接池申请连接）和断开（归还连接池）一次连接操作，如果想要在一次请求中指定多个命令，则可以使用pipline实现一次请求指定多个命令，并且默认情况下一次<span style="color: #ff0000">pipline 是原子性操作。</span></strong></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">pipeline(transaction=True)</span>transaction=True将多个操作组合成原子性操作，也就是一个整体，有一个操作失败，意味着全部失败，数据回滚</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">pipe.execute()</span>执行原子性操作</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+<span style="background-color: #ffff00"><span style="color: #000000">
+
+pipe </span>= r.pipeline(transaction=True)  <span style="color: #008000">#</span><span style="color: #008000">将多个操作组合成原子性操作，也就是一个整体，有一个操作失败，意味着全部失败，数据回滚</span>
+<span style="color: #000000">
+pipe.set(</span><span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">alex</span><span style="color: #800000">'</span><span style="color: #000000">)
+pipe.set(</span><span style="color: #800000">'</span><span style="color: #800000">role</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">sb</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+pipe.execute()                       </span><span style="color: #008000">#</span><span style="color: #008000">执行原子性操作</span></span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>二、发布订阅</strong>&nbsp;</span></p>
+<p><strong>也就是，多个订阅端循环监听着Redis里的一个name名称通道，当这个通道里有内容时立即获取到，发布端向这个<strong>name名称通道里写入类容提供订阅者获取</strong></strong></p>
+<p><span style="background-color: #ff99cc"><strong>订阅端</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">pubsub()</span>创建订阅对象</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">subscribe('fm104')</span>创建订阅通道，也就是redis里的一个name名称</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">parse_response()</span>循环监听通道里的类容</strong></span><br><span style="background-color: #ff99cc"><strong>发布端</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">publish('fm104','12')</span>发布内容</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>订阅端</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000">"""</span><span style="color: #800000">
+订阅者
+</span><span style="color: #800000">"""</span>
+<span style="color: #0000ff">import</span> redis     <span style="color: #008000">#</span><span style="color: #008000">导入缓存模块</span>
+<span style="color: #000000">
+r </span>= redis.Redis(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)     <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+pub = r.pubsub()                                 <span style="color: #008000">#</span><span style="color: #008000">创建订阅对象</span>
+pub.subscribe(<span style="color: #800000">'</span><span style="color: #800000">fm104</span><span style="color: #800000">'</span>)                           <span style="color: #008000">#</span><span style="color: #008000">创建订阅通道，也就是redis里的一个name名称</span>
+<span style="color: #0000ff">while</span><span style="color: #000000"> True:
+    msg </span>= pub.parse_response()                   <span style="color: #008000">#</span><span style="color: #008000">循环监听通道里的类容</span>
+    <span style="color: #0000ff">print</span>(msg)                                   <span style="color: #008000">#</span><span style="color: #008000">通道里有内容就打印</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>发布端</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000">"""</span><span style="color: #800000">
+发布者
+</span><span style="color: #800000">"""</span>
+<span style="color: #0000ff">import</span> redis     <span style="color: #008000">#</span><span style="color: #008000">导入缓存模块</span>
+<span style="color: #000000">
+r </span>= redis.Redis(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)     <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+r.publish(<span style="color: #800000">'</span><span style="color: #800000">fm104</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">12</span><span style="color: #800000">'</span>)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>以后可以封装成一个模块，如：</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> redis
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> RedisHelper:
+
+    </span><span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span><span style="color: #000000">(self):
+        self.</span><span style="color: #800080">__conn</span> = redis.Redis(host=<span style="color: #800000">'</span><span style="color: #800000">10.211.55.4</span><span style="color: #800000">'</span><span style="color: #000000">)
+        self.chan_sub </span>= <span style="color: #800000">'</span><span style="color: #800000">fm104.5</span><span style="color: #800000">'</span><span style="color: #000000">
+        self.chan_pub </span>= <span style="color: #800000">'</span><span style="color: #800000">fm104.5</span><span style="color: #800000">'</span>
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> public(self, msg):　　　　　　　　<span style="background-color: #ffffff; color: #339966">#发布方法</span>
+        self.</span><span style="color: #800080">__conn</span><span style="color: #000000">.publish(self.chan_pub, msg)
+        </span><span style="color: #0000ff">return</span><span style="color: #000000"> True
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> subscribe(self):　　　　　　　　 <span style="color: #339966; background-color: #ffffff"> #订阅方法</span>
+        pub </span>= self.<span style="color: #800080">__conn</span><span style="color: #000000">.pubsub()
+        pub.subscribe(self.chan_sub)
+        pub.parse_response()
+        </span><span style="color: #0000ff">return</span> pub</pre>
+</div>
+<p>&nbsp;</p></div>

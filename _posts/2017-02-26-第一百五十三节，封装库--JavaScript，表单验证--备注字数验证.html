@@ -1,0 +1,314 @@
+第一百五十三节，封装库--JavaScript，表单验证--备注字数验证
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong>封装库--JavaScript，表单验证--备注字数验证</strong></span></p>
+<p><span style="color: #0000ff"><strong>效果图</strong></span></p>
+<p><span style="color: #0000ff"><strong><img src="https://images2015.cnblogs.com/blog/955761/201702/955761-20170226142944554-1862059965.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201702/955761-20170226142956210-29094436.png" alt=""></p>
+<p>&nbsp;</p>
+<p>html</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="reg"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">h2 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tuo"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/close.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">=""</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="close"</span> <span style="color: #0000ff">/&gt;</span>会员注册<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="reg"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">dl</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>用 户 名： <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">/&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="info info_user"</span><span style="color: #0000ff">&gt;</span>请输入用户名，4~20位，由字母、数字和下划线组成！<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="error error_user"</span><span style="color: #0000ff">&gt;</span>输入不合法，请重新输入！<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="succ succ_user"</span><span style="color: #0000ff">&gt;</span>可用<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>密　　码： <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="password"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="pass"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">/&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="info info_pass"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>安全级别：<span style="color: #0000ff">&lt;</span><span style="color: #800000">strong </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="s s1"</span><span style="color: #0000ff">&gt;</span>■<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">strong </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="s s2"</span><span style="color: #0000ff">&gt;</span>■<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">strong
+                            </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="s s3"</span><span style="color: #0000ff">&gt;</span>■<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span> <span style="color: #0000ff">&lt;</span><span style="color: #800000">strong </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="s s4"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="font-weight:normal;"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">strong </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="q1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="font-weight:normal;"</span><span style="color: #0000ff">&gt;</span>○<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span> 6-20 个字符<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">strong </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="q2"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="font-weight:normal;"</span><span style="color: #0000ff">&gt;</span>○<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span> 只能包含大小写字母、数字和非空格字符<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">strong </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="q3"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="font-weight:normal;"</span><span style="color: #0000ff">&gt;</span>○<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span> 大、小写字母、数字、非空字符，2种以上<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="error error_pass"</span><span style="color: #0000ff">&gt;</span>输入不合法，请重新输入！<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="succ succ_pass"</span><span style="color: #0000ff">&gt;</span>可用<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>密码确认： <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="password"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="notpass"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">/&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="info info_notpass"</span><span style="color: #0000ff">&gt;</span>请再一次输入密码！<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="error error_notpass"</span><span style="color: #0000ff">&gt;</span>密码不一致，请重新输入！<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="succ succ_notpass"</span><span style="color: #0000ff">&gt;</span>可用<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="vertical-align:-2px"</span><span style="color: #0000ff">&gt;</span>提　　问：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span> <span style="color: #0000ff">&lt;</span><span style="color: #800000">select </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="ques"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="0"</span><span style="color: #0000ff">&gt;</span>- - - - 请选择 - - - -<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span>- - 您最喜欢吃的菜<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="2"</span><span style="color: #0000ff">&gt;</span>- - 您的狗狗的名字<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="3"</span><span style="color: #0000ff">&gt;</span>- - 您的出生地<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="4"</span><span style="color: #0000ff">&gt;</span>- - 您最喜欢的明星<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">select</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>回　　答： <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="ans"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">/&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="info info_ans"</span><span style="color: #0000ff">&gt;</span>请输入回答，2~32位！<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="error error_ans"</span><span style="color: #0000ff">&gt;</span>回答不合法，请重新输入！<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="succ succ_ans"</span><span style="color: #0000ff">&gt;</span>可用<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>电子邮件： <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="email"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span><span style="color: #0000ff">/&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="info info_email"</span><span style="color: #0000ff">&gt;</span>请输入电子邮件！<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="error error_email"</span><span style="color: #0000ff">&gt;</span>邮件不合法，请重新输入！<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="succ succ_email"</span><span style="color: #0000ff">&gt;</span>可用<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="all_email"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>@qq.com<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>@163.com<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>@sohu.com<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>@sina.com.cn<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>@gmail.com<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="birthday"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="vertical-align:-2px"</span><span style="color: #0000ff">&gt;</span>生　　日：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span> <span style="color: #0000ff">&lt;</span><span style="color: #800000">select </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="year"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="0"</span><span style="color: #0000ff">&gt;</span>- 请选择 -<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">select</span><span style="color: #0000ff">&gt;</span><span style="color: #000000"> 年
+                </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">select </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="month"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="0"</span><span style="color: #0000ff">&gt;</span>- 请选择 -<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">select</span><span style="color: #0000ff">&gt;</span><span style="color: #000000"> 月
+                </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">select </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="day"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">option </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="0"</span><span style="color: #0000ff">&gt;</span>- 请选择 -<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">select</span><span style="color: #0000ff">&gt;</span><span style="color: #000000"> 日
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="height:105px;"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="vertical-align:85px"</span><span style="color: #0000ff">&gt;</span>备　　注：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span> <span style="color: #0000ff">&lt;</span><span style="color: #800000">textarea </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="ps"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">textarea</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tsh1"</span><span style="color: #0000ff">&gt;</span>还可以输入<span style="color: #0000ff">&lt;</span><span style="color: #800000">strong </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="unm"</span><span style="color: #0000ff">&gt;</span>10<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span>字<span style="color: #0000ff">&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tsh2"</span><span style="color: #0000ff">&gt;</span>已超过<span style="color: #0000ff">&lt;</span><span style="color: #800000">strong </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="unm2"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span>字,<span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>清尾<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="button"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="submit"</span><span style="color: #0000ff">/&gt;&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">dl</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>css</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">注册提示</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">用户名提示</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.info, #reg dl dd span.error, #reg dl dd span.succ </span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff">block</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff">12px</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff">#333</span>;<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff">165px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">32px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff">32px</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff">0 0 0 35px</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff">absolute</span>;<span style="color: #ff0000">
+    letter-spacing</span>:<span style="color: #0000ff">1px</span>;<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff">none</span>;
+}<span style="color: #800000">
+#reg dl dd span.info </span>{<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">url(img/reg_info.png) no-repeat</span>;
+}<span style="color: #800000">
+#reg dl dd span.error </span>{<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">url(img/reg_error.png) no-repeat</span>;
+}<span style="color: #800000">
+#reg dl dd span.succ </span>{<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">14px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff">14px</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">url(img/reg_succ.png) no-repeat</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff">0 0 0 20px</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff">green</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">输入</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.info_user </span>{<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">43px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff">18px</span>;<span style="color: #ff0000">
+    padding-top</span>:<span style="color: #0000ff">7px</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">url(img/reg_info2.png) no-repeat</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">60px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">310px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}
+<span style="color: #008000">/*</span><span style="color: #008000">错误</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.error_user </span>{<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">60px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">310px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}
+<span style="color: #008000">/*</span><span style="color: #008000">可用</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.succ_user </span>{<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">70px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">315px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}
+
+<span style="color: #008000">/*</span><span style="color: #008000">密码验证</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.info_pass </span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff">244px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">102px</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff">4px 0 0 16px</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">url(img/reg_info3.png) no-repeat</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">60px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">310px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    letter-spacing</span>:<span style="color: #0000ff">0</span>;
+}<span style="color: #800000">
+#reg dl dd span.info_pass p </span>{<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">25px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff">25px</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff">#666</span>;
+}<span style="color: #800000">
+#reg dl dd span.info_pass p strong.s </span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff">#ccc</span>;
+}<span style="color: #800000">
+#reg dl dd span.error_pass </span>{<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">43px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">295px</span>;
+}<span style="color: #800000">
+#reg dl dd span.succ_pass </span>{<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">52px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">295px</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">错误</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.error_pass </span>{<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">110px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">310px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}
+<span style="color: #008000">/*</span><span style="color: #008000">可用</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.succ_pass </span>{<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">110px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">315px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}<span style="color: #800000">
+#reg .info_pass strong</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 25px</span>;
+}
+
+<span style="color: #008000">/*</span><span style="color: #008000">密码确认</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.info_notpass</span>{<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">43px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff">18px</span>;<span style="color: #ff0000">
+    padding-top</span>:<span style="color: #0000ff">7px</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">url(img/reg_info2.png) no-repeat</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">140px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">310px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}
+<span style="color: #008000">/*</span><span style="color: #008000">错误</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.error_notpass </span>{<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">140px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">310px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}
+<span style="color: #008000">/*</span><span style="color: #008000">可用</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.succ_notpass </span>{<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">150px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">315px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}
+
+<span style="color: #008000">/*</span><span style="color: #008000">回答</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.info_ans</span>{<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">43px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff">18px</span>;<span style="color: #ff0000">
+    padding-top</span>:<span style="color: #0000ff">7px</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">url(img/reg_info2.png) no-repeat</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">220px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">310px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}
+<span style="color: #008000">/*</span><span style="color: #008000">错误</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.error_ans </span>{<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">220px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">310px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}
+<span style="color: #008000">/*</span><span style="color: #008000">可用</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.succ_ans </span>{<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">220px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">315px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}
+
+<span style="color: #008000">/*</span><span style="color: #008000">电子邮件</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.info_email</span>{<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">43px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff">18px</span>;<span style="color: #ff0000">
+    padding-top</span>:<span style="color: #0000ff">7px</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">url(img/reg_info2.png) no-repeat</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">255px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">310px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}
+<span style="color: #008000">/*</span><span style="color: #008000">错误</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.error_email </span>{<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">255px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">310px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}
+<span style="color: #008000">/*</span><span style="color: #008000">可用</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd span.succ_email </span>{<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">275px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">315px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">display:block;</span><span style="color: #008000">*/</span>
+}<span style="color: #800000">
+#reg dl dd ul.all_email </span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff">180px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">130px</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">#fff</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff">5px 10px</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff">absolute</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">292px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">104px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff">1px solid #ccc</span>;<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff">none</span>;
+}<span style="color: #800000">
+#reg dl dd ul.all_email li </span>{<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">25px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff">25px</span>;<span style="color: #ff0000">
+    border-bottom</span>:<span style="color: #0000ff">1px solid #e5edf2</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff">0 5px</span>;<span style="color: #ff0000">
+    cursor</span>:<span style="color: #0000ff">pointer</span>;
+}
+
+<span style="color: #008000">/*</span><span style="color: #008000">备注提示</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd.tsh1</span>{<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff">0 0 0 320px</span>;<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> block</span>;
+}<span style="color: #800000">
+
+#reg dl dd.tsh2</span>{<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff">0 0 0 320px</span>;<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> none</span>;
+}<span style="color: #800000">
+#reg dl dd.tsh2 span</span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #1227ff</span>;<span style="color: #ff0000">
+    cursor</span>:<span style="color: #0000ff">pointer</span>;
+}
+
+<span style="color: #008000">/*</span><span style="color: #008000">提交</span><span style="color: #008000">*/</span><span style="color: #800000">
+#reg dl dd input.submit</span>{<span style="color: #ff0000">
+    margin-left</span>:<span style="color: #0000ff">150px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #19ff1d</span>;
+}</pre>
+</div>
+<p>前台js</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">备注</span>
+    <span style="color: #0000ff">var</span> zong = 10;     <span style="color: #008000">//</span><span style="color: #008000">总输入字数</span>
+    $('form').hq_form_name('ps').yuan_su_shi_jian('keyup', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        beizhu(zong);
+    }).yuan_su_shi_jian(</span>'paste',<span style="color: #0000ff">function</span> () {    <span style="color: #008000">//</span><span style="color: #008000">鼠标粘贴检测</span>
+        setTimeout(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+           beizhu(zong);
+        },</span>50<span style="color: #000000">);
+    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">清尾</span>
+    $('#reg .tsh2 span').on_click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $(</span>'form').hq_form_name('ps').hq_value($('form').hq_form_name('ps').hq_value().substring(0<span style="color: #000000">,zong));
+        beizhu(zong);
+    });
+
+    </span><span style="color: #0000ff">function</span><span style="color: #000000"> beizhu(zong) {
+        </span><span style="color: #0000ff">var</span> num = zong - $('form').hq_form_name('ps').hq_value().length;    <span style="color: #008000">//</span><span style="color: #008000">得到还可以输入</span>
+        <span style="color: #0000ff">if</span> (num &gt;= 0<span style="color: #000000">) {
+            $(</span>'#reg .tsh1').c_css('display', 'block'<span style="color: #000000">);
+            $(</span>'#reg .tsh2').c_css('display', 'none'<span style="color: #000000">);
+            $(</span>'#reg .tsh1 .unm'<span style="color: #000000">).wen_ben(num);
+        } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (num &lt; 0<span style="color: #000000">) {
+            </span><span style="color: #0000ff">var</span> chang = ($('form').hq_form_name('ps').hq_value().length) - zong;  <span style="color: #008000">//</span><span style="color: #008000">得到超出多少</span>
+            $('#reg .tsh1').c_css('display', 'none'<span style="color: #000000">);
+            $(</span>'#reg .tsh2').c_css('display', 'block'<span style="color: #000000">);
+            $(</span>'#reg .tsh2 .unm2').wen_ben(chang).c_css('color', '#FF3724'<span style="color: #000000">);
+        }
+    }</span></pre>
+</div>
+<p>必须先引入封装库</p></div>

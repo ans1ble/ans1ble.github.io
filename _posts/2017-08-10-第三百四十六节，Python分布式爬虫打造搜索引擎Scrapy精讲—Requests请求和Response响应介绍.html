@@ -1,0 +1,87 @@
+第三百四十六节，Python分布式爬虫打造搜索引擎Scrapy精讲—Requests请求和Response响应介绍
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #000000"><strong>第三百四十六节，Python分布式爬虫打造搜索引擎Scrapy精讲—Requests请求和Response响应介绍</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>Requests请求</strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong>Requests请求就是我们在爬虫文件写的<strong><strong>Requests()方法，也就是提交一个请求地址，<strong><strong>Requests请求是我们自定义的</strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><span style="color: #0000ff">Requests()</span>方法提交一个请求</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　参数：</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　url= &nbsp;字符串类型url地址</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　callback= 回调函数名称</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　method= 字符串类型请求方式，如果GET,POST</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　headers= 字典类型的，浏览器用户代理</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　cookies= 设置cookies</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　meta= 字典类型键值对，向回调函数直接传一个指定值</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　encoding= 设置网页编码</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　priority= 默认为0，如果设置的越高，越优先调度</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　dont_filter= 默认为False，如果设置为真，会过滤掉当前url</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.http <span style="color: #0000ff">import</span><span style="color: #000000"> Request,FormRequest
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> re
+
+</span><span style="color: #0000ff">class</span> PachSpider(scrapy.Spider):                            <span style="color: #008000">#</span><span style="color: #008000">定义爬虫类，必须继承scrapy.Spider</span>
+    name = <span style="color: #800000">'</span><span style="color: #800000">pach</span><span style="color: #800000">'</span>                                           <span style="color: #008000">#</span><span style="color: #008000">设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">www.luyin.org/</span><span style="color: #800000">'</span>]                    <span style="color: #008000">#</span><span style="color: #008000">爬取域名</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> start_urls = ['']                                     #爬取网址,只适于不需要登录的请求，因为没法设置cookie等信息</span>
+<span style="color: #000000">
+    header </span>= {<span style="color: #800000">'</span><span style="color: #800000">User-Agent</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0</span><span style="color: #800000">'</span>}  <span style="color: #008000">#</span><span style="color: #008000">设置浏览器用户代理</span>
+
+    <span style="color: #0000ff">def</span> start_requests(self):    <span style="color: #008000">#</span><span style="color: #008000">起始url函数，会替换start_urls</span>
+        <span style="color: #800000">"""</span><span style="color: #800000">第一次请求一下登录页面，设置开启cookie使其得到cookie，设置回调函数</span><span style="color: #800000">"""</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> [<span style="background-color: #ff99cc">Request(</span>
+            <span style="background-color: #ff99cc">url</span></span><span style="background-color: #ff99cc">=<span style="color: #800000">'</span><span style="color: #800000">http://www.luyin.org/</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ff99cc">,</span>
+            <span style="background-color: #ff99cc">headers</span></span><span style="background-color: #ff99cc">=</span><span style="color: #000000"><span style="background-color: #ff99cc">self.header,</span>
+            <span style="background-color: #ff99cc">meta</span></span><span style="background-color: #ff99cc">={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>:1},</span>       <span style="color: #008000">#</span><span style="color: #008000">开启Cookies记录，将Cookies传给回调函数</span>
+            <span style="background-color: #ff99cc">callback=</span><span style="color: #000000"><span style="background-color: #ff99cc">self.parse</span>
+        <span style="background-color: #ff99cc">)</span>]
+
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> parse(self, response):
+        title </span>= response.xpath(<span style="color: #800000">'</span><span style="color: #800000">/html/head/title/text()</span><span style="color: #800000">'</span><span style="color: #000000">).extract()
+        </span><span style="color: #0000ff">print</span>(title)</pre>
+</div>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170810224721824-2086545107.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>Response响应</strong></span></p>
+<p><span style="color: #000000"><strong><strong>Response响应是由downloader返回的响应</strong></strong></span></p>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170810225550089-324812291.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>Response响应参数</strong></span><br><strong>	　　headers 返回响应头</strong><br><strong>	　　status 返回状态吗</strong><br><strong>	　　body 返回页面内容，字节类型</strong><br><strong>	　　url 返回抓取url</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.http <span style="color: #0000ff">import</span><span style="color: #000000"> Request,FormRequest
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> re
+
+</span><span style="color: #0000ff">class</span> PachSpider(scrapy.Spider):                            <span style="color: #008000">#</span><span style="color: #008000">定义爬虫类，必须继承scrapy.Spider</span>
+    name = <span style="color: #800000">'</span><span style="color: #800000">pach</span><span style="color: #800000">'</span>                                           <span style="color: #008000">#</span><span style="color: #008000">设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">www.luyin.org/</span><span style="color: #800000">'</span>]                    <span style="color: #008000">#</span><span style="color: #008000">爬取域名</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> start_urls = ['']                                     #爬取网址,只适于不需要登录的请求，因为没法设置cookie等信息</span>
+<span style="color: #000000">
+    header </span>= {<span style="color: #800000">'</span><span style="color: #800000">User-Agent</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0</span><span style="color: #800000">'</span>}  <span style="color: #008000">#</span><span style="color: #008000">设置浏览器用户代理</span>
+
+    <span style="color: #0000ff">def</span> start_requests(self):    <span style="color: #008000">#</span><span style="color: #008000">起始url函数，会替换start_urls</span>
+        <span style="color: #800000">"""</span><span style="color: #800000">第一次请求一下登录页面，设置开启cookie使其得到cookie，设置回调函数</span><span style="color: #800000">"""</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> [Request(
+            url</span>=<span style="color: #800000">'</span><span style="color: #800000">http://www.luyin.org/</span><span style="color: #800000">'</span><span style="color: #000000">,
+            headers</span>=<span style="color: #000000">self.header,
+            meta</span>={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>:1},       <span style="color: #008000">#</span><span style="color: #008000">开启Cookies记录，将Cookies传给回调函数</span>
+            callback=<span style="color: #000000">self.parse
+        )]
+
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> parse(self, <span style="background-color: #ff99cc">response</span>):
+<span style="background-color: #ff99cc">        title </span></span><span style="background-color: #ff99cc">= response.xpath(<span style="color: #800000">'</span><span style="color: #800000">/html/head/title/text()</span><span style="color: #800000">'</span><span style="color: #000000">).extract()
+        </span><span style="color: #0000ff">print</span><span style="color: #000000">(title)
+        </span><span style="color: #0000ff">print</span><span style="color: #000000">(response.headers)
+        </span><span style="color: #0000ff">print</span><span style="color: #000000">(response.status)
+        </span><span style="color: #008000">#</span><span style="color: #008000"> print(response.body)</span>
+        <span style="color: #0000ff">print</span>(response.url)</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170810232158277-1826898482.png" alt=""></p>
+<p>&nbsp;</p></div>

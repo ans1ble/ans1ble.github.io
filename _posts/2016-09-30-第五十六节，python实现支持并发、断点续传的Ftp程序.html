@@ -1,0 +1,394 @@
+第五十六节，python实现支持并发、断点续传的Ftp程序
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><h1><span style="color: #0000ff;">一、要求</span></h1>
+<p>1、用户md5认证</p>
+<p>2、支持多用户同时登陆（并发）</p>
+<p>3、进入用户的命令行模式，支持cd切换目录，ls查看目录子文件</p>
+<p>4、执行命令（ipconfig）</p>
+<p>5、传输文件：</p>
+<p>　　　　a、支持断点续传</p>
+<p>　　　　b、传输中显示进度条</p>
+<h1><span style="color: #0000ff;">二、思路</span></h1>
+<p>&nbsp;</p>
+<h2>1.客户端用户登录和注册：</h2>
+<p>a、客户端仅提供用户名和密码，选择登录或注册，<br />b、服务器端进行注册并将加密后的密码写入文件，最后返回给客户端是否登录或注册成功</p>
+<h2>2.ls和cd命令</h2>
+<p>a、客户端输入命令，服务器端处理并返回给客户端</p>
+<h2>3.执行命令：</h2>
+<p>a、客户端发送需要执行的命令<br />b、服务器端执行命令，并返回客户端需要接收该命令的次数s=r[0]+1,其中r=divmod（结果总长度，1024）<br />c、客户端收到次数，告诉服务端已经收到<br />d、服务端发送执行结果，客户端进行for循环接收该结果</p>
+<h2>4.发送文件：</h2>
+<p>a、客户端输入文件路径（测试版路径为：f.png），发送文件名和文件大小<br />b、服务器端检测指定目录是否含有该文件，如果没有，返回给客户端字符串s，即从头开始发送start，has_recv=0<br />如果有，即需要断点续传，返回给客户端已经上传了多少has_recv<br />c、客户端接收返回值，并seek到has_recv的位置，进行循环收发，打印当前进度，直到传输完毕。</p>
+<p>注：本程序可循环接收用户选择传输文件和执行命令</p>
+<h1><span style="color: #0000ff;">三、代码</span></h1>
+<p>&nbsp;</p>
+<h2>配置文件：</h2>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> os
+BASE_DIR </span>= os.path.dirname(os.path.dirname(<span style="color: #800080;">__file__</span>))  <span style="color: #008000;">#</span><span style="color: #008000;">配置文件的上层目录</span>
+NEW_FILENAME=os.path.join(BASE_DIR,<span style="color: #800000;">'</span><span style="color: #800000;">view</span><span style="color: #800000;">'</span>)             <span style="color: #008000;">#</span><span style="color: #008000;">新文件目录</span>
+NAME_PWD=os.path.join(BASE_DIR,<span style="color: #800000;">'</span><span style="color: #800000;">db</span><span style="color: #800000;">'</span>,<span style="color: #800000;">'</span><span style="color: #800000;">name_pwd</span><span style="color: #800000;">'</span>)        <span style="color: #008000;">#</span><span style="color: #008000;">用户名和密码目录</span>
+USER_FILE=os.path.join(BASE_DIR,<span style="color: #800000;">'</span><span style="color: #800000;">db</span><span style="color: #800000;">'</span>)</pre>
+</div>
+<h2>服务器端：</h2>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding: utf-8 -*-</span>
+ 
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> sys,os
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> time
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> socket
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> hashlib
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> pickle
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> subprocess
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> socketserver
+sys.path.append(os.path.dirname(os.path.dirname(</span><span style="color: #800080;">__file__</span><span style="color: #000000;">)))
+</span><span style="color: #0000ff;">from</span> config <span style="color: #0000ff;">import</span><span style="color: #000000;"> settings
+ 
+ 
+new</span>=<span style="color: #000000;">settings.NEW_FILENAME
+</span><span style="color: #0000ff;">class</span><span style="color: #000000;"> Myserver(socketserver.BaseRequestHandler):
+ 
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> recv_file(self):
+        </span><span style="color: #800000;">'''</span><span style="color: #800000;">
+        文件传输
+        :return:
+        </span><span style="color: #800000;">'''</span><span style="color: #000000;">
+        conn</span>=<span style="color: #000000;">self.request
+        a</span>=str(conn.recv(1024),encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+        file_size,file_name</span>=a.split(<span style="color: #800000;">'</span><span style="color: #800000;">,</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+        new_file_name</span>=<span style="color: #000000;">os.path.join(new,file_name)
+        </span><span style="color: #0000ff;">if</span> file_name <span style="color: #0000ff;">in</span> new:            <span style="color: #008000;">#</span><span style="color: #008000;">检测文件是否已存在，涉及断点续传</span>
+            has_recv=os.stat(new).st_size <span style="color: #008000;">#</span><span style="color: #008000;">计算临时文件大小</span>
+            conn.sendall(bytes(has_recv,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+            with open(new_file_name,</span><span style="color: #800000;">'</span><span style="color: #800000;">ab</span><span style="color: #800000;">'</span>) as f:  <span style="color: #008000;">#</span><span style="color: #008000;">追加模式</span>
+                <span style="color: #0000ff;">while</span> has_recv&lt;=<span style="color: #000000;">int(file_size):
+                    data</span>=conn.recv(1024<span style="color: #000000;">)
+                    f.write(data)
+                    has_recv</span>+=<span style="color: #000000;">len(data)
+        </span><span style="color: #0000ff;">else</span><span style="color: #000000;">:
+            has_recv</span>=<span style="color: #000000;">0
+            conn.sendall(bytes(</span><span style="color: #800000;">'</span><span style="color: #800000;">s</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)) <span style="color: #008000;">#</span><span style="color: #008000;"> 客户端收到字符串s，从0开始发送</span>
+            with open(new_file_name,<span style="color: #800000;">'</span><span style="color: #800000;">wb</span><span style="color: #800000;">'</span><span style="color: #000000;">) as f:
+                </span><span style="color: #0000ff;">while</span> has_recv&lt;=<span style="color: #000000;">int(file_size):
+                    data</span>=conn.recv(1024<span style="color: #000000;">)
+                    f.write(data)
+                    has_recv</span>+=<span style="color: #000000;">len(data)
+ 
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> command(self):
+        </span><span style="color: #800000;">'''</span><span style="color: #800000;">
+        执行命令
+        :return:
+        </span><span style="color: #800000;">'''</span><span style="color: #000000;">
+        conn</span>=<span style="color: #000000;">self.request
+        a</span>=conn.recv(1024<span style="color: #000000;">)
+        ret</span>=str(a,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+        ret2 </span>= subprocess.check_output(ret, shell=<span style="color: #000000;">True)
+        r</span>=divmod(len(ret2),1024<span style="color: #000000;">)
+        s</span>=r[0]+1         <span style="color: #008000;">#</span><span style="color: #008000;">客户端需要接收的次数</span>
+        conn.sendall(bytes(str(s),encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+        conn.recv(</span>1024)  <span style="color: #008000;">#</span><span style="color: #008000;">确认客户端收到需要接收的次数</span>
+<span style="color: #000000;"> 
+        conn.sendall(ret2)
+ 
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> md5(self,pwd):
+        </span><span style="color: #800000;">'''</span><span style="color: #800000;">
+        对密码进行加密
+        :param pwd: 密码
+        :return:
+        </span><span style="color: #800000;">'''</span><span style="color: #000000;">
+        hash</span>=hashlib.md5(bytes(<span style="color: #800000;">'</span><span style="color: #800000;">xx7</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+        hash.update(bytes(pwd,encoding</span>=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> hash.hexdigest()
+ 
+ 
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> login(self,usrname,pwd):
+        </span><span style="color: #800000;">'''</span><span style="color: #800000;">
+        登陆
+        :param usrname: 用户名
+        :param pwd: 密码
+        :return:是否登陆成功
+        </span><span style="color: #800000;">'''</span><span style="color: #000000;">
+        conn</span>=<span style="color: #000000;">self.request
+        s</span>=pickle.load(open(settings.NAME_PWD,<span style="color: #800000;">'</span><span style="color: #800000;">rb</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+        </span><span style="color: #0000ff;">if</span> usrname <span style="color: #0000ff;">in</span><span style="color: #000000;"> s:
+             </span><span style="color: #0000ff;">if</span> s[usrname]==self.md5(pwd):        <span style="color: #008000;">#</span><span style="color: #008000;">和加密后的密码进行比较</span>
+                <span style="color: #0000ff;">return</span><span style="color: #000000;"> True
+             </span><span style="color: #0000ff;">else</span><span style="color: #000000;">:
+                </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> False
+        </span><span style="color: #0000ff;">else</span><span style="color: #000000;">:
+            </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> False
+ 
+ 
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> regist(self,usrname,pwd):
+        </span><span style="color: #800000;">'''</span><span style="color: #800000;">
+        注册
+        :param usrname: 用户名
+        :param pwd: 密码
+        :return:是否注册成功
+        </span><span style="color: #800000;">'''</span><span style="color: #000000;">
+ 
+        conn</span>=<span style="color: #000000;">self.request
+        s</span>=pickle.load(open(settings.NAME_PWD,<span style="color: #800000;">'</span><span style="color: #800000;">rb</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+        </span><span style="color: #0000ff;">if</span> usrname <span style="color: #0000ff;">in</span><span style="color: #000000;"> s:
+             </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> False
+        </span><span style="color: #0000ff;">else</span><span style="color: #000000;">:
+            s[usrname]</span>=<span style="color: #000000;">self.md5(pwd)
+            mulu</span>=<span style="color: #000000;">os.path.join(settings.USER_FILE,usrname)
+            os.makedirs(mulu,</span><span style="color: #800000;">'</span><span style="color: #800000;">a</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+            pickle.dump(s,open(settings.NAME_PWD,</span><span style="color: #800000;">'</span><span style="color: #800000;">wb</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+            </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> True
+ 
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> before(self,usrname,pwd,ret):
+        </span><span style="color: #800000;">'''</span><span style="color: #800000;">
+        判断注册和登陆，并展示用户的详细目录信息，支持cd和ls命令
+        :return:
+        </span><span style="color: #800000;">'''</span><span style="color: #000000;">
+        conn</span>=<span style="color: #000000;">self.request
+        </span><span style="color: #0000ff;">if</span> ret==<span style="color: #800000;">'</span><span style="color: #800000;">1</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+            r</span>=<span style="color: #000000;">self.login(usrname,pwd)
+            </span><span style="color: #0000ff;">if</span><span style="color: #000000;"> r:
+                conn.sendall(bytes(</span><span style="color: #800000;">'</span><span style="color: #800000;">y</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+            </span><span style="color: #0000ff;">else</span><span style="color: #000000;">:
+                conn.sendall(bytes(</span><span style="color: #800000;">'</span><span style="color: #800000;">n</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+        </span><span style="color: #0000ff;">elif</span> ret==<span style="color: #800000;">'</span><span style="color: #800000;">2</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+            </span><span style="color: #008000;">#</span><span style="color: #008000;"> print(usrname,pwd)</span>
+            r=<span style="color: #000000;">self.regist(usrname,pwd)
+            </span><span style="color: #0000ff;">if</span><span style="color: #000000;"> r:
+                conn.sendall(bytes(</span><span style="color: #800000;">'</span><span style="color: #800000;">y</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+            </span><span style="color: #0000ff;">else</span><span style="color: #000000;">:
+                conn.sendall(bytes(</span><span style="color: #800000;">'</span><span style="color: #800000;">n</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> usr_file(self,usrname):
+        </span><span style="color: #800000;">'''</span><span style="color: #800000;">
+        展示用户的详细目录信息，支持cd和ls命令
+        :param usrname: 用户名
+        :return:
+        </span><span style="color: #800000;">'''</span><span style="color: #000000;">
+        conn</span>=<span style="color: #000000;">self.request
+        conn.recv(</span>1024<span style="color: #000000;">)
+        mulu</span>=<span style="color: #000000;">os.path.join(settings.USER_FILE,usrname)
+        conn.sendall(bytes(mulu,encoding</span>=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+        </span><span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+            b</span>=conn.recv(1024<span style="color: #000000;">)
+            ret</span>=str(b,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+            </span><span style="color: #0000ff;">try</span><span style="color: #000000;">:
+                a,b</span>=ret.split(<span style="color: #800000;">'</span> <span style="color: #800000;">'</span>,1<span style="color: #000000;">)
+            </span><span style="color: #0000ff;">except</span><span style="color: #000000;"> Exception as e:
+                a</span>=<span style="color: #000000;">ret
+            </span><span style="color: #0000ff;">if</span> a==<span style="color: #800000;">'</span><span style="color: #800000;">cd</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+                </span><span style="color: #0000ff;">if</span> b==<span style="color: #800000;">'</span><span style="color: #800000;">..</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+                    mulu</span>=<span style="color: #000000;">os.path.dirname(mulu)
+                </span><span style="color: #0000ff;">else</span><span style="color: #000000;">:
+                    mulu</span>=<span style="color: #000000;">os.path.join(mulu,b)
+                conn.sendall(bytes(mulu,encoding</span>=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+            </span><span style="color: #0000ff;">elif</span> a==<span style="color: #800000;">'</span><span style="color: #800000;">ls</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+                ls</span>=<span style="color: #000000;">os.listdir(mulu)
+                </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(ls)
+                a</span>=<span style="color: #800000;">'</span><span style="color: #800000;">,</span><span style="color: #800000;">'</span><span style="color: #000000;">.join(ls)
+                conn.sendall(bytes(a,encoding</span>=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+            </span><span style="color: #0000ff;">elif</span> a==<span style="color: #800000;">'</span><span style="color: #800000;">q</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+                </span><span style="color: #0000ff;">break</span>
+ 
+ 
+    <span style="color: #0000ff;">def</span><span style="color: #000000;"> handle(self):
+        conn</span>=<span style="color: #000000;">self.request
+        conn.sendall(bytes(</span><span style="color: #800000;">'</span><span style="color: #800000;">welcome</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+        b</span>=conn.recv(1024<span style="color: #000000;">)
+        ret</span>=str(b,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+        </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(ret)
+        conn.sendall(bytes(</span><span style="color: #800000;">'</span><span style="color: #800000;">b ok</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+        c</span>=conn.recv(1024<span style="color: #000000;">)
+        r</span>=str(c,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+        usrname,pwd</span>=r.split(<span style="color: #800000;">'</span><span style="color: #800000;">,</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+        self.before(usrname,pwd,ret) </span><span style="color: #008000;">#</span><span style="color: #008000;">登陆或注册验证</span>
+        self.usr_file(usrname)  <span style="color: #008000;">#</span><span style="color: #008000;">展示用户的详细目录信息，支持cd和ls命令</span>
+        <span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+            a</span>=conn.recv(1024<span style="color: #000000;">)
+            conn.sendall(bytes(</span><span style="color: #800000;">'</span><span style="color: #800000;">收到a</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+            ret</span>=str(a,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+            </span><span style="color: #0000ff;">if</span> ret==<span style="color: #800000;">'</span><span style="color: #800000;">1</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+                self.recv_file()
+                </span><span style="color: #008000;">#</span><span style="color: #008000;"> conn.sendall(bytes('file ok',encoding='utf-8'))</span>
+            <span style="color: #0000ff;">elif</span> ret==<span style="color: #800000;">'</span><span style="color: #800000;">2</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+                self.command()
+            </span><span style="color: #0000ff;">elif</span> ret==<span style="color: #800000;">'</span><span style="color: #800000;">q</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+                </span><span style="color: #0000ff;">break</span>
+            <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+                </span><span style="color: #0000ff;">pass</span>
+ 
+<span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span>==<span style="color: #800000;">'</span><span style="color: #800000;">__main__</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+    sever</span>=socketserver.ThreadingTCPServer((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>,9999<span style="color: #000000;">),Myserver)
+    sever.serve_forever()</span></pre>
+</div>
+<h2>客户端：</h2>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding: utf-8 -*-</span>
+ 
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> sys
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> time
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> os
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> socket
+sys.path.append(os.path.dirname(os.path.dirname(</span><span style="color: #800080;">__file__</span><span style="color: #000000;">)))
+</span><span style="color: #0000ff;">from</span> config <span style="color: #0000ff;">import</span><span style="color: #000000;"> settings
+ 
+ 
+ 
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> send_file(file_path):
+    </span><span style="color: #800000;">'''</span><span style="color: #800000;">
+    发送文件
+    :param file_name:文件名
+    :return:
+    </span><span style="color: #800000;">'''</span><span style="color: #000000;">
+    size</span>=<span style="color: #000000;">os.stat(file_path).st_size
+    file_name</span>=<span style="color: #000000;">os.path.basename(file_path)
+    obj.sendall(bytes(str(size)</span>+<span style="color: #800000;">'</span><span style="color: #800000;">,</span><span style="color: #800000;">'</span>+file_name,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">发送文件大小和文件名</span>
+    ret=obj.recv(1024)   <span style="color: #008000;">#</span><span style="color: #008000;">接收已经传了多少</span>
+    r=str(ret,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">if</span> r==<span style="color: #800000;">'</span><span style="color: #800000;">s</span><span style="color: #800000;">'</span>: <span style="color: #008000;">#</span><span style="color: #008000;">文件不存在，从头开始传</span>
+        has_send=<span style="color: #000000;">0
+    </span><span style="color: #0000ff;">else</span>:   <span style="color: #008000;">#</span><span style="color: #008000;">文件存在</span>
+        has_send=<span style="color: #000000;">int(r)
+ 
+    with open(file_path,</span><span style="color: #800000;">'</span><span style="color: #800000;">rb</span><span style="color: #800000;">'</span><span style="color: #000000;">) as f:
+        f.seek(has_send) </span><span style="color: #008000;">#</span><span style="color: #008000;">定位到已经传到的位置</span>
+        <span style="color: #0000ff;">while</span> has_send&lt;<span style="color: #000000;">size:
+            data</span>=f.read(1024<span style="color: #000000;">)
+            obj.sendall(data)
+            has_send</span>+=<span style="color: #000000;">len(data)
+            sys.stdout.write(</span><span style="color: #800000;">'</span><span style="color: #800000;">\r</span><span style="color: #800000;">'</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">清空文件内容</span>
+            time.sleep(0.2<span style="color: #000000;">)
+            sys.stdout.write(</span><span style="color: #800000;">'</span><span style="color: #800000;">已发送%s%%|%s</span><span style="color: #800000;">'</span> %(int(has_send/size*100),(round(has_send/size*40)*<span style="color: #800000;">'</span><span style="color: #800000;">★</span><span style="color: #800000;">'</span><span style="color: #000000;">)))
+            sys.stdout.flush()   </span><span style="color: #008000;">#</span><span style="color: #008000;">强制刷出内存</span>
+        <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">上传成功\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+ 
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> command(command_name):
+    </span><span style="color: #800000;">'''</span><span style="color: #800000;">
+    执行命令
+    :param command_name:
+    :return:
+    </span><span style="color: #800000;">'''</span><span style="color: #000000;">
+    obj.sendall(bytes(command_name,encoding</span>=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+    ret</span>=obj.recv(1024)  <span style="color: #008000;">#</span><span style="color: #008000;">接收命令需要接收的次数</span>
+    obj.sendall(bytes(<span style="color: #800000;">'</span><span style="color: #800000;">收到次数</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+    r</span>=str(ret,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(int(r)): <span style="color: #008000;">#</span><span style="color: #008000;">共需要接收int(r)次</span>
+        ret=obj.recv(1024)  <span style="color: #008000;">#</span><span style="color: #008000;">等待客户端发送</span>
+        r=str(ret,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">GBK</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+        </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+ 
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> login(usrname,pwd):
+    </span><span style="color: #800000;">'''</span><span style="color: #800000;">
+    登陆
+    :param usrname:用户名
+    :param pwd:密码
+    :return:是否登陆成功
+    </span><span style="color: #800000;">'''</span><span style="color: #000000;">
+    obj.sendall(bytes(usrname</span>+<span style="color: #800000;">'</span><span style="color: #800000;">,</span><span style="color: #800000;">'</span>+pwd,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+    ret</span>=obj.recv(1024<span style="color: #000000;">)
+    r</span>=str(ret,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">if</span> r==<span style="color: #800000;">'</span><span style="color: #800000;">y</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">return</span> 1
+    <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> 0
+ 
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> regist(usrname,pwd):
+    </span><span style="color: #800000;">'''</span><span style="color: #800000;">
+    注册
+    :param usrname:用户名
+    :param pwd:密码
+    :return:是否注册成功
+    </span><span style="color: #800000;">'''</span><span style="color: #000000;">
+    obj.sendall(bytes(usrname</span>+<span style="color: #800000;">'</span><span style="color: #800000;">,</span><span style="color: #800000;">'</span>+pwd,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+    ret</span>=obj.recv(1024<span style="color: #000000;">)
+    r</span>=str(ret,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">if</span> r==<span style="color: #800000;">'</span><span style="color: #800000;">y</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">return</span> 1
+    <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> 0
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> before(usrname,pwd):
+    </span><span style="color: #800000;">'''</span><span style="color: #800000;">
+    选择登陆或注册，展示用户的详细目录信息，支持cd和ls命令
+    :return:
+    </span><span style="color: #800000;">'''</span><span style="color: #000000;">
+    a</span>=input(<span style="color: #800000;">'</span><span style="color: #800000;">请选择1.登陆 2.注册</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    obj.sendall(bytes(a,encoding</span>=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+    obj.recv(</span>1024<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">if</span> a==<span style="color: #800000;">'</span><span style="color: #800000;">1</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+        ret</span>=<span style="color: #000000;">login(usrname,pwd)
+        </span><span style="color: #0000ff;">if</span><span style="color: #000000;"> ret:
+            </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">登陆成功</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+            </span><span style="color: #0000ff;">return</span> 1
+        <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+            </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">用户名或密码错误</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+            </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> 0
+    </span><span style="color: #0000ff;">elif</span> a==<span style="color: #800000;">'</span><span style="color: #800000;">2</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+        ret</span>=<span style="color: #000000;">regist(usrname,pwd)
+        </span><span style="color: #0000ff;">if</span><span style="color: #000000;"> ret:
+            </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">注册成功</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+            </span><span style="color: #0000ff;">return</span> 1
+        <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+            </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">用户名已存在</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+            </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> 0
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> usr_file(usrname):
+    obj.sendall(bytes(</span><span style="color: #800000;">'</span><span style="color: #800000;">打印用户文件路径</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+    ret</span>=obj.recv(1024)  <span style="color: #008000;">#</span><span style="color: #008000;">等待客户端发送</span>
+    r=str(ret,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+    </span><span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+        a</span>=input(<span style="color: #800000;">'</span><span style="color: #800000;">输入cd切换目录，ls查看目录详细信息，q退出&gt;:</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+ 
+        obj.sendall(bytes(a,encoding</span>=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+        </span><span style="color: #0000ff;">if</span> a==<span style="color: #800000;">'</span><span style="color: #800000;">q</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+            </span><span style="color: #0000ff;">break</span>
+        <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+            ret</span>=obj.recv(1024)  <span style="color: #008000;">#</span><span style="color: #008000;">等待客户端发送</span>
+            r=str(ret,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+            </span><span style="color: #0000ff;">if</span> len(r)==1:<span style="color: #008000;">#</span><span style="color: #008000;">判断是cd结果还是ls的结果（ls只有一个子目录也可以直接打印）</span>
+                <span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+            </span><span style="color: #0000ff;">else</span><span style="color: #000000;">:
+                li</span>=r.split(<span style="color: #800000;">'</span><span style="color: #800000;">,</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+                </span><span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> li:
+                    </span><span style="color: #0000ff;">print</span>(i)  <span style="color: #008000;">#</span><span style="color: #008000;">打印每一个子目录</span>
+ 
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> main(usrname,pwd):
+    ret</span>=obj.recv(1024)  <span style="color: #008000;">#</span><span style="color: #008000;">等待客户端发送</span>
+    r=str(ret,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+    result</span>=before(usrname,pwd)<span style="color: #008000;">#</span><span style="color: #008000;">登陆或注册</span>
+    <span style="color: #0000ff;">if</span><span style="color: #000000;"> result:
+        usr_file(usrname)
+        </span><span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+            a</span>=input(<span style="color: #800000;">'</span><span style="color: #800000;">请选择1.传文件 2.执行命令 q退出:</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+            obj.sendall(bytes(str(a),encoding</span>=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+            ret</span>=obj.recv(1024) <span style="color: #008000;">#</span><span style="color: #008000;">确认是否收到a</span>
+            r=str(ret,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+            </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+            </span><span style="color: #0000ff;">if</span> a==<span style="color: #800000;">'</span><span style="color: #800000;">1</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+                b</span>=input(<span style="color: #800000;">'</span><span style="color: #800000;">请输入文件路径（测试版路径为：f.png）:</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+                </span><span style="color: #008000;">#</span><span style="color: #008000;"> b='f.png'</span>
+                <span style="color: #0000ff;">if</span><span style="color: #000000;"> os.path.exists(b):
+                    send_file(b)
+                    obj.sendall(bytes(</span><span style="color: #800000;">'</span><span style="color: #800000;">hhe</span><span style="color: #800000;">'</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+                    </span><span style="color: #008000;">#</span><span style="color: #008000;"> obj.recv(1024)</span>
+            <span style="color: #0000ff;">elif</span> a==<span style="color: #800000;">'</span><span style="color: #800000;">2</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+                b</span>=input(<span style="color: #800000;">'</span><span style="color: #800000;">请输入command:</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+                command(b)
+            </span><span style="color: #0000ff;">elif</span> a==<span style="color: #800000;">'</span><span style="color: #800000;">q</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+                </span><span style="color: #0000ff;">break</span>
+            <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+                </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">输入错误</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+ 
+    obj.close()
+ 
+</span><span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">'</span><span style="color: #800000;">__main__</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+    obj</span>=socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建客户端socket对象</span>
+    obj.connect((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>,9999<span style="color: #000000;">))
+    usrname</span>=input(<span style="color: #800000;">'</span><span style="color: #800000;">请输入用户名</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    pwd</span>=input(<span style="color: #800000;">'</span><span style="color: #800000;">请输入密码</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    main(usrname,pwd)
+　　</span></pre>
+</div>
+<p>&nbsp;</p></div>

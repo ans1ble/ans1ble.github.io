@@ -1,0 +1,263 @@
+第四十三节，文件、文件夹、压缩包、处理模块shutil
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>文件、文件夹、压缩包、处理模块shutil</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>文件处理</strong></span></p>
+<p><span style="color: #ff0000;"><strong>copyfileobj()模块函数</strong></span></p>
+<p><strong>功能：将a文件的内容，复制到b文件中【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>copyfileobj(poen("打开a文件"), poen("打开b文件"), [<strong>length=宽度]</strong>)</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：shutil.copyfileobj(open("des","r",encoding='utf-8'), open("des2","w",encoding='utf-8'))</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> shutil
+shutil.copyfileobj(open(</span><span style="color: #800000;">"</span><span style="color: #800000;">des</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>), open(<span style="color: #800000;">"</span><span style="color: #800000;">des2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">将a文件的内容，复制到b文件中</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>copyfile()模块函数</strong></span></p>
+<p><strong>功能：将a文件拷贝成一份b文件，将拷贝a文件的所有信息【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>copyfile("a文件路径名称","b文件路径名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：shutil.copyfile("des2","des3")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> shutil
+shutil.copyfile(</span><span style="color: #800000;">"</span><span style="color: #800000;">des2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">des3</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将a文件拷贝成一份b文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>copymode()模块函数</strong></span></p>
+<p><strong>功能：将a文件信息拷贝到b文件，仅拷贝权限（内容、组、用户均不变）【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>copymode("a文件路径名称","b文件路径名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：shutil.copymode("des","des2")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> shutil
+shutil.copymode(</span><span style="color: #800000;">"</span><span style="color: #800000;">des</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">des2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将a文件信息拷贝到b文件，仅拷贝权限（内容、组、用户均不变）</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>copystat()模块函数</strong></span></p>
+<p><strong>功能：将a文件信息拷贝到b文件，包括：mode bits, atime, mtime, flags，（内容不变）【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>copystat(<strong><strong>"a文件路径名称","b文件路径名称"</strong></strong>)</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：shutil.copystat("des","des2")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> shutil
+shutil.copystat(</span><span style="color: #800000;">"</span><span style="color: #800000;">des</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">des2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将a文件信息拷贝到b文件，仅拷贝权限（内容、组、用户均不变）</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>copy()模块函数</strong></span></p>
+<p><strong>功能：将a文件内容和权限拷贝到b文件，b文件如果不存在则创建【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>copy(<strong><strong><strong><strong>"a文件路径名称","b文件路径名称"</strong></strong></strong></strong>)</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：shutil.copy("des","des2")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> shutil
+shutil.copy(</span><span style="color: #800000;">"</span><span style="color: #800000;">des</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">des2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将a文件内容和权限拷贝到b文件，b文件如果不存在则创建</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>copy2()模块函数</strong></span></p>
+<p><strong>功能：将a文件内容和状态信息拷贝到b文件，b文件如果不存在则创建【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>copy2(<strong><strong><strong><strong><strong><strong>"a文件路径名称","b文件路径名称"</strong></strong></strong></strong></strong></strong>)</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：shutil.copy2("des","des2")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> shutil
+shutil.copy2(</span><span style="color: #800000;">"</span><span style="color: #800000;">des</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">des2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将a文件内容和状态信息拷贝到b文件，b文件如果不存在则创建</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>文件夹处理</strong></span></p>
+<p><strong><span style="color: #ff0000;">ignore_patterns()模块函数</span></strong></p>
+<p><strong>功能：忽略文件指定的文件，一般都是配合其他使用【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>ignore_patterns("要忽略的文件","多个文件用,号隔开") &nbsp; &nbsp;</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：shutil.ignore_patterns("des")</strong></p>
+<p><span style="color: #ff0000;"><strong>copytree()模块函数</strong></span></p>
+<p><strong>功能：递归的去拷贝文件夹包括内容，将a文件夹拷贝成一份b文件夹，如果b文件夹存在报错，[可选：1如果里面有快捷方式是拷贝快捷方式，还是原文件、2是否忽略里面的指定文件不拷贝]【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>copytree("a文件夹路径名称","b文件夹路径名称",symlinks=是否拷贝快捷方式,<strong>ignore=</strong>需要忽略的文件)</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：shutil.copytree("2","3",symlinks=False,ignore=shutil.ignore_patterns('*.py'))</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> shutil
+shutil.copytree(</span><span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>,symlinks=False,ignore=shutil.ignore_patterns(<span style="color: #800000;">'</span><span style="color: #800000;">*.py</span><span style="color: #800000;">'</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">递归的去拷贝文件夹包括内容，将a文件夹拷贝成一份b文件夹，如果b文件夹存在报错，[可选：1如果里面有快捷方式是拷贝快捷方式，还是原文件、2是否忽略里面的指定文件不拷贝]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>rmtree()模块函数</strong></span></p>
+<p><strong>功能：递归的去删除文件夹，删除文件夹包括内容，只能删除文件夹【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>rmtree("要删除的文件夹路径名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：shutil.rmtree("3")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> shutil
+shutil.rmtree(</span><span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">递归的去删除文件夹，删除文件夹包括内容，只能删除文件夹</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>shutil.move()模块函数</strong></span></p>
+<p><strong>功能：文件夹重命名【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>shutil.move("要<strong>重命名文件夹路径名称</strong>","要命名的名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：shutil.move("2","3")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> shutil
+shutil.move(</span><span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">文件夹重命名</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>压缩文件处理</strong></span></p>
+<p><span style="color: #ff0000;"><strong>make_archive()模块函数</strong></span></p>
+<p><strong>功能：将一个指定文件夹，压缩成指定格式的压缩包，保存到指定路径【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>make_archive("要保存的路径加压缩包名称","压缩格式",<code class="python plain">root_dir</code><code class="python keyword">="要压缩的路径加目录名称"</code>)</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：shutil.make_archive("H:\py/123","zip",root_dir="H:\py/3")</strong></p>
+<p>make_archive(base_name, format,...)</p>
+<p>base_name： 压缩包的文件名，也可以是压缩包的路径。只是文件名时，则保存至当前目录，否则保存至指定路径，【必选】<br />如：www                        =&gt;保存至当前路径<br />如：/Users/wupeiqi/www =&gt;保存至/Users/wupeiqi/<br />format：	压缩包种类，&ldquo;zip&rdquo;, &ldquo;tar&rdquo;, &ldquo;bztar&rdquo;，&ldquo;gztar&rdquo; 【必选】<br />root_dir：	要压缩的文件夹路径（默认当前目录）【必选】<br />owner：	用户，默认当前用户【可选】<br />group：	组，默认当前组【可选】<br />logger：	用于记录日志，通常是logging.Logger对象【可选】</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> shutil
+</span>shutil.make_archive(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py/123</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">zip</span><span style="color: #800000;">"</span>,root_dir=<span style="color: #800000;">"</span><span style="color: #800000;">H:\py/3</span><span style="color: #800000;">"</span>,) <span style="color: #008000;">#</span><span style="color: #008000;">将一个指定文件夹，压缩成指定格式的压缩包，保存到指定路径</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>shutil 对压缩包的处理是调用 ZipFile 和 TarFile 两个模块来进行的</strong></span></p>
+<p><span style="color: #0000ff;"><strong><strong>ZipFile模块</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>ZipFile()模块函数</strong></strong></span></p>
+<p><strong>功能：打开zip压缩包文件【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong><strong>ZipFile("要打开的压缩包路径名称","打开模式")</strong></strong><strong><br /></strong></strong></p>
+<p><strong>格式如：zipfile.ZipFile("H:\py/789.zip","w")</strong></p>
+<p>r，只读模式<br />w，只写模式【不可读；不存在则创建；存在则清空内容；】   <br />x， 只写模式【不可读；不存在则创建，存在则报错】  <br />a， 追加模式【不可读；   不存在则创建；存在则只追加内容；】</p>
+<p>更多参照，第二十六节，内置函数，文件操作哪里</p>
+<p><span style="color: #ff0000;"><strong>write()模块函数</strong></span></p>
+<p><strong>功能：将指定文件添加写入指定的<strong>zip</strong>压缩包【有参】</strong></p>
+<p><strong>使用方法：打开<strong>zip</strong>压缩包变量.<strong>write("要写入压缩包文件的路径名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：a.write("H:\py/2.txt")</strong></p>
+<p><span style="color: #ff0000;"><strong>close()模块函数</strong></span></p>
+<p><strong>功能：关闭打开的zip压缩包【无参】</strong></p>
+<p><strong>使用方法：<strong>打开<strong>zip</strong>压缩包变量.<strong>close()</strong></strong><strong><br /></strong></strong></p>
+<p><strong>格式如：a.close()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> zipfile
+a </span>= zipfile.ZipFile(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py/789.zip</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打开指定的zip文件，以w模式打开，如果文件不存在则创建</span>
+a.write(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py/2.txt</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将指定的文件，写入添加到压缩包</span>
+a.write(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py/des</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将指定的文件，写入添加到压缩包</span>
+a.close() <span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>extractall()模块函数</strong></span></p>
+<p><strong>功能：解压指定zip压缩包里的所有文件,到指定路径【有参】</strong></p>
+<p><strong>使用方法：<strong><strong>打开<strong>zip</strong>压缩包变量.<strong>extractall(["解压保存路径"])</strong></strong></strong><strong><br /></strong></strong></p>
+<p><strong>格式如：a.extractall()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> zipfile
+a </span>= zipfile.ZipFile(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py/789.zip</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打开指定的zip文件，以r模式打开，如果文件不存在则创建</span>
+a.extractall() <span style="color: #008000;">#</span><span style="color: #008000;">解压指定zip压缩包里的所有文件【无参】</span>
+a.close() <span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>namelist()模块函数</strong></span></p>
+<p><strong>功能：查看指定zip压缩包里的文件,返回列表，列表里的元素是文件路径加名称【无参】</strong></p>
+<p><strong>使用方法：<strong><strong><strong>打开<strong>zip</strong>压缩包变量.<strong>namelist()</strong></strong></strong></strong><strong><br /></strong></strong></p>
+<p><strong>格式如：b = a.namelist()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> zipfile
+a </span>= zipfile.ZipFile(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py/789.zip</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打开指定的zip文件，以r模式打开，如果文件不存在则创建</span>
+b = a.namelist() <span style="color: #008000;">#</span><span style="color: #008000;">查看指定zip压缩包里的文件,返回列表，列表里的元素是文件路径加名称</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+a.close() </span><span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ['py/2.txt', 'py/des']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>extract()模块函数</strong></span></p>
+<p><strong>功能：解压指定zip压缩包里的指定文件【有参】</strong></p>
+<p><strong>使用方法：<strong><strong><strong><strong>打开<strong>zip</strong>压缩包变量.<strong>extract("压缩包里的文件路径名称",path="要解压到的路径")</strong></strong></strong></strong></strong><strong><br /></strong></strong></p>
+<p><strong>格式如：a.extract("py/des",path="H:\py2")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> zipfile
+a </span>= zipfile.ZipFile(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py/789.zip</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">打开指定的zip文件，以r模式打开，如果文件不存在则创建</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> b = a.namelist()#查看指定zip压缩包里的文件,返回列表，列表里的元素是文件路径加名称</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> print(b)</span>
+a.extract(<span style="color: #800000;">"</span><span style="color: #800000;">py/des</span><span style="color: #800000;">"</span>,path=<span style="color: #800000;">"</span><span style="color: #800000;">H:\py2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">解压指定zip压缩包里的指定文件【有参】</span>
+a.close() <span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>TarFile模块</strong></span></p>
+<p><span style="color: #ff0000;"><strong>open()模块函数</strong></span></p>
+<p><strong>功能：打开tar文件，如果以w模式打开，如果文件不存在则创建【有参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>open("要打开的<strong>tar文件路径名称</strong>","打开模式")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：tarfile.open("H:\py/9.tar","w")</strong></p>
+<p><span style="color: #ff0000;"><strong>add()模块函数</strong></span></p>
+<p><span style="color: #000000;"><strong>功能：将指定目录或文件，添加到tar压缩包，并把添加进去的文件更改成指定的名称【有参】</strong></span></p>
+<p><strong>使用方法：打开<strong>tar文件变量.<strong>add("要添加到压缩包的文件路径名称",[arcname="添加到压缩包后更改的名称"])</strong></strong><strong><br /></strong></strong></p>
+<p><strong>格式如：a.add("H:\py2\py\des",arcname="lib2")</strong></p>
+<p><span style="color: #ff0000;"><strong>close()模块函数</strong></span></p>
+<p><strong>功能：关闭打开的tar文件</strong></p>
+<p><strong>使用方法：<strong>打开<strong>tar文件变量.<strong>close()</strong></strong></strong><strong><br /></strong></strong></p>
+<p><strong>格式如：a.close()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> tarfile
+a </span>= tarfile.open(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py/9.tar</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">写入模式打开9.tar文件，如果文件不存在则创建</span>
+a.add(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py2\py\des</span><span style="color: #800000;">"</span>,arcname=<span style="color: #800000;">"</span><span style="color: #800000;">lib2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将指定目录或文件，添加到tar压缩包，并把添加进去的文件更改成指定的名称</span>
+a.close() <span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的tar文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>extractall()模块函数</strong></span></p>
+<p><strong>功能：解压指定tar压缩包里的所有文件,到指定路径【有参】</strong></p>
+<p><strong>使用方法：<strong><strong>打开<strong><strong><strong>tar</strong></strong></strong>压缩包变量.<strong>extractall(["解压保存路径"])</strong></strong></strong><strong><br /></strong></strong></p>
+<p><strong>格式如：a.extractall("H:\py")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> tarfile
+a </span>= tarfile.open(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py/9.tar</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以r模式打开tar文件</span>
+a.extractall(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">解压指定tar压缩包里的所有文件,到指定路径【有参】</span>
+a.close() <span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的tar文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>getmembers()模块函数</strong></span></p>
+<p><strong>功能：查看指定<strong>tar</strong>压缩包里的文件,返回列表，列表里的元素是文件路径加名称【无参】</strong></p>
+<p><strong>使用方法：<strong><strong><strong>打开<strong>tar</strong>压缩包变量.getmembers<strong>()</strong></strong></strong></strong><strong><br /></strong></strong></p>
+<p><strong>格式如：b = a.getmembers()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> tarfile
+a </span>= tarfile.open(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py/9.tar</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以r模式打开tar文件</span>
+b = a.getmembers() <span style="color: #008000;">#</span><span style="color: #008000;">查看指定tar压缩包里的文件,返回列表，列表里的元素是文件路径加名称【无参】</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> b:
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(i)
+a.close() </span><span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的tar文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;TarInfo 'py2/py' at 0x78f5462d90&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;TarInfo 'py2/py/2.txt' at 0x78f5462f20&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;TarInfo 'py2/py/3.html' at 0x78f554b048&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;TarInfo 'py2/py/des' at 0x78f554b110&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;TarInfo 'py2/py/ini' at 0x78f554b1d8&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>extract()模块函数</strong></span></p>
+<p><strong>功能：解压指定tar压缩包里的指定文件【有参】</strong></p>
+<p><strong>使用方法：<strong><strong><strong><strong>打开tar压缩包变量.<strong>extract("压缩包里的文件路径名称",path="要解压到的路径")</strong></strong></strong></strong></strong><strong><br /></strong></strong></p>
+<p><strong>格式如：a.extract("py2/py/des",path="H:\py")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> tarfile
+a </span>= tarfile.open(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py/9.tar</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以r模式打开tar文件</span>
+a.extract(<span style="color: #800000;">"</span><span style="color: #800000;">py2/py/des</span><span style="color: #800000;">"</span>,path=<span style="color: #800000;">"</span><span style="color: #800000;">H:\py</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">解压指定tar压缩包里的指定文件【有参】</span>
+a.close() <span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的tar文件</span></pre>
+</div>
+<p>&nbsp;</p></div>

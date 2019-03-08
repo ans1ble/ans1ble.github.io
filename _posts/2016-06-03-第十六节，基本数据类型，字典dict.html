@@ -1,0 +1,497 @@
+第十六节，基本数据类型，字典dict
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>字典</strong></p>
+<p><strong>常用操作：<br />　　索引<br />　　新增<br />　　删除<br />　　键、值、键值对<br />　　循环<br />　　长度</strong></p>
+<p>　　字典由键值对组成，由一个键（名称）和&nbsp;一个值组成，与列表和元组不同的是里面的元素是有键的（名称）</p>
+<p>　　所以当要打印字典时，打印字典变量加[键]即可</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;">4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">8</span> <span style="color: #0000ff;">print</span>(a[<span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span><span style="color: #000000;">])
+</span><span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 2 打印出了ls键的值</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>创建字典</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a = {<span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span><span style="color: #000000;">}
+</span><span style="color: #008080;"> 4</span> <span style="color: #008000;">#</span><span style="color: #008000;">或者</span>
+<span style="color: #008080;"> 5</span> a = dict({<span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span><span style="color: #000000;">})
+</span><span style="color: #008080;"> 6</span> <span style="color: #008000;">#</span><span style="color: #008000;">或者</span>
+<span style="color: #008080;"> 7</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 8</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 9</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">10</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">11</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">12</span> <span style="color: #008000;">#</span><span style="color: #008000;">一般采用第三中，更容易读</span></pre>
+</div>
+<p>　　<strong>索引</strong></p>
+<p><strong>　　打印字典变量加[要打印的键]</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;"> 7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 8</span> <span style="color: #0000ff;">print</span>(a[<span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span><span style="color: #000000;">])
+</span><span style="color: #008080;"> 9</span> <span style="color: #0000ff;">print</span>(a[<span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span><span style="color: #000000;">])
+</span><span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 2 3 打印出了ls和ww键的值</span></pre>
+</div>
+<p>　　<strong>for循环</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;"> 7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 8</span> <span style="color: #0000ff;">for</span> b <span style="color: #0000ff;">in</span><span style="color: #000000;"> a:
+</span><span style="color: #008080;"> 9</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 ww zhs ls 默认循环出的是字典的键</span>
+<span style="color: #008080;">11</span> 
+<span style="color: #008080;">12</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;">13</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">14</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">15</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">16</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">17</span> <span style="color: #0000ff;">for</span> b <span style="color: #0000ff;">in</span><span style="color: #000000;"> a:
+</span><span style="color: #008080;">18</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(a[b])
+</span><span style="color: #008080;">19</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 3 1 2 要打印字典变量加上[自定义循环变量，也就是键]才能打印出值</span></pre>
+</div>
+<p>　　<strong>keys(self)</strong></p>
+<p><strong>　　"""(获取字典的键)"""：返回一个字典的键列表</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;">4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">8</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a.keys())
+</span><span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 ['ww', 'zhs', 'ls'] 返回字典键列表</span></pre>
+</div>
+<p>　　<strong>values(self)</strong></p>
+<p><strong>　　"""(获取字典的值)"""：返回一个字典的值列表</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;">4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">8</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a.values())
+</span><span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 ['3', '1', '2'] 返回字典值列表</span></pre>
+</div>
+<p>　　<strong>items(self)</strong></p>
+<p><strong>　　"""(获取字典里的键和值)"""：返回一个字典的键和值列表加元组</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;">4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">8</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a.items())
+</span><span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 [('ww', '3'), ('zhs', '1'), ('ls', '2')] 返回字典里的键和值列表加元组</span></pre>
+</div>
+<p>　　<strong>(keys：获取键) (values：获取值) (items：获取键和值) 结合for循环</strong></p>
+<p>　　(keys：获取键)结合for循环</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;"> 7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 8</span> <span style="color: #0000ff;">for</span> b <span style="color: #0000ff;">in</span><span style="color: #000000;"> a.keys():
+</span><span style="color: #008080;"> 9</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 ww zhs ls 循环出了字典的键</span></pre>
+</div>
+<p>　　(values：获取值)结合for循环</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;"> 7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 8</span> <span style="color: #0000ff;">for</span> b <span style="color: #0000ff;">in</span><span style="color: #000000;"> a.values():
+</span><span style="color: #008080;"> 9</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 3 1 2 循环出了字典的值</span></pre>
+</div>
+<p>　　(items：获取键和值)结合for循环</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;"> 7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 8</span> <span style="color: #0000ff;">for</span> k, v <span style="color: #0000ff;">in</span> a.items(): <span style="color: #008000;">#</span><span style="color: #008000;">因为items()获取的键和值，所以循环里要自定义两个变量分别代表键和值</span>
+<span style="color: #008080;"> 9</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(k)
+</span><span style="color: #008080;">10</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(v)
+</span><span style="color: #008080;">11</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 ww 3 zhs 1 ls 2 循环出了字典的键和值</span></pre>
+</div>
+<p>　<strong>　clear(self)</strong></p>
+<p><strong>　　"""(清除字典里的所有内容)"""</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;"> 7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 8</span> <span style="color: #000000;">a.clear()
+</span><span style="color: #008080;"> 9</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 {} 字典里是空的</span></pre>
+</div>
+<p>　<strong>　get(self, k, d=None)（推荐使用）</strong></p>
+<p><strong>　　""" (根据key(键)获取值，如果key(键)不存在可以指定默认值 )"""：如果键后面指定了默认值，键存在就获取键自身的值，如果键不存在就获取默认值</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;"> 7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 8</span> <span style="color: #0000ff;">print</span>(a.get(<span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span><span style="color: #000000;">))
+</span><span style="color: #008080;"> 9</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 2 输出指定键的值</span>
+<span style="color: #008080;">10</span> 
+<span style="color: #008080;">11</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;">12</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">13</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">14</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">15</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">16</span> <span style="color: #0000ff;">print</span>(a.get(<span style="color: #800000;">"</span><span style="color: #800000;">xyz</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">123</span><span style="color: #800000;">"</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">xyz键不存在，就获取默认值123</span>
+<span style="color: #008080;">17</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 123 输出指定键的值,如果指定键不存在就输出默认值</span></pre>
+</div>
+<p>　　<strong>has_key(self, k)</strong></p>
+<p><strong>　　注意：python3版本以上已经取消了</strong></p>
+<p><strong>　　"""&nbsp;（：键）key：键，名称 """：返回真或者假</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;">4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">8</span> <span style="color: #0000ff;">print</span>(a.has_key(<span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span><span style="color: #000000;">))
+</span><span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 True 返回真说明字典里有ls这个键</span></pre>
+</div>
+<p>　　<strong>判断字典里是否有某个key键：返回真或者假</strong></p>
+<p><strong>　　也可以判断字典里是否有某个值</strong></p>
+<p><strong>　　注意：python3版本以上使用这个方法替代已经取消的<strong>has_key</strong></strong></p>
+<p><strong><strong>　　格式："要判断的键"&nbsp;in&nbsp;字典变量.keys()</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;"> 7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 8</span> b = <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span> <span style="color: #0000ff;">in</span><span style="color: #000000;"> a.keys()
+</span><span style="color: #008080;"> 9</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 True 返回真说明字典里有ls这个键</span>
+<span style="color: #008080;">11</span> 
+<span style="color: #008080;">12</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;">13</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">14</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">15</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">16</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">17</span> b = <span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span> <span style="color: #0000ff;">in</span><span style="color: #000000;"> a.values()
+</span><span style="color: #008080;">18</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;">19</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 True 返回真说明字典里有2这个值</span></pre>
+</div>
+<p>　　<strong>update(self, E=None, **F)</strong></p>
+<p><strong>　　"""&nbsp;（追加更新）"""要追加更新的变量</strong></p>
+<p><strong>　　</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;"> 7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 8</span> b =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 9</span>     <span style="color: #800000;">"</span><span style="color: #800000;">z</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">4</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">10</span>     <span style="color: #800000;">"</span><span style="color: #800000;">l</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">5</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;">11</span>     <span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">6</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">12</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">13</span> <span style="color: #000000;">a.update(b)
+</span><span style="color: #008080;">14</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">15</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印输出 {'ww': '3', 'zhs': '1', 'ls': '2', 'w': '6', 'z': '4', 'l': '5'} 将b字典追加更新到了a字典</span></pre>
+</div>
+<p><strong>&nbsp; 追加更新</strong>&nbsp;2</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> <span style="color: #008000;">#</span><span style="color: #008000;">这个方法是。如果字典里存在k4这个键就987的值更新给k4键，如果不存在k4键就在字典里创建k4键值为987</span>
+<span style="color: #008080;"> 4</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>:123<span style="color: #000000;">,
+</span><span style="color: #008080;"> 6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>:456<span style="color: #000000;">,
+</span><span style="color: #008080;"> 7</span>     <span style="color: #800000;">"</span><span style="color: #800000;">k3</span><span style="color: #800000;">"</span>:789<span style="color: #000000;">,
+</span><span style="color: #008080;"> 8</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 9</span> a[<span style="color: #800000;">"</span><span style="color: #800000;">k4</span><span style="color: #800000;">"</span>] = 987
+<span style="color: #008080;">10</span> <span style="color: #0000ff;">print</span>(a)</pre>
+</div>
+<p>&nbsp;</p>
+<p>　</p>
+<p>&nbsp;</p>
+<p>　<strong>删除字典里的元素</strong></p>
+<p><strong>　　　　格式：del&nbsp;字典变量.[要删除的元素键]</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 4</span>     <span style="color: #800000;">"</span><span style="color: #800000;">zhs</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 5</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+</span><span style="color: #008080;"> 6</span>     <span style="color: #800000;">"</span><span style="color: #800000;">ww</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span>
+<span style="color: #008080;"> 7</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 8</span> <span style="color: #0000ff;">del</span> a[<span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span><span style="color: #000000;">]
+</span><span style="color: #008080;"> 9</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印输出 {'ww': '3', 'zhs': '1'} 删除了ls键这个元素</span></pre>
+</div>
+<p>&nbsp;<strong>fromkeys(*args, **kwargs)</strong></p>
+<p><strong>"""(查找字典里一个或多个元素的键，将查找的键重新指定新的值)要查找的元素键，要改变的新值"""</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">fromkeys 查找字典里一个或多个元素的键，将查找的键重新指定新的值</span>
+<span style="color: #008080;">4</span> a = {<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>:123, <span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>:456, <span style="color: #800000;">"</span><span style="color: #800000;">k3</span><span style="color: #800000;">"</span>:789<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> b = a.fromkeys([<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">k3</span><span style="color: #800000;">"</span>], <span style="color: #800000;">"</span><span style="color: #800000;">876</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008080;">6</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;">7</span> <span style="color: #008000;">#</span><span style="color: #008000;">输出 {'k2': '876', 'k3': '876', 'k1': '876'}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="cnblogs_code" onclick="cnblogs_code_show('d8a3babc-588d-4c37-ad25-9d8c4f106f04')"><img id="code_img_closed_d8a3babc-588d-4c37-ad25-9d8c4f106f04" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="" /><img id="code_img_opened_d8a3babc-588d-4c37-ad25-9d8c4f106f04" class="code_img_opened" style="display: none;" onclick="cnblogs_code_hide('d8a3babc-588d-4c37-ad25-9d8c4f106f04',event)" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="" />
+<div id="cnblogs_code_open_d8a3babc-588d-4c37-ad25-9d8c4f106f04" class="cnblogs_code_hide">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> dict(object):
+    </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+    dict() -&gt; new empty dictionary
+    dict(mapping) -&gt; new dictionary initialized from a mapping object's
+        (key, value) pairs
+    dict(iterable) -&gt; new dictionary initialized as if via:
+        d = {}
+        for k, v in iterable:
+            d[k] = v
+    dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
+        in the keyword argument list.  For example:  dict(one=1, two=2)
+    </span><span style="color: #800000;">"""</span>
+
+    <span style="color: #0000ff;">def</span> clear(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 清除内容 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.clear() -&gt; None.  Remove all items from D. </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> copy(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 浅拷贝 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.copy() -&gt; a shallow copy of D </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span><span style="color: #000000;">
+
+    @staticmethod </span><span style="color: #008000;">#</span><span style="color: #008000;"> known case</span>
+    <span style="color: #0000ff;">def</span> fromkeys(S, v=None): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        dict.fromkeys(S[,v]) -&gt; New dict with keys from S and values equal to v.
+        v defaults to None.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> get(self, k, d=None): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 根据key获取值，d是默认值 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.get(k[,d]) -&gt; D[k] if k in D, else d.  d defaults to None. </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> has_key(self, k): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 是否有key </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.has_key(k) -&gt; True if D has a key k, else False </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> False
+
+    </span><span style="color: #0000ff;">def</span> items(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 所有项的列表形式 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.items() -&gt; list of D's (key, value) pairs, as 2-tuples </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> []
+
+    </span><span style="color: #0000ff;">def</span> iteritems(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 项可迭代 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.iteritems() -&gt; an iterator over the (key, value) items of D </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> iterkeys(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> key可迭代 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.iterkeys() -&gt; an iterator over the keys of D </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> itervalues(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> value可迭代 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.itervalues() -&gt; an iterator over the values of D </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> keys(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 所有的key列表 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.keys() -&gt; list of D's keys </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> []
+
+    </span><span style="color: #0000ff;">def</span> pop(self, k, d=None): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 获取并在字典中移除 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        D.pop(k[,d]) -&gt; v, remove specified key and return the corresponding value.
+        If key is not found, d is returned if given, otherwise KeyError is raised
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> popitem(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 获取并在字典中移除 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        D.popitem() -&gt; (k, v), remove and return some (key, value) pair as a
+        2-tuple; but raise KeyError if D is empty.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> setdefault(self, k, d=None): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 如果key不存在，则创建，如果存在，则返回已存在的值且不修改 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.setdefault(k[,d]) -&gt; D.get(k,d), also set D[k]=d if k not in D </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> update(self, E=None, **F): <span style="color: #008000;">#</span><span style="color: #008000;"> known special case of dict.update</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 更新
+            {'name':'alex', 'age': 18000}
+            [('name','sbsbsb'),]
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        D.update([E, ]**F) -&gt; None.  Update D from dict/iterable E and F.
+        If E present and has a .keys() method, does:     for k in E: D[k] = E[k]
+        If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v
+        In either case, this is followed by: for k in F: D[k] = F[k]
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> values(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 所有的值 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.values() -&gt; list of D's values </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> []
+
+    </span><span style="color: #0000ff;">def</span> viewitems(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> 所有项，只是将内容保存至view对象中 </span><span style="color: #800000;">"""</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.viewitems() -&gt; a set-like object providing a view on D's items </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> viewkeys(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.viewkeys() -&gt; a set-like object providing a view on D's keys </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> viewvalues(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.viewvalues() -&gt; an object providing a view on D's values </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__cmp__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__cmp__(y) &lt;==&gt; cmp(x,y) </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__contains__</span>(self, k): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.__contains__(k) -&gt; True if D has a key k, else False </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> False
+
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__delitem__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__delitem__(y) &lt;==&gt; del x[y] </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__eq__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__eq__(y) &lt;==&gt; x==y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__getattribute__</span>(self, name): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__getattribute__('name') &lt;==&gt; x.name </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__getitem__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__getitem__(y) &lt;==&gt; x[y] </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__ge__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__ge__(y) &lt;==&gt; x&gt;=y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__gt__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__gt__(y) &lt;==&gt; x&gt;y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self, seq=None, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> known special case of dict.__init__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        dict() -&gt; new empty dictionary
+        dict(mapping) -&gt; new dictionary initialized from a mapping object's
+            (key, value) pairs
+        dict(iterable) -&gt; new dictionary initialized as if via:
+            d = {}
+            for k, v in iterable:
+                d[k] = v
+        dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
+            in the keyword argument list.  For example:  dict(one=1, two=2)
+        # (copied from class doc)
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__iter__</span>(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__iter__() &lt;==&gt; iter(x) </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__len__</span>(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__len__() &lt;==&gt; len(x) </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__le__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__le__(y) &lt;==&gt; x&lt;=y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__lt__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__lt__(y) &lt;==&gt; x&lt;y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span><span style="color: #000000;">
+
+    @staticmethod </span><span style="color: #008000;">#</span><span style="color: #008000;"> known case of __new__</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__new__</span>(S, *more): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> T.__new__(S, ...) -&gt; a new object with type S, a subtype of T </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__ne__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__ne__(y) &lt;==&gt; x!=y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__repr__</span>(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__repr__() &lt;==&gt; repr(x) </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__setitem__</span>(self, i, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__setitem__(i, y) &lt;==&gt; x[i]=y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__sizeof__</span>(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> D.__sizeof__() -&gt; size of D in memory, in bytes </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #800080;">__hash__</span> = None</pre>
+</div>
+<span class="cnblogs_code_collapse">dict</span></div>
+<p>&nbsp;</p>
+<p>字典的功能</p>
+<p>索引<br />增加<br />删除<br />for循环<br />长度<br />项<br />键<br />值<br />判断是否存在某元素<br />更新</p></div>

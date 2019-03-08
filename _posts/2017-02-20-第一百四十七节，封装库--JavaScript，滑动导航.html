@@ -1,0 +1,123 @@
+第一百四十七节，封装库--JavaScript，滑动导航
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong>JavaScript，封装库--滑动导航</strong></span></p>
+<p><strong>效果图</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201702/955761-20170220184023210-724527109.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p>html</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">&lt;!--</span><span style="color: #008000">滑动导航</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="nav"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="about"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="black"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>首页<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>博文列表<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>精彩相册<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>动感音乐<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>关于我<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="nav_bg"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="white"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>首页<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>博文列表<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>精彩相册<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>动感音乐<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>关于我<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>css</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">滑动导航</span><span style="color: #008000">*/</span><span style="color: #800000">
+#nav </span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff">465px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">52px</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">url(img/nav_bg.png) no-repeat</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff">50px auto 0 auto</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff">relative</span>;
+}<span style="color: #800000">
+#nav ul </span>{<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff">absolute</span>;
+}<span style="color: #800000">
+#nav ul li </span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff">85px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">52px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff">52px</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff">center</span>;<span style="color: #ff0000">
+    font-weight</span>:<span style="color: #0000ff">bold</span>;<span style="color: #ff0000">
+    float</span>:<span style="color: #0000ff">left</span>;
+}<span style="color: #800000">
+#nav ul.black </span>{<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">20px</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff">#333</span>;<span style="color: #ff0000">
+    z-index</span>:<span style="color: #0000ff">1</span>;
+}<span style="color: #800000">
+#nav ul.white </span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff">425px</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff">#fff</span>;<span style="color: #ff0000">
+    z-index</span>:<span style="color: #0000ff">3</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">0</span>;
+}<span style="color: #800000">
+#nav ul.about </span>{<span style="color: #ff0000">
+    z-index</span>:<span style="color: #0000ff">4</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">20px</span>;<span style="color: #ff0000">
+    cursor</span>:<span style="color: #0000ff">pointer</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">red</span>;<span style="color: #ff0000">
+    filter</span>:<span style="color: #0000ff">alpha(opacity=0)</span>;<span style="color: #ff0000">
+    opacity</span>:<span style="color: #0000ff">0</span>;
+}<span style="color: #800000">
+#nav div.nav_bg </span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff">85px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">52px</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">url(img/nav_over.png) no-repeat 0 11px</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff">absolute</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff">20px</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">0px</span>;<span style="color: #ff0000">
+    z-index</span>:<span style="color: #0000ff">2</span>;<span style="color: #ff0000">
+    overflow</span>:<span style="color: #0000ff">hidden</span>;
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p>前台js</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">滑动导航</span>
+    $('#nav .about li').shu_biao_yi_ru_yi_chu(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> target = $(<span style="color: #0000ff">this</span><span style="color: #000000">).sh_jd().offsetLeft;
+        $(</span>'#nav .nav_bg'<span style="color: #000000">).yi_dong_tou_ming({
+            attr : </span>'x'<span style="color: #000000">,
+            target : target </span>+ 20<span style="color: #000000">,
+            t : </span>30<span style="color: #000000">,
+            step : </span>10<span style="color: #000000">,
+            fn : </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                $(</span>'#nav .white'<span style="color: #000000">).yi_dong_tou_ming({
+                    attr : </span>'x'<span style="color: #000000">,
+                    target : </span>-<span style="color: #000000">target
+                });
+            }
+        });
+    }, </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $(</span>'#nav .nav_bg'<span style="color: #000000">).yi_dong_tou_ming({
+            attr : </span>'x'<span style="color: #000000">,
+            target : </span>20<span style="color: #000000">,
+            t : </span>30<span style="color: #000000">,
+            step : </span>10<span style="color: #000000">,
+            fn : </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                $(</span>'#nav .white'<span style="color: #000000">).yi_dong_tou_ming({
+                    attr : </span>'x'<span style="color: #000000">,
+                    target : </span>0<span style="color: #000000">
+                });
+            }
+        });
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>首先引入js函数库文件，和封装库文件</p></div>

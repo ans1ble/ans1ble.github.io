@@ -1,0 +1,141 @@
+第三百三十三节，web爬虫讲解2—Scrapy框架爬虫—Scrapy模拟浏览器登录—获取Scrapy框架Cookies
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百三十三节，web爬虫讲解2—Scrapy框架爬虫—Scrapy模拟浏览器登录</strong></p>
+<p><span style="color: #ff0000"><strong><strong>模拟浏览器登录</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">start_requests()</span>方法，可以返回一个请求给爬虫的起始网站，这个返回的请求相当于start_urls，start_requests()返回的请求会替代start_urls里的请求</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">Request()</span>get请求，可以设置，url、cookie、回调函数</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">FormRequest.from_response()</span>表单post提交，第一个必须参数，上一次响应cookie的response对象，其他参数，cookie、url、表单内容等</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">yield Request()</span>可以将一个新的请求返回给爬虫执行</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>在发送请求时cookie的操作，</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">meta={'cookiejar':1}</span>表示开启cookie记录，首次请求时写在Request()里</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">meta={'cookiejar':response.meta['cookiejar']}</span>表示使用上一次response的cookie，写在FormRequest.from_response()里post授权</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">meta={'cookiejar':True}</span>表示使用授权后的cookie访问需要登录查看的页面</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>获取<strong>Scrapy框架Cookies</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>请求Cookie</strong></span><br><strong>Cookie = response.request.headers.getlist('Cookie')</strong><br><strong>print(Cookie)</strong></p>
+<p><span style="color: #ff0000"><strong>响应Cookie</strong></span><br><strong>Cookie2 = response.headers.getlist('Set-Cookie')</strong><br><strong>print(Cookie2)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.http <span style="color: #0000ff">import</span><span style="color: #000000"> Request,FormRequest
+
+</span><span style="color: #0000ff">class</span> PachSpider(scrapy.Spider):                            <span style="color: #008000">#</span><span style="color: #008000">定义爬虫类，必须继承scrapy.Spider</span>
+    name = <span style="color: #800000">'</span><span style="color: #800000">pach</span><span style="color: #800000">'</span>                                           <span style="color: #008000">#</span><span style="color: #008000">设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">edu.iqianyue.com</span><span style="color: #800000">'</span>]                  <span style="color: #008000">#</span><span style="color: #008000">爬取域名</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> start_urls = ['http://edu.iqianyue.com/index_user_login.html']     #爬取网址,只适于不需要登录的请求，因为没法设置cookie等信息</span>
+<span style="color: #000000">
+    header </span>= {<span style="color: #800000">'</span><span style="color: #800000">User-Agent</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0</span><span style="color: #800000">'</span>}  <span style="color: #008000">#</span><span style="color: #008000">设置浏览器用户代理</span>
+
+    <span style="color: #0000ff">def</span> start_requests(self):       <span style="color: #008000">#</span><span style="color: #008000">用start_requests()方法,代替start_urls</span>
+        <span style="color: #800000">"""</span><span style="color: #800000">第一次请求一下登录页面，设置开启cookie使其得到cookie，设置回调函数</span><span style="color: #800000">"""</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">return</span> [Request(<span style="color: #800000">'</span><span style="color: #800000">http://edu.iqianyue.com/index_user_login.html</span><span style="color: #800000">'</span>,<span style="background-color: #ffff00">meta={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>:1}</span>,callback=<span style="color: #000000">self.parse)]
+
+    </span></span><span style="color: #0000ff">def</span> parse(self, response):     <span style="color: #008000">#</span><span style="color: #008000">parse回调函数</span>
+<span style="color: #000000">
+        data </span>= {                    <span style="color: #008000">#</span><span style="color: #008000">设置用户登录信息，对应抓包得到字段</span>
+            <span style="color: #800000">'</span><span style="color: #800000">number</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">adc8868</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">passwd</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">279819</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">submit</span><span style="color: #800000">'</span>:<span style="color: #800000">''</span><span style="color: #000000">
+            }
+
+        </span><span style="color: #008000">#</span><span style="color: #008000"> 响应Cookie</span>
+        <span style="background-color: #ffff00">Cookie1 = response.headers.getlist(<span style="color: #800000">'</span><span style="color: #800000">Set-Cookie</span><span style="color: #800000">'</span>)   <span style="color: #008000">#</span><span style="color: #008000">查看一下响应Cookie，也就是第一次访问注册页面时后台写入浏览器的Cookie</span>
+        <span style="color: #0000ff">print</span><span style="color: #000000">(Cookie1)
+
+        </span></span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">登录中</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #800000">"""</span><span style="color: #800000">第二次用表单post请求，携带Cookie、浏览器代理、用户登录信息，进行登录给Cookie授权</span><span style="color: #800000">"""</span>
+<span style="background-color: #ff99cc">        <span style="color: #0000ff">return</span><span style="color: #000000"> [FormRequest.from_response(response,
+                                          url</span>=<span style="color: #800000">'</span><span style="color: #800000">http://edu.iqianyue.com/index_user_login</span><span style="color: #800000">'</span>,   <span style="color: #008000">#</span><span style="color: #008000">真实post地址</span>
+                                          <span style="background-color: #ffff00">meta={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>:response.meta[<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ffff00">]}</span>,
+                                          headers</span>=<span style="color: #000000">self.header,
+                                          formdata</span>=<span style="color: #000000">data,
+                                          callback</span>=<span style="color: #000000">self.next,
+                                          )]
+    </span></span><span style="color: #0000ff">def</span><span style="color: #000000"> next(self,response):
+        a </span>= response.body.decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>)   <span style="color: #008000">#</span><span style="color: #008000">登录后可以查看一下登录响应信息</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> print(a)</span>
+        <span style="color: #800000">"""</span><span style="color: #800000">登录后请求需要登录才能查看的页面，如个人中心，携带授权后的Cookie请求</span><span style="color: #800000">"""</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">yield</span> Request(<span style="color: #800000">'</span><span style="color: #800000">http://edu.iqianyue.com/index_user_index.html</span><span style="color: #800000">'</span>,<span style="background-color: #ffff00">meta={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>:True}</span>,callback=<span style="color: #000000">self.next2)
+    </span></span><span style="color: #0000ff">def</span><span style="color: #000000"> next2(self,response):
+        </span><span style="color: #008000">#</span><span style="color: #008000"> 请求Cookie</span>
+ <span style="background-color: #ffff00">       Cookie2 = response.request.headers.getlist(<span style="color: #800000">'</span><span style="color: #800000">Cookie</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #0000ff">print</span></span><span style="color: #000000"><span style="background-color: #ffff00">(Cookie2)</span>
+
+        body </span>= response.body  <span style="color: #008000">#</span><span style="color: #008000"> 获取网页内容字节类型</span>
+        unicode_body = response.body_as_unicode()  <span style="color: #008000">#</span><span style="color: #008000"> 获取网站内容字符串类型</span>
+<span style="color: #000000">
+        a </span>= response.xpath(<span style="color: #800000">'</span><span style="color: #800000">/html/head/title/text()</span><span style="color: #800000">'</span>).extract()  <span style="color: #008000">#</span><span style="color: #008000">得到个人中心页面</span>
+        <span style="color: #0000ff">print</span>(a)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong>模拟浏览器登录2</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>第一步、</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>爬虫的第一次访问，一般用户登录时，第一次访问登录页面时，后台会自动写入一个<strong><strong>Cookies到浏览器，所以我们的第一次主要是获取到响应<strong><strong>Cookies</strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>首先访问网站的登录页面，如果登录页面是一个独立的页面，我们的爬虫第一次应该从登录页面开始，如果登录页面不是独立的页面如 js 弹窗，那么我们的爬虫可以从首页开始</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.http <span style="color: #0000ff">import</span><span style="color: #000000"> Request,FormRequest
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> re
+
+</span><span style="color: #0000ff">class</span> PachSpider(scrapy.Spider):                            <span style="color: #008000">#</span><span style="color: #008000">定义爬虫类，必须继承scrapy.Spider</span>
+    name = <span style="color: #800000">'</span><span style="color: #800000">pach</span><span style="color: #800000">'</span>                                           <span style="color: #008000">#</span><span style="color: #008000">设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">dig.chouti.com</span><span style="color: #800000">'</span>]                    <span style="color: #008000">#</span><span style="color: #008000">爬取域名</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> start_urls = ['']                                     #爬取网址,只适于不需要登录的请求，因为没法设置cookie等信息</span>
+<span style="color: #000000">
+    header </span>= {<span style="color: #800000">'</span><span style="color: #800000">User-Agent</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0</span><span style="color: #800000">'</span>}  <span style="color: #008000">#</span><span style="color: #008000">设置浏览器用户代理</span>
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> start_requests(self):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">第一次请求一下登录页面，设置开启cookie使其得到cookie，设置回调函数</span><span style="color: #800000">"""</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">return</span> [Request(<span style="color: #800000">'</span><span style="color: #800000">http://dig.chouti.com/</span><span style="color: #800000">'</span>,<span style="background-color: #ffff00">meta={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>:1}</span>,callback=<span style="color: #000000">self.parse)]
+
+
+    </span></span><span style="color: #0000ff">def</span><span style="color: #000000"> parse(self, response):
+        </span><span style="background-color: #ffff00"><span style="color: #008000">#</span><span style="color: #008000"> 响应Cookies</span>
+        Cookie1 = response.headers.getlist(<span style="color: #800000">'</span><span style="color: #800000">Set-Cookie</span><span style="color: #800000">'</span>)                            <span style="color: #008000">#</span><span style="color: #008000">查看一下响应Cookie，也就是第一次访问注册页面时后台写入浏览器的Cookie</span>
+        <span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">后台首次写入的响应Cookies：</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ffff00">,Cookie1)</span>
+
+        data </span>= {                                                                    <span style="color: #008000">#</span><span style="color: #008000"> 设置用户登录信息，对应抓包得到字段</span>
+            <span style="color: #800000">'</span><span style="color: #800000">phone</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">8615284816568</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">279819</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">oneMonth</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">1</span><span style="color: #800000">'</span><span style="color: #000000">
+        }
+
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">登录中....!</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #800000">"""</span><span style="color: #800000">第二次用表单post请求，携带Cookie、浏览器代理、用户登录信息，进行登录给Cookie授权</span><span style="color: #800000">"""</span>
+<span style="background-color: #ff99cc">        <span style="color: #0000ff">return</span><span style="color: #000000"> [FormRequest.from_response(response,
+                                          url</span>=<span style="color: #800000">'</span><span style="color: #800000">http://dig.chouti.com/login</span><span style="color: #800000">'</span>,                        <span style="color: #008000">#</span><span style="color: #008000">真实post地址</span>
+                                          <span style="background-color: #ffff00">meta={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>:response.meta[<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ffff00">]}</span>,
+                                          headers</span>=<span style="color: #000000">self.header,
+                                          formdata</span>=<span style="color: #000000">data,
+                                          callback</span>=<span style="color: #000000">self.next,
+                                          )]
+
+
+    </span></span><span style="color: #0000ff">def</span><span style="color: #000000"> next(self,response):
+        </span><span style="background-color: #ffff00"><span style="color: #008000">#</span><span style="color: #008000"> 请求Cookie</span>
+        Cookie2 = response.request.headers.getlist(<span style="color: #800000">'</span><span style="color: #800000">Cookie</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">登录时携带请求的Cookies：</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ffff00">,Cookie2)</span>
+
+        jieg </span>= response.body.decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>)   <span style="color: #008000">#</span><span style="color: #008000">登录后可以查看一下登录响应信息</span>
+        <span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">登录响应结果：</span><span style="color: #800000">'</span><span style="color: #000000">,jieg)
+
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">正在请需要登录才可以访问的页面....!</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+        </span><span style="color: #800000">"""</span><span style="color: #800000">登录后请求需要登录才能查看的页面，如个人中心，携带授权后的Cookie请求</span><span style="color: #800000">"""</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">yield</span> Request(<span style="color: #800000">'</span><span style="color: #800000">http://dig.chouti.com/user/link/saved/1</span><span style="color: #800000">'</span>,<span style="background-color: #ffff00">meta={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>:True}</span>,callback=<span style="color: #000000">self.next2)
+
+
+    </span></span><span style="color: #0000ff">def</span><span style="color: #000000"> next2(self,response):
+        </span><span style="background-color: #ffff00"><span style="color: #008000">#</span><span style="color: #008000"> 请求Cookie</span>
+        Cookie3 = response.request.headers.getlist(<span style="color: #800000">'</span><span style="color: #800000">Cookie</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">查看需要登录才可以访问的页面携带Cookies：</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ffff00">,Cookie3)</span>
+
+        leir </span>= response.xpath(<span style="color: #800000">'</span><span style="color: #800000">//div[@class="tu"]/a/text()</span><span style="color: #800000">'</span>).extract()  <span style="color: #008000">#</span><span style="color: #008000">得到个人中心页面</span>
+        <span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">最终内容</span><span style="color: #800000">'</span><span style="color: #000000">,leir)
+        leir2 </span>= response.xpath(<span style="color: #800000">'</span><span style="color: #800000">//div[@class="set-tags"]/a/text()</span><span style="color: #800000">'</span>).extract()  <span style="color: #008000">#</span><span style="color: #008000"> 得到个人中心页面</span>
+        <span style="color: #0000ff">print</span>(leir2)</pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201707/955761-20170729175842847-712420809.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;</strong></p></div>

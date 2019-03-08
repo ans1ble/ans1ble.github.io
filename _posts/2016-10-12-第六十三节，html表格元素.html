@@ -1,0 +1,481 @@
+第六十三节，html表格元素
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">html表格元素</span></strong></span></p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 18px">学习要点：</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp; 1.表格元素总汇</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp; 2.构建表格解析</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp; 本章主要探讨HTML5中表格元素的用法。表格的主要用途是以网格的形式显示二维数据。</span></strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 18px">一．表格元素总汇</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp; 表格的基本构成最少需要三个元素：&lt;table&gt;、&lt;tr&gt;、&lt;td&gt;，其他的一些作为可选辅 助存在。</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 元素名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; table &nbsp; &nbsp; &nbsp; &nbsp;表示表格</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; thead&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示标题行</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tbody&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示表格主体</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tfoot &nbsp; &nbsp; &nbsp; &nbsp;表示表脚</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　表示一行单元格</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; th &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 表示标题行单元格</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; td &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;表示单元格</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; col &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;表示一列</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; colgroup &nbsp; 表示一组列</span></strong></p>
+<p><strong><span style="font-size: 18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; caption &nbsp; &nbsp; 表示表格标题</span></strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 18px">二．构建表格解析</span></strong></p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 18px">1.&lt;table&gt;&lt;tr&gt;&lt;td&gt;构建基础表格</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>未婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>已婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<table style="float: left" border="1">
+<tbody>
+<tr>
+<td><span style="color: #0000ff">张三</span></td>
+<td><span style="color: #0000ff">男</span></td>
+<td><span style="color: #0000ff">未婚</span></td>
+</tr>
+<tr>
+<td><span style="color: #0000ff">李四</span></td>
+<td><span style="color: #0000ff">女</span></td>
+<td><span style="color: #0000ff">已婚</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong><span style="font-size: 18px">&nbsp;</span></strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 18px">解释：&lt;table&gt;元素表示一个表格的声明，&lt;tr&gt;元素表示表格的一行，&lt;td&gt;元素表示一个单元格。默认情况下表格是没有边框的，所以，在&lt;table&gt;元素增加一个border属性，设置为1即可显示边框。</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 18px">2.&lt;th&gt;为表格添加标题单元格</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>姓名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>性别<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>婚姻<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>未婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>已婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p style="text-align: left"><strong>效果：</strong></p>
+<table style="height: 100px; float: left; width: 276px" border="1">
+<tbody>
+<tr><th style="text-align: center"><span style="color: #0000ff">姓名</span></th><th><span style="color: #0000ff">性别</span></th><th><span style="color: #0000ff">婚姻</span></th></tr>
+<tr>
+<td><span style="color: #0000ff">张三</span></td>
+<td><span style="color: #0000ff">男</span></td>
+<td><span style="color: #0000ff">未婚</span></td>
+</tr>
+<tr>
+<td><span style="color: #0000ff">李四</span></td>
+<td><span style="color: #0000ff">女</span></td>
+<td><span style="color: #0000ff">已婚</span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left"><span style="color: #0000ff"><strong><span style="font-size: 18px">&nbsp; &nbsp;</span></strong></span></p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left"><strong><span style="font-size: 18px">解释：&lt;th&gt;元素主要是添加标题行的单元格，实际作用就是将内部文字居中且加粗，这里使用了一个通用属性style，主要用于CSS样式设置，以后会涉及到。&lt;th&gt;&lt;td&gt;均属于单元格，包含两个合并属性：colspan横向合并、rowspan纵向合并等。</span></strong></p>
+<p style="text-align: left"><span style="color: #ff0000"><strong><span style="font-size: 18px"><strong>colspan横向合并<strong>单元格，也就是向左合并</strong></strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>姓名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>性别<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>婚姻<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>未婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>已婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td </span><span style="color: #ff0000">colspan</span><span style="color: #0000ff">="3"</span><span style="color: #0000ff">&gt;</span>共计<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">注意这个colspan横向合并3，表示合并共站表格数</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p style="text-align: left"><strong>效果：</strong></p>
+<table style="float: left; height: 145px; width: 345px" border="1">
+<tbody>
+<tr><th><span style="color: #0000ff">姓名</span></th><th><span style="color: #0000ff">性别</span></th><th><span style="color: #0000ff">婚姻</span></th></tr>
+<tr>
+<td><span style="color: #0000ff">张三</span></td>
+<td><span style="color: #0000ff">男</span></td>
+<td><span style="color: #0000ff">未婚</span></td>
+</tr>
+<tr>
+<td><span style="color: #0000ff">李四</span></td>
+<td><span style="color: #0000ff">女</span></td>
+<td><span style="color: #0000ff">已婚</span></td>
+</tr>
+<tr>
+<td colspan="3"><span style="color: #0000ff">共计</span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left"><span style="color: #ff0000"><strong>rowspan纵向合并，也就是向下合并</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>姓名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>性别<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>婚姻<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>未婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td </span><span style="color: #ff0000">rowspan</span><span style="color: #0000ff">="2"</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">注意这个rowspan纵向合并2，表示合并共站表格数</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td </span><span style="color: #ff0000">rowspan</span><span style="color: #0000ff">="2"</span><span style="color: #0000ff">&gt;</span>已婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>共计<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p style="text-align: left"><strong>效果：</strong></p>
+<table style="float: left; height: 160px; width: 342px" border="1">
+<tbody>
+<tr><th><span style="color: #0000ff">姓名</span></th><th><span style="color: #0000ff">性别</span></th><th><span style="color: #0000ff">婚姻</span></th></tr>
+<tr>
+<td><span style="color: #0000ff">张三</span></td>
+<td><span style="color: #0000ff">男</span></td>
+<td><span style="color: #0000ff">未婚</span></td>
+</tr>
+<tr>
+<td><span style="color: #0000ff">李四</span></td>
+<td rowspan="2"><span style="color: #0000ff">女</span></td>
+<td rowspan="2"><span style="color: #0000ff">已婚</span></td>
+</tr>
+<tr>
+<td><span style="color: #0000ff">共计</span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left"><span style="color: #000000"><strong>注意：合并只能操作单元格，&lt;th&gt;&lt;td&gt;均属于单元格</strong></span></p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left"><span style="color: #ff0000"><strong><span style="font-size: 18px">3.&lt;thead&gt;添加表头</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>未婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>已婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头开始，也就是表头部分用&lt;thead&gt;元素包起来，声明是表头，无论表头代码在表单什么位置，它始终显示在表单头部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>姓名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>性别<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>婚姻<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头结束</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p style="text-align: left"><strong>效果：</strong></p>
+<table style="float: left; height: 116px; width: 333px" border="1">
+<tbody>
+<tr><th><span style="color: #0000ff">姓名</span></th><th><span style="color: #0000ff">性别</span></th><th><span style="color: #0000ff">婚姻</span></th></tr>
+<tr>
+<td><span style="color: #0000ff">张三</span></td>
+<td><span style="color: #0000ff">男</span></td>
+<td><span style="color: #0000ff">未婚</span></td>
+</tr>
+<tr>
+<td><span style="color: #0000ff">李四</span></td>
+<td><span style="color: #0000ff">女</span></td>
+<td><span style="color: #0000ff">已婚</span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left"><strong><span style="font-size: 18px">解释：&lt;thead&gt;元素就是限制和规范了表格的表头部分。尤其是以后动态生成表头，它的位置是不固定的，使用此元素可以限定在开头位置。</span></strong></p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left"><span style="color: #ff0000"><strong><span style="font-size: 18px">4.&lt;tfoot&gt;添加表脚</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>未婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tfoot</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表尾开始，也就是表尾部分用&lt;tfoot&gt;元素包起来，声明是表尾，无论表尾代码在表单什么位置，它始终显示在表单尾部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>已婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tfoot</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表尾结束</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头开始，也就是表头部分用&lt;thead&gt;元素包起来，声明是表头，无论表头代码在表单什么位置，它始终显示在表单头部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>姓名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>性别<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>婚姻<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头结束</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p style="text-align: left"><strong><span style="font-size: 18px">效果：</span></strong></p>
+<table style="float: left; height: 130px; width: 313px" border="1">
+<tbody>
+<tr><th><span style="color: #0000ff">姓名</span></th><th><span style="color: #0000ff">性别</span></th><th><span style="color: #0000ff">婚姻</span></th></tr>
+<tr>
+<td><span style="color: #0000ff">张三</span></td>
+<td><span style="color: #0000ff">男</span></td>
+<td><span style="color: #0000ff">未婚</span></td>
+</tr>
+<tr>
+<td><span style="color: #0000ff">李四</span></td>
+<td><span style="color: #0000ff">女</span></td>
+<td><span style="color: #0000ff">已婚</span></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 18px">解释：&lt;tfoot&gt;元素为表格生成表脚，限制在表格的底部。</span></strong></p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left"><span style="color: #ff0000"><strong><span style="font-size: 18px">5.&lt;tbody&gt;添加表主体</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表主体开始，也就是主体部分用&lt;tfoot&gt;元素包起来，声明是表主体，无论表主体代码在表单什么位置，它始终显示在表单主体部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>未婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表主体结束</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tfoot</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表尾开始，也就是表尾部分用&lt;tfoot&gt;元素包起来，声明是表尾，无论表尾代码在表单什么位置，它始终显示在表单尾部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>已婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tfoot</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表尾结束</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头开始，也就是表头部分用&lt;thead&gt;元素包起来，声明是表头，无论表头代码在表单什么位置，它始终显示在表单头部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>姓名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>性别<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>婚姻<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头结束</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong><span style="font-size: 18px">解释：&lt;tbody&gt;元素主要是包含住非表头表脚的主体部分，有助于表格格式的清晰，更加有助于后续CSS&nbsp; JavaScript的控制。</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="font-size: 18px">表单头、主体、尾部正确格式化</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头开始，也就是表头部分用&lt;thead&gt;元素包起来，声明是表头，无论表头代码在表单什么位置，它始终显示在表单头部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>姓名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>性别<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>婚姻<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头结束</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表主体开始，也就是主体部分用&lt;tfoot&gt;元素包起来，声明是表主体，无论表主体代码在表单什么位置，它始终显示在表单主体部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>未婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表主体结束</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tfoot</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表尾开始，也就是表尾部分用&lt;tfoot&gt;元素包起来，声明是表尾，无论表尾代码在表单什么位置，它始终显示在表单尾部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>已婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tfoot</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表尾结束</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p style="text-align: left"><span style="color: #ff0000">&nbsp;<strong><span style="font-size: 18px">6.&lt;caption&gt;添加表格标题</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">caption</span><span style="color: #0000ff">&gt;</span>这是一个人物表<span style="color: #0000ff">&lt;/</span><span style="color: #800000">caption</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表格标题</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头开始，也就是表头部分用&lt;thead&gt;元素包起来，声明是表头，无论表头代码在表单什么位置，它始终显示在表单头部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>姓名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>性别<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>婚姻<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头结束</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表主体开始，也就是主体部分用&lt;tfoot&gt;元素包起来，声明是表主体，无论表主体代码在表单什么位置，它始终显示在表单主体部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>未婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表主体结束</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tfoot</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表尾开始，也就是表尾部分用&lt;tfoot&gt;元素包起来，声明是表尾，无论表尾代码在表单什么位置，它始终显示在表单尾部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>已婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tfoot</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表尾结束</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p style="text-align: left"><strong><span style="font-size: 18px">效果：</span></strong></p>
+<table style="float: left; height: 86px; width: 251px" border="1"><caption><span style="color: #0000ff">这是一个人物表</span></caption>
+<thead>
+<tr><th><span style="color: #0000ff">姓名</span></th><th><span style="color: #0000ff">性别</span></th><th><span style="color: #0000ff">婚姻</span></th></tr>
+</thead>
+<tbody>
+<tr>
+<td><span style="color: #0000ff">张三</span></td>
+<td><span style="color: #0000ff">男</span></td>
+<td><span style="color: #0000ff">未婚</span></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td><span style="color: #0000ff">李四</span></td>
+<td><span style="color: #0000ff">女</span></td>
+<td><span style="color: #0000ff">已婚</span></td>
+</tr>
+</tfoot>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 18px">解释：&lt;caption&gt;元素给表格添加一个标题。</span></strong></p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left"><span style="color: #ff0000"><strong><span style="font-size: 18px">7.&lt;colgroup&gt;设置列</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">caption</span><span style="color: #0000ff">&gt;</span>这是一个人物表<span style="color: #0000ff">&lt;/</span><span style="color: #800000">caption</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表格标题</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">colgroup </span><span style="color: #ff0000">span</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="background:red;"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">colgroup</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">设置列</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">colgroup </span><span style="color: #ff0000">span</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="background:#2B2B2B;"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">colgroup</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">设置列</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头开始，也就是表头部分用&lt;thead&gt;元素包起来，声明是表头，无论表头代码在表单什么位置，它始终显示在表单头部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>姓名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>性别<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>婚姻<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头结束</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表主体开始，也就是主体部分用&lt;tfoot&gt;元素包起来，声明是表主体，无论表主体代码在表单什么位置，它始终显示在表单主体部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>未婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表主体结束</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tfoot</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表尾开始，也就是表尾部分用&lt;tfoot&gt;元素包起来，声明是表尾，无论表尾代码在表单什么位置，它始终显示在表单尾部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>已婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tfoot</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表尾结束</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161013103214343-1237129429.png" alt=""></strong></p>
+<p style="text-align: left">&nbsp;<strong><span style="font-size: 18px">&nbsp;解释：&lt;colgroup&gt;元素是为了处理某个列，span属性定义处理哪些列。1表示第一列，2表示前两列。如果要单独设置第二列，那么需要声明两个，先处理第一个，将列点移入第二位，再处理第二个即可。</span></strong></p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left"><span style="color: #ff0000"><strong><span style="font-size: 18px">8.&lt;col&gt;更灵活的设置列</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">caption</span><span style="color: #0000ff">&gt;</span>这是一个人物表<span style="color: #0000ff">&lt;/</span><span style="color: #800000">caption</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表格标题</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">colgroup</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">col</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">不需要设置的列，可以用col当做占位符</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">col </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="background:red;"</span><span style="color: #ff0000"> span</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">colgroup</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">设置列</span><span style="color: #008000">--&gt;</span>
+    
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头开始，也就是表头部分用&lt;thead&gt;元素包起来，声明是表头，无论表头代码在表单什么位置，它始终显示在表单头部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>姓名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>性别<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>婚姻<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表头结束</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表主体开始，也就是主体部分用&lt;tfoot&gt;元素包起来，声明是表主体，无论表主体代码在表单什么位置，它始终显示在表单主体部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>未婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表主体结束</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tfoot</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表尾开始，也就是表尾部分用&lt;tfoot&gt;元素包起来，声明是表尾，无论表尾代码在表单什么位置，它始终显示在表单尾部</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>已婚<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tfoot</span><span style="color: #0000ff">&gt;</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000">添加表尾结束</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong style="line-height: 1.5"><span style="font-size: 18px">效果：</span></strong></p>
+<p><strong style="line-height: 1.5"><span style="font-size: 18px"><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161013103952578-1381643849.png" alt=""></span></strong></p>
+<p><strong style="line-height: 1.5"><span style="font-size: 18px">解释：&lt;colgroup&gt;的子标签，&lt;col&gt;元素表示单独一列，一个表示一列，控制更加灵活。如果设置了span则，控制多列。</span></strong></p>
+<p style="text-align: left">&nbsp;</p>
+<p style="text-align: left"><strong><span style="font-size: 18px">&nbsp;</span></strong></p>
+<p style="text-align: left">&nbsp;</p></div>

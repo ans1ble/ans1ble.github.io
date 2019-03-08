@@ -1,0 +1,379 @@
+第二百九十九节，python操作redis缓存-SortSet有序集合类型，可以理解为有序列表
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>python操作redis缓存-SortSet有序集合类型，可以理解为有序列表</strong></p>
+<p><strong>有序集合，在集合的基础上，为每元素排序；元素的排序需要根据另外一个值来进行比较，所以，对于有序集合，每一个元素有两个值，即：值和分数，分数专门用来做排序。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zadd(name, *args, **kwargs)</span>在name对应的有序集合中添加元素</strong></span><br><strong>如：</strong><br><strong>     　　zadd('zz', 'n1(值)', 1(分), 'n2(值)', 2(分))   值表示是元素值，分可以理解为是元素序号</strong></p>
+<p><strong>     　　zadd('zz', 'n1', 1, 'n2', 2)</strong><br><strong>     或</strong><br><strong>     　　zadd('zz', n1=11, n2=22)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.<span style="background-color: #ff99cc">zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">n1</span><span style="color: #800000">'</span>, 1, <span style="color: #800000">'</span><span style="color: #800000">n2</span><span style="color: #800000">'</span>, 2)</span>                                 <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+r.<span style="background-color: #ff99cc">zadd(<span style="color: #800000">'</span><span style="color: #800000">zz</span><span style="color: #800000">'</span>, n1=11, n2=22</span><span style="color: #000000"><span style="background-color: #ff99cc">)</span>
+
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 1, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">获取有序列表</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'n1', "b'1'"), (b'n2', "b'2'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zcard(name)</span>获取name对应的有序集合元素的数量</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">n1</span><span style="color: #800000">'</span>, 1, <span style="color: #800000">'</span><span style="color: #800000">n2</span><span style="color: #800000">'</span>, 2)                                 <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000">
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 1, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">获取有序列表</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+
+f </span>= r.<span style="background-color: #ff99cc">zcard(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>)</span>                                                          <span style="color: #008000">#</span><span style="color: #008000">zcard(name)获取name对应的有序集合元素的数量</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'n1', "b'1'"), (b'n2', "b'2'")]</span><span style="color: #008000">
+#</span><span style="color: #008000"> 2</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zcount(name, min, max)</span>获取name对应的有序集合中分数 在 [min,max] 之间的个数</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">n1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">n2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">n3</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,5)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000">
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 1, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">获取有序列表</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+
+f </span>= r.<span style="background-color: #ff99cc">zcount(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,1,4)</span>                                             <span style="color: #008000">#</span><span style="color: #008000">zcount(name, min, max)获取name对应的有序集合中分数 在 [min,max] 之间的个数</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'n1', "b'1'"), (b'n2', "b'2'")]</span><span style="color: #008000">
+#</span><span style="color: #008000"> 2</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zincrby(name, value, amount)</span>自增name对应的有序集合的 值 对应的分数</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">n1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">n2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">n3</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,5)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000">
+f </span>= r.<span style="background-color: #ff99cc">zincrby(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">n2</span><span style="color: #800000">'</span>,amount=2)</span>                    <span style="color: #008000">#</span><span style="color: #008000">zincrby(name, value, amount)自增name对应的有序集合的 值 对应的分数</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">获取有序列表</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> 4.0</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'n1', "b'1'"), (b'n3', "b'3'"), (b'n2', "b'4'"), (b'n4', "b'4'"), (b'n5', "b'5'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zrange( name, start, end, desc=False, withscores=False, score_cast_func=float)</span>按照索引范围获取name对应的有序集合的元素</strong></span></p>
+<p><strong>参数：</strong><br><strong>    　　name，redis的name</strong><br><strong>    　　start，有序集合索引起始位置（非分数）</strong><br><strong>    　　end，有序集合索引结束位置（非分数）</strong><br><strong>    　　desc，排序规则，默认按照分数从小到大排序</strong><br><strong>    　　withscores，是否获取元素的分数，默认只获取元素的值</strong><br><strong>    　　score_cast_func，对分数进行<span style="color: #ff0000">数据转换的函数</span></strong><br><strong>更多：</strong><br><strong>    　　<span style="background-color: #ff99cc">从大到小排序</span></strong><br><strong>    　　　　zrevrange(name, start, end, withscores=False, score_cast_func=float)</strong><br><strong>    　　　　按照分数范围获取name对应的有序集合的元素</strong><br><strong>    　　　　zrangebyscore(name, min, max, start=None, num=None, withscores=False, score_cast_func=float)</strong><br><strong>    　　<span style="background-color: #ff99cc">从大到小排序</span></strong><br><strong>    　　　　zrevrangebyscore(name, max, min, start=None, num=None, withscores=False, score_cast_func=float)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">n1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">n2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">n3</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,5)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000">
+f </span>= r.zincrby(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">n2</span><span style="color: #800000">'</span>,amount=2)                    <span style="color: #008000">#</span><span style="color: #008000">zincrby(name, value, amount)自增name对应的有序集合的 值 对应的分数</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+
+n </span>= r.<span style="background-color: #ff99cc">zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)</span>  <span style="color: #008000">#</span><span style="color: #008000">zrange( name, start, end, desc=False, withscores=False, score_cast_func=float)按照索引范围获取name对应的有序集合的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> 4.0</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'n1', "b'1'"), (b'n3', "b'3'"), (b'n2', "b'4'"), (b'n4', "b'4'"), (b'n5', "b'5'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zrank(name, value)</span>获取某个值在 name对应的有序集合中的排行（从 0 开始）</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zrevrank(name, value)</span><strong>获取某个值在 name对应的有序集合中的排行</strong>，从大到小排序</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">n1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">n2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">n3</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,5)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000">
+f </span>= r.<span style="background-color: #ff99cc">zrank(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>)</span>                    <span style="color: #008000">#</span><span style="color: #008000">zrank(name, value)获取某个值在 name对应的有序集合中的排行（从 0 开始）</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">zrange( name, start, end, desc=False, withscores=False, score_cast_func=float)按照索引范围获取name对应的有序集合的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> 4</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'n1', "b'1'"), (b'n2', "b'2'"), (b'n3', "b'3'"), (b'n4', "b'4'"), (b'n5', "b'5'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>zrangebylex(name, min, max, start=None, num=None)</strong></span><br><span style="color: #ff0000"><strong>当有序集合的所有成员都具有相同的分值时，有序集合的元素会根据成员的 值 （lexicographical ordering）来进行排序，而这个命令则可以返回给定的有序集合键 key 中， 元素的值介于 min 和 max 之间的成员</strong></span><br><span style="color: #ff0000"><strong>对集合中的每个成员进行逐个字节的对比（byte-by-byte compare）， 并按照从低到高的顺序， 返回排序后的集合成员。 如果两个字符串有一部分内容是相同的话， 那么命令会认为较长的字符串比较短的字符串要大</strong></span><br> <br><strong>参数：</strong><br><strong>    　　name，redis的name</strong><br><strong>    　　min，左区间（值）。 + 表示正无限； - 表示负无限； ( 表示开区间； [ 则表示闭区间</strong><br><strong>    　　min，右区间（值）</strong><br><strong>    　　start，对结果进行分片处理，索引位置</strong><br><strong>    　　num，对结果进行分片处理，索引后面的num个元素</strong><br><strong>如：</strong><br><strong>    　　ZADD myzset 0 aa 0 ba 0 ca 0 da 0 ea 0 fa 0 ga</strong><br><strong>    　　r.zrangebylex('myzset', "-", "[ca") 结果为：['aa', 'ba', 'ca']</strong><br> <br><strong>更多：</strong><br><strong>    　　从大到小排序</strong><br><strong>    　　zrevrangebylex(name, max, min, start=None, num=None)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">a1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">c3</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,5)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000">
+f </span>= r.<span style="background-color: #ff99cc">zrangebylex(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>, <span style="color: #800000">"</span><span style="color: #800000">-</span><span style="color: #800000">"</span>, <span style="color: #800000">"</span><span style="color: #800000">[c</span><span style="color: #800000">"</span>)</span>                    <span style="color: #008000">#</span><span style="color: #008000">获取元素分数相同，值小于c的值</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">zrange( name, start, end, desc=False, withscores=False, score_cast_func=float)按照索引范围获取name对应的有序集合的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> [b'a1', b'b2']</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'a1', "b'1'"), (b'b2', "b'1'"), (b'c3', "b'1'"), (b'n1', "b'1'"), (b'n2', "b'1'"), (b'n3', "b'1'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zrem(name, values)</span>删除name对应的有序集合中值是values的成员</strong></span></p>
+<p><span style="color: #ff0000"><strong>如：zrem('zz', ['s1', 's2']) 删除多个值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">a1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">c3</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,5)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000">
+f </span>= r.<span style="background-color: #ff99cc">zrem(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>)</span>                    <span style="color: #008000">#</span><span style="color: #008000">zrem(name, values)删除name对应的有序集合中值是values的成员</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">按照索引范围获取name对应的有序集合的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> 1</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'a1', "b'1'"), (b'c3', "b'3'"), (b'n4', "b'4'"), (b'n5', "b'5'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zremrangebyrank(name, min, max)</span>根据排行范围删除</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">a1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">c3</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,5)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000">
+f </span>= r.<span style="background-color: #ff99cc">zremrangebyrank(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0,3)</span>                    <span style="color: #008000">#</span><span style="color: #008000">zremrangebyrank(name, min, max)根据排行范围删除</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">按照索引范围获取name对应的有序集合的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> 1</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'a1', "b'1'"), (b'c3', "b'3'"), (b'n4', "b'4'"), (b'n5', "b'5'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zremrangebyscore(name, min, max)</span>根据分数范围删除</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">a1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">c3</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,5)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000">
+f </span>= r.<span style="background-color: #ff99cc">zremrangebyscore(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,1,3)</span>                    <span style="color: #008000">#</span><span style="color: #008000">zremrangebyscore(name, min, max)根据分数范围删除</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">按照索引范围获取name对应的有序集合的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> 3</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'n4', "b'4'"), (b'n5', "b'5'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zremrangebylex(name, min, max)</span>根据值返回删除</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">a1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">c3</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,5)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000">
+f </span>= r.<span style="background-color: #ff99cc">zremrangebylex(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">"</span><span style="color: #800000">-</span><span style="color: #800000">"</span>, <span style="color: #800000">"</span><span style="color: #800000">[c</span><span style="color: #800000">"</span>)</span>                    <span style="color: #008000">#</span><span style="color: #008000">删除值小于c的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">按照索引范围获取name对应的有序集合的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> 2</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'c3', "b'3'"), (b'n4', "b'4'"), (b'n5', "b'5'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000"><span style="color: #0000ff">zscore(name, value)</span>获取name对应有序集合中 value 对应的分数</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">a1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">c3</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,5)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000">
+f </span>= r.<span style="background-color: #ff99cc">zscore(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">c3</span><span style="color: #800000">'</span>)</span>                    <span style="color: #008000">#</span><span style="color: #008000">zscore(name, value)获取name对应有序集合中 value 对应的分数</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">按照索引范围获取name对应的有序集合的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> 3.0</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'a1', "b'1'"), (b'b2', "b'2'"), (b'c3', "b'3'"), (b'n4', "b'4'"), (b'n5', "b'5'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zinterstore(dest, keys, aggregate=None)</span>获取两个有序集合的交集，如果遇到相同值不同分数，则按照aggregate进行操作添加到新的有序集合</strong></span><br><strong>aggregate的值为:  sum(相加和),min(最小),max(最大)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">a1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">c3</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,5)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi2</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">a1</span><span style="color: #800000">'</span>,8, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>,9, <span style="color: #800000">'</span><span style="color: #800000">c10</span><span style="color: #800000">'</span>,10, <span style="color: #800000">'</span><span style="color: #800000">n11</span><span style="color: #800000">'</span>,11, <span style="color: #800000">'</span><span style="color: #800000">n12</span><span style="color: #800000">'</span>,12<span style="color: #000000">)
+
+f </span>= r.<span style="background-color: #ff99cc">zinterstore(<span style="color: #800000">'</span><span style="color: #800000">rd</span><span style="color: #800000">'</span>,[<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">rdi2</span><span style="color: #800000">'</span>],aggregate=None)</span>                 <span style="color: #008000">#</span><span style="color: #008000">获取两个有序集合的交集，如果遇到相同值不同分数，则按照aggregate进行操作添加到新的有序集合</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rd</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">按照索引范围获取name对应的有序集合的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> 2</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'a1', "b'9'"), (b'b2', "b'11'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zunionstore(dest, keys, aggregate=None)</span>获取两个有序集合的并集，如果遇到相同值不同分数，则按照aggregate进行操作添加到新的有序集合</strong></span><br><strong>aggregate的值为:  sum(相加和),min(最小),max(最大)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">a1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">c3</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,5)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi2</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">a1</span><span style="color: #800000">'</span>,8, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>,9, <span style="color: #800000">'</span><span style="color: #800000">c10</span><span style="color: #800000">'</span>,10, <span style="color: #800000">'</span><span style="color: #800000">n11</span><span style="color: #800000">'</span>,11, <span style="color: #800000">'</span><span style="color: #800000">n12</span><span style="color: #800000">'</span>,12<span style="color: #000000">)
+
+f </span>= r.<span style="background-color: #ff99cc">zunionstore(<span style="color: #800000">'</span><span style="color: #800000">rd</span><span style="color: #800000">'</span>,[<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">rdi2</span><span style="color: #800000">'</span>],aggregate=None)</span>                 <span style="color: #008000">#</span><span style="color: #008000">获取两个有序集合的并集，如果遇到相同值不同分数，则按照aggregate进行操作添加到新的有序集合</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(f)
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rd</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">按照索引范围获取name对应的有序集合的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> 8</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'c3', "b'3'"), (b'n4', "b'4'"), (b'n5', "b'5'"), (b'a1', "b'9'"), (b'c10', "b'10'"), (b'b2', "b'11'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zscan(name, cursor=0, match=None, count=None, score_cast_func=float)</span>增量式迭代获取，对于数据大的数据非常有用，并非一次性将数据全部获取完，从而防止内存被撑爆【推荐使用下面的方法】</strong></span></p>
+<p><strong> 　　name，redis的name</strong><br><strong>　　cursor，游标（基于游标分批取获取数据）</strong><br><strong>　　match，匹配指定key，默认None 表示所有的key</strong><br><strong>　　count，每次分片最少获取个数，默认None表示采用Redis的默认分片个数</strong><br><strong>    　　score_cast_func，用来对分数进行数据转换操作的函数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">a1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">c1</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,51)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000"><span style="background-color: #ffff99">
+cursor1</span>, data1 </span>= r.<span style="background-color: #ff99cc">zscan(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,cursor=0,match=<span style="color: #800000">'</span><span style="color: #800000">*1</span><span style="color: #800000">'</span>,count=None,score_cast_func=str)</span>     <span style="color: #008000">#</span><span style="color: #008000">获取name对应的有序列表值，以1结尾的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(cursor1, data1)
+cursor2, data2 </span>= r.<span style="background-color: #ff99cc">zscan(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,cursor=<span style="background-color: #ffff99">cursor1</span>,match=<span style="color: #800000">'</span><span style="color: #800000">*1</span><span style="color: #800000">'</span>,count=None,score_cast_func=<span style="color: #000000">str)
+</span></span><span style="color: #0000ff">print</span><span style="color: #000000">(cursor2, data2)
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">按照索引范围获取name对应的有序集合的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> 0 [(b'a1', "b'1'"), (b'c1', "b'3'")]</span><span style="color: #008000">
+#</span><span style="color: #008000"> 0 [(b'a1', "b'1'"), (b'c1', "b'3'")]</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'a1', "b'1'"), (b'b2', "b'2'"), (b'c1', "b'3'"), (b'n4', "b'4'"), (b'c3', "b'31'"), (b'n5', "b'51'")]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">zscan_iter(name, match=None, count=None,score_cast_func=float)</span>增量式迭代获取，对于数据大的数据非常有用，并非一次性将数据全部获取完，从而防止内存被撑爆【推荐】</strong></span></p>
+<p>&nbsp;</p>
+<p><strong> 　　name，redis的name</strong><br><strong>　　match，匹配指定key，默认None 表示所有的key</strong><br><strong>　　count，每次分片最少获取个数，默认None表示采用Redis的默认分片个数</strong><br><strong>    　　score_cast_func，用来对分数进行数据转换操作的函数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                           <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.zadd(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">a1</span><span style="color: #800000">'</span>,1, <span style="color: #800000">'</span><span style="color: #800000">b2</span><span style="color: #800000">'</span>,2, <span style="color: #800000">'</span><span style="color: #800000">c1</span><span style="color: #800000">'</span>,3, <span style="color: #800000">'</span><span style="color: #800000">n4</span><span style="color: #800000">'</span>,4, <span style="color: #800000">'</span><span style="color: #800000">n5</span><span style="color: #800000">'</span>,51)           <span style="color: #008000">#</span><span style="color: #008000">zadd(name, *args, **kwargs)在name对应的有序集合中添加元素</span>
+<span style="color: #000000">
+cur </span>= r.<span style="background-color: #ffcc99">zscan_iter(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,match=<span style="color: #800000">'</span><span style="color: #800000">*1</span><span style="color: #800000">'</span>,count=None,score_cast_func=str) </span>    <span style="color: #008000">#</span><span style="color: #008000">获取name对应的有序列表值，以1结尾的元素</span>
+<span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> cur:
+    </span><span style="color: #0000ff">print</span><span style="color: #000000">(i)
+
+
+n </span>= r.zrange(<span style="color: #800000">'</span><span style="color: #800000">rdi1</span><span style="color: #800000">'</span>,0, 5, desc=False, withscores=True, score_cast_func=str)  <span style="color: #008000">#</span><span style="color: #008000">按照索引范围获取name对应的有序集合的元素</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(n)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> (b'a1', "b'1'")</span><span style="color: #008000">
+#</span><span style="color: #008000"> (b'c1', "b'3'")</span><span style="color: #008000">
+#</span><span style="color: #008000"> [(b'a1', "b'1'"), (b'b2', "b'2'"), (b'c1', "b'3'"), (b'n4', "b'4'"), (b'c3', "b'31'"), (b'n5', "b'51'")]</span></pre>
+</div>
+<p>&nbsp;</p></div>

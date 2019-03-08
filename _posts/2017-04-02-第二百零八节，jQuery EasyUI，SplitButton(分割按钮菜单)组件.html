@@ -1,0 +1,138 @@
+第二百零八节，jQuery EasyUI，SplitButton(分割按钮菜单)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #000000"><strong>jQuery EasyUI，SplitButton(分割按钮)组件</strong></span></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170402223607977-637290989.png" alt=""></p>
+<p><span style="color: #000000"><strong>学习要点： </strong></span></p>
+<p><span style="color: #000000"><strong>　　1.加载方式 </strong></span></p>
+<p><span style="color: #000000"><strong>　　2.属性列表 </strong></span></p>
+<p><span style="color: #000000"><strong>　　3.方法列表</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000"><strong>本节课重点了解 EasyUI 中 SplitButton(分割按钮)组件的使用方法，这个组件依赖 于 Menu(菜单)组件和 LinkButton(按钮)组件。</strong></span></p>
+<p><span style="color: #ff0000; font-size: 18pt; background-color: #ffff00"><strong>注意：<strong>SplitButton(分割按钮)组件与，<strong>MenuButton(菜单按钮)是一样的，不同是<strong><strong>(分割按钮)组件多了一个分隔符</strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一加载方式</strong></span></p>
+<p><span style="color: #0000ff"><strong>class 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="javascript:void(0)"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="edit"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="easyui-splitbutton"</span><span style="color: #ff0000">
+   data-options</span><span style="color: #0000ff">="menu:'#box',iconCls:'icon-edit'"</span><span style="color: #0000ff">&gt;</span>编辑<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:100px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">data-options</span><span style="color: #0000ff">="iconCls:'icon-ok'"</span><span style="color: #0000ff">&gt;</span>Ok<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">data-options</span><span style="color: #0000ff">="iconCls:'icon-cancel'"</span><span style="color: #0000ff">&gt;</span>Cancel<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>splitbutton()给一个符号规则的元素实现分割按钮菜单</strong></span></p>
+<p><span style="color: #0000ff"><strong>JS 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre>$('#bt'<span style="color: #000000">).splitbutton({
+        menu:</span>'#box',         <span style="color: #008000">//</span><span style="color: #008000">在按钮里指向菜单元素</span>
+        iconCls:'icon-edit', <span style="color: #008000">//</span><span style="color: #008000">设置按钮图标</span>
+        plain:<span style="color: #0000ff">false</span>,          <span style="color: #008000">//</span><span style="color: #008000">按钮不扁平化，显示按钮轮廓</span>
+        duration:50         <span style="color: #008000">//</span><span style="color: #008000">定义鼠标划过按钮时显示菜单所持续的时间，单位为毫秒。默认为100。</span>
+    });</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170402222153039-120230302.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>plain &nbsp; boolean 为 true 时显示简易效果。默认为 true。</strong></span></p>
+<p><span style="color: #ff0000"><strong>menu &nbsp; string 用来创建一个对应菜单的选择器。</strong></span></p>
+<p><span style="color: #ff0000"><strong>duration &nbsp; number 定义鼠标划过按钮时显示菜单所持续的时间，单位为毫秒。默认为100。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">按钮部分</span>
+    $('#bt'<span style="color: #000000">).splitbutton({
+        <span style="color: #ff0000">menu:</span></span><span style="color: #ff0000">'#box',         //在按钮里指向菜单元素</span>
+        iconCls:'icon-edit', <span style="color: #008000">//</span><span style="color: #008000">设置按钮图标</span>
+        <span style="color: #ff0000">plain:false,          //按钮不扁平化，显示按钮轮廓</span>
+        <span style="color: #ff0000">duration:50         //定义鼠标划过按钮时显示菜单所持续的时间，单位为毫秒。默认为100。</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">菜单部分</span>
+    $('#box'<span style="color: #000000">).menu({
+        zIndex:</span>100,   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p><span style="color: #ff0000; font-size: 18pt; background-color: #ffff00"><strong>属性列表，其他属性，参考依赖组件 LinkButton</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．菜单方法</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170402222543133-538175917.png" alt=""></strong></span></p>
+<p><strong><span style="color: #ff0000">options &nbsp; none 返回属性对象。</span></strong></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">按钮部分</span>
+    $('#bt'<span style="color: #000000">).splitbutton({
+        menu:</span>'#box',         <span style="color: #008000">//</span><span style="color: #008000">在按钮里指向菜单元素</span>
+        iconCls:'icon-edit', <span style="color: #008000">//</span><span style="color: #008000">设置按钮图标</span>
+        plain:<span style="color: #0000ff">false</span>,          <span style="color: #008000">//</span><span style="color: #008000">按钮不扁平化，显示按钮轮廓</span>
+        duration:50         <span style="color: #008000">//</span><span style="color: #008000">定义鼠标划过按钮时显示菜单所持续的时间，单位为毫秒。默认为100。</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">菜单部分</span>
+    $('#box'<span style="color: #000000">).menu({
+        zIndex:</span>100,   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+<span style="color: #000000">    });
+    alert($(</span>'#bt').splitbutton('options'));    <span style="color: #008000">//</span><span style="color: #008000">返回属性对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">disable &nbsp; none 禁用菜单按钮。</span></strong></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">按钮部分</span>
+    $('#bt'<span style="color: #000000">).splitbutton({
+        menu:</span>'#box',         <span style="color: #008000">//</span><span style="color: #008000">在按钮里指向菜单元素</span>
+        iconCls:'icon-edit', <span style="color: #008000">//</span><span style="color: #008000">设置按钮图标</span>
+        plain:<span style="color: #0000ff">false</span>,          <span style="color: #008000">//</span><span style="color: #008000">按钮不扁平化，显示按钮轮廓</span>
+        duration:50         <span style="color: #008000">//</span><span style="color: #008000">定义鼠标划过按钮时显示菜单所持续的时间，单位为毫秒。默认为100。</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">菜单部分</span>
+    $('#box'<span style="color: #000000">).menu({
+        zIndex:</span>100,   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+<span style="color: #000000">    });
+    $(</span>'#bt').splitbutton('disable');    <span style="color: #008000">//</span><span style="color: #008000">禁用菜单按钮。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">enable &nbsp; none 启用菜单按钮。</span></strong></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">按钮部分</span>
+    $('#bt'<span style="color: #000000">).splitbutton({
+        menu:</span>'#box',         <span style="color: #008000">//</span><span style="color: #008000">在按钮里指向菜单元素</span>
+        iconCls:'icon-edit', <span style="color: #008000">//</span><span style="color: #008000">设置按钮图标</span>
+        plain:<span style="color: #0000ff">false</span>,          <span style="color: #008000">//</span><span style="color: #008000">按钮不扁平化，显示按钮轮廓</span>
+        duration:50         <span style="color: #008000">//</span><span style="color: #008000">定义鼠标划过按钮时显示菜单所持续的时间，单位为毫秒。默认为100。</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">菜单部分</span>
+    $('#box'<span style="color: #000000">).menu({
+        zIndex:</span>100,   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+<span style="color: #000000">    });
+    $(</span>'#bt').splitbutton('enable');    <span style="color: #008000">//</span><span style="color: #008000">启用菜单按钮。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">destroy &nbsp; none 销毁菜单按钮。</span></strong></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">按钮部分</span>
+    $('#bt'<span style="color: #000000">).splitbutton({
+        menu:</span>'#box',         <span style="color: #008000">//</span><span style="color: #008000">在按钮里指向菜单元素</span>
+        iconCls:'icon-edit', <span style="color: #008000">//</span><span style="color: #008000">设置按钮图标</span>
+        plain:<span style="color: #0000ff">false</span>,          <span style="color: #008000">//</span><span style="color: #008000">按钮不扁平化，显示按钮轮廓</span>
+        duration:50         <span style="color: #008000">//</span><span style="color: #008000">定义鼠标划过按钮时显示菜单所持续的时间，单位为毫秒。默认为100。</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">菜单部分</span>
+    $('#box'<span style="color: #000000">).menu({
+        zIndex:</span>100,   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+<span style="color: #000000">    });
+    $(</span>'#bt').splitbutton('destroy');    <span style="color: #008000">//</span><span style="color: #008000">销毁菜单按钮</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>重写默认</strong></span></p>
+<p><span style="color: #ff0000"><strong>扩展自$.fn.linkbutton.defaults。使用$.fn.splitbutton.defaults 重写默认 值对象。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18pt; color: #ff0000; background-color: #ffff00"><strong>注意：菜单部分的属性，方法，事件，参照菜单即可</strong></span></p></div>

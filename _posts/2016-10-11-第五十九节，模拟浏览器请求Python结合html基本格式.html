@@ -1,0 +1,78 @@
+第五十九节，模拟浏览器请求Python结合html基本格式
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff; font-size: 18pt"><strong>模拟浏览器请求Python结合html基本格式</strong></span></p>
+<p><span style="color: #000000; font-size: 16px"><strong>用Python模拟一个客户端，结合打开一个HTML页面</strong></span></p>
+<p><span style="color: #ff0000; font-size: 16px"><strong>创建客户端</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">import</span> socket <span style="color: #008000">#</span><span style="color: #008000">导入单线程通讯模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> handle_request(client):
+    buf </span>= client.recv(1024<span style="color: #000000">)
+    client.sendall(bytes(</span><span style="color: #800000">"</span><span style="color: #800000">HTTP/1.1 201 OK\r\n\r\n</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">utf8</span><span style="color: #800000">"</span>)) <span style="color: #008000">#</span><span style="color: #008000">向客户端发送内容，以字节形式发送</span>
+    f = open(<span style="color: #800000">"</span><span style="color: #800000">1.html</span><span style="color: #800000">"</span>, <span style="color: #800000">"</span><span style="color: #800000">r</span><span style="color: #800000">"</span>, encoding=<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>)   <span style="color: #008000">#</span><span style="color: #008000">打开HTML文件</span>
+    f2 = f.read()   <span style="color: #008000">#</span><span style="color: #008000">读出HTML文件内容</span>
+    f.close()   <span style="color: #008000">#</span><span style="color: #008000">关闭打开的文件</span>
+<span style="color: #000000">
+    client.sendall(bytes(f2,</span><span style="color: #800000">"</span><span style="color: #800000">utf8</span><span style="color: #800000">"</span>)) <span style="color: #008000">#</span><span style="color: #008000">将读出HTML文件内容向客户端发送内容，以字节形式发送</span>
+
+<span style="color: #0000ff">def</span><span style="color: #000000"> main():
+    sock </span>= socket.socket(socket.AF_INET, socket.SOCK_STREAM)     <span style="color: #008000">#</span><span style="color: #008000">创建服务端通讯对象</span>
+    sock.bind((<span style="color: #800000">'</span><span style="color: #800000">localhost</span><span style="color: #800000">'</span>,8082))   <span style="color: #008000">#</span><span style="color: #008000">在服务端设置服务端ip和端口8</span>
+    sock.listen(5)      <span style="color: #008000">#</span><span style="color: #008000">监听IP和端口，设置一个参数，表示最多连接排队数量</span>
+
+    <span style="color: #0000ff">while</span><span style="color: #000000"> True:
+        connection, address </span>= sock.accept()     <span style="color: #008000">#</span><span style="color: #008000">等待接收客户端的请求，一旦有客户端请求连接，就会返回两个值，一个是连接对象，一个是客户端的地址信息，所以需要两个变量来接收</span>
+        handle_request(connection)  <span style="color: #008000">#</span><span style="color: #008000">执行handle_request函数，将客户端请求连接传入handle_request函数</span>
+        connection.close()  <span style="color: #008000">#</span><span style="color: #008000">关闭连接</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">'</span><span style="color: #800000">__main__</span><span style="color: #800000">'</span>:  <span style="color: #008000">#</span><span style="color: #008000">wds系统下if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</span>
+<span style="color: #000000">
+    main() </span><span style="color: #008000">#</span><span style="color: #008000">执行main函数</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>HTML页面</strong></span></p>
+<p><span style="color: #000000"><strong>将HTML页面放入客服端相同的目录里</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>你好<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>启动客户端后在浏览器输入http://127.0.0.1:8082/ &nbsp;可以看到以下结果</p>
+<h1>你好</h1>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>下面我们开始讲HTML知识</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff; font-size: 18pt"><strong>HTML基本格式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">                     //文档类型声明
+</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="zh-cn"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">                 //表示HTML文档开始，属性lang,属性值=zh-cn（声明中文网页的意思）
+</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">                              //包含文档元素开始
+    </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">          //声明字符编码
+    </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>标题<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">             //设置文档标题
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">                             //包含文档元素结束
+</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">                              //表示HTML内容开始
+
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">                             //表示HTML内容结束
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span>                             //表示HTML文档结束</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">&lt;!DOCTYPE html&gt;</span>  </strong><br><strong>它主要告诉浏览器所查看的文件类型，表示为HTML文档类型</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">&lt;html lang="zh-cn"&gt;&lt;/html&gt;</span> </strong><br><strong>HTML元素是文档开始和结尾的元素，它是一个双标签，包含内容，这个元素有一个属性和属性值，lang="zh-cn"，表示文档语言为：简体中文，如果是英文网页为lang="en"</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>&lt;head&gt; &lt;/head&gt;</strong> </span><br><strong>用来包含元数据内容，元数据内容包括：&lt;link&gt;、&lt;meta&gt;、&lt;noscript&gt;、&lt;scripy&gt;、&lt;style&gt;、&lt;title&gt;,这些内容用来向浏览器提供信息，比如link提供css信息，这些类型都是页面不可见的</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>&lt;meta&gt;</strong></span><br><strong>这个元素可以用来设置字符编码，告诉浏览器页面采用什么编码，除了设置编码还有别的</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">&lt;title&gt;&lt;/title&gt;</span> </strong><br><strong>这个元素是设置页面的标题的，标题会显示到浏览器上部，也会被搜索引擎识别</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>&lt;body&gt; &lt;/body&gt;</strong></span><br><strong>用来包含文档内容的元素，也就是浏览器可见部分，所有的可见部分都应该写在这里</strong></p>
+<p>&nbsp;</p></div>

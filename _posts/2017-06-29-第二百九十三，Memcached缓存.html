@@ -1,0 +1,230 @@
+第二百九十三，Memcached缓存
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Memcached 是一个高性能的分布式内存对象缓存系统，用于动态Web应用以减轻数据库负载。它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高动态、数据库驱动网站的速度。Memcached基于一个存储键/值对的hashmap。其守护进程（daemon ）是用C写的，但是客户端可以用任何语言来编写，并通过memcached协议与守护进程通信。</strong></p>
+<p><span style="color: #ff0000">&nbsp;<strong>Memcached只能接受键值对方式的字符串</strong></span></p>
+<p><span style="color: #000000"><strong>Memcached安装和基本使用</strong></span></p>
+<p><span style="color: #ff0000"><strong>Window下memcached安装与测试步骤</strong></span></p>
+<p><span style="color: #000000"><strong>下载好软件包memcached-1.4.20版本</strong></span></p>
+<p><strong>安装步骤</strong><br><strong>1、解压到指定目录，如：E:\memcached</strong><br><strong>2、用cmd打开命令窗口，转到解压的目录，输入 “<span style="color: #0000ff">memcached -d install</span>”如下图：</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170629202523914-445613740.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><strong>查看是否安装成功，输入<span style="color: #0000ff">memcached –h</span>，出现下图窗口说明已经安装成功。</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170629202644508-224311336.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>默认命令说明</strong></span><br><strong>    -p 监听的端口</strong><br><strong>   -l 连接的IP地址, 默认是本机</strong><br><strong>    -d start 启动memcached服务</strong><br><strong>   -d restart 重起memcached服务</strong><br><strong>   -d stop|shutdown 关闭正在运行的memcached服务</strong><br><strong>    -d install 安装memcached服务</strong><br><strong>   -d uninstall 卸载memcached服</strong><br><strong>   -u 以的身份运行 (仅在以root运行的时候有效</strong><br><strong>   -m 最大内存使用，单位MB。默认64M</strong><br><strong>   -M 内存耗尽时返回错误，而不是删除</strong><br><strong>   -c 最大同时连接数，默认是102</strong><br><strong>  -f 块大小增长因子，默认是1.2</strong><br><strong>  -n 最小分配空间，key+value+flags默认是4</strong><br><strong>  -h 显示帮助</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>linux安装<strong>memcached</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>wget http:<span style="color: #008000">//</span><span style="color: #008000">memcached.org/latest</span>
+tar -zxvf memcached-<span style="color: #800080">1</span><span style="color: #000000">.x.x.tar.gz
+cd memcached</span>-<span style="color: #800080">1</span><span style="color: #000000">.x.x
+.</span>/configure &amp;&amp; make &amp;&amp; make test &amp;&amp;<span style="color: #000000"> sudo make install
+ 
+PS：依赖libevent
+       yum install libevent</span>-<span style="color: #000000">devel
+       apt</span>-<span style="color: #0000ff">get</span> install libevent-dev</pre>
+</div>
+<p><span style="color: #ff0000"><strong>Memcached命令</strong></span></p>
+<div class="cnblogs_code">
+<pre>存储命令: <span style="color: #0000ff">set</span>/add/replace/append/prepend/<span style="color: #000000">cas
+获取命令: </span><span style="color: #0000ff">get</span>/<span style="color: #000000">gets
+其他命令: delete</span>/stats..</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>Python操作Memcached</strong></span></p>
+<p><span style="color: #0000ff"><strong>安装API模块python-memcached</strong></span></p>
+<p><span style="color: #000000"><strong><strong>python-memcached属于第三方模块需要安装</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>安装好后，在命令终端启动<strong>memcached并且配置<strong>python-memcached连接参数ip端口连接数内存大小等信息</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="background-color: #ff99cc"><strong>memcached -d -m <span style="color: #800080">10</span>    -u root -l <span style="color: #800080">127.0</span>.<span style="color: #800080">0.1</span> -p <span style="color: #800080">12000</span> -c <span style="color: #800080">256</span> -P /tmp/</strong></span><span style="color: #000000"><span style="background-color: #ff99cc"><strong>memcached.pid</strong> </span>    #配置连接
+memcached </span>-d -m <span style="color: #800080">10</span>    -u root -l 服务器ip -p 端口 -c <span style="color: #800080">256</span> -P /tmp/<span style="color: #000000">memcached.pid     　　#配置连接说明
+ 
+参数说明:
+    </span>-<span style="color: #000000">d 是启动一个守护进程
+    </span>-<span style="color: #000000">m 是分配给Memcache使用的内存数量，单位是MB
+    </span>-<span style="color: #000000">u 是运行Memcache的用户
+    </span>-<span style="color: #000000">l 是监听的服务器IP地址
+    </span>-<span style="color: #000000">p 是设置Memcache监听的端口,最好是1024以上的端口
+    </span>-<span style="color: #000000">c 选项是最大运行的并发连接数，默认是1024，按照你服务器的负载量来设定
+    </span>-P 是设置保存Memcache的pid文件</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>第一次操作</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">Client([ip:端口])</span>创建memcache对象，配置连接memcache信息</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">set()</span>通过memcache向内存写入键值对，字符串，可以设置超时时间</strong></span><br><span style="color: #ff0000"><strong>使用方式：<span style="color: #0000ff">memcache对象.set("键","值")</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">get()</span>通过memcache在内存里读取写入的键值对</strong></span><br><span style="color: #ff0000"><strong>使用方式：<span style="color: #0000ff">memcache对象.get('键')</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> memcache             <span style="color: #008000">#</span><span style="color: #008000">导入操作memcached软件控制模块</span>
+<span style="color: #000000">
+mc </span>= memcache.Client([<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1:12000</span><span style="color: #800000">'</span>], debug=True)  <span style="color: #008000">#</span><span style="color: #008000">debug = True 表示运行出现错误时，显示错误信息，上线后移除该参数。</span>
+mc.set(<span style="color: #800000">"</span><span style="color: #800000">foo</span><span style="color: #800000">"</span>, <span style="color: #800000">"</span><span style="color: #800000">bar3333</span><span style="color: #800000">"</span>,5)      <span style="color: #008000">#</span><span style="color: #008000">第三个参数可以设置超时时间，单位为秒，也就是5秒后内存会自动删除</span>
+ret = mc.get(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(ret)
+</span><span style="color: #008000">#</span><span style="color: #008000">输出：bar3333</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>天生支持集群</strong></span></p>
+<p><span style="color: #000000"><strong>python-memcached模块原生支持集群操作，其原理是在内存维护一个主机列表，且集群中主机的权重值和主机在列表中重复出现的次数成正比</strong></span></p>
+<p><span style="color: #ff0000"><strong>集群</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> memcache             <span style="color: #008000">#</span><span style="color: #008000">导入操作memcached软件控制模块</span><span style="color: #008000">
+#</span><span style="color: #008000">假如连接4台服务器集群</span>
+mc = memcache.Client(<span style="background-color: #ff99cc">[<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1:12000</span><span style="color: #800000">'</span><span style="color: #000000">,
+                      </span><span style="color: #800000">'</span><span style="color: #800000">127.0.0.1:12001</span><span style="color: #800000">'</span><span style="color: #000000">,
+                      </span><span style="color: #800000">'</span><span style="color: #800000">127.0.0.1:12002</span><span style="color: #800000">'</span><span style="color: #000000">,
+                      </span><span style="color: #800000">'</span><span style="color: #800000">127.0.0.1:12004</span><span style="color: #800000">'</span>]</span>, debug=<span style="color: #000000">True)
+mc.set(</span><span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">foo</span><span style="color: #800000">"</span>, <span style="color: #800000">"</span><span style="color: #800000">bar3333</span><span style="color: #800000">"</span>,5)      <span style="color: #008000">#</span><span style="color: #008000">向服务器内存写入键值对数据，集群会通过算法确定写入那台服务器，如下说明</span><span style="color: #008000">
+#</span><span style="color: #008000">memcache模块会通过里面的cmemcache_hash方法将要写入内存的数据foo键二进制转换成数字</span><span style="color: #008000">
+#</span><span style="color: #008000">然后将转换的数字除以集群服务器列表数，得到的余数如果是2就将数据写入集群第二台服务器中，以此类推</span>
+ret = mc.get(<span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">foo</span><span style="color: #800000">'</span>)  <span style="color: #008000">#</span><span style="color: #008000">当获取数据时同样通过算法到对应的服务器读取数据</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>集群权重</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>集群权重就是在集群的服务器，将一台或者多台服务器提高权重，使其被算法多次匹配，就可以多放数据</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>简单理解就是，提高指定服务器在配置列表的次数，出现次数越多算法匹配就越多，这样数据也就放的越多</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> memcache             <span style="color: #008000">#</span><span style="color: #008000">导入操作memcached软件控制模块</span><span style="color: #008000">
+#</span><span style="color: #008000">假如连接4台服务器集群</span>
+mc = memcache.Client([(<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1:12000</span><span style="color: #800000">'</span>,<span style="background-color: #ff99cc">3</span>),   <span style="background-color: #ff99cc"><span style="color: #008000">#</span><span style="color: #008000">表示此服务器在列表出现3次，提高权重运算匹配几率</span></span>
+                      (<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1:12001</span><span style="color: #800000">'</span>,<span style="background-color: #ff99cc">2</span>),   <span style="background-color: #ff99cc"><span style="color: #008000">#</span><span style="color: #008000">表示此服务器在列表出现2次，提高权重运算匹配几率</span></span>
+                      (<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1:12002</span><span style="color: #800000">'</span><span style="color: #000000">),
+                      (</span><span style="color: #800000">'</span><span style="color: #800000">127.0.0.1:12004</span><span style="color: #800000">'</span>)], debug=<span style="color: #000000">True)
+mc.set(</span><span style="color: #800000">"</span><span style="color: #800000">foo</span><span style="color: #800000">"</span>, <span style="color: #800000">"</span><span style="color: #800000">bar3333</span><span style="color: #800000">"</span>,5)      <span style="color: #008000">#</span><span style="color: #008000">向服务器内存写入键值对数据，集群会通过算法确定写入那台服务器，如下说明</span><span style="color: #008000">
+#</span><span style="color: #008000">memcache模块会通过里面的cmemcache_hash方法将要写入内存的数据foo键二进制转换成数字</span><span style="color: #008000">
+#</span><span style="color: #008000">然后将转换的数字除以集群服务器列表数，得到的余数如果是2就将数据写入集群第二台服务器中，以此类推</span>
+ret = mc.get(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>)  <span style="color: #008000">#</span><span style="color: #008000">当获取数据时同样通过算法到对应的服务器读取数据</span></pre>
+</div>
+<p><strong>&nbsp;</strong></p>
+<p><span style="color: #ff0000"><strong>add()添加一条键值对，如果已经存在的 key，重复执行add操作异常</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> memcache
+ 
+mc </span>= memcache.Client([<span style="color: #800000">'</span><span style="color: #800000">10.211.55.4:12000</span><span style="color: #800000">'</span>], debug=<span style="color: #000000">True)
+mc.add(</span><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">v1</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #008000">#</span><span style="color: #008000"> mc.add('k1', 'v2') # 报错，对已经存在的key重复添加，失败！！！</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>replace()修改某个key的值，如果key不存在，则异常</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> memcache
+ 
+mc </span>= memcache.Client([<span style="color: #800000">'</span><span style="color: #800000">10.211.55.4:12000</span><span style="color: #800000">'</span>], debug=<span style="color: #000000">True)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 如果memcache中存在kkkk，则替换成功，否则一场</span>
+mc.replace(<span style="color: #800000">'</span><span style="color: #800000">kkkk</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">999</span><span style="color: #800000">'</span>)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>set() 和 set_multi()</strong></span><br><span style="color: #ff0000"><strong>set()设置一个键值对，如果key不存在，则创建，如果key存在，则修改</strong></span><br><span style="color: #ff0000"><strong>set_multi()设置多个键值对，如果key不存在，则创建，如果key存在，则修改</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> memcache
+ 
+mc </span>= memcache.Client([<span style="color: #800000">'</span><span style="color: #800000">10.211.55.4:12000</span><span style="color: #800000">'</span>], debug=<span style="color: #000000">True)
+ 
+mc.set(</span><span style="color: #800000">'</span><span style="color: #800000">key0</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">wupeiqi</span><span style="color: #800000">'</span><span style="color: #000000">)
+ 
+mc.set_multi({</span><span style="color: #800000">'</span><span style="color: #800000">key1</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">val1</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">key2</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">val2</span><span style="color: #800000">'</span>})</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>delete 和 delete_multi</strong></span><br><span style="color: #ff0000"><strong>delete()在Memcached中删除指定的一个键值对</strong></span><br><span style="color: #ff0000"><strong>delete_multi()在Memcached中删除指定的多个键值对</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> memcache
+ 
+mc </span>= memcache.Client([<span style="color: #800000">'</span><span style="color: #800000">10.211.55.4:12000</span><span style="color: #800000">'</span>], debug=<span style="color: #000000">True)
+ 
+mc.delete(</span><span style="color: #800000">'</span><span style="color: #800000">key0</span><span style="color: #800000">'</span><span style="color: #000000">)
+mc.delete_multi([</span><span style="color: #800000">'</span><span style="color: #800000">key1</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">key2</span><span style="color: #800000">'</span>])</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>get 和 get_multi</strong></span><br><span style="color: #ff0000"><strong>get()获取一个键值对</strong></span><br><span style="color: #ff0000"><strong>get_multi()获取多一个键值对</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> memcache
+ 
+mc </span>= memcache.Client([<span style="color: #800000">'</span><span style="color: #800000">10.211.55.4:12000</span><span style="color: #800000">'</span>], debug=<span style="color: #000000">True)
+ 
+val </span>= mc.get(<span style="color: #800000">'</span><span style="color: #800000">key0</span><span style="color: #800000">'</span><span style="color: #000000">)
+item_dict </span>= mc.get_multi([<span style="color: #800000">"</span><span style="color: #800000">key1</span><span style="color: #800000">"</span>, <span style="color: #800000">"</span><span style="color: #800000">key2</span><span style="color: #800000">"</span>, <span style="color: #800000">"</span><span style="color: #800000">key3</span><span style="color: #800000">"</span>])</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>append 和 prepend</strong></span><br><span style="color: #ff0000"><strong>append()修改指定key的值，在该值 后面 追加内容</strong></span><br><span style="color: #ff0000"><strong>prepend()修改指定key的值，在该值 前面 插入内容</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> memcache
+ 
+mc </span>= memcache.Client([<span style="color: #800000">'</span><span style="color: #800000">10.211.55.4:12000</span><span style="color: #800000">'</span>], debug=<span style="color: #000000">True)
+</span><span style="color: #008000">#</span><span style="color: #008000"> k1 = "v1"</span>
+<span style="color: #000000"> 
+mc.append(</span><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">after</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #008000">#</span><span style="color: #008000"> k1 = "v1after"</span>
+<span style="color: #000000"> 
+mc.prepend(</span><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">before</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #008000">#</span><span style="color: #008000"> k1 = "beforev1after"</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>decr 和 incr　</strong></span><br><span style="color: #ff0000"><strong>incr()自增，将Memcached中的某一个值增加 N （ N默认为1 ）</strong></span><br><span style="color: #ff0000"><strong>decr()自减，将Memcached中的某一个值减少 N （ N默认为1 ）</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> memcache
+ 
+mc </span>= memcache.Client([<span style="color: #800000">'</span><span style="color: #800000">10.211.55.4:12000</span><span style="color: #800000">'</span>], debug=<span style="color: #000000">True)
+mc.set(</span><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">777</span><span style="color: #800000">'</span><span style="color: #000000">)
+ 
+mc.incr(</span><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #008000">#</span><span style="color: #008000"> k1 = 778</span>
+<span style="color: #000000"> 
+mc.incr(</span><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>, 10<span style="color: #000000">)
+</span><span style="color: #008000">#</span><span style="color: #008000"> k1 = 788</span>
+<span style="color: #000000"> 
+mc.decr(</span><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #008000">#</span><span style="color: #008000"> k1 = 787</span>
+<span style="color: #000000"> 
+mc.decr(</span><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>, 10<span style="color: #000000">)
+</span><span style="color: #008000">#</span><span style="color: #008000"> k1 = 777</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>gets()获取数据 和 cas()设置数据</strong></span><br><strong>如商城商品剩余个数，假设改值保存在memcache中，product_count = 900</strong><br><strong>A用户刷新页面从memcache中读取到product_count = 900</strong><br><strong>B用户刷新页面从memcache中读取到product_count = 900</strong></p>
+<p><strong>如果A、B用户均购买商品</strong></p>
+<p><strong>A用户修改商品剩余个数 product_count＝899</strong><br><strong>B用户修改商品剩余个数 product_count＝899</strong></p>
+<p><strong>如此一来缓存内的数据便不在正确，两个用户购买商品后，商品剩余还是 899</strong><br><strong>如果使用python的set和get来操作以上过程，那么程序就会如上述所示情况！</strong></p>
+<p><strong>如果想要避免此情况的发生，只要使用 gets 和 cas 即可，如：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> memcache             <span style="color: #008000">#</span><span style="color: #008000">导入操作memcached软件控制模块</span>
+<span style="color: #000000">
+mc </span>= memcache.Client([<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1:12000</span><span style="color: #800000">'</span>], debug=True,<span style="background-color: #ff99cc">cache_cas=True</span>)  <span style="color: #008000">#</span><span style="color: #008000">debug = True 表示运行出现错误时，显示错误信息，上线后移除该参数。</span>
+mc.set(<span style="color: #800000">'</span><span style="color: #800000">product_count</span><span style="color: #800000">'</span>,100)         <span style="color: #008000">#</span><span style="color: #008000">设置基础数据</span>
+v = mc.<span style="background-color: #ff99cc">gets(<span style="color: #800000">'</span><span style="color: #800000">product_count</span><span style="color: #800000">'</span>)</span>        <span style="color: #008000">#</span><span style="color: #008000">用gets获取数据100</span>
+
+<span style="color: #008000">#</span><span style="color: #008000"> 如果有人在gets之后和cas之前修改了product_count，那么，下面的设置将会执行失败，剖出异常，从而避免非正常数据的产生</span><span style="color: #008000">
+#</span><span style="color: #008000"> 重点：也就是说如果多个用户获取到相同数修改时，只有最先修改那个用户可以修改，后面的用户不可以修改，因为原始值已经被最先</span><span style="color: #008000">
+#</span><span style="color: #008000"> 修改的用户改变了，其他用户只能重新获取修改后的数据再次修改，这样避免相同的数据被多个用户修改，保证数据的安全</span>
+<span style="color: #000000">
+
+mc.<span style="background-color: #ff99cc">cas(</span></span><span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">product_count</span><span style="color: #800000">'</span>, <span style="color: #800000">"</span><span style="color: #800000">899</span><span style="color: #800000">"</span>)</span>      <span style="color: #008000">#</span><span style="color: #008000">cas修改数据，如果这次修改相同的值已经被其他用户修改了，那么将无法修改</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">注意：只有用gets()获取数据，和用cas()修改数据，两者同时用才具备此功能</span><span style="color: #008000">
+#</span><span style="color: #008000">要实现此功能在Client()的参数里，还必须加上cache_cas=True</span></pre>
+</div>
+<p>Ps：本质上每次执行gets时，会从memcache中获取一个自增的数字，通过cas去修改gets的值时，会携带之前获取的自增值和memcache中的自增值进行比较，如果相等，则可以提交，如果不想等，那表示在gets和cas执行之间，又有其他人执行了gets（获取了缓冲的指定值）， 如此一来有可能出现非正常数据，则不允许修改。</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>Memcached用途session，或者页面缓存</strong></span></p></div>

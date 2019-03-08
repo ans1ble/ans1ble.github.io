@@ -1,0 +1,77 @@
+第一百五十九节，封装库--JavaScript，表单序列化结合ajax提交数据
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>封装库--JavaScript，表单序列化结合ajax提交数据</strong></p>
+<p>&nbsp;</p>
+<p><strong><strong>封装库，<strong>表单序列化方法</strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">* xu_lie_biao_dan()方法，表单序列化方法，将自动获取指定表单里面的各项字段name值和value值，无法连缀
+ *  参数是要获取指定表单的原生态对象
+ *  返回，包含表单数据的对象，如，{表单数据}
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.xu_lie_biao_dan </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (form) {
+    </span><span style="color: #0000ff">var</span> parts =<span style="color: #000000"> {};
+            </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; form.elements.length; i++) {    <span style="color: #008000">//</span><span style="color: #008000">根据表单字段长度循环</span>
+                <span style="color: #0000ff">var</span> filed = form.elements[i];                   <span style="color: #008000">//</span><span style="color: #008000">得到没一项表单的字段</span>
+                <span style="color: #0000ff">switch</span> (filed.type) {                           <span style="color: #008000">//</span><span style="color: #008000">判断得到字段的属性</span>
+                    <span style="color: #0000ff">case</span><span style="color: #000000"> undefined:
+                    </span><span style="color: #0000ff">case</span> 'submit'<span style="color: #000000">:
+                    </span><span style="color: #0000ff">case</span> 'reset'<span style="color: #000000">:
+                    </span><span style="color: #0000ff">case</span> 'file'<span style="color: #000000">:
+                    </span><span style="color: #0000ff">case</span> 'button'<span style="color: #000000">:
+                        </span><span style="color: #0000ff">break</span>;                                   <span style="color: #008000">//</span><span style="color: #008000">如果是以上几种的一种直接跳出</span>
+                    <span style="color: #0000ff">case</span> 'radio'<span style="color: #000000">:
+                    </span><span style="color: #0000ff">case</span> 'checkbox'<span style="color: #000000">:
+                        </span><span style="color: #0000ff">if</span> (!filed.selected) <span style="color: #0000ff">break</span>;              <span style="color: #008000">//</span><span style="color: #008000">如果是以上两种，判断是否被勾选，没勾选直接跳出</span>
+                    <span style="color: #0000ff">case</span> 'select-one'<span style="color: #000000">:
+                    </span><span style="color: #0000ff">case</span> 'select-multiple'<span style="color: #000000">:
+                        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> j = 0; j &lt; filed.options.length; j++) {     <span style="color: #008000">//</span><span style="color: #008000">下拉选项</span>
+                            <span style="color: #0000ff">var</span> option =<span style="color: #000000"> filed.options[j];
+                            </span><span style="color: #0000ff">if</span><span style="color: #000000"> (option.selected) {
+                                </span><span style="color: #0000ff">var</span> optvalue = ''<span style="color: #000000">;
+                                </span><span style="color: #0000ff">if</span> (option.hasAttribute) {                   <span style="color: #008000">//</span><span style="color: #008000">非ie</span>
+                                    optvalue = (option.hasAttribute('value') ? option.value : option.text);             <span style="color: #008000">//</span><span style="color: #008000">value值存在取value值，value值不存在取text值</span>
+                                } <span style="color: #0000ff">else</span> {  <span style="color: #008000">//</span><span style="color: #008000">ie</span>
+                                    optvalue = (option.attributes('value').specified ? option.value : option.text);     <span style="color: #008000">//</span><span style="color: #008000">value值存在取value值，value值不存在取text值</span>
+<span style="color: #000000">                                }
+                                parts[filed.name] </span>= optvalue;                                                           <span style="color: #008000">//</span><span style="color: #008000">如果不是以上情况，将表单字段的name值加上value值，添加到对象</span>
+<span style="color: #000000">                            }
+
+                        }
+                        </span><span style="color: #0000ff">break</span><span style="color: #000000">;
+                    </span><span style="color: #0000ff">default</span><span style="color: #000000">:
+                        parts[filed.name] </span>= filed.value;                                                                <span style="color: #008000">//</span><span style="color: #008000">如果不是以上情况，将表单字段的name值加上value值，添加到对象</span>
+<span style="color: #000000">                }
+            }
+            </span><span style="color: #0000ff">return</span><span style="color: #000000"> parts;
+};</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>表单序列化结合ajax提交数据效果图</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170303155430235-180732556.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p>提交到hj.php，返回</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170303155526454-403734687.png" alt=""></p>
+<p>&nbsp;</p>
+<p>前台js</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> biaodan = $().xu_lie_biao_dan($('form').sh_jd());   <span style="color: #008000">//</span><span style="color: #008000">序列化获取表单数据，返回对象</span>
+        $().Ajax({                            <span style="color: #008000">//</span><span style="color: #008000">执行Ajax数据传输</span>
+            method:'post',                    <span style="color: #008000">//</span><span style="color: #008000">post方式发送</span>
+            url:'hj.php',                     <span style="color: #008000">//</span><span style="color: #008000">发送到hj.php</span>
+            data:biaodan,                     <span style="color: #008000">//</span><span style="color: #008000">发送内容，序列化获取到的表单对象</span>
+            success:<span style="color: #0000ff">function</span> (text) {         <span style="color: #008000">//</span><span style="color: #008000">执行回调函数</span>
+                alert(text);                  <span style="color: #008000">//</span><span style="color: #008000">打印出hj.php接收到的数据</span>
+<span style="color: #000000">            },
+            async:</span><span style="color: #0000ff">true</span>                        <span style="color: #008000">//</span><span style="color: #008000">异步模式</span>
+        });</pre>
+</div>
+<p>&nbsp;</p>
+<p>hj.php</p>
+<div class="cnblogs_code">
+<pre>&lt;?<span style="color: #000000">php
+  </span><span style="color: #0000ff">echo</span> 'www.jxiou.com'<span style="color: #000000">;
+  </span><span style="color: #008080">print_r</span>(<span style="color: #800080">$_POST</span><span style="color: #000000">);
+</span>?&gt;</pre>
+</div>
+<p>&nbsp;</p></div>

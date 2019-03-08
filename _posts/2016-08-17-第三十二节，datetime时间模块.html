@@ -1,0 +1,162 @@
+第三十二节，datetime时间模块
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>首先要引入import datetime时间模块</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>datetime.date.today()模块函数</strong></span></p>
+<p><strong>功能：输出系统年月日输出格式 2016-01-26<strong>【无参】</strong></strong></p>
+<p><strong>使用方法：datetime.date.today()【无参】<strong><br /></strong></strong></p>
+<p><strong><strong>格式如：<strong>datetime.date.today()<strong>【无参】</strong></strong><strong><br /></strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> datetime
+a </span>= datetime.date.today()   <span style="color: #008000;">#</span><span style="color: #008000;">输出系统年月日输出格式 2016-01-26</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">2016-08-17</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>datetime.date.fromtimestamp()模块函数</strong></span></p>
+<p><strong>功能：将时间戳转成日期格式如2016-01-16<strong>【有参】</strong></strong></p>
+<p><strong>使用方法：<strong>datetime.date.fromtimestamp(时间戳函数)</strong><strong><br /></strong></strong></p>
+<p><strong><strong>格式如：datetime.date.fromtimestamp(time.time()-86400) <span style="color: #ff0000;">注意时间戳函数需要引入import&nbsp;<strong><strong>time模块</strong></strong></span><strong><br /></strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> time
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> datetime
+a </span>= datetime.date.fromtimestamp(time.time()-86400)   <span style="color: #008000;">#</span><span style="color: #008000;">将时间戳转成日期格式2016-01-16</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">2016-08-17</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>datetime.datetime.now()模块函数【推荐】</strong></span></p>
+<p><strong>功能：返回系统日期和时间【无参】</strong></p>
+<p><strong>使用方法：<strong>datetime.datetime.now()</strong><strong><br /></strong></strong></p>
+<p><strong><strong>格式如：<strong>datetime.datetime.now()</strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> datetime
+a </span>= datetime.datetime.now()   <span style="color: #008000;">#</span><span style="color: #008000;">返回系统字符串格式日期和时间</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">2016-08-17 01:03:19.322381</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>timetuple()模块函数【推荐】</strong></span></p>
+<p><strong>功能：返回系统日期和时间格式化对象【无参】</strong></p>
+<p><strong>使用方法：<strong>系统字符串格式日期和时间函数.<strong>timetuple()</strong></strong><strong><br /></strong></strong></p>
+<p><strong><strong>格式如：a.timetuple()<strong><br /></strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> datetime
+a </span>=<span style="color: #000000;"> datetime.datetime.now()
+b </span>= a.timetuple()   <span style="color: #008000;">#</span><span style="color: #008000;">返回系统日期和时间格式化对象</span>
+<span style="color: #0000ff;">print</span>(b)    <span style="color: #008000;">#</span><span style="color: #008000;">打印返回系统日期和时间格式化对象</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">%s-%s-%s %s:%s:%s</span><span style="color: #800000;">"</span> % (b.tm_year,b.tm_mon,b.tm_mday,b.tm_hour,b.tm_min,b.tm_sec)) <span style="color: #008000;">#</span><span style="color: #008000;">打印拼接字符串格式日期和时间</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">time.struct_time(tm_year=2016, tm_mon=8, tm_mday=17, tm_hour=1, tm_min=24, tm_sec=52, tm_wday=2, tm_yday=230, tm_isdst=-1)</span><span style="color: #008000;">
+#</span><span style="color: #008000;">2016-8-17 1:24:52</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>replace()函数模块</strong></span></p>
+<p><strong>功能：将制定日期和时间，替换当前系统时间，如果要替换时间在写上时间【有参】</strong></p>
+<p><strong>使用方法：系统字符串格式日期和时间函数.<strong>replace(要替换的时间和日期)</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：a.replace(2014,9,12) 【有参】</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> datetime
+a </span>= datetime.datetime.now() <span style="color: #008000;">#</span><span style="color: #008000;">返回系统字符串格式日期和时间</span>
+b = a.replace(2014,9,12)    <span style="color: #008000;">#</span><span style="color: #008000;">将制定日期和时间，替换当前系统时间，如果要替换时间在写上时间</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">2014-09-12 02:49:54.666131</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>datetime.datetime.strptime()模块函数&nbsp;</strong></span></p>
+<p><strong>功能：将字符串转换成日期格式【有参】</strong></p>
+<p><strong>使用方法：<strong>datetime.datetime.strptime("要转换的时间日期字符串","转换格式的标识符")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：datetime.datetime.strptime("21/11/06 16:30", "%d/%m/%y %H:%M")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> datetime
+a </span>= datetime.datetime.strptime(<span style="color: #800000;">"</span><span style="color: #800000;">21/11/06 16:30</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">%d/%m/%y %H:%M</span><span style="color: #800000;">"</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">将字符串转换成日期格式</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">2006-11-21 16:30:00</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>格式标识符表</strong></span></p>
+<p><strong>%y 两位数的年份表示（00-99）<br />%Y 四位数的年份表示（000-9999）<br />%m 月份（01-12）<br />%d 月内中的一天（0-31）<br />%H 24小时制小时数（0-23）<br />%I 12小时制小时数（01-12）&nbsp;<br />%M 分钟数（00=59）<br />%S 秒（00-59）<br /><br />%a 本地简化星期名称<br />%A 本地完整星期名称<br />%b 本地简化的月份名称<br />%B 本地完整的月份名称<br />%c 本地相应的日期表示和时间表示<br />%j 年内的一天（001-366）<br />%p 本地A.M.或P.M.的等价符<br />%U 一年中的星期数（00-53）星期天为星期的开始<br />%w 星期（0-6），星期天为星期的开始<br />%W 一年中的星期数（00-53）星期一为星期的开始<br />%x 本地相应的日期表示<br />%X 本地相应的时间表示<br />%Z 当前时区的名称<br />%% %号本身 &nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>datetime.timedelta()模块函数</strong></span></p>
+<p><strong>功能：将一个时间减去多少(周，天，小时，分钟，秒，毫秒，微秒)【有参】</strong></p>
+<p><strong>使用方法：<strong>系统日期和时间函数 +&nbsp;<strong>datetime.timedelta(日期或时间名称=单位数) <span style="color: #ff0000;">注意：写上单位就是加，-单位，就是减</span></strong></strong><strong><br /></strong></strong></p>
+<p>日期或时间名称</p>
+<p>days=天<br />seconds=秒<br />microseconds=微秒<br />milliseconds=毫秒<br />minutes=分钟<br />hours=小时<br />weeks=周</p>
+<p><strong>格式如：datetime.datetime.now() + datetime.timedelta(days=10)</strong></p>
+<p>系统时间加1周</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> datetime
+a </span>= datetime.datetime.now() + datetime.timedelta(weeks=1)  <span style="color: #008000;">#</span><span style="color: #008000;">将系统时间加1周</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">2016-08-24 15:57:55.304093</span></pre>
+</div>
+<p>系统时间减1周</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> datetime
+a </span>= datetime.datetime.now() + datetime.timedelta(weeks=-1)  <span style="color: #008000;">#</span><span style="color: #008000;">将系统时间减1周</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">2016-08-10 15:59:04.643905</span></pre>
+</div>
+<p><strong>其他，天，小时，分钟，秒，毫秒，微秒，如同上面的列子</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>datetime模块常用函数</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">_*_coding:utf-8_*_</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> time
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> datetime
+ 
+</span><span style="color: #0000ff;">print</span>(time.clock()) <span style="color: #008000;">#</span><span style="color: #008000;">返回处理器时间,3.3开始已废弃</span>
+<span style="color: #0000ff;">print</span>(time.process_time()) <span style="color: #008000;">#</span><span style="color: #008000;">返回处理器时间,3.3开始已废弃</span>
+<span style="color: #0000ff;">print</span>(time.time()) <span style="color: #008000;">#</span><span style="color: #008000;">返回当前系统时间戳</span>
+<span style="color: #0000ff;">print</span>(time.ctime()) <span style="color: #008000;">#</span><span style="color: #008000;">输出Tue Jan 26 18:23:48 2016 ,当前系统时间</span>
+<span style="color: #0000ff;">print</span>(time.ctime(time.time()-86640)) <span style="color: #008000;">#</span><span style="color: #008000;">将时间戳转为字符串格式</span>
+<span style="color: #0000ff;">print</span>(time.gmtime(time.time()-86640)) <span style="color: #008000;">#</span><span style="color: #008000;">将时间戳转换成struct_time格式</span>
+<span style="color: #0000ff;">print</span>(time.localtime(time.time()-86640)) <span style="color: #008000;">#</span><span style="color: #008000;">将时间戳转换成struct_time格式,但返回 的本地时间</span>
+<span style="color: #0000ff;">print</span>(time.mktime(time.localtime())) <span style="color: #008000;">#</span><span style="color: #008000;">与time.localtime()功能相反,将struct_time格式转回成时间戳格式</span><span style="color: #008000;">
+#</span><span style="color: #008000;">time.sleep(4) #sleep</span>
+<span style="color: #0000ff;">print</span>(time.strftime(<span style="color: #800000;">"</span><span style="color: #800000;">%Y-%m-%d %H:%M:%S</span><span style="color: #800000;">"</span>,time.gmtime()) ) <span style="color: #008000;">#</span><span style="color: #008000;">将struct_time格式转成指定的字符串格式</span>
+<span style="color: #0000ff;">print</span>(time.strptime(<span style="color: #800000;">"</span><span style="color: #800000;">2016-01-28</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">%Y-%m-%d</span><span style="color: #800000;">"</span>) ) <span style="color: #008000;">#</span><span style="color: #008000;">将字符串格式转换成struct_time格式</span>
+ 
+<span style="color: #008000;">#</span><span style="color: #008000;">datetime module</span>
+ 
+<span style="color: #0000ff;">print</span>(datetime.date.today()) <span style="color: #008000;">#</span><span style="color: #008000;">输出格式 2016-01-26</span>
+<span style="color: #0000ff;">print</span>(datetime.date.fromtimestamp(time.time()-864400) ) <span style="color: #008000;">#</span><span style="color: #008000;">2016-01-16 将时间戳转成日期格式</span>
+current_time = datetime.datetime.now() <span style="color: #008000;">#
+</span><span style="color: #0000ff;">print</span>(current_time) <span style="color: #008000;">#</span><span style="color: #008000;">输出2016-01-26 19:04:30.335935</span>
+<span style="color: #0000ff;">print</span>(current_time.timetuple()) <span style="color: #008000;">#</span><span style="color: #008000;">返回struct_time格式</span>
+ 
+<span style="color: #008000;">#</span><span style="color: #008000;">datetime.replace([year[, month[, day[, hour[, minute[, second[, microsecond[, tzinfo]]]]]]]])</span>
+<span style="color: #0000ff;">print</span>(current_time.replace(2014,9,12)) <span style="color: #008000;">#</span><span style="color: #008000;">输出2014-09-12 19:06:24.074900,返回当前时间,但指定的值将被替换</span>
+<span style="color: #000000;"> 
+str_to_date </span>= datetime.datetime.strptime(<span style="color: #800000;">"</span><span style="color: #800000;">21/11/06 16:30</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">%d/%m/%y %H:%M</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将字符串转换成日期格式</span>
+new_date = datetime.datetime.now() + datetime.timedelta(days=10) <span style="color: #008000;">#</span><span style="color: #008000;">比现在加10天</span>
+new_date = datetime.datetime.now() + datetime.timedelta(days=-10) <span style="color: #008000;">#</span><span style="color: #008000;">比现在减10天</span>
+new_date = datetime.datetime.now() + datetime.timedelta(hours=-10) <span style="color: #008000;">#</span><span style="color: #008000;">比现在减10小时</span>
+new_date = datetime.datetime.now() + datetime.timedelta(seconds=120) <span style="color: #008000;">#</span><span style="color: #008000;">比现在+120s</span>
+<span style="color: #0000ff;">print</span>(new_date)</pre>
+</div>
+<p>&nbsp;</p></div>

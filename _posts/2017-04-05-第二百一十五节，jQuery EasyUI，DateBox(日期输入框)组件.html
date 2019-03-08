@@ -1,0 +1,216 @@
+第二百一十五节，jQuery EasyUI，DateBox(日期输入框)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，DateBox(日期输入框)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170406124927082-1173118420.png" alt=""></p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式</strong></p>
+<p><strong> 　　2.属性列表 </strong></p>
+<p><strong>　　3.事件列表 </strong></p>
+<p><strong>　　4.方法列表</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 中 DateBox(日期输入框)组件的使用方法，<span style="color: #0000ff">这个组件依赖于 Combo(自定义下拉框)和 Calendar(日历)。</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<p><span style="color: #0000ff"><strong>class 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="easyui-datebox" </span><span style="color: #ff0000">required</span><span style="color: #0000ff">="required"</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>datebox()将一个输入框元素执行日期输入框方法</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>JS 加载调用</strong></span></p>
+<div class="cnblogs_code">
+<pre>$('#box'<span style="color: #000000">).datebox({
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong>二．属性列表</strong></span></p>
+<p><span style="color: #ff0000; font-size: 18pt; background-color: #ffff00"><strong>Datebox 属性，扩展自 Combo(自定义下拉框)组件，所以<strong>Combo(自定义下拉框)组件的属性也是有效的</strong></strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170405190447144-1716740785.png" alt=""></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170405190501519-1138229458.png" alt=""></strong></span></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170405190556675-139441292.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>panelWidth &nbsp; number 下拉日历面板宽度。默认值180。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).datebox({
+        panelWidth:</span>147<span style="color: #000000">,
+        panelHeight:</span>200<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>panelHeight &nbsp; number 下拉日历面板高度。默认值 auto。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).datebox({
+        panelWidth:</span>147<span style="color: #000000">,
+        panelHeight:</span>200<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>currentText &nbsp; string 显示当天按钮。默认值 Today。<span style="color: #0000ff">设置今天按钮文字</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).datebox({
+        panelWidth:</span>147<span style="color: #000000">,
+        panelHeight:</span>200<span style="color: #000000">,
+        currentText:</span>'T'<span style="color: #000000">,
+        closeText:</span>'C'<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>closeText &nbsp; string 显示关闭按钮。默认值 Close。<span style="color: #0000ff">设置关闭按钮文字</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).datebox({
+        panelWidth:</span>147<span style="color: #000000">,
+        panelHeight:</span>200<span style="color: #000000">,
+        currentText:</span>'T'<span style="color: #000000">,
+        closeText:</span>'C'<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>okText &nbsp; string 显示 OK 按钮。默认值 Ok。<span style="color: #0000ff">异常</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>disabled &nbsp; boolean 该属性值为 true 时禁用该字段。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).datebox({
+        panelWidth:</span>147<span style="color: #000000">,
+        panelHeight:</span>200<span style="color: #000000">,
+        disabled:</span><span style="color: #0000ff">true</span>   <span style="color: #008000">//</span><span style="color: #008000">该属性值为 true 时禁用该字段。默认值 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>buttons &nbsp; array 在日历下面的按钮。<span style="color: #0000ff">拓展日历下面的按钮</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">插入拓展按钮</span>
+    <span style="color: #ff0000">var buttons = $.extend([], $.fn.datebox.defaults.buttons);
+    buttons.splice(1, 0, {
+        text: '确定',   //按钮名称
+        handler: function (target) {
+            alert('确定'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }
+    });</span>
+
+    $(</span>'#box'<span style="color: #000000">).datebox({
+        panelWidth: </span>147<span style="color: #000000">,
+        panelHeight: </span>200<span style="color: #000000">,
+        <span style="color: #ff0000">buttons: buttons   </span></span><span style="color: #ff0000">//自定义拓展按钮</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>sharedCalendar &nbsp; string,selector 将 一 个 日 历 控 件 共 享 给 多 个datebox 控件使用。默认值 null。<span style="color: #0000ff">就是将一个设置好的日历组件共用到多个输入框</span></strong></span></p>
+<p>&nbsp;html</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="box"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="box"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">一个div</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="sc"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>js</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'.box').datebox({             <span style="color: #008000">//</span><span style="color: #008000">将两个输入框，执行日期输入框方法</span>
+        panelWidth: 147<span style="color: #000000">,
+        panelHeight: </span>200<span style="color: #000000">,
+        sharedCalendar:</span>'#sc'        <span style="color: #008000">//</span><span style="color: #008000">将日历控件指向id为sc的元素</span>
+<span style="color: #000000">    });
+    $(</span>'#sc').calendar({             <span style="color: #008000">//</span><span style="color: #008000">将id为sc元素执行日历方法</span>
+        firstDay:1<span style="color: #000000">
+    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>formatter &nbsp; function该函数用于格式化日期，它有一个'date'参数并且会返回一个字符串类型的值。下面的一个例子展示了如何重写默认的 formatter 函数。<span style="color: #0000ff">格式化日期</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).datebox({             
+        panelWidth: </span>147<span style="color: #000000">,
+        panelHeight: </span>200<span style="color: #000000">,
+        <span style="color: #ff0000">formatter:</span></span><span style="color: #ff0000">function (date) {  //重新格式化如果，以/作为分隔符
+            return date.getFullYear() + '/' + date.getMonth() + 1 + '/' +</span><span style="color: #000000"><span style="color: #ff0000"> date.getDate();
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>parser &nbsp; function该函数用于解析一个日期字符串，它有一个'date'字符串参数并且会返回一个日期类型的值。<span style="color: #0000ff">将输入框的日期固定一个日期值，无论怎么选择它都是这个值</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).datebox({
+        panelWidth: </span>147<span style="color: #000000">,
+        panelHeight: </span>200<span style="color: #000000">,
+        <span style="color: #ff0000">parser:</span></span><span style="color: #ff0000">function (date) {
+            return new Date(2015,6,1</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．事件列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170406123439191-1899493546.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>onSelect &nbsp; date 在用户选择一天的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).datebox({
+        panelWidth: </span>147<span style="color: #000000">,
+        panelHeight: </span>200<span style="color: #000000">,
+        onSelect:</span><span style="color: #0000ff">function</span> (date) {      <span style="color: #008000">//</span><span style="color: #008000">在用户选择一天的时候触发</span>
+            alert(date.getFullYear() + ":" + (date.getMonth() + 1) + ":" +<span style="color: #000000"> date.getDate());
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170406123724957-1370862893.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>options &nbsp; none 返回参数对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).datebox({
+        panelWidth: </span>147<span style="color: #000000">,
+        panelHeight: </span>200<span style="color: #000000">,
+    });
+    <span style="color: #ff0000">alert($(</span></span><span style="color: #ff0000">'#box').datebox('options'</span><span style="color: #000000"><span style="color: #ff0000">));</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>calendar &nbsp; none 返回日历对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).datebox({
+        panelWidth: </span>147<span style="color: #000000">,
+        panelHeight: </span>200<span style="color: #000000">,
+    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">得到日历对象，再将日历的星期一放到最前面</span>
+    $('#box').datebox('calendar'<span style="color: #000000">).calendar({
+        firstDay: </span>1<span style="color: #000000">,
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>setValue &nbsp; value 设置日期输入的值。<span style="color: #0000ff">初始化日历输入框里的<strong>value值</strong></span></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).datebox({
+        panelWidth: </span>147<span style="color: #000000">,
+        panelHeight: </span>200<span style="color: #000000">,
+    });
+    $(</span>'#box').datebox('setValue','2015-6-1');   <span style="color: #008000">//</span><span style="color: #008000">初始化日历输入框里的value值</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>我们可以使用$.fn.databox.defaults 重写默认值对象。</strong></span></p>
+<p>&nbsp;</p></div>

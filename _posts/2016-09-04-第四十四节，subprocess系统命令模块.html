@@ -1,0 +1,144 @@
+第四十四节，subprocess系统命令模块
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p>用python执行系命令的相关的模块和函数的功能均在 subprocess 模块中实现，并提供了丰富的功能</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>call()模块函数</strong></span></p>
+<p><strong>功能：输入系统命令，直接执行命令，返回状态码,<span style="color: #ff0000;">只能查看</span>【有参】</strong></p>
+<p><strong>使用方法1：模块名称.<strong>call(["系统命令","系统命令"],shell=False)</strong><strong><br /></strong></strong></p>
+<p><strong><strong>使用方法2：<strong>模块名称.<strong>call("系统命令",shell=True)</strong></strong></strong></strong></p>
+<p><strong>格式如1：subprocess.call(["ls", "-l"],shell=False)</strong></p>
+<p><strong><strong>格式如2：subprocess.call("ls -lh",shell=True)</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> subprocess <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+subprocess.call([<span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">-l</span><span style="color: #800000;">"</span>],shell=False)<span style="color: #008000;">#</span><span style="color: #008000;">输入系统命令，直接查看对应命令的功能【有参】</span>
+subprocess.call(<span style="color: #800000;">"</span><span style="color: #800000;">ls -lh</span><span style="color: #800000;">"</span>,shell=True)<span style="color: #008000;">#</span><span style="color: #008000;">输入系统命令，直接查看对应命令的功能【有参】</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>check_call()模块函数</strong></span></p>
+<p><strong>功能：输入系统命令，直接执行命令，返回状态码,如果状态码是 0 ，则返回执行结果，否则抛异常【有参】</strong></p>
+<p><strong>使用方法1：模块名称.check_call<strong>(["系统命令","系统命令"],shell=False)</strong><strong><br /></strong></strong></p>
+<p><strong><strong>使用方法2：<strong>模块名称.check_call<strong>("系统命令",shell=True)</strong></strong></strong></strong></p>
+<p><strong>格式如1：subprocess.check_call(["ls", "-l"],shell=False)</strong></p>
+<p><strong>格式如2：subprocess.check_call("ls -lh",shell=True)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> subprocess <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+subprocess.check_call([<span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">-l</span><span style="color: #800000;">"</span>],shell=False)<span style="color: #008000;">#</span><span style="color: #008000;">输入系统命令，直接执行命令，返回状态码,如果状态码是 0 ，则返回执行结果，否则抛异常</span>
+subprocess.check_call(<span style="color: #800000;">"</span><span style="color: #800000;">ls -lh</span><span style="color: #800000;">"</span>,shell=True)<span style="color: #008000;">#</span><span style="color: #008000;">输入系统命令，直接执行命令，返回状态码,如果状态码是 0 ，则返回执行结果，否则抛异常</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>check_output()模块函数</strong></span></p>
+<p><strong>功能：执行命令，如果状态码是 0 ，则返回执行结果，否则抛异常【有参】</strong></p>
+<p><strong>使用方法1：模块名称.<strong>check_output</strong><strong>(["系统命令","系统命令"],shell=False)</strong><strong><br /></strong></strong></p>
+<p><strong><strong>使用方法2：<strong>模块名称.<strong>check_output</strong><strong>("系统命令",shell=True)</strong></strong></strong></strong></p>
+<p><strong>格式如1：subprocess.<strong>check_output</strong>(["ls", "-l"],shell=False)</strong></p>
+<p><strong>格式如2：subprocess.<strong>check_output</strong>("ls -lh",shell=True)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> subprocess <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+a = subprocess.check_call([<span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">-l</span><span style="color: #800000;">"</span>],shell=False)<span style="color: #008000;">#</span><span style="color: #008000;">执行命令，如果状态码是 0 ，则返回执行结果，否则抛异常【有参】</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+b </span>= subprocess.check_output(<span style="color: #800000;">"</span><span style="color: #800000;">dir</span><span style="color: #800000;">"</span>,shell=True)<span style="color: #008000;">#</span><span style="color: #008000;">执行命令，如果状态码是 0 ，则返回执行结果，否则抛异常【有参】</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> b' \xc7\xfd\xb6\xaf\xc6\xf7 H \xd6\xd0\xb5\xc4\xbe\xed\xc3\xbb\xd3\xd0\xb1\xea\xc7\xa9\xa1\xa3\r\n</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>Popen()模块函数</strong></span></p>
+<p><strong>功能：用于执行复杂的系统命令【有参】</strong></p>
+<p>参数：<br /><span style="color: #ff0000;">shell=命令</span>，可以是字符串或者序列类型（如：list，元组）<br />bufsize：指定缓冲。0 无缓冲,1 行缓冲,其他 缓冲区大小,负值 系统缓冲<br /><span style="color: #ff0000;">stdin, stdout, stderr：分别表示程序的标准输入、输出、错误句柄</span><br />preexec_fn：只在Unix平台下有效，用于指定一个可执行对象（callable object），它将在子进程运行之前被调用<br />close_sfs：在windows平台下，如果close_fds被设置为True，则新创建的子进程将不会继承父进程的输入、输出、错误管道。<br />所以不能将close_fds设置为True同时重定向子进程的标准输入、输出与错误(stdin, stdout, stderr)。<br />shell：同上<br /><span style="color: #ff0000;">cwd=用于设置子进程的当前目录</span><br />env：用于指定子进程的环境变量。如果env = None，子进程的环境变量将从父进程中继承。<br /><span style="color: #ff0000;">universal_newlines：不同系统的换行符不同，True -&gt; 同意使用 \n</span><br />startupinfo与createionflags只在windows下有效<br />将被传递给底层的CreateProcess()函数，用于设置子进程的一些属性，如：主窗口的外观，进程的优先级等等</p>
+<p><strong>终端输入的命令分为两种：</strong></p>
+<p><span style="color: #0000ff;"><strong>1.输入即可得到输出，如：dir 命令</strong></span></p>
+<p><strong>方法1：模块名称.Popen(["系统命令", "系统命令"],shell=命令模式)</strong></p>
+<p><strong><strong>方法2：模块名称.Popen("系统命令",shell=命令模式)</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> subprocess <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+a = subprocess.Popen([<span style="color: #800000;">"</span><span style="color: #800000;">ls</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">-l</span><span style="color: #800000;">"</span>],shell=False)<span style="color: #008000;">#</span><span style="color: #008000;">执行命令，</span> <br />b = subprocess.Popen(<span style="color: #800000;">"</span><span style="color: #800000;">ls -l</span><span style="color: #800000;">"</span>,shell=True)<span style="color: #008000;">#</span><span style="color: #008000;">执行命令，</span></pre>
+</div>
+<p>cwd=用于设置子进程的当前目录</p>
+<p><strong>方法：<strong><strong>模块名称.Popen("系统命令",shell=命令模式,cwd="系统目标目录") &nbsp;<span style="color: #ff0000;">比如要先进入目录后再执行命令的情况</span></strong></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> subprocess <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+obj = subprocess.Popen(<span style="color: #800000;">"</span><span style="color: #800000;">mkdir t3</span><span style="color: #800000;">"</span>, shell=True, cwd=<span style="color: #800000;">'</span><span style="color: #800000;">/home/dev</span><span style="color: #800000;">'</span>,)<span style="color: #008000;">#</span><span style="color: #008000;">执行命令,为先执行的目录</span></pre>
+</div>
+<p><span style="color: #0000ff;"><strong>2.输入进行某环境，依赖再输入，如：python</strong></span></p>
+<p><span style="color: #000000;">Popen()参数</span></p>
+<p>stdin输入通道<br />stdout输出通道<br />stderr错误输出通道<br />universal_newlines启用换行符</p>
+<p><strong>方法：模块名称.Popen("系统命令", shell=命令模式, 输入通道, 输出通道, 错误通道, 启用换行符)</strong></p>
+<p><strong>格式：subprocess.Popen("python", shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)</strong></p>
+<p><span style="color: #ff0000;"><strong>write()模块函数</strong></span></p>
+<p><strong><strong>功能：</strong>向输入通道写入命令【有参】</strong></p>
+<p><strong><strong>使用方法：对象变量.输入通道名称.<strong>write("系统命令")</strong></strong></strong></p>
+<p><strong><strong><strong><strong>格式如：obj.stdin.write("print(1)\n")</strong></strong></strong></strong></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong>close()模块函数</strong></strong></strong></strong></span></p>
+<p><strong><strong>功能：关闭通道，关闭输入通道，关闭输出通道，关闭错误通道【无参】</strong></strong></p>
+<p><strong><strong>使用方法：<strong><strong>对象变量.要关闭通道名称.<strong><strong><strong><strong>close()</strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p><strong>格式如：obj.stdin.close()</strong></p>
+<p><span style="color: #ff0000;"><strong>read()模块函数</strong></span></p>
+<p><strong><strong>功能：1.输出通道获取结果，2.错误通道获取出错信息【无参】</strong><br /></strong></p>
+<p><strong><strong>使用方法：<strong><strong>对象变量.输出通道或错误通道名称.<strong>read()</strong></strong></strong></strong></strong></p>
+<p><strong>格式如1：obj.stdout.read()</strong></p>
+<p><strong><strong>格式如2：obj.stderr.read()</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> subprocess <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+obj = subprocess.Popen(<span style="color: #800000;">"</span><span style="color: #800000;">python</span><span style="color: #800000;">"</span>, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)<span style="color: #008000;">#</span><span style="color: #008000;">创建命令对象</span>
+obj.stdin.write(<span style="color: #800000;">"</span><span style="color: #800000;">print(1)\n</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">输入通道写入命令</span>
+obj.stdin.write(<span style="color: #800000;">"</span><span style="color: #800000;">print(2)</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">输入通道写入命令</span>
+obj.stdin.close()<span style="color: #008000;">#</span><span style="color: #008000;">关闭输入通道</span>
+<span style="color: #000000;">
+cmd_out </span>= obj.stdout.read()<span style="color: #008000;">#</span><span style="color: #008000;">输出通道获取结果</span>
+obj.stdout.close()<span style="color: #008000;">#</span><span style="color: #008000;">关闭输出通道</span>
+cmd_error = obj.stderr.read()<span style="color: #008000;">#</span><span style="color: #008000;">错误通道获取出错信息</span>
+obj.stderr.close()<span style="color: #008000;">#</span><span style="color: #008000;">关闭错误通道</span>
+
+<span style="color: #0000ff;">print</span>(cmd_out)<span style="color: #008000;">#</span><span style="color: #008000;">打印出输出通道信息</span>
+<span style="color: #0000ff;">print</span>(cmd_error)<span style="color: #008000;">#</span><span style="color: #008000;">打印错误通道信息</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>communicate()模块函数</strong></span></p>
+<p><strong><strong>功能：自动选择通道，可以自动获取通道信息，如果传值将自动写入输入通道，然后自动获取输出通道信息【有参可选】</strong><br /></strong></p>
+<p><strong><strong>使用方法1：<strong><strong>对象变量.<strong>communicate()</strong></strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong><strong><strong><strong>使用方法2：<strong><strong>对象变量.<strong>communicate('输入通道命令')</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p><strong>格式如1：obj.stdout.read()</strong></p>
+<p><strong>格式如2：obj.stderr.read('print("hello")')</strong></p>
+<p>列1</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> subprocess
+obj </span>= subprocess.Popen(<span style="color: #800000;">"</span><span style="color: #800000;">python</span><span style="color: #800000;">"</span>, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)<span style="color: #008000;">#</span><span style="color: #008000;">创建对象</span>
+obj.stdin.write(<span style="color: #800000;">"</span><span style="color: #800000;">print(1)\n</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">输入通道写入命令</span>
+obj.stdin.write(<span style="color: #800000;">"</span><span style="color: #800000;">print(2)</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">输入通道写入命令</span>
+obj.stdin.close()<span style="color: #008000;">#</span><span style="color: #008000;">关闭输入通道</span>
+<span style="color: #000000;">
+out_error_list </span>= obj.communicate()<span style="color: #008000;">#</span><span style="color: #008000;">自动选择通道，可以自动获取通道信息，如果传值将自动写入输入通道，然后自动获取输出通道信息</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(out_error_list)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ('1\n2\n', '')</span></pre>
+</div>
+<p>列2</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> subprocess
+obj </span>= subprocess.Popen(<span style="color: #800000;">"</span><span style="color: #800000;">python</span><span style="color: #800000;">"</span>, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)<span style="color: #008000;">#</span><span style="color: #008000;">创建对象</span>
+out_error_list = obj.communicate(<span style="color: #800000;">'</span><span style="color: #800000;">print("hello")</span><span style="color: #800000;">'</span>)<span style="color: #008000;">#</span><span style="color: #008000;">自动选择通道，可以自动获取通道信息，如果传值将自动写入输入通道，然后自动获取输出通道信息</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(out_error_list)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ('hello\n', '')</span></pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,273 @@
+第十九节,基本数据类型,集合set
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="font-size: 14px;"><strong>集合set，无序，是不允许重复内容的，也就是不允许重复元素，如果有重复，会自动忽略，可接收可迭代类型 （一般用于需要判断和处理交集时候用到）</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14px;"><strong>集合与字典的区别是，集合没有键只有值，字典是有键的字典是一对键值对</strong></span></p>
+<p><span style="font-size: 14px;"><strong>所以创建空集合不能用{}大括号，用大括号创建空集合默认会变成字典，如果需要创建空集合用set()</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14px;"><strong>创建集合</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建集合</span>
+<span style="color: #008080;">4</span> a =<span style="color: #000000;"> set()
+</span><span style="color: #008080;">5</span> a = {11,22,33,44,55,55<span style="color: #000000;">}
+</span><span style="color: #008080;">6</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">7</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 {33, 11, 44, 22, 55}</span></pre>
+</div>
+<p>&nbsp;<strong>转换集合</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> <span style="color: #008000;">#</span><span style="color: #008000;">转换集合</span>
+<span style="color: #008080;"> 4</span> a = [11,22,33,44,55<span style="color: #000000;">]
+</span><span style="color: #008080;"> 5</span> b = (11,22,33,44,55<span style="color: #000000;">)
+</span><span style="color: #008080;"> 6</span> c = <span style="color: #800000;">"</span><span style="color: #800000;">123456789</span><span style="color: #800000;">"</span>
+<span style="color: #008080;"> 7</span> <span style="color: #008000;">#</span><span style="color: #008000;">将列表转换成集合</span>
+<span style="color: #008080;"> 8</span> zh_a =<span style="color: #000000;"> set(a)
+</span><span style="color: #008080;"> 9</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(zh_a)
+</span><span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;">将元组转换成集合</span>
+<span style="color: #008080;">11</span> zh_b =<span style="color: #000000;"> set(b)
+</span><span style="color: #008080;">12</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(zh_b)
+</span><span style="color: #008080;">13</span> <span style="color: #008000;">#</span><span style="color: #008000;">将字符串转换成集合</span>
+<span style="color: #008080;">14</span> zh_c =<span style="color: #000000;"> set(c)
+</span><span style="color: #008080;">15</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(zh_c)
+</span><span style="color: #008080;">16</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出</span>
+<span style="color: #008080;">17</span> <span style="color: #008000;">#</span><span style="color: #008000;">{33, 11, 44, 22, 55}</span>
+<span style="color: #008080;">18</span> <span style="color: #008000;">#</span><span style="color: #008000;">{33, 11, 44, 22, 55}</span>
+<span style="color: #008080;">19</span> <span style="color: #008000;">#</span><span style="color: #008000;">{'7', '5', '1', '9', '4', '2', '8', '6', '3'}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>集合的类库功能</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;<span style="font-size: 15px;"><code class="python plain">add(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></span></strong></p>
+<p><strong><span style="font-size: 15px;">"添加元素"(要添加的元素)</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建一个集合</span>
+<span style="color: #008080;">4</span> se = {11,22,33,44<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> <span style="color: #008000;">#</span><span style="color: #008000;">向集合里添加元素</span>
+<span style="color: #008080;">6</span> se.add(55<span style="color: #000000;">)
+</span><span style="color: #008080;">7</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(se)
+</span><span style="color: #008080;">8</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 {33, 11, 44, 22, 55}</span></pre>
+</div>
+<p><strong><code class="python plain">clear(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"清空元素"（）</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建一个集合</span>
+<span style="color: #008080;">4</span> se = {11,22,33,44<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> <span style="color: #008000;">#</span><span style="color: #008000;">清空集合里的元素</span>
+<span style="color: #008080;">6</span> <span style="color: #000000;">se.clear()
+</span><span style="color: #008080;">7</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(se)
+</span><span style="color: #008080;">8</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 set() 表示空集合</span></pre>
+</div>
+<p><strong><code class="python plain">difference(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"查找出一个集合里存在，另外一个集合不存在的元素"（格式：查找集合.<strong><code class="python plain">difference（被判断的集合）</code></strong>）</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建二个集合</span>
+<span style="color: #008080;">4</span> a = {11,22,33,44<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> b = {11,55,88,44<span style="color: #000000;">}
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">查找出a集合里存在，b集合不存在的元素</span>
+<span style="color: #008080;">7</span> c =<span style="color: #000000;"> a.difference(b)
+</span><span style="color: #008080;">8</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 {33, 22}</span></pre>
+</div>
+<p><strong><code class="python plain">difference_update(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"从当前集合中删除和B中相同的元素"(b集合)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建二个集合</span>
+<span style="color: #008080;">4</span> a = {11,22,33,44,999<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> b = {11,55,88,44<span style="color: #000000;">}
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">从a集合中删除和B集合中相同的元素</span>
+<span style="color: #008080;">7</span> <span style="color: #000000;">a.difference_update(b)
+</span><span style="color: #008080;">8</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 {33, 22, 999}</span></pre>
+</div>
+<p><strong>&nbsp;<code class="python plain">discard(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"移除指定元素，不存在不报错"（要移除的元素）</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建一个集合</span>
+<span style="color: #008080;">4</span> a = {11,22,33,44,999<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> <span style="color: #008000;">#</span><span style="color: #008000;">移除指定元素，不存在不报错</span>
+<span style="color: #008080;">6</span> a.discard(999<span style="color: #000000;">)
+</span><span style="color: #008080;">7</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">8</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 {33, 11, 44, 22}</span></pre>
+</div>
+<p><strong><code class="python plain">intersection(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"交集，查找出a集合和b集合都存在的元素"（<strong>b集合</strong>）</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建二个集合</span>
+<span style="color: #008080;">4</span> a = {66,22,33,44,99<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> b = {44,55,66,77,33<span style="color: #000000;">}
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">交集，查找出a集合和b集合都存在的元素</span>
+<span style="color: #008080;">7</span> c =<span style="color: #000000;"> a.intersection(b)
+</span><span style="color: #008080;">8</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 {33, 66, 44}</span></pre>
+</div>
+<p><strong><code class="python plain">intersection_update(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"<strong>交集，查找出a集合和b集合都存在的元素,并重新更新到a集合</strong>"（<strong>b集合</strong>）</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建二个集合</span>
+<span style="color: #008080;">4</span> a = {66,22,33,44,99<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> b = {44,55,66,77,33<span style="color: #000000;">}
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">交集，查找出a集合和b集合都存在的元素,并重新更新到a集合</span>
+<span style="color: #008080;">7</span> <span style="color: #000000;">a.intersection_update(b)
+</span><span style="color: #008080;">8</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 {33, 66, 44}</span></pre>
+</div>
+<p><strong><code class="python plain">isdisjoint(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"检查a集合和b集合是否有都存在的元素"（<strong><strong>b集合</strong></strong>）</strong></p>
+<p><strong>返回布尔值:如果没有<strong>都存在的</strong>，返回True，否则返回False</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建二个集合</span>
+<span style="color: #008080;">4</span> a = {66,22,33,44,99<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> b = {44,55,66,77,33<span style="color: #000000;">}
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">检查a集合和b集合是否有都存在的元素,</span>
+<span style="color: #008080;">7</span> c =<span style="color: #000000;"> a.isdisjoint(b)
+</span><span style="color: #008080;">8</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 False 说明有交集</span></pre>
+</div>
+<p><strong>&nbsp;<code class="python plain">issubset(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"判断一个集合是否是另一个集合的子序列"（b集合）</strong></p>
+<p><strong>是返回True &nbsp; 不是返回False</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建二个集合</span>
+<span style="color: #008080;"> 4</span> a = {11,22,33,44<span style="color: #000000;">}
+</span><span style="color: #008080;"> 5</span> b = {11,22<span style="color: #000000;">}
+</span><span style="color: #008080;"> 6</span> <span style="color: #008000;">#</span><span style="color: #008000;">检查a集合是否是b集合的子序列,</span>
+<span style="color: #008080;"> 7</span> c1 =<span style="color: #000000;"> a.issubset(b)
+</span><span style="color: #008080;"> 8</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(c1)
+</span><span style="color: #008080;"> 9</span> <span style="color: #008000;">#</span><span style="color: #008000;">检查b集合是否是a集合的子序列</span>
+<span style="color: #008080;">10</span> c2 =<span style="color: #000000;"> b.issubset(a)
+</span><span style="color: #008080;">11</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(c2)
+</span><span style="color: #008080;">12</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出</span>
+<span style="color: #008080;">13</span> <span style="color: #008000;">#</span><span style="color: #008000;">False 检查a集合是否是b集合的子序列,说明a集合不是b集合的子序列</span>
+<span style="color: #008080;">14</span> <span style="color: #008000;">#</span><span style="color: #008000;">True  检查b集合是否是a集合的子序列,说明b集合是a集合的子序列</span></pre>
+</div>
+<p><strong><code class="python plain">issuperset(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"<strong>判断一个集合是否是另一个集合的父序列</strong>"（b集合）</strong></p>
+<p><strong><strong>是返回True &nbsp; 不是返回False</strong></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建二个集合</span>
+<span style="color: #008080;"> 4</span> a = {11,22,33,44<span style="color: #000000;">}
+</span><span style="color: #008080;"> 5</span> b = {11,22<span style="color: #000000;">}
+</span><span style="color: #008080;"> 6</span> <span style="color: #008000;">#</span><span style="color: #008000;">检查a集合是否是b集合的父序列,</span>
+<span style="color: #008080;"> 7</span> c1 =<span style="color: #000000;"> a.issuperset(b)
+</span><span style="color: #008080;"> 8</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(c1)
+</span><span style="color: #008080;"> 9</span> <span style="color: #008000;">#</span><span style="color: #008000;">检查b集合是否是a集合的父序列</span>
+<span style="color: #008080;">10</span> c2 =<span style="color: #000000;"> b.issuperset(a)
+</span><span style="color: #008080;">11</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(c2)
+</span><span style="color: #008080;">12</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出</span>
+<span style="color: #008080;">13</span> <span style="color: #008000;">#</span><span style="color: #008000;">True  检查a集合是否是b集合的父序列,说明a集合是b集合的父序列</span>
+<span style="color: #008080;">14</span> <span style="color: #008000;">#</span><span style="color: #008000;">False 检查b集合是否是a集合的父序列,说明b集合不是a集合的父序列</span></pre>
+</div>
+<p><strong><code class="python plain">pop(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"移除元素"()</strong></p>
+<p><strong>一般默认移除第一个元素，只是集合有一套自己的元素排序规则，</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a = {44,55,66,77,88<span style="color: #000000;">}
+</span><span style="color: #008080;"> 4</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出集合，可以看到集合里的元素排序情况</span>
+<span style="color: #008080;"> 5</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;"> 6</span> <span style="color: #008000;">#</span><span style="color: #008000;">移除集合里的元素，默认移除元素里的第一个排序元素</span>
+<span style="color: #008080;"> 7</span> b =<span style="color: #000000;"> a.pop()
+</span><span style="color: #008080;"> 8</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出被移除的元素</span>
+<span style="color: #008080;"> 9</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出a集合被移除后剩下的所有元素</span>
+<span style="color: #008080;">11</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">12</span> <span style="color: #008000;">#</span><span style="color: #008000;">最后打印出</span>
+<span style="color: #008080;">13</span> <span style="color: #008000;">#</span><span style="color: #008000;">{88, 66, 44, 77, 55}</span>
+<span style="color: #008080;">14</span> <span style="color: #008000;">#</span><span style="color: #008000;">88</span>
+<span style="color: #008080;">15</span> <span style="color: #008000;">#</span><span style="color: #008000;">{66, 44, 77, 55}</span></pre>
+</div>
+<p><strong><code class="python plain">remove(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"移除指定元素，不存在保错"(要移除的元素)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a = {44,55,66,77,88<span style="color: #000000;">}
+</span><span style="color: #008080;"> 4</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出a集合</span>
+<span style="color: #008080;"> 5</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;"> 6</span> <span style="color: #008000;">#</span><span style="color: #008000;">移除a集合里指定的元素</span>
+<span style="color: #008080;"> 7</span> a.remove(44<span style="color: #000000;">)
+</span><span style="color: #008080;"> 8</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印a集合移除指定元素后，剩下的所有元素</span>
+<span style="color: #008080;"> 9</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;">最后输出</span>
+<span style="color: #008080;">11</span> <span style="color: #008000;">#</span><span style="color: #008000;">{88, 66, 44, 77, 55}</span>
+<span style="color: #008080;">12</span> <span style="color: #008000;">#</span><span style="color: #008000;">{88, 66, 77, 55}</span></pre>
+</div>
+<p><strong>&nbsp;<code class="python plain">symmetric_difference(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"对称差集,就是将两个集合里没有交集的元素重新组合成一个新的集合"（b集合）</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = {44,55,66,77,88<span style="color: #000000;">}
+</span><span style="color: #008080;">4</span> b = {44,55,11,22,33<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> <span style="color: #008000;">#</span><span style="color: #008000;">对称差集,就是将两个集合里没有交集的元素重新组合成一个新的集合</span>
+<span style="color: #008080;">6</span> c =<span style="color: #000000;">  a.symmetric_difference(b)
+</span><span style="color: #008080;">7</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008080;">8</span> <span style="color: #008000;">#</span><span style="color: #008000;">输出</span>
+<span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">{33, 66, 11, 77, 22, 88}</span></pre>
+</div>
+<p><strong><code class="python plain">symmetric_difference_update(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"对称差集，并更新到a中,<strong>就是将两个集合里没有交集的元素重新组合更新给a集合</strong>"（b集合）</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = {44,55,66,77,88<span style="color: #000000;">}
+</span><span style="color: #008080;">4</span> b = {44,55,11,22,33<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> <span style="color: #008000;">#</span><span style="color: #008000;">对称差集，并更新到a中,就是将两个集合里没有交集的元素重新组合更新给a集合</span>
+<span style="color: #008080;">6</span> <span style="color: #000000;">a.symmetric_difference_update(b)
+</span><span style="color: #008080;">7</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">8</span> <span style="color: #008000;">#</span><span style="color: #008000;">输出</span>
+<span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">{33, 66, 11, 77, 22, 88}</span></pre>
+</div>
+<p><strong><code class="python plain">union(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"并集，将两个集合合并成一个新的集合，元素有重复的会自动忽略"（b集合）</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = {44,55,66,77,88<span style="color: #000000;">}
+</span><span style="color: #008080;">4</span> b = {44,55,11,22,33<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> <span style="color: #008000;">#</span><span style="color: #008000;">并集，将两个集合合并成一个新的集合，元素有重复的会自动忽略只保留一次</span>
+<span style="color: #008080;">6</span> c =<span style="color: #000000;"> a.union(b)
+</span><span style="color: #008080;">7</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008080;">8</span> <span style="color: #008000;">#</span><span style="color: #008000;">输出</span>
+<span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">{33, 66, 11, 44, 77, 22, 55, 88}</span></pre>
+</div>
+<p><strong><code class="python plain">update(</code><code class="python color1">self</code><code class="python plain">,&nbsp;</code><code class="python keyword">*</code><code class="python plain">args,&nbsp;</code><code class="python keyword">*</code><code class="python keyword">*</code><code class="python plain">kwargs)</code></strong></p>
+<p><strong>"更新,将b集合更新到a集合，相当于合并"（b集合）</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = {44,55,66,77,88<span style="color: #000000;">}
+</span><span style="color: #008080;">4</span> b = {44,55,11,22,33<span style="color: #000000;">}
+</span><span style="color: #008080;">5</span> <span style="color: #008000;">#</span><span style="color: #008000;">更新,将b集合更新到a集合，相当于合并</span>
+<span style="color: #008080;">6</span> <span style="color: #000000;">a.update(b)
+</span><span style="color: #008080;">7</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">8</span> <span style="color: #008000;">#</span><span style="color: #008000;">输出</span>
+<span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">{33, 66, 11, 44, 77, 22, 55, 88}</span></pre>
+</div>
+<p>&nbsp;</p></div>

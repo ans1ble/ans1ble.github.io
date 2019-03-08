@@ -1,0 +1,434 @@
+第二百零六节，jQuery EasyUI，Menu(菜单)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，Menu(菜单)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170402205120602-100283526.png" alt=""></p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式 </strong></p>
+<p><strong>　　2.菜单项属性 </strong></p>
+<p><strong>　　3.菜单属性 </strong></p>
+<p><strong>　　4.菜单事件 </strong></p>
+<p><strong>　　5.菜单方法</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 中 Menu(菜单)组件的使用方法，这个组件不依赖于任何其他 组件。</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<p><span style="color: #000000"><strong>菜单组件通常用于快捷菜单，在加载方式上，通过 class 或 JS 进行设置为菜单组件。 然后，再通过 JS 事件部分再响应。</strong></span></p>
+<p><span style="color: #0000ff"><strong>class 加载方式，</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="easyui-menu"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:120px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>新建<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>打开<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="width:150px;"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>Word<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>Excel<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>PowerPoint<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">data-options</span><span style="color: #0000ff">="iconCls:'icon-save'"</span><span style="color: #0000ff">&gt;</span>保存<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="menu-sep"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>退出<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>注意必须结合js使用，因为默认class 加载方式，是隐藏的，而且默认是浏览器系统菜单</strong></span></p>
+<p><span style="color: #ff00ff"><strong>js</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(document).on(</span>'contextmenu',<span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show',{   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left:e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top:e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        })
+    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>menu()方法，将元素执行鼠标左键自定义菜单方法</strong></span></p>
+<p><span style="color: #0000ff"><strong>JS 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+
+    });
+    $(document).on(</span>'contextmenu',<span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show',{   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left:e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top:e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        })
+    })
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．菜单项属性，<span style="color: #0000ff">菜单主体属性</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170402190523945-1950242588.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>在 data-options 设置，只有两个有效，这些属性一般用于<strong>class 加载方式的每一项，或者使用方法增加时设置</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">data-options</span><span style="color: #0000ff">="
+　　iconCls :'icon-save',
+　　disabled : true,
+"</span><span style="color: #0000ff">&gt;</span>保存<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>PS：其他的参数会菜单方法中设置菜单项时有效</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．菜单属性</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170402190941633-750484486.png" alt=""></strong></span></p>
+<p><span style="color: #0000ff"><strong>菜单属性，有些设置在 data-options 有效</strong></span></p>
+<p><span style="color: #ff0000"><strong>zIndex &nbsp; number 菜单 z-index 样式，增加它的值。默认值110000。 <span style="color: #0000ff">设置菜单的层级关系</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+        zIndex:</span>100   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+<span style="color: #000000">    });
+    $(document).on(</span>'contextmenu', <span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show', {   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left: e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top: e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>left &nbsp; number 菜单的左边距位置。默认值0。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+        zIndex:</span>100,   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+        left:100<span style="color: #000000">,
+        top:</span>100<span style="color: #000000">
+    });
+    $(document).on(</span>'contextmenu', <span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show', {   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            <span style="color: #008000">//</span><span style="color: #008000"> left: e.pageX,  //菜单位置</span>
+            <span style="color: #008000">//</span><span style="color: #008000"> top: e.pageY    //菜单位置</span>
+<span style="color: #000000">        });
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>top &nbsp; number 菜单的上边距位置。默认值0。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+        zIndex:</span>100,   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+        left:100<span style="color: #000000">,
+        top:</span>100<span style="color: #000000">
+    });
+    $(document).on(</span>'contextmenu', <span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show', {   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            <span style="color: #008000">//</span><span style="color: #008000"> left: e.pageX,  //菜单位置</span>
+            <span style="color: #008000">//</span><span style="color: #008000"> top: e.pageY    //菜单位置</span>
+<span style="color: #000000">        });
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>minWidth &nbsp; number 菜单的最小宽度。默认值120。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+        zIndex:</span>100,   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+        left:100<span style="color: #000000">,
+        top:</span>100<span style="color: #000000">,
+        minWidth:</span>400    <span style="color: #008000">//</span><span style="color: #008000">菜单的最小宽度。默认值120。</span>
+<span style="color: #000000">    });
+    $(document).on(</span>'contextmenu', <span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show', {   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            <span style="color: #008000">//</span><span style="color: #008000"> left: e.pageX,  //菜单位置</span>
+            <span style="color: #008000">//</span><span style="color: #008000"> top: e.pageY    //菜单位置</span>
+<span style="color: #000000">        });
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>hideOnUnhover &nbsp; boolean 当设置为 true 时，在鼠标离开菜单的时候将自动隐藏菜单。默认值 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+        zIndex:</span>100,   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+        minWidth:400,    <span style="color: #008000">//</span><span style="color: #008000">菜单的最小宽度。默认值120。</span>
+        hideOnUnhover:<span style="color: #0000ff">false</span>  <span style="color: #008000">//</span><span style="color: #008000">当设置为 true 时，在鼠标离开菜单的时候将自动隐藏菜单。默认值 true。</span>
+<span style="color: #000000">    });
+    $(document).on(</span>'contextmenu', <span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show', {   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left: e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top: e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．菜单事件</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170402192231086-1469260261.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onShow &nbsp; none 在菜单显示之后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+        zIndex:</span>100,   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+        onShow:<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            alert(</span>'在菜单显示之后触发。'<span style="color: #000000">);
+        }
+    });
+    $(document).on(</span>'contextmenu', <span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show', {   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left: e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top: e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onHide &nbsp; none 在菜单隐藏之后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+        zIndex:</span>100,   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+        onHide:<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            alert(</span>'在菜单隐藏之后触发'<span style="color: #000000">);
+        }
+    });
+    $(document).on(</span>'contextmenu', <span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show', {   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left: e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top: e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onClick &nbsp; item 在菜单项被点击的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+        zIndex:</span>100,   <span style="color: #008000">//</span><span style="color: #008000">设置菜单的层级关系</span>
+        onClick:<span style="color: #0000ff">function</span><span style="color: #000000"> (item) {
+            alert(</span>'在菜单项被点击的时候触发'<span style="color: #000000">);
+            alert(item); </span><span style="color: #008000">//</span><span style="color: #008000">接收点击的对象</span>
+<span style="color: #000000">        }
+    });
+    $(document).on(</span>'contextmenu', <span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show', {   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left: e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top: e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>五．菜单方法</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170402192443649-248795766.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170402192451774-968073172.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170402192457539-480039242.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>options &nbsp; none 返回属性对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+
+    });</span><span style="color: #000000">
+    alert($(</span>'#box').menu('options'));   <span style="color: #008000">//</span><span style="color: #008000">返回属性对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>show &nbsp; pos显示菜单到指定的位置。'pos'参数有2个属性：</strong></span><br><span style="color: #ff0000"><strong>　　left：新的左边距位置。</strong></span><br><span style="color: #ff0000"><strong>　　top：新的上边距位置。</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+
+    });
+    $(document).on(</span>'contextmenu',<span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show',{   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left:e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top:e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        })
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>hide &nbsp; none 隐藏菜单。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+
+    });
+    $(document).on(</span>'contextmenu',<span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show',{   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left:e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top:e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+        $(</span>'#box').menu('hide');      <span style="color: #008000">//</span><span style="color: #008000">隐藏菜单。</span>
+<span style="color: #000000">    });
+
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>destroy &nbsp; none 销毁菜单。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+
+    });
+    $(document).on(</span>'contextmenu',<span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show',{   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left:e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top:e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+        $(</span>'#box').menu('destroy');      <span style="color: #008000">//</span><span style="color: #008000">销毁菜单</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getItem &nbsp; itemEl 获取指定的菜单项。<span style="color: #0000ff">得到的是一个菜单项的 DOM 元素</span>。值为指定菜单项的id</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+
+    });
+    $(document).on(</span>'contextmenu',<span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show',{   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left:e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top:e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+        alert($(</span>'#box').menu('getItem','#df'));      <span style="color: #008000">//</span><span style="color: #008000">得到的是一个菜单项的 DOM 元素。值为指定菜单项的id</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>setText &nbsp; param<span style="color: #0000ff">设置指定菜单项的文本</span>。'param'参数包含2个属性：</strong></span><br><span style="color: #ff0000"><strong>　　target：DOM 对象，要设置值的菜单项。</strong></span><br><span style="color: #ff0000"><strong>　　text: 字符串，要设置的新文本值。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+
+    });
+    $(document).on(</span>'contextmenu',<span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show',{   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left:e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top:e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+        $(</span>'#box').menu('setText'<span style="color: #000000">, {
+            target: </span>'#df'<span style="color: #000000">,
+            text: </span>'修改'<span style="color: #000000">
+        });
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>setIcon &nbsp; param设置指定菜单项图标。'param'参数包含2个属性：</strong></span><br><span style="color: #ff0000"><strong>　　target：DOM 对象，要设置的菜单项。</strong></span><br><span style="color: #ff0000"><strong>　　iconCls：新的图标 CSS 类 ID。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+
+    });
+    $(document).on(</span>'contextmenu',<span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show',{   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left:e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top:e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+        $(</span>'#box').menu('setIcon'<span style="color: #000000">, {
+            target: </span>'#df'<span style="color: #000000">,
+            iconCls : </span>'icon-add'<span style="color: #000000">
+        });
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>findItem &nbsp; text <span style="color: #0000ff">查 找 的 指 定 菜 单 项</span> ， 返 回 的 对 象 和getItem 方法是一样的。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({
+
+    });
+    $(document).on(</span>'contextmenu',<span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show',{   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left:e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top:e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+    alert($(</span>'#box').menu('findItem','新建'<span style="color: #000000">));
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>appendItem &nbsp; options追加新的菜单项，'options'参数代表新菜单项属性。默认情况下添加的项在菜单项的顶部。追加一个子菜单项，'parent'属性应该设置指定的父项元素，并且该父项元素必须是已经定义在页面上的。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({});
+    $(document).on(</span>'contextmenu', <span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show', {   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left: e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top: e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').menu('appendItem', {
+        text: '新增',
+        iconCls: 'icon-add',
+        onclick: function () {
+            alert('新增'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }
+    });</span>
+});</span></pre>
+</div>
+<p>追加一个子菜单项</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).menu({});
+    $(document).on(</span>'contextmenu', <span style="color: #0000ff">function</span> (e) {   <span style="color: #008000">//</span><span style="color: #008000">设置鼠标左键方法</span>
+        e.preventDefault();  <span style="color: #008000">//</span><span style="color: #008000">阻止默认行为，阻止掉浏览器系统菜单</span>
+        $('#box').menu('show', {   <span style="color: #008000">//</span><span style="color: #008000">执行自定义鼠标左键菜单</span>
+            left: e.pageX,  <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+            top: e.pageY    <span style="color: #008000">//</span><span style="color: #008000">菜单位置</span>
+<span style="color: #000000">        });
+    });
+    $(</span>'#box').menu('appendItem'<span style="color: #000000">, {
+        parent: $(</span>'#box').menu('findItem', '打开'<span style="color: #000000">).target,
+        text: </span>'新增'<span style="color: #000000">,
+        iconCls: </span>'icon-add'<span style="color: #000000">,
+        onclick: </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            alert(</span>'新增'<span style="color: #000000">);
+        },
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>removeItem &nbsp; itemEl 移除指定的菜单项。<span style="color: #0000ff">值为目标id</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$('#box').menu('removeItem', '#new');</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>enableItem &nbsp; itemEl 启用菜单项。<span style="color: #0000ff"><strong>值为目标id</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$('#box').menu('disableItem', '#new');</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>disableItem &nbsp; itemEl 禁用菜单项。<span style="color: #0000ff"><strong>值为目标id</strong></span></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$('#box').menu('enableItem', '#new');</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>&nbsp;$.fn.menu.defaults 重写默认值对象。见前面</strong></span></p></div>

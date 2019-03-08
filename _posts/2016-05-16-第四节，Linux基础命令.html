@@ -1,0 +1,371 @@
+第四节，Linux基础命令
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p>第四节，Linux基础命令</p>
+<p>命令是系统操作员对系统传入的指令，传入指令后回车，系统接收到指令做出相应的行为</p>
+<p>1.查看用户位于系统什么位置</p>
+<p><strong>【pmd】检查操作用户位于系统的什么位置</strong></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 16px;"><strong>命令</strong>&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-size: 16px;">&nbsp;<strong>说明</strong></span></p>
+<p>[root@localhost ~]# pwd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>/root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/返回/用户所在路径，如我此时在系统root目录下（/表示系统根目录）</p>
+<p>&nbsp;</p>
+<p>2.操作目录</p>
+<p><strong>【cd】【英文全称：change directory】change（改变） directory（目录） 改变目录用法：cd空格加目录名称</strong></p>
+<p>[root@localhost ~]# cd /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;回车</p>
+<p>[root@localhost /]#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;/返回/到达根目录/</p>
+<p>[root@localhost /]# cd boot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 回车</p>
+<p>[root@localhost boot]#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /返回/到达boot目录</p>
+<p>[root@localhost boot]# cd efi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;回车</p>
+<p>[root@localhost efi]#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/返回/到达efi目录</p>
+<p>[root@localhost efi]# cd /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 回车</p>
+<p>[root@localhost /]#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /返回/到达根目录/（这样我就又回到了刚开始的根目录，相当于逛了一圈）</p>
+<p>注意：目录查找不能跨目录，只能&nbsp;向下，或者返回向上，要想跨目录只能 cd /&nbsp;回到根目录下向下查找</p>
+<p><strong>【cd&nbsp;..】 改变目录向上查找</strong></p>
+<p>[root@localhost lib64]# cd ..&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;回车</p>
+<p>[root@localhost /]#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /返回/向上返回一级，回到了根目录</p>
+<p>&nbsp;</p>
+<p>3.查看当前目录下的文件和目录</p>
+<p><strong>【ls】查看当前目录下的文件和目录（只返回名称）</strong></p>
+<p>[root@localhost /]# ls&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>bin&nbsp; boot&nbsp; dev&nbsp; etc&nbsp; home&nbsp; lib&nbsp; lib64&nbsp; lost+found&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;/返回/当前目录下的文件和目录</p>
+<p>[root@localhost /]# cd lib64&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>[root@localhost lib64]#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/返回/达到lib64目录下</p>
+<p>[root@localhost lib64]# ls&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;回车</p>
+<p>bus-1&nbsp;&nbsp;&nbsp; libdmraid.so.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; libk5crypto.so.3.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;/返回/当前目录下的文件和目录</p>
+<p>注意：ls&nbsp;命令是查看当前目录下的文件和目录，如果是目录&nbsp;cd&nbsp;命令是可以进入的，cd命令无法进入说明那是一个文件</p>
+<p>&nbsp;</p>
+<p>4.查看当前目录下的文件和目录详细详细</p>
+<p><strong>【ls&nbsp;-l】查看当前目录下的文件和目录（返回详细信息）</strong></p>
+<p>[root@localhost /]# ls -l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160514232520796-1767910945.png" alt="" /></p>
+<p>注意：文件属性第一个字符不为d的都不是目录</p>
+<p>&nbsp;</p>
+<p><strong>【ls&nbsp;-lh】查看当前目录下的文件和目录（返回人性化的显示详细列表,<span style="color: #000000;">与ls&nbsp;-l的区别是文件大小以kb为单位显示</span>）</strong></p>
+<p>[root@localhost /]# ls -lh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160514233605015-41046219.png" alt="" /></p>
+<p>注意：ls&nbsp;-l文件的大小是以字节来表示的，ls -lh文件大小是以k来表示的，ls -lh的意思是人性化的显示详细列表</p>
+<p>&nbsp;</p>
+<p><strong>【ls&nbsp;-a】查看当前目录下的隐藏文件和隐藏目录（显示隐藏文件和目录<span style="color: #000000;">）</span></strong></p>
+<p><span style="color: #000000;">[root@localhost /]# ls -a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</span></p>
+<p><span style="color: #000000;"><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160515000402718-410768785.png" alt="" /></span></p>
+<p>注意：ls -a显示出来的隐藏文件会在文件名前面加上.&nbsp;所以.代表隐藏文件的意思</p>
+<p>&nbsp;</p>
+<p><strong>【ls&nbsp;-lha】查看当前目录下的文件和目录,人性化的显示详细列表（包括隐藏文件<span style="color: #000000;">）</span></strong></p>
+<p><span style="color: #000000;">[root@localhost /]# ls -lha&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</span></p>
+<p><span style="color: #000000;"><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160515003101827-1942951993.png" alt="" /></span></p>
+<p>注意：ls&nbsp;-lha显示出来的详细列表包含了隐藏文件，与ls&nbsp;-lh的区别是ls&nbsp;-lh没有显示隐藏文件</p>
+<p>&nbsp;</p>
+<p>5.创建文档</p>
+<p><strong>【vim】打开文件编辑器&nbsp;&nbsp;&nbsp;使用方法：vim空格加要创建的文件名，如：vim linguixiu</strong></p>
+<p>如果是要创建隐藏文档，方法是vim空格.加上要创建的文件名，如：vim .linguixiu&nbsp;&nbsp; (注意前面说了，隐藏文件是文件名前面加上.来表示的)</p>
+<p>创建文件首先你要创建在哪个目录，要cd空格目录名称，到达当前目录后开始创建</p>
+<p>举例：我要在根目录下创建一个文件名称为linguixiu</p>
+<p>[root@localhost /]# vim linguixiu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160515021706773-524755663.png" alt="" /></p>
+<p><a href="http://www.jxiou.com/" target="_blank">http://www.jxiou.com/</a><br /><a href="http://www.jxiou.com/" target="_blank"><strong>http://www.jxiou.com/lu_yin_wang_zhan.html</strong></a></p>
+<p>此时就进入了文件编辑器，注意目前编辑器是无法输入字符的，需要按一下键盘上的 <strong>i</strong> 键后进入编辑模式才可以写字符</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160515022129945-192773342.png" alt="" /></p>
+<p>按了键盘上 <strong>i</strong>&nbsp;键后&nbsp;&nbsp;编辑器左下角出现了-插入-&nbsp;就进入了编辑模式可以写入字符了</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160515024503992-2114576808.png" alt="" /></p>
+<p>重点：下面的步骤</p>
+<p>按了键盘上 <strong>i</strong>&nbsp;键后&nbsp;&nbsp;编辑器左下角出现了-插入-&nbsp;就进入了编辑模式可以写入字符了</p>
+<p>（1.)写入字符<br />&nbsp;(2.)按Esc键退出编辑模式<br />&nbsp;(3.)按键盘上的Shift键 + :键<br />&nbsp;(4.)在左下角有:符号的地方输入wq回车文件保存</p>
+<p>&nbsp;</p>
+<p>[root@localhost /]# ls -a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160515172005430-83417253.png" alt="" /></p>
+<p>用ls -a&nbsp;查看当前目录下的文件（包含隐藏文件），就可以看到，我创建了两个名为linguixiu的文件，一个是正常的文件，一个是隐藏文件.linguixiou</p>
+<p>&nbsp;</p>
+<p>6.查看文件和编辑文件</p>
+<p><strong>【vim】打开文件编辑器</strong>&nbsp;&nbsp;<strong>使用方法：vim空格加上要查看的文件名，如：vim linguixiou</strong></p>
+<p>注意：vim&nbsp;的用法说明，vim&nbsp;打开文件编辑器的意思，vim空格加上文件名回车，如果当前目录存在这个文件名就是打开的存在的文件，可以查看或者编辑后在保存，如果当前目录不存在这个文件名编辑后保存创建这个文件，两者是有区别的，一个是打开原有文件编辑保存，一个是编辑保存创建一个新文件，</p>
+<p>编辑和保存文档方法</p>
+<p>按了键盘上 <strong>i</strong>&nbsp;键后&nbsp;&nbsp;编辑器左下角出现了-插入-&nbsp;就进入了编辑模式可以写入字符了</p>
+<p>(1.)写入字符<br />(2.)按Esc键退出编辑模式<br />(3.)按键盘上的Shift键 + :键<br />(4.)在左下角有:符号的地方输入wq回车文件保存</p>
+<p>举例：我现在要查看和编辑当前目录存在的，名为.linguixiu的隐藏文件</p>
+<p>[root@localhost /]# vim .linguixiu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160515175938211-1311035675.png" alt="" /></p>
+<p>此时就打开了这个隐藏文件，就可以编辑了，（编辑方法和保存方法同上）</p>
+<p>&nbsp;</p>
+<p><strong>【cat】查看文件，只是单纯的查看文件内容，不能编辑，用法：cat空格加上要查看的文件名&nbsp;如：cat .linguixiu</strong></p>
+<p>[root@localhost /]# cat .linguixiu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160515180854398-501839773.png" alt="" /></p>
+<p>此时就可以看到这个隐藏文件里，只是写了一串中文字符（这是一个隐藏文件）</p>
+<p>&nbsp;</p>
+<p><strong>【more】更人性化的查看文件，用于内容很多的文件，可以一行或者一页的往下翻，使用方法：more空格加上要查看的文件名，如：more&nbsp;.linguixiu</strong></p>
+<p>注意：more&nbsp;.linguixiu&nbsp;回车，后显示出文件内容从头开始，按回车键（Enter）是一行一行往下翻，按空格键（最长的那个键）是一页一页的往下翻</p>
+<p>[root@localhost /]#&nbsp; more .linguixiu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160515185255711-1732048568.png" alt="" /></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>7.目录</p>
+<p><strong>【mkdir】创建目录&nbsp;&nbsp;使用方法：mkdir空格加要创建的目录名&nbsp; 如：mkdir mul1</strong></p>
+<p>[root@localhost /]# mkdir mul1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>[root@localhost /]# ls&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160515204315523-1966783799.png" alt="" /></p>
+<p>此时可以看到mul1已经创建成功</p>
+<p>&nbsp;</p>
+<p><strong>【mkdir&nbsp;-p】递归方式,创建目录&nbsp;&nbsp;使用方法：mkdir空格加，-p，空格加要创建的目录名&nbsp; 如：mkdir -p mul/mul1/mul2/mul3/</strong></p>
+<p>[root@localhost /]# mkdir -p mul/mul1/mul2/mul3/mul4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>[root@localhost /]# ls&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160515223339070-363508680.png" alt="" /></p>
+<p>&nbsp;此时可以看到，以递归方式创建的目录已经成功，递归方式就是创建多级目录，目录里面有目录，</p>
+<p>&nbsp;</p>
+<p><strong>【tree】以树形结构查看，多级目录，使用方法：tree空格加上要查看的目录名称&nbsp; 如：tree mul</strong></p>
+<p>注意：刚装好的CentOS6.5，使用tree命令时，提示tree: command not found，该如何解决呢，问题很明显，tree没有安装，直接安装一下</p>
+<p>安装方法： yum -y install tree&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>[root@localhost /]# tree mul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160515224705242-1686183404.png" alt="" /></p>
+<p>此时可以看到，刚才以递归方式创建的多级目录，以树形结构显示出来了</p>
+<p>&nbsp;</p>
+<p><strong>【mv】&nbsp;移动目录或者文件，使用方法 mv 空格 要移动的文件或者目录名称&nbsp;空格 要移动到的目标目录</strong></p>
+<p><strong>如：mv nul1 mul2&nbsp;&nbsp;&nbsp;&nbsp;意思是将mul1移动到mul2里</strong></p>
+<p><strong>注意事项：</strong></p>
+<p><strong>(1.)mv可以移动文件，当然也可以移动目录，</strong></p>
+<p><strong>(2.)只能将文件移动到目录，或者将目录移动到目录，不能将文件移动到文件，如果是文件移动到文件，就变成了替换文件了</strong></p>
+<p>举例：mv wjian_a&nbsp;&nbsp;wjian_b&nbsp;&nbsp;&nbsp;&nbsp;这样就变成了wjian_a替换wjian_b&nbsp; (wjian_a&nbsp;&nbsp;wjian_b&nbsp;都是文件)</p>
+<p><strong>(3.)将文件向下移动到多级目录&nbsp;用/的方法&nbsp;如&nbsp;mv linguixiu mul/mul1/mul2/mul3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (/向下一级)</strong></p>
+<p>[root@localhost /]# mv linguixiu mul/mul1/mul2/mul3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160516093426482-1669722537.png" alt="" /></p>
+<p>注意：多级移动如果是目录移动到目录，只能同级可以移动，父目录无法移动给子目录，反之子目录也无法移动给父目录</p>
+<p>&nbsp;</p>
+<p><strong>(4.)将文件向上移动到多级目录&nbsp;用../的方法&nbsp;&nbsp;如 mv linguixiu ../../../../&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（../向上一级）</strong></p>
+<p>[root@localhost mul3]# mv linguixiu ../../../../&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160516095120841-1113850289.png" alt="" /></p>
+<p>注意：多级移动如果是目录移动到目录，只能同级可以移动，父目录无法移动给子目录，反之子目录也无法移动给父目录</p>
+<p><strong>(5.)要移动那个文件或者目录，必须先cd&nbsp;到当前目录下才能移动的</strong></p>
+<p>&nbsp;</p>
+<p>8.删除</p>
+<p><strong>【rm】删除文件&nbsp;&nbsp; rm空格加上要删除的文件名称&nbsp;&nbsp;返回会询问你是否确定要删除 y 删除&nbsp; n不删除</strong></p>
+<p>[root@localhost /]# rm linguixiu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>rm：是否删除普通文件 "linguixiu"？y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160516101143966-74003515.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><strong>【rm -rf】删除目录&nbsp;&nbsp; rm空格 -rf 空格加上要删除的目录名称&nbsp;&nbsp;格式：rm -rf mul&nbsp; 直接删除不询问&nbsp;&nbsp;&nbsp;（同样作用于文件）</strong></p>
+<p>-r 就是向下递归，不管有多少级目录，一并删除</p>
+<p>-f 就是直接强行删除，不作任何提示的意思&nbsp;&nbsp;（所以此操作有风险，要谨慎）</p>
+<p>[root@localhost /]# rm -rf mul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160516102532482-969677078.png" alt="" /></p>
+<p>&nbsp;</p>
+<p>9网络</p>
+<p><strong>【ifconfig】查看服务器的&nbsp;IP地址&nbsp;&nbsp;网关&nbsp;&nbsp;子网掩码等信息</strong></p>
+<p>[root@localhost /]# ifconfig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160516104553966-1792635393.png" alt="" /></p>
+<p>&nbsp;</p>
+<p>线上查询及帮助命令</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;【man】&nbsp;&nbsp;</p>
+<p>　　　　　　<strong>man</strong></p>
+<p>　　　　　　功能：查询命令干什么用的&nbsp;&nbsp;&nbsp;使用方法：man&nbsp;空格&nbsp;加要查询的命令&nbsp;&nbsp;如：man ls</p>
+<p>　　　　　　[root@localhost /]# man ls&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>　　　　　　进入帮助页面&nbsp;&nbsp;（按q键退出）</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;【help】</p>
+<p>　　　　　　<strong>--help</strong></p>
+<p>　　　　　　功能：查看简单的帮助命令&nbsp;&nbsp;&nbsp;使用方法：要查询的命令&nbsp;空格&nbsp;--help&nbsp;&nbsp;&nbsp;&nbsp;如：ls --help</p>
+<p>　　　　　　[root@localhost /]# ls --help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 回车</p>
+<p>　　　　　　<strong>help</strong></p>
+<p>　　　　　　功能：查看Linux内置的目录man无法查看的用这个&nbsp;&nbsp;&nbsp;使用方法：help&nbsp;空格&nbsp;加要查询的命令&nbsp;&nbsp;&nbsp;如：help cd</p>
+<p>　　　　　　[root@localhost /]# help cd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>　　　　　　注意：用man查看不到帮助的就用help来查看</p>
+<p>&nbsp;</p>
+<p>文件和目录操作命令</p>
+<p>　　【ls】</p>
+<p>　　　　　　　<strong>ls　</strong>　</p>
+<p>　　　　　　　功能：查看当前目录里的文件和目录　　使用方法：ls　　如：ls</p>
+<p>　　　　　　　[root@localhost /]# ls　　　　　　　　回车</p>
+<p>　　　　　　　<strong>ls /xx/</strong></p>
+<p>　　　　　　　功能：也可以查看当前目录下的目录　　使用方法：ls&nbsp;空格&nbsp;接文件路径　　如：ls /etc/</p>
+<p>　　　　　　　[root@localhost /]# ls /etc/　　　　　 回车</p>
+<p>　　　　　　　<strong>ls -a</strong></p>
+<p>　　　　　　　功能：查看当前目录下的文件包括隐藏文件　　使用方法：ls -a　　如：ls -a</p>
+<p>　　　　　　　[root@localhost /]# ls -a　　　　　　　回车</p>
+<p>　　【pwd】</p>
+<p>　　　　　　　<strong>pwd</strong></p>
+<p>　　　　　　　功能：查看当前所在目录　　使用方法：pwd　　如：pwd</p>
+<p>　　　　　　　[root@localhost /]# pwd　　　　　　&nbsp;&nbsp; 回车</p>
+<p>　　【cd】</p>
+<p>　　　　　　　<strong>cd</strong></p>
+<p>　　　　　　　功能：切换目录　　使用方法：cd&nbsp;空格&nbsp;加要切换的目录名　　如：cd etc</p>
+<p>　　　　　　　[root@localhost /]# cd etc　　　　　　回车</p>
+<p>　　　　　　　cd ..&nbsp;向上返回一级</p>
+<p>　　【cp】</p>
+<p>　　　　　　　<strong>cp</strong></p>
+<p>　　　　　　　功能：复制粘贴　　使用方法：cp&nbsp;空格&nbsp;加要复制的文件名&nbsp;空格&nbsp;加要复制到的目录名　　如：cp linguixiou /net/</p>
+<p>　　　　　　　[root@localhost /]# cp linguixiou /net/　　　　回车</p>
+<p>　　【find】</p>
+<p>　　　　　　　<strong>find&nbsp; -name</strong></p>
+<p>　　　　　　　功能：查找文件　　使用方法：find&nbsp;空格&nbsp;(文件路径 /根目录.当前目录)&nbsp;空格&nbsp;（参数-name）&nbsp;空格&nbsp;（"要查找的文件名"）　　如：find / -name linguixiou</p>
+<p>　　　　　　　[root@localhost /]# find / -name linguixiou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>　　　　　　　注意：也可以*.后缀名查一个类型的全部文件&nbsp; 如：&nbsp;find / -name *.mp3</p>
+<p>　　　　　　　精确查找后面写文件名，模糊查找文件名前面或者后面，在者前面和后面加上*</p>
+<p>　　　　　　　<strong>find&nbsp; -size </strong></p>
+<p><strong>　　　　　　　</strong>功能：查找多大的文件　　使用方法：find&nbsp;空格路径&nbsp;-size&nbsp;空格+大小单位　　如：find / -size +1M</p>
+<p>　　　　　　　[root@localhost /]#find / -size +1M　　　　　　回车</p>
+<p>　　　　　　　注意：文件大小单位可以是(K）&nbsp;&nbsp;（M）&nbsp;&nbsp;（G）&nbsp;必须是大写</p>
+<p>　　　　　　　如果想查出来的文件都显示大小和更详细的信息&nbsp;在后面加上管道符 | xargs ls -lh</p>
+<p>　　　　　　　如：[root@localhost /]#find / -size +1M&nbsp;| xargs ls -lh　　　　回车</p>
+<p>　　　　　　　|管道符的意思，就是将符号前面的命令结果当作参数，传给后面的命令在执行</p>
+<p>　　【mkdir】</p>
+<p>　　　　　　　<strong>mkdir</strong></p>
+<p>　　　　　　　功能：创建目录　　使用方法：mkdir&nbsp;空格&nbsp;加要创建的目录名称　　如：mkdir mul</p>
+<p>　　　　　　　[root@localhost /]# mkdir mul　　　　　　　　　　回车</p>
+<p>　　　　　　　<strong>mkdir -p</strong></p>
+<p>　　　　　　　功能：递归式创建目录，也就是创建多级目录　　使用方法：mkdir&nbsp;空格&nbsp;-p&nbsp;空格 要创建的目录名加/　　如：mkdir -p a/b/c/</p>
+<p>　　　　　　　[root@localhost /]# mkdir -p a/b/c/　　　　　　　回车</p>
+<p>　　【mv】</p>
+<p>　　　　　　　<strong>mv</strong></p>
+<p>　　　　　　　功能：剪切移动　　使用方法：mv&nbsp;空格&nbsp;加要移动的文件名&nbsp;空格&nbsp;&nbsp;加要移动的目标目录　　如：mv linguixiou mul</p>
+<p>　　　　　　　[root@localhost /]# mv linguixiou mul　　　　　　回车</p>
+<p>　　　　　　　注意：可以用mv命令当作删除文件操作，将要删除的文件mv到/tmp/目录里&nbsp; /tmp/&nbsp;相当于回收站&nbsp;&nbsp;这样文件有找回的余地</p>
+<p>　　【tree】</p>
+<p>　　　　　　　<strong>tree</strong></p>
+<p>　　　　　　　功能：查看目录结构　　使用方法：tree&nbsp;空格 加要查看的目录　　如：tree etc</p>
+<p>　　　　　　　[root@localhost /]# tree etc　　　　　　　　　　　回车</p>
+<p>　　　　　　　注意：刚装好的CentOS6.5，使用tree命令时，提示tree: command not found，该如何解决呢，问题很明显，tree没有安装，直接安装一下</p>
+<p>　　　　　　　安装方法：yum -y install tree&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>　　【rm】</p>
+<p>　　　　　　　<strong>rm</strong></p>
+<p><strong>　　　　　　　</strong>注意：rm命令删除的文件是无法找回的</p>
+<p>　　　　　　　功能：删除普通文件　　使用方法：rm&nbsp;空格&nbsp;加上要删除的文件名　　如：rm linguixiou</p>
+<p>　　　　　　　[root@localhost mul]# rm linguixiou　　　　　　　　回车</p>
+<p>　　　　　　　rm：是否删除普通文件 "linguixiou"？y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>　　　　　　　注意：这个删除普通文件会提示你是否要删除，y删除&nbsp;&nbsp;&nbsp;n不删除</p>
+<p>　　【&gt;】</p>
+<p>　　　　　　　<strong>&gt;</strong></p>
+<p><strong>　　　　　　　</strong>功能：清空符命令，清空一个目录　　使用方法：&gt;&nbsp;空格&nbsp;加要清空的目录　　如：&gt; mul</p>
+<p>　　　　　　　[root@localhost mul]# &gt; mul　　　　　　　　　　&nbsp;&nbsp;&nbsp; 回车</p>
+<p>　　【touch】</p>
+<p>　　　　　　　<strong>touch</strong></p>
+<p>　　　　　　　功能：创建一个普通文件　　使用方法：touch&nbsp;空格&nbsp;加要创建的文件名　　如：touch linguixiu</p>
+<p>　　　　　　　[root@localhost /]# touch linguixiu　　　　　　　　&nbsp;回车</p>
+<p>&nbsp;</p>
+<p>查看文件及内容处理</p>
+<p>　　【cat】</p>
+<p>　　　　　　　<strong>cat</strong></p>
+<p>　　　　　　　功能：只查看文件　　使用方法：cat&nbsp;空格&nbsp;加要查看的文件名　　如：cat linguixiu</p>
+<p>　　　　　　　[root@localhost /]# cat linguixiu&nbsp; 　　　　　　　　回车</p>
+<p>　　【grep】</p>
+<p>　　　　　　　<strong>grep</strong></p>
+<p>　　　　　　　功能：查找一个文件里的字符　　使用方法：grep&nbsp;空格&nbsp;要"查找的字符"&nbsp;空格&nbsp;加要查找文件　　如：grep "b" linguixiou</p>
+<p>　　　　　　　[root@localhost /]# grep "b" linguixiou　　　　　　　回车</p>
+<p>　　　　　　　<strong>grep -n</strong></p>
+<p><strong>　　　　　　　</strong>功能：查找一个文件里的字符，并显示行数　　使用方法：grep&nbsp;空格&nbsp;-n&nbsp;空格&nbsp;要"查找的字符"&nbsp;空格&nbsp;加要查找文件　　如：grep -n "b" linguixiou</p>
+<p>　　　　　　　[root@localhost /]# grep -n "b" linguixiou 　　　　　　回车</p>
+<p>　　　　　　　2:b　　　　　　　　　　　　　　　　　　　　　　　　　&nbsp; 返回</p>
+<p>　　　　　　　如果查到后要修改可以&nbsp;&nbsp;vim&nbsp;空格&nbsp;加要修改的文件名称&nbsp;空格&nbsp;+行数&nbsp;&nbsp;&nbsp;如： vim linguixiou +2</p>
+<p>　　　　　　　[root@localhost /]# vim linguixiou +2&nbsp; 　　　　　　　回车</p>
+<p>　　【tar】</p>
+<p>　　　　　　　<strong>tar</strong></p>
+<p>　　　　　　　功能：文件打包命令　　使用方法：tar&nbsp;空格&nbsp;加参数zcvf&nbsp;&nbsp;空格&nbsp;加要打包后的文件名称.tar.gz&nbsp; 空格&nbsp; 加被打包目录./*（.代表当前目录/*代表所有文件）　　如：tar zcvf tmp.tar.gz tmp/*</p>
+<p>　　　　　　　[root@localhost /]# tar&nbsp; zcvf&nbsp; tmp.tar.gz&nbsp; tmp/*　　　　　　回车</p>
+<p>　　　　　　　这样就把tmp目录&nbsp;打包成了&nbsp;&nbsp;名为tmp.tar.gz的压缩包文件</p>
+<p>　　【df】</p>
+<p>　　　　　　　<strong>df -h</strong></p>
+<p>　　　　　　　功能：查看磁盘的使用率　　使用方法：df -h　　如：df -h</p>
+<p>　　　　　　　[root@localhost /]# df -h　　　　　　　　　　　　　　　　　回车</p>
+<p>　　　　　　　<img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160517220628638-1122664103.png" alt="" /></p>
+<p>　　【du】</p>
+<p>　　　　　　　<strong>du -sh</strong></p>
+<p><strong>　　　　　　　</strong>功能：查看文件的大小　　使用方法：du -sh&nbsp; 空格要查看的文件名　　如：du -sh tmp.tar.gz</p>
+<p>　　　　　　　[root@localhost /]# du -sh tmp.tar.gz　　　　　　　　　　回车</p>
+<p>　　【ll】</p>
+<p>　　　　　　　<strong>ll -h</strong></p>
+<p>　　　　　　　功能：查看当前目录下的所有文件的大小　　使用方法：ll -h　　如：ll -h</p>
+<p>　　　　　　　[root@localhost /]# ll -h 　　　　　　　　　　　　　　　　回车</p>
+<p>　　【free】</p>
+<p>　　　　　　　<strong>free -m</strong></p>
+<p><strong>　　　　　　　</strong>功能：查看内存情况　　使用方法：free -m　　如：free -m</p>
+<p>　　　　　　　[root@localhost /]# df -h　　　　　　　　　　　　　　　　回车</p>
+<p>　　　　　　　<img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160517222701216-1600345662.png" alt="" /></p>
+<p>　　　　　　　total 内存总数: 988M<br />　　　　　　　used 已经使用的内存数: 928M<br />　　　　　　　free 空闲的内存数: 61M<br />　　　　　　　shared 当前已经废弃不用，总是0<br />　　　　　　　buffers Buffer 缓存内存数: 112M<br />　　　　　　　cached Page 缓存内存数:347M</p>
+<p>　　　　　　　剩余内存522</p>
+<p>　　【top】</p>
+<p>　　　　　　　<strong>top</strong></p>
+<p><strong>　　　　　　　</strong>功能：查看服务器进程cpu和内存使用情况　　使用方法：top　　如：top</p>
+<p>　　　　　　　[root@localhost /]# top　　　　　　　　　　　　　　回车</p>
+<p>　　　　　　　<img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160518222930576-440802925.png" alt="" /></p>
+<p>　　　　　　　注意：缓冲+缓冲+空闲内存=正直的剩下可以使用内存</p>
+<p>　　　　　　　按q退出</p>
+<p>　　【kill】</p>
+<p>　　　　　　　<strong>kill</strong></p>
+<p>　　　　　　　功能：杀掉进程　　使用方法：kill&nbsp;&nbsp;空格&nbsp;加上进程号　　如：kill 3616</p>
+<p>　　　　　　　[root@localhost /]# kill 3616　　　　　　　　　　　　回车</p>
+<p>　　【ip】</p>
+<p>　　　　　　　<strong>ip a</strong></p>
+<p>　　　　　　　功能：查询服务器ip信息　　使用方法：ip a　　如：ip a</p>
+<p>　　　　　　　[root@localhost /]# ip a　　　　　　　　　　　　回车</p>
+<p>　　　　　　　<img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160517224704185-429132835.png" alt="" /></p>
+<p>用户和权限</p>
+<p>　　cat&nbsp;查看用户</p>
+<p>　　　　　　　用户信息文件在 /etc/passwd&nbsp;里 passwd&nbsp;就是用户信息文件&nbsp;&nbsp;&nbsp;如：cat etc/passwd</p>
+<p>　　　　　　　[root@localhost /]# cat etc/passwd&nbsp;&nbsp; 　　　　　　　　回车</p>
+<p>　　　　　　　<img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160519190813873-1544147059.png" alt="" /></p>
+<p>　　　　　　&nbsp; 注意：红框的地方500或者500以上的就是新添加的用户，其他的是系统用户</p>
+<p>　　【useradd】</p>
+<p>　　　　　　　<strong>useradd</strong></p>
+<p>　　　　　　　功能：创建用户　　使用方法：useradd&nbsp;空格&nbsp;加要创建的用户名称　　如：useradd&nbsp;uixiug</p>
+<p>　　　　　　　[root@localhost /]# useradd guixiu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回车</p>
+<p>　　　　　　　这样就创建了一个名为guixiu的一个用户</p>
+<p>　　　　　　　<strong>参数</strong></p>
+<p>　　　　　　　-c comment 指定一段注释性描述。 </p>
+<p>　　　　　　　-d 目录 指定用户主目录，如果此目录不存在，则同时使用-m选项，可以创建主目录。</p>
+<p> 　　　　　　　-g 用户组 指定用户所属的用户组。</p>
+<p> 　　　　　　　-G 用户组，用户组 指定用户所属的附加组。</p>
+<p> 　　　　　　　-s Shell文件 指定用户的登录Shell。 </p>
+<p>　　　　　　　-u 用户号 指定用户的用户号，如果同时有-o选项，则可以重复使用其他用户的标识号。</p>
+<p>　　　　　　　用户名 指定新账号的登录名</p>
+<p>　　　　　　　使用方法：# useradd &ndash;d /usr/sam -m sam</p>
+<p>　　【userdel】</p>
+<p>　　　　　　　<strong>userdel</strong></p>
+<p>　　　　　　　功能：删除用户　　使用方法：userdel&nbsp;空格&nbsp;加要删除的用户　　如：userdel&nbsp; guixiu</p>
+<p>　　　　　　　[root@localhost /]# userdel guixiu　　　　　　　　回车</p>
+<p>　　【<span style="color: black; font-family: '微软雅黑','sans-serif'; font-size: 10pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt; mso-bidi-font-size: 11.0pt; mso-ansi-language: EN-US; mso-fareast-language: ZH-CN; mso-bidi-language: AR-SA;" lang="EN-US">passwd</span>】</p>
+<p>　　　　　　　<strong><span style="color: black; font-family: '微软雅黑','sans-serif'; font-size: 10pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt; mso-bidi-font-size: 11.0pt; mso-ansi-language: EN-US; mso-fareast-language: ZH-CN; mso-bidi-language: AR-SA;" lang="EN-US">passwd</span></strong></p>
+<p><span style="color: black; font-family: '微软雅黑','sans-serif'; font-size: 10pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt; mso-bidi-font-size: 11.0pt; mso-ansi-language: EN-US; mso-fareast-language: ZH-CN; mso-bidi-language: AR-SA;" lang="EN-US">　　　　　　　功能：创建用户密码　　使用方法：passwd&nbsp;用户名　　如：passwd guixiu</span></p>
+<p><span style="color: black; font-family: '微软雅黑','sans-serif'; font-size: 10pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt; mso-bidi-font-size: 11.0pt; mso-ansi-language: EN-US; mso-fareast-language: ZH-CN; mso-bidi-language: AR-SA;" lang="EN-US">　　　　　　　[root@localhost ~]# passwd guixiu　　　　　　　　　　回车</span></p>
+<p><span style="color: black; font-family: '微软雅黑','sans-serif'; font-size: 10pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt; mso-bidi-font-size: 11.0pt; mso-ansi-language: EN-US; mso-fareast-language: ZH-CN; mso-bidi-language: AR-SA;" lang="EN-US">　　　　　　　更改用户 guixiu 的密码 。<br />　　　　　　　新的 密码：　　　　　　　　　　　　　　　　　　　　　回车</span></p>
+<p><span style="color: black; font-family: '微软雅黑','sans-serif'; font-size: 10pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt; mso-bidi-font-size: 11.0pt; mso-ansi-language: EN-US; mso-fareast-language: ZH-CN; mso-bidi-language: AR-SA;" lang="EN-US">　　　　　　　passwd命令用于设置用户的认证信息，包括用户密码、密码过期时间等。系统管理者则能用它管理系统用户的密码。只有管理者可以指定用户名称，一般用户只能变更自己的密码。</span></p>
+<p><span style="color: black; font-family: '微软雅黑','sans-serif'; font-size: 10pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt; mso-bidi-font-size: 11.0pt; mso-ansi-language: EN-US; mso-fareast-language: ZH-CN; mso-bidi-language: AR-SA;" lang="EN-US">　　　　　　　-d：删除密码，仅有系统管理者才能使用； <br />　　　　　　　-f：强制执行； <br />　　　　　　　-k：设置只有在密码过期失效后，方能更新； <br />　　　　　　　-l：锁住密码；<br />　　　　　　　-s：列出密码的相关信息，仅有系统管理者才能使用； <br />　　　　　　　-u：解开已上锁的帐号。</span></p>
+<p>　　【chown】</p>
+<p>　　　　　　　<strong>chown</strong></p>
+<p>　　　　　　　功能：更改目录的（属主）和（属组）　　使用方法：chown&nbsp;空格&nbsp;加属主名称&nbsp;&nbsp;空格&nbsp;加属组名称.加要修改的目录名称　　如：chown guixiu.guixiu mul</p>
+<p>　　　　　　　[root@localhost /]# chown guixiu.guixiu mul　　　　　　　　回车</p>
+<p>　　　　　　　这样就把mul这个目录的属主和属组改成了guixiu</p>
+<p>　　　　　　　<img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160518180455966-644913368.png" alt="" /></p>
+<p>文件权限</p>
+<p>　　　　　　　<img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160518180846498-1694380175.png" alt="" /></p>
+<p>　　　　　　　drwxr-xr-x&nbsp;&nbsp;&nbsp;这是系统显示的权限信息&nbsp;，第一个是文件属性符 如：(d)&nbsp;(-) (l)</p>
+<p>　　　　　　　rwxr-xr-x&nbsp;&nbsp;&nbsp;&nbsp;去除第一个属性符，就是文件权限</p>
+<p>　　　　　　　rwxr-xr-x&nbsp;&nbsp;&nbsp;&nbsp;分成3组，前3个为一组，中间3个为一组，后面3个为一组</p>
+<p>　　　　　　　rwx（属主的权限）&nbsp;&nbsp; r-x（属组的权限）&nbsp;&nbsp;&nbsp;&nbsp;r-x&nbsp;（其他用户权限）</p>
+<p>&nbsp;</p>
+<p>　　　　　　　<strong>权限说明</strong></p>
+<p>　　　　　　　r　　(可读)　　　　　　8进制表示　　4</p>
+<p>　　　　　　　w　　(可写)　　　　　&nbsp;&nbsp;8进制表示　　2</p>
+<p>　　　　　　　x　　(可执行)　　　　　8进制表示　　1</p>
+<p>　　　　　　　-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（没有任何权限）　8进制表示　　0</p>
+<p>　　　　　　　<strong>将rwxr-xr-x转换成8进制表示</strong></p>
+<p>　　　　　　　rwx　　r-x　　r-x</p>
+<p>　　　　　　　7　　　5　　　5</p>
+<p>　　　　　　　就是将每一组的8进制数相加</p>
+<p>　　　　　　　（rwx）&nbsp; 4+2+1=7　　（r-x&nbsp;） 4+0+1=5　　（r-x）&nbsp; 4+0+1=5</p>
+<p>　　　　　　　（rwxr-xr-x）=755</p>
+<p>　　【chmod】</p>
+<p>　　　　　　<strong>　chmod</strong></p>
+<p>　　　　　　　功能：更改文件权限　　使用方法：chmod&nbsp;&nbsp;空格&nbsp;加权限值&nbsp;空格加要改的文件名称　　</p>
+<p>　　　　　　　如：chmod&nbsp;644 mul</p>
+<p>　　　　　　　[root@localhost /]# chmod 644 mul&nbsp; 　　　　回车</p>
+<p>　　　　　　　<img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160518203842091-968977174.png" alt="" /></p>
+<p>　　　　　　　一般 755&nbsp;比较安全&nbsp;，程序员常用</p>
+<p>　　【su】</p>
+<p>　　　　　　<strong>　su -</strong></p>
+<p><strong>　　　　　　</strong>　功能：切换登录用户　　使用方法：su -&nbsp;空格&nbsp;加用户名　　如：# su - guixiu</p>
+<p>　　　　　　　[root@localhost /]# su - guixiu　　　　　　　　回车</p>
+<p>　　　　　　　这样就切换到了guixiu用户</p>
+<p>时间</p>
+<p>　　【date】</p>
+<p>　　　　　　　<strong>date</strong></p>
+<p>　　　　　　　功能：查看系统当前时间　　使用方法：date　　如：date</p>
+<p>　　　　　　　[root@localhost /]# date　　　　　　　　　　回车</p>
+<p>&nbsp;</p>
+<p>　　　　　　　</p>
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p></div>

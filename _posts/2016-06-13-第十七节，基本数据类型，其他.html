@@ -1,0 +1,110 @@
+第十七节，基本数据类型，其他
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>enumerate(iterable，start=0&nbsp;)</strong></p>
+<p><strong>"""(自定义列表的下标开始位置)列表变量，要定义的开下标数：默认是0开始的"""</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> a = [<span style="color: #800000;">"</span><span style="color: #800000;">电脑</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">鼠标</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">键盘</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">显示器</span><span style="color: #800000;">"</span><span style="color: #000000;">]
+</span><span style="color: #008080;"> 4</span> <span style="color: #0000ff;">for</span> k,v <span style="color: #0000ff;">in</span> enumerate(a,1):<span style="color: #008000;">#</span><span style="color: #008000;">因为是有键和值，所以循环要定义两个变量k和v</span>
+<span style="color: #008080;"> 5</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(k,v)
+</span><span style="color: #008080;"> 6</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出</span>
+<span style="color: #008080;"> 7</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 1 电脑</span>
+<span style="color: #008080;"> 8</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 2 鼠标</span>
+<span style="color: #008080;"> 9</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 3 键盘</span>
+<span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 4 显示器</span></pre>
+</div>
+<p><strong>enumerate（）结合应用，输入商品序号，打印出对应的商品</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> <span style="color: #008000;">#</span><span style="color: #008000;">输入商品序号，打印出对应的商品</span>
+<span style="color: #008080;"> 4</span> a = [<span style="color: #800000;">"</span><span style="color: #800000;">电脑</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">鼠标</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">键盘</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">显示器</span><span style="color: #800000;">"</span><span style="color: #000000;">]
+</span><span style="color: #008080;"> 5</span> <span style="color: #0000ff;">for</span> k,v <span style="color: #0000ff;">in</span> enumerate(a,1):<span style="color: #008000;">#</span><span style="color: #008000;">默认下标号从0开始的enumerate（a,1）设置了从1开始</span>
+<span style="color: #008080;"> 6</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(k,v)
+</span><span style="color: #008080;"> 7</span> <span style="color: #008000;">#</span><span style="color: #008000;">上面打印出商品的序号和名称</span>
+<span style="color: #008080;"> 8</span> b = input(<span style="color: #800000;">"</span><span style="color: #800000;">请输入商品序号</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">等待用户输入商品序号</span>
+<span style="color: #008080;"> 9</span> c = int(b)<span style="color: #008000;">#</span><span style="color: #008000;">将用户输入的序号转换成数字类型</span>
+<span style="color: #008080;">10</span> d = a[c-1]<span style="color: #008000;">#</span><span style="color: #008000;">将用户输入序号转换成列表索引的下标，默认从0开始的所以要减一</span>
+<span style="color: #008080;">11</span> <span style="color: #0000ff;">print</span>(d)<span style="color: #008000;">#</span><span style="color: #008000;">通过用户输入的索引下标打印出商品</span>
+<span style="color: #008080;">12</span> 
+<span style="color: #008080;">13</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 1 电脑</span>
+<span style="color: #008080;">14</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 2 鼠标</span>
+<span style="color: #008080;">15</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 3 键盘</span>
+<span style="color: #008080;">16</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 4 显示器</span>
+<span style="color: #008080;">17</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 请输入商品序号4</span>
+<span style="color: #008080;">18</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 显示器</span></pre>
+</div>
+<p>&nbsp;<strong>range()自动创建列表（py2.7版本）</strong></p>
+<p><strong>"""(自动创建列表,小于多少开始创建，大于多少开始停止，创建列表间隔位数默认可以不写)"""</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = range(1,10<span style="color: #000000;">)
+</span><span style="color: #008080;">4</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">5</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 [1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+<span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">range是直接自动创建了一个1到9的列表</span></pre>
+</div>
+<p><strong>xrange()自动创建列表（py2.7版本）</strong></p>
+<p><strong>与<strong>range不同的是<strong>xrange需要for循环后才创建</strong></strong></strong></p>
+<p><strong>"""(自动创建列表,小于多少开始创建，大于多少开始停止，创建列表间隔位数默认可以不写)"""</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> <span style="color: #008000;">#</span><span style="color: #008000;">xrange需要循环的时候才创建列表</span>
+<span style="color: #008080;"> 4</span> b = xrange(1,10<span style="color: #000000;">)
+</span><span style="color: #008080;"> 5</span> <span style="color: #0000ff;">for</span> c <span style="color: #0000ff;">in</span><span style="color: #000000;"> b:
+</span><span style="color: #008080;"> 6</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008080;"> 7</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出</span>
+<span style="color: #008080;"> 8</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 1</span>
+<span style="color: #008080;"> 9</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 2</span>
+<span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 3</span>
+<span style="color: #008080;">11</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 4</span>
+<span style="color: #008080;">12</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 5</span>
+<span style="color: #008080;">13</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 6</span>
+<span style="color: #008080;">14</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 7</span>
+<span style="color: #008080;">15</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 8</span>
+<span style="color: #008080;">16</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 9</span></pre>
+</div>
+<p><br /><strong>range()自动创建列表（py3.0以上版本，取消了x<strong>range</strong>）</strong></p>
+<p><strong>需要for循环后才创建</strong></p>
+<p><strong>"""(自动创建列表,小于多少开始创建，大于多少开始停止，创建列表间隔位数默认可以不写)"""</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> <span style="color: #008000;">#</span><span style="color: #008000;">range需要循环的时候才创建列表</span>
+<span style="color: #008080;"> 4</span> a = range(1,10<span style="color: #000000;">)
+</span><span style="color: #008080;"> 5</span> <span style="color: #0000ff;">for</span> b <span style="color: #0000ff;">in</span><span style="color: #000000;"> a:
+</span><span style="color: #008080;"> 6</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;"> 7</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出</span>
+<span style="color: #008080;"> 8</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 1</span>
+<span style="color: #008080;"> 9</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 2</span>
+<span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 3</span>
+<span style="color: #008080;">11</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 4</span>
+<span style="color: #008080;">12</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 5</span>
+<span style="color: #008080;">13</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 6</span>
+<span style="color: #008080;">14</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 7</span>
+<span style="color: #008080;">15</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 8</span>
+<span style="color: #008080;">16</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 9</span></pre>
+</div>
+<p><strong>range 也可以创建从大到小的列表</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> <span style="color: #008000;">#</span><span style="color: #008000;">range需要循环的时候才创建列表</span>
+<span style="color: #008080;"> 4</span> a = range(10,1,-1<span style="color: #000000;">)
+</span><span style="color: #008080;"> 5</span> <span style="color: #0000ff;">for</span> b <span style="color: #0000ff;">in</span><span style="color: #000000;"> a:
+</span><span style="color: #008080;"> 6</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;"> 7</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出</span>
+<span style="color: #008080;"> 8</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 10</span>
+<span style="color: #008080;"> 9</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 9</span>
+<span style="color: #008080;">10</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 8</span>
+<span style="color: #008080;">11</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 7</span>
+<span style="color: #008080;">12</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 6</span>
+<span style="color: #008080;">13</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 5</span>
+<span style="color: #008080;">14</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 4</span>
+<span style="color: #008080;">15</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 3</span>
+<span style="color: #008080;">16</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 2</span></pre>
+</div>
+<p>&nbsp;</p></div>

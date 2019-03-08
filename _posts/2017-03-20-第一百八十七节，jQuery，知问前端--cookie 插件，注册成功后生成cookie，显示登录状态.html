@@ -1,0 +1,301 @@
+第一百八十七节，jQuery，知问前端--cookie 插件，注册成功后生成cookie，显示登录状态
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong>jQuery，知问前端--cookie 插件</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>学习要点： </strong></span></p>
+<p><span style="color: #0000ff"><strong>　　1.使用 cookie 插件 </strong></span></p>
+<p><span style="color: #0000ff"><strong>　　2.注册直接登录</strong></span></p>
+<p><span style="color: #0000ff"><strong>Cookie 是网站用来在客户端保存识别用户的一种小文件。一般来用库可以保存用户登 录信息、购物数据信息等一系列微小信息。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．使用 cookie 插件 </strong></span></p>
+<p><span style="color: #000000"><strong>官方网站：http://plugins.jquery.com/cookie/</strong></span></p>
+<p><span style="color: #ff0000"><strong>cookie()生成cookie文件，3个参数，参数1cookie名称，参数2cookie值，参数3是一个对象设置cookie</strong></span></p>
+<p><span style="color: #0000ff"><strong>生成一个 cookie：</strong></span></p>
+<div class="cnblogs_code">
+<pre>$.cookie('123','456');</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>设置 cookie</strong></span></p>
+<p><span style="color: #ff0000"><strong>expires : 7, 过期时间，7 天后，设置过期时间</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>path : '/', 设置路径，上一层，设置路径</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>domain : 'www.ycku.com', 设置域名，设置域名后，cookie在指定域名下有效</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>secure : true, 默认为 false，需要使用安全协议 https，设置true后只有在https协议下有效</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $.cookie('123','456'<span style="color: #000000">,{
+        expires:</span>10,                     <span style="color: #008000">//</span><span style="color: #008000">设置cookie有效期为10天</span>
+        path : '/'                      <span style="color: #008000">//</span><span style="color: #008000">设置cookie路径</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> domain : 'www.jxiou.com',    //设置cookie域名，只有在当前域名下有效</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> secure : true                //设置cookie为https协议下有效</span>
+    });</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>cookie属性raw，关闭编码/解码，默认为 false默认是自动编码和解码的</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $.cookie('123','456'<span style="color: #000000">,{
+        expires:</span>10,                     <span style="color: #008000">//</span><span style="color: #008000">设置cookie有效期为10天</span>
+        path : '/'                      <span style="color: #008000">//</span><span style="color: #008000">设置cookie路径</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> domain : 'www.jxiou.com',    //设置cookie域名，只有在当前域名下有效</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> secure : true                //设置cookie为https协议下有效</span>
+<span style="color: #000000">    });
+    $.cookie.raw </span>= <span style="color: #0000ff">true</span>;                <span style="color: #008000">//</span><span style="color: #008000">关闭编码/解码，关闭后cookie内容将以明码方式存在，建议不要关闭</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>读取 cookie 数据，参数为要读取的<strong>cookie名称</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>    $.cookie('123','456'<span style="color: #000000">,{
+        expires:</span>10,                     <span style="color: #008000">//</span><span style="color: #008000">设置cookie有效期为10天</span>
+        path : '/'                      <span style="color: #008000">//</span><span style="color: #008000">设置cookie路径</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> domain : 'www.jxiou.com',    //设置cookie域名，只有在当前域名下有效</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> secure : true                //设置cookie为https协议下有效</span>
+<span style="color: #000000">    });
+    alert($.cookie(</span>'123'));             <span style="color: #008000">//</span><span style="color: #008000">读取 cookie 数据,参数为要读取的cookie名称</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>读取所有 cookie 数据，不传参数</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $.cookie('adc','456'<span style="color: #000000">,{
+        expires:</span>10,                     <span style="color: #008000">//</span><span style="color: #008000">设置cookie有效期为10天</span>
+        path : '/'                      <span style="color: #008000">//</span><span style="color: #008000">设置cookie路径</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> domain : 'www.jxiou.com',    //设置cookie域名，只有在当前域名下有效</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> secure : true                //设置cookie为https协议下有效</span>
+<span style="color: #000000">    });
+    alert($.cookie().adc);              </span><span style="color: #008000">//</span><span style="color: #008000">读取所有 cookie 数据，不传参数</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>注意：读取所有的 cookie 是以对象键值对存放的，所以，也可以$.cookie().user 获取。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>removeCookie()删除cookie，参数是要删除的cookie名称</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $.cookie('adc','456'<span style="color: #000000">,{
+        expires:</span>10,                     <span style="color: #008000">//</span><span style="color: #008000">设置cookie有效期为10天</span>
+        path : '/'                      <span style="color: #008000">//</span><span style="color: #008000">设置cookie路径</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> domain : 'www.jxiou.com',    //设置cookie域名，只有在当前域名下有效</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> secure : true                //设置cookie为https协议下有效</span>
+<span style="color: #000000">    });
+    $.removeCookie(</span>'adc'<span style="color: #000000">, {
+            path: </span>'/'<span style="color: #000000">
+    });                     </span><span style="color: #008000">//</span><span style="color: #008000">removeCookie()删除cookie，参数是要删除的cookie名称</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>注册成功后生成cookie，显示登录状态</strong></span></p>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="header"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="header_main"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>知问<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="header_search"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="search"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="search"</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="header_button"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">button </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="search_button"</span><span style="color: #0000ff">&gt;</span>提交<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="header_member"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="javascript:void(0)"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="reg_a"</span><span style="color: #0000ff">&gt;</span>注册<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="javascript:void(0)"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="member"</span><span style="color: #0000ff">&gt;</span>用户<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+            |
+            </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="javascript:void(0)"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="login_a"</span><span style="color: #0000ff">&gt;</span>登录<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="javascript:void(0)"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="logout"</span><span style="color: #0000ff">&gt;</span>退出<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+
+
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="reg"</span><span style="color: #ff0000"> method</span><span style="color: #0000ff">="post"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="yzh.php"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="会员注册"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">ol </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="reg_error"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="user"</span><span style="color: #0000ff">&gt;</span>帐号：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="user"</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="star"</span><span style="color: #0000ff">&gt;</span>*<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="pass"</span><span style="color: #0000ff">&gt;</span>密码：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="pass"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="pass"</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="star"</span><span style="color: #0000ff">&gt;</span>*<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="email"</span><span style="color: #0000ff">&gt;</span>邮箱：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="email"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="email"</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="star"</span><span style="color: #0000ff">&gt;</span>*<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>性别：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sex"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="male"</span><span style="color: #ff0000"> checked</span><span style="color: #0000ff">="checked"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="男"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="male"</span><span style="color: #0000ff">&gt;</span>男<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">input</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sex"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="female"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="女"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="female"</span><span style="color: #0000ff">&gt;</span>女<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">input</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">for</span><span style="color: #0000ff">="date"</span><span style="color: #0000ff">&gt;</span>生日：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="date"</span><span style="color: #ff0000"> readonly</span><span style="color: #0000ff">="readonly"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="date"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="loading"</span><span style="color: #0000ff">&gt;</span>数据交互中...<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>前台js</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">判断cookie</span>
+    <span style="color: #0000ff">var</span> ifcookie = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">if</span> ($.cookie('user')) {                     <span style="color: #008000">//</span><span style="color: #008000">判断cookie存在</span>
+            $('#member, #logout').show();           <span style="color: #008000">//</span><span style="color: #008000">显示用户和退出</span>
+            $('#reg_a, #login_a').hide();           <span style="color: #008000">//</span><span style="color: #008000">隐藏注册和登录</span>
+            $('#member').html($.cookie('user'));    <span style="color: #008000">//</span><span style="color: #008000">改名用户为用户名称</span>
+        } <span style="color: #0000ff">else</span><span style="color: #000000"> {
+            $(</span>'#member, #logout').hide();           <span style="color: #008000">//</span><span style="color: #008000">隐藏用户和退出</span>
+            $('#reg_a, #login_a').show();           <span style="color: #008000">//</span><span style="color: #008000">显示注册和登录</span>
+<span style="color: #000000">        }
+    };
+    ifcookie();                                     </span><span style="color: #008000">//</span><span style="color: #008000">执行cookie判断</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">点击退出</span>
+    $('#logout').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.removeCookie(</span>'user');                     <span style="color: #008000">//</span><span style="color: #008000">删除cookie</span>
+        ifcookie();                                 <span style="color: #008000">//</span><span style="color: #008000">执行cookie判断</span>
+<span style="color: #000000">    });
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">创建交互数据提示框</span>
+    $('#loading').dialog({                  <span style="color: #008000">//</span><span style="color: #008000">数据交互提示框，执行对话框方法</span>
+        autoOpen : <span style="color: #0000ff">false</span>,                   <span style="color: #008000">//</span><span style="color: #008000">创建对话框关闭</span>
+        modal : <span style="color: #0000ff">true</span>,                       <span style="color: #008000">//</span><span style="color: #008000">遮罩</span>
+        closeOnEscape : <span style="color: #0000ff">false</span>,              <span style="color: #008000">//</span><span style="color: #008000">阻止点击键盘ESC键关闭dialog</span>
+        resizable : <span style="color: #0000ff">false</span>,                  <span style="color: #008000">//</span><span style="color: #008000">阻止调整对话框大小</span>
+        draggable : <span style="color: #0000ff">false</span>,                  <span style="color: #008000">//</span><span style="color: #008000">阻止对话框可以移动</span>
+        width : 230<span style="color: #000000">,
+        height : </span>50<span style="color: #000000">
+    }).parent().parent().find(</span>'.ui-widget-header').hide();  <span style="color: #008000">//</span><span style="color: #008000">找到对话框标题隐藏</span>
+    <span style="color: #008000">//</span><span style="color: #008000">注册框</span>
+    $('#reg_a').on('click',<span style="color: #0000ff">function</span> () {                    <span style="color: #008000">//</span><span style="color: #008000">将注册框，执行对话框方法</span>
+        $('#reg'<span style="color: #000000">).dialog({
+            autoOpen : </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+            modal : </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+            resizable : </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+            width : </span>320<span style="color: #000000">,
+            height : </span>360<span style="color: #000000">,
+            buttons : {                                     </span><span style="color: #008000">//</span><span style="color: #008000">注册对话框创建按钮</span>
+                '提交' : <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                    $(</span><span style="color: #0000ff">this</span>).submit();                       <span style="color: #008000">//</span><span style="color: #008000">执行提交方法</span>
+<span style="color: #000000">                }
+            },
+            closeText : </span>'关闭对话框'<span style="color: #000000">,
+            beforeClose:</span><span style="color: #0000ff">function</span> (e,ui) {                   <span style="color: #008000">//</span><span style="color: #008000">将要关闭，执行回调函数</span>
+                $('#reg').resetForm();                                <span style="color: #008000">//</span><span style="color: #008000">Ajax 表单插件方法，重置表单</span>
+                $('#reg span.star').html('*').removeClass('succ');    <span style="color: #008000">//</span><span style="color: #008000">改变提示信息</span>
+                $('#reg ol').html('');                                <span style="color: #008000">//</span><span style="color: #008000">将提示信息去掉</span>
+                $('#reg input').css('border', '1px solid #ccc');      <span style="color: #008000">//</span><span style="color: #008000">改变出错边框颜色</span>
+<span style="color: #000000">            }
+        }).buttonset().validate({                                           </span><span style="color: #008000">//</span><span style="color: #008000">验证表单</span>
+            submitHandler: <span style="color: #0000ff">function</span> (form) {                                <span style="color: #008000">//</span><span style="color: #008000">全部验证成功准备提交</span>
+                $(form).ajaxSubmit({                                        <span style="color: #008000">//</span><span style="color: #008000">Ajax 表单插件方法，提交</span>
+                    url: 'add.php',                                         <span style="color: #008000">//</span><span style="color: #008000">提交页面</span>
+                    type: 'POST',                                           <span style="color: #008000">//</span><span style="color: #008000">提交方式</span>
+                    beforeSubmit: <span style="color: #0000ff">function</span> (formData, jqForm, options) {    <span style="color: #008000">//</span><span style="color: #008000">提交时</span>
+                        $('#loading').dialog('open');                       <span style="color: #008000">//</span><span style="color: #008000">打开交互对话框</span>
+                        $('#reg').dialog('widget').find('button').eq(1).button('disable');                                  <span style="color: #008000">//</span><span style="color: #008000">将注册对话框的提交按钮禁止</span>
+                        $('#loading').css('background', 'url(img/743.gif) no-repeat 20px center').html('数据交互中...');     <span style="color: #008000">//</span><span style="color: #008000">载入交互对话框图片</span>
+<span style="color: #000000">                    },
+                    success: </span><span style="color: #0000ff">function</span> (responseText, statusText) {                                                             <span style="color: #008000">//</span><span style="color: #008000">提交后</span>
+                        <span style="color: #0000ff">if</span> (responseText) {                                                                                    <span style="color: #008000">//</span><span style="color: #008000">判断提交成功返回值</span>
+                            $('#reg').dialog('widget').find('button').eq(1).button('enable');                                  <span style="color: #008000">//</span><span style="color: #008000">取消阻止注册提交按钮</span>
+                            $('#loading').css('background', 'url(img/chg.png) no-repeat 20px center').html('数据新增成功...');  <span style="color: #008000">//</span><span style="color: #008000">载入提交成功图片</span>
+                            $.cookie('user', $('#user').val());                                                                <span style="color: #008000">//</span><span style="color: #008000">注册成功创建，cookie</span>
+                            setTimeout(<span style="color: #0000ff">function</span> () {                                    <span style="color: #008000">//</span><span style="color: #008000">睡眠1秒</span>
+                                ifcookie();                                             <span style="color: #008000">//</span><span style="color: #008000">执行cookie判断</span>
+                                $('#loading').dialog('close');                          <span style="color: #008000">//</span><span style="color: #008000">关闭交互提示对话框</span>
+                                $('#reg').dialog('close');                              <span style="color: #008000">//</span><span style="color: #008000">关闭注册对话框</span>
+                                $('#reg').resetForm();                                  <span style="color: #008000">//</span><span style="color: #008000">重置表单</span>
+                                $('#reg span.star').html('*').removeClass('succ');      <span style="color: #008000">//</span><span style="color: #008000">改变验证提示信息</span>
+                            }, 1000<span style="color: #000000">);
+                        }
+                    }
+                });
+            },
+            highlight: </span><span style="color: #0000ff">function</span> (element, errorClass) {                             <span style="color: #008000">//</span><span style="color: #008000">如果出错，错误框边框改变颜色</span>
+                $(element).css('border', '1px solid #630'<span style="color: #000000">);
+                $(element).parent().find(</span>'span').html('*').removeClass('succ');     <span style="color: #008000">//</span><span style="color: #008000">改变验证提示信息</span>
+<span style="color: #000000">            },
+            unhighlight: </span><span style="color: #0000ff">function</span> (element, errorClass) {                           <span style="color: #008000">//</span><span style="color: #008000">如果正确取消边框改变颜色</span>
+                $(element).css('border', '1px solid #ccc'<span style="color: #000000">);
+                $(element).parent().find(</span>'span').html('&amp;nbsp;').addClass('succ');   <span style="color: #008000">//</span><span style="color: #008000">显示正确图片</span>
+<span style="color: #000000">            },
+            showErrors: </span><span style="color: #0000ff">function</span> (errorMap, errorList) {                            <span style="color: #008000">//</span><span style="color: #008000">获取出错句柄</span>
+                <span style="color: #0000ff">var</span> errors = <span style="color: #0000ff">this</span><span style="color: #000000">.numberOfInvalids();
+                </span><span style="color: #0000ff">if</span> (errors &gt; 0) {                                                   <span style="color: #008000">//</span><span style="color: #008000">判断出错句柄个数来改变对话框的高度</span>
+                    $('#reg').dialog('option', 'height', errors * 20 + 360);        <span style="color: #008000">//</span><span style="color: #008000">注册对话框自动根据错误数量来改变高度</span>
+                } <span style="color: #0000ff">else</span><span style="color: #000000"> {
+                    $(</span>'#reg').dialog('option', 'height', 360);                      <span style="color: #008000">//</span><span style="color: #008000">没有错误还原高度</span>
+<span style="color: #000000">                }
+                </span><span style="color: #0000ff">this</span><span style="color: #000000">.defaultShowErrors();
+            },
+            errorLabelContainer: </span>'ol.reg_error',                                    <span style="color: #008000">//</span><span style="color: #008000">有错误时，将所有表单错误信息统一放到class为ol.reg_error的元素里</span>
+            wrapper: 'li',                                                          <span style="color: #008000">//</span><span style="color: #008000">将每个错误信息放入一个li标签</span>
+            rules : {                                                               <span style="color: #008000">//</span><span style="color: #008000">表单验证规则</span>
+                user : {                                                            <span style="color: #008000">//</span><span style="color: #008000">验证用户名</span>
+                    required:<span style="color: #0000ff">true</span>,                                                  <span style="color: #008000">//</span><span style="color: #008000">不能为空</span>
+                    rangelength:[2,10]                                              <span style="color: #008000">//</span><span style="color: #008000">不得小于2位大于10位</span>
+<span style="color: #000000">                },
+                pass:{                                                              </span><span style="color: #008000">//</span><span style="color: #008000">验证密码</span>
+                    required:<span style="color: #0000ff">true</span>,                                                  <span style="color: #008000">//</span><span style="color: #008000">不能为空</span>
+                    rangelength:[6,20]                                              <span style="color: #008000">//</span><span style="color: #008000">不得小于6位大于20位</span>
+<span style="color: #000000">                },
+                email:{                                                             </span><span style="color: #008000">//</span><span style="color: #008000">验证邮箱</span>
+                    required:<span style="color: #0000ff">true</span>,                                                  <span style="color: #008000">//</span><span style="color: #008000">不能为空</span>
+                    email:<span style="color: #0000ff">true</span>                                                      <span style="color: #008000">//</span><span style="color: #008000">必须是邮箱格式</span>
+<span style="color: #000000">                }
+            },
+            messages : {                                                            </span><span style="color: #008000">//</span><span style="color: #008000">错误提示</span>
+<span style="color: #000000">                user : {
+                    required:</span>'用户名不能为空！'<span style="color: #000000">,
+                    rangelength:jQuery.format(</span>'用户名不得小于{0}位，大于{1}位'<span style="color: #000000">)
+                },
+                pass:{
+                    required:</span>'密码不能为空'<span style="color: #000000">,
+                    rangelength:jQuery.format(</span>'密码不得小于{0}位，大于{1}位'<span style="color: #000000">)
+                },
+                email:{
+                    required:</span>'邮箱不能为空'<span style="color: #000000">,
+                    email:</span>'请输入正确的邮箱格式'<span style="color: #000000">
+                }
+            }
+        });
+
+
+        </span><span style="color: #008000">//</span><span style="color: #008000">邮箱执行自动补全</span>
+        $('#email'<span style="color: #000000">).autocomplete({
+            autoFocus: </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+            delay: </span>0<span style="color: #000000">,
+            source: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (request, response) {
+                </span><span style="color: #0000ff">var</span> hosts = ['qq.com', '163.com', '263.com', 'gmail.com', 'hotmail.com'], <span style="color: #008000">//</span><span style="color: #008000">起始</span>
+                    term = request.term,        <span style="color: #008000">//</span><span style="color: #008000">获取输入值</span>
+                    ix = term.indexOf('@'),     <span style="color: #008000">//</span><span style="color: #008000">@</span>
+                    name = term,                <span style="color: #008000">//</span><span style="color: #008000">用户名</span>
+                    host = '',                  <span style="color: #008000">//</span><span style="color: #008000">域名</span>
+                    result = [];                <span style="color: #008000">//</span><span style="color: #008000">结果</span>
+                <span style="color: #008000">//</span><span style="color: #008000">结果第一条是自己输入</span>
+<span style="color: #000000">                result.push(term);
+                </span><span style="color: #0000ff">if</span> (ix &gt; -1) { <span style="color: #008000">//</span><span style="color: #008000">如果有@的时候</span>
+                    name = term.slice(0, ix);       <span style="color: #008000">//</span><span style="color: #008000">得到用户名</span>
+                    host = term.slice(ix + 1);      <span style="color: #008000">//</span><span style="color: #008000">得到域名</span>
+<span style="color: #000000">                }
+                </span><span style="color: #0000ff">if</span><span style="color: #000000"> (name) {
+                    </span><span style="color: #008000">//</span><span style="color: #008000">得到找到的域名</span>
+                    <span style="color: #0000ff">var</span> findedHosts = (host ? $.grep(hosts, <span style="color: #0000ff">function</span><span style="color: #000000"> (value, index) {
+                            </span><span style="color: #0000ff">return</span> value.indexOf(host) &gt; -1<span style="color: #000000">;
+                        }) : hosts),
+                        </span><span style="color: #008000">//</span><span style="color: #008000">最终列表的邮箱</span>
+                        findedResults = $.map(findedHosts, <span style="color: #0000ff">function</span><span style="color: #000000"> (value, index) {
+                            </span><span style="color: #0000ff">return</span> name + '@' +<span style="color: #000000"> value;
+                        });
+                    </span><span style="color: #008000">//</span><span style="color: #008000">增加一个自我输入</span>
+                    result =<span style="color: #000000"> result.concat(findedResults);
+                }
+                response(result);
+            }
+        });
+
+        </span><span style="color: #008000">//</span><span style="color: #008000">将生日执行日历ui</span>
+        $('#date'<span style="color: #000000">).datepicker({
+            showOtherMonths:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+            changeYear:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+            changeMonth:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+            yearSuffix:</span>''<span style="color: #000000">
+        });
+    });</span></pre>
+</div>
+<p>&nbsp;</p></div>

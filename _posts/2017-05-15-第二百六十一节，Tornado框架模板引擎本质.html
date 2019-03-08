@@ -1,0 +1,715 @@
+第二百六十一节，Tornado框架模板引擎本质
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Tornado框架模板引擎本质</strong></p>
+<p><span style="color: #0000ff"><strong>只需要了解一下即可</strong></span></p>
+<p><strong>本篇就来详细的剖析模板处理的整个过程。</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170515213651619-579825920.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p>上图是返回给用户一个html文件的整个流程，较之前的Demo多了绿色流线的步骤，其实就是把【self.write('hello world')】变成了【self.render('main.html')】，对于所有的绿色流线只做了五件事：</p>
+<ul>
+<li>使用内置的open函数读取Html文件中的内容</li>
+<li>根据模板语言的标签分割Html文件的内容，例如：{{}} 或 {%%}</li>
+<li>将分割后的部分数据块格式化成特殊的字符串（表达式）</li>
+<li>通过python的内置函数执行字符串表达式，即：将html文件的内容和嵌套的数据整合</li>
+<li>将数据返回给请求客户端</li>
+</ul>
+<p>所以，如果要返回给客户端对于一个html文件来说，根据上述的5个阶段其内容的变化过程应该是这样：</p>
+<div class="cnblogs_code"><img id="code_img_opened_0fb99db3-422a-47d1-8012-d45a5c17e401" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_0fb99db3-422a-47d1-8012-d45a5c17e401" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("main.html",**{'data':['11','22','33'],'title':'main'})
+
+[main.html]
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head lang="en"&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;{{title}}&lt;/h1&gt;
+
+    {% for item in data %}
+        &lt;h3&gt;{{item}}&lt;/h3&gt;
+    {% end %}
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<div class="cnblogs_code"><img id="code_img_opened_5596542a-758f-4e8f-83c1-dacba368ce12" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_5596542a-758f-4e8f-83c1-dacba368ce12" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head lang="en"&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;{{title}}&lt;/h1&gt;
+
+    {% for item in data %}
+        &lt;h3&gt;{{item}}&lt;/h3&gt;
+    {% end %}
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<div class="cnblogs_code"><img id="code_img_opened_6c32294f-9380-43f8-a9f0-1377c00064d1" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_6c32294f-9380-43f8-a9f0-1377c00064d1" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>第1块：'&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head lang="en"&gt;&lt;meta charset="UTF-8"&gt;&lt;title&gt;&lt;/title&gt;&lt;/head&gt;&lt;h1&gt;'
+第2块：'title'
+第3块：'&lt;/h1&gt; \n\n'
+第4块：'for item in data'
+    第4.1块：'\n &lt;h3&gt;'
+    第4.2块：'item'
+    第4.3块：'&lt;/h3&gt; \n'
+第五块：'&lt;/body&gt;'</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<div class="cnblogs_code"><img id="code_img_opened_7a557f6a-5e91-4b37-b064-d36fbfd3ef25" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_7a557f6a-5e91-4b37-b064-d36fbfd3ef25" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>'def _execute():
+    _buffer = []
+    _buffer.append(\\'&lt;!DOCTYPE html&gt;\\n&lt;html&gt;\\n&lt;head lang="en"&gt;\\n&lt;meta charset="UTF-8"&gt;\\n&lt;title&gt;&lt;/title&gt;\\n&lt;/head&gt;\\n&lt;body&gt;\\n&lt;h1&gt;\\')
+    _tmp = title
+    if isinstance(_tmp, str): _buffer.append(_tmp)
+    elif isinstance(_tmp, unicode): _buffer.append(_tmp.encode(\\'utf-8\\'))
+    else: _buffer.append(str(_tmp))
+    _buffer.append(\\'&lt;/h1&gt;\\n\\')
+    for item in data:
+        _buffer.append(\\'\\n&lt;h3&gt;\\')
+        _tmp = item
+        if isinstance(_tmp, str): _buffer.append(_tmp)
+        elif isinstance(_tmp, unicode): _buffer.append(_tmp.encode(\\'utf-8\\'))
+        else: _buffer.append(str(_tmp))
+        _buffer.append(\\'&lt;/h3&gt;\\n\\')
+    _buffer.append(\\'\\n&lt;/body&gt;\\n&lt;/html&gt;\\')
+    return \\'\\'.join(_buffer)
+'</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<p>&nbsp;</p>
+<h3><span style="color: #ff0000">RequestHandler的render方法</span></h3>
+<p>此段代码主要有三项任务：</p>
+<ul>
+<li><strong>获取Html文件内容并把数据（程序数据或框架自带数据）嵌套在内容中的指定标签中</strong>（本篇主题）</li>
+<li>执行ui_modules，再次在html中插入内容，例：head，js文件、js内容、css文件、css内容和body</li>
+<li>内部调用客户端socket，将处理请求后的数据返回给请求客户端</li>
+<li>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">class</span><span style="color: #000000"> RequestHandler(object):
+ 
+    </span><span style="color: #0000ff">def</span> render(self, template_name, **<span style="color: #000000">kwargs):
+        </span><span style="color: #008000">#</span><span style="color: #008000">根据Html文件名称获取文件内容并把参数kwargs嵌入到内容的指定标签内</span>
+        html = self.render_string(template_name, **<span style="color: #000000">kwargs)
+ 
+        </span><span style="color: #008000">#</span><span style="color: #008000">执行ui_modules，再在html的内容中插入head，js文件、js内容、css文件、css内容和body信息。</span>
+        js_embed =<span style="color: #000000"> []
+        js_files </span>=<span style="color: #000000"> []
+        css_embed </span>=<span style="color: #000000"> []
+        css_files </span>=<span style="color: #000000"> []
+        html_heads </span>=<span style="color: #000000"> []
+        html_bodies </span>=<span style="color: #000000"> []
+        </span><span style="color: #0000ff">for</span> module <span style="color: #0000ff">in</span> getattr(self, <span style="color: #800000">"</span><span style="color: #800000">_active_modules</span><span style="color: #800000">"</span><span style="color: #000000">, {}).itervalues():
+            embed_part </span>=<span style="color: #000000"> module.embedded_javascript()
+            </span><span style="color: #0000ff">if</span><span style="color: #000000"> embed_part: js_embed.append(_utf8(embed_part))
+            file_part </span>=<span style="color: #000000"> module.javascript_files()
+            </span><span style="color: #0000ff">if</span><span style="color: #000000"> file_part:
+                </span><span style="color: #0000ff">if</span><span style="color: #000000"> isinstance(file_part, basestring):
+                    js_files.append(file_part)
+                </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+                    js_files.extend(file_part)
+            embed_part </span>=<span style="color: #000000"> module.embedded_css()
+            </span><span style="color: #0000ff">if</span><span style="color: #000000"> embed_part: css_embed.append(_utf8(embed_part))
+            file_part </span>=<span style="color: #000000"> module.css_files()
+            </span><span style="color: #0000ff">if</span><span style="color: #000000"> file_part:
+                </span><span style="color: #0000ff">if</span><span style="color: #000000"> isinstance(file_part, basestring):
+                    css_files.append(file_part)
+                </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+                    css_files.extend(file_part)
+            head_part </span>=<span style="color: #000000"> module.html_head()
+            </span><span style="color: #0000ff">if</span><span style="color: #000000"> head_part: html_heads.append(_utf8(head_part))
+            body_part </span>=<span style="color: #000000"> module.html_body()
+            </span><span style="color: #0000ff">if</span><span style="color: #000000"> body_part: html_bodies.append(_utf8(body_part))
+        </span><span style="color: #0000ff">if</span> js_files:<span style="color: #008000">#</span><span style="color: #008000">添加js文件</span>
+            <span style="color: #008000">#</span><span style="color: #008000"> Maintain order of JavaScript files given by modules</span>
+            paths =<span style="color: #000000"> []
+            unique_paths </span>=<span style="color: #000000"> set()
+            </span><span style="color: #0000ff">for</span> path <span style="color: #0000ff">in</span><span style="color: #000000"> js_files:
+                </span><span style="color: #0000ff">if</span> <span style="color: #0000ff">not</span> path.startswith(<span style="color: #800000">"</span><span style="color: #800000">/</span><span style="color: #800000">"</span>) <span style="color: #0000ff">and</span> <span style="color: #0000ff">not</span> path.startswith(<span style="color: #800000">"</span><span style="color: #800000">http:</span><span style="color: #800000">"</span><span style="color: #000000">):
+                    path </span>=<span style="color: #000000"> self.static_url(path)
+                </span><span style="color: #0000ff">if</span> path <span style="color: #0000ff">not</span> <span style="color: #0000ff">in</span><span style="color: #000000"> unique_paths:
+                    paths.append(path)
+                    unique_paths.add(path)
+            js </span>= <span style="color: #800000">''</span>.join(<span style="color: #800000">'</span><span style="color: #800000">&lt;script src="</span><span style="color: #800000">'</span> + escape.xhtml_escape(p) +
+                         <span style="color: #800000">'</span><span style="color: #800000">" type="text/javascript"&gt;&lt;/script&gt;</span><span style="color: #800000">'</span>
+                         <span style="color: #0000ff">for</span> p <span style="color: #0000ff">in</span><span style="color: #000000"> paths)
+            sloc </span>= html.rindex(<span style="color: #800000">'</span><span style="color: #800000">&lt;/body&gt;</span><span style="color: #800000">'</span><span style="color: #000000">)
+            html </span>= html[:sloc] + js + <span style="color: #800000">'</span><span style="color: #800000">\n</span><span style="color: #800000">'</span> +<span style="color: #000000"> html[sloc:]
+        </span><span style="color: #0000ff">if</span> js_embed:<span style="color: #008000">#</span><span style="color: #008000">添加js内容</span>
+            js = <span style="color: #800000">'</span><span style="color: #800000">&lt;script type="text/javascript"&gt;\n//&lt;![CDATA[\n</span><span style="color: #800000">'</span> +<span style="color: #000000"> \
+                </span><span style="color: #800000">'</span><span style="color: #800000">\n</span><span style="color: #800000">'</span>.join(js_embed) + <span style="color: #800000">'</span><span style="color: #800000">\n//]]&gt;\n&lt;/script&gt;</span><span style="color: #800000">'</span><span style="color: #000000">
+            sloc </span>= html.rindex(<span style="color: #800000">'</span><span style="color: #800000">&lt;/body&gt;</span><span style="color: #800000">'</span><span style="color: #000000">)
+            html </span>= html[:sloc] + js + <span style="color: #800000">'</span><span style="color: #800000">\n</span><span style="color: #800000">'</span> +<span style="color: #000000"> html[sloc:]
+        </span><span style="color: #0000ff">if</span> css_files:<span style="color: #008000">#</span><span style="color: #008000">添加css文件</span>
+            paths =<span style="color: #000000"> []
+            unique_paths </span>=<span style="color: #000000"> set()
+            </span><span style="color: #0000ff">for</span> path <span style="color: #0000ff">in</span><span style="color: #000000"> css_files:
+                </span><span style="color: #0000ff">if</span> <span style="color: #0000ff">not</span> path.startswith(<span style="color: #800000">"</span><span style="color: #800000">/</span><span style="color: #800000">"</span>) <span style="color: #0000ff">and</span> <span style="color: #0000ff">not</span> path.startswith(<span style="color: #800000">"</span><span style="color: #800000">http:</span><span style="color: #800000">"</span><span style="color: #000000">):
+                    path </span>=<span style="color: #000000"> self.static_url(path)
+                </span><span style="color: #0000ff">if</span> path <span style="color: #0000ff">not</span> <span style="color: #0000ff">in</span><span style="color: #000000"> unique_paths:
+                    paths.append(path)
+                    unique_paths.add(path)
+            css </span>= <span style="color: #800000">''</span>.join(<span style="color: #800000">'</span><span style="color: #800000">&lt;link href="</span><span style="color: #800000">'</span> + escape.xhtml_escape(p) + <span style="color: #800000">'</span><span style="color: #800000">" </span><span style="color: #800000">'</span>
+                          <span style="color: #800000">'</span><span style="color: #800000">type="text/css" rel="stylesheet"/&gt;</span><span style="color: #800000">'</span>
+                          <span style="color: #0000ff">for</span> p <span style="color: #0000ff">in</span><span style="color: #000000"> paths)
+            hloc </span>= html.index(<span style="color: #800000">'</span><span style="color: #800000">&lt;/head&gt;</span><span style="color: #800000">'</span><span style="color: #000000">)
+            html </span>= html[:hloc] + css + <span style="color: #800000">'</span><span style="color: #800000">\n</span><span style="color: #800000">'</span> +<span style="color: #000000"> html[hloc:]
+        </span><span style="color: #0000ff">if</span> css_embed:<span style="color: #008000">#</span><span style="color: #008000">添加css内容</span>
+            css = <span style="color: #800000">'</span><span style="color: #800000">&lt;style type="text/css"&gt;\n</span><span style="color: #800000">'</span> + <span style="color: #800000">'</span><span style="color: #800000">\n</span><span style="color: #800000">'</span>.join(css_embed) +<span style="color: #000000"> \
+                </span><span style="color: #800000">'</span><span style="color: #800000">\n&lt;/style&gt;</span><span style="color: #800000">'</span><span style="color: #000000">
+            hloc </span>= html.index(<span style="color: #800000">'</span><span style="color: #800000">&lt;/head&gt;</span><span style="color: #800000">'</span><span style="color: #000000">)
+            html </span>= html[:hloc] + css + <span style="color: #800000">'</span><span style="color: #800000">\n</span><span style="color: #800000">'</span> +<span style="color: #000000"> html[hloc:]
+        </span><span style="color: #0000ff">if</span> html_heads:<span style="color: #008000">#</span><span style="color: #008000">添加html的header</span>
+            hloc = html.index(<span style="color: #800000">'</span><span style="color: #800000">&lt;/head&gt;</span><span style="color: #800000">'</span><span style="color: #000000">)
+            html </span>= html[:hloc] + <span style="color: #800000">''</span>.join(html_heads) + <span style="color: #800000">'</span><span style="color: #800000">\n</span><span style="color: #800000">'</span> +<span style="color: #000000"> html[hloc:]
+        </span><span style="color: #0000ff">if</span> html_bodies:<span style="color: #008000">#</span><span style="color: #008000">添加html的body</span>
+            hloc = html.index(<span style="color: #800000">'</span><span style="color: #800000">&lt;/body&gt;</span><span style="color: #800000">'</span><span style="color: #000000">)
+            html </span>= html[:hloc] + <span style="color: #800000">''</span>.join(html_bodies) + <span style="color: #800000">'</span><span style="color: #800000">\n</span><span style="color: #800000">'</span> +<span style="color: #000000"> html[hloc:]
+             
+        </span><span style="color: #008000">#</span><span style="color: #008000">把处理后的信息响应给客户端</span>
+        self.finish(html)</pre>
+</div>
+<p>&nbsp;</p>
+</li>
+</ul>
+<div class="cnblogs_Highlighter sh-gutter">&nbsp;</div>
+<p>对于上述三项任务，第一项是模板语言的重中之重，读取html文件并将数据嵌套到指定标签中，以下的步骤用于剖析整个过程（详情见下文）；第二项是对返会给用户内容的补充，也就是在第一项处理完成之后，利用ui_modules再次在html中插入内容（head，js文件、js内容、css文件、css内容和body）；第三项是通过socket将内容响应给客户端（见上篇）。</p>
+<p>对于ui_modules，每一个ui_module其实就是一个类，一旦注册并激活了该ui_module，tornado便会自动执行其中的方法：embedded_javascript、javascript_files、embedded_css、css_files、html_head、html_body和render ，从而实现对html内容的补充。（执行过程见上述代码）</p>
+<p><strong>自定义UI Modules</strong></p>
+<p>此处是一个完整的&nbsp;创建&nbsp;--&gt;&nbsp;注册&nbsp;--&gt;&nbsp;激活&nbsp;的Demo</p>
+<p>目录结构：</p>
+<p>　　├── index.py<br>　　├── static<br>　　└── views<br>　　　　　└── index.html</p>
+<div class="cnblogs_code"><img id="code_img_opened_644cff5a-b788-4325-a777-2b6a27d46afb" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_644cff5a-b788-4325-a777-2b6a27d46afb" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
+
+import tornado.ioloop
+import tornado.web
+
+
+class CustomModule(tornado.web.UIModule):
+    def embedded_javascript(self):
+        return 'embedded_javascript'
+
+    def javascript_files(self):
+        return 'javascript_files'
+
+    def embedded_css(self):
+        return 'embedded_css'
+
+    def css_files(self):
+        return 'css_files'
+
+    def html_head(self):
+        return 'html_head'
+
+    def html_body(self):
+        return 'html_body'
+
+    def render(self):
+        return 'render'
+
+
+class MainHandler(tornado.web.RequestHandler):
+
+    def get(self):
+        self.render('index.html')
+
+settings = {
+    'static_path': 'static',
+    "template_path": 'views',
+    "ui_modules": {'Foo': CustomModule},
+    }
+
+application = tornado.web.Application([(r"/", MainHandler), ], **settings)
+
+if __name__ == "__main__":
+    application.listen(8888)
+    tornado.ioloop.IOLoop.instance().start()</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<div class="cnblogs_code"><img id="code_img_opened_80176ef4-24a4-4084-b8b0-239c89bc43d8" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_80176ef4-24a4-4084-b8b0-239c89bc43d8" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head lang="en"&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;hr&gt;
+    {% module Foo() %}
+    &lt;hr&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<div class="cnblogs_code"><img id="code_img_opened_989940de-15ff-4064-abed-a4afd5d9f665" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_989940de-15ff-4064-abed-a4afd5d9f665" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head lang="en"&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;&lt;/title&gt;
+    &lt;!-- css_files --&gt;
+    &lt;link href="/static/css_files" type="text/css" rel="stylesheet"&gt;
+    
+    &lt;!-- embedded_css --&gt;
+    &lt;style type="text/css"&gt;
+        embedded_css
+    &lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+    
+    &lt;!-- html_head --&gt;
+    html_head
+
+
+
+    &lt;hr&gt;
+    &lt;!-- redner --&gt;
+    render
+    &lt;hr&gt;
+
+
+    &lt;!-- javascript_files --&gt;
+    &lt;script src="/static/javascript_files" type="text/javascript"&gt;&lt;/script&gt;
+
+
+    &lt;!-- embedded_javascript --&gt;
+    &lt;script type="text/javascript"&gt;
+    //&lt;![CDATA[
+        embedded_javascript
+    //]]&gt;
+    &lt;/script&gt;
+
+    &lt;!-- html_body --&gt;
+    html_body
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3><span style="color: #ff0000">RequestHandler的render_string方法</span></h3>
+<p>该方法是本篇的重中之重，它负责去处理Html模板并返回最终结果，【概述】中提到的5件事中前四件都是此方法来完成的，即：</p>
+<ol><ol>
+<li>创建Loader对象，并执行load方法<br>&nbsp; &nbsp; --&nbsp;通过open函数打开html文件并读取内容，并将内容作为参数又创建一个&nbsp;Template 对象<br>&nbsp; &nbsp; --&nbsp;当执行Template的 __init__ 方法时，根据模板语言的标签 {{}}、{%%}等分割并html文件，最后生成一个字符串表示的函数</li>
+<li>获取所有要嵌入到html模板中的变量，包括：用户返回和框架默认</li>
+<li>执行Template对象的generate方法<br>&nbsp; &nbsp; --&nbsp;编译字符串表示的函数，并将用户定义的值和框架默认的值作为全局变量<br>&nbsp; &nbsp; --&nbsp;执行被编译的函数获取被嵌套了数据的内容，然后将内容返回（用于响应给请求客户端）</li>
+
+
+</ol></ol>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">class</span><span style="color: #000000"> RequestHandler(object):
+ 
+    </span><span style="color: #0000ff">def</span> render_string(self, template_name, **<span style="color: #000000">kwargs):
+         
+        </span><span style="color: #008000">#</span><span style="color: #008000">获取配置文件中指定的模板文件夹路径，即：template_path ＝ 'views'</span>
+        template_path =<span style="color: #000000"> self.get_template_path()
+ 
+        </span><span style="color: #008000">#</span><span style="color: #008000">如果没有配置模板文件的路径，则默认去启动程序所在的目录去找</span>
+        <span style="color: #0000ff">if</span> <span style="color: #0000ff">not</span><span style="color: #000000"> template_path:
+            frame </span>=<span style="color: #000000"> sys._getframe(0)
+            web_file </span>=<span style="color: #000000"> frame.f_code.co_filename
+            </span><span style="color: #0000ff">while</span> frame.f_code.co_filename ==<span style="color: #000000"> web_file:
+                frame </span>=<span style="color: #000000"> frame.f_back
+            template_path </span>=<span style="color: #000000"> os.path.dirname(frame.f_code.co_filename)
+        </span><span style="color: #0000ff">if</span> <span style="color: #0000ff">not</span> getattr(RequestHandler, <span style="color: #800000">"</span><span style="color: #800000">_templates</span><span style="color: #800000">"</span><span style="color: #000000">, None):
+            RequestHandler._templates </span>=<span style="color: #000000"> {}
+         
+        </span><span style="color: #008000">#</span><span style="color: #008000">创建Loader对象，第一次创建后，会将该值保存在RequestHandler的静态字段_template_loaders中</span>
+        <span style="color: #0000ff">if</span> template_path <span style="color: #0000ff">not</span> <span style="color: #0000ff">in</span><span style="color: #000000"> RequestHandler._templates:
+            loader </span>= self.application.settings.get(<span style="color: #800000">"</span><span style="color: #800000">template_loader</span><span style="color: #800000">"</span>) <span style="color: #0000ff">or</span><span style="color: #000000">\
+              template.Loader(template_path)
+            RequestHandler._templates[template_path] </span>=<span style="color: #000000"> loader
+ 
+        </span><span style="color: #008000">#</span><span style="color: #008000">执行Loader对象的load方法，该方法内部执行执行Loader的_create_template方法</span>
+        <span style="color: #008000">#</span><span style="color: #008000">在_create_template方法内部使用open方法会打开html文件并读取html的内容，然后将其作为参数来创建一个Template对象</span>
+        <span style="color: #008000">#</span><span style="color: #008000">Template的构造方法被执行时，内部解析html文件的内容，并根据内部的 {{}} {%%}标签对内容进行分割，最后生成一个字符串类表示的函数并保存在self.code字段中</span>
+        t =<span style="color: #000000"> RequestHandler._templates[template_path].load(template_name)
+         
+        </span><span style="color: #008000">#</span><span style="color: #008000">获取所有要嵌入到html中的值和框架默认提供的值</span>
+        args =<span style="color: #000000"> dict(
+            handler</span>=<span style="color: #000000">self,
+            request</span>=<span style="color: #000000">self.request,
+            current_user</span>=<span style="color: #000000">self.current_user,
+            locale</span>=<span style="color: #000000">self.locale,
+            _</span>=<span style="color: #000000">self.locale.translate,
+            static_url</span>=<span style="color: #000000">self.static_url,
+            xsrf_form_html</span>=<span style="color: #000000">self.xsrf_form_html,
+            reverse_url</span>=<span style="color: #000000">self.application.reverse_url
+        )
+        args.update(self.ui)
+        args.update(kwargs)
+ 
+        </span><span style="color: #008000">#</span><span style="color: #008000">执行Template的generate方法，编译字符串表示的函数并将namespace中的所有key，value设置成全局变量，然后执行该函数。从而将值嵌套进html并返回。</span>
+        <span style="color: #0000ff">return</span> t.generate(**args)</pre>
+</div>
+<div class="cnblogs_code"><img id="code_img_opened_da214b79-0db7-4567-b7bf-5058c34f9db5" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_da214b79-0db7-4567-b7bf-5058c34f9db5" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>class Loader(object):
+    """A template loader that loads from a single root directory.
+
+    You must use a template loader to use template constructs like
+    {% extends %} and {% include %}. Loader caches all templates after
+    they are loaded the first time.
+    """
+    def __init__(self, root_directory):
+        self.root = os.path.abspath(root_directory)
+        self.templates = {}</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<div class="cnblogs_code"><img id="code_img_opened_294833a3-f33b-40c2-8ef4-4349ae9f2c61" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_294833a3-f33b-40c2-8ef4-4349ae9f2c61" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>class Loader(object):
+    def load(self, name, parent_path=None):
+        name = self.resolve_path(name, parent_path=parent_path)
+        if name not in self.templates:
+            path = os.path.join(self.root, name)
+            f = open(path, "r")
+            #读取html文件的内容
+            #创建Template对象
+            #name是文件名
+            self.templates[name] = Template(f.read(), name=name, loader=self)
+            f.close()
+        return self.templates[name]</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<div class="cnblogs_code"><img id="code_img_opened_550dabee-654f-4273-bbf6-cd1a1c21ee8f" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_550dabee-654f-4273-bbf6-cd1a1c21ee8f" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>class Template(object):
+
+    def __init__(self, template_string, name="&lt;string&gt;", loader=None,compress_whitespace=None):
+        # template_string是Html文件的内容
+
+        self.name = name
+        if compress_whitespace is None:
+            compress_whitespace = name.endswith(".html") or name.endswith(".js")
+        
+        #将内容封装到_TemplateReader对象中，用于之后根据模板语言的标签分割html文件
+        reader = _TemplateReader(name, template_string)
+        
+        #分割html文件成为一个一个的对象
+        #执行_parse方法，将html文件分割成_ChunkList对象
+        self.file = _File(_parse(reader))
+        
+        #将html内容格式化成字符串表示的函数
+        self.code = self._generate_python(loader, compress_whitespace)
+        
+        try:
+            #将字符串表示的函数编译成函数
+            self.compiled = compile(self.code, self.name, "exec")
+            
+        except:
+            formatted_code = _format_code(self.code).rstrip()
+            logging.error("%s code:\n%s", self.name, formatted_code)
+            raise</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<div class="cnblogs_code"><img id="code_img_opened_e6d935b2-1694-4420-a70f-58309ce74fbc" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_e6d935b2-1694-4420-a70f-58309ce74fbc" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>class Template(object):
+    def generate(self, **kwargs):
+        """Generate this template with the given arguments."""
+        namespace = {
+            "escape": escape.xhtml_escape,
+            "xhtml_escape": escape.xhtml_escape,
+            "url_escape": escape.url_escape,
+            "json_encode": escape.json_encode,
+            "squeeze": escape.squeeze,
+            "linkify": escape.linkify,
+            "datetime": datetime,
+        }
+
+        #创建变量环境并执行函数，详细Demo见上一篇博文
+        namespace.update(kwargs)
+        exec self.compiled in namespace
+        execute = namespace["_execute"]
+
+        try:
+            #执行编译好的字符串格式的函数，获取嵌套了值的html文件
+            return execute()
+        except:
+            formatted_code = _format_code(self.code).rstrip()
+            logging.error("%s code:\n%s", self.name, formatted_code)
+            raise</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<p>其中涉及的类有：</p>
+<div class="cnblogs_code"><img id="code_img_opened_252d6001-0bc9-480e-9b5b-388a4ab03d01" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_252d6001-0bc9-480e-9b5b-388a4ab03d01" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>class _TemplateReader(object):
+    def __init__(self, name, text):
+        self.name = name
+        self.text = text
+        self.line = 0
+        self.pos = 0
+
+    def find(self, needle, start=0, end=None):
+        assert start &gt;= 0, start
+        pos = self.pos
+        start += pos
+        if end is None:
+            index = self.text.find(needle, start)
+        else:
+            end += pos
+            assert end &gt;= start
+            index = self.text.find(needle, start, end)
+        if index != -1:
+            index -= pos
+        return index
+
+    def consume(self, count=None):
+        if count is None:
+            count = len(self.text) - self.pos
+        newpos = self.pos + count
+        self.line += self.text.count("\n", self.pos, newpos)
+        s = self.text[self.pos:newpos]
+        self.pos = newpos
+        return s
+
+    def remaining(self):
+        return len(self.text) - self.pos
+
+    def __len__(self):
+        return self.remaining()
+
+    def __getitem__(self, key):
+        if type(key) is slice:
+            size = len(self)
+            start, stop, step = key.indices(size)
+            if start is None: start = self.pos
+            else: start += self.pos
+            if stop is not None: stop += self.pos
+            return self.text[slice(start, stop, step)]
+        elif key &lt; 0:
+            return self.text[key]
+        else:
+            return self.text[self.pos + key]
+
+    def __str__(self):
+        return self.text[self.pos:]</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<div class="cnblogs_code"><img id="code_img_opened_69352c95-395f-4ba8-8184-68afb085ac20" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_69352c95-395f-4ba8-8184-68afb085ac20" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>class _ChunkList(_Node):
+    def __init__(self, chunks):
+        self.chunks = chunks
+
+    def generate(self, writer):
+        for chunk in self.chunks:
+            chunk.generate(writer)
+
+    def each_child(self):
+        return self.chunks</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<div class="cnblogs_code"><img id="code_img_opened_791e15c7-3cf8-4177-9d8c-bb4968279348" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_791e15c7-3cf8-4177-9d8c-bb4968279348" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>def _parse(reader, in_block=None):
+    
+    #默认创建一个内容为空列表的_ChunkList对象
+    body = _ChunkList([])
+    
+    # 将html块添加到 body.chunks 列表中
+    while True:
+        # Find next template directive
+        curly = 0
+        while True:
+            curly = reader.find("{", curly)
+            if curly == -1 or curly + 1 == reader.remaining():
+                # EOF
+                if in_block:
+                    raise ParseError("Missing {%% end %%} block for %s" %in_block)
+                body.chunks.append(_Text(reader.consume()))
+                return body
+            # If the first curly brace is not the start of a special token,
+            # start searching from the character after it
+            if reader[curly + 1] not in ("{", "%"):
+                curly += 1
+                continue
+            # When there are more than 2 curlies in a row, use the
+            # innermost ones.  This is useful when generating languages
+            # like latex where curlies are also meaningful
+            if (curly + 2 &lt; reader.remaining() and
+                reader[curly + 1] == '{' and reader[curly + 2] == '{'):
+                curly += 1
+                continue
+            break
+
+        # Append any text before the special token
+        if curly &gt; 0:
+            body.chunks.append(_Text(reader.consume(curly)))
+
+        start_brace = reader.consume(2)
+        line = reader.line
+
+        # Expression
+        if start_brace == "{{":
+            end = reader.find("}}")
+            if end == -1 or reader.find("\n", 0, end) != -1:
+                raise ParseError("Missing end expression }} on line %d" % line)
+            contents = reader.consume(end).strip()
+            reader.consume(2)
+            if not contents:
+                raise ParseError("Empty expression on line %d" % line)
+            body.chunks.append(_Expression(contents))
+            continue
+
+        # Block
+        assert start_brace == "{%", start_brace
+        end = reader.find("%}")
+        if end == -1 or reader.find("\n", 0, end) != -1:
+            raise ParseError("Missing end block %%} on line %d" % line)
+        contents = reader.consume(end).strip()
+        reader.consume(2)
+        if not contents:
+            raise ParseError("Empty block tag ({%% %%}) on line %d" % line)
+
+        operator, space, suffix = contents.partition(" ")
+        suffix = suffix.strip()
+
+        # Intermediate ("else", "elif", etc) blocks
+        intermediate_blocks = {
+            "else": set(["if", "for", "while"]),
+            "elif": set(["if"]),
+            "except": set(["try"]),
+            "finally": set(["try"]),
+        }
+        allowed_parents = intermediate_blocks.get(operator)
+        if allowed_parents is not None:
+            if not in_block:
+                raise ParseError("%s outside %s block" %
+                            (operator, allowed_parents))
+            if in_block not in allowed_parents:
+                raise ParseError("%s block cannot be attached to %s block" % (operator, in_block))
+            body.chunks.append(_IntermediateControlBlock(contents))
+            continue
+
+        # End tag
+        elif operator == "end":
+            if not in_block:
+                raise ParseError("Extra {%% end %%} block on line %d" % line)
+            return body
+
+        elif operator in ("extends", "include", "set", "import", "from",
+                          "comment"):
+            if operator == "comment":
+                continue
+            if operator == "extends":
+                suffix = suffix.strip('"').strip("'")
+                if not suffix:
+                    raise ParseError("extends missing file path on line %d" % line)
+                block = _ExtendsBlock(suffix)
+            elif operator in ("import", "from"):
+                if not suffix:
+                    raise ParseError("import missing statement on line %d" % line)
+                block = _Statement(contents)
+            elif operator == "include":
+                suffix = suffix.strip('"').strip("'")
+                if not suffix:
+                    raise ParseError("include missing file path on line %d" % line)
+                block = _IncludeBlock(suffix, reader)
+            elif operator == "set":
+                if not suffix:
+                    raise ParseError("set missing statement on line %d" % line)
+                block = _Statement(suffix)
+            body.chunks.append(block)
+            continue
+
+        elif operator in ("apply", "block", "try", "if", "for", "while"):
+            # parse inner body recursively
+            block_body = _parse(reader, operator)
+            if operator == "apply":
+                if not suffix:
+                    raise ParseError("apply missing method name on line %d" % line)
+                block = _ApplyBlock(suffix, block_body)
+            elif operator == "block":
+                if not suffix:
+                    raise ParseError("block missing name on line %d" % line)
+                block = _NamedBlock(suffix, block_body)
+            else:
+                block = _ControlBlock(contents, block_body)
+            body.chunks.append(block)
+            continue
+
+        else:
+            raise ParseError("unknown operator: %r" % operator)</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<div class="cnblogs_code"><img id="code_img_opened_593f73f6-8c51-4e56-8ee6-3f4ba6c5c465" class="code_img_opened" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_593f73f6-8c51-4e56-8ee6-3f4ba6c5c465" class="cnblogs_code_hide">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+<pre>class Template(object):
+
+    def _generate_python(self, loader, compress_whitespace):
+        buffer = cStringIO.StringIO()
+        try:
+            named_blocks = {}
+            ancestors = self._get_ancestors(loader)
+            ancestors.reverse()
+            for ancestor in ancestors:
+                ancestor.find_named_blocks(loader, named_blocks)
+            self.file.find_named_blocks(loader, named_blocks)
+            writer = _CodeWriter(buffer, named_blocks, loader, self,
+                                 compress_whitespace)
+            ancestors[0].generate(writer)
+            return buffer.getvalue()
+        finally:
+            buffer.close()     </pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div>
+</div>
+</div>
+<p>so，上述整个过程其实就是将一个html转换成一个函数，并为该函数提供全局变量，然后执行该函数！！</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170515214822650-1154401668.png" alt=""></p>
+<h3><span style="color: #ff0000">结束语</span></h3>
+<p><span style="color: #0000ff"><strong>上述就是对于模板语言的整个流程，其本质就是处理html文件内容将html文件内容转换成函数，然后为该函数提供全局变量环境（即：我们想要嵌套进html中的值和框架自带的值），再之后执行该函数从而获取到处理后的结果，再再之后则执行UI_Modules继续丰富返回结果，例如：添加js文件、添加js内容块、添加css文件、添加css内容块、在body内容第一行插入数据、在body内容最后一样插入数据，最终，通过soekct客户端对象将处理之后的返回结果（字符串）响应给请求用户</strong>。</span></p></div>

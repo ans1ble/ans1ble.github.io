@@ -1,0 +1,79 @@
+第三百二十节，Django框架，生成二维码
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百二十节，Django框架，生成二维码</strong></p>
+<p><strong>用Python来生成二维码，需要qrcode模块，<span style="color: #ff0000">qrcode模块</span>依赖<span style="color: #ff0000">Image 模块</span>，所以首先安装这两个模块</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>生成二维码保存图片在本地</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">import</span><span style="color: #000000"> qrcode
+ 
+img </span>= qrcode.make(<span style="color: #800000">'</span><span style="color: #800000">http://www.jxiou.com</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #008000">#</span><span style="color: #008000"> img &lt;qrcode.image.pil.PilImage object at 0x1044ed9d0&gt;</span>
+<span style="color: #000000"> 
+with open(</span><span style="color: #800000">'</span><span style="color: #800000">test.png</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">wb</span><span style="color: #800000">'</span><span style="color: #000000">) as f:
+    img.save(f)</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>Python中调用：</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">import</span><span style="color: #000000"> qrcode
+</span><span style="color: #0000ff">from</span> qrcode.image.pure <span style="color: #0000ff">import</span><span style="color: #000000"> PymagingImage
+img </span>= qrcode.make(<span style="color: #800000">'</span><span style="color: #800000">Some data here</span><span style="color: #800000">'</span>, image_factory=PymagingImage)</pre>
+</div>
+<p>&nbsp;</p>
+<h2>Django 中使用</h2>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/css"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="/static/css/tou.css"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="/<span style="background-color: #ff99cc">bugyanzhm</span>/"</span><span style="color: #0000ff">/&gt;</span>
+
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>路由映射</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.conf.urls <span style="color: #0000ff">import</span><span style="color: #000000"> url
+</span><span style="color: #0000ff">from</span> django.contrib <span style="color: #0000ff">import</span><span style="color: #000000"> admin
+</span><span style="color: #0000ff">from</span> app1 <span style="color: #0000ff">import</span><span style="color: #000000"> views
+
+urlpatterns </span>=<span style="color: #000000"> [
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">admin/</span><span style="color: #800000">'</span>, admin.site.urls),   <span style="color: #008000">#</span><span style="color: #008000">路由映射admin数据库管理</span>
+    url(r<span style="color: #800000">'</span><span style="color: #800000"><span style="background-color: #ff99cc">articles</span>/</span><span style="color: #800000">'</span><span style="color: #000000">, <span style="background-color: #ff99cc">views.special</span>),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000"><span style="background-color: #ff99cc">yanzhm</span>/</span><span style="color: #800000">'</span><span style="color: #000000">, <span style="background-color: #ff99cc">views.yanzhm</span>)
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>逻辑处理</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render,redirect,HttpResponse
+</span><span style="color: #0000ff">import</span><span style="color: #000000; background-color: #ff99cc"> qrcode
+</span><span style="color: #0000ff">from</span> django.utils.six <span style="color: #0000ff">import</span><span style="color: #000000; background-color: #ff99cc"> BytesIO
+
+</span><span style="color: #008000">#</span><span style="color: #008000">逻辑处理模块</span>
+
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+
+
+    </span><span style="background-color: #ffff00"><span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">app1/index.html</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+
+</span></span><span style="color: #0000ff">def</span><span style="color: #000000"> yanzhm(request):
+    <span style="background-color: #ff99cc">img </span></span><span style="background-color: #ff99cc">= qrcode.make(<span style="color: #800000">'</span><span style="color: #800000">http://www.jxiou.com/</span><span style="color: #800000">'</span>)      <span style="color: #008000">#</span><span style="color: #008000">传入网站计算出二维码图片字节数据</span>
+    buf = BytesIO()                                 <span style="color: #008000">#</span><span style="color: #008000">创建一个BytesIO临时保存生成图片数据</span>
+    img.save(buf)                                   <span style="color: #008000">#</span><span style="color: #008000">将图片字节数据放到BytesIO临时保存</span>
+    image_stream = buf.getvalue()                   <span style="color: #008000">#</span><span style="color: #008000">在BytesIO临时保存拿出数据</span>
+    response = HttpResponse(image_stream, content_type=<span style="color: #800000">"</span><span style="color: #800000">image/jpg</span><span style="color: #800000">"</span>)  <span style="color: #008000">#</span><span style="color: #008000">将二维码数据返回到页面</span>
+    <span style="color: #0000ff">return</span> response</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170721212020089-684992684.png" alt=""></p>
+<p>&nbsp;</p></div>

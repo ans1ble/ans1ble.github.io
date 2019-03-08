@@ -1,0 +1,79 @@
+第一百三十四节，JavaScript，封装库--遮罩锁屏
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong>JavaScript，封装库--遮罩锁屏</strong></span></p>
+<p><span style="color: #ff0000"><strong>封装库新增1个方法</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">* zhe_zhao_suo_ping()方法，将一个区块元素设置成遮罩锁屏区块
+ * 注意：一般需要在css文件将元素设置成隐藏
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.zhe_zhao_suo_ping </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian.length == 1<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> yan_su = <span style="color: #0000ff">null</span><span style="color: #000000">;
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+            yan_su </span>= <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i];
+        }
+        </span><span style="color: #0000ff">var</span> chang_w = getInner().width;  <span style="color: #008000">//</span><span style="color: #008000">getInner()函数库函数，跨浏览器获取浏览器视窗大小</span>
+        <span style="color: #0000ff">var</span> chang_h =<span style="color: #000000"> getInner().height;
+        yan_su.style.width </span>= chang_w + 'px'<span style="color: #000000">;
+        yan_su.style.height </span>= chang_h + 'px'<span style="color: #000000">;
+        yan_su.style.position </span>= 'absolute'<span style="color: #000000">;
+        yan_su.style.top </span>= '0'<span style="color: #000000">;
+        yan_su.style.left </span>= '0'<span style="color: #000000">;
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        alert(</span>"遮罩锁屏区块,只能设置一个区块元素，目前jie_dian数组里是多个元素请检查！"<span style="color: #000000">)
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>遮罩锁屏</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201701/955761-20170115001620744-988774354.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">html代码</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="suo_ping"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>css代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">遮罩锁屏区块</span><span style="color: #008000">*/</span><span style="color: #800000">
+#suo_ping</span>{<span style="color: #ff0000">
+    z-index</span>:<span style="color: #0000ff"> 9998</span>; <span style="color: #008000">/*</span><span style="color: #008000">注意：如果遮罩层上面有元素，它的层级要大于9998</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> #000</span>;<span style="color: #ff0000">
+    filter</span>:<span style="color: #0000ff"> alpha(opacity=50)</span>;<span style="color: #ff0000">
+    opacity</span>:<span style="color: #0000ff"> 0.5</span>;<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> none</span>;
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>前台js代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">弹出登录框加遮罩锁屏</span>
+    <span style="color: #008000">//</span><span style="color: #008000">获取登录框，执行将登录框居中方法，执行浏览器窗口事件方法</span>
+    $().huo_qu_id('login').yuan_su_ju_zhong().chuang_kou_shi_jian(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取登录框，执行将登录框居中方法</span>
+        $().huo_qu_id('login'<span style="color: #000000">).yuan_su_ju_zhong();
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取遮罩锁屏元素，执行遮罩锁屏方法</span>
+        $().huo_qu_id('suo_ping'<span style="color: #000000">).zhe_zhao_suo_ping();
+    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">获取登录元素节点，执行点击事件方法</span>
+    $().huo_qu_class('deng_lu').on_click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取登录框，改变css</span>
+        $().huo_qu_id('login'<span style="color: #000000">).xian_shi();
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取遮罩锁屏元素，执行显示方法，执行遮罩锁屏方法</span>
+        $().huo_qu_id('suo_ping'<span style="color: #000000">).xian_shi().zhe_zhao_suo_ping();
+    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">获取登录框里的关闭元素，执行点击事件方法</span>
+    $().huo_qu_class('close').on_click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取登录框，改变css</span>
+        $().huo_qu_id('login'<span style="color: #000000">).yin_cang();
+        </span><span style="color: #008000">//</span><span style="color: #008000">获取遮罩锁屏元素，执行隐藏方法</span>
+        $().huo_qu_id('suo_ping'<span style="color: #000000">).yin_cang();
+    });</span></pre>
+</div>
+<p>&nbsp;</p></div>

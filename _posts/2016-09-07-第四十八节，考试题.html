@@ -1,0 +1,614 @@
+第四十八节，考试题
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff;"><strong>一，基础题</strong></span><br /><span style="color: #ff0000;"><strong>1.计算100-300之间，所有能被3和7整除的，所有数之和</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+shu =<span style="color: #000000;"> 0
+</span><span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(100,301<span style="color: #000000;">):
+    </span><span style="color: #0000ff;">if</span> i % 3 == 0 <span style="color: #0000ff;">and</span> i % 7 ==<span style="color: #000000;"> 0:
+        shu </span>+=<span style="color: #000000;"> i
+</span><span style="color: #0000ff;">print</span>(shu)</pre>
+</div>
+<p><span style="color: #ff0000;"><strong>2.定义函数统计一个字符串中大写字母，小写字母，数字的个数，并返回结果</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+zfch = <span style="color: #800000;">"</span><span style="color: #800000;">DGGDHJHJURTUTGhrhyktktreh6544636</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建字符串</span>
+
+<span style="color: #0000ff;">def</span> fjk(s): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数接收字符串</span>
+    a = 0 <span style="color: #008000;">#</span><span style="color: #008000;">循环时统计大写字母</span>
+    b = 0 <span style="color: #008000;">#</span><span style="color: #008000;">循环时统计小写字母</span>
+    c = 0 <span style="color: #008000;">#</span><span style="color: #008000;">循环时统计数字</span>
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> s:
+        </span><span style="color: #0000ff;">if</span> i.isupper(): <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的字符如果是大写字母</span>
+            a += 1 <span style="color: #008000;">#</span><span style="color: #008000;">将统计大写字母加1</span>
+        <span style="color: #0000ff;">if</span> i.islower(): <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的字符如果是小写字母</span>
+            b += 1 <span style="color: #008000;">#</span><span style="color: #008000;">将统计小写字母加1</span>
+        <span style="color: #0000ff;">if</span> i.isdigit(): <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的字符如果是数字</span>
+            c += 1 <span style="color: #008000;">#</span><span style="color: #008000;">将统计数字加1</span>
+    <span style="color: #0000ff;">print</span>(a,b,c) <span style="color: #008000;">#</span><span style="color: #008000;">最后打印出统计到的大写字母，小写字母，数字的个数</span>
+<span style="color: #000000;">
+
+fjk(zfch) </span><span style="color: #008000;">#</span><span style="color: #008000;">执行函数，将字符串传入函数</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 14 11 7</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>3.获取两个列表 i1=[11,22,33],i2=[22,33,44]中相同的元素集合</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+a = [11,22,33] <span style="color: #008000;">#</span><span style="color: #008000;">创建列表</span>
+a1 = set(a) <span style="color: #008000;">#</span><span style="color: #008000;">将列表转换成集合</span>
+<span style="color: #000000;">
+b </span>= [22,33,44]<span style="color: #008000;">#</span><span style="color: #008000;">创建列表</span>
+b1 = set(b)<span style="color: #008000;">#</span><span style="color: #008000;">将列表转换成集合</span>
+<span style="color: #000000;">
+a1.intersection_update(b1) </span><span style="color: #008000;">#</span><span style="color: #008000;">查找出a集合和b集合都存在的元素,并重新更新到a集合</span>
+<span style="color: #0000ff;">print</span>(a1) <span style="color: #008000;">#</span><span style="color: #008000;">打印出更新后的a集合</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {33, 22}</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>4.将字符串 "老男人" 转换成utf-8编码的字节类型</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">老男人</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">创建字符串</span>
+b = bytes(a,encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将字符串转换成utf-8的字节类型</span>
+<span style="color: #0000ff;">print</span>(b) <span style="color: #008000;">#</span><span style="color: #008000;">打印出字节</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> b'\xe8\x80\x81\xe7\x94\xb7\xe4\xba\xba'</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>5.如何计算数字绝对值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+a = 123456 <span style="color: #008000;">#</span><span style="color: #008000;">创建数字类型</span>
+b = abs(a) <span style="color: #008000;">#</span><span style="color: #008000;">取数字的绝对值,也就是无论是正数还是负数取它的绝对值</span>
+<span style="color: #0000ff;">print</span>(b) <span style="color: #008000;">#</span><span style="color: #008000;">打印出绝对值</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 123456</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>&nbsp;6.简述深浅拷贝原理</strong></span></p>
+<p>浅拷贝值拷贝外层</p>
+<p>深拷贝除最底层外都拷贝</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>7.举例布尔值为False的值</strong></span></p>
+<p>布尔值False 为空，一切返回为空的为False，如：空字符串，空列表，空字典，空元祖，数字类型0，None等空值的为False</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>8.内置函数all和any的区别</strong></span></p>
+<p>all() 接收可迭代类型，循环参数，如果每个元素都为真，那么all的返回值为真，有一个元素为假返回的都是假</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">all() 接收可迭代类型，循环参数，如果每个元素都为真，那么all的返回值为真，有一个元素为假返回的都是假</span><span style="color: #008000;">
+#</span><span style="color: #008000;">假数据有，0（数字），None（返回值），"" (空字符串)，[] (空列表)，（） （空元组），{} （空字典）</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列1</span>
+a = [1,<span style="color: #800000;">"</span><span style="color: #800000;">123</span><span style="color: #800000;">"</span>,[123,456],(123,456),{<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>:123,<span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>:456<span style="color: #000000;">}]
+f1 </span>=<span style="color: #000000;"> all(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(f1)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出 True （真）</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列2</span>
+b = [0,<span style="color: #800000;">"</span><span style="color: #800000;">你好</span><span style="color: #800000;">"</span>,[123,456],(123,456),{<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>:123,<span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>:456<span style="color: #000000;">}]
+f2 </span>=<span style="color: #000000;"> all(b)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(f2)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出 False （假）说明：里面的类型中有一个或者多个为假</span></pre>
+</div>
+<p>any() 接收可迭代类型，循环参数，如果有一个元素为真，那么any的返回值为真，全部为假才返回假</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">any() 接收可迭代类型，循环参数，如果有一个元素都为真，那么all的返回值为真，全部为假才返回假</span><span style="color: #008000;">
+#</span><span style="color: #008000;">假数据有，0（数字），None（返回值），"" (空字符串)，[] (空列表)，（） （空元组），{} （空字典）</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列1</span>
+a = [0,<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span>,[],(),{}]    <span style="color: #008000;">#</span><span style="color: #008000;">其中有1个为真</span>
+f1 =<span style="color: #000000;"> any(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(f1)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出 True （真）</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列2</span>
+b = [0,<span style="color: #800000;">""</span>,[],(),{}]     <span style="color: #008000;">#</span><span style="color: #008000;">全部为假</span>
+f2 =<span style="color: #000000;"> all(b)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(f2)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出 False （假）说明：里面的类型全部为假</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>9.利用内置函数将十进制数字12，分别转换成二进制，八进制，十六进制表示的字符串</strong></span></p>
+<p>二进制</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+a = 12<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> bin(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0b1100</span></pre>
+</div>
+<p>八进制</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+a = 12<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> oct(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0o14</span></pre>
+</div>
+<p>十六进制</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+a = 12<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> hex(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 0xc</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>10.简述内置函数dir,help,type作用</strong></span></p>
+<p>dir()查看一个对象类的内置方法有哪些</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+a = 12<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> dir(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ['__abs__', '__add__', '__and__', '__bool__', '__ceil__']</span></pre>
+</div>
+<p>help()查看一个类的类库功能详情</p>
+<p>type()查看一个对象的类型</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+a = 12<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> type(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;class 'int'&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>11.简述内置函数globals(),locals()作用</strong></span></p>
+<p>globals()获取当前代码里的所有全局变量</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+a = 12<span style="color: #000000;">
+b </span>= 456<span style="color: #000000;">
+c </span>= 789<span style="color: #000000;">
+d </span>=<span style="color: #000000;"> globals()
+</span><span style="color: #0000ff;">print</span>(d)</pre>
+</div>
+<p>locals()获取当前代码里的所有局部变量</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> f1():
+    a </span>= 123<span style="color: #000000;">
+    b </span>= 456<span style="color: #000000;">
+    c </span>= 789
+    <span style="color: #0000ff;">print</span><span style="color: #000000;">(locals()) 
+f1()
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {'c': 789, 'a': 123, 'b': 456}</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>12.简述三元运算书写格式</strong></span></p>
+<pre>三元运算,就是if条件判断，前后各有一个值,指向一个变量<br />条件成立，就将第一个值赋给变量，条件不成立就将第二个值赋给变量<br />就是一个条件判断，和两个不同的值组合成的判断运算，就是三元运算</pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+a = 11<span style="color: #000000;">
+b </span>= <span style="color: #800000;">"</span><span style="color: #800000;">小屁孩</span><span style="color: #800000;">"</span><span style="color: #000000;">
+c </span>= <span style="color: #800000;">"</span><span style="color: #800000;">小青年</span><span style="color: #800000;">"</span>
+<span style="color: #008000;">#</span><span style="color: #008000;">判断如果a变量小于或者等于10就将b变量赋值给nian变量，否则就将c变量赋值给nian变量</span>
+nian = b <span style="color: #0000ff;">if</span> a &lt;= 10 <span style="color: #0000ff;">else</span><span style="color: #000000;"> c
+</span><span style="color: #0000ff;">print</span>(nian)</pre>
+</div>
+<p><span style="color: #ff0000;"><strong>13.简述lambda表达式书写格式</strong></span></p>
+<pre>表达式创建简单的函数</pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">列1</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+f1 </span>= <span style="color: #0000ff;">lambda</span> a,b:a + b   <span style="color: #008000;">#</span><span style="color: #008000;">lambda 表达式定义函数</span>
+f2 = f1 (1,2)   <span style="color: #008000;">#</span><span style="color: #008000;">调用函数</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(f2)
+</span><span style="color: #800000;">"""</span><span style="color: #800000;">列2</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+av </span>= <span style="color: #0000ff;">lambda</span> a:a     <span style="color: #008000;">#</span><span style="color: #008000;">lambda 表达式定义函数</span>
+av1 = av(<span style="color: #800000;">"</span><span style="color: #800000;">你好</span><span style="color: #800000;">"</span>)      <span style="color: #008000;">#</span><span style="color: #008000;">调用函数</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(av1)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 你好</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>14.利用内置函数zip()，实现功能</strong></span><br />	l1 = ["alex",22,33,44,55]<br />	l2 = ["is",22,33,44,55]<br />	l3 = ["good",22,33,44,55]<br />	l4 = ["guy",22,33,44,55]<br />	请获取字符串 s = "alex_is_good_guy"</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+l1 = [<span style="color: #800000;">"</span><span style="color: #800000;">alex</span><span style="color: #800000;">"</span>,22,33,44,55<span style="color: #000000;">]
+l2 </span>= [<span style="color: #800000;">"</span><span style="color: #800000;">is</span><span style="color: #800000;">"</span>,22,33,44,55<span style="color: #000000;">]
+l3 </span>= [<span style="color: #800000;">"</span><span style="color: #800000;">good</span><span style="color: #800000;">"</span>,22,33,44,55<span style="color: #000000;">]
+l4 </span>= [<span style="color: #800000;">"</span><span style="color: #800000;">guy</span><span style="color: #800000;">"</span>,22,33,44,55<span style="color: #000000;">]
+b </span>= zip(l1,l2,l3,l4) <span style="color: #008000;">#</span><span style="color: #008000;">将4个列表的元素，组合成元祖，列表元素个数是多少，就组合成多少个元祖，以每个列表第一个元素组合成一个元祖，以此类推，需要for循环后返回</span>
+<span style="color: #0000ff;">for</span> k, v <span style="color: #0000ff;">in</span> enumerate(b,1): <span style="color: #008000;">#</span><span style="color: #008000;">给b循环对象设置一个键</span>
+    <span style="color: #0000ff;">if</span> k == 1:  <span style="color: #008000;">#</span><span style="color: #008000;">判断如果键等于1</span>
+        <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">_</span><span style="color: #800000;">"</span>.join(v)) <span style="color: #008000;">#</span><span style="color: #008000;">判断如果键等于1，将键等于1的元祖元素链接成一个字符串，打印出来</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> alex_is_good_guy</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>&nbsp;15.简述文件打开模式，r和rb的区别</strong></span></p>
+<p>r 为只读模式 ，为字符串只读模式</p>
+<p>rb 为字节方式只读模式</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>16.文件操作时with的作用</strong></span></p>
+<p>with 自动打开文件，对文件操作后，自动关闭文件,不用写关闭文件函数，而且支持同时打开两个文件（推荐）</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> with 自动打开文件，对文件操作后，自动关闭文件（推荐）</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 格式：with open("文件路径","打开模式") as 句柄变量:</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 返回：句柄变量</span>
+with open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r+</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) as f:    <span style="color: #008000;">#</span><span style="color: #008000;">自动打开文件，对文件操作后，自动关闭文件</span>
+    a = f.read()    <span style="color: #008000;">#</span><span style="color: #008000;">读出文件内容</span>
+    <span style="color: #0000ff;">print</span>(a)    <span style="color: #008000;">#</span><span style="color: #008000;">打印出文件内容</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>17.利用with实现同时打开两个文件（一读一写）</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 列2 同时打开两个文件，将一个文件的内容写入另外一个文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 假如原始文件很大，所以通过循环文件句柄，读一行写一行到新文件，减少内存使用率</span>
+with open(<span style="color: #800000;">"</span><span style="color: #800000;">1.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) as  a, open(<span style="color: #800000;">"</span><span style="color: #800000;">2.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) as b:    <span style="color: #008000;">#</span><span style="color: #008000;">自动打开文件，对文件操作后，自动关闭文件</span>
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> a:     <span style="color: #008000;">#</span><span style="color: #008000;">循环出原始文件的数据</span>
+        b.write(i)  <span style="color: #008000;">#</span><span style="color: #008000;">每循环出一行原始文件数据，写入新文件里</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>18.函数默认返回值是什么</strong></span></p>
+<p>默认返回值是None</p>
+<p><span style="color: #ff0000;"><strong>19.简述函数的普通参数，指定参数，默认参数，动态参数的特点以及注意事项</strong></span></p>
+<p>普通参数</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">普通参数：数量一致，一一对应</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(a,b):
+    c </span>= a +<span style="color: #000000;"> b
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+f1(</span>5,5)</pre>
+</div>
+<p>指定参数</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">指定参数:调用函数时指定参数</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> g1(a,b):
+    c </span>= a +<span style="color: #000000;"> b
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+g1(b </span>= 4, a = 3)</pre>
+</div>
+<p>默认参数</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">默认参数:在定义函数时形式参数指定默认实参</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">def</span> h1(a=5, b=3<span style="color: #000000;">):
+    c </span>= a +<span style="color: #000000;"> b
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+h1()</span></pre>
+</div>
+<p>动态参数</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">动态参数:*args (接收实际参数组合成元组)</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">def</span> i1(*<span style="color: #000000;">args):
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(args)
+i1(</span>123, 456, 789)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>20.通过字符串格式化将7.88123输出时仅保留小数点后两位，列如：bala7.88bala</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">用字符串格式化来保留小数点后多少位数</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+a </span>= <span style="color: #800000;">"</span><span style="color: #800000;">bala</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= 7.88123 <span style="color: #008000;">#</span><span style="color: #008000;">创建一个浮点数</span>
+c = <span style="color: #800000;">"</span><span style="color: #800000;">{:s} {:.2f}{:s}</span><span style="color: #800000;">"</span><span style="color: #000000;">.format(a,b,a)
+</span><span style="color: #0000ff;">print</span>(c)</pre>
+</div>
+<p><span style="color: #ff0000;"><strong>21.判断以下字符串格式化是否正确，如果不正确请改正</strong></span></p>
+<p>a = "iam{name},age{age},really{name}".format(name="seven",age=18)<br />b = "iam{0[0]},age{0[1]}".format(["seven",18]) &nbsp;这个错误</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">iam{name},age{age},really{name}</span><span style="color: #800000;">"</span>.format(name=<span style="color: #800000;">"</span><span style="color: #800000;">seven</span><span style="color: #800000;">"</span>,age=18<span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+b </span>= <span style="color: #800000;">"</span><span style="color: #800000;">iam{0[0]},age{0[1]}</span><span style="color: #800000;">"</span>.format([<span style="color: #800000;">"</span><span style="color: #800000;">seven</span><span style="color: #800000;">"</span>,18<span style="color: #000000;">])
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> iamseven,age18,reallyseven</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> iamseven,age18</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>22.python有几种导入模块的方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">from</span> xxx <span style="color: #0000ff;">import</span><span style="color: #000000;"> xxx
+</span><span style="color: #0000ff;">import</span> xxx</pre>
+</div>
+<p><span style="color: #ff0000;"><strong>23.分页，如果有192个商品，每页显示10个商品，问共需要几页</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+a = divmod(192,10<span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> (19, 2)  19页零两条</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>24.函数传递参数时，是引用还是复制值？</strong></span></p>
+<p>是复制值</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>25.python3中的range函数和python2.7中的range函数有什么区别？</strong></span></p>
+<p>python3是生成器需要循环才能实现，Python2.7是直接生成</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>26.python中导入模块时，如何其搜索路径？</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> sys
+a </span>= sys.path <span style="color: #008000;">#</span><span style="color: #008000;">获取python的各种路径</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> a:
+    </span><span style="color: #0000ff;">print</span>(i)</pre>
+</div>
+<p><span style="color: #ff0000;"><strong>27.sys.argv的作用</strong></span></p>
+<p>获取向脚本文件传入的参数，返回的列表，列表里的第一个元素是脚本文件路径和名称，后面的元素是传入的向脚本传入的参数</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>28.如何获取一个路径的上级目录的路径</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> os
+a </span>= os.path.dirname(<span style="color: #800000;">"</span><span style="color: #800000;">py/lib</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(a)</pre>
+</div>
+<p><span style="color: #ff0000;"><strong>29.请将下三个路径按照a,b,c的顺序拼接起来</strong></span><br />	a = "/Users/seven"<br />	b = "lib"<br />	c = "bin"</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> os
+a </span>= <span style="color: #800000;">"</span><span style="color: #800000;">/Users/seven</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= <span style="color: #800000;">"</span><span style="color: #800000;">lib</span><span style="color: #800000;">"</span><span style="color: #000000;">
+c </span>= <span style="color: #800000;">"</span><span style="color: #800000;">bin</span><span style="color: #800000;">"</span><span style="color: #000000;">
+d </span>=<span style="color: #000000;"> os.path.join(a,b,c)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(d)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> /Users/seven\lib\bin</span></pre>
+</div>
+<p><strong>&nbsp;<span style="color: #ff0000;">30.简述获取一个随机字母的思路</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> random
+</span><span style="color: #800000;">"""</span><span style="color: #800000;">实现4位字母随机数130</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+suij2 </span>= <span style="color: #800000;">""</span>      <span style="color: #008000;">#</span><span style="color: #008000;">统计随机数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(4):      <span style="color: #008000;">#</span><span style="color: #008000;">循环4次</span>
+    rad = random.randrange(65,91)       <span style="color: #008000;">#</span><span style="color: #008000;">每一次循环随机一个65至91之间的一个数赋值rad变量</span>
+    c = chr(rad)        <span style="color: #008000;">#</span><span style="color: #008000;">将每次得到的随机数以十进制的ascii码转换成对应字母（ascii码字母范围是65-91）</span>
+    suij2 += c      <span style="color: #008000;">#</span><span style="color: #008000;">将转换的字母赋值给，统计随机数</span>
+<span style="color: #0000ff;">print</span>(suij2)        <span style="color: #008000;">#</span><span style="color: #008000;">打印出统计随机数</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>31.简述re模块中match,search以及findall方法的特点</strong></span></p>
+<p><span style="color: #ff0000;">匹配开头</span>，match，从头匹配一个符合规则的字符串，从起始位置开始匹配，匹配成功返回一个对象，未匹配成功返回None</p>
+<p><span style="color: #ff0000;">匹配全局第一个符合规则的字符串</span>，search,浏览全部字符串，匹配第一符合规则的字符串，浏览整个字符串去匹配第一个，未匹配成功返回None</p>
+<p><span style="color: #ff0000;">匹配所有</span>，findall浏览全部字符串，匹配所有合规则的字符串，匹配到的字符串放到一个列表中，未匹配成功返回空列表</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>32.简述正则表达式中分组的作用</strong></span></p>
+<p>注意：分组的意义，就是在匹配成功的字符串中，在提取()里，组里面的字符串</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span><span style="color: #008000;">
+#</span><span style="color: #008000;">也就是分组匹配，()里面的为一个组也可以理解成一个整体</span>
+a = re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">a(\d+)</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">a466666664a4a4a4dg4g654gb</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">匹配 (a) (\d0-9的数字) (+可以是1个到多个0-9的数字)</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+
+c </span>= re.findall(<span style="color: #800000;">"</span><span style="color: #800000;">a\d+</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">a466666664a4a4a4dg4g654gb</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">匹配 (a) (\d0-9的数字) (+可以是1个到多个0-9的数字)</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">打印出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ['466666664', '4', '4', '4']</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ['a466666664', 'a4', 'a4', 'a4']</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>33.请书写输出结果</strong></span><br />	import re<br />	a = "hello/bin/uuu/haa/d"<br />	b = re.findall(r"(\w+)/",a)<br />	print(b)</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span> re   <span style="color: #008000;">#</span><span style="color: #008000;">第一步，要引入re模块</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">hello/bin/uuu/haa/d</span><span style="color: #800000;">"</span><span style="color: #000000;">
+c </span>= re.findall(r<span style="color: #800000;">"</span><span style="color: #800000;">\w+/</span><span style="color: #800000;">"</span>,a) <span style="color: #008000;">#</span><span style="color: #008000;">匹配任何字幕一位或多位加后面有/斜杠的</span>
+b = re.findall(r<span style="color: #800000;">"</span><span style="color: #800000;">(\w+)/</span><span style="color: #800000;">"</span>,a) <span style="color: #008000;">#</span><span style="color: #008000;">匹配任何字幕一位或多位加后面有/斜杠的，分组只获取字母部分，斜杠不要</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ['hello', 'bin', 'uuu', 'haa']</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ['hello/', 'bin/', 'uuu/', 'haa/']</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>&nbsp;34.简述计算1*2+3*4+5*6+7*8+99*100</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+a = 1*2+3*4+5*6+7*8+99*100
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 10000</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>35.python中两种序列化json和pickle的区别</strong></span></p>
+<p>json是将python数据类型转换成字符串，将字符串的python数据类型还原成它本来的数据类型</p>
+<p>pickle是将python数据类型转换成二进制字节码，将二进制字节码的python数据类型还原成它本来的数据类型</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>36.简述json模块中提供的方法：dumps,dump,loads,load的作用以及注意事项</strong></span></p>
+<p>dumps：将Python数据类型转换成字符串【有参】</p>
+<p>dump：将Python数据类型转换成字符串，直接写入文件【有参】</p>
+<p>loads：将字符串还原它本来的数据类型【有参】</p>
+<p>load：读出文件里的字符串，还原它本来的数据类型【有参】</p>
+<p><span style="color: #ff0000;"><strong>37.有如下变量，请检查哪些错误</strong></span><br />	l1 = ["alcx",123,"eric"]<br />	l2 = ["alcx",123,"eric"]</p>
+<p>	s1 = """["alcx",123,"eric"]"""<br />	s2 = """["alcx",123,'eric']""</p>
+<p>a = json.loads(l1)<br />	b = json.loads(l2)<br />	c = json.loads(s1)<br />	d = json.loads(s2)<br />	e = json.dumps(l1)<br />	f = json.dumps(l2)<br />	g = json.dumps(s1)<br />	h = json.dumps(s2)</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> json
+l1 </span>= [<span style="color: #800000;">"</span><span style="color: #800000;">alcx</span><span style="color: #800000;">"</span>,123,<span style="color: #800000;">"</span><span style="color: #800000;">eric</span><span style="color: #800000;">"</span>] <span style="color: #008000;">#
+</span>l2 = [<span style="color: #800000;">"</span><span style="color: #800000;">alcx</span><span style="color: #800000;">"</span>,123,<span style="color: #800000;">"</span><span style="color: #800000;">eric</span><span style="color: #800000;">"</span><span style="color: #000000;">]
+s1 </span>= <span style="color: #800000;">"""</span><span style="color: #800000;">["alcx",123,"eric"]</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+s2 </span>= <span style="color: #800000;">"""</span><span style="color: #800000;">["alcx",123,'eric']</span><span style="color: #800000;">"""</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">a = json.loads(l1)#错误，将字符串还原它本来的数据类型【有参】,接收的需要字符串而不是列表</span><span style="color: #008000;">
+#</span><span style="color: #008000;">b = json.loads(l2)#错误，将字符串还原它本来的数据类型【有参】,接收的需要字符串而不是列表</span>
+c = json.loads(s1) <span style="color: #008000;">#</span><span style="color: #008000;">正确，接收的是字符串</span><span style="color: #008000;">
+#</span><span style="color: #008000;">d = json.loads(s2) #错误，接收的是字符串，但是列表元素有一个元素是单引号</span>
+e = json.dumps(l1)<span style="color: #008000;">#</span><span style="color: #008000;">正确，将Python数据类型转换成字符串【有参】</span>
+f = json.dumps(l2)<span style="color: #008000;">#</span><span style="color: #008000;">正确</span>
+g = json.dumps(s1)<span style="color: #008000;">#</span><span style="color: #008000;">正确</span>
+h = json.dumps(s2)<span style="color: #008000;">#</span><span style="color: #008000;">正确</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>38.http请求时，其本质返回的是什么类型？</strong></span></p>
+<p>返回的字符串</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>39.书写邮箱的正则表达式</strong></span></p>
+<div class="cnblogs_code">
+<pre>[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>40.使用冒泡算法将li = [13,22,6,99,11] 进行排序</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+li = [13,22,6,99,11<span style="color: #000000;">]
+</span><span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(1,len(li)):<span style="color: #008000;">#</span><span style="color: #008000;">检查列表元素个数，创建一个对应的循环次数</span>
+    <span style="color: #0000ff;">for</span> v <span style="color: #0000ff;">in</span> range(len(li) - i):<span style="color: #008000;">#</span><span style="color: #008000;">len检查li列表有多少个元素，将返回数-1当做参数传入range创建成循环次数</span>
+        <span style="color: #0000ff;">if</span> li[v] &gt; li[v + 1]:<span style="color: #008000;">#</span><span style="color: #008000;"> 每次循环的次数和次数加1当做列表的索引取出列表的两个元素，判断第一个元素是否大于第二个元素</span>
+            hun = li[v]<span style="color: #008000;">#</span><span style="color: #008000;"> 如果第一个元素大于第二个元素，将第一个元素赋值给一个变量</span>
+            li[v] = li[v + 1]<span style="color: #008000;">#</span><span style="color: #008000;"> 将第一个元素等于第二个元素</span>
+            li[v + 1] = hun   <span style="color: #008000;">#</span><span style="color: #008000;"> 将第二个元素等于赋值的huh变量，这样第一元素和第二元素就进行互换位置</span>
+<span style="color: #0000ff;">print</span>(li)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>41.简述对象和类的关系</strong></span></p>
+<p>对象是由类创建的，处理对象的方法函数，在它所属的类库里</p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>二，conf后缀，haproxy配置文件处理</strong></span></p>
+<p><span style="color: #000000;">haproxy配置文件</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">global</span><span style="color: #000000;">
+        log </span>127.0.0.1<span style="color: #000000;"> local2
+        daemon
+        maxconn </span>256<span style="color: #000000;">
+        log </span>127.0.0.1<span style="color: #000000;"> local2 info
+defaults
+        log </span><span style="color: #0000ff;">global</span><span style="color: #000000;">
+        mode http
+        timeout connect 5000ms
+        timeout client 50000ms
+        timeout server 50000ms
+        option  dontlognull
+
+listen stats :</span>8888<span style="color: #000000;">
+        stats enable
+        stats uri       </span>/<span style="color: #000000;">admin
+        stats auth      admin:</span>1234<span style="color: #000000;">
+
+frontend oldboy.org
+        bind </span>0.0.0.0:80<span style="color: #000000;">
+        option httplog
+        option httpclose
+        option  forwardfor
+        log </span><span style="color: #0000ff;">global</span><span style="color: #000000;">
+        acl www hdr_reg(host) </span>-<span style="color: #000000;">i www.oldboy.org
+        use_backend www.oldboy.org </span><span style="color: #0000ff;">if</span><span style="color: #000000;"> www
+
+backend www.oldboy.org
+        server </span>100.1.7.9 100.1.7.9 weight 20 maxconn 3000<span style="color: #000000;">
+        
+backend buy.oldboy.org
+        server </span>100.1.7.90 100.1.7.90 weight 20 maxconn 3000</pre>
+</div>
+<p><span style="color: #ff0000;"><strong>查找haproxy配置文件里指定域名的数据信息</strong></span></p>
+<p>打开文件for循环出文件里的每行，<br />判断循环到的行是否等于要查找的域名，<br />如果循环到的行等于要查找的域名，说明已经找到要获取域名的数据<br />将该域名的数据，追加到一个新列表</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">def</span> jsh(yum): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数，接收传入的域名</span>
+    a = <span style="color: #800000;">"</span><span style="color: #800000;">查找中</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">定义判断标记</span>
+    zfch = [] <span style="color: #008000;">#</span><span style="color: #008000;">创建一个空列表来接收查找到的数据</span>
+    with open(<span style="color: #800000;">"</span><span style="color: #800000;">lof.conf</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) as f: <span style="color: #008000;">#</span><span style="color: #008000;">打开配置文件</span>
+        <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> f: <span style="color: #008000;">#</span><span style="color: #008000;">一行一行的循环出配置文件</span>
+            <span style="color: #0000ff;">if</span>  i.strip() == <span style="color: #800000;">"</span><span style="color: #800000;">backend %s</span><span style="color: #800000;">"</span> %(yum): <span style="color: #008000;">#</span><span style="color: #008000;">将循环到的每一行字符串移除首尾空白，判断循环到的一行字符串如果等于backend www.oldboy.org</span>
+                a = <span style="color: #800000;">"</span><span style="color: #800000;">找到</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">找到backend www.oldboy.org</span>
+                <span style="color: #0000ff;">continue</span> <span style="color: #008000;">#</span><span style="color: #008000;">跳出本次循环  继续下次环</span>
+            <span style="color: #0000ff;">if</span> a == <span style="color: #800000;">"</span><span style="color: #800000;">找到</span><span style="color: #800000;">"</span>: <span style="color: #008000;">#</span><span style="color: #008000;">判断标记如果等于找到</span>
+                <span style="color: #0000ff;">if</span> i.strip().startswith(<span style="color: #800000;">"</span><span style="color: #800000;">backend</span><span style="color: #800000;">"</span>): <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的行数据是否是backend开头</span>
+                    a = <span style="color: #800000;">"</span><span style="color: #800000;">查找中</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">如果是backend开头，就把判断标记改为查找中</span>
+                    <span style="color: #0000ff;">break</span> <span style="color: #008000;">#</span><span style="color: #008000;">如果是backend开头,说明是重复的数据，就break退出整个循环</span>
+                <span style="color: #0000ff;">else</span>: <span style="color: #008000;">#</span><span style="color: #008000;">如果不是backend开头</span>
+                    <span style="color: #0000ff;">if</span> i.strip(): <span style="color: #008000;">#</span><span style="color: #008000;">判断是否是空行</span>
+                        zfch.append(i.strip()) <span style="color: #008000;">#</span><span style="color: #008000;">如果不是空行，就把数据移除两边空格后，追加到接收列表</span>
+    <span style="color: #0000ff;">return</span> zfch <span style="color: #008000;">#</span><span style="color: #008000;">最后将接收列表返回给执行函数</span>
+<span style="color: #000000;">
+zx </span>= jsh(<span style="color: #800000;">"</span><span style="color: #800000;">www.oldboy.org</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">运行函数，传入要查找的域名</span>
+<span style="color: #0000ff;">print</span>(zx) <span style="color: #008000;">#</span><span style="color: #008000;">打印出函数返回值</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ['server 100.1.7.9 100.1.7.9 weight 20 maxconn 3000']</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>&nbsp;添加haproxy配置文件里指定域名的数据信息</strong></span></p>
+<p>先用上面的函数将原始数据拿到，放在一个列表里</p>
+<p>然后将要添加的数据，追加到原始数据列表，此时这个列表就是该域名下全部的新数据</p>
+<p>然后同时打开两个文件，以一读一写的方式打开，</p>
+<p>循环原始文件，判断循环到指定域名时，将域名的新数据重新写入，</p>
+<p>如果没找到指定域名时，就将原始文件读一行，往新文件里写一行</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff;">def</span> jsh(yum): <span style="color: #008000;">#</span><span style="color: #008000;">定义函数，接收传入的域名</span>
+    a = <span style="color: #800000;">"</span><span style="color: #800000;">查找中</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">定义判断标记</span>
+    zfch = [] <span style="color: #008000;">#</span><span style="color: #008000;">创建一个空列表来接收查找到的数据</span>
+    with open(<span style="color: #800000;">"</span><span style="color: #800000;">lof.conf</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) as f: <span style="color: #008000;">#</span><span style="color: #008000;">打开配置文件</span>
+        <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> f: <span style="color: #008000;">#</span><span style="color: #008000;">一行一行的循环出配置文件</span>
+            <span style="color: #0000ff;">if</span>  i.strip() == <span style="color: #800000;">"</span><span style="color: #800000;">backend %s</span><span style="color: #800000;">"</span> %(yum): <span style="color: #008000;">#</span><span style="color: #008000;">将循环到的每一行字符串移除首尾空白，判断循环到的一行字符串如果等于backend www.oldboy.org</span>
+                a = <span style="color: #800000;">"</span><span style="color: #800000;">找到</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">找到backend www.oldboy.org</span>
+                <span style="color: #0000ff;">continue</span> <span style="color: #008000;">#</span><span style="color: #008000;">跳出本次循环  继续下次环</span>
+            <span style="color: #0000ff;">if</span> a == <span style="color: #800000;">"</span><span style="color: #800000;">找到</span><span style="color: #800000;">"</span>: <span style="color: #008000;">#</span><span style="color: #008000;">判断标记如果等于找到</span>
+                <span style="color: #0000ff;">if</span> i.strip().startswith(<span style="color: #800000;">"</span><span style="color: #800000;">backend</span><span style="color: #800000;">"</span>): <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的行数据是否是backend开头</span>
+                    a = <span style="color: #800000;">"</span><span style="color: #800000;">查找中</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">如果是backend开头，就把判断标记改为查找中</span>
+                    <span style="color: #0000ff;">break</span> <span style="color: #008000;">#</span><span style="color: #008000;">如果是backend开头,说明是重复的数据，就break退出整个循环</span>
+                <span style="color: #0000ff;">else</span>: <span style="color: #008000;">#</span><span style="color: #008000;">如果不是backend开头</span>
+                    <span style="color: #0000ff;">if</span> i.strip(): <span style="color: #008000;">#</span><span style="color: #008000;">判断是否是空行</span>
+                        zfch.append(i.strip()) <span style="color: #008000;">#</span><span style="color: #008000;">如果不是空行，就把数据移除两边空格后，追加到接收列表</span>
+    <span style="color: #0000ff;">return</span> zfch <span style="color: #008000;">#</span><span style="color: #008000;">最后将接收列表返回给执行函数</span>
+<span style="color: #000000;">
+ym </span>= <span style="color: #800000;">"</span><span style="color: #800000;">www.oldboy.org</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">接收要修改的域名</span>
+shju = <span style="color: #800000;">"</span><span style="color: #800000;">server 100.1.7.11 100.1.7.11 weight 20 maxconn 3000</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">接收要添加的数据</span>
+
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> chli(y,sh):
+    shju2 </span>= jsh(ym) <span style="color: #008000;">#</span><span style="color: #008000;">运行自定义函数获取到该域名下的原有数据</span>
+    shju2.append(shju) <span style="color: #008000;">#</span><span style="color: #008000;">将要添加的数据，追加到原有数据列表</span>
+    cha = <span style="color: #800000;">"</span><span style="color: #800000;">查找中</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">定义判断标记</span>
+    with open(<span style="color: #800000;">"</span><span style="color: #800000;">lof.conf</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) as w1, open(<span style="color: #800000;">"</span><span style="color: #800000;">lof2.conf</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) as w2: <span style="color: #008000;">#</span><span style="color: #008000;">同时打开两个文件，一个只读打开，一个只写打开</span>
+        <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> w1: <span style="color: #008000;">#</span><span style="color: #008000;">一行一行的循环出只读文件</span>
+            <span style="color: #0000ff;">if</span> i.strip() == <span style="color: #800000;">"</span><span style="color: #800000;">backend {}</span><span style="color: #800000;">"</span>.format(y): <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的行去除前后空格后如果等于backend www.oldboy.org</span>
+                cha = <span style="color: #800000;">"</span><span style="color: #800000;">找到</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">说明找到要查找的域名了，将判断标记改为找到</span>
+                w2.write(i) <span style="color: #008000;">#</span><span style="color: #008000;">将当前行写入新文件</span>
+                f4 = <span style="color: #800000;">"</span> <span style="color: #800000;">"</span>*8 <span style="color: #008000;">#</span><span style="color: #008000;">定义8个空格</span>
+                <span style="color: #0000ff;">for</span> i2 <span style="color: #0000ff;">in</span> shju2: <span style="color: #008000;">#</span><span style="color: #008000;">循环shju2数据列表</span>
+                    w2.write(<span style="color: #800000;">"</span><span style="color: #800000;">{}{}{}</span><span style="color: #800000;">"</span>.format(f4,i2,<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">每循环一次将循环到的数据前加上8个空格写入文件</span>
+                <span style="color: #0000ff;">continue</span> <span style="color: #008000;">#</span><span style="color: #008000;">退出本次循环，继续下次循环</span>
+            <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+                </span><span style="color: #0000ff;">pass</span>
+            <span style="color: #0000ff;">if</span> cha == <span style="color: #800000;">"</span><span style="color: #800000;">查找中</span><span style="color: #800000;">"</span>: <span style="color: #008000;">#</span><span style="color: #008000;">判断没找到backend www.oldboy.org时，将循环到的行写入新文件   </span>
+                w2.write(i) <span style="color: #008000;">#</span><span style="color: #008000;">将循环到的行写入新文件</span>
+            <span style="color: #0000ff;">else</span>: <span style="color: #008000;">#</span><span style="color: #008000;">如果判断标记不等于，查找中</span>
+                <span style="color: #0000ff;">if</span> i.strip().startswith(<span style="color: #800000;">"</span><span style="color: #800000;">backend</span><span style="color: #800000;">"</span>): <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的行是否有backend开头的</span>
+                    cha = <span style="color: #800000;">"</span><span style="color: #800000;">查找中</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">如果有backend开头的，将判断表示改为查找中</span>
+                    shuju2 = <span style="color: #800000;">"</span><span style="color: #800000;">{}{}</span><span style="color: #800000;">"</span>.format(<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span>,i)  <span style="color: #008000;">#</span><span style="color: #008000;">将当前行前面加一个换行符</span>
+                    w2.write(shuju2) <span style="color: #008000;">#</span><span style="color: #008000;">将当前行写入文件</span>
+<span style="color: #000000;">
+chli(ym,shju)</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>&nbsp;</strong></span></p></div>

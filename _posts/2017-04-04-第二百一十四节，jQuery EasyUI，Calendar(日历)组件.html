@@ -1,0 +1,265 @@
+第二百一十四节，jQuery EasyUI，Calendar(日历)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，Calendar(日历)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404235436019-831734813.png" alt=""></p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式 </strong></p>
+<p><strong>　　2.属性列表 </strong></p>
+<p><strong>　　3.事件列表</strong></p>
+<p><strong> 　　4.方法列表</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 中 Canlendar(日历)组件的使用方法，这个组件不依赖于其 他组件。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<p><span style="color: #0000ff"><strong>class 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="easyui-calendar"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:200px;height:200px;"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>calendar()将一个元素执行日历组件</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>JS 加载调用</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404222209050-1830898473.png" alt=""></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404222250519-1910552095.png" alt=""></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404230248144-2136577461.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>width &nbsp; number 日历控件宽度。默认值180。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width:</span>400<span style="color: #000000">,
+        height:</span>300<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>height &nbsp; number 日历控件高度。默认值180。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width:</span>400<span style="color: #000000">,
+        height:</span>300<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>fit &nbsp; boolean 当设置为 true 的时候，将设置日历控件大小自适应父容器。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width:</span>400<span style="color: #000000">,
+        height:</span>300<span style="color: #000000">,
+        fit:</span><span style="color: #0000ff">true</span>        <span style="color: #008000">//</span><span style="color: #008000">当设置为 true 的时候，将设置日历控件大小自适应父容器。默认值 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>border &nbsp; boolean 定义是否显示边框。默认值 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width:</span>400<span style="color: #000000">,
+        height:</span>300<span style="color: #000000">,
+        border:</span><span style="color: #0000ff">false</span>    <span style="color: #008000">//</span><span style="color: #008000">定义是否显示边框。默认值 true。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>firstDay &nbsp; number 定义一周的第一天是星期几。0=星期日、1=星期一 等。<span style="color: #0000ff">定义星期几的排序0从星期日排序1从星期一排序</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width:</span>400<span style="color: #000000">,
+        height:</span>300<span style="color: #000000">,
+        firstDay:</span>1  <span style="color: #008000">//</span><span style="color: #008000">定义星期几的排序0从星期日排序1从星期一排序</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>weeks &nbsp; array显 示 的 周 列 表 内 容 。 默 认 值 ：['S','M','T','W','T','F','S']，<span style="color: #0000ff">定义星期几的显示文字</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width:</span>400<span style="color: #000000">,
+        height:</span>300<span style="color: #000000">,
+        weeks:[</span>'S','M','T','W','T','F','S']  <span style="color: #008000">//</span><span style="color: #008000">定义星期几的显示文字</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>months &nbsp; array显示的月列表内容。默认值：['Jan','Feb', 'Mar', 'Apr', 'May','Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec']，<span style="color: #0000ff">定义月份显示文字</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width:</span>400<span style="color: #000000">,
+        height:</span>300<span style="color: #000000">,
+        months:[</span>'Jan','Feb', 'Mar', 'Apr', 'May','Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'<span style="color: #000000">]
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>year &nbsp; number 年日历。下面的例子显示了如何使用指定的年份和月份创建一个日历。<span style="color: #0000ff">设置默认年份</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width:</span>400<span style="color: #000000">,
+        height:</span>300<span style="color: #000000">,
+        <span style="color: #ff0000">year:</span></span><span style="color: #ff0000">1984,      //设置默认年份</span>
+        month:9,        <span style="color: #008000">//</span><span style="color: #008000">设置默认月份</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>month &nbsp; number 月日历。<span style="color: #0000ff"><strong>设置默认月份</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width:</span>400<span style="color: #000000">,
+        height:</span>300<span style="color: #000000">,
+        year:</span>1984,      <span style="color: #008000">//</span><span style="color: #008000">设置默认年份</span>
+        <span style="color: #ff0000">month:9,        //设置默认月份</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>current &nbsp; date 当前日期，<span style="color: #0000ff">设置默认当前日期</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width:</span>400<span style="color: #000000">,
+        height:</span>300<span style="color: #000000">,
+        year:</span>1984,      <span style="color: #008000">//</span><span style="color: #008000">设置默认年份</span>
+        month:9,        <span style="color: #008000">//</span><span style="color: #008000">设置默认月份</span>
+        <span style="color: #ff0000">current:new Date(1984,8,25)  //设置默认当前日期,月份从0开始所以9月就写8月</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>formatter &nbsp; date 格式化日期，<span style="color: #0000ff">就是可以给每个日期添加自定义字符</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width:</span>400<span style="color: #000000">,
+        height:</span>300<span style="color: #000000">,
+        <span style="color: #ff0000">formatter:</span></span><span style="color: #ff0000">function (date) {
+            return '#' +</span><span style="color: #000000"><span style="color: #ff0000"> date.getDate();
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>styler &nbsp; date 设置指定日期的样式，<span style="color: #0000ff">设置日期的样式</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width: </span>400<span style="color: #000000">,
+        height: </span>300<span style="color: #000000">,
+        <span style="color: #ff0000">styler: </span></span><span style="color: #ff0000">function (date) {
+            if (date.getDate() == 1) {  //将每月1日改变样式
+                return 'background-color:#ccc'</span><span style="color: #000000"><span style="color: #ff0000">;
+            }
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>validator &nbsp; date <span style="color: #0000ff">设置指定日期是否可以选择</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width: </span>400<span style="color: #000000">,
+        height: </span>300<span style="color: #000000">,
+        <span style="color: #ff0000">validator: </span></span><span style="color: #ff0000">function (date) {
+            if (date.getDay() == 1) {  //将每个星期一设置为不可用
+                return false
+            }else {
+                return true</span><span style="color: #000000"><span style="color: #ff0000">
+            }
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．事件列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404232952035-1856688677.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>onSelect &nbsp; date <span style="color: #0000ff">在用户选择一天的时候触发</span>。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width: </span>400<span style="color: #000000">,
+        height: </span>300<span style="color: #000000">,
+        <span style="color: #ff0000">onSelect: </span></span><span style="color: #ff0000">function (date) {
+            alert(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());
+            // date.getFullYear()用户选择的年
+            // date.getMonth()用户选择的月
+            // date.getDate()用户选择的日
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>onChange &nbsp; newDate, oldDate <span style="color: #0000ff">在用户改变选择的时候触发</span>。</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width: </span>400<span style="color: #000000">,
+        height: </span>300<span style="color: #000000">,
+        <span style="color: #ff0000">onChange: </span></span><span style="color: #ff0000">function (newDate, oldDate) {
+            alert(newDate + '|' + oldDate);
+            // newDate改变后的日期
+            // oldDate改变前的日期
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170404234045207-414785885.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>options &nbsp; none 返回参数对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width: </span>400<span style="color: #000000">,
+        height: </span>300<span style="color: #000000">,
+    });
+    alert($(</span>'#box').calendar('options'));  <span style="color: #008000">//</span><span style="color: #008000">返回参数对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>resize &nbsp; none 调整日历大小。<span style="color: #0000ff">就是如果日历变形后重置</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width: </span>400<span style="color: #000000">,
+        height: </span>300<span style="color: #000000">,
+    });
+    $(</span>'#box').calendar('resize');  <span style="color: #008000">//</span><span style="color: #008000">调整日历大小。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>moveTo &nbsp; date 移动日历到指定日期。<span style="color: #0000ff">默认选择日期</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).calendar({
+        width: </span>400<span style="color: #000000">,
+        height: </span>300<span style="color: #000000">,
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').calendar('moveTo',new Date(2015,1,1));  //移动日历到指定日期</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>我们可以使用$.fn.calendar.defaults 重写默认值对象。</strong></span></p>
+<p>&nbsp;</p></div>

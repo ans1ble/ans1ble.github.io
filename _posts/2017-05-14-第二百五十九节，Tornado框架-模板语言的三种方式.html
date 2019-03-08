@@ -1,0 +1,295 @@
+第二百五十九节，Tornado框架-模板语言的三种方式
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Tornado框架-模板语言的三种方式</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong>模板语言就是可以在html页面，接收逻辑处理的<span style="color: #0000ff">self.render()方法</span>传输的变量，将数据渲染到对应的地方</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>一、接收值渲染</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong>{{...}}接收self.render()方法传值的变量或一个值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理</span>
+<span style="color: #0000ff">class</span> MainHandler(tornado.web.RequestHandler):  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="color: #0000ff">def</span> get(self):                                  <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+        <span style="background-color: #ffff00">self.render(<span style="color: #800000">"</span><span style="color: #800000">cshi.html</span><span style="color: #800000">"</span>,<span style="background-color: #ff99cc">zhi = <span style="color: #800000">"</span><span style="color: #800000">网站名称</span><span style="color: #800000">"</span></span>)    <span style="color: #008000">#</span><span style="color: #008000">显示cshi.html文件,将zhi变量传到模板语言里渲染</span></span>
+<span style="color: #000000">
+settings </span>= {                                    <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">template</span><span style="color: #800000">"</span>,                 <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">static</span><span style="color: #800000">"</span>,                     <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>, MainHandler),                   <span style="color: #008000">#</span><span style="color: #008000">判断用户请求路径后缀是否匹配字符串index,如果匹配执行MainHandler方法</span>
+],**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">注意js和css文件路径配置后必须在引入路径里加上配置文件夹名称</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="static/s1.css"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">{{zhi}}接收self.render()方法传值的变量或一个值</span><span style="color: #008000">--&gt;</span>
+    <span style="background-color: #ffff00"><span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ff99cc">{{zhi}}</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span></span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170514210105207-1948845528.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>二、接收值，运行代码块</strong></span></p>
+<p><span style="color: #ff0000"><strong>{%...%}{%end%}在html渲染代码块，支持html里代码块书写，并能接收self.render()方法传值<br></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理</span>
+<span style="color: #0000ff">class</span> MainHandler(tornado.web.RequestHandler):  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="color: #0000ff">def</span> get(self):                                              <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+        <span style="background-color: #ffff00">self.render(<span style="color: #800000">"</span><span style="color: #800000">cshi.html</span><span style="color: #800000">"</span>,<span style="background-color: #ff99cc">zhi = [<span style="color: #800000">"</span><span style="color: #800000">首页</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">资讯</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">关于</span><span style="color: #800000">"</span>]</span>)    <span style="color: #008000">#</span><span style="color: #008000">显示cshi.html文件,将列表传到模板语言里渲染</span></span>
+<span style="color: #000000">
+settings </span>= {                                    <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">template</span><span style="color: #800000">"</span>,                 <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">static</span><span style="color: #800000">"</span>,                     <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>, MainHandler),                   <span style="color: #008000">#</span><span style="color: #008000">判断用户请求路径后缀是否匹配字符串index,如果匹配执行MainHandler方法</span>
+],**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">注意js和css文件路径配置后必须在引入路径里加上配置文件夹名称</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="static/s1.css"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ffff00"><span style="color: #000000; background-color: #ff99cc">
+        {% for i in zhi %}
+        </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ff99cc">{{i}}</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span><span style="color: #000000; background-color: #ff99cc">
+        {% end %}
+    </span></span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170514211947613-869148943.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>模板语言，for循环列表加if判断</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理</span>
+<span style="color: #0000ff">class</span> MainHandler(tornado.web.RequestHandler):  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="color: #0000ff">def</span> get(self):                                              <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+       <span style="background-color: #ffff00"> self.render(<span style="color: #800000">"</span><span style="color: #800000">cshi.html</span><span style="color: #800000">"</span>,<span style="background-color: #ff99cc">zhi = [<span style="color: #800000">"</span><span style="color: #800000">首页</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">资讯</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">关于</span><span style="color: #800000">"</span>]</span>)    <span style="color: #008000">#</span><span style="color: #008000">显示cshi.html文件,将列表传到模板语言里渲染</span></span>
+<span style="color: #000000">
+settings </span>= {                                    <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">template</span><span style="color: #800000">"</span>,                 <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">static</span><span style="color: #800000">"</span>,                     <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>, MainHandler),                   <span style="color: #008000">#</span><span style="color: #008000">判断用户请求路径后缀是否匹配字符串index,如果匹配执行MainHandler方法</span>
+],**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">注意js和css文件路径配置后必须在引入路径里加上配置文件夹名称</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="static/s1.css"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #008000">&lt;!--</span><span style="color: #008000">循环列表，加判断</span><span style="color: #008000">--&gt;</span><span style="background-color: #ffff00"><span style="color: #000000"><span style="background-color: #ff99cc">
+        {% for i in zhi %}</span>
+            <span style="background-color: #ff99cc">{% if i == "首页" %}
+                </span></span><span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="color: #ee1215"</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ff99cc">{{i}}</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span><span style="color: #000000; background-color: #ff99cc">
+            {% else %}
+                </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ff99cc">{{i}}</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span><span style="color: #000000"><span style="background-color: #ff99cc">
+            {% end %}</span>
+        <span style="background-color: #ff99cc">{% end %}
+    </span></span></span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170514215538879-1872305244.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三、自定义，可以在html里执行函数</strong></span></p>
+<p><span style="color: #ff0000"><strong>有两种方式，一种叫uimethod，一种叫uimodule</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong>uimethod方式</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>　　1、首先新建一个py文件来写html可以调用的函数</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>　　2、在模板引擎导入新建的py文件，在逻辑处理配置字典里配置键为ui_methods（固定的）：值为新建的py文件路径名称</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>　　3、在html<span style="color: #0000ff">{{func()}}</span>执行py文件里的函数</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>模板引擎</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="background-color: #ff99cc"><span style="color: #0000ff">import</span><span style="color: #000000"> uimethod
+
+</span></span><span style="color: #008000">#</span><span style="color: #008000">逻辑处理</span>
+<span style="color: #0000ff">class</span> MainHandler(tornado.web.RequestHandler):  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="color: #0000ff">def</span> get(self):                                              <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+        self.render(<span style="color: #800000">"</span><span style="color: #800000">cshi.html</span><span style="color: #800000">"</span>,zhi = [<span style="color: #800000">"</span><span style="color: #800000">首页</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">资讯</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">关于</span><span style="color: #800000">"</span>])    <span style="color: #008000">#</span><span style="color: #008000">显示cshi.html文件,将列表传到模板语言里渲染</span>
+<span style="color: #000000">
+settings </span>= {                                    <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">template</span><span style="color: #800000">"</span>,                 <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">static</span><span style="color: #800000">"</span>,                     <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+    <span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">ui_methods</span><span style="color: #800000">'</span>: uimethod,</span>                     <span style="color: #008000">#</span><span style="color: #008000">配置html文件函数调用模块</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>, MainHandler),                   <span style="color: #008000">#</span><span style="color: #008000">判断用户请求路径后缀是否匹配字符串index,如果匹配执行MainHandler方法</span>
+],**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p><span style="color: #0000ff"><strong>uimethod.py文件，html函数调用文件</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="background-color: #ff99cc"><span style="color: #0000ff">def</span><span style="color: #000000"> func(self):
+    </span><span style="color: #0000ff">return</span> <span style="color: #800000">"</span><span style="color: #800000">123</span><span style="color: #800000">"</span></span></pre>
+</div>
+<p><strong><span style="color: #0000ff">html</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">注意js和css文件路径配置后必须在引入路径里加上配置文件夹名称</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="static/s1.css"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ff99cc">{{func()}}</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170515025303166-2078720659.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>uimodule方式</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong>　　1、新建一个py文件来写html文件调用函数，这个py文件必须导入tornado.web下的UIModule方法，在py文件创建类必须继承<strong>UIModule方法，在这个类里写html执行函数</strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong>　　2、模板引擎导入新建的py文件，在模板引擎配置字典配置访问，ui_modules固定的:uimodule新建py文件路径名称,</strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong>　　3、在html调用py文件里的函数<span style="color: #0000ff">{% <span style="background-color: #ff99cc">module</span> fghj() %}</span>，注意调用方式<span style="color: #0000ff"><strong><strong>{%&nbsp;<span style="background-color: #ff99cc">module固定的</span> &nbsp;<span style="background-color: #ffff00">fghj()要执行的函数</span> %}</strong></strong></span></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong>&nbsp;模板引擎</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="background-color: #ff99cc"><span style="color: #0000ff">import</span><span style="color: #000000"> uimodule
+
+</span></span><span style="color: #008000">#</span><span style="color: #008000">逻辑处理</span>
+<span style="color: #0000ff">class</span> MainHandler(tornado.web.RequestHandler):  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="color: #0000ff">def</span> get(self):                                              <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+        self.render(<span style="color: #800000">"</span><span style="color: #800000">cshi.html</span><span style="color: #800000">"</span>,zhi = [<span style="color: #800000">"</span><span style="color: #800000">首页</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">资讯</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">关于</span><span style="color: #800000">"</span>])    <span style="color: #008000">#</span><span style="color: #008000">显示cshi.html文件,将列表传到模板语言里渲染</span>
+<span style="color: #000000">
+settings </span>= {                                    <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">template</span><span style="color: #800000">"</span>,                 <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">static</span><span style="color: #800000">"</span>,                     <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+    <span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">ui_modules</span><span style="color: #800000">'</span>:uimodule,</span>                     <span style="color: #008000">#</span><span style="color: #008000">配置html文件函数调用模块</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>, MainHandler),                   <span style="color: #008000">#</span><span style="color: #008000">判断用户请求路径后缀是否匹配字符串index,如果匹配执行MainHandler方法</span>
+],**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p><span style="color: #0000ff"><strong>uimodule.py文件，html函数调用文件</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> tornado.web <span style="color: #0000ff">import</span><span style="color: #000000"> UIModule
+</span></span><span style="color: #0000ff">from</span> tornado <span style="color: #0000ff">import</span><span style="color: #000000"> escape
+
+</span><span style="background-color: #ff99cc"><span style="color: #0000ff">class</span><span style="color: #000000"> custom(UIModule):
+
+    </span><span style="color: #0000ff">def</span> render(self, *args, **<span style="color: #000000">kwargs):
+        </span><span style="color: #0000ff">return</span> <span style="color: #800000">"</span><span style="color: #800000">123</span><span style="color: #800000">"</span>
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> fghj(UIModule):
+
+    </span><span style="color: #0000ff">def</span> render(self, *args, **<span style="color: #000000">kwargs):
+        </span><span style="color: #0000ff">return</span> [1,2,3,4,5]</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">注意js和css文件路径配置后必须在引入路径里加上配置文件夹名称</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="static/s1.css"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ff99cc">{% module custom() %}</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ff99cc">{% module fghj() %}</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170515180248635-190871628.png" alt=""></p>
+<p>&nbsp;</p></div>

@@ -1,0 +1,610 @@
+第二百节，jQuery EasyUI，Tabs(选项卡)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，Tabs(选项卡)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330223806649-887825760.png" alt=""></p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式 </strong></p>
+<p><strong>　　2.属性列表 </strong></p>
+<p><strong>　　3.事件列表 </strong></p>
+<p><strong>　　4.方法列表 </strong></p>
+<p><strong>　　5.选项卡面板</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 中 Tabs(选项卡)组件的使用方法，<span style="color: #0000ff">这个组件依赖于 Panel（面 板）组件和 LinkButton(按钮)组件。</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<p><span style="color: #0000ff"><strong>class 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="easyui-tabs"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:500px;height:250px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">title</span><span style="color: #0000ff">="Tab1"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        tab1
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">title</span><span style="color: #0000ff">="Tab2"</span><span style="color: #ff0000"> data-options</span><span style="color: #0000ff">="closable:true"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        tab2
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">title</span><span style="color: #0000ff">="Tab3"</span><span style="color: #ff0000">
+         data-options</span><span style="color: #0000ff">="iconCls:'icon-reload',closable:true"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        tab3
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>tabs()将符合规则的元素实现选项卡方法</strong></span></p>
+<p><span style="color: #0000ff"><strong>htnl</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">title</span><span style="color: #0000ff">="Tab1"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        tab1
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">title</span><span style="color: #0000ff">="Tab2"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        tab2
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">title</span><span style="color: #0000ff">="Tab3"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        tab3
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>js代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">$('#box').tabs({
+　　//...
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330183437695-1605886309.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330183445914-2083746879.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330183459852-753830923.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>width &nbsp; number 选项卡容器宽度。默认值 auto。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height:400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>height &nbsp;number 选项卡容器高度。默认值 auto。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height:400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>plain &nbsp; boolean 设置为 true 时，将不显示控制面板背景。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        plain:<span style="color: #0000ff">true</span>      <span style="color: #008000">//</span><span style="color: #008000">设置为 true 时，将不显示控制面板背景。默认值 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>fit &nbsp; boolean 设置为 true 时，选项卡的大小将铺满它所在的容器。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        fit:<span style="color: #0000ff">true</span>      <span style="color: #008000">//</span><span style="color: #008000">设置为 true 时，选项卡的大小将铺满它所在的容器。默认值 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>border &nbsp; boolean 设置为 true 时，显示选项卡容器边框。默认值 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        border:<span style="color: #0000ff">false</span>      <span style="color: #008000">//</span><span style="color: #008000">设置为 true 时，显示选项卡容器边框。默认值 true。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>scrollIncrement &nbsp; number 选项卡滚动条每次滚动的像素值。默认值100。<span style="color: #0000ff">也就是按钮滚动的像素，按钮少时结合tabWidth属性使用</span></strong></span></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330190531024-1118655991.png" alt=""></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        tabWidth:300,    <span style="color: #008000">//</span><span style="color: #008000">设置按钮宽度</span>
+        scrollIncrement:50      <span style="color: #008000">//</span><span style="color: #008000">选项卡滚动条每次滚动的像素值。默认值100</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>scrollDuration &nbsp; number 每次滚动动画持续的时间，单位：毫秒。默认值400。<span style="color: #0000ff"><strong>也就是按钮滚动的速度</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        tabWidth:300,    <span style="color: #008000">//</span><span style="color: #008000">设置按钮宽度</span>
+        scrollIncrement:50,      <span style="color: #008000">//</span><span style="color: #008000">选项卡滚动条每次滚动的像素值。默认值100</span>
+        scrollDuration:500      <span style="color: #008000">//</span><span style="color: #008000">每次滚动动画持续的时间，单位：毫秒。默认值400。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>tools &nbsp; array,selector工具栏添加在选项卡面板头的左侧或右侧。可用的值有：1. 一个工具菜单数组，每个工具选项都和 linkbutton 相同。2. 一个指向&lt;div/&gt;容器工具菜单的选择器。默认值null。</strong></span></p>
+<p><span style="color: #0000ff"><strong>给选项卡头部设置工具栏，接收一个数组，数组里接收一个对象，对象里是键值对设置图标和点击事件</strong></span></p>
+<p><span style="color: #0000ff"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330191711820-1466705795.png" alt=""></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        tools: [{           <span style="color: #008000">//</span><span style="color: #008000">给选项卡头部设置工具栏，接收一个数组，数组里接收一个对象，对象里是键值对设置图标和点击事件</span>
+            iconCls: 'icon-add'<span style="color: #000000">,
+            handler: </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                alert(</span>'添加!'<span style="color: #000000">);
+            }
+        }]
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>toolPosition &nbsp; string 工具栏位置。可用值：'left','right'。默认值 right。<span style="color: #0000ff">工具栏位置</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        tools: [{           <span style="color: #008000">//</span><span style="color: #008000">给选项卡头部设置工具栏，接收一个数组，数组里接收一个对象，对象里是键值对设置图标和点击事件</span>
+            iconCls: 'icon-add'<span style="color: #000000">,
+            handler: </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                alert(</span>'添加!'<span style="color: #000000">);
+            }
+        }],
+        toolPosition:</span>'left'     <span style="color: #008000">//</span><span style="color: #008000">工具栏位置。可用值：'left','right'。默认值 right。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>tabPosition &nbsp; string选 项 卡 位 置 。 可 用 值 ：'top','bottom','left','right'。默认值：top。<span style="color: #0000ff">按钮位置</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        tabPosition:'bottom' <span style="color: #008000">//</span><span style="color: #008000">string选 项 卡 位 置 。 可 用 值 ：'top','bottom','left','right'。默认值：top。按钮位置</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>headerWidth &nbsp; number选项卡标题宽度，在 <span style="color: #0000ff">tabPosition 属性设置为'left'或'right'的时候才有效</span>。默认值：150。<span style="color: #0000ff">设置按钮标题宽度，只有在按钮设置左或者右的时候有效</span></strong></span></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330193020070-181163009.png" alt=""></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        tabPosition:'left'<span style="color: #000000">,
+        headerWidth:</span>50     <span style="color: #008000">//</span><span style="color: #008000">选项卡标题宽度，在 tabPosition 属性设置为'left'或'right'的时候才有效。默认值：150。设置按钮宽度</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>tabWidth &nbsp; number 标签条的宽度。默认值：auto。<span style="color: #0000ff">设置按钮宽度</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        tabWidth:200    <span style="color: #008000">//</span><span style="color: #008000">标签条的宽度。默认值：auto。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>tabHeight &nbsp; number 标签条的高度。默认值：27。<span style="color: #0000ff">设置按钮高度</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        tabWidth:200,    <span style="color: #008000">//</span><span style="color: #008000">标签条的宽度。默认值：auto。</span>
+        tabHeight:100   <span style="color: #008000">//</span><span style="color: #008000">标签条的高度。默认值：27。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>selected &nbsp; number 初始化选中一个 tab 页。默认值：0。<span style="color: #0000ff">默认选择，值为索引</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        selected:1      <span style="color: #008000">//</span><span style="color: #008000">初始化选中一个 tab 页。默认值：0。默认选择值为索引</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>showHeader &nbsp; boolean 设置为 true 时，显示 tab 页标题。默认值：true。<span style="color: #0000ff">是否显示按钮</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        selected:1,      <span style="color: #008000">//</span><span style="color: #008000">初始化选中一个 tab 页。默认值：0。默认选择值为索引</span>
+        showHeader :<span style="color: #0000ff">false</span>   <span style="color: #008000">//</span><span style="color: #008000">设置为 true 时，显示 tab 页标题。默认值：true。是否显示按钮</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．事件列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330194320836-1095139834.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330194326539-1183742502.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>onLoad &nbsp;panel 在 ajax 选项卡面板加载完远程数据的时候触发。</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        onLoad:<span style="color: #0000ff">function</span><span style="color: #000000"> (panel) {
+            alert(</span>'在 ajax 选项卡面板加载完远程数据的时候触发。'<span style="color: #000000">);
+            alert(</span>'接收当前选项卡的对象' +<span style="color: #000000"> panel);
+        }
+    });
+    $(</span>'#box').tabs('add',{      <span style="color: #008000">//</span><span style="color: #008000">添加一个新选项卡面板</span>
+        id:'xmb',           <span style="color: #008000">//</span><span style="color: #008000">设置新增id</span>
+        title:'新按钮',      <span style="color: #008000">//</span><span style="color: #008000">设置新增按钮标题</span>
+        content:'新内容',     <span style="color: #008000">//</span><span style="color: #008000">设置新增内容</span>
+        href :'is_user.php'  <span style="color: #008000">//</span><span style="color: #008000">加载一个外部文件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">更多见第五节</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onSelect title,index 用户在选择一个选项卡面板的时候触发。<span style="color: #0000ff"><strong>title,index分别接收选择的按钮标题和按钮索引</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        onSelect:<span style="color: #0000ff">function</span><span style="color: #000000"> (title,index) {
+            alert(</span>'用户在选择一个选项卡面板的时候触发。'<span style="color: #000000">);
+            alert(</span>'接收选择的按钮标题'+<span style="color: #000000">title);
+            alert(</span>'接收选择的按钮索引'+<span style="color: #000000">index);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onUnselect &nbsp; title,index 用户在取消选择一个选项卡面板的时候触发。<span style="color: #0000ff"><strong><strong>title,index分别接收选择的上一个按钮标题和按钮索引</strong></strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        onUnselect:<span style="color: #0000ff">function</span><span style="color: #000000"> (title,index) {
+            alert(</span>'用户在取消选择一个选项卡面板的时候触发。'<span style="color: #000000">);
+            alert(</span>'接收选择的上一个按钮标题'+<span style="color: #000000">title);
+            alert(</span>'接收选择的上一个按钮索引'+<span style="color: #000000">index);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onBeforeClose &nbsp; title,index在选项卡面板关闭的时候触发，返回false 取消关闭操作。下面的例子展示了在关闭选项卡面板之前以何种方式显示确认对话框。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        onBeforeClose:<span style="color: #0000ff">function</span><span style="color: #000000"> (title,index) {
+            alert(</span>'在选项卡面板关闭的时候触发'<span style="color: #000000">);
+            alert(</span>'接收选择的关闭按钮标题'+<span style="color: #000000">title);
+            alert(</span>'接收选择的关闭按钮索引'+<span style="color: #000000">index);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onClose &nbsp; title,index 在用户关闭一个选项卡面板之后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        onClose:<span style="color: #0000ff">function</span><span style="color: #000000"> (title,index) {
+            alert(</span>'在用户关闭一个选项卡面板之后触发。'<span style="color: #000000">);
+            alert(</span>'接收选择的关闭按钮标题'+<span style="color: #000000">title);
+            alert(</span>'接收选择的关闭按钮索引'+<span style="color: #000000">index);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onAdd &nbsp; title,index 在添加一个新选项卡面板的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        onAdd:<span style="color: #0000ff">function</span> (title,index) {   <span style="color: #008000">//</span><span style="color: #008000">在添加一个新选项卡面板的时候触发。</span>
+            alert('获取新添加的面板标题：'+ title + '|' + '获取新添加的面板索引：' +<span style="color: #000000"> index);
+        }
+    });
+    $(</span>'#box').tabs('add',{      <span style="color: #008000">//</span><span style="color: #008000">添加一个新选项卡面板</span>
+        id:'xmb',           <span style="color: #008000">//</span><span style="color: #008000">设置新增id</span>
+        title:'新按钮',      <span style="color: #008000">//</span><span style="color: #008000">设置新增按钮标题</span>
+        content:'新内容'     <span style="color: #008000">//</span><span style="color: #008000">设置新增内容</span>
+        <span style="color: #008000">//</span><span style="color: #008000">更多见第五节</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onUpdate &nbsp; title,index 在更新一个选项卡面板的时候触发。<span style="color: #0000ff">修改时触发</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        onUpdate:<span style="color: #0000ff">function</span><span style="color: #000000"> (title,index) {
+            alert(</span>'修改时触发'<span style="color: #000000">);
+            alert(title </span>+ '|' + index);  <span style="color: #008000">//</span><span style="color: #008000">接收选项卡的按钮和索引</span>
+<span style="color: #000000">        }
+    });
+    $(</span>'#box').tabs('update'<span style="color: #000000">,{
+        tab:$(</span>'#cfh'),  <span style="color: #008000">//</span><span style="color: #008000">要修改的面板id</span>
+        options:{       <span style="color: #008000">//</span><span style="color: #008000">要修改的属性</span>
+            title:'修改标题'<span style="color: #000000">
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onContextMenu &nbsp; e,title,index 在右键点击一个选项卡面板的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        onContextMenu:<span style="color: #0000ff">function</span><span style="color: #000000"> (e,title,index) {
+            alert(</span>'在右键点击一个选项卡面板的时候触发。'<span style="color: #000000">);
+            alert(</span>'接收右键点击按钮标题'+<span style="color: #000000">title);
+            alert(</span>'接收右键点击按钮索引'+<span style="color: #000000">index);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．方法列表 Tabs 方法</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330203052508-303865754.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330203101086-1316389766.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330203229602-1714715207.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330203242430-1935991889.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>options &nbsp; none 返回选项卡属性。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').tabs('options'));  <span style="color: #008000">//</span><span style="color: #008000">返回选项卡属性。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>tabs &nbsp; none 返回所有选项卡面板。<span style="color: #0000ff">也就是返回所有按钮对象</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').tabs('tabs'));  <span style="color: #008000">//</span><span style="color: #008000">返回所有选项卡面板。也就是返回所有按钮对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>resize &nbsp; none 调整选项卡容器大小和布局。<span style="color: #0000ff">也就是选项卡如果因为什么原因变形了，可以重置这个选项卡</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').tabs('resize'));  <span style="color: #008000">//</span><span style="color: #008000">也就是选项卡如果因为什么原因变形了，可以重置这个选项卡</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>add &nbsp; options添加一个新选项卡面板，选项参数是一个配置对象，查看选项卡面板属性的更多细节。在添加一个新选项卡面板的时候它将变成可选的。添加一个非选中状态的选项卡面板时，记得设</strong></span></p>
+<p><span style="color: #ff0000"><strong>置'selected'属性为 false。<span style="color: #0000ff">第二个参数是一个对象，以键值对方式设置新增的面板属性，详情见<span style="color: #ff00ff">第五节</span><strong>选项卡面板</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    $(</span>'#box').tabs('add',{      <span style="color: #008000">//</span><span style="color: #008000">添加一个新选项卡面板</span>
+        id:'xmb',           <span style="color: #008000">//</span><span style="color: #008000">设置新增id</span>
+        title:'新按钮',      <span style="color: #008000">//</span><span style="color: #008000">设置新增按钮标题</span>
+        content:'新内容'     <span style="color: #008000">//</span><span style="color: #008000">设置新增内容</span>
+        <span style="color: #008000">//</span><span style="color: #008000">更多见第五节</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>close &nbsp; which关闭一个选项卡面板，'which'参数可以是选项卡面板的标题或者索引，以<span style="color: #0000ff">指定要关闭的面板。</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    $(</span>'#box').tabs('close',1);  <span style="color: #008000">//</span><span style="color: #008000">关闭一个选项卡面板，'which'参数可以是选项卡面板的标题或者索引，以指定要关闭的面板。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getTab &nbsp; which 获取指定选项卡面板，'which'参数可以是选项卡面板的标题或者索引。<span style="color: #0000ff"><strong>获取指定选项卡面板对象</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').tabs('getTab',1));  <span style="color: #008000">//</span><span style="color: #008000">which 获取指定选项卡面板，'which'参数可以是选项卡面板的标题或者索引。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getTabIndex &nbsp; tab 获取指定选项卡面板的索引。<span style="color: #0000ff">获取指定id的按钮索引</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').tabs('getTabIndex','#cfh'));  <span style="color: #008000">//</span><span style="color: #008000">获取指定选项卡面板的索引</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getSelected &nbsp; none获取选择的选项卡面板。下面的例子展示了如何获取选择的选项卡面板索引。<span style="color: #0000ff">获取以选定的选项<strong>卡面板对象</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').tabs('getSelected'));  <span style="color: #008000">//</span><span style="color: #008000">获取指定选项卡面板的对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>select &nbsp; which 选择一个选项卡面板，'which'参数可以是选项卡面板的标题或者索引。<span style="color: #0000ff"><strong>选择一个选项卡面板</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    $(</span>'#box').tabs('select',1);  <span style="color: #008000">//</span><span style="color: #008000">选择一个选项卡面板</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>unselect &nbsp; which 取消选择一个选项卡面板，'which'参数可以是选项卡面板的标题或者索引。<span style="color: #0000ff">取消选择的选项卡</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    $(</span>'#box').tabs('unselect',0);  <span style="color: #008000">//</span><span style="color: #008000">取消选择的选项卡</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>showHeader &nbsp; none 显示选项卡的标签头。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    $(</span>'#box').tabs('showHeader');  <span style="color: #008000">//</span><span style="color: #008000">显示选项卡的标签头。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>hideHeader &nbsp; none 隐藏选项卡的标签头。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    $(</span>'#box').tabs('hideHeader');  <span style="color: #008000">//</span><span style="color: #008000">隐藏选项卡的标签头</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>exists &nbsp; which 表明指定的面板是否存在，'which'参数可以是选项卡面板的标题或索引。<span style="color: #0000ff"><strong>指定的面板是否存在，返回布尔值</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').tabs('exists',4));  <span style="color: #008000">//</span><span style="color: #008000">指定的面板是否存在</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>update &nbsp; param更新指定的选项卡面板，'param'参数包含2个属性：tab：要更新的选项卡面板。options：面板的属性。<span style="color: #0000ff">修改面板</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    $(</span>'#box').tabs('update'<span style="color: #000000">,{
+        tab:$(</span>'#cfh'),  <span style="color: #008000">//</span><span style="color: #008000">要修改的面板id</span>
+        options:{       <span style="color: #008000">//</span><span style="color: #008000">要修改的属性</span>
+            title:'修改标题'<span style="color: #000000">
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>enableTab &nbsp; which 启用指定的选项卡面板，'which'参数可以是选项卡面板的标题或索引。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    $(</span>'#box').tabs('disableTab',1);  <span style="color: #008000">//</span><span style="color: #008000">禁用指定的选项卡面板</span>
+    $('#box').tabs('enableTab',1);  <span style="color: #008000">//</span><span style="color: #008000">启用指定的选项卡面板</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>disableTab &nbsp; which 禁用指定的选项卡面板，'which'参数可以是选项卡面板的标题或索引。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+<span style="color: #000000">    });
+    $(</span>'#box').tabs('disableTab',1);  <span style="color: #008000">//</span><span style="color: #008000">禁用指定的选项卡面板</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>scrollBy &nbsp; deltaX 滚动选项卡标题指定的像素数量，负值则向右滚动，正值则向左滚动。<span style="color: #0000ff">就是网页一打开<strong>滚动选项卡移动多少</strong></span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330221437070-214255576.png" alt=""></strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tabs({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">选项卡容器高度</span>
+        tabWidth:200<span style="color: #000000">
+    });
+    $(</span>'#box').tabs('scrollBy',1);  <span style="color: #008000">//</span><span style="color: #008000">滚动选项卡标题指定的像素数量，负值则向右滚动，正值则向左滚动</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>五．选项卡面板，<span style="color: #0000ff">以下一般是在新增选项卡时使用</span></strong></span></p>
+<p><span style="color: #ff0000"><strong>给选项卡属性一样的下面就不举例了</strong></span></p>
+<p><strong>选项卡面板继承了 panel 一些属性，以下是公共属性。</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330205744102-950579192.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>id &nbsp; string 选项卡面板的 ID 属性。默认值 null。</strong></span></p>
+<p><span style="color: #ff0000"><strong>title &nbsp; string 选项卡面板的标题文本。默认值空。</strong></span></p>
+<p><span style="color: #ff0000"><strong>content &nbsp; string 选项卡面板的内容。默认值空。</strong></span></p>
+<p><span style="color: #ff0000"><strong>href &nbsp; string 从 URL 加载远程数据内容填充到选项卡面板。默认值 null。</strong></span></p>
+<p><span style="color: #ff0000"><strong>cache &nbsp; boolean 如果为 true，在'href'属性设置了有效值的时候缓存选项卡面板。默认值 true。</strong></span></p>
+<p><span style="color: #ff0000"><strong>iconCls &nbsp;string 定义了一个图标的 CSS 类 ID 显示到选项卡面板标题。默认值 null。</strong></span></p>
+<p><span style="color: #ff0000"><strong>width &nbsp; number 选项卡面板宽度。默认值 auto。</strong></span></p>
+<p><span style="color: #ff0000"><strong>height &nbsp; number 选项卡面板高度。默认值 auto。</strong></span></p>
+<p><span style="color: #ff0000"><strong>collapsible &nbsp; boolean 如果为 true，则允许选项卡摺叠。默认值false。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330223414352-258877133.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>closable &nbsp; boolean设置为 true 时，选项卡面板将显示一个关闭按钮，在点击的时候会关闭选项卡面板。默认为 false。</strong></span></p>
+<p><span style="color: #ff0000"><strong>selected &nbsp; boolean 设置为 true 时，选项卡面板会被选中。默认为 false。</strong></span></p></div>

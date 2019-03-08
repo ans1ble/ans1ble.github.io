@@ -1,0 +1,198 @@
+第二百零四节，jQuery EasyUI，Dialog(对话框)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，Dialog(对话框)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170401211129820-1064569713.png" alt=""></p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式 </strong></p>
+<p><strong>　　2.属性列表 </strong></p>
+<p><strong>　　3.事件列表 </strong></p>
+<p><strong>　　4.方法列表</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解EasyUI中Dialog(窗口)组件的使用方法，这个组件依赖于<span style="color: #0000ff">Window(窗 口)组件、linkbutton (按钮)组件。</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<p><span style="color: #0000ff"><strong>class 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="easyui-dialog"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="My Dialog"</span><span style="color: #ff0000">
+     style</span><span style="color: #0000ff">="width:400px;height:200px;"</span><span style="color: #ff0000">
+     data-options</span><span style="color: #0000ff">="iconCls:'icon-save',resizable:true,modal:true"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    对话框
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>dialog()方法，将元素执行对话框方法</strong></span></p>
+<p><span style="color: #0000ff"><strong>JS 加载调用</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).dialog({
+        title: </span>'标题'<span style="color: #000000">,
+        width: </span>400<span style="color: #000000">,
+        height: </span>250<span style="color: #000000">,
+        modal: </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><span style="color: #0000ff"><strong>窗口属性扩展自 Window(面板)，窗口新增或重新定义的属性如下：</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170401194002274-1689408263.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170401194010555-540771690.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>title &nbsp; string 对话框窗口标题文本。默认值New Dialog。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).dialog({
+        width: </span>500<span style="color: #000000">,
+        height: </span>250<span style="color: #000000">,
+        title:</span>'对话框标题'   <span style="color: #008000">//</span><span style="color: #008000">对话框窗口标题文本。默认值New Dialog。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>collapsible &nbsp; boolean 定义是否显示可折叠按钮。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).dialog({
+        width: </span>500<span style="color: #000000">,
+        height: </span>250<span style="color: #000000">,
+        title:</span>'对话框标题',   <span style="color: #008000">//</span><span style="color: #008000">对话框窗口标题文本。默认值New Dialog。</span>
+        collapsible:<span style="color: #0000ff">true</span>    <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认值 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>minimizable &nbsp; boolean 定义是否显示最小化按钮。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).dialog({
+        width: </span>500<span style="color: #000000">,
+        height: </span>250<span style="color: #000000">,
+        title:</span>'对话框标题',   <span style="color: #008000">//</span><span style="color: #008000">对话框窗口标题文本。默认值New Dialog。</span>
+        collapsible:<span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认值 false。</span>
+        minimizable:<span style="color: #0000ff">true</span>    <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认值 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>maximizable &nbsp; boolean 定义是否显示最大化按钮。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).dialog({
+        width: </span>500<span style="color: #000000">,
+        height: </span>250<span style="color: #000000">,
+        title:</span>'对话框标题',   <span style="color: #008000">//</span><span style="color: #008000">对话框窗口标题文本。默认值New Dialog。</span>
+        collapsible:<span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认值 false。</span>
+        maximizable:<span style="color: #0000ff">true</span>    <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认值 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>resizable &nbsp; boolean 定义是否可以改变对话框窗口大小。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).dialog({
+        width: </span>500<span style="color: #000000">,
+        height: </span>250<span style="color: #000000">,
+        title:</span>'对话框标题',   <span style="color: #008000">//</span><span style="color: #008000">对话框窗口标题文本。默认值New Dialog。</span>
+        collapsible:<span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认值 false。</span>
+        resizable:<span style="color: #0000ff">true</span>    <span style="color: #008000">//</span><span style="color: #008000">定义是否可以改变对话框窗口大小。默认值 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>toolbar &nbsp; array,selector设置对话框窗口顶部工具栏，可用值有：(1) 一个数组，每一个工具栏中的工具属性都和 linkbutton 相同。(2) 一个选择器指定工具栏。默认值 null。<span style="color: #0000ff">工具栏组</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).dialog({
+        width: </span>500<span style="color: #000000">,
+        height: </span>250<span style="color: #000000">,
+        title: </span>'对话框标题',   <span style="color: #008000">//</span><span style="color: #008000">对话框窗口标题文本。默认值New Dialog。</span>
+        collapsible: <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认值 false。</span>
+        resizable: <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否可以改变对话框窗口大小。默认值 false。</span>
+<span style="color: #000000">        toolbar: [{
+            text: </span>'编辑'<span style="color: #000000">,
+            iconCls: </span>'icon-edit'<span style="color: #000000">,
+            handler: </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                alert(</span>'点击后触发'<span style="color: #000000">);
+            }
+        }],
+        buttons: [{
+            text: </span>'保存'<span style="color: #000000">,
+            iconCls: </span>'icon-ok'<span style="color: #000000">,
+            handler: </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                alert(</span>'点击后触发'<span style="color: #000000">);
+            }
+        }]
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>buttons &nbsp; array,selector对话框窗口底部按钮，可用值有：(1) 一个数组，每一个按钮的属性都和linkbutton 相同。(2) 一个选择器指定按钮栏。默认值 null。<span style="color: #0000ff">按钮组</span></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).dialog({
+        width: </span>500<span style="color: #000000">,
+        height: </span>250<span style="color: #000000">,
+        title: </span>'对话框标题',   <span style="color: #008000">//</span><span style="color: #008000">对话框窗口标题文本。默认值New Dialog。</span>
+        collapsible: <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认值 false。</span>
+        resizable: <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否可以改变对话框窗口大小。默认值 false。</span>
+<span style="color: #000000">        toolbar: [{
+            text: </span>'编辑'<span style="color: #000000">,
+            iconCls: </span>'icon-edit'<span style="color: #000000">,
+            handler: </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                alert(</span>'点击后触发'<span style="color: #000000">);
+            }
+        }],
+        buttons: [{
+            text: </span>'保存'<span style="color: #000000">,
+            iconCls: </span>'icon-ok'<span style="color: #000000">,
+            handler: </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                alert(</span>'点击后触发'<span style="color: #000000">);
+            }
+        }]
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">Dialog 是继承自 Window 组件的，所以 Window 组件和 Panel 组件均可用。<span style="color: #0000ff">其他属性见<strong>Window 组件和 Panel 组件均可用</strong></span></span></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>三．事件列表</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>窗口的事件完整继承自 Window(面板)。所以，直接参考 Window 面板的事件即可。</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>如：</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">Dialog 事件</span>
+$('#box'<span style="color: #000000">).dialog({
+    width : </span>600<span style="color: #000000">,
+    height : </span>400<span style="color: #000000">,
+    modal : </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    onClose : </span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'关闭后触发！'<span style="color: #000000">);
+    },
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>对话框的方法扩展自 Window(窗口)，对话框新增方法如下：<span style="color: #0000ff">其他方法见<strong><strong>Window(窗口)方法</strong></strong></span></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170401203935664-1202295276.png" alt=""></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>dialog &nbsp; none 返回外部对话框对象</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).dialog({
+        width: </span>500<span style="color: #000000">,
+        height: </span>250<span style="color: #000000">,
+        title: </span>'对话框标题',   <span style="color: #008000">//</span><span style="color: #008000">对话框窗口标题文本。默认值New Dialog。</span>
+        collapsible: <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认值 false。</span>
+        resizable: <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否可以改变对话框窗口大小。默认值 false。</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').dialog('dialog'));  <span style="color: #008000">//</span><span style="color: #008000">返回外部对话框对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>其他属性见<strong>Window 组件和 Panel 组件均可用</strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong>$.fn.window.defaults 重写默认值对象。<span style="color: #0000ff">与前面相同</span></strong></strong></strong></strong></span></p></div>

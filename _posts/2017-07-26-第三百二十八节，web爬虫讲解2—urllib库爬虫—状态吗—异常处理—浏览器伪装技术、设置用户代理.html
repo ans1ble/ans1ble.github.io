@@ -1,0 +1,126 @@
+第三百二十八节，web爬虫讲解2—urllib库爬虫—状态吗—异常处理—浏览器伪装技术、设置用户代理
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百二十八节，web爬虫讲解2—urllib库爬虫—状态吗—异常处理—浏览器伪装技术、<strong><strong>设置用户代理</strong></strong></strong></p>
+<p><strong>如果爬虫没有异常处理，那么爬行中一旦出现错误，程序将崩溃停止工作，有异常处理即使出现错误也能继续执行下去</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>1.常见状态吗</strong></span></p>
+<p><strong>301：重定向到新的URL，永久性</strong><br><strong>302：重定向到临时URL，非永久性</strong><br><strong>304：请求的资源未更新</strong><br><strong>400：非法请求</strong><br><strong>401：请求未经授权</strong><br><strong>403：禁止访问</strong><br><strong>404：没找到对应页面</strong><br><strong>500：服务器内部出现错误</strong><br><strong>501：服务器不支持实现请求所需要的功能</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>2.异常处理</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">URLError</span>捕获异常信息</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> urllib.request
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> urllib.<span style="background-color: #ff99cc">error
+
+</span></span><span style="color: #0000ff">try</span>:                                    <span style="color: #008000">#</span><span style="color: #008000">尝试执行里面的内容</span>
+    html = urllib.request.urlopen(<span style="color: #800000">'</span><span style="color: #800000">http://www.xiaohuar.com/</span><span style="color: #800000">'</span>).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">)
+    </span><span style="color: #0000ff">print</span><span style="color: #000000">(html)
+
+</span><span style="color: #0000ff">except</span> urllib.error.<span style="background-color: #ff99cc">URLError</span> as e:      <span style="color: #008000">#</span><span style="color: #008000">如果出现错误</span>
+    <span style="color: #0000ff">if</span> hasattr(e,<span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">code</span><span style="color: #800000">"</span>):               <span style="color: #008000">#</span><span style="color: #008000">如果有错误代码</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">print</span>(e.code)</span>                   <span style="color: #008000">#</span><span style="color: #008000">打印错误代码</span>
+    <span style="color: #0000ff">if</span> hasattr(e,<span style="color: #800000">"</span><span style="color: #800000; background-color: #ff99cc">reason</span><span style="color: #800000">"</span>):             <span style="color: #008000">#</span><span style="color: #008000">如果有错误信息</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">print</span>(e.reason)</span>                 <span style="color: #008000">#</span><span style="color: #008000">打印错误信息</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">返回   说明网站禁止了爬虫访问</span><span style="color: #008000">
+#</span><span style="color: #008000"> 403</span><span style="color: #008000">
+#</span><span style="color: #008000"> Forbidden</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>浏览器伪装技术</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #000000">很多网站，做了反爬技术，一般在后台检测请求头信息里是否有</span><span style="color: #0000ff">User-Agent浏览器信息</span><span style="color: #000000">，如果没有说明不是浏览器访问，就屏蔽了这次请求</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #000000">所以，我们需要伪装浏览器报头来请求</span></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> urllib.request
+<span style="background-color: #ff99cc">url </span></span>= <span style="color: #800000">'</span><span style="color: #800000">https://www.qiushibaike.com/</span><span style="color: #800000">'</span>                    <span style="color: #008000">#</span><span style="color: #008000">抓取页面URL</span>
+<span style="background-color: #ff99cc">tou</span> = (<span style="color: #800000">'</span><span style="color: #800000">User-Agent</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0</span><span style="color: #800000">'</span>)  <span style="color: #008000">#</span><span style="color: #008000">设置模拟浏览器报头</span>
+<span style="background-color: #ff99cc">b_tou</span> = <span style="background-color: #ff99cc">urllib.request.build_opener()</span>               <span style="color: #008000">#</span><span style="color: #008000">创建请求对象</span>
+<span style="background-color: #ff99cc">b_tou.addheaders=[tou]</span>                              <span style="color: #008000">#</span><span style="color: #008000">添加报头</span>
+html = b_tou.<span style="background-color: #ff99cc">open</span>(<span style="background-color: #ff99cc">url</span>).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>)       <span style="color: #008000">#</span><span style="color: #008000">开始抓取页面</span>
+<span style="color: #0000ff">print</span>(html)</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>注意：我们可以看到这次请求并不是用urlopen()方法请求的，此时用urlopen()无法请求，但是我们就会感觉到这样很费劲，难道每次请求都要创建build_opener()，所以我们需要设置使用urlopen()方法请求自动报头</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>设置使用urlopen()方法请求自动报头，也就是设置用户代理</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><span style="color: #0000ff">install_opener()</span>将报头信息设置为全局，urlopen()方法请求时也会自动添加报头</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> urllib.request
+</span><span style="color: #008000">#</span><span style="color: #008000">设置报头信息</span>
+<span style="background-color: #ffff00">tou</span> = (<span style="color: #800000">'</span><span style="color: #800000">User-Agent</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0</span><span style="color: #800000">'</span>)  <span style="color: #008000">#</span><span style="color: #008000">设置模拟浏览器报头</span>
+<span style="background-color: #ffff00">b_tou</span> = <span style="background-color: #ff99cc">urllib.request.build_opener()</span>               <span style="color: #008000">#</span><span style="color: #008000">创建请求对象</span>
+<span style="background-color: #ffff00">b_tou</span>.<span style="background-color: #ff99cc">addheaders=[<span style="background-color: #ffff00">tou</span>]</span>                              <span style="color: #008000">#</span><span style="color: #008000">添加报头到请求对象</span><span style="color: #008000">
+#</span><span style="color: #008000">将报头信息设置为全局，urlopen()方法请求时也会自动添加报头</span>
+<span style="color: #000000">urllib.request.<span style="background-color: #ff99cc">install_opener(<span style="background-color: #ffff00">b_tou</span>)
+
+</span></span><span style="color: #008000">#</span><span style="color: #008000">请求</span>
+url = <span style="color: #800000">'</span><span style="color: #800000">https://www.qiushibaike.com/</span><span style="color: #800000">'</span><span style="color: #000000">
+html </span>= urllib.request.urlopen(url).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">)
+</span><span style="color: #0000ff">print</span>(html)</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">创建用户代理池</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> urllib.request
+</span><span style="color: #0000ff">import</span> random   <span style="color: #008000">#</span><span style="color: #008000">引入随机模块文件</span>
+
+<span style="color: #0000ff">def</span> <span style="background-color: #ff99cc">yh_dl</span>():    <span style="color: #008000">#</span><span style="color: #008000">创建用户代理池</span>
+    <span style="background-color: #ffff00">yhdl</span> =<span style="color: #000000"> [
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0.1) Gecko/20100101 Firefox/4.0.1</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows NT 6.1; rv:2.0.1) Gecko/20100101 Firefox/4.0.1</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; en) Presto/2.8.131 Version/11.11</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Maxthon 2.0)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; TencentTraveler 4.0)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; The World)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Avant Browser)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">User-Agent:Mozilla/5.0 (iPod; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (iPad; U; CPU OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Linux; U; Android 2.3.7; en-us; Nexus One Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Opera/9.80 (Android 2.3.4; Linux; Opera Mobi/build-1107180945; U; en-GB) Presto/2.8.149 Version/11.10</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Linux; U; Android 3.0; en-us; Xoom Build/HRI39) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (BlackBerry; U; BlackBerry 9800; en) AppleWebKit/534.1+ (KHTML, like Gecko) Version/6.0.0.337 Mobile Safari/534.1+</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0; HTC; Titan)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">UCWEB7.0.2.37/28/999</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">NOKIA5700/ UCWEB7.0.2.37/28/999</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Openwave/ UCWEB7.0.2.37/28/999</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 6.0; ) Opera/UCWEB7.0.2.37/28/999</span><span style="color: #800000">'</span><span style="color: #000000">
+        ]
+   <span style="background-color: #ffff00"> thisua </span></span><span style="background-color: #ff99cc">= random.choice(<span style="background-color: #ffff00">yhdl</span>)</span>                    <span style="color: #008000">#</span><span style="color: #008000">随机获取代理信息</span>
+    <span style="background-color: #ff99cc"><span style="background-color: #ffff00">headers</span> = (<span style="color: #800000">"</span><span style="color: #800000">User-Agent</span><span style="color: #800000">"</span>,<span style="background-color: #ffff00">thisua</span>)</span>                 <span style="color: #008000">#</span><span style="color: #008000">拼接报头信息</span>
+    <span style="background-color: #ffff00">opener</span> = <span style="background-color: #ff99cc">urllib.request.build_opener()</span>          <span style="color: #008000">#</span><span style="color: #008000">创建请求对象</span>
+    opener.<span style="background-color: #ff99cc">addheaders</span>=[<span style="background-color: #ffff00">headers</span>]                     <span style="color: #008000">#</span><span style="color: #008000">添加报头到请求对象</span>
+    urllib.request.<span style="background-color: #ff99cc">install_opener</span>(<span style="background-color: #ffff00">opener</span>)           <span style="color: #008000">#</span><span style="color: #008000">将报头信息设置为全局，urlopen()方法请求时也会自动添加报头</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">请求</span>
+<span style="background-color: #ff99cc">yh_dl()</span>     <span style="color: #008000">#</span><span style="color: #008000">执行用户代理池函数</span>
+url = <span style="color: #800000">'</span><span style="color: #800000">https://www.qiushibaike.com/</span><span style="color: #800000">'</span><span style="color: #000000">
+html </span>= urllib.request.urlopen(url).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">)
+</span><span style="color: #0000ff">print</span>(html)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>这样爬虫会随机调用，用户代理，也就是随机报头，保证每次报头信息不一样</strong></span></p>
+<p>&nbsp;</p></div>

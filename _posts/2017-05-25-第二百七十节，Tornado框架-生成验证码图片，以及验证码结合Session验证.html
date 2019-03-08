@@ -1,0 +1,299 @@
+第二百七十节，Tornado框架-生成验证码图片，以及验证码结合Session验证
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Tornado框架-生成验证码图片，以及验证码结合Session验证</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>第一、生成验证码图片</strong></span></p>
+<p><span style="color: #ff0000"><strong>&nbsp;生成验证码图片需要两个必须模块</strong></span></p>
+<p><span style="color: #ff0000"><strong>　　1、python自带的<span style="color: #0000ff">random(随机模块)</span></strong></span></p>
+<p><span style="color: #ff0000"><strong>　　2、</strong></span><span style="color: #ff0000"><strong><span style="color: #0000ff">Pillow()图像处理模块</span>里的PIL(图像库)，为第三方模块，需要安装</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>封装验证码图片生成插件py</strong></span></p>
+<p><span style="color: #ff0000"><strong>在封装文件里先导入<strong><span style="color: #0000ff">random(随机模块)</span>，和<span style="color: #0000ff"><strong>Pillow()图像处理模块里的所需py文件</strong></span></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong>封装验证码图片生成插件功能，调用后返回<span style="color: #0000ff">验证码图片</span>，和<span style="color: #0000ff">字符串类型验证码</span>，<span style="color: #0000ff">两个返回值</span></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong>注意：验证码需要一个字体文件，这个字体文件必须和封装创建放在一起</strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong><strong>验证码图片生成插件py</strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="background-color: #ff99cc"><span style="color: #0000ff">import</span><span style="color: #000000"> random
+</span><span style="color: #0000ff">from</span> PIL <span style="color: #0000ff">import</span></span><span style="color: #000000"><span style="background-color: #ff99cc"> Image, ImageDraw, ImageFont, ImageFilter</span>
+
+_letter_cases </span>= <span style="color: #800000">"</span><span style="color: #800000">abcdefghjkmnpqrstuvwxy</span><span style="color: #800000">"</span>  <span style="color: #008000">#</span><span style="color: #008000"> 小写字母，去除可能干扰的i，l，o，z</span>
+_upper_cases = _letter_cases.upper()  <span style="color: #008000">#</span><span style="color: #008000"> 大写字母</span>
+_numbers = <span style="color: #800000">''</span>.join(map(str, range(3, 10)))  <span style="color: #008000">#</span><span style="color: #008000"> 数字</span>
+init_chars = <span style="color: #800000">''</span><span style="color: #000000">.join((_letter_cases, _upper_cases, _numbers))
+
+</span><span style="color: #0000ff">def</span> <span style="background-color: #ff99cc">create_validate_code</span>(size=(120, 30<span style="color: #000000">),
+                         chars</span>=<span style="color: #000000">init_chars,
+                         img_type</span>=<span style="color: #800000">"</span><span style="color: #800000">GIF</span><span style="color: #800000">"</span><span style="color: #000000">,
+                         mode</span>=<span style="color: #800000">"</span><span style="color: #800000">RGB</span><span style="color: #800000">"</span><span style="color: #000000">,
+                         bg_color</span>=(255, 255, 255<span style="color: #000000">),
+                         fg_color</span>=(0, 0, 255<span style="color: #000000">),
+                         font_size</span>=18<span style="color: #000000">,
+                         font_type</span>=<span style="color: #800000">"</span><span style="color: #800000">Monaco.ttf</span><span style="color: #800000">"</span><span style="color: #000000">,
+                         length</span>=4<span style="color: #000000">,
+                         draw_lines</span>=<span style="color: #000000">True,
+                         n_line</span>=(1, 2<span style="color: #000000">),
+                         draw_points</span>=<span style="color: #000000">True,
+                         point_chance </span>= 2<span style="color: #000000">):
+    </span><span style="color: #800000">'''</span><span style="color: #800000">
+    @todo: 生成验证码图片
+    @param size: 图片的大小，格式（宽，高），默认为(120, 30)
+    @param chars: 允许的字符集合，格式字符串
+    @param img_type: 图片保存的格式，默认为GIF，可选的为GIF，JPEG，TIFF，PNG
+    @param mode: 图片模式，默认为RGB
+    @param bg_color: 背景颜色，默认为白色
+    @param fg_color: 前景色，验证码字符颜色，默认为蓝色#0000FF
+    @param font_size: 验证码字体大小
+    @param font_type: 验证码字体，默认为 ae_AlArabiya.ttf
+    @param length: 验证码字符个数
+    @param draw_lines: 是否划干扰线
+    @param n_lines: 干扰线的条数范围，格式元组，默认为(1, 2)，只有draw_lines为True时有效
+    @param draw_points: 是否画干扰点
+    @param point_chance: 干扰点出现的概率，大小范围[0, 100]
+    @return: [0]: PIL Image实例
+    @return: [1]: 验证码图片中的字符串
+    </span><span style="color: #800000">'''</span><span style="color: #000000">
+
+    width, height </span>= size <span style="color: #008000">#</span><span style="color: #008000"> 宽， 高</span>
+    img = Image.new(mode, size, bg_color) <span style="color: #008000">#</span><span style="color: #008000"> 创建图形</span>
+    draw = ImageDraw.Draw(img) <span style="color: #008000">#</span><span style="color: #008000"> 创建画笔</span>
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> get_chars():
+        </span><span style="color: #800000">'''</span><span style="color: #800000">生成给定长度的字符串，返回列表格式</span><span style="color: #800000">'''</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> random.sample(chars, length)
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> create_lines():
+        </span><span style="color: #800000">'''</span><span style="color: #800000">绘制干扰线</span><span style="color: #800000">'''</span><span style="color: #000000">
+        line_num </span>= random.randint(*n_line) <span style="color: #008000">#</span><span style="color: #008000"> 干扰线条数</span>
+
+        <span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> range(line_num):
+            </span><span style="color: #008000">#</span><span style="color: #008000"> 起始点</span>
+            begin = (random.randint(0, size[0]), random.randint(0, size[1<span style="color: #000000">]))
+            </span><span style="color: #008000">#</span><span style="color: #008000">结束点</span>
+            end = (random.randint(0, size[0]), random.randint(0, size[1<span style="color: #000000">]))
+            draw.line([begin, end], fill</span>=<span style="color: #000000">(0, 0, 0))
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> create_points():
+        </span><span style="color: #800000">'''</span><span style="color: #800000">绘制干扰点</span><span style="color: #800000">'''</span><span style="color: #000000">
+        chance </span>= min(100, max(0, int(point_chance))) <span style="color: #008000">#</span><span style="color: #008000"> 大小限制在[0, 100]</span>
+
+        <span style="color: #0000ff">for</span> w <span style="color: #0000ff">in</span><span style="color: #000000"> range(width):
+            </span><span style="color: #0000ff">for</span> h <span style="color: #0000ff">in</span><span style="color: #000000"> range(height):
+                tmp </span>= random.randint(0, 100<span style="color: #000000">)
+                </span><span style="color: #0000ff">if</span> tmp &gt; 100 -<span style="color: #000000"> chance:
+                    draw.point((w, h), fill</span>=<span style="color: #000000">(0, 0, 0))
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> create_strs():
+        </span><span style="color: #800000">'''</span><span style="color: #800000">绘制验证码字符</span><span style="color: #800000">'''</span><span style="color: #000000">
+        c_chars </span>=<span style="color: #000000"> get_chars()
+        strs </span>= <span style="color: #800000">'</span><span style="color: #800000"> %s </span><span style="color: #800000">'</span> % <span style="color: #800000">'</span> <span style="color: #800000">'</span>.join(c_chars) <span style="color: #008000">#</span><span style="color: #008000"> 每个字符前后以空格隔开</span>
+<span style="color: #000000">
+        font </span>=<span style="color: #000000"> ImageFont.truetype(font_type, font_size)
+        font_width, font_height </span>=<span style="color: #000000"> font.getsize(strs)
+
+        draw.text(((width </span>- font_width) / 3, (height - font_height) / 3<span style="color: #000000">),
+                    strs, font</span>=font, fill=<span style="color: #000000">fg_color)
+
+        </span><span style="color: #0000ff">return</span> <span style="color: #800000">''</span><span style="color: #000000">.join(c_chars)
+
+    </span><span style="color: #0000ff">if</span><span style="color: #000000"> draw_lines:
+        create_lines()
+    </span><span style="color: #0000ff">if</span><span style="color: #000000"> draw_points:
+        create_points()
+    strs </span>=<span style="color: #000000"> create_strs()
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 图形扭曲参数</span>
+    params = [1 - float(random.randint(1, 2)) / 100<span style="color: #000000">,
+              0,
+              0,
+              0,
+              </span>1 - float(random.randint(1, 10)) / 100<span style="color: #000000">,
+              float(random.randint(</span>1, 2)) / 500<span style="color: #000000">,
+              </span>0.001<span style="color: #000000">,
+              float(random.randint(</span>1, 2)) / 500<span style="color: #000000">
+              ]
+    img </span>= img.transform(size, Image.PERSPECTIVE, params) <span style="color: #008000">#</span><span style="color: #008000"> 创建扭曲</span>
+<span style="color: #000000">
+    img </span>= img.filter(ImageFilter.EDGE_ENHANCE_MORE) <span style="color: #008000">#</span><span style="color: #008000"> 滤镜，边界加强（阈值更大）</span>
+
+    <span style="background-color: #ff99cc"><span style="color: #0000ff">return</span> img, strs  <span style="color: #008000">#</span><span style="color: #008000">返回验证码图片，和字符串类型验证码</span></span></pre>
+</div>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong><strong><strong>验证码图片生成插件py使用方法</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong><strong><strong>在验证码HTML的，img标签的src图片地址，路由映射的逻辑处理函数里使用</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong><strong><strong>首先在要显示验证码图片的html，<strong>img标签的src="/yanzhma"，一个路由映射路径</strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong><strong><strong><strong>html</strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>请登录<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="post"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="/dlu"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        用户名</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="yhm"</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;</span><span style="color: #000000">
+        密码</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="mim"</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;</span><span style="color: #000000">
+        验证码</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="yanzhma"</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><strong><span style="background-color: #ff99cc"><span style="color: #ff0000">src</span><span style="color: #0000ff">="/yanzhma"</span></span></strong><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="submit"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="提交"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>在框架引擎，配置这个验证码图片src路由映射路径，和逻辑处理函数</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong><strong><strong><strong>src路由映射路径的逻辑处理函数里使用验证码图片生成插件</strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong><strong><strong><strong>需要导入<span style="color: #0000ff; background-color: #ffffff">io模块</span>，和，<span style="color: #0000ff">生成验证码图片插件py</span></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong><strong><strong><strong><span style="color: #0000ff">框架引擎</span></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="color: #0000ff">import</span> session_lei                              <span style="color: #008000">#</span><span style="color: #008000">导入session模块</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> dluHandler(tornado.web.RequestHandler):
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> get(self):
+        self.render(</span><span style="color: #800000">"</span><span style="color: #800000">dlu.html</span><span style="color: #800000">"</span>)  <span style="color: #008000">#</span><span style="color: #008000">打开登录页面</span>
+    <span style="color: #0000ff">def</span><span style="color: #000000"> post(self):
+        yhm </span>= self.get_argument(<span style="color: #800000">'</span><span style="color: #800000">yhm</span><span style="color: #800000">'</span>)               <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的用户名</span>
+        mim = self.get_argument(<span style="color: #800000">'</span><span style="color: #800000">mim</span><span style="color: #800000">'</span>)               <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的密码</span>
+
+<span style="color: #0000ff">class</span><span style="color: #000000; background-color: #ff99cc"> yanzhmaHandler(tornado.web.RequestHandler):
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> get(self):
+        </span><span style="background-color: #ff99cc"><span style="color: #008000">#</span><span style="color: #008000">生成图片并且返回</span>
+        <span style="color: #0000ff">import</span> io                                       <span style="color: #008000">#</span><span style="color: #008000">导入io模块</span>
+        <span style="color: #0000ff">import</span> check_code                               <span style="color: #008000">#</span><span style="color: #008000">导入验证码图片生成插件</span>
+        mstream = io.BytesIO()                          <span style="color: #008000">#</span><span style="color: #008000">创建一个BytesIO临时保存生成图片数据</span>
+        img,code = check_code.create_validate_code()    <span style="color: #008000">#</span><span style="color: #008000">执行图片生成插进里的check_code.create_validate_code类，返回验证码图片生成数据，和字符串验证码</span>
+        img.save(mstream,<span style="color: #800000">"</span><span style="color: #800000">PNG</span><span style="color: #800000">"</span>)                         <span style="color: #008000">#</span><span style="color: #008000">将返回的验证码图片数据，添加到BytesIO临时保存</span>
+        self.write(mstream.getvalue())                  <span style="color: #008000">#</span><span style="color: #008000">从BytesIO临时保存，获取图片返回给img的 src= 进行显示</span></span>
+<span style="color: #000000">
+settings </span>= {                                        <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">views</span><span style="color: #800000">"</span>,                     <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">statics</span><span style="color: #800000">"</span>,                         <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/dlu</span><span style="color: #800000">"</span><span style="color: #000000">, dluHandler),
+    <span style="background-color: #ff99cc">(r</span></span><span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">/yanzhma</span><span style="color: #800000">"</span></span><span style="color: #000000"><span style="background-color: #ff99cc">, yanzhmaHandler),</span>
+],</span>**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170525121912279-283877150.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>利用js实现，点击图片刷新验证码，也就是点击一下发送一次验证码请求</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>请登录<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="post"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="/dlu"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        用户名</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="yhm"</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;</span><span style="color: #000000">
+        密码</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="mim"</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;</span><span style="color: #000000">
+        验证码</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="yanzhma"</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="/yanzhma"</span><span style="background-color: #ff99cc"><span style="color: #ff0000"> onclick</span><span style="color: #0000ff">='ChangeCode();' </span><span style="color: #ff0000">id</span><span style="color: #0000ff">='imgCode'</span></span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">br</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="submit"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="提交"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+    <span style="background-color: #ff99cc"><span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #0000ff">&gt;</span>
+
+        <span style="color: #0000ff">function</span><span style="color: #000000"> ChangeCode() {
+            </span><span style="color: #0000ff">var</span><span style="color: #000000"> code </span><span style="color: #000000">=</span><span style="color: #000000"> document.getElementById(</span><span style="color: #000000">'</span><span style="color: #000000">imgCode</span><span style="color: #000000">'</span><span style="color: #000000">);
+            code.src </span><span style="color: #000000">+=</span> <span style="color: #000000">'</span><span style="color: #000000">?</span><span style="color: #000000">'</span><span style="color: #000000">;
+        }
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span></span>
+
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>第二、验证码结合Session验证</strong></span></p>
+<p><span style="color: #ff0000"><strong>也就是在导入Session模块，将字符串验证码写入用户的<strong>Session里，然后判断用户输入的验证码和<strong><strong>Session里的验证码是否一致</strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="color: #0000ff">import</span> session_lei                                              <span style="color: #008000">#</span><span style="color: #008000">导入session模块</span>
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> indexHandler(tornado.web.RequestHandler):
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> get(self):
+        session </span>= session_lei.Session(self, 1)                  <span style="color: #008000">#</span><span style="color: #008000">创建session对象，cookie保留1天</span>
+        zhuangti = session[<span style="color: #800000">'</span><span style="color: #800000">zhuangtai</span><span style="color: #800000">'</span>]                         <span style="color: #008000">#</span><span style="color: #008000">获取用户cookie对应字典里的zhuangtai</span>
+        <span style="color: #0000ff">if</span> zhuangti == True:                                    <span style="color: #008000">#</span><span style="color: #008000">判断zhuangtai是否等于True</span>
+            self.render(<span style="color: #800000">"</span><span style="color: #800000">index.html</span><span style="color: #800000">"</span>)                           <span style="color: #008000">#</span><span style="color: #008000">说明登陆了显示查看页</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            self.redirect(</span><span style="color: #800000">'</span><span style="color: #800000">/dlu</span><span style="color: #800000">'</span>)                               <span style="color: #008000">#</span><span style="color: #008000">跳转登录页</span>
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> dluHandler(tornado.web.RequestHandler):
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> get(self):
+        session </span>= session_lei.Session(self, 1)                  <span style="color: #008000">#</span><span style="color: #008000">创建session对象，cookie保留1天</span>
+        zhuangti = session[<span style="color: #800000">'</span><span style="color: #800000">zhuangtai</span><span style="color: #800000">'</span>]                         <span style="color: #008000">#</span><span style="color: #008000">获取用户cookie对应字典里的zhuangtai</span>
+        <span style="color: #0000ff">if</span> zhuangti == True:                                    <span style="color: #008000">#</span><span style="color: #008000">判断zhuangtai是否等于True</span>
+            self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>)                             <span style="color: #008000">#</span><span style="color: #008000">说明登陆了跳转查看页</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            self.render(</span><span style="color: #800000">"</span><span style="color: #800000">dlu.html</span><span style="color: #800000">"</span>,tishi = <span style="color: #800000">''</span>)                      <span style="color: #008000">#</span><span style="color: #008000">打开登录页面</span>
+    <span style="color: #0000ff">def</span><span style="color: #000000"> post(self):
+        yhm </span>= self.get_argument(<span style="color: #800000">'</span><span style="color: #800000">yhm</span><span style="color: #800000">'</span>)                          <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的用户名</span>
+        mim = self.get_argument(<span style="color: #800000">'</span><span style="color: #800000">mim</span><span style="color: #800000">'</span>)                          <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的密码</span>
+        <span style="color: #0000ff">if</span> yhm == <span style="color: #800000">"</span><span style="color: #800000">admin</span><span style="color: #800000">"</span> <span style="color: #0000ff">and</span> mim == <span style="color: #800000">"</span><span style="color: #800000">admin</span><span style="color: #800000">"</span>:                   <span style="color: #008000">#</span><span style="color: #008000">判断用户名和密码</span>
+            <span style="background-color: #ff99cc"><span style="background-color: #ffff00">session = session_lei.Session(self, 1)</span>              <span style="color: #008000">#</span><span style="color: #008000"> 创建session对象，cookie保留1天</span>
+            session[<span style="color: #800000">'</span><span style="color: #800000">yhm</span><span style="color: #800000">'</span>] = yhm                                <span style="color: #008000">#</span><span style="color: #008000"> 将用户名保存到session</span>
+            session[<span style="color: #800000">'</span><span style="color: #800000">mim</span><span style="color: #800000">'</span>] = mim                                <span style="color: #008000">#</span><span style="color: #008000"> 将密码保存到session</span>
+            session[<span style="color: #800000">'</span><span style="color: #800000">zhuangtai</span><span style="color: #800000">'</span>] = True                         <span style="color: #008000">#</span><span style="color: #008000"> 在session写入登录状态</span>
+            <span style="background-color: #ffff00">shur_yzhm = self.get_argument(<span style="color: #800000">'</span><span style="color: #800000">yanzhma</span><span style="color: #800000">'</span>).upper()</span>    <span style="color: #008000">#</span><span style="color: #008000">获取用户输入验证码，转换成大写</span>
+            <span style="background-color: #ffff00">session_yzhm = session[<span style="color: #800000">'</span><span style="color: #800000">yanzhma</span><span style="color: #800000">'</span>].upper()</span>           <span style="color: #008000">#</span><span style="color: #008000">获取session里的验证码，转换成大写</span>
+            <span style="background-color: #ffff00"><span style="color: #0000ff">if</span> shur_yzhm == session_yzhm:</span>                       <span style="color: #008000">#</span><span style="color: #008000">判断用户输入的验证码，和session里的验证码是否一致</span>
+                <span style="background-color: #ffff00">self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>)</span>                         <span style="color: #008000">#</span><span style="color: #008000">跳转查看页</span>
+            <span style="color: #0000ff; background-color: #ffff00">else</span><span style="color: #000000"><span style="background-color: #ffff00">:</span>
+               <span style="background-color: #ffff00"> self.render(</span></span><span style="background-color: #ffff00"><span style="color: #800000">"</span><span style="color: #800000">dlu.html</span><span style="color: #800000">"</span>, tishi=<span style="color: #800000">"</span><span style="color: #800000">验证码不正确</span><span style="color: #800000">"</span><span style="color: #000000">)
+        </span></span></span><span style="color: #0000ff">else</span><span style="color: #000000">:
+            self.render(</span><span style="color: #800000">"</span><span style="color: #800000">dlu.html</span><span style="color: #800000">"</span>,tishi = <span style="color: #800000">"</span><span style="color: #800000">用户名或密码不正确</span><span style="color: #800000">"</span><span style="color: #000000">)
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> yanzhmaHandler(tornado.web.RequestHandler):
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> get(self):
+        </span><span style="color: #008000">#</span><span style="color: #008000">生成图片并且返回</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">import</span> io                                       <span style="color: #008000">#</span><span style="color: #008000">导入io模块</span>
+        <span style="color: #0000ff">import</span> check_code                               <span style="color: #008000">#</span><span style="color: #008000">导入验证码图片生成插件</span>
+        mstream = io.BytesIO()                          <span style="color: #008000">#</span><span style="color: #008000">创建一个BytesIO临时保存生成图片数据</span>
+        img,code = check_code.create_validate_code()    <span style="color: #008000">#</span><span style="color: #008000">执行图片生成插进里的check_code.create_validate_code类，返回验证码图片生成数据，和字符串验证码</span>
+        img.save(mstream,<span style="color: #800000">"</span><span style="color: #800000">PNG</span><span style="color: #800000">"</span>)                         <span style="color: #008000">#</span><span style="color: #008000">将返回的验证码图片数据，添加到BytesIO临时保存</span>
+        self.write(mstream.getvalue())                  <span style="color: #008000">#</span><span style="color: #008000">从BytesIO临时保存，获取图片返回给img的 src= 进行显示</span>
+        <span style="background-color: #ffff00">session = session_lei.Session(self, 1)</span>          <span style="color: #008000">#</span><span style="color: #008000"> 创建session对象，cookie保留1天</span>
+        <span style="background-color: #ffff00">session[<span style="color: #800000">'</span><span style="color: #800000">yanzhma</span><span style="color: #800000">'</span>] = code</span>     </span>                  <span style="color: #008000">#</span><span style="color: #008000">将字符串验证码添加到session里</span>
+<span style="color: #000000">
+settings </span>= {                                            <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">views</span><span style="color: #800000">"</span>,                            <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">statics</span><span style="color: #800000">"</span>,                            <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([                 <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/dlu</span><span style="color: #800000">"</span><span style="color: #000000">, dluHandler),
+    (r</span><span style="color: #800000">"</span><span style="color: #800000">/yanzhma</span><span style="color: #800000">"</span><span style="color: #000000">, yanzhmaHandler),
+    (r</span><span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span><span style="color: #000000">, indexHandler),
+],</span>**settings)                                           <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                            <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,58 @@
+第七节，初识模块字节码和注释
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p>&nbsp;</p>
+<p><strong>模块</strong></p>
+<p>　　模块（也可以理解为调用代码文件，被调用的文件或者一个功能叫做模块）</p>
+<p>　　调用模块最大的好处就是实现了代码复用，不用重复写代码</p>
+<p>　　举例：</p>
+<p>　　文件1.py调用文件adc.py</p>
+<p>&nbsp;</p>
+<p>　　文件1.py代码如下　</p>
+<div class="cnblogs_code" style="width: 38.99%; height: 95px;">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding: utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">import调用了adc这个文件</span>
+<span style="color: #008080;">4</span> <span style="color: #0000ff;">import</span> adc</pre>
+</div>
+<p>　　文件adc.py代码如下</p>
+<div class="cnblogs_code" style="width: 38.79%; height: 92px;">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding: utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 打印（被调用文件）</span>
+<span style="color: #008080;">4</span> <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">被调用文件</span><span style="color: #800000;">"</span>)</pre>
+</div>
+<p>　　执行文件1.py就会打印出 "被调用文件"&nbsp;&nbsp;这串字符，因为文件1.py里面（<span style="color: #888888; background-color: #ffffff;"><span style="color: #000000;">import adc</span></span>）调用了adc.py这个模块</p>
+<p>　　假如adc.py实现的一个复杂的功能，而且很多页面都会用到同样的功能，就可以多处调用这个模块，不需要重复写大量的代码</p>
+<p>　　python自己也提供了很多功能的模块</p>
+<p>&nbsp;</p>
+<p>函数模块（定义函数库）</p>
+<p>　　就是调用一个写有定义函数的文件模块</p>
+<p>　　使用方法</p>
+<p>　　1，要先用<span style="color: #888888;"><span style="color: #000000;">import引入.py函数文件</span></span></p>
+<p><span style="color: #888888;"><span style="color: #000000;">　　2，在调用函数文件里的函数</span></span></p>
+<p><span style="color: #888888;"><span style="color: #000000;">　　如</span></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding: utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #0000ff;">import</span> getpass <span style="color: #008000;">#</span><span style="color: #008000;"> 引入函数库模块文件</span>
+<span style="color: #008080;">4</span> i1 = raw_input(<span style="color: #800000;">"</span><span style="color: #800000;">请输入用户名</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008080;">5</span> i2 = getpass.getpass(<span style="color: #800000;">"</span><span style="color: #800000;">请输入密码</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">调用函数模块函数</span>
+<span style="color: #008080;">6</span> <span style="color: #0000ff;">print</span>(i1) <span style="color: #008000;">#</span><span style="color: #008000;">打印用户名</span>
+<span style="color: #008080;">7</span> <span style="color: #0000ff;">print</span>(i2) <span style="color: #008000;">#</span><span style="color: #008000;">打印密码</span></pre>
+</div>
+<p>　　注意：此测试版本为2.7&nbsp;&nbsp;如果是3以上的版本raw_input（）函数需要改成&nbsp;input（）</p>
+<p><a href="http://www.jxiou.com/" target="_blank">叫卖录音网</a><br /><a href="http://www.jxiou.com/lu_yin_wang_zhan.html" target="_blank">录音网站大全</a></p>
+<p>&nbsp;</p>
+<p><strong>字节码</strong></p>
+<p><strong>　　</strong>字节码也就是python解释器将代码文件转换成字节码在读入内存，（也可以理解成缓存文件）</p>
+<p>　　如上面的列子：执行1.py文件后在目录就会生成一个adc.pyc的文件，这个文件就是字节码文件（缓存）</p>
+<p>　　<img src="https://images2015.cnblogs.com/blog/955761/201605/955761-20160522184156248-387302372.png" alt="" /></p>
+<p><strong>注释</strong></p>
+<p><strong>　　</strong>#单行注释</p>
+<p>&nbsp;</p>
+<p>　　"""</p>
+<p>　　多行注释</p>
+<p>　　"""</p>
+<p>　　</p></div>

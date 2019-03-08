@@ -1,0 +1,90 @@
+第六十一节，html超链接和路径
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">html超链接和路径</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt"><strong>学习要点：</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 1.超链接的属性</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 2.相对与绝对路径</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 3.锚点设置</strong><strong style="line-height: 1.5">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 本章主要探讨HTML5中文本元素最重要的一个超链接，探讨它自身的属性以及路径问</strong></span></p>
+<p><span style="font-size: 14pt"><strong>题。</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>一．超链接的属性</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; <span style="color: #ff0000">&lt;a&gt;<strong>&lt;/a&gt;</strong>元素属于文本超链接元素，有一些私有属性或者叫局部属性。那么，相对应的还有通用属</span></strong></span></p>
+<p><span style="font-size: 14pt; color: #ff0000"><strong>性或叫做全局属性。这方面的知识，后面会详细探讨。</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 属性名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; href&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 指定&lt;a&gt;元素所指资源的URL</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hreflang&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;指向的链接资源所使用的语言</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; media&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明所链接资源用于哪种设备</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明文档与所链接资源的关系类型</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; target&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 指定用以打开所链接资源的浏览环境</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明所链接资源的MIME类型（比如text/html）</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 在这几个属性当中，只有href和target一般比较常用，而href是必须要用的。其</strong></span></p>
+<p><span style="font-size: 14pt"><strong>他几个属性，在&lt;a&gt;元素使用较少，将在CSS章节再探讨。</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;<span style="color: #0000ff">&nbsp;&nbsp; 1.href属性</span></strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; &lt;a href="http://www.baidu.com"&gt;百度&lt;/a&gt;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 解释：href是必须属性，否则&lt;a&gt;元素就变成空元素了。如果属性值是http://开头</strong></span></p>
+<p><span style="font-size: 14pt"><strong>的URL，意味着点击跳转到指定的外部网站。</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>&nbsp;&nbsp;&nbsp; 2.target属性</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; &lt;a href="http://www.baidu.com target="_blank"&gt;百度&lt;/a&gt;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 解释：target属性告诉浏览器希望将所链接的资源显示在哪里。</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 属性名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _blank&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在新窗口或标签页中打开文档</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _parent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在父窗框组（frameset）中打开文档</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _self&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在当前窗口打开文档（默认）</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在顶层窗口打开文档</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 这四种最常用的是_blank，新建一个窗口。而_self是默认，当前窗口打开。_parent</strong></span></p>
+<p><span style="font-size: 14pt"><strong>和_top是基于框架页面的，分别表示在父窗口打开和在整个窗口打开。而HTML5中，框架</strong></span></p>
+<p><span style="font-size: 14pt"><strong>基本被废弃，只能使用&lt;iframe&gt;元素，且以后大量结合JavaScript和PHP等语言配合，</strong></span></p>
+<p><span style="font-size: 14pt"><strong>框架用的就很少了。</strong></span></p>
+<p><span style="font-size: 14pt"><strong><span style="color: #0000ff"><strong>　　3.rel&nbsp;</strong></span><br><strong>　　　　rel="nofollow"告诉搜索引擎不必跟踪</strong></strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>二．相对与绝对路径</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 所谓相对路径，就是相对于链接页面而言的另一个页面的路径。而绝对路径，就是直接</strong></span></p>
+<p><span style="font-size: 14pt"><strong>从file:///磁盘符开始的完整路径。我们在同一个目录下做上两个页面，其中一个页面链</strong></span></p>
+<p><span style="font-size: 14pt"><strong>接到另一个页面。</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>&nbsp;&nbsp;&nbsp; 1.绝对路径</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; &lt;a href="file:///D:/备 /HTML5第一季/code/index2.html"&gt;index2&lt;/a&gt;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 解释：首先是file:///开头，然后是磁盘符，然后是一个个的目录层次，找到相应文</strong></span></p>
+<p><span style="font-size: 14pt"><strong>件。这种方式最致命的问题是，当整个目录转移到另外的盘符或其他电脑时，目录结构一旦</strong></span></p>
+<p><span style="font-size: 14pt"><strong>出现任何变化，链接当即失效。</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>&nbsp;&nbsp;&nbsp; 2.相对路径</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; &lt;a href="index2.html"&gt;index2&lt;/a&gt;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 解释：相对路径的条件是必须文件都在一个磁盘或目录下，如果是在同一个目录下，直</strong></span></p>
+<p><span style="font-size: 14pt"><strong>接属性值就是被链接的文件名.后缀名。如果在同一个主目录下，有多个子目录层次，那就</strong></span></p>
+<p><span style="font-size: 14pt"><strong>需要使用目录结构语法。</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>&nbsp;&nbsp;&nbsp; 3.目录语法</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 同一个目录：index2.html或./index2.html；</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 在子目录：xxx/index2.html；</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 在孙子目录：xxx/xxx/index2.html；</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 在父目录：../index2.html；</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 在爷爷目录：../../index2.html；</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt; color: #0000ff"><strong>三．锚点设置</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; 超链接也可用来将同一个文档中的另一个元素移入视野。通过属性id或name实现锚</strong></span></p>
+<p><span style="font-size: 14pt"><strong>点定位。</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; //链接</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; &lt;ahref="#1"&gt;第一章&lt;/a&gt;&lt;ahref="#2"&gt;第二章&lt;/a&gt;&lt;ahref="#3"&gt;第三章&lt;/a&gt;</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; //锚点</strong></span></p>
+<p><span style="font-size: 14pt"><strong>&nbsp;&nbsp;&nbsp; &lt;a name="1"&gt;&lt;/a&gt; &lt;a id="3"&gt;&lt;/a&gt;</strong></span></p></div>

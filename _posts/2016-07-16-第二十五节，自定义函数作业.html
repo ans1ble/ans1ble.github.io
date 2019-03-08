@@ -1,0 +1,209 @@
+第二十五节，自定义函数作业
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>1,简述普通参数、指定参数、默认参数、动态参数的区别</strong></p>
+<p>函数</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a.def(声明自定义函数开始)</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b.函数名（）如：f1()</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c.返回值return(关键字)</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 函数内部一旦遇到return,以下代码不在执行</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d.参数</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.形式参数（定义函数时的参数），实际参数（调用函数时的参数）</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.普通参数：数量一致，一一对应</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">普通参数：数量一致，一一对应</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(a,b):
+    c </span>= a +<span style="color: #000000;"> b
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+f1(</span>5,5)</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.指定参数</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 调用函数时指定参数如：f1(p="xxx")</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">指定参数:调用函数时指定参数</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> g1(a,b):
+    c </span>= a +<span style="color: #000000;"> b
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+g1(b </span>= 4, a = 3)</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.默认参数</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在定义函数时形式参数指定默认实参，默认参数要写在尾部</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">默认参数:在定义函数时形式参数指定默认实参</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">def</span> h1(a=5, b=3<span style="color: #000000;">):
+    c </span>= a +<span style="color: #000000;"> b
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+h1()</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.动态参数</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *args (接收实际参数组合成元组)</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">动态参数:*args (接收实际参数组合成元组)</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">def</span> i1(*<span style="color: #000000;">args):
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(args)
+i1(</span>123, 456, 789)</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **kwargs (接收实际参数组合成字典)</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">动态参数:**kwargs (接收实际参数组合成字典)</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">def</span> j1(**<span style="color: #000000;">kwargs):
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(kwargs)
+j1(k1</span>=123,k2=456,k3=789)</pre>
+</div>
+<p><strong>&nbsp;</strong></p>
+<p><strong>2,写函数，计算传入字符串中【数字】、【字母】、【空格] 以及 【其他】的个数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">写函数，计算传入字符串中【数字】、【字母】、【空格] 以及 【其他】的个数</span>
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> pduan(s):
+    shuzi </span>= 0       <span style="color: #008000;">#</span><span style="color: #008000;">统计数字</span>
+    zimu = 0        <span style="color: #008000;">#</span><span style="color: #008000;">统计字母</span>
+    kongge = 0      <span style="color: #008000;">#</span><span style="color: #008000;">统计空格</span>
+    qita = 0        <span style="color: #008000;">#</span><span style="color: #008000;">统计其他</span>
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> s:     <span style="color: #008000;">#</span><span style="color: #008000;">循环字符串</span>
+        <span style="color: #0000ff;">if</span> i.isdigit():     <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的字符是否是数字</span>
+            shuzi += 1      <span style="color: #008000;">#</span><span style="color: #008000;">如果是数字，统计加1</span>
+        <span style="color: #0000ff;">elif</span> i.isalpha():   <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的字符是否是字母</span>
+            zimu  += 1      <span style="color: #008000;">#</span><span style="color: #008000;">如果是字母，统计加1</span>
+        <span style="color: #0000ff;">elif</span> i.isspace():   <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的字符是否是空格</span>
+            kongge += 1     <span style="color: #008000;">#</span><span style="color: #008000;">如果是空格，统计加1</span>
+        <span style="color: #0000ff;">else</span>:               <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的字符都不是以上类型，则为其他</span>
+            qita += 1       <span style="color: #008000;">#</span><span style="color: #008000;">如果是其他，其他统计加1</span>
+    <span style="color: #0000ff;">return</span> {<span style="color: #800000;">"</span><span style="color: #800000;">shuzi</span><span style="color: #800000;">"</span>:shuzi, <span style="color: #800000;">"</span><span style="color: #800000;">zimu</span><span style="color: #800000;">"</span>:zimu, <span style="color: #800000;">"</span><span style="color: #800000;">kongge</span><span style="color: #800000;">"</span>:kongge, <span style="color: #800000;">"</span><span style="color: #800000;">qita</span><span style="color: #800000;">"</span>:qita}    <span style="color: #008000;">#</span><span style="color: #008000;">返回由各种统计组合的字典</span>
+<span style="color: #000000;">
+jieg </span>= pduan(<span style="color: #800000;">"</span><span style="color: #800000;">1567df jweiwo r22r</span><span style="color: #800000;">"</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">调用函数传入字符串</span>
+<span style="color: #0000ff;">print</span>(jieg) <span style="color: #008000;">#</span><span style="color: #008000;">打印函数</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+</span><span style="color: #008000;">#</span><span style="color: #008000;">用字典索引的方式，分别获取到各项统计到的数量</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">数字:</span><span style="color: #800000;">"</span>, jieg[<span style="color: #800000;">"</span><span style="color: #800000;">shuzi</span><span style="color: #800000;">"</span>], <span style="color: #800000;">"</span><span style="color: #800000;">字母:</span><span style="color: #800000;">"</span>, jieg[<span style="color: #800000;">"</span><span style="color: #800000;">zimu</span><span style="color: #800000;">"</span>], <span style="color: #800000;">"</span><span style="color: #800000;">空格:</span><span style="color: #800000;">"</span>, jieg[<span style="color: #800000;">"</span><span style="color: #800000;">kongge</span><span style="color: #800000;">"</span>], <span style="color: #800000;">"</span><span style="color: #800000;">其他:</span><span style="color: #800000;">"</span>, jieg[<span style="color: #800000;">"</span><span style="color: #800000;">qita</span><span style="color: #800000;">"</span>])</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>3,写函数，判断用户传入的对象（字符串、列表、元组）长度是否大于5</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">写函数，判断用户传入的对象（字符串、列表、元组）长度是否大于5</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">写函数，判断用户传入的对象（字符串、列表、元组）长度是否大于5</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">def</span> pduan(s):   <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    <span style="color: #0000ff;">if</span> isinstance(s,str) <span style="color: #0000ff;">or</span> isinstance(s,list) <span style="color: #0000ff;">or</span> isinstance(s,tuple):  <span style="color: #008000;">#</span><span style="color: #008000;">判断接收到的是否是（字符串、列表、元组）类型</span>
+        <span style="color: #0000ff;">if</span> len(s) &gt; 5:  <span style="color: #008000;">#</span><span style="color: #008000;">判断接收到的元素是否大于5</span>
+            <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">大于五</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">大于5</span>
+        <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+            </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">小于五</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">小于5</span>
+    <span style="color: #0000ff;">else</span>:    <span style="color: #008000;">#</span><span style="color: #008000;">如果接收到的不是（字符串、列表、元组）类型</span>
+        <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">您输入的类型，不在范围内</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">不是（字符串、列表、元组）类型 打印提示</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">shuju = "自贡玉1111111"</span><span style="color: #008000;">
+#</span><span style="color: #008000;">shuju = [123,456,789]</span>
+shuju = (123,456,789,101112,131415,16171819<span style="color: #000000;">)
+
+pduan(shuju)    </span><span style="color: #008000;">#</span><span style="color: #008000;">调用函数</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>4，写函数，检查用户传入的对象（字符串、列表、元组）的每一个元素是否含有空内容。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">写函数，检查用户传入的对象（字符串、列表、元组）的每一个元素是否含有空内容。</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">写函数，检查用户传入的对象（字符串、列表、元组）的每一个元素是否含有空内容。</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+</span><span style="color: #0000ff;">def</span> hanshu(s):  <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    tj = False  <span style="color: #008000;">#</span><span style="color: #008000;">空格统计默认False没有</span>
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> s: <span style="color: #008000;">#</span><span style="color: #008000;">循环接收的字符串</span>
+        <span style="color: #0000ff;">if</span> i.isspace(): <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的字符是否是空格</span>
+            tj = True   <span style="color: #008000;">#</span><span style="color: #008000;">如果是空格将空格统计改为True有空格</span>
+    <span style="color: #0000ff;">return</span> tj   <span style="color: #008000;">#</span><span style="color: #008000;">返回空格统计</span>
+<span style="color: #000000;">
+shuj </span>= <span style="color: #800000;">"</span><span style="color: #800000;">112344233</span><span style="color: #800000;">"</span><span style="color: #000000;">
+
+hsh </span>= hanshu(shuj)  <span style="color: #008000;">#</span><span style="color: #008000;">调用函数</span>
+<span style="color: #0000ff;">print</span>(hsh)</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>5、写函数，检查传入列表的长度，如果大于2，那么仅保留前两个长度的内容，并将新内容返回给调用者</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">写函数，检查传入列表的长度，如果大于2，那么仅保留前两个长度的内容，并将新内容返回给调用者</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">写函数，检查传入列表的长度，如果大于2，那么仅保留前两个长度的内容，并将新内容返回给调用者</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+</span><span style="color: #0000ff;">def</span> f2(s):  <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    <span style="color: #0000ff;">if</span> len(s) &gt; 2:  <span style="color: #008000;">#</span><span style="color: #008000;">判断列表的长度是否大于2</span>
+        <span style="color: #0000ff;">return</span> s[0:2]   <span style="color: #008000;">#</span><span style="color: #008000;">如果大于2切片保留2位长度</span>
+    <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">return</span> s    <span style="color: #008000;">#</span><span style="color: #008000;">如果不大于2直接返回列表</span>
+<span style="color: #000000;">
+fs </span>= [123,456,789,987,654,321<span style="color: #000000;">]
+
+f3 </span>= f2(fs) <span style="color: #008000;">#</span><span style="color: #008000;">调用函数</span>
+<span style="color: #0000ff;">print</span>(f3)</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>6、写函数，检查获取传入列表或元组对象的所有奇数位索引对应的元素，并将其作为新列表返回给调用者。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">写函数，检查获取传入列表或元组对象的所有奇数位索引对应的元素，并将其作为新列表返回给调用者</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">写函数，检查获取传入列表或元组对象的所有奇数位索引对应的元素，并将其作为新列表返回给调用者</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+</span><span style="color: #0000ff;">def</span> f4(s):      <span style="color: #008000;">#</span><span style="color: #008000;">自定义函数</span>
+    tj = []     <span style="color: #008000;">#</span><span style="color: #008000;">统计奇数索引的元素</span>
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(len(s)):     <span style="color: #008000;">#</span><span style="color: #008000;">循环列表的索引</span>
+        <span style="color: #0000ff;">if</span> i % 2 == 1:      <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的索引除以2是否等于1</span>
+            tj.append(s[i]) <span style="color: #008000;">#</span><span style="color: #008000;">如果除以2等于1，将此下标的元素追加到，统计奇数索引的元素</span>
+        <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+            </span><span style="color: #0000ff;">pass</span>    <span style="color: #008000;">#</span><span style="color: #008000;">如果除以2不等于1，什么都不做</span>
+    <span style="color: #0000ff;">return</span> tj   <span style="color: #008000;">#</span><span style="color: #008000;">返回统计奇数索引的元素</span>
+<span style="color: #000000;">
+fsa </span>= [123,456,789,987,654,432<span style="color: #000000;">]
+
+f5 </span>= f4(fsa)    <span style="color: #008000;">#</span><span style="color: #008000;">调用函数</span>
+<span style="color: #0000ff;">print</span>(f5)</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>7、写函数，检查传入字典的每一个value的长度,如果大于2，那么仅保留前两个长度的内容，并将新内容返回给调用者。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">写函数，检查传入字典的每一个value的长度,如果大于2，那么仅保留前两个长度的内容，并将新内容返回给调用者</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">写函数，检查传入字典的每一个value的长度,如果大于2，那么仅保留前两个长度的内容，并将新内容返回给调用者</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+</span><span style="color: #0000ff;">def</span> f5(s):      <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    tj = {}     <span style="color: #008000;">#</span><span style="color: #008000;">新建保留两位长度的字典</span>
+    <span style="color: #0000ff;">for</span> key,value <span style="color: #0000ff;">in</span> s.items():     <span style="color: #008000;">#</span><span style="color: #008000;">循环出字典的键和值</span>
+        <span style="color: #0000ff;">if</span> len(value) &gt; 2:      <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的字典值是否大于两位</span>
+            tj[key] = value[0:2]    <span style="color: #008000;">#</span><span style="color: #008000;">如果大于两位将字典值切片成两位后，更新到新建保留两位长度的字典</span>
+        <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+            tj[key] </span>= value     <span style="color: #008000;">#</span><span style="color: #008000;">如果不大于两位，就直接更新到新建保留两位长度的字典</span>
+    <span style="color: #0000ff;">return</span> tj   <span style="color: #008000;">#</span><span style="color: #008000;">返回新建保留两位长度的字典</span>
+<span style="color: #000000;">
+dic </span>= {<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>: <span style="color: #800000;">"</span><span style="color: #800000;">v1v1</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>: [11,22,33,44], <span style="color: #800000;">"</span><span style="color: #800000;">k3</span><span style="color: #800000;">"</span>: <span style="color: #800000;">"</span><span style="color: #800000;">12</span><span style="color: #800000;">"</span><span style="color: #000000;">}
+
+f6 </span>= f5(dic)    <span style="color: #008000;">#</span><span style="color: #008000;">调用函数</span>
+<span style="color: #0000ff;">print</span>(f6)</pre>
+</div>
+<p><strong>列2</strong>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">写函数，检查传入字典的每一个value的长度,如果大于2，那么仅保留前两个长度的内容，并将新内容返回给调用者</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">写函数，检查传入字典的每一个value的长度,如果大于2，那么仅保留前两个长度的内容，并将新内容返回给调用者</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+dic </span>= {<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>: <span style="color: #800000;">"</span><span style="color: #800000;">v1v1</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>: [11,22,33,44], <span style="color: #800000;">"</span><span style="color: #800000;">k3</span><span style="color: #800000;">"</span>: <span style="color: #800000;">"</span><span style="color: #800000;">12</span><span style="color: #800000;">"</span><span style="color: #000000;">}
+</span><span style="color: #0000ff;">def</span> f6(s):  <span style="color: #008000;">#</span><span style="color: #008000;">定义函数</span>
+    <span style="color: #0000ff;">for</span> key,value <span style="color: #0000ff;">in</span> s.items():     <span style="color: #008000;">#</span><span style="color: #008000;">循环出字典的键和值</span>
+        <span style="color: #0000ff;">if</span> len(value) &gt; 2:  <span style="color: #008000;">#</span><span style="color: #008000;">判断循环到的字典值是否大于两位</span>
+            s[key] = value[0:2]     <span style="color: #008000;">#</span><span style="color: #008000;">如果大于两位将字典值切片成两位</span>
+        <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+            s[key] </span>= value      <span style="color: #008000;">#</span><span style="color: #008000;">如果不大于两位，就直接返回</span>
+<span style="color: #000000;">
+f6(dic)
+</span><span style="color: #0000ff;">print</span>(dic)</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>&nbsp;</strong></p></div>

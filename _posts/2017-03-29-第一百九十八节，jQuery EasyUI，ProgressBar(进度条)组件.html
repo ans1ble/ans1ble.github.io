@@ -1,0 +1,211 @@
+第一百九十八节，jQuery EasyUI，ProgressBar(进度条)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，ProgressBar(进度条)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170329164317311-1591283086.png" alt=""></p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式 </strong></p>
+<p><strong>　　2.属性列表 </strong></p>
+<p><strong>　　3.事件列表 </strong></p>
+<p><strong>　　4.方法列表</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 中 ProgressBar(进度条)组件的使用方法，这个组件不依赖 于其他组件。</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">//class 加载方式
+</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="easyui-progressbar"</span><span style="color: #ff0000">
+　　data-options</span><span style="color: #0000ff">="value:60"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:400px;"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">JS 加载调用</span>
+$('#box'<span style="color: #000000">).progressbar({
+　　value : </span>60<span style="color: #000000">,
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170329155047342-32107971.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>width &nbsp;string 设置进度条宽度。默认为 auto。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).progressbar({
+        width:</span>500,               <span style="color: #008000">//</span><span style="color: #008000">设置进度条宽度</span>
+        height:20                <span style="color: #008000">//</span><span style="color: #008000">设置进度条高度</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>height &nbsp;number 设置进度条高度。默认为 22。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).progressbar({
+        width:</span>500,               <span style="color: #008000">//</span><span style="color: #008000">设置进度条宽度</span>
+        height:20                <span style="color: #008000">//</span><span style="color: #008000">设置进度条高度</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>value &nbsp;number 设置进度条值。默认为 0。，<span style="color: #0000ff"><strong>设置进度条值</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).progressbar({
+        width:</span>500,               <span style="color: #008000">//</span><span style="color: #008000">设置进度条宽度</span>
+        height:20,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条高度</span>
+        value:50                <span style="color: #008000">//</span><span style="color: #008000">设置进度条值</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>text &nbsp;string 设置进度条百分比模版：默认{value}%，<span style="color: #0000ff">就是设置进度条的提示文字，默认是获取进度条的值加上%号</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).progressbar({
+        width:</span>500,               <span style="color: #008000">//</span><span style="color: #008000">设置进度条宽度</span>
+        height:20,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条高度</span>
+        value:50,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条值</span>
+        text : '{value}%'       <span style="color: #008000">//</span><span style="color: #008000">设置进度条的提示文字，默认是获取进度条的值加上%号</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．事件列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170329161530889-1053631848.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>onChange &nbsp;newValue,oldValue 在值更改的时候触发，接收两个参数，分别接收进度新值，和旧值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).progressbar({
+        width: </span>500,               <span style="color: #008000">//</span><span style="color: #008000">设置进度条宽度</span>
+        height: 20,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条高度</span>
+        value: 50,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条值</span>
+        text: '{value}%',       <span style="color: #008000">//</span><span style="color: #008000">设置进度条的提示文字，默认是获取进度条的值加上%号</span>
+        onChange: <span style="color: #0000ff">function</span> (newValue, oldValue) {           <span style="color: #008000">//</span><span style="color: #008000">在值更改的时候触发</span>
+            alert('新:' + newValue + ',旧:' + oldValue);     <span style="color: #008000">//</span><span style="color: #008000">分别接收进度新值，和旧值</span>
+<span style="color: #000000">        }
+    });
+    setTimeout(</span><span style="color: #0000ff">function</span> () {   <span style="color: #008000">//</span><span style="color: #008000">定时器1秒钟</span>
+        $('#box').progressbar('setValue', 70);  <span style="color: #008000">//</span><span style="color: #008000">将进度改变为70%</span>
+    }, 1000<span style="color: #000000">);
+});</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>动画进度效果</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).progressbar({
+        width: </span>500,               <span style="color: #008000">//</span><span style="color: #008000">设置进度条宽度</span>
+        height: 20,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条高度</span>
+        value: 50,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条值</span>
+        text: '{value}%'       <span style="color: #008000">//</span><span style="color: #008000">设置进度条的提示文字，默认是获取进度条的值加上%号</span>
+<span style="color: #000000">    });
+    setInterval(</span><span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">定时器200毫秒，获取当前进度值加5，循环设置成新值</span>
+        $('#box').progressbar('setValue',$('#box').progressbar('getValue') + 5<span style="color: #000000">);
+    }, </span>200<span style="color: #000000">);
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170329163635936-1959530217.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>options &nbsp;none 返回属性对象</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).progressbar({
+        width: </span>500,               <span style="color: #008000">//</span><span style="color: #008000">设置进度条宽度</span>
+        height: 20,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条高度</span>
+        value: 5,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条值</span>
+        text: '{value}%'       <span style="color: #008000">//</span><span style="color: #008000">设置进度条的提示文字，默认是获取进度条的值加上%号</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').progressbar('options'));       <span style="color: #008000">//</span><span style="color: #008000">返回属性对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>resize &nbsp;width 组件大小</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).progressbar({
+        width: </span>500,               <span style="color: #008000">//</span><span style="color: #008000">设置进度条宽度</span>
+        height: 20,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条高度</span>
+        value: 5,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条值</span>
+        text: '{value}%'       <span style="color: #008000">//</span><span style="color: #008000">设置进度条的提示文字，默认是获取进度条的值加上%号</span>
+<span style="color: #000000">    });
+    $(</span>'#box').progressbar('resize',800);       <span style="color: #008000">//</span><span style="color: #008000">设置组件大小</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getValue &nbsp;none 返回当前进度值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).progressbar({
+        width: </span>500,               <span style="color: #008000">//</span><span style="color: #008000">设置进度条宽度</span>
+        height: 20,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条高度</span>
+        value: 5,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条值</span>
+        text: '{value}%'       <span style="color: #008000">//</span><span style="color: #008000">设置进度条的提示文字，默认是获取进度条的值加上%号</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').progressbar('getValue'));       <span style="color: #008000">//</span><span style="color: #008000">返回当前进度值</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>setValue &nbsp;value 设置一个新的进度值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).progressbar({
+        width: </span>500,               <span style="color: #008000">//</span><span style="color: #008000">设置进度条宽度</span>
+        height: 20,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条高度</span>
+        value: 5,                <span style="color: #008000">//</span><span style="color: #008000">设置进度条值</span>
+        text: '{value}%'       <span style="color: #008000">//</span><span style="color: #008000">设置进度条的提示文字，默认是获取进度条的值加上%号</span>
+<span style="color: #000000">    });
+    $(</span>'#box').progressbar('setValue',80);       <span style="color: #008000">//</span><span style="color: #008000">设置一个新的进度值</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>$.fn.progressbar.defaults 重写默认值对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$.fn.progressbar.defaults.value = '60';</pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,384 @@
+第七十二节，文本样式
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">文本样式</span></strong></span></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong><br><strong>    1.字体总汇 </strong><br><strong>    2.字体设置 </strong><br><strong>    3.Web字体</strong></p>
+<p><strong>本章主要探讨HTML5中CSS文本样式，通过文本样式的设置，更改字体的大小、样式以及文本的方位。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">一．字体总汇</span> </strong><br><strong>    本节课，我们重点了解一下CSS文本样式中字体的一些设置方法，样式表如下：</strong></p>
+<p><span style="color: #0000ff"><strong>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;属性名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;　　　　　　　　CSS版本</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; font-size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;&nbsp;　　设置字体的大小 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;　　　　1</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; font-variant&nbsp;　　&nbsp;　　 &nbsp;&nbsp; 设置英文字体是否转换为小型大写 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; font-style&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;　　&nbsp;设置字体是否倾斜 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; font-weight&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;设置字体是否加粗 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; font-family&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;&nbsp;设置font字体&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　1</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; font&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　设置字体样式复合写法 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1 ~ 2</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @font-face&nbsp;&nbsp;&nbsp;&nbsp; 　　　　&nbsp;设置Web字体 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong><span style="color: #ff0000">二．字体设置</span> </strong><br><strong>    我们可以通过CSS文本样式来修改字体的大小、样式以及形态。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>font-size&nbsp;设置字体大小</strong></span></p>
+<p>&nbsp;<strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xx-small　　　　　　　　　&nbsp;设置字体大小。每个值从小到大的固定值</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; x-small</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; small</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; medium</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; large</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; x-large</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　xx-large &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;设置字体相对于父元素字体的大小</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;smaller &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;larger</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;数字+px&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;&nbsp;使用CSS像素长度设置字体大小</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;数字+%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　&nbsp; &nbsp; 使用相对于父元素字体的百分比大小</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>&nbsp;设置字体大小。每个值从小到大的固定值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">从小到大的固定值</span><span style="color: #008000">*/</span><span style="color: #800000">
+.a</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> xx-small</span>;
+}<span style="color: #800000">
+.b</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> x-small</span>;
+}<span style="color: #800000">
+.c</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> small</span>;
+}<span style="color: #800000">
+.d</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> medium</span>;
+}<span style="color: #800000">
+.e</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> large</span>;
+}<span style="color: #800000">
+.f</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> x-large</span>;
+}<span style="color: #800000">
+
+&lt;p class="a"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="b"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="c"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="d"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="e"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="f"&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>设置字体相对于父元素字体的大小</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">设置字体相对于父元素字体的大小</span><span style="color: #008000">*/</span><span style="color: #800000">
+.a</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff">xx-large</span>;
+}<span style="color: #800000">
+.b</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff">smaller</span>;
+}<span style="color: #800000">
+.c</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff">larger</span>;
+}<span style="color: #800000">
+
+&lt;p class="a"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="b"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="c"&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p><strong><span style="color: #0000ff">使用CSS像素长度设置字体大小</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">使用CSS像素长度设置字体大小</span><span style="color: #008000">*/</span><span style="color: #800000">
+p </span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 50px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt;
+&lt;p&gt;这是一段文本&lt;/p&gt;
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>使用相对于父元素字体的百分比大小【推荐】</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">使用相对于父元素字体的百分比大小</span><span style="color: #008000">*/</span><span style="color: #800000">
+p </span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff">200%</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt;
+&lt;p&gt;这是一段文本&lt;/p&gt;
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>font-variant&nbsp;设置英文字体是否转换为小型大写字母显示</strong></span></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; normal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　表示如果以小型大写状态，让它恢复小写状态。</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; small-caps&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &nbsp; &nbsp;让小写字母以小型大写字母显示。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p </span>{<span style="color: #ff0000">
+    font-variant</span>:<span style="color: #0000ff"> small-caps</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本html&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>font-style设置字体是否倾斜。</strong></span></p>
+<p>&nbsp;<strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; normal &nbsp; &nbsp; &nbsp; &nbsp;　　　　　　表示让倾斜状态恢复到正常状态。</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; italic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　表示使用斜体。</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; oblique&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;&nbsp;表示让文字倾斜。区别在没有斜体时使用。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">.a </span>{<span style="color: #ff0000">
+    font-style</span>:<span style="color: #0000ff"> italic</span>;
+}<span style="color: #800000">
+.b</span>{<span style="color: #ff0000">
+    font-style</span>:<span style="color: #0000ff"> oblique</span>;
+}<span style="color: #800000">
+
+&lt;p class="a"&gt;这是一段文本html&lt;/p&gt;
+&lt;p class="b"&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>font-weight&nbsp;设置字体是否加粗。</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; normal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　表示让加粗的字体恢复正常。</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bold&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　 &nbsp;粗体</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bolder&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　&nbsp;更粗的字体</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lighter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　 &nbsp;轻细的字体</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 100 ~ 900之间的数字&nbsp; 　　　　 &nbsp;600及之后是加粗，之前不加粗</strong></p>
+<p><span style="color: #0000ff"><strong>在目前计算机和浏览器显示中，只有bold加粗，其他更粗更细，目前体现不出来。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">.a </span>{<span style="color: #ff0000">
+    font-weight</span>:<span style="color: #0000ff"> bold</span>;
+}<span style="color: #800000">
+.b</span>{<span style="color: #ff0000">
+    font-weight</span>:<span style="color: #0000ff"> bolder</span>;
+}<span style="color: #800000">
+.c</span>{<span style="color: #ff0000">
+    font-weight</span>:<span style="color: #0000ff"> lighter</span>;
+}<span style="color: #800000">
+.d</span>{<span style="color: #ff0000">
+    font-weight</span>:<span style="color: #0000ff"> 700</span>;
+}<span style="color: #800000">
+
+&lt;p class="a"&gt;这是一段文本html&lt;/p&gt;
+&lt;p class="b"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="c"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="d"&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>font-family使用指定字体名称。这里使用的字体是浏览者系统的字体。有时为了兼容很多浏览者系统的字体，可以做几个后备字体。</strong></span>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p </span>{<span style="color: #ff0000">
+    font-family</span>:<span style="color: #0000ff">楷体,微软雅黑,宋体</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>font字体设置简写组合方式。格式如下：[是否倾斜|是否加粗|是否转小型大写]字体大小 字体名称；</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p </span>{<span style="color: #ff0000">
+    font</span>:<span style="color: #0000ff">50px 楷体 </span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">三．Web字体，<strong>也就是服务器端字体</strong></span> </strong><br><strong>    虽说可以通过备用字体来解决用户端字体缺失问题，但终究用户体验不好，且不一定备用字体所有用户都安装了。所以，现在CSS提供了Web字体，也就是服务器端字体。 </strong></p>
+<p><span style="color: #0000ff"><strong>&nbsp;我们可以将字体下载放到html工程目录来使用</strong></span></p>
+<p><span style="color: #ff0000"><strong>@font-face服务器提供字体</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@font-face </span>{<span style="color: #ff0000">
+    font-family</span>:<span style="color: #0000ff"> abc</span>; <span style="color: #008000">/*</span><span style="color: #008000">给字体一个名称</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    src</span>:<span style="color: #0000ff"> url('BrushScriptStd.otf')</span>; <span style="color: #008000">/*</span><span style="color: #008000">连接字体文件路径</span><span style="color: #008000">*/</span>
+}<span style="color: #800000">
+p</span>{<span style="color: #ff0000">
+    font-family</span>:<span style="color: #0000ff"> abc</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 50px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段html文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="font-size: 18pt; color: #0000ff"><strong>文本内容<strong>设置总汇</strong></strong></span></p>
+<p><strong>CSS文本样式中文本内容的一些设置方法，样式表如下：</strong></p>
+<p><span style="color: #0000ff"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 属性名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　说明&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　　　　&nbsp; 　CSS版本</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text-decoration&nbsp; 　　　　　　　　 &nbsp;&nbsp;装饰文本出现各种划线。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text-transform&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　 &nbsp; &nbsp;&nbsp;将英文文本转换大小写。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text-shadow&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　　　　 给文本添加阴影 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 3</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text-align&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　 &nbsp;&nbsp;设置文本对齐方式 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1,3</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; white-space&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　&nbsp;排版中的空白处理方式 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; letter-spacing&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　&nbsp;设置字母之间的间距 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; word-spacing&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　设置单词之间的间距 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; line-height&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　 &nbsp;&nbsp;设置行高&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　 &nbsp;1</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; word-wrap&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　控制段词&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　 &nbsp;&nbsp;3</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text-indent &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　　　　&nbsp;设置文本首行的缩进 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>文本内容<strong>设置</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>text-decoration设置文本出现下划线。属性值如下表</strong></span></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;　值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; none&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　 &nbsp;让本身有划线装饰的文本取消掉</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; underline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　&nbsp;让文本的底部出现一条下划线</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; overline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　　 &nbsp; 让文本的头部出现一条上划线</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; line-through&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　让文本的中部出现一条删除划线</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; blink&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　&nbsp;让文本进行闪烁，基本不支持了</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">.a</span>{<span style="color: #ff0000">
+    text-decoration</span>:<span style="color: #0000ff"> underline</span>;
+}<span style="color: #800000">
+.b</span>{<span style="color: #ff0000">
+    text-decoration</span>:<span style="color: #0000ff"> overline</span>;
+}<span style="color: #800000">
+.c</span>{<span style="color: #ff0000">
+    text-decoration</span>:<span style="color: #0000ff"> line-through</span>;
+}<span style="color: #800000">
+.d</span>{<span style="color: #ff0000">
+    text-decoration</span>:<span style="color: #0000ff"> blink</span>;
+}<span style="color: #800000">
+
+&lt;p class="a"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="b"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="c"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="d"&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>text-transform&nbsp;设置英文文本转换为大小写。&nbsp;</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; none&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　 &nbsp;将已被转换大小写的值恢复到默认状态</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; capitalize&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　 &nbsp;将英文单词首字母大写</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;uppercase&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　 &nbsp;将英文转换为大写字母</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lowercase&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　 &nbsp;&nbsp;将英文转换为小写字母</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">.a</span>{<span style="color: #ff0000">
+    text-transform</span>:<span style="color: #0000ff"> capitalize</span>;
+}<span style="color: #800000">
+.b</span>{<span style="color: #ff0000">
+    text-transform</span>:<span style="color: #0000ff"> uppercase</span>;
+}<span style="color: #800000">
+.c</span>{<span style="color: #ff0000">
+    text-transform</span>:<span style="color: #0000ff"> lowercase</span>;
+}<span style="color: #800000">
+
+&lt;p class="a"&gt;gyfygegff&lt;/p&gt;
+&lt;p class="b"&gt;kfklwfgiogvik&lt;/p&gt;
+&lt;p class="c"&gt;GFHPOIGHWEAP8YG&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>text-shadow&nbsp;解释：给文本添加阴影。其中四个值，第一个值：水平偏移；第二个值：垂直偏移；第三个值：阴影模糊度（可选）；第四个值：阴影颜色（可选）。</strong></span>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">.a</span>{<span style="color: #ff0000">
+    text-shadow </span>:<span style="color: #0000ff">5px 5px 3px #ff272d</span>;
+}<span style="color: #800000">
+
+&lt;p class="a"&gt;gyfygegff&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>text-align指定文本的对齐方式</strong></span></p>
+<p>&nbsp;<strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; left&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp; &nbsp; &nbsp; &nbsp;靠左对齐，默认</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; right&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　　&nbsp; 靠右对齐</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; center&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　　 居中对齐</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;　justify&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;&nbsp;内容两端对齐，就是文本内容多的时候，保证两端都是对齐的</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp; &nbsp;让文本处于开始的边界</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　让文本处于结束的边界</strong></p>
+<p><strong>start和end属于CSS3新增的功能，但目前IE和Opera尚未支持。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">.a</span>{<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> left</span>;
+}<span style="color: #800000">
+.b</span>{<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> right</span>;
+}<span style="color: #800000">
+.c</span>{<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;
+}<span style="color: #800000">
+.d</span>{<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> justify</span>;
+}<span style="color: #800000">
+
+&lt;p class="a"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="b"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="c"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="d"&gt;简介：当梁宇方决意不出席铂尔曼酒店十五周年庆酒会的时候，他的父亲，也是酒店董事长的梁泽，以及总经理梁宇青，正殷殷期盼着能够在这个酒会上正式将他介绍出来。无心接班的宇方竟然藏身在马场和分别六年的爱马Sky驰骋草原。宇青的突然现身马场令他无所遁行，就这样被压回了酒店准备亮相。但宇方仍不甘示弱，仍伺机逃跑… 小歌星杜允儿来到酒店接周年庆的暖场演唱，向天微义不容辞同行来帮忙，两人仓皇找着&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>white-space&nbsp;处理空白排版方式。</strong></span></p>
+<p><strong>值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;说明</strong></p>
+<p><strong>normal &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;默认值，空白符被压缩，文本自动换行，也就是无论多少个空格会被压缩显示一个空格，文本遇到挤压时自动换行</strong></p>
+<p><strong>nowrap &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 空白符被压缩，文本不换行，也就是无论多少个空格会被压缩显示一个空格，文本遇到挤压时不自动换行</strong></p>
+<p><strong>pre&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　 空白符被保留，遇到换行符则换行，也就是有多少空格就显示多少空格，只有回车换行时才换行</strong></p>
+<p><strong>pre-line &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;空白符被压缩，文本会在排满或遇换行符换行，无论多少个空格会被压缩显示一个空格，文本会在排满或遇回车换行</strong></p>
+<p><strong>pre-wrap &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;空白符被保留，文本会在排满或遇换行符换行，也就是有多少空格就显示多少空格，文本会在排满或遇回车换行</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">.a</span>{<span style="color: #ff0000">
+    white-space</span>:<span style="color: #0000ff"> normal</span>;
+}<span style="color: #800000">
+.b</span>{<span style="color: #ff0000">
+    white-space</span>:<span style="color: #0000ff"> pre</span>;
+}<span style="color: #800000">
+.c</span>{<span style="color: #ff0000">
+    white-space</span>:<span style="color: #0000ff"> pre-line</span>;
+}<span style="color: #800000">
+.d</span>{<span style="color: #ff0000">
+    white-space</span>:<span style="color: #0000ff"> pre-wrap</span>;
+}<span style="color: #800000">
+
+&lt;p class="a"&gt;这        是一段文本&lt;/p&gt;
+&lt;p class="b"&gt;这        是一段文本&lt;/p&gt;
+&lt;p class="c"&gt;这        是一段文本&lt;/p&gt;
+&lt;p class="d"&gt;这        是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>letter-spacing设置文本之间的间距</strong></span></p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;　　<strong>值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; normal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 设置默认间距</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 长度值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;比如：“数字”+“px”</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    letter-spacing</span>:<span style="color: #0000ff"> 50px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt;
+&lt;p&gt;这是一段文本&lt;/p&gt;
+&lt;p&gt;这是一段文本&lt;/p&gt;
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>word-spacing设置英文单子之间的间距</strong></span></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; normal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 设置默认间距</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 长度值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;比如：“数字”+“px”</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    word-spacing</span>:<span style="color: #0000ff"> 50px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;dislike  vt.consider unpleasant; not like &lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>line-height设置段落行高</strong></span></p>
+<p>&nbsp;<strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;　值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; normal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 设置默认间距</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 长度值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;比如：“数字”+“px”</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 数值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;比如：1,2,3</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　 &nbsp;比如：200%</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 1px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt;
+&lt;p&gt;这是一段文本&lt;/p&gt;
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>word-wrap让过长的英文单词断开</strong></span></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; normal &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 单词不断开</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break-word &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;断开单词</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>text-indent设置文本首行的缩进</strong></span></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 说明</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;normal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 设置默认间距</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;长度值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;比如：“数字”+“px”</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    text-indent</span>:<span style="color: #0000ff"> 50px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;简介：当梁宇方决意不出席铂尔曼酒店十五周年庆酒会的时候，他的父亲，也是酒店董事长的梁泽，以及总经理梁宇青，正殷殷期盼着能够在这个酒会上正式将他介绍出来。无心接班的宇方竟然藏身在马场和分别六年的爱马Sky驰骋草原。宇青的突然现身马场令他无所遁行，就这样被压回了酒店准备亮相。但宇方仍不甘示弱，仍伺机逃跑… 小歌星杜允儿来到酒店接周年庆的暖场演唱，向天微义不容辞同行来帮忙，两人仓皇找着宴&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p></div>

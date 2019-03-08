@@ -1,0 +1,215 @@
+第二百六十四节，Tornado框架-基于正则的动态路由映射分页数据获取计算
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Tornado框架-基于正则的动态路由映射分页数据获取计算</strong></p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>分页基本显示数据</strong></span></p>
+<p><span style="color: #ff0000"><strong>第一步、设置正则路由映射配置，(r"/index/(?P&lt;page&gt;\d*)", index.indexHandler),正则匹配访问路径，访问录index/后面可以是可以是0个或多个数字</strong></span><br><span style="color: #ff0000"><strong>第二步、配置逻辑处理方法，get()方法里显示对应的页面，并传值一个SHUJU全局变量列表到html模板，这个全局变量列表里是字典显示的数据</strong></span><br><span style="color: #ff0000"><strong>第三步、在html模板里用模板语言，循环这个列表里的字典，显示到表格里</strong></span><br><span style="color: #ff0000"><strong>第四步、设置用户表单提交数据，表单以post方式提交，提交到/index/1，也就是第1也</strong></span><br><span style="color: #ff0000"><strong>第五步、逻辑处理post()方法接收用户提交的数据，组合成字典追加到SHUJU全局变量列表里，self.redirect("/index/1")跳转到第一页，显示出添加的数据</strong></span></p>
+<p><span style="color: #0000ff"><strong>框架引擎</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="color: #0000ff">from</span> controllers <span style="color: #0000ff">import</span><span style="color: #000000"> index
+
+
+settings </span>= {                                    <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">views</span><span style="color: #800000">"</span>,                    <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">statics</span><span style="color: #800000">"</span>,                    <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+<span style="color: #000000">}
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">/index/(?P&lt;page&gt;\d*)</span><span style="color: #800000">"</span></span>, index.indexHandler),    <span style="color: #008000">#</span><span style="color: #008000">正则匹配访问路径，访问录index/后面可以是可以是0个或多个数字</span>
+],**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p><span style="color: #0000ff"><strong>逻辑处理</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="background-color: #ff99cc">SHUJU =<span style="color: #000000"> [
+    {</span><span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">lgx</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">729088188@qq.com</span><span style="color: #800000">"</span><span style="color: #000000">}
+]
+
+</span></span><span style="color: #008000">#</span><span style="color: #008000">逻辑处理</span>
+
+<span style="color: #0000ff">class</span> indexHandler(tornado.web.RequestHandler):  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="color: #0000ff">def</span> get(self,page):                                              <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+<span style="color: #000000">
+        self.render(</span><span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">index.html</span><span style="color: #800000">"</span>,shuju = SHUJU</span>)                               <span style="color: #008000">#</span><span style="color: #008000">显示index.html文件，并将全局变量SHUJU传到html模板</span>
+
+    <span style="color: #0000ff">def</span> post(self, *args, **<span style="color: #000000">kwargs):
+        <span style="background-color: #ffcc99">user </span></span><span style="background-color: #ffcc99">= self.get_argument(<span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>)            <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的用户名</span>
+        emia = self.get_argument(<span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>)            <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的邮箱</span></span>
+        <span style="background-color: #ffcc99">temp = {<span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>:user,<span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>:emia}            <span style="color: #008000">#</span><span style="color: #008000">将邮箱和用户名组合成字典，</span>
+        SHUJU.append(temp)                          <span style="color: #008000">#</span><span style="color: #008000">将字典追加到SHUJU全局变量</span>
+        self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/index/1</span><span style="color: #800000">"</span>)</span>                   <span style="color: #008000">#</span><span style="color: #008000">跳转到index/1，第一页</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">='{{static_url("s1.css")}}'</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>提交数据<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="<span style="background-color: #ffcc99">post</span>"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="<span style="background-color: #ffcc99">/index/1</span>"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名：</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">/&gt;</span><span style="color: #000000">
+    邮箱：</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="emia"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="background-color: #ffcc99"><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="submit"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="提交"</span><span style="color: #0000ff">/&gt;</span></span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>显示数据<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>用户名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>邮箱<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #008000">&lt;!--</span><span style="color: #008000">循环接收到的shuju显示到表格</span><span style="color: #008000">--&gt;</span><span style="background-color: #ff99cc"><span style="color: #000000">
+        {% for i in shuju %}
+            </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>{{i["user"]}}<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>{{i["emia"]}}<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        {% end %}
+    </span></span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>说明：<span style="background-color: #ff99cc">get方式请求</span>，<span style="background-color: #ffcc99">post方法请求</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170517201614963-262711060.gif" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>分页根据页码获取相应范围的数据</strong></span></p>
+<p><span style="color: #ff0000"><strong>第一步、在get方法里获取路由映射正则名称page，也就是访问后缀也是页码</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>第二步、根据页码获取相应范围的数据</strong></span><br><span style="color: #ff0000"><strong>	　　1、假如每页显示5条信息，page就是当前页</strong></span><br><span style="color: #ff0000"><strong>        　　2、第一页就应该获取SHUJU全局变量里的0-5条</strong></span><br><span style="color: #ff0000"><strong>        　　3、第二页就应该获取SHUJU全局变量里的5-10条</strong></span><br><span style="color: #ff0000"><strong>        　　4、换算页码获取数据范围的公式</strong></span><br><span style="color: #ff0000"><strong>        　　5、当前页码减去1乘以显示条数=当前页获取数据的起始条数，也就是从第几条开始获取</strong></span><br><span style="color: #ff0000"><strong>        　　6、当前页码乘以显示条数=当前页获取数据的结束条数，也就是从第几条结束获取</strong></span><br><span style="color: #ff0000"><strong>	　　7、通过起始和结束位置以下标方式获取指定范围的数据传入模板</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>第三步、对页码进行判断，保证页码是有效的</strong></span><br><span style="color: #ff0000"><strong>	　　1、接收到的页码是字符串，需要转换成数字</strong></span><br><span style="color: #ff0000"><strong>	　　2、如果转换出错，将页码设置成1</strong></span><br><span style="color: #ff0000"><strong>	　　3、如果页码小于1，将页面设置成1</strong></span></p>
+<p><span style="color: #ff0000"><strong> 　　4、在逻辑处理的get方法里将接收的页码传到html模板,在post方法将接收到的页码写在跳转路由映射</strong></span><br><span style="color: #ff0000"><strong>	　　5、在表单发送链接里用模板语言接收页码</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>框架引擎</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="color: #0000ff">from</span> controllers <span style="color: #0000ff">import</span><span style="color: #000000"> index
+
+
+settings </span>= {                                    <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">views</span><span style="color: #800000">"</span>,                    <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">statics</span><span style="color: #800000">"</span>,                    <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+<span style="color: #000000">}
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/index/(<span style="background-color: #ff99cc">?P&lt;page&gt;</span>\d*)</span><span style="color: #800000">"</span>, index.indexHandler),    <span style="color: #008000">#</span><span style="color: #008000">正则匹配访问路径，访问录index/后面可以是可以是0个或多个数字</span>
+],**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p><span style="color: #0000ff"><strong>逻辑处理</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+SHUJU =<span style="color: #000000"> [
+    {</span><span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">lgx</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">729088188@qq.com</span><span style="color: #800000">"</span><span style="color: #000000">}
+]
+
+</span><span style="color: #008000">#</span><span style="color: #008000">逻辑处理</span>
+
+<span style="color: #0000ff">class</span> indexHandler(tornado.web.RequestHandler):  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="color: #0000ff">def</span> get(self,<span style="background-color: #ff99cc">page</span>):                                              <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+        <span style="color: #008000">#</span><span style="color: #008000">接收路由映射正则名称page，也就是用户访问的后缀，也就是访问的页码</span>
+        <span style="color: #008000">#</span><span style="color: #008000">假如每页显示5条信息，page就是当前页</span>
+        <span style="color: #008000">#</span><span style="color: #008000">第一页就应该获取SHUJU全局变量里的0-5条</span>
+        <span style="color: #008000">#</span><span style="color: #008000">第二页就应该获取SHUJU全局变量里的5-10条</span>
+
+        <span style="color: #008000">#</span><span style="color: #008000">换算页码获取数据范围的公式</span>
+        <span style="color: #008000">#</span><span style="color: #008000">当前页码减去1乘以显示条数=当前页获取数据的起始条数，也就是从第几条开始获取</span>
+        <span style="color: #008000">#</span><span style="color: #008000">当前页码乘以显示条数=当前页获取数据的结束条数，也就是从第几条结束获取</span>
+
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">try</span>:</span>                                        <span style="color: #008000">#</span><span style="color: #008000">尝试执行</span>
+            <span style="background-color: #ff99cc">page = int(page)</span>                        <span style="color: #008000">#</span><span style="color: #008000">将页码转换成数字类型</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">except</span>:</span>                                     <span style="color: #008000">#</span><span style="color: #008000">如果出错</span>
+           <span style="background-color: #ff99cc"> page = 1 </span>                               <span style="color: #008000">#</span><span style="color: #008000">将页码等于1</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">if</span> page &lt; 1:</span>                                <span style="color: #008000">#</span><span style="color: #008000">判断页面如果小于1</span>
+            <span style="background-color: #ff99cc">page = 1</span>                                <span style="color: #008000">#</span><span style="color: #008000">页码等于1</span>
+<span style="background-color: #ff99cc"><span style="color: #000000">
+        kaishi </span>= (page - 1) * 5</span>                     <span style="color: #008000">#</span><span style="color: #008000">当前页码获取数据起始位置</span>
+        <span style="background-color: #ff99cc">jieshu = page * 5 </span>                          <span style="color: #008000">#</span><span style="color: #008000">当前页码获取数据结束位置</span>
+       <span style="background-color: #ff99cc"> xianshi = SHUJU[kaishi:jieshu]</span>              <span style="color: #008000">#</span><span style="color: #008000">通过起始和结束位置以下标方式获取指定范围的列表数据</span>
+<span style="color: #000000">
+        self.render(</span><span style="color: #800000">"</span><span style="color: #800000">index.html</span><span style="color: #800000">"</span>,<span style="background-color: #ff99cc">shuju = xianshi,yema = page</span>)   <span style="color: #008000">#</span><span style="color: #008000">显示index.html文件，通过起始和结束位置以下标方式获取指定范围的数据传入模板，传值页码</span>
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> post(self,page):
+        user </span>= self.get_argument(<span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>)            <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的用户名</span>
+        emia = self.get_argument(<span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>)            <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的邮箱</span>
+        temp = {<span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>:user,<span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>:emia}            <span style="color: #008000">#</span><span style="color: #008000">将邮箱和用户名组合成字典，</span>
+        SHUJU.append(temp)                          <span style="color: #008000">#</span><span style="color: #008000">将字典追加到SHUJU全局变量</span>
+        self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/index/</span><span style="color: #800000">"</span> + <span style="background-color: #ff99cc">page</span>)             <span style="color: #008000">#</span><span style="color: #008000">跳转到当前页面</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">='{{static_url("s1.css")}}'</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>提交数据<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="post"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="/index/<span style="background-color: #ff99cc">{{yema}}</span>"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名：</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">/&gt;</span><span style="color: #000000">
+    邮箱：</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="emia"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="submit"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="提交"</span><span style="color: #0000ff">/&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>显示数据<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>用户名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>邮箱<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #008000">&lt;!--</span><span style="color: #008000">循环接收到的shuju显示到表格</span><span style="color: #008000">--&gt;</span><span style="background-color: #ff99cc"><span style="color: #000000">
+        {% for i in shuju %}
+            </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>{{i["user"]}}<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>{{i["emia"]}}<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        {% end %}
+    </span></span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p></div>

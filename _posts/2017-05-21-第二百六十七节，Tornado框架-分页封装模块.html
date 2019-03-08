@@ -1,0 +1,221 @@
+第二百六十七节，Tornado框架-分页封装模块
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Tornado框架-分页封装模块</strong></p>
+<p><span style="color: #0000ff"><strong>框架引擎</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="color: #0000ff">from</span> controllers <span style="color: #0000ff">import</span><span style="color: #000000"> index
+
+
+
+settings </span>= {                                    <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">views</span><span style="color: #800000">"</span>,                    <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">statics</span><span style="color: #800000">"</span>,                    <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+<span style="color: #000000">}
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/index/(?P&lt;page&gt;\d*)</span><span style="color: #800000">"</span>, index.indexHandler),    <span style="color: #008000">#</span><span style="color: #008000">正则匹配访问路径，访问录index/后面可以是可以是0个或多个数字</span>
+],**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p><span style="color: #0000ff"><strong>封装分页类模块</strong></span></p>
+<p><span style="color: #ff0000"><strong>写一个类来封装分页功能</strong></span></p>
+<p><span style="color: #ff0000"><strong>__init__接收各种需要的参数</strong></span></p>
+<p><span style="color: #ff0000"><strong>shu_ju_fan_wei()方法，返回的显示范围数据</strong></span></p>
+<p><span style="color: #ff0000"><strong>xian_shi_ye_ma()方法，返回页码数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="background-color: #ffff00"><span style="color: #008000">#</span><span style="color: #008000">封装分页类模块</span>
+<span style="color: #0000ff">class</span><span style="color: #000000"> fen_ye_lei:
+    </span><span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span><span style="color: #000000">(self,dang_qian_ye,shu_ju,tiao_shu,ye_ma_shu,qian_hou_ye,url):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">
+        一个参数接收当前页
+        第一个参数，接收分页数据列表
+        第二个参数，接收每页显示多少条数据
+        第三个参数，每页显示多少个页码
+        第四个参数，显示当前页码前几个和后几个页码，需要结合每页显示多少个页码计算
+        第五个参数，分页连接url后缀，也就是路由映射的后缀
+        </span><span style="color: #800000">"""</span>
+        <span style="color: #0000ff">try</span>:                                            <span style="color: #008000">#</span><span style="color: #008000">尝试执行</span>
+            dang_qian_ye = int(dang_qian_ye)            <span style="color: #008000">#</span><span style="color: #008000">将当前页换成数字类型</span>
+        <span style="color: #0000ff">except</span>:                                         <span style="color: #008000">#</span><span style="color: #008000">如果出错</span>
+            dang_qian_ye = 1                            <span style="color: #008000">#</span><span style="color: #008000">当前页等于1</span>
+        <span style="color: #0000ff">if</span> dang_qian_ye &lt; 1:                            <span style="color: #008000">#</span><span style="color: #008000">判断当前页如果小于1</span>
+            dang_qian_ye = 1                            <span style="color: #008000">#</span><span style="color: #008000">当前页等于1</span>
+<span style="color: #000000">
+        self.dang_qian_ye </span>= dang_qian_ye                <span style="color: #008000">#</span><span style="color: #008000">当前页</span>
+        self.shu_ju = shu_ju                            <span style="color: #008000">#</span><span style="color: #008000">接收分页数据列表</span>
+        self.tiao_shu = tiao_shu                        <span style="color: #008000">#</span><span style="color: #008000">接收每页显示多少条数据</span>
+        self.ye_ma_shu = ye_ma_shu                      <span style="color: #008000">#</span><span style="color: #008000">每页显示多少个页码</span>
+        self.qian_hou_ye = qian_hou_ye                  <span style="color: #008000">#</span><span style="color: #008000">显示当前页码前几个和后几个页码，需要结合每页显示多少个页码计算</span>
+        self.url = url                                  <span style="color: #008000">#</span><span style="color: #008000">分页连接url后缀，也就是路由映射的后缀</span>
+
+
+        <span style="color: #008000">#</span><span style="color: #008000"> 计算总页码</span>
+        zong_ye_ma, c = divmod(len(self.shu_ju), self.tiao_shu)   <span style="color: #008000">#</span><span style="color: #008000">数据总量除以显示条数，取余，两个变量接收，第一个变量得到相除后的整数，后一个变量得到相除后的余数(小数)</span>
+        <span style="color: #0000ff">if</span> c &gt; 0:                                       <span style="color: #008000">#</span><span style="color: #008000">判断余数如果大于0，</span>
+            zong_ye_ma += 1                             <span style="color: #008000">#</span><span style="color: #008000">页面数等于整数加1，等于分页总量</span>
+        self.zong_ye_ma = zong_ye_ma                    <span style="color: #008000">#</span><span style="color: #008000">接收总页码</span>
+
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> shu_ju_fan_wei(self):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">
+        shu_ju_fan_wei()方法，返回每页获取范围数据
+        </span><span style="color: #800000">"""</span>
+        <span style="color: #008000">#</span><span style="color: #008000">换算每页获取范围数据</span>
+        qi_shi = (self.dang_qian_ye - 1) * self.tiao_shu     <span style="color: #008000">#</span><span style="color: #008000">当前页码获取数据起始位置</span>
+        jie_shu = self.dang_qian_ye * self.tiao_shu          <span style="color: #008000">#</span><span style="color: #008000">当前页码获取数据结束位置</span>
+        xian_shi = self.shu_ju[qi_shi:jie_shu]               <span style="color: #008000">#</span><span style="color: #008000">通过起始和结束位置以下标方式获取指定范围的列表数据,xian_shi传到html模板显示数据</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> xian_shi
+
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> xian_shi_ye_ma(self):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">
+        xian_shi_ye_ma()方法，返回页码数据
+        </span><span style="color: #800000">"""</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 计算每页显示多少个页码</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 假设每页显示11个页码，当前页的前5个和后5个</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 所以需要动态调整循环里的值</span>
+        <span style="color: #0000ff">if</span> self.zong_ye_ma &lt; self.ye_ma_shu:                            <span style="color: #008000">#</span><span style="color: #008000"> 判断总页码小于每页显示多少个页码</span>
+            s = 1                                                       <span style="color: #008000">#</span><span style="color: #008000"> 起始页码为1</span>
+            t = self.zong_ye_ma                                         <span style="color: #008000">#</span><span style="color: #008000"> 结束页码为总页码</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            </span><span style="color: #0000ff">if</span> self.dang_qian_ye &lt;= self.qian_hou_ye + 1:               <span style="color: #008000">#</span><span style="color: #008000"> 判断当前页码小于前后页码数</span>
+                s = 1                                                   <span style="color: #008000">#</span><span style="color: #008000"> 起始页码为1</span>
+                t = self.ye_ma_shu                                      <span style="color: #008000">#</span><span style="color: #008000"> 结束页码为每页显示多少个页码</span>
+            <span style="color: #0000ff">else</span><span style="color: #000000">:
+                </span><span style="color: #0000ff">if</span> (self.dang_qian_ye + self.qian_hou_ye) &gt; self.zong_ye_ma:    <span style="color: #008000">#</span><span style="color: #008000"> 判断当前页加前后页码数如果大于总页码数</span>
+                    s = self.zong_ye_ma - (self.ye_ma_shu - 1)                  <span style="color: #008000">#</span><span style="color: #008000"> 起始页为总页数减以(每页显示多少个页码减一)</span>
+                    t = self.zong_ye_ma                                         <span style="color: #008000">#</span><span style="color: #008000"> 结束页为总页码数</span>
+                <span style="color: #0000ff">else</span><span style="color: #000000">:
+                    s </span>= self.dang_qian_ye - self.qian_hou_ye                    <span style="color: #008000">#</span><span style="color: #008000"> 起始页为当前页减以前后页码数</span>
+                    t = self.dang_qian_ye + self.qian_hou_ye                    <span style="color: #008000">#</span><span style="color: #008000"> 结束页为当前页加前后页码数</span>
+<span style="color: #000000">
+        ye_ma_lie_biao </span>= []                                                     <span style="color: #008000">#</span><span style="color: #008000"> 创建列表接收页码数据</span>
+
+        <span style="color: #008000">#</span><span style="color: #008000">首页</span>
+        sh_temp = <span style="color: #800000">'</span><span style="color: #800000">&lt;li&gt;&lt;a href="%s1"&gt;首页&lt;/a&gt;&lt;/li&gt;</span><span style="color: #800000">'</span> %<span style="color: #000000"> (self.url)
+        ye_ma_lie_biao.append(sh_temp)
+
+        </span><span style="color: #008000">#</span><span style="color: #008000">上一页</span>
+        <span style="color: #0000ff">if</span> self.dang_qian_ye &lt;= 1<span style="color: #000000">:
+            shye </span>= <span style="color: #800000">'</span><span style="color: #800000">&lt;li&gt;&lt;a href="javascript:void(0);"&gt;上一页&lt;/a&gt;&lt;/li&gt;</span><span style="color: #800000">'</span><span style="color: #000000">
+            ye_ma_lie_biao.append(shye)
+        </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+            shye </span>= <span style="color: #800000">'</span><span style="color: #800000">&lt;li&gt;&lt;a href="%s%s"&gt;上一页&lt;/a&gt;&lt;/li&gt;</span><span style="color: #800000">'</span> %(self.url,self.dang_qian_ye-1<span style="color: #000000">)
+            ye_ma_lie_biao.append(shye)
+
+        </span><span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span> range(s, t + 1):                                               <span style="color: #008000">#</span><span style="color: #008000"> 根据分页总量循环次数</span>
+            <span style="color: #0000ff">if</span> i == self.dang_qian_ye:                                          <span style="color: #008000">#</span><span style="color: #008000"> 判断循环到的页码等于当前页面</span>
+                temp = <span style="color: #800000">'</span><span style="color: #800000">&lt;li class="yem"&gt;&lt;a href="%s%s"&gt;%s&lt;/a&gt;&lt;/li&gt;</span><span style="color: #800000">'</span> % (self.url,i, i)   <span style="color: #008000">#</span><span style="color: #008000"> 格式化当前页码设置样式</span>
+            <span style="color: #0000ff">else</span><span style="color: #000000">:
+                temp </span>= <span style="color: #800000">'</span><span style="color: #800000">&lt;li&gt;&lt;a href="%s%s"&gt;%s&lt;/a&gt;&lt;/li&gt;</span><span style="color: #800000">'</span> % (self.url,i, i)               <span style="color: #008000">#</span><span style="color: #008000"> 格式化当前页码</span>
+            ye_ma_lie_biao.append(temp)                                             <span style="color: #008000">#</span><span style="color: #008000"> 将格式化的页码数据追加到列表</span>
+
+        <span style="color: #008000">#</span><span style="color: #008000">下一页</span>
+        <span style="color: #0000ff">if</span> self.dang_qian_ye &gt;=<span style="color: #000000"> self.zong_ye_ma:
+            xye </span>= <span style="color: #800000">'</span><span style="color: #800000">&lt;li&gt;&lt;a href="javascript:void(0);"&gt;下一页&lt;/a&gt;&lt;/li&gt;</span><span style="color: #800000">'</span><span style="color: #000000">
+            ye_ma_lie_biao.append(xye)
+        </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+            xye </span>= <span style="color: #800000">'</span><span style="color: #800000">&lt;li&gt;&lt;a href="%s%s"&gt;下一页&lt;/a&gt;&lt;/li&gt;</span><span style="color: #800000">'</span> %(self.url,self.dang_qian_ye+1<span style="color: #000000">)
+            ye_ma_lie_biao.append(xye)
+
+        </span><span style="color: #008000">#</span><span style="color: #008000">尾页</span>
+        wei_temp = <span style="color: #800000">'</span><span style="color: #800000">&lt;li&gt;&lt;a href="%s%s"&gt;尾页&lt;/a&gt;&lt;/li&gt;</span><span style="color: #800000">'</span> %<span style="color: #000000"> (self.url,self.zong_ye_ma)
+        ye_ma_lie_biao.append(wei_temp)
+
+        xian_shi </span>= <span style="color: #800000">"</span><span style="color: #800000">\n</span><span style="color: #800000">"</span>.join(ye_ma_lie_biao)                                        <span style="color: #008000">#</span><span style="color: #008000"> 将页面数据，连接成一个字符串，传输到HTML模板</span>
+        <span style="color: #0000ff">return</span> xian_shi</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>逻辑处理</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="background-color: #ffff00"><span style="color: #0000ff">from</span> pymkuai <span style="color: #0000ff">import</span></span><span style="color: #000000"><span style="background-color: #ffff00"> fenye                       #导入分页模块</span>
+
+
+SHUJU </span>=<span style="color: #000000"> [
+    {</span><span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">lgx</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">729088188@qq.com</span><span style="color: #800000">"</span><span style="color: #000000">}
+]
+</span><span style="color: #0000ff">for</span> f <span style="color: #0000ff">in</span> range(300<span style="color: #000000">):
+    SHUJU.append({</span><span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">lgx</span><span style="color: #800000">"</span>, <span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">729088188@qq.com</span><span style="color: #800000">"</span>})   <span style="color: #008000">#</span><span style="color: #008000">填充数据到300条</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理</span>
+<span style="color: #0000ff">class</span> indexHandler(tornado.web.RequestHandler):  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="color: #0000ff">def</span> get(self,page):                                              <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+<span style="background-color: #ffff00"><span style="color: #000000">
+        fen_ye </span>= fenye.fen_ye_lei(page,SHUJU,10,11,5,<span style="color: #800000">'</span><span style="color: #800000">/index/</span><span style="color: #800000">'</span>)</span>       <span style="color: #008000">#</span><span style="color: #008000">执行分页对象</span>
+
+        <span style="color: #0000ff">if</span> fen_ye.dang_qian_ye &gt; fen_ye.zong_ye_ma:             <span style="color: #008000">#</span><span style="color: #008000">判断分页对象里的当前页码如果大于总页码</span>
+            zfchdqy = str(fen_ye.zong_ye_ma)                    <span style="color: #008000">#</span><span style="color: #008000">将总页码转换成字符串</span>
+            self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/index/</span><span style="color: #800000">"</span> + zfchdqy)                  <span style="color: #008000">#</span><span style="color: #008000">跳转到总页码</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            self.render(</span><span style="color: #800000">"</span><span style="color: #800000">index.html</span><span style="color: #800000">"</span>,<span style="background-color: #ffff00">dqy=fen_ye.dang_qian_ye,shuju=fen_ye.shu_ju_fan_wei(),yem=fen_ye.xian_shi_ye_ma()</span>)  <span style="color: #008000">#</span><span style="color: #008000"> 显示index.html文件，传递当前页码，传递数据，传递分页</span>
+
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> post(self,page):
+        user </span>= self.get_argument(<span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>)            <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的用户名</span>
+        emia = self.get_argument(<span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>)            <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的邮箱</span>
+        temp = {<span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>:user,<span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>:emia}            <span style="color: #008000">#</span><span style="color: #008000">将邮箱和用户名组合成字典，</span>
+        SHUJU.append(temp)                          <span style="color: #008000">#</span><span style="color: #008000">将字典追加到SHUJU全局变量</span>
+        self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/index/</span><span style="color: #800000">"</span> + page)             <span style="color: #008000">#</span><span style="color: #008000">跳转到当前页面</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">='{{static_url("s1.css")}}'</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>提交数据<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="post"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="/index/<span style="background-color: #ffff00">{{dqy}}</span>"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    用户名：</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">/&gt;</span><span style="color: #000000">
+    邮箱：</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="emia"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="submit"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="提交"</span><span style="color: #0000ff">/&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>显示数据<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">table </span><span style="color: #ff0000">border</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>用户名<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>邮箱<span style="color: #0000ff">&lt;/</span><span style="color: #800000">th</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">thead</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #008000">&lt;!--</span><span style="color: #008000">循环接收到的shuju显示到表格</span><span style="color: #008000">--&gt;</span><span style="background-color: #ffff00"><span style="color: #000000">
+         {% for i in shuju %}
+            </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>{{i["user"]}}<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>{{i["emia"]}}<span style="color: #0000ff">&lt;/</span><span style="color: #800000">td</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">tr</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+         {% end %}
+    </span></span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">tbody</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">table</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="fy"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000; background-color: #ffff00">
+    {% raw yem %}
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170521092251166-936704729.png" alt=""></p>
+<p>&nbsp;</p></div>

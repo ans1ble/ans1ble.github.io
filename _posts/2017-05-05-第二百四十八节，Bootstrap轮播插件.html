@@ -1,0 +1,163 @@
+第二百四十八节，Bootstrap轮播插件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Bootstrap轮播插件</strong></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.轮播插件</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课我们主要学习一下 Bootstrap 中的轮播插件。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．轮播</strong></span></p>
+<p><span style="color: #0000ff"><strong>轮播插件就是将几张同等大小的大图，按照顺序依次播放。</strong></span></p>
+<p><span style="color: #ff0000"><strong>基本实例。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>第一步，给轮播器区域div设置一个id</strong></span><br><span style="color: #ff0000"><strong>给轮播器区域div设置样式carousel，slide</strong></span><br><span style="color: #ff0000"><strong>carousel样式class类，写在轮播器区域&lt;div&gt;里，设置轮播器区域样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>slide样式class类，写在轮播器区域&lt;div&gt;里，设置轮播器区域样式(Bootstrap)</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>第二步，设置图片区域</strong></span><br><span style="color: #ff0000"><strong>carousel-inner样式class类，写在轮播器图片区域&lt;div&gt;里，设置轮播器图片区域样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>item样式class类，写在轮播器图片&lt;div&gt;里，设置轮播器图片样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>active样式class类，写在轮播器图片&lt;div&gt;里，设置轮播器图片首选(Bootstrap)</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>第三步，设置小圆点按钮区域</strong></span><br><span style="color: #ff0000"><strong>carousel-indicators样式class类，写在小圆点按钮区域&lt;div&gt;里，设置小圆点按钮区域样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>将小圆点的li标签绑定轮播器区域div的id</strong></span><br><span style="color: #ff0000"><strong>data-target="#myCarousel"小圆点的li标签绑定轮播器区域div的id(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>data-slide-to="0"小圆点的li标签事件和编号默认从0开始(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>active样式class类，写在小圆点的&lt;li&gt;里，设置当前小圆点首选(Bootstrap)</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>第四步，设置向左向右箭头</strong></span><br><span style="color: #ff0000"><strong>将箭头的a标签连接href=轮播器区域div的id进行绑定</strong></span><br><span style="color: #ff0000"><strong>data-slide="prev"设置左箭头点击事件(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>data-slide="next"设置右箭头点击事件(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>left样式class类，写在箭头&lt;a&gt;里，设置箭头左样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>right样式class类，写在箭头&lt;a&gt;里，设置箭头右样式(Bootstrap)</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>第五步，设置自动轮播</strong></span><br><span style="color: #ff0000"><strong>data-ride="carousel"写在轮播器区域div里，设置轮播器自动轮播(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="background-color: #ff99cc"><span style="color: #ff0000">id</span><span style="color: #0000ff">="myCarousel"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">carousel slide"</span></span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-ride</span><span style="color: #0000ff">="carousel"</span></span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">ol </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">carousel-indicators"</span></span><span style="color: #0000ff">&gt;</span>                                                <span style="color: #008000">&lt;!--</span><span style="color: #008000">3个小圆点区域</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="background-color: #ff99cc"><span style="color: #ff0000">data-target</span><span style="color: #0000ff">="#myCarousel"</span></span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-slide-to</span><span style="color: #0000ff">="0"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="active"</span></span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="background-color: #ff99cc"><span style="color: #ff0000">data-target</span><span style="color: #0000ff">="#myCarousel"</span></span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-slide-to</span><span style="color: #0000ff">="1"</span></span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="background-color: #ff99cc"><span style="color: #ff0000">data-target</span><span style="color: #0000ff">="#myCarousel"</span></span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-slide-to</span><span style="color: #0000ff">="2"</span></span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">carousel-inner"</span></span><span style="color: #0000ff">&gt;</span>                                                     <span style="color: #008000">&lt;!--</span><span style="color: #008000">3张图片区域</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">item active</span>"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/553f1.jpg"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="第一张"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">item</span>"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/553f2.jpg"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="第二张"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">item</span>"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/553f3.jpg"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="第三张"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">两个向左向右箭头</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="<span style="background-color: #ff99cc">#myCarousel"</span></span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-slide</span><span style="color: #0000ff">="prev"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="carousel-control left"</span></span><span style="color: #0000ff">&gt;</span><span style="color: #ff0000">&amp;lsaquo;</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="<span style="background-color: #ff99cc">#myCarousel"</span></span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-slide</span><span style="color: #0000ff">="next"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="carousel-control right"</span></span><span style="color: #0000ff">&gt;</span><span style="color: #ff0000">&amp;rsaquo;</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170505175226148-1705022678.gif" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>轮播器属性</strong></span></p>
+<p><span style="color: #0000ff"><strong>轮播插件有三个自定义属性：注意属性写在html里没什么作用，一般写在js里</strong></span></p>
+<p><span style="color: #ff0000"><strong>carousel()轮播器方法，将轮播器执行轮播器方法(Bootstrap)</strong></span></p>
+<p><span style="color: #ff0000"><strong>data-interval 默认值 5000，幻灯片的等待时间(毫秒)。如果为false，轮播将不会自动开始循环。</strong></span><br><span style="color: #ff0000"><strong>data-pause 默认鼠标停留在幻灯片区域(hover)即暂停轮播，鼠标离开即启动轮播。</strong></span><br><span style="color: #ff0000"><strong>data-wrap 默认值 true，轮播是否持续循环。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    <span style="background-color: #ffff00">$(</span></span><span style="background-color: #ffff00">'#myCarousel'<span style="color: #000000">).carousel({
+        </span><span style="color: #008000">//</span><span style="color: #008000">设置自动播放/2 秒</span>
+        interval: 1000<span style="color: #000000">,
+        </span><span style="color: #008000">//</span><span style="color: #008000">设置暂停按钮的事件</span>
+        pause: 'hover'<span style="color: #000000">,
+        </span><span style="color: #008000">//</span><span style="color: #008000">只播一次</span>
+        wrap: <span style="color: #0000ff">false</span></span><span style="color: #000000"><span style="background-color: #ffff00">,
+    });</span>
+});</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="background-color: #ffff00"><span style="color: #ff0000">id</span><span style="color: #0000ff">="myCarousel"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="carousel slide"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">ol </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="carousel-indicators"</span><span style="color: #0000ff">&gt;</span>                                                <span style="color: #008000">&lt;!--</span><span style="color: #008000">3个小圆点区域</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">data-target</span><span style="color: #0000ff">="#myCarousel"</span><span style="color: #ff0000"> data-slide-to</span><span style="color: #0000ff">="0"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="active"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">data-target</span><span style="color: #0000ff">="#myCarousel"</span><span style="color: #ff0000"> data-slide-to</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">data-target</span><span style="color: #0000ff">="#myCarousel"</span><span style="color: #ff0000"> data-slide-to</span><span style="color: #0000ff">="2"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="carousel-inner"</span><span style="color: #0000ff">&gt;</span>                                                     <span style="color: #008000">&lt;!--</span><span style="color: #008000">3张图片区域</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="item active"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/553f1.jpg"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="第一张"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="item"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/553f2.jpg"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="第二张"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="item"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/553f3.jpg"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="第三张"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">两个向左向右箭头</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#myCarousel"</span><span style="color: #ff0000"> data-slide</span><span style="color: #0000ff">="prev"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="carousel-control left"</span><span style="color: #0000ff">&gt;</span><span style="color: #ff0000">&amp;lsaquo;</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#myCarousel"</span><span style="color: #ff0000"> data-slide</span><span style="color: #0000ff">="next"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="carousel-control right"</span><span style="color: #0000ff">&gt;</span><span style="color: #ff0000">&amp;rsaquo;</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>轮播器方法</strong></span></p>
+<p><span style="color: #ff0000"><strong>cycle 循环各帧(默认从左到右)</strong></span><br><span style="color: #ff0000"><strong>pause 停止轮播</strong></span><br><span style="color: #ff0000"><strong>number 轮播到指定的图片上(小标从 0 开始，类似数组)</strong></span><br><span style="color: #ff0000"><strong>prev 循环轮播到上一个项目</strong></span><br><span style="color: #ff0000"><strong>next 循环轮播到下一个项目</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击按钮执行</span>
+    $('button').on('click', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">点击后，自动播放</span>
+        <span style="background-color: #ffff00">$('#myCarousel').carousel('cycle'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">其他雷同</span></span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>轮播器事件</strong></span></p>
+<p><span style="color: #ff0000"><strong>slide.bs.carousel 当调用 slide 实例方式时立即触发该事件。</strong></span><br><span style="color: #ff0000"><strong>slid.bs.carousel 当轮播完成一个幻灯片触发该事件。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">事件</span>
+    <span style="background-color: #ffff00">$('#myCarousel').on('slide.bs.carousel', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'当调用 slide 实例方式时立即触发'<span style="color: #000000">);
+    });
+    $(</span>'#myCarousel').on('slid.bs.carousel', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'当轮播完成一个幻灯片触发'</span><span style="color: #000000"><span style="background-color: #ffff00">);
+    });</span>
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170505182017789-732593576.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>给轮播图设置文字</strong></span></p>
+<p><span style="color: #ff0000"><strong>carousel-caption样式class类，写在轮播图区域里&lt;div&gt;里，设置轮播图文字区域(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="myCarousel"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="carousel slide"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">ol </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="carousel-indicators"</span><span style="color: #0000ff">&gt;</span>                                                <span style="color: #008000">&lt;!--</span><span style="color: #008000">3个小圆点区域</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">data-target</span><span style="color: #0000ff">="#myCarousel"</span><span style="color: #ff0000"> data-slide-to</span><span style="color: #0000ff">="0"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="active"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">data-target</span><span style="color: #0000ff">="#myCarousel"</span><span style="color: #ff0000"> data-slide-to</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">data-target</span><span style="color: #0000ff">="#myCarousel"</span><span style="color: #ff0000"> data-slide-to</span><span style="color: #0000ff">="2"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="carousel-inner"</span><span style="color: #0000ff">&gt;</span>                                                     <span style="color: #008000">&lt;!--</span><span style="color: #008000">3张图片区域</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="item active"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/553f1.jpg"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="第一张"</span><span style="color: #0000ff">&gt;</span>
+            <span style="background-color: #ffff00"><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="carousel-caption"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;</span>广告录音<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>专业的广告录音设备，完善的录音流程<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="item"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/553f2.jpg"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="第二张"</span><span style="color: #0000ff">&gt;</span>
+            <span style="background-color: #ffff00"><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="carousel-caption"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;</span>广告录音<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>专业的广告录音设备，完善的录音流程<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="item"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/553f3.jpg"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="第三张"</span><span style="color: #0000ff">&gt;</span>
+            <span style="background-color: #ffff00"><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="carousel-caption"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;</span>广告录音<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>专业的广告录音设备，完善的录音流程<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">两个向左向右箭头</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#myCarousel"</span><span style="color: #ff0000"> data-slide</span><span style="color: #0000ff">="prev"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="carousel-control left"</span><span style="color: #0000ff">&gt;</span><span style="color: #ff0000">&amp;lsaquo;</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#myCarousel"</span><span style="color: #ff0000"> data-slide</span><span style="color: #0000ff">="next"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="carousel-control right"</span><span style="color: #0000ff">&gt;</span><span style="color: #ff0000">&amp;rsaquo;</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170505200031726-1994538800.png" alt=""></p>
+<p>&nbsp;</p></div>

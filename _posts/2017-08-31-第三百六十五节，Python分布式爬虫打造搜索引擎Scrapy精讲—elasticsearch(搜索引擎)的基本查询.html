@@ -1,0 +1,348 @@
+第三百六十五节，Python分布式爬虫打造搜索引擎Scrapy精讲—elasticsearch(搜索引擎)的基本查询
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百六十五节，Python分布式爬虫打造搜索引擎Scrapy精讲—elasticsearch(搜索引擎)的基本查询</strong></p>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000; background-color: #ffff00"><strong>1、elasticsearch(搜索引擎)的查询</strong></span></p>
+<p><strong>elasticsearch是功能非常强大的搜索引擎，使用它的目的就是为了快速的查询到需要的数据</strong></p>
+<p><strong>查询分类：</strong><br><strong>	　　<span style="color: #0000ff">基本查询</span>：使用elasticsearch内置的查询条件进行查询</strong><br><strong>	　　<span style="color: #0000ff">组合查询</span>：把多个查询条件组合在一起进行复合查询</strong><br><strong>	　　<span style="color: #0000ff">过滤</span>：查询同时，通过filter条件在不影响打分的情况下筛选数据</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong>2、elasticsearch(搜索引擎)创建数据</strong></strong></span></p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong><strong>首先我们先创建索引、表、以及字段属性、字段类型、添加好数据</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>注意：一般我们中文使用ik_max_word中文分词解析器，所有在需要分词建立倒牌索引的字段都要指定，ik_max_word中文分词解析器</strong></span><br><span style="color: #ff0000"><strong>系统默认不是ik_max_word中文分词解析器</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>ik_max_word中文分词解析器是<strong><strong>elasticsearch(搜索引擎)的一个插件，在<strong><strong>elasticsearch安装目录的plugins/analysis-ik文件夹里，版本为5.1.1</strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>更多说明：<span style="color: #0000ff">https://github.com/medcl/elasticsearch-analysis-ik</span></strong></strong></span></p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong><strong>说明：</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">创建索引(设置字段类型)</span><span style="color: #008000">
+#</span><span style="color: #008000">注意：一般我们中文使用ik_max_word中文分词解析器，所有在需要分词建立倒牌索引的字段都要指定，ik_max_word中文分词解析器</span><span style="color: #008000">
+#</span><span style="color: #008000">系统默认不是ik_max_word中文分词解析器</span>
+PUT jobbole                             <span style="color: #008000">#</span><span style="color: #008000">创建索引设置索引名称</span>
+<span style="color: #000000">{
+  </span><span style="color: #800000">"</span><span style="color: #800000">mappings</span><span style="color: #800000">"</span>: {                         <span style="color: #008000">#</span><span style="color: #008000">设置mappings映射字段类型</span>
+    <span style="color: #800000">"</span><span style="color: #800000">job</span><span style="color: #800000">"</span>: {                            <span style="color: #008000">#</span><span style="color: #008000">表名称</span>
+      <span style="color: #800000">"</span><span style="color: #800000">properties</span><span style="color: #800000">"</span>: {                   <span style="color: #008000">#</span><span style="color: #008000">设置字段类型</span>
+        <span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>:{                       <span style="color: #008000">#</span><span style="color: #008000">表名称</span>
+          <span style="color: #800000">"</span><span style="color: #800000">store</span><span style="color: #800000">"</span>: true,                <span style="color: #008000">#</span><span style="color: #008000">字段属性true表示保存数据</span>
+          <span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">type</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">text</span><span style="color: #800000">"</span></span>,               <span style="color: #008000">#</span><span style="color: #008000">text类型，text类型可以分词，建立倒排索引</span>
+          <span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">analyzer</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">ik_max_word</span><span style="color: #800000">"</span></span>     <span style="color: #008000">#</span><span style="color: #008000">设置分词解析器，ik_max_word是一个中文分词解析器插件</span>
+<span style="color: #000000">        },
+        </span><span style="color: #800000">"</span><span style="color: #800000">company_name</span><span style="color: #800000">"</span>:{                <span style="color: #008000">#</span><span style="color: #008000">字段名称</span>
+          <span style="color: #800000">"</span><span style="color: #800000">store</span><span style="color: #800000">"</span>: true,                <span style="color: #008000">#</span><span style="color: #008000">字段属性true表示保存数据</span>
+          <span style="color: #800000">"</span><span style="color: #800000">type</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">keyword</span><span style="color: #800000">"</span>             <span style="color: #008000">#</span><span style="color: #008000">keyword普通字符串类型，不分词</span>
+<span style="color: #000000">        },
+        </span><span style="color: #800000">"</span><span style="color: #800000">desc</span><span style="color: #800000">"</span>:{                        <span style="color: #008000">#</span><span style="color: #008000">字段名称</span>
+          <span style="color: #800000">"</span><span style="color: #800000">type</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">text</span><span style="color: #800000">"</span>                <span style="color: #008000">#</span><span style="color: #008000">text类型，text类型可以分词，但是没有设置分词解析器，使用系统默认</span>
+<span style="color: #000000">        },
+        </span><span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>:{                    <span style="color: #008000">#</span><span style="color: #008000">字段名称</span>
+          <span style="color: #800000">"</span><span style="color: #800000">type</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">integer</span><span style="color: #800000">"</span>             <span style="color: #008000">#</span><span style="color: #008000">integer数字类型</span>
+<span style="color: #000000">        },
+        </span><span style="color: #800000">"</span><span style="color: #800000">add_time</span><span style="color: #800000">"</span>:{                    <span style="color: #008000">#</span><span style="color: #008000">字段名称</span>
+          <span style="color: #800000">"</span><span style="color: #800000">type</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">date</span><span style="color: #800000">"</span>,               <span style="color: #008000">#</span><span style="color: #008000">date时间类型</span>
+          <span style="color: #800000">"</span><span style="color: #800000">format</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">yyyy-MM-dd</span><span style="color: #800000">"</span>         <span style="color: #008000">#</span><span style="color: #008000">yyyy-MM-dd时间格式化</span>
+<span style="color: #000000">        }
+      }
+    }
+  }
+}
+<br>
+
+</span><span style="color: #008000">#</span><span style="color: #008000">保存文档(相当于数据库的写入数据)</span>
+POST jobbole/<span style="color: #000000">job
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">python django 开发工程师</span><span style="color: #800000">"</span>,                 <span style="color: #008000">#</span><span style="color: #008000">字段名称：值</span>
+  <span style="color: #800000">"</span><span style="color: #800000">company_name</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">美团科技有限公司</span><span style="color: #800000">"</span>,                   <span style="color: #008000">#</span><span style="color: #008000">字段名称：值</span>
+  <span style="color: #800000">"</span><span style="color: #800000">desc</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">对django的概念熟悉， 熟悉python基础知识</span><span style="color: #800000">"</span>,     <span style="color: #008000">#</span><span style="color: #008000">字段名称：值</span>
+  <span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>:20,                                    <span style="color: #008000">#</span><span style="color: #008000">字段名称：值</span>
+  <span style="color: #800000">"</span><span style="color: #800000">add_time</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">2017-4-1</span><span style="color: #800000">"</span>                             <span style="color: #008000">#</span><span style="color: #008000">字段名称：值</span>
+<span style="color: #000000">}
+
+POST jobbole</span>/<span style="color: #000000">job
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">python scrapy redis 分布式爬虫基础</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">company_name</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">玉秀科技有限公司</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">desc</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">对scrapy的概念熟悉， 熟悉redis基础知识</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>:5<span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">add_time</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">2017-4-2</span><span style="color: #800000">"</span><span style="color: #000000">
+}
+
+POST jobbole</span>/<span style="color: #000000">job
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">elasticsearch打造搜索引擎</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">company_name</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">通讯科技有限公司</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">desc</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">对elasticsearch的概念熟悉</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>:10<span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">add_time</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">2017-4-3</span><span style="color: #800000">"</span><span style="color: #000000">
+}
+
+POST jobbole</span>/<span style="color: #000000">job
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">pyhhon打造推荐引擎系统</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">company_name</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">智能科技有限公司</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">desc</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">熟悉推荐引擎系统算法</span><span style="color: #800000">"</span><span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span>:60<span style="color: #000000">,
+  </span><span style="color: #800000">"</span><span style="color: #800000">add_time</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">2017-4-4</span><span style="color: #800000">"</span><span style="color: #000000">
+}</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>&nbsp;通过上面可以看到我们创建了索引并且设置好了字段的属性、类型、以及分词解析器，创建了4条数据</strong></span></p>
+<p><span style="color: #0000ff"><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170831220904468-261807361.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong>3、<strong>elasticsearch(搜索引擎)基本查询</strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>match查询【用的最多】</strong></span><br><strong>会将我们的搜索词在当前字段设置的分词器进行分词，到当前字段查找，匹配度越高排名靠前，如果搜索词是大写字母会自动转换成小写</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">match查询</span><span style="color: #008000">
+#</span><span style="color: #008000">会将我们的搜索词进行分词，到指定字段查找，匹配度越高排名靠前</span>
+GET jobbole/job/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">match</span><span style="color: #800000">"</span><span style="color: #000000">: {
+      </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">搜索引擎</span><span style="color: #800000">"</span><span style="color: #000000">
+    }
+  }
+}</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170831223623108-1765806777.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>term查询</strong></span><br><strong>不会将我们的搜索词进行分词，将搜索词完全匹配的查询</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">term查询</span><span style="color: #008000">
+#</span><span style="color: #008000">不会将我们的搜索词进行分词，将搜索词完全匹配的查询</span>
+GET jobbole/job/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">term</span><span style="color: #800000">"</span><span style="color: #000000">: {
+      </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">搜索引擎</span><span style="color: #800000">"</span><span style="color: #000000">
+    }
+  }
+}</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170831224948249-1695658587.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>terms查询</strong></span><br><strong>传递一个数组，将数组里的词分别匹配</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">terms查询</span><span style="color: #008000">
+#</span><span style="color: #008000">传递一个数组，将数组里的词分别匹配</span>
+GET jobbole/job/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">terms</span><span style="color: #800000">"</span><span style="color: #000000">: {
+      </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>:[<span style="color: #800000">"</span><span style="color: #800000">工程师</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">django</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">系统</span><span style="color: #800000">"</span><span style="color: #000000">]
+    }
+  }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>控制查询的返回数量</strong></span><br><span style="color: #ff0000"><strong>　　<span style="color: #0000ff">from</span>从第几条数据开始</strong></span><br><span style="color: #ff0000"><strong>　　<span style="color: #0000ff">size</span>获取几条数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">控制查询的返回数量</span><span style="color: #008000">
+#</span><span style="color: #008000">from从第几条数据开始</span><span style="color: #008000">
+#</span><span style="color: #008000">size获取几条数据 </span>
+GET jobbole/job/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">match</span><span style="color: #800000">"</span><span style="color: #000000">: {
+      </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">搜索引擎</span><span style="color: #800000">"</span><span style="color: #000000">
+    }
+  },
+  </span><span style="color: #800000">"</span><span style="color: #800000">from</span><span style="color: #800000">"</span><span style="color: #000000">: 0,
+  </span><span style="color: #800000">"</span><span style="color: #800000">size</span><span style="color: #800000">"</span>: 3<span style="color: #000000">
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>match_all查询,查询所有数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">match_all查询,查询所有数据</span>
+GET jobbole/job/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">match_all</span><span style="color: #800000">"</span><span style="color: #000000">: {}
+  }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>match_phrase查询</strong></span><br><strong>短语查询</strong><br><strong>短语查询，会将搜索词分词，放进一个列表如[python,开发]</strong><br><strong>然后搜索的字段必须满足列表里的所有元素，才符合</strong><br><span style="color: #0000ff"><strong>slop是设置分词后[python,开发]python 与 开发，之间隔着多少个字符算匹配</strong></span><br><span style="color: #0000ff"><strong>间隔字符数小于slop设置算匹配到，间隔字符数大于slop设置不匹配</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">match_phrase查询</span><span style="color: #008000">
+#</span><span style="color: #008000">短语查询</span><span style="color: #008000">
+#</span><span style="color: #008000">短语查询，会将搜索词分词，放进一个列表如[python,开发]</span><span style="color: #008000">
+#</span><span style="color: #008000">然后搜索的字段必须满足列表里的所有元素，才符合</span><span style="color: #008000">
+#</span><span style="color: #008000">slop是设置分词后[python,开发]python 与 开发，之间隔着多少个字符算匹配</span><span style="color: #008000">
+#</span><span style="color: #008000">间隔字符数小于slop设置算匹配到，间隔字符数大于slop设置不匹配</span>
+GET jobbole/job/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">match_phrase</span><span style="color: #800000">"</span><span style="color: #000000">: {
+      </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span><span style="color: #000000">: {
+        </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">elasticsearch引擎</span><span style="color: #800000">"</span><span style="color: #000000">,
+        </span><span style="color: #800000">"</span><span style="color: #800000">slop</span><span style="color: #800000">"</span>:3<span style="color: #000000">
+      }
+    }
+  }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>multi_match查询</strong></span><br><span style="color: #0000ff"><strong>比如可以指定多个字段</strong></span><br><span style="color: #0000ff"><strong>比如查询title字段和desc字段里面包含python的关键词数据</strong></span><br><span style="color: #0000ff"><strong>query设置搜索词</strong></span><br><span style="color: #0000ff"><strong>fields要搜索的字段</strong></span><br><span style="color: #0000ff"><strong>title^3表示权重，表示title里符合的关键词权重，是其他字段里符合的关键词权重的3倍</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">multi_match查询</span><span style="color: #008000">
+#</span><span style="color: #008000">比如可以指定多个字段</span><span style="color: #008000">
+#</span><span style="color: #008000">比如查询title字段和desc字段里面包含python的关键词数据</span><span style="color: #008000">
+#</span><span style="color: #008000">query设置搜索词</span><span style="color: #008000">
+#</span><span style="color: #008000">fields要搜索的字段</span><span style="color: #008000">
+#</span><span style="color: #008000">title^3表示权重，表示title里符合的关键词权重，是其他字段里符合的关键词权重的3倍</span>
+GET jobbole/job/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">multi_match</span><span style="color: #800000">"</span><span style="color: #000000">: {
+      </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">搜索引擎</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">fields</span><span style="color: #800000">"</span>: [<span style="color: #800000">"</span><span style="color: #800000">title^3</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">desc</span><span style="color: #800000">"</span><span style="color: #000000">]
+    }
+  }
+}</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170901001507702-1349703576.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>stored_fields设置搜索结果只显示哪些字段</strong></span></p>
+<p><span style="color: #ff0000"><strong>注意：使用<strong>stored_fields</strong>要显示的字段<span style="color: #0000ff">store</span>属性必须为true，如果要显示的字段没有设置<strong>store属性那么默认为false，如果为false将不会显示该字段</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">stored_fields设置搜索结果只显示哪些字段</span>
+GET jobbole/job/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">stored_fields</span><span style="color: #800000">"</span>: [<span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">company_name</span><span style="color: #800000">"</span><span style="color: #000000">], 
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">multi_match</span><span style="color: #800000">"</span><span style="color: #000000">: {
+      </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">搜索引擎</span><span style="color: #800000">"</span><span style="color: #000000">,
+      </span><span style="color: #800000">"</span><span style="color: #800000">fields</span><span style="color: #800000">"</span>: [<span style="color: #800000">"</span><span style="color: #800000">title^3</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">desc</span><span style="color: #800000">"</span><span style="color: #000000">]
+    }
+  }
+}</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170901005552530-306111207.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>通过sort搜索结果排序</strong></span><br><strong>注意：排序的字段必须是数字或者日期</strong><br><strong>desc升序</strong><br><strong>asc降序</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">通过sort搜索结果排序</span><span style="color: #008000">
+#</span><span style="color: #008000">注意：排序的字段必须是数字或者日期</span><span style="color: #008000">
+#</span><span style="color: #008000">desc升序</span><span style="color: #008000">
+#</span><span style="color: #008000">asc降序</span>
+GET jobbole/job/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">match_all</span><span style="color: #800000">"</span><span style="color: #000000">: {}
+  },
+  </span><span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">sort</span><span style="color: #800000">"</span><span style="color: #000000">: [{
+      </span><span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span><span style="color: #000000">: {
+        </span><span style="color: #800000">"</span><span style="color: #800000">order</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">asc</span><span style="color: #800000">"</span></span><span style="color: #000000"><span style="background-color: #ff99cc">
+      }
+    }]</span>
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>range字段值范围查询</strong></span><br><strong>查询一个字段的值范围</strong><br><strong>注意：字段值必须是数字或者时间</strong><br><strong>gte大于等于</strong><br><strong>ge大于</strong><br><strong>lte小于等于</strong><br><strong>lt小于</strong><br><strong>boost是权重，可以给指定字段设置一个权重</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">range字段值范围查询</span><span style="color: #008000">
+#</span><span style="color: #008000">查询一个字段的值范围</span><span style="color: #008000">
+#</span><span style="color: #008000">注意：字段值必须是数字或者时间</span><span style="color: #008000">
+#</span><span style="color: #008000">gte大于等于</span><span style="color: #008000">
+#</span><span style="color: #008000">ge大于</span><span style="color: #008000">
+#</span><span style="color: #008000">lte小于等于</span><span style="color: #008000">
+#</span><span style="color: #008000">lt小于</span><span style="color: #008000">
+#</span><span style="color: #008000">boost是权重，可以给指定字段设置一个权重</span>
+GET jobbole/job/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">range</span><span style="color: #800000">"</span><span style="color: #000000">: {
+      </span><span style="color: #800000">"</span><span style="color: #800000">comments</span><span style="color: #800000">"</span><span style="color: #000000">: {
+        </span><span style="color: #800000">"</span><span style="color: #800000">gte</span><span style="color: #800000">"</span>: 10<span style="color: #000000">,
+        </span><span style="color: #800000">"</span><span style="color: #800000">lte</span><span style="color: #800000">"</span>: 20<span style="color: #000000">,
+        </span><span style="color: #800000">"</span><span style="color: #800000">boost</span><span style="color: #800000">"</span>: 2.0</span><span style="color: #000000"><span style="background-color: #ff99cc">
+      }
+    }</span>
+  }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>range字段值为时间范围查询</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">range字段值为时间范围查询</span><span style="color: #008000">
+#</span><span style="color: #008000">查询一个字段的时间值范围</span><span style="color: #008000">
+#</span><span style="color: #008000">注意：字段值必须是时间</span><span style="color: #008000">
+#</span><span style="color: #008000">gte大于等于</span><span style="color: #008000">
+#</span><span style="color: #008000">ge大于</span><span style="color: #008000">
+#</span><span style="color: #008000">lte小于等于</span><span style="color: #008000">
+#</span><span style="color: #008000">lt小于</span><span style="color: #008000">
+#</span><span style="color: #008000">now为当前时间</span>
+GET jobbole/job/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">range</span><span style="color: #800000">"</span><span style="color: #000000">: {
+      </span><span style="color: #800000">"</span><span style="color: #800000">add_time</span><span style="color: #800000">"</span><span style="color: #000000">: {
+        </span><span style="color: #800000">"</span><span style="color: #800000">gte</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">2017-4-1</span><span style="color: #800000">"</span><span style="color: #000000">,
+        </span><span style="color: #800000">"</span><span style="color: #800000">lte</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">now</span><span style="color: #800000">"</span></span><span style="color: #000000"><span style="background-color: #ff99cc">
+      }
+    }</span>
+  }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>wildcard查询，通配符查询</strong></span><br><strong>*代表一个或者多个任意字符</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">wildcard查询，通配符查询</span><span style="color: #008000">
+#</span><span style="color: #008000">*代表一个或者多个任意字符</span>
+GET jobbole/job/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">wildcard</span><span style="color: #800000">"</span><span style="color: #000000">: {
+      </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span><span style="color: #000000">: {
+        </span><span style="color: #800000">"</span><span style="color: #800000">value</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">py*n</span><span style="color: #800000">"</span><span style="color: #000000">,
+        </span><span style="color: #800000">"</span><span style="color: #800000">boost</span><span style="color: #800000">"</span>: 2<span style="color: #000000">
+      }
+    }
+  }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>fuzzy模糊查询</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">fuzzy模糊搜索</span><span style="color: #008000">
+#</span><span style="color: #008000">搜索包含词的内容</span>
+GET lagou/biao/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">fuzzy</span><span style="color: #800000">"</span>: {<span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">广告</span><span style="color: #800000">"</span><span style="color: #000000">}
+  },
+  </span><span style="color: #800000">"</span><span style="color: #800000">_source</span><span style="color: #800000">"</span>: [<span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span><span style="color: #000000">]
+}
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000">fuzziness设置编辑距离,编辑距离就是把要查找的字段值，编辑成查找的关键词需要编辑多少个步骤（插入、删除、替换）</span><span style="color: #008000">
+#</span><span style="color: #008000">prefix_length为关键词前面不参与变换的长度</span>
+GET lagou/biao/<span style="color: #000000">_search
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">query</span><span style="color: #800000">"</span><span style="color: #000000">: {
+    </span><span style="color: #800000">"</span><span style="color: #800000">fuzzy</span><span style="color: #800000">"</span><span style="color: #000000">: {
+      </span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span><span style="color: #000000">: {
+        </span><span style="color: #800000">"</span><span style="color: #800000">value</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">广告录音</span><span style="color: #800000">"</span><span style="color: #000000">,
+        </span><span style="color: #800000">"</span><span style="color: #800000">fuzziness</span><span style="color: #800000">"</span>: 2<span style="color: #000000">,
+        </span><span style="color: #800000">"</span><span style="color: #800000">prefix_length</span><span style="color: #800000">"</span>: 2<span style="color: #000000">
+      }
+    }
+  },
+  </span><span style="color: #800000">"</span><span style="color: #800000">_source</span><span style="color: #800000">"</span>: [<span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span><span style="color: #000000">]
+}</span></pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,141 @@
+第七十一，CSS颜色与度量单位
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">CSS颜色与度量单位</span></strong></span></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong><br><strong>    1.颜色表方案 </strong><br><strong>    2.度量单位</strong></p>
+<p><strong>本章主要探讨HTML5中CSS颜色和度量单位等问题，包括颜色的选取方式、相对长度和绝对长度等。</strong></p>
+<p><span style="color: #0000ff"><strong><span style="font-size: 18pt">&nbsp;</span></strong></span></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">一．颜色表方案 1</span> </strong><br><strong>    颜色的表现形式主要有三种方式：颜色名称、十六进制代码和十进制代码。</strong></p>
+<p><strong>解释：这是将一个段落内的文字设置为红色，采用的是英文颜色名称。问题是，其他各种颜色我们将如何设置？&nbsp;</strong></p>
+<p><span style="color: #ff0000"><strong><strong>英文颜色名称方案 2</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p </span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> red</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>在古老的HTML4时，颜色名称只有16种。</strong></p>
+<p><strong>&nbsp;　　　颜色名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　十六进制代码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 十进制代码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 含义</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; black&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　&nbsp;&nbsp;#000000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp;&nbsp;0,0,0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &nbsp; &nbsp; &nbsp; &nbsp; 黑色</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; silver&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#c0c0c0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;192,192,192&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　&nbsp; 银灰色</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp; &nbsp;#808080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;128,128,128&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 灰色</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; white&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　&nbsp;#ffffff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　 &nbsp;255,255,255&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　 &nbsp;白色</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; maroon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　&nbsp;#800000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　&nbsp;128,0,0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　 &nbsp;栗色</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; red&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　#ff0000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　255,0,0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　 &nbsp;红色</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; purple&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　 &nbsp; #800080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp; &nbsp;&nbsp;128,0,128&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &nbsp;&nbsp;&nbsp;紫色</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fuchsia&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;#ff00ff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　 &nbsp;255,0,255&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;&nbsp;紫红</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; green&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;#008000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　&nbsp;0,128,0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp;&nbsp;绿色</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lime&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp; &nbsp;#00ff00&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　 &nbsp;0,255,0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　闪光绿</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; olive&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　 &nbsp; &nbsp; #808000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp; &nbsp;&nbsp;128,128,0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;&nbsp;橄榄色</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; yellow&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp; &nbsp; &nbsp;#ffff00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　 &nbsp; &nbsp;&nbsp; 255,255,0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;　　&nbsp;黄色</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nav&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;&nbsp;#000080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &nbsp; &nbsp; &nbsp; 0,0,128&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp;&nbsp;海军蓝</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; blue &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;　　　　 &nbsp;#0000ff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp; 0,0,255&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp;&nbsp;蓝色</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; teal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp; &nbsp;#008080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　 &nbsp;&nbsp;0,128,128&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; 水鸭色</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; aqua&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;#00ffff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　 &nbsp; &nbsp; &nbsp; 0,255,255&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;&nbsp;浅绿色</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>当然，目前颜色名称远远不止这些，可以搜索更多的HTML颜色表或CSS颜色表查阅。 这里提供一些页面如下： </strong><br><strong>    http://xh.5156edu.com/page/z1015m9220j18754.html </strong><br><strong>    http://finle.me/colors.html </strong><br><strong>    http://www.w3school.com.cn/tags/html_ref_colornames.asp</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #000000">在上面的表格中，我们也罗列出对应的十六进制和十进制颜色表示方法。使用方法如下：</span>&nbsp;</strong></p>
+<p><span style="color: #ff0000"><strong>红色的十六进制方案 3</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p </span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #ff0000</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>&nbsp;十进制表示方法就比较多样化，有四种方案： 4</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 函数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　说明&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　　　　　　　示例</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rgb(r,g,b)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　用RGB模型表示颜色&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp; 　　　　&nbsp;rgb(0,128,128)</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rgba(r,g,b,a) 　　　　　　　　 &nbsp; &nbsp;同上，a表示透明度0~1之间&nbsp; 　　　　 &nbsp; &nbsp; &nbsp; &nbsp;　　　　&nbsp;rgba(0,128,128,0.5)</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hsl(h,s,l)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　&nbsp;用HSL模型（色相、饱和度和透明度）来表示颜色&nbsp; &nbsp;　 &nbsp;hsl(120,100%,30%)</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hsla(h,s,l,a) 　　　　　　　　 &nbsp; &nbsp;&nbsp;同上，a表示透明度0~1之间 　　　　　　　　　　　 &nbsp;hsla(120,100%,30%,0.5)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">.a</span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> rgb(112, 128, 114)</span>;
+}<span style="color: #800000">
+.b</span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> rgba(0, 128, 128, 0.5)</span>;
+}<span style="color: #800000">
+.c</span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> hsl(120, 100%, 30%)</span>;
+}<span style="color: #800000">
+.d</span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> hsla(120, 100%, 30%, 0.5)</span>;
+}<span style="color: #800000">
+
+&lt;p class="a"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="b"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="c"&gt;这是一段文本&lt;/p&gt;
+&lt;p class="d"&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p><strong>目前又有一个疑问，这些值从哪里获取。除了颜色表之外，想要微调自己的颜色值。我们可以使用photoshop等平面设计软件的调色板获取相应的值。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">二．度量单位 5</span></strong><br><strong>    在CSS长度设置中，我们经常需要使用到度量单位，即以什么样的单位设计我们的字体或边框长度。而在CSS中长度单位又分为绝对长度和相对长度。绝对长度指的是现实世界的度量单位，CSS支持五种绝对长度单位。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>绝对长度单位 6</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 单位标识符 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 英寸</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cm &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;厘米</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mm &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 毫米</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pt &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 磅</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pc &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;pica</strong></p>
+<p>&nbsp;</p>
+<p><strong>相对长度指的是依托其他类型的单位，也是五种。</strong></p>
+<p><span style="color: #ff0000"><strong>相对长度单位 7</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 单位标识符&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; em&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　与元素字号挂钩</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　&nbsp;与元素字体的“x高度”挂钩</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;与根元素的字号挂钩</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; px&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;&nbsp;像素，与分辨率挂钩</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp; &nbsp; &nbsp;相对另一值的百分比</strong></p>
+<p>&nbsp;</p>
+<p><strong>下面我们使用一些常用的单位作为演示，而不做演示的基本用不到了。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>em相对单位 8</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #000000">解释：em是相对单位，与字号大小挂钩，会根据字体大小改变自己的大小，灵活性很高。</span>&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p </span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> silver</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 15px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2em</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt; </span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>px相对单位，绝对特性 9&nbsp;</strong></span></p>
+<p><strong>解释：虽然px也是相对单位，但由于和分辨率挂钩，导致他其实就变成一个绝对单位了，自然灵活性没有em高，但是使用难度较低，且大量的开发者习惯性使用它。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p </span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> silver</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 15px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 55px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>%百分比，百分比是根据父元素作为基准来判断的 10</strong></span></p>
+<p><strong>解释：长度比较好理解，就是挂钩它所在区块的宽度。而font-size则是继承到的原始大小的百分比。</strong>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p </span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> silver</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 200%</span>;<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 50%</span>;
+}<span style="color: #800000"> 
+
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p></div>

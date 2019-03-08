@@ -1,0 +1,61 @@
+第三百七十五节，Django+Xadmin打造上线标准的在线教育平台—创建课程机构app，在models.py文件生成3张表，城市表、课程机构表、讲师表
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百七十五节，Django+Xadmin打造上线标准的在线教育平台—创建课程机构app，在models.py文件生成3张表，城市表、课程机构表、讲师表</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>创建名称为app_organization的<strong>课程机构</strong>APP，写数据库操作文件<strong>models.py</strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170908201253007-338095099.png" alt=""></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>models.py<strong>文件</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff">from</span> <span style="color: #800080">__future__</span> <span style="color: #0000ff">import</span><span style="color: #000000"> unicode_literals
+</span><span style="color: #0000ff">from</span> datetime <span style="color: #0000ff">import</span><span style="color: #000000"> datetime
+
+</span><span style="color: #0000ff">from</span> django.db <span style="color: #0000ff">import</span> models        <span style="color: #008000">#</span><span style="color: #008000"> 导入models对象</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> CityDict(models.Model):
+    name </span>= models.CharField(max_length=20, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">城市</span><span style="color: #800000">'</span><span style="color: #000000">)
+    desc </span>= models.CharField(max_length=200, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">描述</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">添加日期</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">城市表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> CourseOrg(models.Model):
+    name </span>= models.CharField(max_length=50, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">机构名称</span><span style="color: #800000">'</span><span style="color: #000000">)
+    desc </span>= models.TextField(verbose_name=<span style="color: #800000">'</span><span style="color: #800000">机构描述</span><span style="color: #800000">'</span><span style="color: #000000">)
+    click </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">点击数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    fav_nums </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">收藏数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    image </span>= models.ImageField(upload_to=<span style="color: #800000">'</span><span style="color: #800000">org/%Y/%m</span><span style="color: #800000">'</span>, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">封面图</span><span style="color: #800000">'</span>, max_length=100<span style="color: #000000">)
+    address </span>= models.CharField(max_length=150, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">机构地址</span><span style="color: #800000">'</span><span style="color: #000000">)
+    city </span>= models.ForeignKey(CityDict, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">外键城市表</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">添加日期</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">课程机构表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> Teacher(models.Model):
+    org </span>= models.ForeignKey(CourseOrg, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">外键课程机构表</span><span style="color: #800000">'</span><span style="color: #000000">)
+    name </span>= models.CharField(max_length=50, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">讲师名称</span><span style="color: #800000">'</span><span style="color: #000000">)
+    work_years </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">工作年限</span><span style="color: #800000">'</span><span style="color: #000000">)
+    work_company </span>= models.CharField(max_length=50, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">就职公司</span><span style="color: #800000">'</span><span style="color: #000000">)
+    work_position </span>= models.CharField(max_length=50, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">公司职位</span><span style="color: #800000">'</span><span style="color: #000000">)
+    points </span>= models.CharField(max_length=50, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">教学特点</span><span style="color: #800000">'</span><span style="color: #000000">)
+    click </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">点击数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    fav_nums </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">收藏数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">添加日期</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">讲师表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>= verbose_name</pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170908201448194-1067223502.png" alt=""></p>
+<p>&nbsp;</p></div>

@@ -1,0 +1,199 @@
+第三百八十节，Django+Xadmin打造上线标准的在线教育平台—将所有app下的models数据库表注册到xadmin后台管理
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百八十节，Django+Xadmin打造上线标准的在线教育平台—将所有app下的models数据库表注册到xadmin后台管理</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>将一个app下的models数据库表注册到xadmin后台管理</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong>重点：<span style="color: #0000ff">xadmin</span>的数据表注册，是到<span style="color: #0000ff">app</span>下查找的<span style="color: #0000ff">adminx文件</span>，所以我们必须在<span style="color: #0000ff">app</span>下创建一个<strong><strong><strong><strong><span style="color: #0000ff">adminx.py文件</span>，所有关于数据表注册到<strong><strong><strong><strong><span style="color: #0000ff">xadmin</span>后台的代码都是写在<strong><strong><strong><strong><strong><strong><strong><strong><span style="color: #0000ff">adminx.py</span>文件里</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170911002402288-667778559.png" alt=""></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong>adminx.py文件编写</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>1、自定义一个类来继承object对象，这个类叫做数据表管理器</strong></span><br><strong>	　　<span style="color: #000000">数据表管理器里面，专门配置当前数据表的各种功能</span></strong></p>
+<p><span style="color: #ff0000"><strong>	　　<span style="color: #0000ff">list_display = ['models数据表里的字段名称','models数据表里的字段名称']</span>  设置数据表在后台显示的字段</strong></span></p>
+<p><span style="color: #ff0000"><strong>　　<span style="background-color: #ffff00">注意：第一个字段是后台编辑入口</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>	　　<span style="color: #0000ff">search_fields = ['models数据表里的字段名称','models数据表里的字段名称']</span>   设置在后台可以搜素的字段，</strong></span></p>
+<p><span style="color: #ff0000"><strong>　　<span style="background-color: #ffff00">注意：搜索字段不能有时间和外键类型的字段，不然会报错，所以时间和外键类型的字段搜索我们一般用过滤器来做</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>	　　</strong><span style="color: #0000ff"><strong>list_filter = ['models数据表里的字段名称','models数据表里的字段名称']</strong></span></span><span style="color: #ff0000"><strong>	设置在后台可以通过条件帅选查看的字段</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">xadmin.site.register(数据库表类名称, 自定义数据表管理器类名称)</span>方法：将制定表注册到xadmin后台</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="background-color: #ffff00"><span style="color: #0000ff">import</span><span style="color: #000000"> xadmin
+
+</span></span><span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> .models <span style="color: #0000ff">import</span><span style="color: #000000"> Course, Lesson, Video, CourseResource
+
+
+</span></span><span style="color: #0000ff">class</span> <span style="background-color: #ccffcc">CourseAdmin(object)</span>:               <span style="color: #008000">#</span><span style="color: #008000"> 自定义数据表管理器类</span>
+
+    <span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台显示字段</span>
+    list_display = [<span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">desc</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">detail</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">degree</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">learn_times</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">students</span><span style="color: #800000">'</span><span style="color: #000000">,
+                    </span><span style="color: #800000">'</span><span style="color: #800000">fav_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">image</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">click_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">add_time</span><span style="color: #800000">'</span><span style="color: #000000">]
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台搜索字段，注意：搜索字段如果有时间类型会报错</span>
+    search_fields = [<span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">desc</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">detail</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">degree</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">learn_times</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">students</span><span style="color: #800000">'</span><span style="color: #000000">,
+                     </span><span style="color: #800000">'</span><span style="color: #800000">fav_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">image</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">click_nums</span><span style="color: #800000">'</span><span style="color: #000000">]
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台过滤器帅选字段，时间用过滤器来做</span>
+    list_filter = [<span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">desc</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">detail</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">degree</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">learn_times</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">students</span><span style="color: #800000">'</span><span style="color: #000000">,
+                   </span><span style="color: #800000">'</span><span style="color: #800000">fav_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">image</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">click_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">add_time</span><span style="color: #800000">'</span><span style="color: #000000">]
+<span style="background-color: #ffff00">xadmin.site.register(<span style="background-color: #ff99cc">Course</span>, <span style="background-color: #ccffcc">CourseAdmin</span>)     </span></span><span style="color: #008000">#</span><span style="color: #008000"> 将数据表注册到xadmin后台显示</span></pre>
+</div>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170911005409069-1753403877.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>外键字段设置</strong></span></p>
+<p><strong>&nbsp;如果一张表里的一个字段，外键关联了另外一张表，那么另外一张表的<span style="color: #ff0000">def __str__(self)</span> 返回字段的值，就是外键字段的可选值</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff">from</span> <span style="color: #800080">__future__</span> <span style="color: #0000ff">import</span><span style="color: #000000"> unicode_literals
+</span><span style="color: #0000ff">from</span> datetime <span style="color: #0000ff">import</span><span style="color: #000000"> datetime
+
+</span><span style="color: #0000ff">from</span> django.db <span style="color: #0000ff">import</span> models        <span style="color: #008000">#</span><span style="color: #008000"> 导入models对象</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> Course(models.Model):
+    <span style="background-color: #ff99cc">name </span></span><span style="background-color: #ff99cc">= models.CharField(max_length=50, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程名称</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ff99cc">)</span>
+    desc </span>= models.CharField(max_length=300, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程描述</span><span style="color: #800000">'</span><span style="color: #000000">)
+    detail </span>= models.TextField(verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程详情</span><span style="color: #800000">'</span><span style="color: #000000">)
+    degree </span>= models.CharField(verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程级别</span><span style="color: #800000">'</span>, choices=((<span style="color: #800000">'</span><span style="color: #800000">cj</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">初级</span><span style="color: #800000">'</span>), (<span style="color: #800000">'</span><span style="color: #800000">zj</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">中级</span><span style="color: #800000">'</span>), (<span style="color: #800000">'</span><span style="color: #800000">gj</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">高级</span><span style="color: #800000">'</span>)), max_length=3<span style="color: #000000">)
+    learn_times </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">学习时长(分钟)</span><span style="color: #800000">'</span><span style="color: #000000">)
+    students </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">学习人数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    fav_nums </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">收藏人数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    image </span>= models.ImageField(upload_to=<span style="color: #800000">'</span><span style="color: #800000">courses/%Y/%m</span><span style="color: #800000">'</span>, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程封面图</span><span style="color: #800000">'</span>, max_length=100<span style="color: #000000">)
+    click_nums </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">点击数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">添加时间</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">课程</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+    </span><span style="color: #0000ff">def</span> <span style="color: #800080">__str__</span><span style="color: #000000">(self):
+        </span><span style="background-color: #ff99cc"><span style="color: #0000ff">return</span> self.name</span>        <span style="color: #008000">#</span><span style="color: #008000"> 设置在xadmin后台显示字段, 注意如果此表被另外的了外键关联了，这个返回字段就是外键表的外键名称</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> Lesson(models.Model):
+    course </span>= <span style="background-color: #ff99cc">models.ForeignKey(Course, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">外键课程表</span><span style="color: #800000">'</span>)</span>      <span style="color: #008000">#</span><span style="color: #008000"> 外键链表，外键连接Course表的主键，一对多关系</span>
+    name = models.CharField(max_length=100, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">章节名</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">添加日期</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">课程章节</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>= verbose_name</pre>
+</div>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170911023125641-1564832767.png" alt=""></p>
+<p>&nbsp;</p>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170911023354453-966592396.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>外键字段用过滤器跨表查询</strong></span></p>
+<p><span style="color: #0000ff"><strong>如果要通过当前表的外键字段，查询到关联表的指定字段内容，可以通过<span style="color: #ff0000">adminx.py里的过滤器</span>，在过滤器里的，<span style="color: #ff0000">外键字段名称__关联表名称</span>，也就是用双下划线跨表查询</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>adminx.py</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> xadmin
+
+</span><span style="color: #0000ff">from</span> .models <span style="color: #0000ff">import</span><span style="color: #000000"> Course, Lesson, Video, CourseResource
+
+
+</span><span style="color: #0000ff">class</span> CourseAdmin(object):               <span style="color: #008000">#</span><span style="color: #008000"> 自定义数据表管理器类</span>
+
+    <span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台显示字段</span>
+    list_display = [<span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">desc</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">detail</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">degree</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">learn_times</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">students</span><span style="color: #800000">'</span><span style="color: #000000">,
+                    </span><span style="color: #800000">'</span><span style="color: #800000">fav_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">image</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">click_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">add_time</span><span style="color: #800000">'</span><span style="color: #000000">]
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台搜索字段，注意：搜索字段如果有时间类型会报错</span>
+    search_fields = [<span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">desc</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">detail</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">degree</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">learn_times</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">students</span><span style="color: #800000">'</span><span style="color: #000000">,
+                     </span><span style="color: #800000">'</span><span style="color: #800000">fav_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">image</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">click_nums</span><span style="color: #800000">'</span><span style="color: #000000">]
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台过滤器帅选字段，时间用过滤器来做</span>
+    list_filter = [<span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">desc</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">detail</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">degree</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">learn_times</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">students</span><span style="color: #800000">'</span><span style="color: #000000">,
+                   </span><span style="color: #800000">'</span><span style="color: #800000">fav_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">image</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">click_nums</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">add_time</span><span style="color: #800000">'</span><span style="color: #000000">]
+xadmin.site.register(Course, CourseAdmin)     </span><span style="color: #008000">#</span><span style="color: #008000"> 将数据表注册到xadmin后台显示</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> LessonAdmin(object):
+    list_display </span>= [<span style="color: #800000">'</span><span style="color: #800000">course</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">add_time</span><span style="color: #800000">'</span><span style="color: #000000">]
+    search_fields </span>= [<span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span><span style="color: #000000">]
+    list_filter </span>= [<span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">course<span style="background-color: #ffffff">__</span><span style="background-color: #ffff00">name</span></span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">add_time</span><span style="color: #800000">'</span>]      <span style="color: #008000">#</span><span style="color: #008000"> course__name 表示通过course外键字段查询关联表里的name字段</span>
+xadmin.site.register(Lesson, LessonAdmin)</pre>
+</div>
+<p><span style="color: #ff0000"><strong>models.py</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff">from</span> <span style="color: #800080">__future__</span> <span style="color: #0000ff">import</span><span style="color: #000000"> unicode_literals
+</span><span style="color: #0000ff">from</span> datetime <span style="color: #0000ff">import</span><span style="color: #000000"> datetime
+
+</span><span style="color: #0000ff">from</span> django.db <span style="color: #0000ff">import</span> models        <span style="color: #008000">#</span><span style="color: #008000"> 导入models对象</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> Course(models.Model):
+    <span style="background-color: #ffff00">name </span></span>= models.CharField(max_length=50, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程名称</span><span style="color: #800000">'</span><span style="color: #000000">)
+    desc </span>= models.CharField(max_length=300, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程描述</span><span style="color: #800000">'</span><span style="color: #000000">)
+    detail </span>= models.TextField(verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程详情</span><span style="color: #800000">'</span><span style="color: #000000">)
+    degree </span>= models.CharField(verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程级别</span><span style="color: #800000">'</span>, choices=((<span style="color: #800000">'</span><span style="color: #800000">cj</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">初级</span><span style="color: #800000">'</span>), (<span style="color: #800000">'</span><span style="color: #800000">zj</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">中级</span><span style="color: #800000">'</span>), (<span style="color: #800000">'</span><span style="color: #800000">gj</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">高级</span><span style="color: #800000">'</span>)), max_length=3<span style="color: #000000">)
+    learn_times </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">学习时长(分钟)</span><span style="color: #800000">'</span><span style="color: #000000">)
+    students </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">学习人数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    fav_nums </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">收藏人数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    image </span>= models.ImageField(upload_to=<span style="color: #800000">'</span><span style="color: #800000">courses/%Y/%m</span><span style="color: #800000">'</span>, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程封面图</span><span style="color: #800000">'</span>, max_length=100<span style="color: #000000">)
+    click_nums </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">点击数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">添加时间</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">课程</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+    </span><span style="color: #0000ff">def</span> <span style="color: #800080">__str__</span><span style="color: #000000">(self):
+        </span><span style="color: #0000ff">return</span> self.name        <span style="color: #008000">#</span><span style="color: #008000"> 设置在xadmin后台显示字段, 注意如果此表被另外的了外键关联了，这个返回字段就是外键表的外键名称</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> Lesson(models.Model):
+    <span style="background-color: #ff99cc">course </span></span>= models.ForeignKey(Course, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">外键课程表</span><span style="color: #800000">'</span>)      <span style="color: #008000">#</span><span style="color: #008000"> 外键链表，外键连接Course表的主键，一对多关系</span>
+    name = models.CharField(max_length=100, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">章节名</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">添加日期</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">课程章节</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>= verbose_name</pre>
+</div>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170911025448657-192648413.png" alt=""></p>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>后台编辑一条数据时，数据路径显示设置</strong></span><br><span style="color: #0000ff"><strong>当后台编辑一条数据时，数据路径显就是def __str__(self) 返回字段的值，<span style="color: #ff0000">所以每张表都要设置def __str__(self) 返回</span></strong></span></p>
+<p><span style="color: #0000ff"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170911133120266-1229404215.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff">from</span> <span style="color: #800080">__future__</span> <span style="color: #0000ff">import</span><span style="color: #000000"> unicode_literals
+</span><span style="color: #0000ff">from</span> datetime <span style="color: #0000ff">import</span><span style="color: #000000"> datetime
+
+</span><span style="color: #0000ff">from</span> django.db <span style="color: #0000ff">import</span> models        <span style="color: #008000">#</span><span style="color: #008000"> 导入models对象</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> Course(models.Model):
+    name </span>= models.CharField(max_length=50, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程名称</span><span style="color: #800000">'</span><span style="color: #000000">)
+    desc </span>= models.CharField(max_length=300, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程描述</span><span style="color: #800000">'</span><span style="color: #000000">)
+    detail </span>= models.TextField(verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程详情</span><span style="color: #800000">'</span><span style="color: #000000">)
+    degree </span>= models.CharField(verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程级别</span><span style="color: #800000">'</span>, choices=((<span style="color: #800000">'</span><span style="color: #800000">cj</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">初级</span><span style="color: #800000">'</span>), (<span style="color: #800000">'</span><span style="color: #800000">zj</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">中级</span><span style="color: #800000">'</span>), (<span style="color: #800000">'</span><span style="color: #800000">gj</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">高级</span><span style="color: #800000">'</span>)), max_length=3<span style="color: #000000">)
+    learn_times </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">学习时长(分钟)</span><span style="color: #800000">'</span><span style="color: #000000">)
+    students </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">学习人数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    fav_nums </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">收藏人数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    image </span>= models.ImageField(upload_to=<span style="color: #800000">'</span><span style="color: #800000">courses/%Y/%m</span><span style="color: #800000">'</span>, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程封面图</span><span style="color: #800000">'</span>, max_length=100<span style="color: #000000">)
+    click_nums </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">点击数</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">添加时间</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">课程</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+    </span><span style="background-color: #ff99cc"><span style="color: #0000ff">def</span> <span style="color: #800080">__str__</span><span style="color: #000000">(self):
+        </span><span style="color: #0000ff">return</span> self.name</span></pre>
+</div>
+<p>&nbsp;</p></div>

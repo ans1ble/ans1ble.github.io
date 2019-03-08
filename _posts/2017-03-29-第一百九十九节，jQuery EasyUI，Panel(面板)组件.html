@@ -1,0 +1,1366 @@
+第一百九十九节，jQuery EasyUI，Panel(面板)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，Panel(面板)组件</strong></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式 </strong></p>
+<p><strong>　　2.属性列表 </strong></p>
+<p><strong>　　3.事件列表 </strong></p>
+<p><strong>　　4.方法列表</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解EasyUI中Panel(面板)组件的使用方法，这个组件不依赖于其他组件。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">//class 加载方式
+</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="easyui-panel"</span><span style="color: #ff0000"> data-options</span><span style="color: #0000ff">="closable:true"</span><span style="color: #ff0000">title</span><span style="color: #0000ff">="My Panel"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:500px;"</span><span style="color: #0000ff">&gt;</span>
+　　<span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>内容区域<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>panel()将元素执行面板方法</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">JS 加载调用</span>
+$('#box'<span style="color: #000000">).panel({
+　　width:</span>500<span style="color: #000000">,
+　　height:</span>150<span style="color: #000000">,
+　　title : </span>'面板'<span style="color: #000000">,
+　　closable : </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170329185343717-1692619122.png" alt=""></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170329185358826-1194221001.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170329185406967-890273042.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170329185415654-534909454.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>id &nbsp;string 面板的 ID 值。默认为 null。<span style="color: #0000ff">设置面板的id</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        id:'pox'           <span style="color: #008000">//</span><span style="color: #008000">设置面板的id</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>title &nbsp;string 面板显示的标题文本。默认为 null。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板'     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>iconCls &nbsp;string 设置一个 16x16 图标的 CSS 类 ID 显示在面板左上角。默认为 null。<span style="color: #0000ff">设置面板标题左边图标</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit'  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>width &nbsp;number 设置面板宽度。默认值 auto。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>height &nbsp;number 设置面板高度。默认值 auto。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>left &nbsp;number 设置面板距离左边的位置（即 X 轴位置）。默认为null。，结合定位使用</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        left:200,           <span style="color: #008000">//</span><span style="color: #008000">设置面板距离左边的位置（即 X 轴位置）</span>
+        top:200             <span style="color: #008000">//</span><span style="color: #008000">设置面板距离顶部的位置（即 Y 轴位置）</span>
+<span style="color: #000000">    });
+    $(</span>'#box').panel('panel').css('position','absolute'); <span style="color: #008000">//</span><span style="color: #008000">获取面板对象，设置定位</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>top &nbsp;number 设置面板距离顶部的位置（即 Y 轴位置）。默认为</strong></span><em id="__mceDel"><span style="color: #ff0000"><strong>null。<strong>结合定位使用</strong></strong></span></em></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        left:200,           <span style="color: #008000">//</span><span style="color: #008000">设置面板距离左边的位置（即 X 轴位置）</span>
+        top:200             <span style="color: #008000">//</span><span style="color: #008000">设置面板距离顶部的位置（即 Y 轴位置）</span>
+<span style="color: #000000">    });
+    $(</span>'#box').panel('panel').css('position','absolute'); <span style="color: #008000">//</span><span style="color: #008000">获取面板对象，设置定位</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>cls &nbsp;string 添加一个 CSS 类 ID 到面板。默认为 null。<span style="color: #0000ff">给面板添加一个class来设置css</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        cls:'pppox'         <span style="color: #008000">//</span><span style="color: #008000">给面板添加一个class来设置css</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>headerCls &nbsp;string 添加一个 CSS 类 ID 到面板头部。默认为 null。<span style="color: #0000ff">给面板头部<strong>添加一个class来设置css</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        headerCls:'pppox'         <span style="color: #008000">//</span><span style="color: #008000">给面板头部添加一个class来设置css</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>bodyCls &nbsp;string 添加一个 CSS 类 ID 到面板正文部分。默认为null。<span style="color: #0000ff">给面板正文<strong><strong>添加一个class来设置css</strong></strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        bodyCls:'pppox'         <span style="color: #008000">//</span><span style="color: #008000">给面板正文添加一个class来设置css</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>style &nbsp;subject 添加一个当前指定样式到面板。默认为{}。<span style="color: #0000ff">添加一个指定css样式到面板，注意如果给内置的样式有冲突可以没有效果</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        bodyCls:'pppox',         <span style="color: #008000">//</span><span style="color: #008000">给面板正文添加一个class来设置css</span>
+        style: {                <span style="color: #008000">//</span><span style="color: #008000">添加一个指定css样式到面板，注意如果给内置的样式有冲突可以没有效果</span>
+            'min-height': '250px'<span style="color: #000000">
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>fit &nbsp;boolean 当设置为 true 的时候面板大小将自适应父容器。默认为 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        bodyCls:'pppox',         <span style="color: #008000">//</span><span style="color: #008000">给面板正文添加一个class来设置css</span>
+        fit:<span style="color: #0000ff">true</span>                <span style="color: #008000">//</span><span style="color: #008000">当设置为 true 的时候面板大小将自适应父容器。默认为 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>border &nbsp;boolean 定义是否显示面板边框。默认为 true</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        border:<span style="color: #0000ff">false</span>         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示面板边框。默认为 true</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>doSize &nbsp;boolean 如果设置为 true，在面板被创建的时候将重置大小和重新布局。默认为 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        doSize:<span style="color: #0000ff">true</span>           <span style="color: #008000">//</span><span style="color: #008000">如果设置为 true，在面板被创建的时候将重置大小和重新布局。默认为 true。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>noheader &nbsp;boolean 如果设置为 true。将不会创建面板标题。默认为false。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        noheader:<span style="color: #0000ff">true</span>         <span style="color: #008000">//</span><span style="color: #008000">如果设置为 true。将不会创建面板标题。默认为false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>content &nbsp;string 面板主体内容。默认为 null。，<span style="color: #0000ff">设置面板主体内容</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        content :'这是修改后的主体内容'         <span style="color: #008000">//</span><span style="color: #008000">设置面板主体内容</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>collapsible &nbsp;boolean 定义是否显示可折叠按钮。默认为 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>minimizable &nbsp;boolean 定义是否显示最小化按钮。默认为 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        minimizable :<span style="color: #0000ff">true</span>     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>maximizable &nbsp;boolean 定义是否显示最大化按钮。默认为 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        maximizable :<span style="color: #0000ff">true</span>     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>closable &nbsp;boolean 定义是否显示关闭按钮。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        closable :<span style="color: #0000ff">true</span>     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>tools &nbsp; array,selector自定义工具菜单，可用值：(1)数 组 ， 每 个 元 素 都 包 含 ’iconCls’ 和’handler’属性。(2)指向工具菜单的选择器。默认为[]。</strong></span></p>
+<p><span style="color: #0000ff"><strong>自定义根据按钮接收一个数组，数组里接收对象，以键值对的方式设置<strong>iconCls图标，和<strong>handler点击后的操作，要设置多个图标数组里就接收多个对象</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        tools:[{            <span style="color: #008000">//</span><span style="color: #008000">自定义工具菜单</span>
+            iconCls:'icon-edit',    <span style="color: #008000">//</span><span style="color: #008000">iconCls图标</span>
+            handler:<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+                alert(</span>'点击后的操作');    <span style="color: #008000">//</span><span style="color: #008000">handler点击后的操作</span>
+<span style="color: #000000">            }
+        }]
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>collapsed &nbsp;boolean 定义是否在初始化的时候折叠面板。默认值为false。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        collapsed :<span style="color: #0000ff">true</span>     <span style="color: #008000">//</span><span style="color: #008000">定义是否在初始化的时候折叠面板。默认值为false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>minimized &nbsp;boolean 定义是否在初始化的时候最小化面板。默认值为false。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        minimized :<span style="color: #0000ff">true</span>     <span style="color: #008000">//</span><span style="color: #008000">定义是否在初始化的时候最小化面板。默认值为false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>maximized &nbsp;boolean 定义是否在初始化的时候最大化面板。默认值为false。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        maximized :<span style="color: #0000ff">true</span>     <span style="color: #008000">//</span><span style="color: #008000">定义是否在初始化的时候最大化面板。默认值为false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>closed &nbsp;boolean 定义是否在初始化的时候关闭面板。默认为false。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        closed :<span style="color: #0000ff">true</span>     <span style="color: #008000">//</span><span style="color: #008000">定义是否在初始化的时候关闭面板。默认为false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>href &nbsp;string 从 URL 读取远程数据并且显示到面板。默认为null。，<span style="color: #0000ff">值为要加载的文件地址采用的<strong>ajax加载</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/'     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>cache &nbsp;boolean 如果为 true，在超链接载入时缓存面板内容。默认为 true。，<span style="color: #0000ff">也就是缓存远程数据</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        cache:<span style="color: #0000ff">true</span>          <span style="color: #008000">//</span><span style="color: #008000">如果为 true，在超链接载入时缓存面板内容。默认为 true。，也就是缓存远程数据</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>loadingMessage &nbsp; string 在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。<span style="color: #0000ff">设置远程加载时的内容</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中'     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>extractor &nbsp; function 定义如何从 ajax 应答数据中提取内容，返回提取数据。<span style="color: #0000ff">也就是将远程返回数据进行处理后返回给面板，data接收远程数据</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．事件列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330160243727-240911721.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330160253945-1780327288.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330160300336-2022996343.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onBeforeLoad &nbsp;none 在加载远程数据之前触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        onBeforeLoad:</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            alert(</span>'在加载远程数据之前触发。'<span style="color: #000000">);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onLoad &nbsp;none 在加载远程数据时触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        onLoad:</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            alert(</span>'在加载远程数据时触发。'<span style="color: #000000">);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onBeforeOpen &nbsp;none在打开面板之前触发，返回 false 可以取消打开操作。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onBeforeOpen:</span></span><span style="color: #ff0000">function () {
+            alert('在打开面板之前触发，返回 false 可以取消打开操作。');
+            // return false;  //返回false时，打开之后操作将取消
+        },
+        onOpen:function () {
+            alert('在打开面板之后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onOpen &nbsp;none 在打开面板之后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onBeforeOpen:</span></span><span style="color: #ff0000">function () {
+            alert('在打开面板之前触发，返回 false 可以取消打开操作。');
+            // return false;  //返回false时，打开之后操作将取消
+        },
+        onOpen:function () {
+            alert('在打开面板之后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onBeforeClose &nbsp;none在关闭面板之前触发，返回 false 可以取消关闭操作。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onBeforeClose:</span></span><span style="color: #ff0000">function () {
+            alert('在关闭面板之前触发，返回 false 可以取消关闭操作。');
+            return false;
+        },
+        onClose:function () {
+            alert('在面板关闭之后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onClose &nbsp;none 在面板关闭之后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onBeforeClose:</span></span><span style="color: #ff0000">function () {
+            alert('在关闭面板之前触发，返回 false 可以取消关闭操作。');
+            return false;
+        },
+        onClose:function () {
+            alert('在面板关闭之后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onBeforeDestroy &nbsp;none在面板销毁之前触发，返回 false 可以取消销毁操作。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onBeforeDestroy:</span></span><span style="color: #ff0000">function () {
+            alert('在面板销毁之前触发，返回 false 可以取消销毁操作。');
+            return false;
+        },
+        onDestroy:function () {
+            alert('在面板销毁之后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onDestroy &nbsp;none 在面板销毁之后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onBeforeDestroy:</span></span><span style="color: #ff0000">function () {
+            alert('在面板销毁之前触发，返回 false 可以取消销毁操作。');
+            return false;
+        },
+        onDestroy:function () {
+            alert('在面板销毁之后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onBeforeCollapse &nbsp;none在面板折叠之前触发，返回 false 可以终止折叠操作。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onBeforeCollapse:</span></span><span style="color: #ff0000">function () {
+            alert('在面板折叠之前触发，返回 false 可以终止折叠操作。');
+            // return false;
+        },
+        onCollapse:function () {
+            alert('在面板折叠之后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onCollapse &nbsp;none 在面板折叠之后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onBeforeCollapse:</span></span><span style="color: #ff0000">function () {
+            alert('在面板折叠之前触发，返回 false 可以终止折叠操作。');
+            // return false;
+        },
+        onCollapse:function () {
+            alert('在面板折叠之后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onBeforeExpand &nbsp;none在面板展开之前触发，返回 false 可以终止展开操作。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onBeforeExpand:</span></span><span style="color: #ff0000">function () {
+            alert('在面板展开之前触发，返回 false 可以终止展开操作。');
+            // return false;
+        },
+        onExpand:function () {
+            alert('在面板展开之后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onExpand &nbsp;none 在面板展开之后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onBeforeExpand:</span></span><span style="color: #ff0000">function () {
+            alert('在面板展开之前触发，返回 false 可以终止展开操作。');
+            // return false;
+        },
+        onExpand:function () {
+            alert('在面板展开之后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onResize &nbsp; width,height在面板改变大小之后触发。width：新的宽度。height：新的高度。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onResize:</span></span><span style="color: #ff0000">function (width,height) {
+            alert('在面板改变大小之后触发。' +width+ '：新的宽度。' +height+ '：新的高度。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onMove &nbsp; left,top在面板移动之后触发。left：新的左边距位置。top：新的上边距位置。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onMove:</span></span><span style="color: #ff0000">function (left,top) {
+            alert('在面板移动之后触发。' +left+ '：新左边位置。' +top+ '：新头部位置。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onMaximize &nbsp; none 在窗口最大化之后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onMaximize:</span></span><span style="color: #ff0000">function () {
+            alert('在窗口最大化之后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onRestore &nbsp;none 在窗口恢复到原始大小以后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onRestore:</span></span><span style="color: #ff0000">function () {
+            alert('在窗口恢复到原始大小以后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onMinimize &nbsp;none 在窗口最小化之后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onMinimize:</span></span><span style="color: #ff0000">function () {
+            alert('在窗口最小化之后触发。'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330165441133-950422462.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330165450524-72982471.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170330165459836-49629037.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>options &nbsp;none 返回属性对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        }
+    });
+    <span style="color: #ff0000">alert($(</span></span><span style="color: #ff0000">'#box').panel('options'));   //返回属性对象。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>panel &nbsp;none 返回面板对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        }
+    });
+    <span style="color: #ff0000">alert($(</span></span><span style="color: #ff0000">'#box').panel('panel'));   //返回面板对象。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>header &nbsp;none 返回面板头对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        }
+    });
+    <span style="color: #ff0000">alert($(</span></span><span style="color: #ff0000">'#box').panel('header'));   //返回面板头对象。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>body &nbsp;none 返回面板主体对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        }
+    });
+   <span style="color: #ff0000"> alert($(</span></span><span style="color: #ff0000">'#box').panel('body'));   //返回面板主体对象。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>setTitle &nbsp;title 设置面板头的标题文本。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        }
+    });
+    <span style="color: #ff0000">alert($(</span></span><span style="color: #ff0000">'#box').panel('setTitle','设置标题'));   //设置面板头的标题文本。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>open &nbsp;forceOpen 在'forceOpen'参数设置为 true 的时候，打开面板时将跳过'onBeforeOpen'回调函数。<span style="color: #0000ff">跳过在打开面板之后触发</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        }
+    });
+   <span style="color: #ff0000"> $(</span></span><span style="color: #ff0000">'#box').panel('open', true);   //参数设置为 true 的时候，打开面板时将跳过'onBeforeOpen'回调函数</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>close &nbsp;forceClose 在'forceClose'参数设置为 true 的时候，关闭面板时将跳过'onBeforeClose'回调函数。，<span style="color: #0000ff">跳过关闭之前触发</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        }
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').panel('close', true);   //参数设置为 true 的时候，关闭面板时将跳过'onBeforeClose'回调函数</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>destroy &nbsp;forceDestroy在'forceDestroy'参数设置为 true 的时候，销毁面板时将跳过'onBeforeDestory'回调函数。<span style="color: #0000ff">跳过销毁之前触发</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;div id="box"&gt;内容部分&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).panel({
+        title: </span>'面板',     <span style="color: #008000">//</span><span style="color: #008000">面板显示的标题</span>
+        width:500,          <span style="color: #008000">//</span><span style="color: #008000">设置面板宽度</span>
+        height:150,         <span style="color: #008000">//</span><span style="color: #008000">设置面板高度</span>
+        iconCls:'icon-edit',  <span style="color: #008000">//</span><span style="color: #008000">设置面板标题左边图标</span>
+        collapsible :<span style="color: #0000ff">true</span>,         <span style="color: #008000">//</span><span style="color: #008000">定义是否显示可折叠按钮。默认为 false。</span>
+        minimizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最小化按钮。默认为 false。</span>
+        maximizable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示最大化按钮。默认为 false。</span>
+        closable :<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示关闭按钮。</span>
+        href :'is_user.php/',     <span style="color: #008000">//</span><span style="color: #008000">URL 读取远程数据并且显示到面板。默认为null。</span>
+        loadingMessage:'数据加载中',     <span style="color: #008000">//</span><span style="color: #008000">在加载远程数据的时候在面板内显示一条信息。默认值为 loading...。</span>
+        extractor:<span style="color: #0000ff">function</span> (data) {         <span style="color: #008000">//</span><span style="color: #008000">定义如何从 ajax 应答数据中提取内容，返回提取数据。也就是将远程返回数据进行处理后返回给面板</span>
+            <span style="color: #0000ff">return</span> data.substring(0,2);  <span style="color: #008000">//</span><span style="color: #008000">加收外部数据，截取后返回</span>
+<span style="color: #000000">        }
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').panel('destroy', true);   //参数设置为 true 的时候，销毁面板时将跳过'onBeforeDestory'回调函数</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>refresh &nbsp;href 刷新面板来装载远程数据。如果'href'属性有了新配置，它将重写旧的'href'属性。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">刷新当前内容</span>
+$('#box').panel('refresh');</pre>
+</div>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">刷新指定载入内容</span>
+$('#box').panel('refresh', 'content.php');</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>resize &nbsp;options设置面板大小和布局。参数对象包含下列属性：<span style="color: #0000ff">width</span>：新的面板宽度。<span style="color: #0000ff">height</span>：新的面板高度。<span style="color: #0000ff">left</span>：新的面板左边距位置。<span style="color: #0000ff">top</span>：新的面板上边距位置。</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#box').panel('resize', {         <span style="color: #008000">//</span><span style="color: #008000">设置面板大小和布局</span>
+        width : 100<span style="color: #000000">,
+        height : </span>100<span style="color: #000000">,
+        left : </span>100<span style="color: #000000">,
+        top : </span>100<span style="color: #000000">
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>move &nbsp;options 移动面板到一个新位置。参数对象包含下列属性：<span style="color: #0000ff">left</span>：新的左边距位置。<span style="color: #0000ff">top</span>：新的上边距位置。</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#box').panel('move', {         <span style="color: #008000">//</span><span style="color: #008000">设置移动的坐标</span>
+        left : 100<span style="color: #000000">,
+        top : </span>100<span style="color: #000000">
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>maximize &nbsp;none 最大化面板到容器大小。</strong></span></p>
+<div class="cnblogs_code">
+<pre> $('#box').panel('maximize');    <span style="color: #008000">//</span><span style="color: #008000">最大化面板到容器大小。</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>minimize &nbsp;none 最小化面板。</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#box').panel('minimize');    <span style="color: #008000">//</span><span style="color: #008000">最小化面板。</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>restore &nbsp;none 恢复最大化面板回到原来的大小和位置。</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#box').panel('restore');    <span style="color: #008000">//</span><span style="color: #008000">恢复最大化面板回到原来的大小和位置。</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>collapse &nbsp;animate 折叠面板主题。</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#box').panel('collapse');    <span style="color: #008000">//</span><span style="color: #008000">折叠面板主题。</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>expand &nbsp;animate 展开面板主体。</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('#box').panel('expand');    <span style="color: #008000">//</span><span style="color: #008000">展开面板主体。</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>$.fn.panel.defaults 重写默认值对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$.fn.panel.defaults.border = <span style="color: #0000ff">false</span>;</pre>
+</div>
+<p>&nbsp;</p></div>

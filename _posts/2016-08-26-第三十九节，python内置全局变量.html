@@ -1,0 +1,136 @@
+第三十九节，python内置全局变量
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #ff0000;"><strong>vars()查看内置全局变量</strong></span></p>
+<p><strong>以字典方式返回内置全局变量</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(vars())
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {'__builtins__': &lt;module 'builtins' (built-in)&gt;, '__spec__': None, '__package__': None, '__doc__': None, '__name__': '__main__', '__cached__': None, '__file__': 'H:/py/index.py', '__loader__': &lt;_frozen_importlib_external.SourceFileLoader object at 0x000000AC32C66A58&gt;}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__doc__<span class="Apple-tab-span"> ：获取文件的注释</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">
+这里是文件的注释
+</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800080;">__doc__</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">__doc__    ：获取文件的注释</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 这里是文件的注释</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__file__ 【重点】获取当前文件的路径</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800080;">__file__</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">__file__ ：获取当前文件的路径</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> H:/py/index.py</span></pre>
+</div>
+<p><span style="color: #ff00ff;"><strong>会经常用到__file__ ，一般配合os模块的os.path.dirname()，os.path.basename() ，os.path.join()&nbsp;模块函数来使用</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> os
+a </span>= <span style="color: #800080;">__file__</span>    <span style="color: #008000;">#</span><span style="color: #008000;"> __file__全局变量获取当前文件路径</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+
+b </span>= os.path.dirname(a) <span style="color: #008000;">#</span><span style="color: #008000;">获取文件当前目录：注意：os.path.dirname()叠加一次向上找一次 如下</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+
+b2 </span>= os.path.dirname(b) <span style="color: #008000;">#</span><span style="color: #008000;">获取文件当前目录的上级目录，注意：os.path.dirname()叠加一次向上找一次</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b2)
+
+c </span>= os.path.basename(a) <span style="color: #008000;">#</span><span style="color: #008000;">获取文件名称</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> H:/py/lib/ska/mk.py</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> H:/py/lib/ska</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> H:/py/lib</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> mk.py</span></pre>
+</div>
+<p><span style="color: #ff00ff;"><strong>&nbsp;用__file__获取模块路径，添加到解释器模块路径里</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> sys
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> os
+a </span>= <span style="color: #800080;">__file__</span>    <span style="color: #008000;">#</span><span style="color: #008000;"> __file__全局变量获取当前文件路径</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+b </span>= os.path.dirname(a) <span style="color: #008000;">#</span><span style="color: #008000;">获取文件当前目录</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+c </span>= <span style="color: #800000;">"</span><span style="color: #800000;">lib</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">自定义文件目录名称</span>
+d = os.path.join(b,c) <span style="color: #008000;">#</span><span style="color: #008000;">将获取文件当前目录，与自定义文件目录名称，拼接成完整的路径</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(d)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+
+sys.path.append(d) </span><span style="color: #008000;">#</span><span style="color: #008000;">将拼接好的路径，添加到解释器模块路径中</span>
+
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> sys.path:  <span style="color: #008000;">#
+</span>    <span style="color: #0000ff;">print</span><span style="color: #000000;">(i)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> H:/py/index.py</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> H:/py</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> H:/py\lib</span><span style="color: #008000;">
+#
+#
+#</span><span style="color: #008000;"> H:\py</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> C:\Users\admin\AppData\Local\Programs\Python\Python35\lib\site-packages\pip-8.1.2-py3.5.egg</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> H:\py</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> C:\Users\admin\AppData\Local\Programs\Python\Python35\python35.zip</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> C:\Users\admin\AppData\Local\Programs\Python\Python35\DLLs</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> C:\Users\admin\AppData\Local\Programs\Python\Python35\lib</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> C:\Users\admin\AppData\Local\Programs\Python\Python35</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> C:\Users\admin\AppData\Local\Programs\Python\Python35\lib\site-packages</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> H:/py\lib</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__package__ ：获取导入文件的路径，多层目录以点分割，注意：对当前文件返回None</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800080;">__package__</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">注意：对当前文件返回None</span>
+<span style="color: #0000ff;">from</span> lib.ska <span style="color: #0000ff;">import</span> mk  <span style="color: #008000;">#</span><span style="color: #008000;">导入mk模块文件</span>
+<span style="color: #0000ff;">print</span>(mk.<span style="color: #800080;">__package__</span>) <span style="color: #008000;">#</span><span style="color: #008000;">__package__ ：获取导入文件的路径，多层目录以点分割，注意：对当前文件返回None</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> None</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> lib.ska</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> lib.ska</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__cached__ ：获取导入文件的缓存路径</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">from</span> lib.ska <span style="color: #0000ff;">import</span> mk  <span style="color: #008000;">#</span><span style="color: #008000;">导入mk模块文件</span>
+<span style="color: #0000ff;">print</span>(mk.<span style="color: #800080;">__cached__</span>) <span style="color: #008000;">#</span><span style="color: #008000;">__cached__ ：获取导入文件的缓存路径</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> H:\py\lib\ska\__pycache__\mk.cpython-35.pyc</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__name__ <strong>【重点】</strong>获取导入文件的路径加文件名称，路径以点分割，注意:获取当前文件返回__main__&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800080;">__name__</span>) <span style="color: #008000;">#</span><span style="color: #008000;">注意:获取当前文件返回__main__</span>
+<span style="color: #0000ff;">from</span> lib.ska <span style="color: #0000ff;">import</span> mk  <span style="color: #008000;">#</span><span style="color: #008000;">导入mk模块文件</span>
+<span style="color: #0000ff;">print</span>(mk.<span style="color: #800080;">__name__</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">获取导入文件的路径加文件名称，路径以点分割</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> __main__</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> lib.ska.mk</span></pre>
+</div>
+<p><span style="color: #ff00ff;"><strong>__name__ &nbsp;全局变量写在入口文件里，只有执行入口文件时的返回值才是<strong>__main__ &nbsp;，如果入口文件被导入到别的文件里，此时入口文件的<strong>__name__返回值就不在是<strong><strong>__main__，而是如果文件的路径加入口文件名称，所以我们可以用<strong>__name__全局变量来防止别人盗链入口文件</strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">"</span><span style="color: #800000;">__main__</span><span style="color: #800000;">"</span>: <span style="color: #008000;">#</span><span style="color: #008000;">__name__  全局变量写在入口文件里，只有执行入口文件时的返回值才是__main__  ，如果入口文件被导入到别的文件里，此时入口文件的__name__返回值就不在是__main__，而是如果文件的路径加入口文件名称，所以我们可以用__name__全局变量来防止别人盗链入口文件</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">执行</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">这样只有执行index文件时才执行判断里的，index被导入到到别的文件，就不会执行判断里的</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>__builtins__ 【重点】内置函数在这里面</strong></span></p></div>

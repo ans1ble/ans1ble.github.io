@@ -1,0 +1,71 @@
+第二百八十二节，MySQL数据库-MySQL视图
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>MySQL数据库-MySQL视图</strong></p>
+<p><span style="color: #ff0000"><strong>1、视图是一个虚拟表（非真实存在），其本质是【根据SQL语句获取动态的数据集，并为其命名】，用户使用时只需使用【名称】即可获取结果集，并可以将其当作表来使用。</strong></span></p>
+<p><span style="color: #ff0000"><strong>2、也就是说视图是<strong>SQL语句查询到的数据动态组合的临时虚拟表，<strong>创建视图，以后如果要查询视图里的相同数据，就不必在写查询语句了，直接将视图当做表来使用，解决重复写语句问题</strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>举例：有这样一张表</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170612153035306-492903438.png" alt=""></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>查询到年龄20岁的数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080">--</span><span style="color: #008080"> 查询到年龄20岁的数据</span>
+<span style="color: #0000ff">SELECT</span> id,yhm,xb,nl <span style="color: #0000ff">FROM</span> usr <span style="color: #0000ff">WHERE</span> nl <span style="color: #808080">=</span> <span style="color: #800000; font-weight: bold">20</span>;</pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170612153614587-805234626.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>这个查询结果，就可以创建成视图，以后如果要这个查询，就不必在写查询语句了，直接将视图当做表来使用</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>1、创建视图</strong></span></p>
+<p><span style="color: #ff0000"><strong>CREATE VIEW 视图名称 AS &nbsp;SQL语句</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080">--</span><span style="color: #008080"> CREATE VIEW 视图名称 AS  SQL语句</span><span style="color: #008080">
+--</span><span style="color: #008080"> 查询表里nl字段等于20的数据创建视图</span>
+<span style="background-color: #ffff00"><span style="color: #0000ff">CREATE</span> <span style="color: #0000ff">VIEW</span> usr_nl <span style="color: #0000ff">AS</span></span>
+<span style="background-color: #ff99cc"><span style="color: #0000ff">SELECT</span><span style="color: #000000">
+    id,
+    yhm,
+    xb,
+    nl
+</span><span style="color: #0000ff">FROM</span><span style="color: #000000">
+    usr
+</span><span style="color: #0000ff">WHERE</span><span style="color: #000000">
+    nl </span><span style="color: #808080">=</span> <span style="color: #ff0000">'</span><span style="color: #ff0000">20</span><span style="color: #ff0000">'</span>;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>视图虚拟表，也就是SQL语句的查询结果</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170612160602025-1746294491.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>2、使用视图</strong></span></p>
+<p><span style="color: #ff0000"><strong>使用视图时，将其当作表进行操作即可，由于视图是虚拟表，所以无法使用其对真实表进行创建、更新和删除操作，仅能做查询用。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">SELECT</span> <span style="color: #808080">*</span> <span style="color: #0000ff">FROM</span> `usr_nl`;</pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170612161024165-1718661024.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>3、修改视图</strong></span></p>
+<p><span style="color: #ff0000"><strong>ALTER VIEW 视图名称 AS SQL语句</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080">--</span><span style="color: #008080"> ALTER VIEW 视图名称 AS SQL语句</span>
+<span style="background-color: #ffff00"><span style="color: #0000ff">ALTER</span> <span style="color: #0000ff">VIEW</span> usr_nl <span style="color: #0000ff">AS</span></span>
+<span style="background-color: #ff99cc"><span style="color: #0000ff">SELECT</span><span style="color: #000000">
+    id,
+    yhm,
+    xb,
+    nl
+</span><span style="color: #0000ff">FROM</span><span style="color: #000000">
+    usr
+</span><span style="color: #0000ff">WHERE</span><span style="color: #000000">
+    nl </span><span style="color: #808080">=</span> <span style="color: #ff0000">'</span><span style="color: #ff0000">21</span><span style="color: #ff0000">'</span>;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>4、删除视图</strong></span></p>
+<p><span style="color: #ff0000"><strong>DROP VIEW 视图名称</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080">--</span><span style="color: #008080"> DROP VIEW 视图名称</span>
+<span style="color: #0000ff">DROP</span> <span style="color: #0000ff">VIEW</span> usr_nl;</pre>
+</div>
+<p>&nbsp;</p></div>

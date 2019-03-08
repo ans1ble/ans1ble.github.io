@@ -1,0 +1,215 @@
+第四十二节，configparser特定格式的ini配置文件模块
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #000000;">configparser用于处理特定格式的文件，其本质上是利用open来操作文件。</span></p>
+<p><span style="color: #ff0000;">特定格式的ini配置文件模块，用于处理ini配置文件，注意：这个ini配置文件，只是ini文件名称的文本文件，不是后缀为.ini的文件，也就是ini文件，不是ini.ini文件</span></p>
+<p><strong>ini配置文件格式</strong></p>
+<p><strong>每个标签称之为节点</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;"> 注释1</span>
+<span style="color: #000000;">;  注释2
+ 
+[section1] </span><span style="color: #008000;">#</span><span style="color: #008000;"> 节点</span>
+k1 = v1    <span style="color: #008000;">#</span><span style="color: #008000;"> 第一种键值对</span>
+k2:v2       <span style="color: #008000;">#</span><span style="color: #008000;"> 第二种键值对</span>
+<span style="color: #000000;"> 
+[section2] </span><span style="color: #008000;">#</span><span style="color: #008000;"> 第一种键值对</span>
+k1 = v1    <span style="color: #008000;">#</span><span style="color: #008000;"> 第二种键值对</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>ConfigParser()模块函数</strong></span></p>
+<p><strong>功能：创建ConfigParser对象，对象用来操作文件【无参】</strong></p>
+<p><strong>使用方法：模块名称.<strong>ConfigParser()</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：config = configparser.ConfigParser()</strong></p>
+<p><span style="color: #ff0000;"><strong>read()模块函数</strong></span></p>
+<p><strong>功能：打开文件【有参】</strong></p>
+<p><strong>使用方法：对象变量.<strong>read("文件路径文件名称",encoding='字符编码')</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：config.read("ini", encoding='utf-8')</strong></p>
+<p><span style="color: #ff0000;"><strong>sections()模块函数</strong></span></p>
+<p><strong>功能：<strong>获取对象里的所有节点名称，以列表形式返回，列表里的元素就是节点名称【有参】</strong></strong></p>
+<p><strong>使用方法：对象变量.<strong>sections()</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：ret = config.sections()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> configparser <span style="color: #008000;">#</span><span style="color: #008000;">导入configparser模块</span>
+config = configparser.ConfigParser() <span style="color: #008000;">#</span><span style="color: #008000;">创建ConfigParser对象</span>
+config.read(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以utf-8的编码打开ini文件</span>
+ret = config.sections() <span style="color: #008000;">#</span><span style="color: #008000;">获取对象里的节点名称，以列表形式返回，列表里的元素就是节点名称</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(ret)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ['section1', 'section2']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>items()模块函数</strong></span></p>
+<p><strong>功能：获取指定节点下所有的键值对,返回的一个列表，列表里的元素是元祖，每个元祖的元素是键值对【有参】<strong><br /></strong></strong></p>
+<p><strong>使用方法：对象变量.<strong>items("要获取的节点名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：ret = config.items("section2")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> configparser <span style="color: #008000;">#</span><span style="color: #008000;">导入configparser模块</span>
+config = configparser.ConfigParser() <span style="color: #008000;">#</span><span style="color: #008000;">创建ConfigParser对象</span>
+config.read(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以utf-8的编码打开ini文件</span>
+ret = config.items(<span style="color: #800000;">"</span><span style="color: #800000;">section2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">获取指定节点下所有的键值对,返回的一个列表，列表里的元素是元祖，每个元祖的元素是键值对</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(ret)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [('k1', 'v1'), ('k2', 'v2')]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>options()模块函数</strong></span></p>
+<p><strong>功能：获取指定节点下所有的建，返回列表，列表里的元素是指定节点下所有的建【有参】<strong><br /></strong></strong></p>
+<p><strong>使用方法：对象变量.<strong>options("要获取的节点名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：ret = config.options("section2")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> configparser <span style="color: #008000;">#</span><span style="color: #008000;">导入configparser模块</span>
+config = configparser.ConfigParser() <span style="color: #008000;">#</span><span style="color: #008000;">创建ConfigParser对象</span>
+config.read(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以utf-8的编码打开ini文件</span>
+ret = config.options(<span style="color: #800000;">"</span><span style="color: #800000;">section2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">获取指定节点下所有的建，返回列表，列表里的元素是指定节点下所有的建</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(ret)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ['k1', 'k2']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>get()模块函数</strong></span></p>
+<p><strong>功能：获取指定节点下指定key的值,返回对应字符串【有参】<strong><br /></strong></strong></p>
+<p><strong>使用方法：对象变量.<strong>get("要获取的节点名称","要获取的key键名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：ret = config.get("section2","k2")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> configparser <span style="color: #008000;">#</span><span style="color: #008000;">导入configparser模块</span>
+config = configparser.ConfigParser() <span style="color: #008000;">#</span><span style="color: #008000;">创建ConfigParser对象</span>
+config.read(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以utf-8的编码打开ini文件</span>
+ret = config.get(<span style="color: #800000;">"</span><span style="color: #800000;">section2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">获取指定节点下指定key的值,返回对应字符串</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(ret)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> v2</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>has_section()模块函数</strong></span></p>
+<p><strong>功能：检查指定的节点是否存在，存在返回True，不存在返回False【有参】<strong><br /></strong></strong></p>
+<p><strong>使用方法：对象变量.<strong>has_section("要检查的节点名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：ret = config.has_section("section2")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> configparser <span style="color: #008000;">#</span><span style="color: #008000;">导入configparser模块</span>
+config = configparser.ConfigParser() <span style="color: #008000;">#</span><span style="color: #008000;">创建ConfigParser对象</span>
+config.read(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以utf-8的编码打开ini文件</span>
+ret = config.has_section(<span style="color: #800000;">"</span><span style="color: #800000;">section2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">检查指定的节点是否存在，存在返回True，不存在返回False</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(ret)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> True</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>add_section()模块函数</strong></span></p>
+<p><strong>功能：在文件里追加节点【有参】<strong><br /></strong></strong></p>
+<p><strong>使用方法：对象变量.<strong>add_section("要追加的节点名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：config.add_section("section5")</strong></p>
+<p><span style="color: #ff0000;"><strong>write()模块函数</strong></span></p>
+<p><strong>功能：文件对象改变后将对象重新写入文件【有参】参数是打开要写入的文件<strong><br /></strong></strong></p>
+<p><span style="color: #ff0000;"><strong>注意：对文件的，增，删，改，操作后都要用<strong>write()写入一下文件保存</strong></strong></span></p>
+<p><strong>使用方法：对象变量.<strong>write(open("文件路径或名称","文件打开方式",encoding='字符编码'))</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：config.write(open("ini","w",encoding='utf-8'))</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> configparser <span style="color: #008000;">#</span><span style="color: #008000;">导入configparser模块</span>
+config = configparser.ConfigParser() <span style="color: #008000;">#</span><span style="color: #008000;">创建ConfigParser对象</span>
+config.read(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以utf-8的编码打开ini文件</span>
+config.add_section(<span style="color: #800000;">"</span><span style="color: #800000;">section5</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">在文件里追加节点</span>
+config.write(open(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">文件对象改变后将对象重新写入文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>remove_section()模块函数</strong></span></p>
+<p><strong>功能：删除指定的节点【有参】<strong><br /></strong></strong></p>
+<p><strong>使用方法：对象变量.<strong>remove_section("要删除的节点名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：config.remove_section("section3")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> configparser <span style="color: #008000;">#</span><span style="color: #008000;">导入configparser模块</span>
+config = configparser.ConfigParser() <span style="color: #008000;">#</span><span style="color: #008000;">创建ConfigParser对象</span>
+config.read(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以utf-8的编码打开ini文件</span>
+config.remove_section(<span style="color: #800000;">"</span><span style="color: #800000;">section3</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">删除指定的节点</span>
+config.write(open(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">文件对象改变后将对象重新写入文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>has_option()模块函数&nbsp;</strong></span></p>
+<p><strong>功能：检查指定节点下面的指定键是否存在，存在返回True，不存在返回False【有参】<strong><br /></strong></strong></p>
+<p><strong>使用方法：对象变量.<strong>has_option("要检查节点名称","键名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：sf = config.has_option("section2","k2")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> configparser <span style="color: #008000;">#</span><span style="color: #008000;">导入configparser模块</span>
+config = configparser.ConfigParser() <span style="color: #008000;">#</span><span style="color: #008000;">创建ConfigParser对象</span>
+config.read(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以utf-8的编码打开ini文件</span>
+sf = config.has_option(<span style="color: #800000;">"</span><span style="color: #800000;">section2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">检查指定节点下面的指定键是否存在，存在返回True，不存在返回False</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(sf)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> True</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>remove_option()模块函数</strong></span></p>
+<p><strong>功能：删除指定节点下的指定键值对<strong><br /></strong></strong></p>
+<p><strong>使用方法：对象变量.<strong>remove_option("指定节点名称","节点下要删除的键名称")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：config.remove_option("section2","k1")</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> configparser <span style="color: #008000;">#</span><span style="color: #008000;">导入configparser模块</span>
+config = configparser.ConfigParser() <span style="color: #008000;">#</span><span style="color: #008000;">创建ConfigParser对象</span>
+config.read(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以utf-8的编码打开ini文件</span>
+config.remove_option(<span style="color: #800000;">"</span><span style="color: #800000;">section2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">删除指定节点下的键值对</span>
+config.write(open(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">文件对象改变后将对象重新写入文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>set()模块函数</strong></span></p>
+<p><strong>功能：设置指定节点下的指定键值对<strong><br /></strong></strong></p>
+<p><strong>使用方法：对象变量.<strong>set("指定节点","键名称","值")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：config.set("section2","k1","v1")</strong></p>
+<p><strong>说明</strong></p>
+<p><strong>根据键来判断如果键不存则创建定义的键值对</strong></p>
+<p><strong>如果存在则更改成定义的值</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> configparser <span style="color: #008000;">#</span><span style="color: #008000;">导入configparser模块</span>
+config = configparser.ConfigParser() <span style="color: #008000;">#</span><span style="color: #008000;">创建ConfigParser对象</span>
+config.read(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以utf-8的编码打开ini文件</span>
+config.set(<span style="color: #800000;">"</span><span style="color: #800000;">section2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">v1</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">设置指定节点下的指定键值对</span>
+config.write(open(<span style="color: #800000;">"</span><span style="color: #800000;">ini</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">文件对象改变后将对象重新写入文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>创建一个配置文件</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> configparser <span style="color: #008000;">#</span><span style="color: #008000;">导入configparser模块</span>
+wjian = open(<span style="color: #800000;">"</span><span style="color: #800000;">des</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以a模式创建打开des文件</span>
+wjian.close() <span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的文件</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">上面的open只用于创建des文件</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+
+config </span>= configparser.ConfigParser() <span style="color: #008000;">#</span><span style="color: #008000;">创建ConfigParser对象</span>
+config.read(<span style="color: #800000;">"</span><span style="color: #800000;">des</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以utf-8的编码打开des文件</span>
+config.add_section(<span style="color: #800000;">"</span><span style="color: #800000;">section1</span><span style="color: #800000;">"</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">追加指定节点</span>
+config.set(<span style="color: #800000;">"</span><span style="color: #800000;">section1</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">v1</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">指定节点下设置键值对</span>
+config.set(<span style="color: #800000;">"</span><span style="color: #800000;">section1</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">v2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">指定节点下设置键值对</span>
+config.set(<span style="color: #800000;">"</span><span style="color: #800000;">section1</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">k3</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">v3</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">指定节点下设置键值对</span>
+<span style="color: #000000;">
+config.add_section(</span><span style="color: #800000;">"</span><span style="color: #800000;">section2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">追加指定节点</span>
+config.set(<span style="color: #800000;">"</span><span style="color: #800000;">section2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">a1</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">s1</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">指定节点下设置键值对</span>
+config.set(<span style="color: #800000;">"</span><span style="color: #800000;">section2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">a2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">s2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">指定节点下设置键值对</span>
+config.set(<span style="color: #800000;">"</span><span style="color: #800000;">section2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">a3</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">s3</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">指定节点下设置键值对</span>
+<span style="color: #000000;">
+config.add_section(</span><span style="color: #800000;">"</span><span style="color: #800000;">section3</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">追加指定节点</span>
+config.set(<span style="color: #800000;">"</span><span style="color: #800000;">section3</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">f1</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">指定节点下设置键值对</span>
+config.set(<span style="color: #800000;">"</span><span style="color: #800000;">section3</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">f2</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">指定节点下设置键值对</span>
+config.set(<span style="color: #800000;">"</span><span style="color: #800000;">section3</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">f3</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">k3</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">指定节点下设置键值对</span>
+<span style="color: #000000;">
+config.write(open(</span><span style="color: #800000;">"</span><span style="color: #800000;">des</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>))  <span style="color: #008000;">#</span><span style="color: #008000;">将改变后的对象写入des文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>重点总结：<strong>注意：对文件的，增，删，改，操作后都要用<strong>write()写入一下文件保存</strong></strong></strong></span></p></div>

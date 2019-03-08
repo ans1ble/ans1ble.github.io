@@ -1,0 +1,313 @@
+第一百四十四节，JavaScript，列队动画
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong>JavaScript，列队动画</strong></span></p>
+<p><span style="color: #0000ff"><strong>将上一节的，移动透明动画，修改成可以支持列队，也就是可以给这个动画方法多个动画任务，让它完成一个动画任务后，在执行第二个动画任务</strong></span></p>
+<p><span style="color: #0000ff"><strong>原理：</strong></span></p>
+<p><span style="color: #0000ff"><strong>就是在原有的动画方法里加一个回调函数，当动画执行完毕后执行回调函数，再在回调函数里写入动画任务去执行，实现列队动画</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">* yi_dong_tou_ming()方法，说明
+ * * yi_dong_tou_ming()方法，将一个元素，进行一下动画操作
+ * 1，x将元素横向左移动或者右移动
+ * 2, y将元素竖向上移动或者下移动
+ * 3，w将元素动画增加或者减少宽度
+ * 4，h将元素动画增加或者减少高度
+ * 5，o将元素动画增加或者减少透明度
+ * *************************************
+ *  x将元素横向左移动或者右移动，首先将目标设置定位，position:absolute;
+ *  o将元素动画增加或者减少透明度，结合css里元素原始透明度filter: alpha(opacity=0);opacity: 0;
+ *  *************************************
+ *  yi_dong_tou_ming()方法，参数说明
+ *  参数是一个对象如下
+ *  yi_dong_tou_ming({
+            'attr':'x',        【为动画方式】，   x.为横向移动，y.为竖向移动，w.为增加宽度动画，h.为增加高度动画，o.为透明度动画，【必填】
+            'type':'1',        【动画模式】，     0.匀速模式，1.缓冲模式【可选，默认缓冲】
+            'speed':6,         【缓冲速度】，     动画模式为缓冲时设置，【可选，默认为6】,以此值改变跨度.每一次动画动态增加或者减少，实现缓冲效果
+
+            'start':50,        【动画起始位置】， 起始的像素或者透明度【可选，默认为对象原始位置】
+                                                  注意：动画起始位置，一般按钮动画使用，如果是鼠标触动动画，会不停的初始化，因为鼠标一动就改变了动画起始位置
+
+            'target':100,      【目标量】，       就是在原始的像素或者透明度上，增加或者减少到目标量的像素或者透明度【可先，注意目标量不填，增量必填】
+            'alter':50,        【增量】，         就是在对象原始的像素或者透明度上，增加或者减少像素或者透明度【可先，注意增量不填，目标量必填】
+            'step':7,          【跨度】，         每一次动画增加或者减少的，像素或者透明度,【可选，默认20】
+            't':50             【每次动画时间】， 也就是多少毫秒执行一次动画【可选，默认10】
+            <span style="color: #ff0000">fn:function () {   【每次动画时间】， 回调函数，用于动画执行完毕后执行函数，在回调函数里在写入动画，就是列队动画，也就是一个动画执行完毕后执行第二个动画</span>
+
+            }
+        });
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yi_dong_tou_ming </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (obj) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> element = <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i];
+         </span><span style="color: #008000">//</span><span style="color: #008000"> attr，为动画方式，</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> x.为横向移动</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> y.为竖向移动</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> w.为增加宽度动画</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> h.为增加高度动画</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> o.为透明度动画</span>
+        <span style="color: #0000ff">var</span> attr = obj['attr'] == 'x' ? 'left' : obj['attr'] == 'y' ? 'top'<span style="color: #000000"> :
+            obj[</span>'attr'] == 'w' ? 'width' : obj['attr'] == 'h' ? 'height'<span style="color: #000000"> :
+                obj[</span>'attr'] == 'o' ? 'opacity' : 'left'<span style="color: #000000">;
+
+        </span><span style="color: #008000">//</span><span style="color: #008000"> start.为动画起始位置，</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> 如果输入了动画起始位置，值就为输入的起始位置，移动动画是像素值（如100），透明度动画是透明度百分比（如50）</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> 如果没输入，默认移动动画获取的对象原始像素位置，透明度动画获取的对象原始透明度，除以100等于原始透明度百分比</span>
+        <span style="color: #0000ff">var</span> start = obj['start'] != undefined ? obj['start'<span style="color: #000000">] :
+            attr </span>== 'opacity' ? parseFloat(getStyle(element, attr)) * 100<span style="color: #000000"> :
+                parseInt(getStyle(element, attr));
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> t.为每次动画时间，也就是多少毫秒执行一次动画</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> 不传默认，是10毫秒执行一次动画</span>
+        <span style="color: #0000ff">var</span> t = obj['t'] != undefined ? obj['t'] : 10<span style="color: #000000">;
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> step.为跨度，每一次动画增加或者减少的，像素或者透明度</span>
+        <span style="color: #0000ff">var</span> step = obj['step'] != undefined ? obj['step'] : 20<span style="color: #000000">;
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> alter.为增量，就是在对象原始的像素或者透明度上，增加或者减少像素或者透明度</span>
+        <span style="color: #0000ff">var</span> alter = obj['alter'<span style="color: #000000">];
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> target.为目标量，就是在原始的像素或者透明度上，增加或者减少到目标量的像素或者透明度</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> 注意，增量，是在原始上增加或者减少多少，目标量是在原始的基础上增加或者减少到目标</span>
+        <span style="color: #0000ff">var</span> target = obj['target'<span style="color: #000000">];
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> speed.为缓冲速度，动画模式为缓冲时，以此值改变step.每一次动画动态增加或者减少，实现缓冲效果</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> 不传，默认为6</span>
+        <span style="color: #0000ff">var</span> speed = obj['speed'] != undefined ? obj['speed'] : 6<span style="color: #000000">;
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> type.为动画模式，匀速为匀速模式，缓冲为缓冲模式</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> 不传，默认为缓冲模式</span>
+        <span style="color: #0000ff">var</span> type = obj['type'] == 0 ? 'constant' : obj['type'] == 1 ? 'buffer' : 'buffer'<span style="color: #000000">;
+        </span><span style="color: #0000ff">if</span> (alter != undefined &amp;&amp; target ==<span style="color: #000000"> undefined) {
+            target </span>= alter +<span style="color: #000000"> start;
+        } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (alter == undefined &amp;&amp; target ==<span style="color: #000000"> undefined) {
+            </span><span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('alter增量或target目标量必须传一个！'<span style="color: #000000">);
+        }
+        </span><span style="color: #0000ff">if</span> (start &gt; target) step = -<span style="color: #000000">step;
+        </span><span style="color: #0000ff">if</span> (attr == 'opacity'<span style="color: #000000">) {
+            element.style.opacity </span>= parseInt(start) / 100<span style="color: #000000">;
+            element.style.filter </span>= 'alpha(opacity=' + parseInt(start) + ')'<span style="color: #000000">;
+        } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+            element.style[attr] </span>= start + 'px'<span style="color: #000000">;
+        }
+        clearInterval(element.timer);                            </span><span style="color: #008000">//</span><span style="color: #008000">给对每个象创建定时器并停止定时器</span>
+        element.timer = setInterval(<span style="color: #0000ff">function</span> () {               <span style="color: #008000">//</span><span style="color: #008000">将对象下的定时器开启</span>
+            <span style="color: #0000ff">if</span> (type == 'buffer'<span style="color: #000000">) {
+                step </span>= attr == 'opacity' ? (target - parseFloat(getStyle(element, attr)) * 100) /<span style="color: #000000"> speed :
+                (target </span>- parseInt(getStyle(element, attr))) /<span style="color: #000000"> speed;
+                step </span>= step &gt; 0 ?<span style="color: #000000"> Math.ceil(step) : Math.floor(step);
+            }
+            </span><span style="color: #0000ff">if</span> (attr == 'opacity'<span style="color: #000000">) {
+                </span><span style="color: #0000ff">if</span> (step == 0<span style="color: #000000">) {
+                    setOpacity();
+                } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (step &gt; 0 &amp;&amp; Math.abs(parseFloat(getStyle(element, attr)) * 100 - target) &lt;=<span style="color: #000000"> step) {
+                    setOpacity();
+                } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (step &lt; 0 &amp;&amp; (parseFloat(getStyle(element, attr)) * 100 - target) &lt;=<span style="color: #000000"> Math.abs(step)) {
+                    setOpacity();
+                } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                    </span><span style="color: #0000ff">var</span> temp = parseFloat(getStyle(element, attr)) * 100<span style="color: #000000">;
+                    element.style.opacity </span>= parseInt(temp + step) / 100<span style="color: #000000">;
+                    element.style.filter </span>= 'alpha(opacity=' + parseInt(temp + step) + ')'<span style="color: #000000">;
+                }
+            } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                </span><span style="color: #0000ff">if</span> (step == 0<span style="color: #000000">) {
+                    setTarget();
+                } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (step &gt; 0 &amp;&amp; Math.abs(parseInt(getStyle(element, attr)) - target) &lt;=<span style="color: #000000"> step) {
+                    setTarget();
+                } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (step &lt; 0 &amp;&amp; (parseInt(getStyle(element, attr)) - target) &lt;=<span style="color: #000000"> Math.abs(step)) {
+                    setTarget();
+                } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                    element.style[attr] </span>= parseInt(getStyle(element, attr)) + step + 'px'<span style="color: #000000">;
+                }
+            }
+            </span><span style="color: #008000">//</span><span style="color: #008000">document.getElementById('aaa').innerHTML += step + '&lt;br /&gt;';</span>
+<span style="color: #000000">        }, t);
+        </span><span style="color: #0000ff">function</span><span style="color: #000000"> setTarget() {
+            element.style[attr] </span>= target + 'px'<span style="color: #000000">;
+            clearInterval(element.timer);
+            </span><span style="color: #ff0000">if (obj.fn != undefined)obj.fn();   //判断如果传入了回调函数，动画执行完毕后执行回调函数</span>
+<span style="color: #000000">        }
+        </span><span style="color: #0000ff">function</span><span style="color: #000000"> setOpacity() {
+            element.style.opacity </span>= parseInt(target) / 100<span style="color: #000000">;
+            element.style.filter </span>= 'alpha(opacity=' + parseInt(target) + ')'<span style="color: #000000">;
+            clearInterval(element.timer);
+            </span><span style="color: #ff0000">if (obj.fn != undefined)obj.fn();    //判断如果传入了回调函数，动画执行完毕后执行回调函数</span>
+<span style="color: #000000">        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>html代码</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="liedui"</span><span style="color: #0000ff">&gt;</span>列队动画<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>css代码</p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">#liedui</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 100px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #ff340e</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 100px</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff"> 100px</span>;
+}</pre>
+</div>
+<p>前台js代码</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">列队动画</span>
+    $('#liedui').on_click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> _this = <span style="color: #0000ff">this</span><span style="color: #000000">;
+        $(_this).yi_dong_tou_ming({                         </span><span style="color: #008000">//</span><span style="color: #008000">先执行这第一个动画</span>
+            'attr': 'w',     <span style="color: #008000">//</span><span style="color: #008000">动画模式</span>
+            'target': 500,   <span style="color: #008000">//</span><span style="color: #008000">目标量</span>
+            'step': 7,       <span style="color: #008000">//</span><span style="color: #008000">跨度</span>
+            't': 50,         <span style="color: #008000">//</span><span style="color: #008000">每次动画时间</span>
+            <span style="color: #ff0000">fn: function () {                              //等待第一个动画执行完毕后，再在动画回调函数里执行第二个动画
+                $(_this).yi_dong_tou_ming({
+                    'attr': 'h',     //动画模式
+                    'target': 200,   //目标量
+                    'step': 7,       //跨度
+                    't': 50          //每次动画时间
+</span><span style="color: #000000"><span style="color: #ff0000">                });
+            }</span>
+        });
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>PS：对于多个动画冲突导致终止问题，是因为只采用了一个定时器，我们可以对每个动画分配一个定时器即可解决。</strong></span></p>
+<p align="left">&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">* yi_dong_tou_ming()方法，说明
+ * * yi_dong_tou_ming()方法，将一个元素，进行一下动画操作
+ * 1，x将元素横向左移动或者右移动
+ * 2, y将元素竖向上移动或者下移动
+ * 3，w将元素动画增加或者减少宽度
+ * 4，h将元素动画增加或者减少高度
+ * 5，o将元素动画增加或者减少透明度
+ * *************************************
+ *  x将元素横向左移动或者右移动，首先将目标设置定位，position:absolute;
+ *  o将元素动画增加或者减少透明度，结合css里元素原始透明度filter: alpha(opacity=0);opacity: 0;
+ *  *************************************
+ *  yi_dong_tou_ming()方法，参数说明
+ *  参数是一个对象如下
+ *  yi_dong_tou_ming({
+            'attr':'x',        【为动画方式】，   x.为横向移动，y.为竖向移动，w.为增加宽度动画，h.为增加高度动画，o.为透明度动画，【必填】
+            'type':'1',        【动画模式】，     0.匀速模式，1.缓冲模式【可选，默认缓冲】
+            'speed':6,         【缓冲速度】，     动画模式为缓冲时设置，【可选，默认为6】,以此值改变跨度.每一次动画动态增加或者减少，实现缓冲效果
+
+            'start':50,        【动画起始位置】， 起始的像素或者透明度【可选，默认为对象原始位置】
+                                                  注意：动画起始位置，一般按钮动画使用，如果是鼠标触动动画，会不停的初始化，因为鼠标一动就改变了动画起始位置
+
+            'target':100,      【目标量】，       就是在原始的像素或者透明度上，增加或者减少到目标量的像素或者透明度【可先，注意目标量不填，增量必填】
+            'alter':50,        【增量】，         就是在对象原始的像素或者透明度上，增加或者减少像素或者透明度【可先，注意增量不填，目标量必填】
+            'step':7,          【跨度】，         每一次动画增加或者减少的，像素或者透明度,【可选，默认20】
+            't':50             【每次动画时间】， 也就是多少毫秒执行一次动画【可选，默认10】
+            fn:function () {   【每次动画时间】， 回调函数，用于动画执行完毕后执行函数，在回调函数里在写入动画，就是列队动画，也就是一个动画执行完毕后执行第二个动画
+
+            }
+        });
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yi_dong_tou_ming </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (obj) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #ff0000">var element = this.jie_dian[i];
+         </span><span style="color: #008000">//</span><span style="color: #008000"> attr，为动画方式，</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> x.为横向移动</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> y.为竖向移动</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> w.为增加宽度动画</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> h.为增加高度动画</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> o.为透明度动画</span>
+        <span style="color: #0000ff">var</span> attr = obj['attr'] == 'x' ? 'left' : obj['attr'] == 'y' ? 'top'<span style="color: #000000"> :
+            obj[</span>'attr'] == 'w' ? 'width' : obj['attr'] == 'h' ? 'height'<span style="color: #000000"> :
+                obj[</span>'attr'] == 'o' ? 'opacity' : 'left'<span style="color: #000000">;
+
+        </span><span style="color: #008000">//</span><span style="color: #008000"> start.为动画起始位置，</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> 如果输入了动画起始位置，值就为输入的起始位置，移动动画是像素值（如100），透明度动画是透明度百分比（如50）</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> 如果没输入，默认移动动画获取的对象原始像素位置，透明度动画获取的对象原始透明度，除以100等于原始透明度百分比</span>
+        <span style="color: #0000ff">var</span> start = obj['start'] != undefined ? obj['start'<span style="color: #000000">] :
+            attr </span>== 'opacity' ? parseFloat(getStyle(element, attr)) * 100<span style="color: #000000"> :
+                parseInt(getStyle(element, attr));
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> t.为每次动画时间，也就是多少毫秒执行一次动画</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> 不传默认，是10毫秒执行一次动画</span>
+        <span style="color: #0000ff">var</span> t = obj['t'] != undefined ? obj['t'] : 10<span style="color: #000000">;
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> step.为跨度，每一次动画增加或者减少的，像素或者透明度</span>
+        <span style="color: #0000ff">var</span> step = obj['step'] != undefined ? obj['step'] : 20<span style="color: #000000">;
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> alter.为增量，就是在对象原始的像素或者透明度上，增加或者减少像素或者透明度</span>
+        <span style="color: #0000ff">var</span> alter = obj['alter'<span style="color: #000000">];
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> target.为目标量，就是在原始的像素或者透明度上，增加或者减少到目标量的像素或者透明度</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> 注意，增量，是在原始上增加或者减少多少，目标量是在原始的基础上增加或者减少到目标</span>
+        <span style="color: #0000ff">var</span> target = obj['target'<span style="color: #000000">];
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> speed.为缓冲速度，动画模式为缓冲时，以此值改变step.每一次动画动态增加或者减少，实现缓冲效果</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> 不传，默认为6</span>
+        <span style="color: #0000ff">var</span> speed = obj['speed'] != undefined ? obj['speed'] : 6<span style="color: #000000">;
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> type.为动画模式，匀速为匀速模式，缓冲为缓冲模式</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> 不传，默认为缓冲模式</span>
+        <span style="color: #0000ff">var</span> type = obj['type'] == 0 ? 'constant' : obj['type'] == 1 ? 'buffer' : 'buffer'<span style="color: #000000">;
+        </span><span style="color: #0000ff">if</span> (alter != undefined &amp;&amp; target ==<span style="color: #000000"> undefined) {
+            target </span>= alter +<span style="color: #000000"> start;
+        } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (alter == undefined &amp;&amp; target ==<span style="color: #000000"> undefined) {
+            </span><span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('alter增量或target目标量必须传一个！'<span style="color: #000000">);
+        }
+        </span><span style="color: #0000ff">if</span> (start &gt; target) step = -<span style="color: #000000">step;
+        </span><span style="color: #0000ff">if</span> (attr == 'opacity'<span style="color: #000000">) {
+            element.style.opacity </span>= parseInt(start) / 100<span style="color: #000000">;
+            element.style.filter </span>= 'alpha(opacity=' + parseInt(start) + ')'<span style="color: #000000">;
+        } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+            element.style[attr] </span>= start + 'px'<span style="color: #000000">;
+        }
+        <span style="color: #ff0000">clearInterval(element.timer);                            </span></span><span style="color: #ff0000">//给对每个象创建定时器并停止定时器</span>
+       <span style="color: #ff0000"> element.timer = setInterval(function () {               //将对象下的定时器开启</span>
+            <span style="color: #0000ff">if</span> (type == 'buffer'<span style="color: #000000">) {
+                step </span>= attr == 'opacity' ? (target - parseFloat(getStyle(element, attr)) * 100) /<span style="color: #000000"> speed :
+                (target </span>- parseInt(getStyle(element, attr))) /<span style="color: #000000"> speed;
+                step </span>= step &gt; 0 ?<span style="color: #000000"> Math.ceil(step) : Math.floor(step);
+            }
+            </span><span style="color: #0000ff">if</span> (attr == 'opacity'<span style="color: #000000">) {
+                </span><span style="color: #0000ff">if</span> (step == 0<span style="color: #000000">) {
+                    setOpacity();
+                } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (step &gt; 0 &amp;&amp; Math.abs(parseFloat(getStyle(element, attr)) * 100 - target) &lt;=<span style="color: #000000"> step) {
+                    setOpacity();
+                } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (step &lt; 0 &amp;&amp; (parseFloat(getStyle(element, attr)) * 100 - target) &lt;=<span style="color: #000000"> Math.abs(step)) {
+                    setOpacity();
+                } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                    </span><span style="color: #0000ff">var</span> temp = parseFloat(getStyle(element, attr)) * 100<span style="color: #000000">;
+                    element.style.opacity </span>= parseInt(temp + step) / 100<span style="color: #000000">;
+                    element.style.filter </span>= 'alpha(opacity=' + parseInt(temp + step) + ')'<span style="color: #000000">;
+                }
+            } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                </span><span style="color: #0000ff">if</span> (step == 0<span style="color: #000000">) {
+                    setTarget();
+                } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (step &gt; 0 &amp;&amp; Math.abs(parseInt(getStyle(element, attr)) - target) &lt;=<span style="color: #000000"> step) {
+                    setTarget();
+                } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (step &lt; 0 &amp;&amp; (parseInt(getStyle(element, attr)) - target) &lt;=<span style="color: #000000"> Math.abs(step)) {
+                    setTarget();
+                } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                    element.style[attr] </span>= parseInt(getStyle(element, attr)) + step + 'px'<span style="color: #000000">;
+                }
+            }
+            </span><span style="color: #008000">//</span><span style="color: #008000">document.getElementById('aaa').innerHTML += step + '&lt;br /&gt;';</span>
+<span style="color: #000000">        }, t);
+        </span><span style="color: #0000ff">function</span><span style="color: #000000"> setTarget() {
+            element.style[attr] </span>= target + 'px'<span style="color: #000000">;
+            <span style="color: #ff0000">clearInterval(element.timer);
+            </span></span><span style="color: #0000ff">if</span> (obj.fn != undefined)obj.fn();   <span style="color: #008000">//</span><span style="color: #008000">判断如果传入了回调函数，动画执行完毕后执行回调函数</span>
+<span style="color: #000000">        }
+        </span><span style="color: #0000ff">function</span><span style="color: #000000"> setOpacity() {
+            element.style.opacity </span>= parseInt(target) / 100<span style="color: #000000">;
+            element.style.filter </span>= 'alpha(opacity=' + parseInt(target) + ')'<span style="color: #000000">;
+            <span style="color: #ff0000">clearInterval(element.timer);
+            </span></span><span style="color: #0000ff">if</span> (obj.fn != undefined)obj.fn();    <span style="color: #008000">//</span><span style="color: #008000">判断如果传入了回调函数，动画执行完毕后执行回调函数</span>
+<span style="color: #000000">        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};</span></pre>
+</div>
+<p>&nbsp;</p></div>

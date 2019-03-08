@@ -1,0 +1,220 @@
+第二百六十八节，Tornado框架-路由映射之二级域名支持，html模板继承以及导入
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Tornado框架-路由映射之二级域名支持，html模板继承以及导入</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>二级域名路由映射</strong></span><br><span style="color: #ff0000"><strong>add_handlers()设置二级域名路由映射</strong></span></p>
+<p><span style="color: #ff0000"><strong>注意：二级域名需要结合服务器ip绑定域名</strong></span></p>
+<p><span style="color: #0000ff"><strong>框架引擎</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="color: #0000ff">from</span> controllers <span style="color: #0000ff">import</span><span style="color: #000000"> index
+
+
+
+settings </span>= {                                    <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">views</span><span style="color: #800000">"</span>,                    <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">statics</span><span style="color: #800000">"</span>,                    <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+<span style="color: #000000">}
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span><span style="color: #008000">
+#</span><span style="color: #008000">一级路由映射如localhost.com</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/index/(?P&lt;page&gt;\d*)</span><span style="color: #800000">"</span>, index.indexHandler),    <span style="color: #008000">#</span><span style="color: #008000">正则匹配访问路径，访问录index/后面可以是可以是0个或多个数字</span>
+],**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">二级域名路由映射如buy.localhost.com</span>
+<span style="background-color: #ff99cc">application.add_handlers(<span style="color: #800000">'</span><span style="color: #800000">buy.localhost.com$</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ff99cc">,[</span>
+    <span style="background-color: #ff99cc">(r</span></span><span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">/index/(?P&lt;page&gt;\d*)</span><span style="color: #800000">"</span>, index.buy),</span>      <span style="color: #008000">#</span><span style="color: #008000">二级域名访问函数</span>
+<span style="color: #000000; background-color: #ff99cc">])
+
+</span><span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p><span style="color: #0000ff"><strong>逻辑处理</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="color: #0000ff">from</span> pymkuai <span style="color: #0000ff">import</span><span style="color: #000000"> fenye
+
+
+SHUJU </span>=<span style="color: #000000"> [
+    {</span><span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">lgx</span><span style="color: #800000">"</span>,<span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">729088188@qq.com</span><span style="color: #800000">"</span><span style="color: #000000">}
+]
+</span><span style="color: #0000ff">for</span> f <span style="color: #0000ff">in</span> range(300<span style="color: #000000">):
+    SHUJU.append({</span><span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">lgx</span><span style="color: #800000">"</span>, <span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">729088188@qq.com</span><span style="color: #800000">"</span>})   <span style="color: #008000">#</span><span style="color: #008000">填充数据到300条</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理</span>
+<span style="color: #0000ff">class</span> indexHandler(tornado.web.RequestHandler):  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="color: #0000ff">def</span> get(self,page):                                              <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+<span style="color: #000000">
+        fen_ye </span>= fenye.fen_ye_lei(page,SHUJU,10,11,5,<span style="color: #800000">'</span><span style="color: #800000">/index/</span><span style="color: #800000">'</span>)       <span style="color: #008000">#</span><span style="color: #008000">执行分页对象</span>
+
+        <span style="color: #0000ff">if</span> fen_ye.dang_qian_ye &gt; fen_ye.zong_ye_ma:             <span style="color: #008000">#</span><span style="color: #008000">判断分页对象里的当前页码如果大于总页码</span>
+            zfchdqy = str(fen_ye.zong_ye_ma)                    <span style="color: #008000">#</span><span style="color: #008000">将总页码转换成字符串</span>
+            self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/index/</span><span style="color: #800000">"</span> + zfchdqy)                  <span style="color: #008000">#</span><span style="color: #008000">跳转到总页码</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            self.render(</span><span style="color: #800000">"</span><span style="color: #800000">index.html</span><span style="color: #800000">"</span>,dqy=fen_ye.dang_qian_ye,shuju=fen_ye.shu_ju_fan_wei(),yem=fen_ye.xian_shi_ye_ma())  <span style="color: #008000">#</span><span style="color: #008000"> 显示index.html文件，传递当前页码，传递数据，传递分页</span>
+
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> post(self,page):
+        user </span>= self.get_argument(<span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>)            <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的用户名</span>
+        emia = self.get_argument(<span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>)            <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的邮箱</span>
+        temp = {<span style="color: #800000">"</span><span style="color: #800000">user</span><span style="color: #800000">"</span>:user,<span style="color: #800000">"</span><span style="color: #800000">emia</span><span style="color: #800000">"</span>:emia}            <span style="color: #008000">#</span><span style="color: #008000">将邮箱和用户名组合成字典，</span>
+        SHUJU.append(temp)                          <span style="color: #008000">#</span><span style="color: #008000">将字典追加到SHUJU全局变量</span>
+        self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/index/</span><span style="color: #800000">"</span> + page)             <span style="color: #008000">#</span><span style="color: #008000">跳转到当前页面</span>
+
+<span style="background-color: #ff99cc"><span style="color: #0000ff">class</span><span style="color: #000000"> buy(tornado.web.RequestHandler):
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> get(self):
+        self.render(</span><span style="color: #800000">"</span><span style="color: #800000">buy.html</span><span style="color: #800000">"</span>)</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>母板继承</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>母板继承就是访问的页面继承一个母板，将访问页面的内容引入到母板里指定的地方，组合成一个新页面返回给浏览器</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>一般母板里都是写的一个网页里不变的地方，也就是通用的地方，被继承页（访问页）都是每个页面不同的地方，也就是将页面不同的地方引入到母板组合成一个新页面返回浏览器</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>母板里一般都是网页的、头部、底部、头部底部css、头部底部js</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>被继承页<strong><strong>（访问页）里一般都是新内容，新内容的css和js</strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>{% extends '母板路径名称'%}访问页面继承母板</strong></span><br><span style="color: #ff0000"><strong>{% block 代码块名称 %}&lt;html代码块&gt;{% end %}在访问页设置一个可引入到母板的html代码块</strong></span><br><span style="color: #ff0000"><strong>{% block 代码块名称 %}{% end %}在母板，引入访问页对应的html代码块</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong>框架引擎</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="color: #0000ff">from</span> controllers <span style="color: #0000ff">import</span><span style="color: #000000"> index
+
+
+
+settings </span>= {                                    <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">views</span><span style="color: #800000">"</span>,                    <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">statics</span><span style="color: #800000">"</span>,                    <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+<span style="color: #000000">}
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span><span style="color: #008000">
+#</span><span style="color: #008000">一级路由映射如localhost.com</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    <span style="background-color: #ff99cc">(r<span style="color: #800000">"</span><span style="color: #800000">/index/(?P&lt;page&gt;\d*)</span><span style="color: #800000">"</span>, index.indexHandler),</span>    <span style="color: #008000">#</span><span style="color: #008000">正则匹配访问路径，访问录index/后面可以是可以是0个或多个数字</span>
+    <span style="background-color: #ff99cc">(r<span style="color: #800000">"</span><span style="color: #800000">/nevm/(?P&lt;page&gt;\d*)</span><span style="color: #800000">"</span></span><span style="color: #000000"><span style="background-color: #ff99cc">, index.nevmHandler)</span>
+],</span>**settings)                                         <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p><span style="color: #0000ff"><strong>逻辑处理</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="color: #0000ff">from</span> pymkuai <span style="color: #0000ff">import</span><span style="color: #000000"> fenye
+
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000">逻辑处理</span>
+<span style="background-color: #ff99cc"><span style="color: #0000ff">class</span> indexHandler(tornado.web.RequestHandler):</span>  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="background-color: #ff99cc"><span style="color: #0000ff">def</span> get(self,page):</span>                                              <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+        <span style="background-color: #ff99cc">self.render(<span style="color: #800000">"</span><span style="color: #800000">index.html</span><span style="color: #800000">"</span>)</span>                <span style="color: #008000">#</span><span style="color: #008000"> 显示html文件，</span>
+
+<span style="background-color: #ff99cc"><span style="color: #0000ff">class</span> nevmHandler(tornado.web.RequestHandler):</span>  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="background-color: #ff99cc"><span style="color: #0000ff">def</span> get(self,page):</span>                                              <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+        <span style="background-color: #ff99cc">self.render(<span style="color: #800000">"</span><span style="color: #800000">nevm.html</span><span style="color: #800000">"</span>)</span>                <span style="color: #008000">#</span><span style="color: #008000"> 显示html文件，</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>muban.html 母板html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>测试网站<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">='{{static_url("muban.css")}}'</span><span style="color: #0000ff">&gt;</span><span style="color: #000000; background-color: #ff99cc">
+    {% block css %}{% end %}                                        </span><span style="color: #008000">&lt;!--</span><span style="color: #008000">接收被继承页面的css连接</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="tou"</span><span style="color: #0000ff">&gt;</span>头部<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span><span style="color: #000000; background-color: #ff99cc">
+
+{% block neir %}{% end %}                                           </span><span style="color: #008000">&lt;!--</span><span style="color: #008000">接收被继承页面的内容区块</span><span style="color: #008000">--&gt;</span>
+
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="dibu"</span><span style="color: #0000ff">&gt;</span>底部<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>index.html 访问页(被继承页)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="background-color: #ff99cc">{% extends 'muban.html'%}</span>                                       <span style="color: #008000">&lt;!--</span><span style="color: #008000">继承母板muban.html</span><span style="color: #008000">--&gt;</span><span style="background-color: #ff99cc"><span style="color: #000000">
+
+{% block css %}                                                 </span><span style="color: #008000">&lt;!--</span><span style="color: #008000">导入css到继承页面指定地方</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">='{{static_url("index.css")}}'</span><span style="color: #0000ff">&gt;</span></span><span style="color: #000000"><span style="background-color: #ff99cc">
+{% end %}</span>
+
+<span style="background-color: #ff99cc">{% block neir %}                                                </span></span><span style="background-color: #ff99cc"><span style="color: #008000">&lt;!--</span><span style="color: #008000">导入内容区块到继承页面指定地方</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="neir"</span><span style="color: #0000ff">&gt;</span>首页内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+{% end %}</span></span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>nevm.html&nbsp;访问页(被继承页)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="background-color: #ff99cc">{% extends 'muban.html'%}                                       <span style="color: #008000">&lt;!--</span><span style="color: #008000">继承母板muban.html</span><span style="color: #008000">--&gt;</span><span style="color: #000000">
+
+{% block css %}                                                 </span><span style="color: #008000">&lt;!--</span><span style="color: #008000">导入css到继承页面指定地方</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">='{{static_url("nevm.css")}}'</span><span style="color: #0000ff">&gt;</span></span><span style="color: #000000"><span style="background-color: #ff99cc">
+{% end %}</span>
+
+<span style="background-color: #ff99cc">{% block neir %}                                                </span></span><span style="background-color: #ff99cc"><span style="color: #008000">&lt;!--</span><span style="color: #008000">导入内容区块到继承页面指定地方</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="neir"</span><span style="color: #0000ff">&gt;</span>内页内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+{% end %}</span></span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>index.html 返回浏览器</strong></span></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170522064939335-448791555.png" alt=""></strong></p>
+<p><span style="color: #0000ff"><strong>nevm.html 返回浏览器</strong></span></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170522065002773-749661978.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>html导入</strong></span></p>
+<p><span style="color: #ff0000"><strong>将一个写有html代码块的文件，导入到另一个html文件中显示</strong></span></p>
+<p><span style="color: #ff0000"><strong>一般用于导入小区块</strong></span></p>
+<p><span style="color: #ff0000"><strong>被导入文件也支持模板语言</strong></span></p>
+<p><span style="color: #ff0000"><strong>{% include '被导入区块html文件路径名称' %}写在需要导入区块的html文件里，将一个html文件导入到当前文件显示，</strong></span></p>
+<p><span style="color: #0000ff"><strong>当前html</strong></span></p>
+<div class="cnblogs_code">
+<pre>{% extends 'muban.html'%}                                       <span style="color: #008000">&lt;!--</span><span style="color: #008000">继承母板muban.html</span><span style="color: #008000">--&gt;</span><span style="color: #000000">
+
+{% block css %}                                                 </span><span style="color: #008000">&lt;!--</span><span style="color: #008000">导入css到继承页面指定地方</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">='{{static_url("index.css")}}'</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">='{{static_url("qukuai.css")}}'</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+{% end %}
+
+{% block neir %}                                                </span><span style="color: #008000">&lt;!--</span><span style="color: #008000">导入内容区块到继承页面指定地方</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="neir"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    首页内容
+    <span style="background-color: #ff99cc">{% include 'qukuai.html' %}
+</span></span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+{% end %}</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>被导入html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="background-color: #ff99cc"><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="qukuai"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    区块内容
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170522080000679-361749928.png" alt=""></p>
+<p>&nbsp;</p></div>

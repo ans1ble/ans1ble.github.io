@@ -1,0 +1,439 @@
+第十四节，基本数据类型，列表list
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>创建列表&nbsp;</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">4</span> <span style="color: #008000;">#</span><span style="color: #008000;">或</span>
+<span style="color: #008080;">5</span> a = list([<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span>])</pre>
+</div>
+<pre><span style="font-size: 14px;"><strong>list转换列表</strong></span><br /><span style="font-size: 14px;"><strong>"""(转换成列表，需要转换的可迭代数据变量) 注意：能转换成列表的必须是可迭代的，也就是可以被for循环的"""<br /></strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">list将16进制转换成字符串</span>
+<span style="color: #008080;">4</span> a = <span style="color: #800000;">"</span><span style="color: #800000;">林贵秀</span><span style="color: #800000;">"</span>
+<span style="color: #008080;">5</span> b = list(a)<span style="color: #008000;">#</span><span style="color: #008000;">将一个字符串转换成一个列表，只要是可以被for循环的都可以用list转换成列表</span>
+<span style="color: #008080;">6</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;">7</span> <span style="color: #008000;">#</span><span style="color: #008000;">输出 ['林', '贵', '秀']</span></pre>
+</div>
+<pre><strong>字符串，元组，列表 &gt; 都可以转换成列表，转换成列表都是可以被for循环的，for循环每次循环到的数据就是列表的一个元素</strong></pre>
+<pre><br /><br /></pre>
+<p><strong>基本操作：</strong><br />　　索引<br />　　切片<br />　　追加<br />　　删除<br />　　长度<br />　　循环<br />　　包含</p>
+<p>&nbsp;</p>
+<p><strong>打印列表里的元素</strong></p>
+<p><strong>　　</strong>打印出列表里的元素是以列表变量加元素下标的方式来打印</p>
+<p>　　<strong>索引</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">4</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a[0])
+</span><span style="color: #008080;">5</span> <span style="color: #0000ff;">print</span>(a[1<span style="color: #000000;">])
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">输出 alex seven 这样就打印出了，第零个和第一个下标的元素</span></pre>
+</div>
+<p>　<strong>　切片</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">切片</span>
+<span style="color: #008080;">4</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">5</span> <span style="color: #0000ff;">print</span>(a[0:2<span style="color: #000000;">])
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">输出 alex seven 这样就切片出了，第零一个和第二个下标的元素</span></pre>
+</div>
+<p>　　<strong>统计列表里有多少个元素</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">4</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(len(a))
+</span><span style="color: #008080;">5</span> <span style="color: #008000;">#</span><span style="color: #008000;">输出 3 统计列表里有多少个元素</span></pre>
+</div>
+<p>　　<strong>循环列表</strong></p>
+<p><strong>　　　　while循环</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">while循环</span>
+<span style="color: #008080;">4</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">5</span> b =<span style="color: #000000;"> 0
+</span><span style="color: #008080;">6</span> <span style="color: #0000ff;">while</span> b &lt; len(a): <span style="color: #008000;">#</span><span style="color: #008000;">len(统计列表里的元素)</span>
+<span style="color: #008080;">7</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(a[b])
+</span><span style="color: #008080;">8</span>     b += 1
+<span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">循环出列表里的所有元素</span></pre>
+</div>
+<p>　<strong>　　　for循环</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">for循环</span>
+<span style="color: #008080;">4</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">5</span> <span style="color: #0000ff;">for</span> b <span style="color: #0000ff;">in</span> a: <span style="color: #008000;">#</span><span style="color: #008000;">b为自定义循环变量</span>
+<span style="color: #008080;">6</span>     <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;">7</span> <span style="color: #008000;">#</span><span style="color: #008000;">循环出列表里的所有元素</span></pre>
+</div>
+<p>　　<strong>append(self, p_object)</strong></p>
+<p><strong>　　"""(追加列表)"""要追加的元素</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">4</span> a.append(<span style="color: #800000;">"</span><span style="color: #800000;">linguixiu</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008080;">5</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 ['alex', 'seven', 'eric', 'linguixiu'] 也就是追加了一个元素</span></pre>
+</div>
+<p>　　<strong>count(self, value)</strong></p>
+<p><strong>　　"""(统计元素在列表里出现的次数)"""要统计的元素</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span><span style="color: #000000;">,]
+</span><span style="color: #008080;">4</span> b = a.count(<span style="color: #800000;">"</span><span style="color: #800000;">seven</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008080;">5</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 2 统计到seven在列表中出现两次</span></pre>
+</div>
+<p>　　<strong>extend(self, iterable)</strong></p>
+<p><strong>　　"""(扩展列表)"""要扩展的可迭代变量：可迭代是只要是能通过for循环出来的都为可迭代</strong></p>
+<p><strong>　　也就是可以将一个列表扩展到另一个列表</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span><span style="color: #000000;">,]
+</span><span style="color: #008080;">4</span> b = [<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">3</span><span style="color: #800000;">"</span><span style="color: #000000;">]
+</span><span style="color: #008080;">5</span> <span style="color: #000000;">a.extend(b)
+</span><span style="color: #008080;">6</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">7</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 ['alex', 'seven', 'eric', 'seven', '1', '2', '3'] 将一个列表扩展到另一个列表</span></pre>
+</div>
+<p>　　<strong>index(self, value, start=None, stop=None)</strong></p>
+<p><strong>　　"""(获取一个元素在列表里的索引下标)"""要获取的元素</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">4</span> <span style="color: #0000ff;">print</span>(a.index(<span style="color: #800000;">"</span><span style="color: #800000;">seven</span><span style="color: #800000;">"</span><span style="color: #000000;">))
+</span><span style="color: #008080;">5</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 2 获取到seven的索引下标为2，默认从0开始所以是2</span></pre>
+</div>
+<p>&nbsp;　　<strong>insert(self, index, p_object)</strong></p>
+<p><strong>　　"""(插入元素)"""要插入的位置，要插入的元素</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">4</span> a.insert(0,<span style="color: #800000;">"</span><span style="color: #800000;">guixiu</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008080;">5</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 ['guixiu', 'alex', 'eric', 'seven'] 在0的位置插入guixiu</span></pre>
+</div>
+<p>　　<strong>pop(self, index=None)</strong></p>
+<p><strong>　　"""(移除元素)"""要移除的位置：默认移除后面一个元素</strong></p>
+<p><strong>　　移除的元素还可以重新赋值给一个变量</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">4</span> b = a.pop(0)<span style="color: #008000;">#</span><span style="color: #008000;">移除a变量的0位置元素，将移除的元素赋值给b</span>
+<span style="color: #008080;">5</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印a ['eric', 'seven'] 移除了0位置的元素</span>
+<span style="color: #008080;">7</span> 
+<span style="color: #008080;">8</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008080;">9</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印b alex 被移除的元素</span></pre>
+</div>
+<p>　　<strong>remove(self, value)</strong></p>
+<p><strong>　　"""(移除某个元素)"""要移除的元素</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">4</span> a.remove(<span style="color: #800000;">"</span><span style="color: #800000;">eric</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #008080;">5</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 ['alex', 'seven'] 移除了eric</span></pre>
+</div>
+<p>　　<strong>reverse(self)</strong></p>
+<p><strong>　　"""(反转元素顺序)"""</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">4</span> <span style="color: #000000;">a.reverse()
+</span><span style="color: #008080;">5</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 ['seven', 'eric', 'alex'] 反转元素顺序</span></pre>
+</div>
+<p>　　<strong>删除元素&nbsp;</strong></p>
+<p><strong>　　索引方式删除（删除单个元素）</strong></p>
+<p><strong>　　格式：del&nbsp;列表变量[要删除的下标]</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">4</span> <span style="color: #0000ff;">del</span><span style="color: #000000;"> a[0]
+</span><span style="color: #008080;">5</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 ['eric', 'seven'] 删除了0位置的元素</span></pre>
+</div>
+<p>　　<strong>切片方式删除（删除多个元素）</strong></p>
+<p><strong>　　格式：del&nbsp;列表变量[开始位置：结束位置]</strong></p>
+<p><strong>　　</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">alex</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">eric</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">seven</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">4</span> <span style="color: #0000ff;">del</span> a[0:2<span style="color: #000000;">]
+</span><span style="color: #008080;">5</span> <span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008080;">6</span> <span style="color: #008000;">#</span><span style="color: #008000;">打印出 ['seven'] 删除了0和2位置的元素</span></pre>
+</div>
+<p><strong>clear(self)&nbsp;</strong></p>
+<p><strong>"""(移除列表所有元素)"""</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;">2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;">3</span> <span style="color: #008000;">#</span><span style="color: #008000;">list将16进制转换成字符串</span>
+<span style="color: #008080;">4</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">林</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">贵</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">秀</span><span style="color: #800000;">'</span><span style="color: #000000;">]
+</span><span style="color: #008080;">5</span> <span style="color: #000000;">a.clear()
+</span><span style="color: #008080;">6</span> <span style="color: #0000ff;">print</span>(a)</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>enumerate(iterable，start=0&nbsp;)</strong></p>
+<p><strong>"""(自定义列表的下标开始位置)列表变量，要定义的开下标数：默认是0开始的"""</strong></p>
+<div class="cnblogs_code">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码" onclick="copyCnblogsCode(this)" href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: #008080;"> 1 <span style="color: #008000;">#<span style="color: #008000;">!/usr/bin/env python
+<span style="color: #008080;"> 2 <span style="color: #008000;">#<span style="color: #008000;"> -*- coding:utf-8 -*-
+<span style="color: #008080;"> 3 a = [<span style="color: #800000;">"<span style="color: #800000;">电脑<span style="color: #800000;">", <span style="color: #800000;">"<span style="color: #800000;">鼠标<span style="color: #800000;">", <span style="color: #800000;">"<span style="color: #800000;">键盘<span style="color: #800000;">", <span style="color: #800000;">"<span style="color: #800000;">显示器<span style="color: #800000;">"<span style="color: #000000;">]
+<span style="color: #008080;"> 4 <span style="color: #0000ff;">for k,v <span style="color: #0000ff;">in enumerate(a,1):<span style="color: #008000;">#<span style="color: #008000;">因为是有键和值，所以循环要定义两个变量k和v
+<span style="color: #008080;"> 5     <span style="color: #0000ff;">print<span style="color: #000000;">(k,v)
+<span style="color: #008080;"> 6 <span style="color: #008000;">#<span style="color: #008000;">打印出
+<span style="color: #008080;"> 7 <span style="color: #008000;">#<span style="color: #008000;"> 1 电脑
+<span style="color: #008080;"> 8 <span style="color: #008000;">#<span style="color: #008000;"> 2 鼠标
+<span style="color: #008080;"> 9 <span style="color: #008000;">#<span style="color: #008000;"> 3 键盘
+<span style="color: #008080;">10 <span style="color: #008000;">#<span style="color: #008000;"> 4 显示器</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码" onclick="copyCnblogsCode(this)" href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+</div>
+<p><strong>enumerate（）结合应用，输入商品序号，打印出对应的商品</strong></p>
+<div class="cnblogs_code">
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码" onclick="copyCnblogsCode(this)" href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: #008080;"> 1 <span style="color: #008000;">#<span style="color: #008000;">!/usr/bin/env python
+<span style="color: #008080;"> 2 <span style="color: #008000;">#<span style="color: #008000;"> -*- coding:utf-8 -*-
+<span style="color: #008080;"> 3 <span style="color: #008000;">#<span style="color: #008000;">输入商品序号，打印出对应的商品
+<span style="color: #008080;"> 4 a = [<span style="color: #800000;">"<span style="color: #800000;">电脑<span style="color: #800000;">", <span style="color: #800000;">"<span style="color: #800000;">鼠标<span style="color: #800000;">", <span style="color: #800000;">"<span style="color: #800000;">键盘<span style="color: #800000;">", <span style="color: #800000;">"<span style="color: #800000;">显示器<span style="color: #800000;">"<span style="color: #000000;">]
+<span style="color: #008080;"> 5 <span style="color: #0000ff;">for k,v <span style="color: #0000ff;">in enumerate(a,1):<span style="color: #008000;">#<span style="color: #008000;">默认下标号从0开始的enumerate（a,1）设置了从1开始
+<span style="color: #008080;"> 6     <span style="color: #0000ff;">print<span style="color: #000000;">(k,v)
+<span style="color: #008080;"> 7 <span style="color: #008000;">#<span style="color: #008000;">上面打印出商品的序号和名称
+<span style="color: #008080;"> 8 b = input(<span style="color: #800000;">"<span style="color: #800000;">请输入商品序号<span style="color: #800000;">")<span style="color: #008000;">#<span style="color: #008000;">等待用户输入商品序号
+<span style="color: #008080;"> 9 c = int(b)<span style="color: #008000;">#<span style="color: #008000;">将用户输入的序号转换成数字类型
+<span style="color: #008080;">10 d = a[c-1]<span style="color: #008000;">#<span style="color: #008000;">将用户输入序号转换成列表索引的下标，默认从0开始的所以要减一
+<span style="color: #008080;">11 <span style="color: #0000ff;">print(d)<span style="color: #008000;">#<span style="color: #008000;">通过用户输入的索引下标打印出商品
+<span style="color: #008080;">12 
+<span style="color: #008080;">13 <span style="color: #008000;">#<span style="color: #008000;"> 1 电脑
+<span style="color: #008080;">14 <span style="color: #008000;">#<span style="color: #008000;"> 2 鼠标
+<span style="color: #008080;">15 <span style="color: #008000;">#<span style="color: #008000;"> 3 键盘
+<span style="color: #008080;">16 <span style="color: #008000;">#<span style="color: #008000;"> 4 显示器
+<span style="color: #008080;">17 <span style="color: #008000;">#<span style="color: #008000;"> 请输入商品序号4
+<span style="color: #008080;">18 <span style="color: #008000;">#<span style="color: #008000;"> 显示器</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码" onclick="copyCnblogsCode(this)" href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+</div>
+<p>&nbsp;</p>
+<p><strong>列表的嵌套，列表里有字典，元组，</strong><br /><strong>用索引的方法输出需要的省份，省会，以及一个市</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span>
+<span style="color: #008080;"> 2</span> <span style="color: #008000;">#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #008080;"> 3</span> <span style="color: #008000;">#</span><span style="color: #008000;">列表的嵌套，列表里有字典，元组，</span>
+<span style="color: #008080;"> 4</span> <span style="color: #008000;">#</span><span style="color: #008000;">用索引的方法输出需要的省份，省会，以及一个市</span>
+<span style="color: #008080;"> 5</span> a = [<span style="color: #800000;">'</span><span style="color: #800000;">四川</span><span style="color: #800000;">'</span>, {<span style="color: #800000;">'</span><span style="color: #800000;">省会</span><span style="color: #800000;">'</span>: <span style="color: #800000;">'</span><span style="color: #800000;">成都</span><span style="color: #800000;">'</span>}, (<span style="color: #800000;">'</span><span style="color: #800000;">自贡</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">内江</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">乐山</span><span style="color: #800000;">'</span>), <span style="color: #800000;">'</span><span style="color: #800000;">云南</span><span style="color: #800000;">'</span>, {<span style="color: #800000;">'</span><span style="color: #800000;">省会</span><span style="color: #800000;">'</span>: <span style="color: #800000;">'</span><span style="color: #800000;">昆明</span><span style="color: #800000;">'</span>}, (<span style="color: #800000;">'</span><span style="color: #800000;">曲靖</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">玉溪</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">昭通</span><span style="color: #800000;">'</span><span style="color: #000000;">)]
+</span><span style="color: #008080;"> 6</span> <span style="color: #0000ff;">print</span>(a[0])<span style="color: #008000;">#</span><span style="color: #008000;">=四川， 索引列表第0个元素</span>
+<span style="color: #008080;"> 7</span> <span style="color: #0000ff;">print</span>(a[1])<span style="color: #008000;">#</span><span style="color: #008000;">{'省会': '成都'}, 索引列表第1个元素</span>
+<span style="color: #008080;"> 8</span> <span style="color: #0000ff;">print</span>(a[1][<span style="color: #800000;">"</span><span style="color: #800000;">省会</span><span style="color: #800000;">"</span>])<span style="color: #008000;">#</span><span style="color: #008000;">=成都， 索引列表第1个元素，里的字典的"省会"这个键</span>
+<span style="color: #008080;"> 9</span> <span style="color: #0000ff;">print</span>(a[2])<span style="color: #008000;">#</span><span style="color: #008000;">=('自贡', '内江', '乐山')  索引列表里的第二个元素</span>
+<span style="color: #008080;">10</span> <span style="color: #0000ff;">print</span>(a[2][0])<span style="color: #008000;">#</span><span style="color: #008000;">=自贡  索引列表里第2个元素，里的元组的第0个元素</span>
+<span style="color: #008080;">11</span> <span style="color: #008000;">#</span><span style="color: #008000;">最终输出</span>
+<span style="color: #008080;">12</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 四川</span>
+<span style="color: #008080;">13</span> <span style="color: #008000;">#</span><span style="color: #008000;"> {'省会': '成都'}</span>
+<span style="color: #008080;">14</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 成都</span>
+<span style="color: #008080;">15</span> <span style="color: #008000;">#</span><span style="color: #008000;"> ('自贡', '内江', '乐山')</span>
+<span style="color: #008080;">16</span> <span style="color: #008000;">#</span><span style="color: #008000;"> 自贡</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="cnblogs_code" onclick="cnblogs_code_show('efc94432-dabb-44b0-83ef-fa00871f90ce')"><img id="code_img_closed_efc94432-dabb-44b0-83ef-fa00871f90ce" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="" /><img id="code_img_opened_efc94432-dabb-44b0-83ef-fa00871f90ce" class="code_img_opened" style="display: none;" onclick="cnblogs_code_hide('efc94432-dabb-44b0-83ef-fa00871f90ce',event)" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="" />
+<div id="cnblogs_code_open_efc94432-dabb-44b0-83ef-fa00871f90ce" class="cnblogs_code_hide">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> list(object):
+    </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+    list() -&gt; new empty list
+    list(iterable) -&gt; new list initialized from iterable's items
+    </span><span style="color: #800000;">"""</span>
+    <span style="color: #0000ff;">def</span> append(self, p_object): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> L.append(object) -- append object to end </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> count(self, value): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> L.count(value) -&gt; integer -- return number of occurrences of value </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> 0
+
+    </span><span style="color: #0000ff;">def</span> extend(self, iterable): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> L.extend(iterable) -- extend list by appending elements from the iterable </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> index(self, value, start=None, stop=None): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        L.index(value, [start, [stop]]) -&gt; integer -- return first index of value.
+        Raises ValueError if the value is not present.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> 0
+
+    </span><span style="color: #0000ff;">def</span> insert(self, index, p_object): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> L.insert(index, object) -- insert object before index </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> pop(self, index=None): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        L.pop([index]) -&gt; item -- remove and return item at index (default last).
+        Raises IndexError if list is empty or index is out of range.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> remove(self, value): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        L.remove(value) -- remove first occurrence of value.
+        Raises ValueError if the value is not present.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> reverse(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> L.reverse() -- reverse *IN PLACE* </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> sort(self, cmp=None, key=None, reverse=False): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        L.sort(cmp=None, key=None, reverse=False) -- stable sort *IN PLACE*;
+        cmp(x, y) -&gt; -1, 0, 1
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__add__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__add__(y) &lt;==&gt; x+y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__contains__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__contains__(y) &lt;==&gt; y in x </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__delitem__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__delitem__(y) &lt;==&gt; del x[y] </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__delslice__</span>(self, i, j): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        x.__delslice__(i, j) &lt;==&gt; del x[i:j]
+                   
+                   Use of negative indices is not supported.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__eq__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__eq__(y) &lt;==&gt; x==y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__getattribute__</span>(self, name): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__getattribute__('name') &lt;==&gt; x.name </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__getitem__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__getitem__(y) &lt;==&gt; x[y] </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__getslice__</span>(self, i, j): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        x.__getslice__(i, j) &lt;==&gt; x[i:j]
+                   
+                   Use of negative indices is not supported.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__ge__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__ge__(y) &lt;==&gt; x&gt;=y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__gt__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__gt__(y) &lt;==&gt; x&gt;y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__iadd__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__iadd__(y) &lt;==&gt; x+=y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__imul__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__imul__(y) &lt;==&gt; x*=y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self, seq=()): <span style="color: #008000;">#</span><span style="color: #008000;"> known special case of list.__init__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        list() -&gt; new empty list
+        list(iterable) -&gt; new list initialized from iterable's items
+        # (copied from class doc)
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__iter__</span>(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__iter__() &lt;==&gt; iter(x) </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__len__</span>(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__len__() &lt;==&gt; len(x) </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__le__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__le__(y) &lt;==&gt; x&lt;=y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__lt__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__lt__(y) &lt;==&gt; x&lt;y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__mul__</span>(self, n): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__mul__(n) &lt;==&gt; x*n </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span><span style="color: #000000;">
+
+    @staticmethod </span><span style="color: #008000;">#</span><span style="color: #008000;"> known case of __new__</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__new__</span>(S, *more): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> T.__new__(S, ...) -&gt; a new object with type S, a subtype of T </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__ne__</span>(self, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__ne__(y) &lt;==&gt; x!=y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__repr__</span>(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__repr__() &lt;==&gt; repr(x) </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__reversed__</span>(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> L.__reversed__() -- return a reverse iterator over the list </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__rmul__</span>(self, n): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__rmul__(n) &lt;==&gt; n*x </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__setitem__</span>(self, i, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> x.__setitem__(i, y) &lt;==&gt; x[i]=y </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__setslice__</span>(self, i, j, y): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;">
+        x.__setslice__(i, j, y) &lt;==&gt; x[i:j]=y
+                   
+                   Use  of negative indices is not supported.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__sizeof__</span>(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> L.__sizeof__() -- size of L in memory, in bytes </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #800080;">__hash__</span> = None</pre>
+</div>
+<span class="cnblogs_code_collapse">list</span></div>
+<p>&nbsp;</p>
+<p>列表的功能</p>
+<p>转换列表<br />索引<br />切片<br />for循环<br />长度<br />删除元素<br />反转<br />排序<br />追加<br />插入<br />移除元素<br />索引位置<br />统计元素个数<br />扩展<br />清除</p>
+<p><strong>　　</strong></p></div>

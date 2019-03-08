@@ -1,0 +1,136 @@
+第三十五节，json数据类型转换字符串模块
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>在使用json模块时需要先&nbsp;import json&nbsp;引入模块</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>json.dumps()模块函数</strong></span></p>
+<p><strong>功能：将Python数据类型转换成字符串【有参】</strong></p>
+<p><strong>使用方法：<strong>json.dumps(要转换的数据类型变量)</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：json.dumps(yhxxi)<strong><br /></strong></strong></p>
+<p><span style="color: #ff0000;"><strong>注意：不支持元祖</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> json
+yhxxi </span>= {   <span style="color: #008000;">#</span><span style="color: #008000;">创建一个嵌套字典</span>
+    1<span style="color: #000000;">:{
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">yonghu</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">liguixiou</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">mima</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">12345</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">youjian</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">729088188@qq.com</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">zichan</span><span style="color: #800000;">"</span>:700<span style="color: #000000;">,
+    },
+    </span>2<span style="color: #000000;">:{
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">yonghu</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">liguixiou2</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">mima</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">123452</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">youjian</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">7290881882@qq.com</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">zichan</span><span style="color: #800000;">"</span>:7002<span style="color: #000000;">,
+    }
+}
+a </span>= json.dumps(yhxxi)   <span style="color: #008000;">#</span><span style="color: #008000;">将字典转换成字符串格式</span>
+<span style="color: #0000ff;">print</span>(a)    <span style="color: #008000;">#</span><span style="color: #008000;">打印转换的字符串格式</span>
+b = open(<span style="color: #800000;">"</span><span style="color: #800000;">yh.txt</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以写入模式打开文件</span>
+b.write(a) <span style="color: #008000;">#</span><span style="color: #008000;">将转换的字符串写入文件</span>
+b.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {"1": {"youjian": "729088188@qq.com", "yonghu": "liguixiou", "mima": "12345", "zichan": 700}, "2": {"youjian": "7290881882@qq.com", "yonghu": "liguixiou2", "mima": "123452", "zichan": 7002}}</span></pre>
+</div>
+<p><span style="color: #ff00ff;"><strong>列2&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> json
+a </span>= [1,2,3,4,5,6,7,8] <span style="color: #008000;">#</span><span style="color: #008000;">列表</span>
+b = json.dumps(a) <span style="color: #008000;">#</span><span style="color: #008000;">将列表转换成字符串</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #0000ff;">print</span>(type(b)) <span style="color: #008000;">#</span><span style="color: #008000;">查看数据类型</span>
+<span style="color: #000000;">
+a2 </span>= {<span style="color: #800000;">"</span><span style="color: #800000;">desc</span><span style="color: #800000;">"</span>:<span style="color: #800000;">"</span><span style="color: #800000;">OK</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">status</span><span style="color: #800000;">"</span>:1000} <span style="color: #008000;">#</span><span style="color: #008000;">字典</span>
+b2 = json.dumps(a2) <span style="color: #008000;">#</span><span style="color: #008000;">将字典转换成字符串</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b2)
+</span><span style="color: #0000ff;">print</span>(type(b2)) <span style="color: #008000;">#</span><span style="color: #008000;">查看数据类型</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [1, 2, 3, 4, 5, 6, 7, 8]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;class 'str'&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {"desc": "OK", "status": 1000}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;class 'str'&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>json.loads()模块函数</strong></span></p>
+<p><strong>功能：将字符串还原它本来的数据类型【有参】</strong></p>
+<p><strong>使用方法：<strong>json.loads(要还原的字符串变量)</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：json.loads(b)</strong></p>
+<p><span style="color: #ff0000;"><strong><strong>注意：不支持元祖</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> json
+
+a </span>= open(<span style="color: #800000;">"</span><span style="color: #800000;">yh.txt</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>)     <span style="color: #008000;">#</span><span style="color: #008000;">以读模式打开文件</span>
+b = a.read() <span style="color: #008000;">#</span><span style="color: #008000;">读出文件里的字符串内容</span>
+a.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的文件</span>
+<span style="color: #0000ff;">print</span>(b)    <span style="color: #008000;">#</span><span style="color: #008000;">打印出读出的字符串内容</span>
+<span style="color: #000000;">
+c </span>= json.loads(b) <span style="color: #008000;">#</span><span style="color: #008000;">将字符串还原它本来的数据类型</span>
+<span style="color: #0000ff;">print</span>(c)    <span style="color: #008000;">#</span><span style="color: #008000;">打印出还原的数据类型</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {"1": {"yonghu": "liguixiou", "zichan": 700, "youjian": "729088188@qq.com", "mima": "12345"}, "2": {"yonghu": "liguixiou2", "zichan": 7002, "youjian": "7290881882@qq.com", "mima": "123452"}}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {'1': {'yonghu': 'liguixiou', 'zichan': 700, 'mima': '12345', 'youjian': '729088188@qq.com'}, '2': {'yonghu': 'liguixiou2', 'zichan': 7002, 'mima': '123452', 'youjian': '7290881882@qq.com'}}</span></pre>
+</div>
+<p><span style="color: #ff00ff;"><strong>列2</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> json
+a </span>= <span style="color: #800000;">"</span><span style="color: #800000;">[1,2,3,4,5,6,7,8]</span><span style="color: #800000;">"</span> <span style="color: #008000;">#</span><span style="color: #008000;">列表样式字符串</span>
+b = json.loads(a) <span style="color: #008000;">#</span><span style="color: #008000;">还原成python识别的列表</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #0000ff;">print</span>(type(b)) <span style="color: #008000;">#</span><span style="color: #008000;">查看数据类型</span>
+<span style="color: #000000;">
+a2 </span>= <span style="color: #800000;">'</span><span style="color: #800000;">{"desc":"OK","status":1000}</span><span style="color: #800000;">'</span> <span style="color: #008000;">#</span><span style="color: #008000;">字典样式字符串，注意：字典的单引号和双单引号，字典内部元素是字符串必须是双单引号</span>
+b2 = json.loads(a2) <span style="color: #008000;">#</span><span style="color: #008000;">还原成python识别的字典</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b2)
+</span><span style="color: #0000ff;">print</span>(type(b2)) <span style="color: #008000;">#</span><span style="color: #008000;">查看数据类型</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> [1, 2, 3, 4, 5, 6, 7, 8]</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;class 'list'&gt;</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> {'status': 1000, 'desc': 'OK'}</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;class 'dict'&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>json.dump()模块函数</strong></span></p>
+<p><strong>功能：将Python数据类型转换成字符串，直接写入文件【有参】</strong></p>
+<p><strong>使用方法：<strong>json.dump(要写入的数据类型变量，打开文件的句柄变量)</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：json.dump(a,b)</strong></p>
+<p><span style="color: #ff0000;"><strong><strong>注意：<strong>json.dump()</strong>写入文件可以直接写入，不需要write()函数即可写入</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> json
+
+a </span>= [<span style="color: #800000;">"</span><span style="color: #800000;">你好</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">我好</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">他好</span><span style="color: #800000;">"</span>]  <span style="color: #008000;">#</span><span style="color: #008000;">创建一个列表</span>
+b = open(<span style="color: #800000;">"</span><span style="color: #800000;">yh.txt</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>)     <span style="color: #008000;">#</span><span style="color: #008000;">以写入模式打开一个文件</span>
+json.dump(a,b)      <span style="color: #008000;">#</span><span style="color: #008000;">将Python数据类型转换成字符串，直接写入文件</span>
+b.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的文件</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">此时yh.txt文件里已经写入 ["\u4f60\u597d", "\u6211\u597d", "\u4ed6\u597d"]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>json.load()模块函数</strong></span></p>
+<p><strong>功能：读出文件里的字符串，还原它本来的数据类型【有参】</strong></p>
+<p><strong>使用方法：<strong>json.load(打开文件的句柄变量)</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：json.load(a)</strong></p>
+<p><span style="color: #ff0000;"><strong><strong>注意：<strong>json.load()</strong><strong>读出文件可以直接读出，不需要read()函数即可读出</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> json
+
+a </span>= open(<span style="color: #800000;">"</span><span style="color: #800000;">yh.txt</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">以读出模式打开文件</span>
+b = json.load(a)    <span style="color: #008000;">#</span><span style="color: #008000;">读出文件里的字符串，还原它本来的数据类型</span>
+<span style="color: #0000ff;">print</span>(b) <span style="color: #008000;">#</span><span style="color: #008000;">打印出还原的数据类型</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;">['你好', '我好', '他好']</span></pre>
+</div>
+<p>&nbsp;</p></div>

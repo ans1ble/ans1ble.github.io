@@ -1,0 +1,277 @@
+第三百一十三节，Django框架，Session
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百一十三节，Django框架，Session</strong></p>
+<p>&nbsp;</p>
+<p><strong>Django中默认支持Session，其内部提供了5种类型的Session供开发者使用：</strong></p>
+<p><strong>1、数据库（默认）</strong><br><strong>2、缓存</strong><br><strong>3、文件</strong><br><strong>4、缓存+数据库</strong><br><strong>5、加密cookie</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>1、数据库Session，保存在数据库</strong></span></p>
+<p><span style="color: #000000; background-color: #ffffff"><strong>Django默认支持Session，并且默认是将Session数据存储在数据库中，即：django_session 表中。</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong>全局配置Session</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">Django默认支持Session，并且默认是将Session数据存储在数据库中，即：django_session 表中。
+ 
+a. 配置 settings.py
+ 
+    SESSION_ENGINE </span>= <span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">django.contrib.sessions.backends.db</span><span style="color: #800000">'</span>   <span style="color: #008000">#</span><span style="color: #008000"> 引擎（默认）数据库保存session引擎</span>
+<span style="color: #000000">     
+    SESSION_COOKIE_NAME ＝ </span><span style="color: #800000">"</span><span style="color: #800000">sessionid</span><span style="color: #800000">"</span>                       <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存在浏览器上时的key，即：sessionid＝随机字符串（默认）</span>
+    SESSION_COOKIE_PATH ＝ <span style="color: #800000">"</span><span style="color: #800000">/</span><span style="color: #800000">"</span>                               <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存的路径（默认）</span>
+    SESSION_COOKIE_DOMAIN = None                             <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存的域名（默认）</span>
+    SESSION_COOKIE_SECURE = False                            <span style="color: #008000">#</span><span style="color: #008000"> 是否Https传输cookie（默认）</span>
+    SESSION_COOKIE_HTTPONLY = True                           <span style="color: #008000">#</span><span style="color: #008000"> 是否Session的cookie只支持http传输（默认）</span>
+    SESSION_COOKIE_AGE = 1209600                             <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie失效日期（2周）（默认）</span>
+    SESSION_EXPIRE_AT_BROWSER_CLOSE = False                  <span style="color: #008000">#</span><span style="color: #008000"> 是否关闭浏览器使得Session过期（默认）</span>
+    SESSION_SAVE_EVERY_REQUEST = False                       <span style="color: #008000">#</span><span style="color: #008000"> 是否每次请求都保存Session，默认修改之后才保存（默认），<span style="background-color: #ff99cc">默认就好</span></span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>使用Session</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+<span style="color: #0000ff">from</span> app1.biaodan <span style="color: #0000ff">import</span> *   <span style="color: #008000">#</span><span style="color: #008000">导入自定义表单验证模块</span><span style="color: #008000">
+#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    <span style="background-color: #ff99cc">request.session[</span></span><span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>] = 123      <span style="color: #008000">#</span><span style="color: #008000">设置session</span>
+    <span style="color: #0000ff">print</span>(request.session[<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>])     <span style="color: #008000">#</span><span style="color: #008000">获取session</span></span>
+    <span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">app1/index.html</span><span style="color: #800000">'</span>)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>获取、设置、删除Session中指定数据</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">        request.session['k1']</span> 获取Session中数据，不存在报错</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">        request.session.get('k1',None)</span> 获取Session中数据，不存在返回None</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">        request.session['k1'] = 123</span> 设置Session中数据，存在覆盖</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">        request.session.setdefault('k1',123)</span> 设置Session中数据，存在不设置</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">        del request.session['k1']</span> 删除Session中指定数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+<span style="color: #0000ff">from</span> app1.biaodan <span style="color: #0000ff">import</span> *   <span style="color: #008000">#</span><span style="color: #008000">导入自定义表单验证模块</span><span style="color: #008000">
+#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    <span style="background-color: #ff99cc">request.session[</span></span><span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>] = 123</span>      <span style="color: #008000">#</span><span style="color: #008000">设置session</span>
+    <span style="background-color: #ff99cc"><span style="color: #0000ff">print</span>(request.session[<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>])</span>     <span style="color: #008000">#</span><span style="color: #008000">获取session</span>
+    <span style="background-color: #ff99cc"><span style="color: #0000ff">del</span> request.session[<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span><span style="color: #000000">]
+    </span></span><span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">app1/index.html</span><span style="color: #800000">'</span>)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>获取Session中所有 键、值、键值对</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">request.session.keys()</span>获取Session中所有的键</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">request.session.values()</span>获取Session中所有的值</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">request.session.items()</span>获取Session中所有的键值对</strong></span><br><span style="color: #0000ff"><strong>request.session.iterkeys()</strong></span><br><span style="color: #0000ff"><strong>request.session.itervalues()</strong></span><br><span style="color: #0000ff"><strong>request.session.iteritems()</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+<span style="color: #0000ff">from</span> app1.biaodan <span style="color: #0000ff">import</span> *   <span style="color: #008000">#</span><span style="color: #008000">导入自定义表单验证模块</span><span style="color: #008000">
+#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    request.session[</span><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>] = 123      <span style="color: #008000">#</span><span style="color: #008000">设置session</span>
+    request.session[<span style="color: #800000">'</span><span style="color: #800000">k2</span><span style="color: #800000">'</span>] = 456      <span style="color: #008000">#</span><span style="color: #008000"> 设置session</span>
+    request.session[<span style="color: #800000">'</span><span style="color: #800000">k3</span><span style="color: #800000">'</span>] = 789      <span style="color: #008000">#</span><span style="color: #008000"> 设置session</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> print(request.session['k1'])     #获取session</span>
+
+    <span style="color: #008000">#
+</span><span style="background-color: #ff99cc">    <span style="color: #0000ff">print</span><span style="color: #000000">(request.session.keys())
+    </span><span style="color: #0000ff">print</span><span style="color: #000000">(request.session.values())
+    </span><span style="color: #0000ff">print</span><span style="color: #000000">(request.session.items())
+
+    </span></span><span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">app1/index.html</span><span style="color: #800000">'</span>)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>获取用户session的随机字符串，也就是session名称</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">request.session.session_key</span>获取用户session的随机字符串，也就是session名称</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+<span style="color: #0000ff">from</span> app1.biaodan <span style="color: #0000ff">import</span> *   <span style="color: #008000">#</span><span style="color: #008000">导入自定义表单验证模块</span><span style="color: #008000">
+#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    request.session[</span><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>] = 123      <span style="color: #008000">#</span><span style="color: #008000">设置session</span>
+    request.session[<span style="color: #800000">'</span><span style="color: #800000">k2</span><span style="color: #800000">'</span>] = 456      <span style="color: #008000">#</span><span style="color: #008000"> 设置session</span>
+    request.session[<span style="color: #800000">'</span><span style="color: #800000">k3</span><span style="color: #800000">'</span>] = 789      <span style="color: #008000">#</span><span style="color: #008000"> 设置session</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> print(request.session['k1'])     #获取session</span>
+
+
+    <span style="color: #0000ff">print</span><span style="color: #000000">(<span style="background-color: #ff99cc">request.session.session_key</span>)
+
+    </span><span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">app1/index.html</span><span style="color: #800000">'</span>)</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>将所有Session失效日期小于当前日期的数据在数据库删除，<span style="color: #ff0000">也就是在数据库删除过期的Session数据</span></strong><br><span style="color: #0000ff"><strong>request.session.clear_expired()</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+<span style="color: #0000ff">from</span> app1.biaodan <span style="color: #0000ff">import</span> *   <span style="color: #008000">#</span><span style="color: #008000">导入自定义表单验证模块</span><span style="color: #008000">
+#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    </span><span style="color: #008000">#</span><span style="color: #008000"> request.session['k1'] = 123      #设置session</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> request.session['k2'] = 456      # 设置session</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> request.session['k3'] = 789      # 设置session</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> print(request.session['k1'])     #获取session</span>
+<span style="color: #000000; background-color: #ff99cc">
+
+    request.session.clear_expired()
+
+    </span><span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">app1/index.html</span><span style="color: #800000">'</span>)</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #0000ff">request.session.exists("获取当前随机字符串")</span><span style="color: #ff0000">检查 用户session的随机字符串 在数据库中是否</span></strong><span style="color: #ff0000"><strong><br></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+<span style="color: #0000ff">from</span> app1.biaodan <span style="color: #0000ff">import</span> *   <span style="color: #008000">#</span><span style="color: #008000">导入自定义表单验证模块</span><span style="color: #008000">
+#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    request.session[</span><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>] = 123      <span style="color: #008000">#</span><span style="color: #008000">设置session</span>
+<span style="background-color: #ffff00"><span style="color: #000000">
+
+    a </span>=<span style="color: #000000"> request.session.session_key
+    </span></span><span style="color: #0000ff">print</span><span style="color: #000000">(<span style="background-color: #ff99cc">request.session.exists(<span style="background-color: #ffff00">a</span>)</span>)
+
+    </span><span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">app1/index.html</span><span style="color: #800000">'</span>)</pre>
+</div>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">request.session.delete("获取当前用户随机字符串")</span>删除当前用户的所有Session数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+<span style="color: #0000ff">from</span> app1.biaodan <span style="color: #0000ff">import</span> *   <span style="color: #008000">#</span><span style="color: #008000">导入自定义表单验证模块</span><span style="color: #008000">
+#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    request.session[</span><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>] = 123      <span style="color: #008000">#</span><span style="color: #008000">设置session</span>
+<span style="background-color: #ff99cc"><span style="background-color: #ffff00"><span style="color: #000000">
+
+    a </span>=</span><span style="color: #000000"><span style="background-color: #ffff00"> request.session.session_key</span>
+    request.session.delete(</span></span><span style="color: #000000; background-color: #ffff00">a</span><span style="background-color: #ff99cc"><span style="color: #000000">)
+
+    </span></span><span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">app1/index.html</span><span style="color: #800000">'</span>)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">request.session.set_expiry(value)</span>设置session失效时间</strong></span><br><strong>            　　* 如果value是个整数，session会在value秒数后失效。</strong><br><strong>            　　* 如果value是个datatime或timedelta，session就会在这个时间后失效。</strong><br><strong>            　　* 如果value是0,用户关闭浏览器session就会失效。</strong><br><strong>            　　* 如果value是None,session会依赖全局session失效策略。</strong></p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>2、缓存Session，保存在服务器内存</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">a. 配置 settings.py
+ 
+    SESSION_ENGINE </span>= <span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">django.contrib.sessions.backends.cache</span><span style="color: #800000">'</span>  <span style="color: #008000">#</span><span style="color: #008000"> 引擎，表示保存在内存</span>
+    SESSION_CACHE_ALIAS = <span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">default</span><span style="color: #800000">'</span>                            <span style="color: #008000">#</span><span style="color: #008000"> 使用的缓存别名（default默认内存缓存，也可以是memcache,如果是memcache这里设置memcache缓存配置名称），此处别名依赖缓存的设置，见缓存章节</span>
+<span style="color: #000000"> 
+ 
+    SESSION_COOKIE_NAME ＝ </span><span style="color: #800000">"</span><span style="color: #800000">sessionid</span><span style="color: #800000">"</span>                        <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存在浏览器上时的key，即：sessionid＝随机字符串</span>
+    SESSION_COOKIE_PATH ＝ <span style="color: #800000">"</span><span style="color: #800000">/</span><span style="color: #800000">"</span>                                <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存的路径</span>
+    SESSION_COOKIE_DOMAIN = None                              <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存的域名</span>
+    SESSION_COOKIE_SECURE = False                             <span style="color: #008000">#</span><span style="color: #008000"> 是否Https传输cookie</span>
+    SESSION_COOKIE_HTTPONLY = True                            <span style="color: #008000">#</span><span style="color: #008000"> 是否Session的cookie只支持http传输</span>
+    SESSION_COOKIE_AGE = 1209600                              <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie失效日期（2周）</span>
+    SESSION_EXPIRE_AT_BROWSER_CLOSE = False                   <span style="color: #008000">#</span><span style="color: #008000"> 是否关闭浏览器使得Session过期</span>
+    SESSION_SAVE_EVERY_REQUEST = False                        <span style="color: #008000">#</span><span style="color: #008000"> 是否每次请求都保存Session，默认修改之后才保存</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>使用同上</strong></span></p>
+<p><strong>&nbsp;</strong></p>
+<hr>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>3、文件Session，保存在文件里</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">a. 配置 settings.py
+ 
+    SESSION_ENGINE </span>= <span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">django.contrib.sessions.backends.file</span><span style="color: #800000">'</span>    <span style="color: #008000">#</span><span style="color: #008000"> 引擎，文件保存引擎</span>
+    SESSION_FILE_PATH = <span style="background-color: #ff99cc">None</span>                                    <span style="color: #008000">#</span><span style="color: #008000"> 缓存文件路径，如果为None，则使用tempfile模块获取一个临时地址<span style="background-color: #ff99cc">tempfile.gettempdir()</span>                                                            # 如：/var/folders/d3/j9tj0gz93dg06bmwxmhh6_xm0000gn/T</span>
+<span style="color: #000000"> 
+ 
+    SESSION_COOKIE_NAME ＝ </span><span style="color: #800000">"</span><span style="color: #800000">sessionid</span><span style="color: #800000">"</span>                          <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存在浏览器上时的key，即：sessionid＝随机字符串</span>
+    SESSION_COOKIE_PATH ＝ <span style="color: #800000">"</span><span style="color: #800000">/</span><span style="color: #800000">"</span>                                  <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存的路径</span>
+    SESSION_COOKIE_DOMAIN = None                                <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存的域名</span>
+    SESSION_COOKIE_SECURE = False                               <span style="color: #008000">#</span><span style="color: #008000"> 是否Https传输cookie</span>
+    SESSION_COOKIE_HTTPONLY = True                              <span style="color: #008000">#</span><span style="color: #008000"> 是否Session的cookie只支持http传输</span>
+    SESSION_COOKIE_AGE = 1209600                                <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie失效日期（2周）</span>
+    SESSION_EXPIRE_AT_BROWSER_CLOSE = False                     <span style="color: #008000">#</span><span style="color: #008000"> 是否关闭浏览器使得Session过期</span>
+    SESSION_SAVE_EVERY_REQUEST = False                          <span style="color: #008000">#</span><span style="color: #008000"> 是否每次请求都保存Session，默认修改之后才保存</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>使用同上</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>4、缓存+数据库Session，缓存和数据库都保存</strong></span></p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong>用户首次将<strong>Session保存到数据库，并保存一份到缓存，第二次到缓存里拿，如果缓存里没有，在到数据库拿又保存到缓存</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">数据库用于做持久化，缓存用于提高效率
+ 
+a. 配置 settings.py
+ 
+    SESSION_ENGINE </span>= <span style="color: #800000">'</span><span style="color: #800000; background-color: #ffff00">django.contrib.sessions.backends.cached_db</span><span style="color: #800000">'</span>        <span style="color: #008000">#</span><span style="color: #008000"> 引擎</span></pre>
+</div>
+<p><span style="background-color: #ffffff; color: #0000ff"><strong>使用同上</strong></span></p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong>5、加密cookie Session，<strong>Session以<strong>cookie方式加密后保存在客户端</strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">a. 配置 settings.py
+     
+    SESSION_ENGINE </span>= <span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">django.contrib.sessions.backends.signed_cookies</span><span style="color: #800000">'</span>   <span style="color: #008000">#</span><span style="color: #008000"> 引擎</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>登录认证小列子</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">def</span><span style="color: #000000"> login(request):
+    </span><span style="color: #0000ff">if</span> request.method == <span style="color: #800000">"</span><span style="color: #800000">POST</span><span style="color: #800000">"</span><span style="color: #000000">:
+        <span style="background-color: #ffff00">username </span></span><span style="background-color: #ffff00">= request.POST.get(<span style="color: #800000">"</span><span style="color: #800000">username</span><span style="color: #800000">"</span></span><span style="color: #000000"><span style="background-color: #ffff00">)</span>
+        <span style="background-color: #ffff00">password </span></span><span style="background-color: #ffff00">= request.POST.get(<span style="color: #800000">"</span><span style="color: #800000">password</span><span style="color: #800000">"</span><span style="color: #000000">)
+        </span></span><span style="color: #0000ff">if</span> username == <span style="color: #800000">"</span><span style="color: #800000">zhangsan</span><span style="color: #800000">"</span> <span style="color: #0000ff">and</span> password == <span style="color: #800000">"</span><span style="color: #800000">123456</span><span style="color: #800000">"</span><span style="color: #000000">:
+            <span style="background-color: #ff99cc">request.session[</span></span><span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">IS_LOGIN</span><span style="color: #800000">"</span>] = True  <span style="color: #008000">#</span><span style="color: #008000">创建session</span></span>
+            <span style="color: #0000ff">return</span> redirect(<span style="color: #800000">"</span><span style="color: #800000">/app01/home/</span><span style="color: #800000">"</span><span style="color: #000000">)
+    </span><span style="color: #0000ff">return</span> render(request,<span style="color: #800000">"</span><span style="color: #800000">app01/login.html</span><span style="color: #800000">"</span><span style="color: #000000">)
+
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> home(request):
+    <span style="background-color: #ff99cc">islogin </span></span><span style="background-color: #ff99cc">= request.session.get(<span style="color: #800000">"</span><span style="color: #800000">IS_LOGIN</span><span style="color: #800000">"</span><span style="color: #000000">,False)
+    </span></span><span style="color: #0000ff">if</span> islogin:<span style="color: #008000">#</span><span style="color: #008000">如果用户已登录</span>
+        <span style="color: #0000ff">return</span> render(request,<span style="color: #800000">"</span><span style="color: #800000">app01/menus.html</span><span style="color: #800000">"</span><span style="color: #000000">)
+    </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+        </span><span style="color: #0000ff">return</span> redirect(<span style="color: #800000">"</span><span style="color: #800000">/app01/login/</span><span style="color: #800000">"</span><span style="color: #000000">)
+
+</span><span style="color: #0000ff">def</span> logout(request):<span style="color: #008000">#</span><span style="color: #008000">退出</span>
+    <span style="color: #0000ff">try</span><span style="color: #000000">:
+        </span><span style="background-color: #ff99cc"><span style="color: #0000ff">del</span> request.session[<span style="color: #800000">'</span><span style="color: #800000">IS_LOGIN</span><span style="color: #800000">'</span><span style="color: #000000">]
+    </span></span><span style="color: #0000ff">except</span><span style="color: #000000"> KeyError:
+        </span><span style="color: #0000ff">pass</span>
+    <span style="color: #0000ff">return</span> redirect(<span style="color: #800000">"</span><span style="color: #800000">/app01/login/</span><span style="color: #800000">"</span>)</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>Session，保存在</strong><strong>Redis</strong></span></p>
+<p><span style="color: #ff0000"><strong>首先安装<strong>Redis软件，然后安装第三方插件<span style="color: #0000ff">django-redis模块</span></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><span style="color: #0000ff">需要在全部配置里，将<span style="color: #ff0000">缓存配置</span>和<strong><span style="color: #ff0000">Session配置</span>都要配置上</strong></span></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">缓存配置</span><span style="color: #008000">
+#</span><span style="color: #008000"> 自定义缓存key</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> default_key_func(key, key_prefix, version):
+    </span><span style="color: #0000ff">return</span> <span style="color: #800000">'</span><span style="color: #800000">%s:%s:%s</span><span style="color: #800000">'</span> %<span style="color: #000000"> (key_prefix, version, key)
+</span><span style="color: #008000">#</span><span style="color: #008000"> 配置：</span>
+CACHES =<span style="color: #000000"> {
+    </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+        </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">"</span><span style="color: #800000">django_redis.cache.RedisCache</span><span style="color: #800000">"</span>,     <span style="color: #008000">#</span><span style="color: #008000">配置文件引擎</span>
+        <span style="color: #800000">'</span><span style="color: #800000">LOCATION</span><span style="color: #800000">'</span>: <span style="color: #800000">"</span><span style="color: #800000">redis://127.0.0.1:6379</span><span style="color: #800000">"</span>,           <span style="color: #008000">#</span><span style="color: #008000">配置文件缓存路径</span>
+
+        <span style="color: #800000">'</span><span style="color: #800000">TIMEOUT</span><span style="color: #800000">'</span>: 300,                                 <span style="color: #008000">#</span><span style="color: #008000"> 缓存超时时间（默认300秒，None表示永不过期，0表示立即过期）如果使用中没设置，这里启用</span>
+        <span style="color: #800000">'</span><span style="color: #800000">OPTIONS</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">"</span><span style="color: #800000">CLIENT_CLASS</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">django_redis.client.DefaultClient</span><span style="color: #800000">"</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">MAX_ENTRIES</span><span style="color: #800000">'</span>: 300,                         <span style="color: #008000">#</span><span style="color: #008000"> 最大缓存个数（默认300）</span>
+            <span style="color: #800000">'</span><span style="color: #800000">CULL_FREQUENCY</span><span style="color: #800000">'</span>: 3,                        <span style="color: #008000">#</span><span style="color: #008000"> 缓存到达最大个数之后，剔除缓存个数的比例，即：1/CULL_FREQUENCY（默认3，删除百分之3）</span>
+<span style="color: #000000">        },
+        </span><span style="color: #800000">'</span><span style="color: #800000">KEY_PREFIX</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">jxiou</span><span style="color: #800000">'</span>,                          <span style="color: #008000">#</span><span style="color: #008000"> 缓存key的前缀（默认空）</span>
+        <span style="color: #800000">'</span><span style="color: #800000">VERSION</span><span style="color: #800000">'</span>: 1,                                   <span style="color: #008000">#</span><span style="color: #008000"> 缓存key的版本（默认1），设置后缓存key会是，KEY_PREFIX前缀加VERSION版本</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 'KEY_FUNCTION': default_key_func              # 生成key的函数（默认函数会生成为：【前缀:版本:key】）</span>
+<span style="color: #000000">    }
+}
+<br>
+</span><span style="color: #008000">#</span><span style="color: #008000">配置Session</span>
+SESSION_ENGINE = <span style="color: #800000">'</span><span style="color: #800000">django.contrib.sessions.backends.cache</span><span style="color: #800000">'</span>  <span style="color: #008000">#</span><span style="color: #008000"> 引擎，表示保存在内存</span>
+SESSION_CACHE_ALIAS = <span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span>  　　　　　　　　<span style="color: #008000">#</span><span style="color: #008000"> 使用的缓存别名（default默认内存缓存，也可以是memcache,如果是memcache这里设置memcache缓存配置名称），此处别名依赖缓存的设置，见缓存章节</span>
+<span style="color: #000000">
+SESSION_COOKIE_NAME </span>= <span style="color: #800000">"</span><span style="color: #800000">sessionid</span><span style="color: #800000">"</span>  　　　　　　<span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存在浏览器上时的key，即：sessionid＝随机字符串</span>
+SESSION_COOKIE_PATH = <span style="color: #800000">"</span><span style="color: #800000">/</span><span style="color: #800000">"</span> 　　　　　　　　　　　　 <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存的路径</span>
+SESSION_COOKIE_DOMAIN = None 　　　　　　 　　<span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存的域名</span>
+SESSION_COOKIE_SECURE = False  　　　　　　<span style="color: #008000">#</span><span style="color: #008000"> 是否Https传输cookie</span>
+SESSION_COOKIE_HTTPONLY = True  　　　　　　<span style="color: #008000">#</span><span style="color: #008000"> 是否Session的cookie只支持http传输</span>
+SESSION_COOKIE_AGE = 1209600  　　　　　　　　<span style="color: #008000">#</span><span style="color: #008000"> Session的cookie失效日期（2周）</span>
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  　　<span style="color: #008000">#</span><span style="color: #008000"> 是否关闭浏览器使得Session过期</span>
+SESSION_SAVE_EVERY_REQUEST = False  　　　　<span style="color: #008000">#</span><span style="color: #008000"> 是否每次请求都保存Session，默认修改之后才保存</span></pre>
+</div>
+<p><strong>应用同上</strong></p>
+<p>&nbsp;</p></div>

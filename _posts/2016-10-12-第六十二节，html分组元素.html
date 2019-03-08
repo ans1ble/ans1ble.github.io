@@ -1,0 +1,274 @@
+第六十二节，html分组元素
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">html分组元素</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px"><strong>学习要点：</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp; 1.分组元素总汇</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp; 2.分组元素解析</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp; 本章主要探讨HTML5中分组元素的用法。所谓分组，就是用来组织相关内容的HTML5</strong></span><span style="font-size: 18px"><strong>元素，清晰有效的进行归类。</strong></span></p>
+<p><span style="font-size: 18px; color: #ff0000"><strong>一．分组元素总汇</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp; 为了页面的排版需要，HTML5提供了几种语义的分组元素。</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 元素名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;　　　　　　　　表示段落</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; div&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　一个没有任何语义的通用元素，和span是对应元素</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; blockquote&nbsp;&nbsp;&nbsp; 　　　　　　表示引自他出的大段内容</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pre&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　表示其格式应被保留的内容</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　表示段落级别的主题转换，即水平线</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ul,ol&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;　　　　　　　　表示无序列表，有序列表</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; li&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　用于ul,ol元素中的列表项</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示包含一系列术语和定义说明的列表。dt在dl内部表示</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dl,dt,dd</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 术语，一般充当标题；dd在dl内部表示定义，一般是内容。</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; figure&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示图片</strong></span></p>
+<p><span style="font-size: 18px"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; figcaption&nbsp;&nbsp;&nbsp; 表示figure元素的标题</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px"><strong>二．分组元素解析</strong></span>&nbsp;</p>
+<p><span style="font-size: 18px; color: #ff0000"><strong>&nbsp;1.&lt;p&gt;建立段落</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>这是一个段落<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>这也是一个段落<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><span style="color: #0000ff">这是一个段落</span></p>
+<p><span style="color: #0000ff">这也是一个段落</span></p>
+<p><span style="font-size: 18px"><strong>解释：&lt;p&gt;元素实际作用就是将内部包含的文本形成一个段落；而段落和段落之间保持</strong></span><span style="font-size: 18px"><strong>一定量的空隙。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px; color: #ff0000"><strong>2.&lt;div&gt;通用分组</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>这是一个通用分组<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>这是又一个通用分组<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<div><span style="color: #0000ff">这是一个通用分组</span></div>
+<div><span style="color: #0000ff">这是又一个通用分组</span></div>
+<div><span style="font-size: 18px"><strong>解释：&lt;div&gt;元素在早期的版本中非常常用，通过&lt;div&gt;这种一般性分组元素进行布局。</strong></span><span style="font-size: 18px"><strong>而在HTML5中，由于语义的缘故，被其他各种文档元素所代替。和&lt;p&gt;段落的区别就是，两</strong></span><span style="font-size: 18px"><strong>段文本的上下空隙是没有的，空隙间隔和&lt;br&gt;换行一样。</strong></span></div>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px; color: #ff0000"><strong>3.&lt;blockquote&gt;引用大段他出内容</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">blockquote</span><span style="color: #0000ff">&gt;</span>这是一个大段引自他出内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">blockquote</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">blockquote</span><span style="color: #0000ff">&gt;</span>这是另一个大段引自他出内容<span style="color: #0000ff">&lt;/</span><span style="color: #800000">blockquote</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<blockquote>这是一个大段引自他出内容</blockquote>
+<blockquote>这是另一个大段引自他出内容</blockquote>
+<p><span style="font-size: 18px"><strong>解释：&lt;blockquote&gt;元素实际作用除了和&lt;p&gt;元素一样，有段落空隙的功能，还包含</strong></span><span style="font-size: 18px"><strong>了首尾缩进的功能。语义上表示，大段的引用他出的内容。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px; color: #ff0000"><strong>4.&lt;pre&gt;展现格式化内容</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">pre</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    #####
+        #####
+            #####
+        #####
+    #####
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">pre</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<pre><span style="color: #0000ff">    #####
+        #####
+            #####
+        #####
+    #####</span></pre>
+<p><span style="font-size: 18px"><strong>解释：&lt;pre&gt;元素实际作用就是编辑器怎么排版的，原封不动的展现出来。当然，这种</strong></span><span style="font-size: 18px"><strong>只适合简单的排版，复杂的排版就无法满足要求了。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px; color: #ff0000"><strong>5.&lt;hr&gt;添加分隔</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">hr</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<hr>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px"><strong>&nbsp;</strong></span><span style="font-size: 18px"><strong>解释：&lt;hr&gt;元素实际作用就是添加一条分割线，意图呈现上下文主题的分割。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px; color: #ff0000"><strong>6.&lt;ul&gt;&lt;li&gt;添加无序列表</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>王五<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>马六<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<ul>
+<li><span style="color: #0000ff">张三</span></li>
+<li><span style="color: #0000ff">李四</span></li>
+<li><span style="color: #0000ff">王五</span></li>
+<li><span style="color: #0000ff">马六</span></li>
+</ul>
+<p><span style="font-size: 18px; color: #0000ff"><strong>&nbsp;</strong></span><span style="font-size: 18px"><strong>解释：&lt;ul&gt;元素表示无序列表，而&lt;li&gt;元素则是内部的列表项。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px; color: #ff0000"><strong>7.&lt;ol&gt;&lt;li&gt;添加有序列表</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>王五<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>马六<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<ol>
+<li><span style="color: #0000ff">张三</span></li>
+<li><span style="color: #0000ff">李四</span></li>
+<li><span style="color: #0000ff">王五</span></li>
+<li><span style="color: #0000ff">马六</span></li>
+</ol>
+<p><span style="font-size: 18px"><strong>&nbsp;</strong></span><span style="font-size: 18px"><strong>解释：&lt;ol&gt;元素表示有序列表，而&lt;li&gt;元素则是内部的列表项。&lt;ol&gt;元素目前支持三</strong></span></p>
+<p><span style="font-size: 18px"><strong>种属性。</strong></span></p>
+<p><span style="font-size: 18px; color: #ff0000"><strong>ol元素属性</strong></span></p>
+<p><span style="font-size: 18px"><strong>属性名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></span></p>
+<p><span style="font-size: 18px"><strong>start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 从第几个序列开始统计：&lt;ol start="2"&gt;</strong></span><span style="font-size: 18px"><strong>&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ol </span><span style="color: #ff0000">start</span><span style="color: #0000ff">="3"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>王五<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>马六<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<ol start="3">
+<li><span style="color: #0000ff">张三</span></li>
+<li><span style="color: #0000ff">李四</span></li>
+<li><span style="color: #0000ff">王五</span></li>
+<li><span style="color: #0000ff">马六</span></li>
+</ol>
+<p><span style="font-size: 18px"><strong>reversed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 是否倒序排列：&lt;ol reversed&gt;，一半主流浏览器不支持</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ol </span><span style="color: #ff0000">start</span><span style="color: #0000ff">="3"</span><span style="color: #ff0000"> reversed</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>王五<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>马六<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="font-size: 18px"><strong>type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示列表的编号类型，值分别为：1、a、A、i、I</strong></span></p>
+<p><span style="font-size: 18px"><strong><strong>1数字类型</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ol </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>王五<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>马六<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<ol start="1">
+<li><span style="color: #0000ff">张三</span></li>
+<li><span style="color: #0000ff">李四</span></li>
+<li><span style="color: #0000ff">王五</span></li>
+<li><span style="color: #0000ff">马六</span></li>
+</ol>
+<p><span style="font-size: 18px; color: #000000"><strong><strong>a小写字母类型</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ol </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="a"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>王五<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>马六<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<ol type="a">
+<li><span style="color: #0000ff">张三</span></li>
+<li><span style="color: #0000ff">李四</span></li>
+<li><span style="color: #0000ff">王五</span></li>
+<li><span style="color: #0000ff">马六</span></li>
+</ol>
+<p><span style="font-size: 18px; color: #000000"><strong><strong><strong>A大写字母类型</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ol </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="A"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>王五<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>马六<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<ol type="A">
+<li><span style="color: #0000ff">张三</span></li>
+<li><span style="color: #0000ff">李四</span></li>
+<li><span style="color: #0000ff">王五</span></li>
+<li><span style="color: #0000ff">马六</span></li>
+</ol>
+<p><span style="font-size: 18px; color: #000000"><strong><strong>i类型</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ol </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="i"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>王五<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>马六<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<ol type="i">
+<li><span style="color: #0000ff">张三</span></li>
+<li><span style="color: #0000ff">李四</span></li>
+<li><span style="color: #0000ff">王五</span></li>
+<li><span style="color: #0000ff">马六</span></li>
+</ol>
+<p><span style="font-size: 18px; color: #000000"><strong><strong>I类型</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ol </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="I"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>王五<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>马六<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<ol type="I">
+<li><span style="color: #0000ff">张三</span></li>
+<li><span style="color: #0000ff">李四</span></li>
+<li><span style="color: #0000ff">王五</span></li>
+<li><span style="color: #0000ff">马六</span></li>
+</ol>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px; color: #ff0000"><strong>li元素属性</strong></span></p>
+<p><span style="font-size: 18px"><strong>属性名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></span></p>
+<p><span style="font-size: 18px"><strong>value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 强行设置某个项目的编号。</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>张三<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>李四<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">value</span><span style="color: #0000ff">="9"</span><span style="color: #0000ff">&gt;</span>王五<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>马六<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ol</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>效果：</strong></span></p>
+<ol>
+<li><span style="color: #0000ff">张三</span></li>
+<li><span style="color: #0000ff">李四</span></li>
+<li value="9"><span style="color: #0000ff">王五</span></li>
+<li><span style="color: #0000ff">马六</span></li>
+</ol>
+<p><span style="font-size: 18px"><strong>&nbsp;注意：以上都是有序列表属性</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px; color: #ff0000"><strong>8.&lt;dl&gt;&lt;dt&gt;&lt;dd&gt;生成说明列表</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">dl</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">dt</span><span style="color: #0000ff">&gt;</span>这是一份文件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">dt</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>这里是这份文件的详细内容1<span style="color: #0000ff">&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>这里是这份文件的详细内容2<span style="color: #0000ff">&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">dl</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<dl><dt><span style="color: #0000ff">这是一份文件</span></dt><dd><span style="color: #0000ff">这里是这份文件的详细内容1</span></dd><dd><span style="color: #0000ff">这里是这份文件的详细内容2</span></dd></dl>
+<p><span style="font-size: 18px"><strong>解释：这三个元素是一个整体，但&lt;dt&gt;或&lt;dd&gt;并非都必须出现。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px; color: #ff0000"><strong>9.&lt;figure&gt;&lt;figcaption&gt;使用插图</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">figure</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">figcaption</span><span style="color: #0000ff">&gt;</span>这是一张图<span style="color: #0000ff">&lt;/</span><span style="color: #800000">figcaption</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="22.png"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">figure</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>效果：</strong></p>
+<p><span style="color: #0000ff">这是一张图</span></p>
+<p><span style="color: #0000ff"><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161012220931406-435383415.png" alt=""></span></p>
+<p><span style="font-size: 18px"><strong>解释：这两个元素一般用于图片的布局。</strong></span></p>
+<p>&nbsp;</p></div>

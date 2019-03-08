@@ -1,0 +1,140 @@
+第三百一十五节，Django框架，CSRF跨站请求伪造
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><br><strong>第三百一十五节，Django框架，CSRF跨站请求伪造</strong></p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>&nbsp;全局CSRF</strong></span></p>
+<p><span style="color: #ff0000"><strong>如果要启用防止<strong>CSRF跨站请求伪造，就需要在中间件开启<strong>CSRF</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">中间件</span>
+MIDDLEWARE =<span style="color: #000000"> [
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.middleware.security.SecurityMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.sessions.middleware.SessionMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.middleware.common.CommonMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #008000">#</span><span style="color: #008000"> '<span style="background-color: #ff99cc">django.middleware.csrf.CsrfViewMiddleware</span>',   #开启csrf</span>
+    <span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth.middleware.AuthenticationMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.messages.middleware.MessageMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.middleware.clickjacking.XFrameOptionsMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+]</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>注意：一旦开启了csrf提交表单时会出现403错误，必须结合两个步骤来使用</strong></span></p>
+<p><span style="color: #ff0000"><strong>第一、页面响应返回必须由</strong></span><span style="color: #0000ff"><strong>render()方法</strong></span></p>
+<p><span style="color: #ff0000"><strong>第二、必须在html页面的<span style="color: #0000ff">&lt;form&gt;标签</span>里用上模板语言</strong><span style="color: #0000ff"><strong>{% csrf_token %}</strong></span></span></p>
+<p><strong>&lt;form&gt;</strong><br><strong>{% csrf_token %}</strong><br><strong>...</strong><br><strong>&lt;/form&gt;</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>逻辑处理</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render,redirect
+
+</span><span style="color: #0000ff">from</span> app1.chajian.fen_ye <span style="color: #0000ff">import</span> fen_ye_lei  <span style="color: #008000">#</span><span style="color: #008000">导入分页模块</span>
+<span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *   <span style="color: #008000">#</span><span style="color: #008000">导入数据库模块</span><span style="color: #008000">
+#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+
+    </span><span style="color: #0000ff">return</span> <span style="background-color: #ff99cc">render</span>(request, <span style="color: #800000">'</span><span style="color: #800000">app1/index.html</span><span style="color: #800000">'</span>,locals())</pre>
+</div>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=<span style="color: #800000">"</span><span style="color: #800000">en</span><span style="color: #800000">"</span>&gt;
+&lt;head&gt;
+    &lt;meta charset=<span style="color: #800000">"</span><span style="color: #800000">UTF-8</span><span style="color: #800000">"</span>&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+    &lt;link rel=<span style="color: #800000">"</span><span style="color: #800000">stylesheet</span><span style="color: #800000">"</span> type=<span style="color: #800000">"</span><span style="color: #800000">text/css</span><span style="color: #800000">"</span> href=<span style="color: #800000">"</span><span style="color: #800000">/static/css/tou.css</span><span style="color: #800000">"</span>&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form action=<span style="color: #800000">'</span><span style="color: #800000">/bugarticles/</span><span style="color: #800000">'</span> method=<span style="color: #800000">"</span><span style="color: #800000">post</span><span style="color: #800000">"</span>&gt;<span style="background-color: #ff99cc"><span style="color: #000000">
+    {</span>% csrf_token %<span style="color: #000000">}
+    </span></span>&lt;input type=<span style="color: #800000">"</span><span style="color: #800000">text</span><span style="color: #800000">"</span> name=<span style="color: #800000">"</span><span style="color: #800000">nad</span><span style="color: #800000">"</span>/&gt;
+    &lt;input type=<span style="color: #800000">"</span><span style="color: #800000">submit</span><span style="color: #800000">"</span> value=<span style="color: #800000">"</span><span style="color: #800000">搜索</span><span style="color: #800000">"</span>/&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170719173241396-317464911.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffff00; color: #ff0000"><strong>局部CSRF</strong></span></p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong>局部<strong>CSRF，可以用装饰器在逻辑处理函数上做装饰</strong></strong></span></p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong><strong>需要导入模块：<span style="color: #0000ff">from django.views.decorators.csrf import csrf_exempt,csrf_protect</span></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">@csrf_protect</span>，为当前函数强制设置防跨站请求伪造功能，即便settings中没有设置全局中间件。<span style="color: #0000ff">使用了同样遵守上面两个步骤</span></strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">@csrf_exempt</span>，取消当前函数防跨站请求伪造功能，即便settings中设置了全局中间件。</strong></span></p>
+<p><span style="color: #0000ff"><strong>&nbsp;逻辑处理</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render,redirect
+</span><span style="color: #0000ff">from</span> django.views.decorators.csrf <span style="color: #0000ff">import</span><span style="color: #000000"> csrf_exempt,<span style="background-color: #ff99cc">csrf_protect
+</span></span><span style="color: #0000ff">from</span> app1.chajian.fen_ye <span style="color: #0000ff">import</span> fen_ye_lei  <span style="color: #008000">#</span><span style="color: #008000">导入分页模块</span>
+<span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *   <span style="color: #008000">#</span><span style="color: #008000">导入数据库模块</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #000000; background-color: #ff99cc">@csrf_protect
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+
+    </span><span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">app1/index.html</span><span style="color: #800000">'</span>,locals())</pre>
+</div>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=<span style="color: #800000">"</span><span style="color: #800000">en</span><span style="color: #800000">"</span>&gt;
+&lt;head&gt;
+    &lt;meta charset=<span style="color: #800000">"</span><span style="color: #800000">UTF-8</span><span style="color: #800000">"</span>&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+    &lt;link rel=<span style="color: #800000">"</span><span style="color: #800000">stylesheet</span><span style="color: #800000">"</span> type=<span style="color: #800000">"</span><span style="color: #800000">text/css</span><span style="color: #800000">"</span> href=<span style="color: #800000">"</span><span style="color: #800000">/static/css/tou.css</span><span style="color: #800000">"</span>&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form action=<span style="color: #800000">'</span><span style="color: #800000">/bugarticles/</span><span style="color: #800000">'</span> method=<span style="color: #800000">"</span><span style="color: #800000">post</span><span style="color: #800000">"</span>&gt;<span style="background-color: #ff99cc"><span style="color: #000000">
+    {</span>% csrf_token %<span style="color: #000000">}
+    </span></span>&lt;input type=<span style="color: #800000">"</span><span style="color: #800000">text</span><span style="color: #800000">"</span> name=<span style="color: #800000">"</span><span style="color: #800000">nad</span><span style="color: #800000">"</span>/&gt;
+    &lt;input type=<span style="color: #800000">"</span><span style="color: #800000">submit</span><span style="color: #800000">"</span> value=<span style="color: #800000">"</span><span style="color: #800000">搜索</span><span style="color: #800000">"</span>/&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>Ajax提交</strong></span></p>
+<div class="cnblogs_code">
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head lang=<span style="color: #800000">"</span><span style="color: #800000">en</span><span style="color: #800000">"</span>&gt;
+    &lt;meta charset=<span style="color: #800000">"</span><span style="color: #800000">UTF-8</span><span style="color: #800000">"</span>&gt;
+    &lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;<span style="color: #000000">
+    {</span>% csrf_token %<span style="color: #000000">}
+  
+    </span>&lt;input type=<span style="color: #800000">"</span><span style="color: #800000">button</span><span style="color: #800000">"</span> onclick=<span style="color: #800000">"</span><span style="color: #800000">Do();</span><span style="color: #800000">"</span>  value=<span style="color: #800000">"</span><span style="color: #800000">Do it</span><span style="color: #800000">"</span>/&gt;
+  
+    &lt;script src=<span style="color: #800000">"</span><span style="color: #800000">/static/plugin/jquery/jquery-1.8.0.js</span><span style="color: #800000">"</span>&gt;&lt;/script&gt;
+    &lt;script src=<span style="color: #800000">"</span><span style="color: #800000">/static/plugin/jquery/jquery.cookie.js</span><span style="color: #800000">"</span>&gt;&lt;/script&gt;
+    &lt;script type=<span style="color: #800000">"</span><span style="color: #800000">text/javascript</span><span style="color: #800000">"</span>&gt;<span style="background-color: #ff99cc"><span style="color: #000000">
+        var csrftoken </span>= $.cookie(<span style="color: #800000">'</span><span style="color: #800000">csrftoken</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ff99cc">);   #从cookie获取到csrf密串</span>
+  
+        function csrfSafeMethod(method) {
+            </span>// these HTTP methods do <span style="color: #0000ff">not</span><span style="color: #000000"> require CSRF protection
+            </span><span style="color: #0000ff">return</span> (/^(GET|HEAD|OPTIONS|TRACE)$/<span style="color: #000000">.test(method));
+        }
+<span style="background-color: #ff99cc">        $.ajaxSetup({     #设置ajax全局方法，设置后所有的ajax请求前都会先执行这个方法
+            beforeSend: function(xhr, settings) {
+                </span></span><span style="background-color: #ff99cc"><span style="color: #0000ff">if</span> (!csrfSafeMethod(settings.type) &amp;&amp;<span style="color: #000000"> !this.crossDomain) {
+                    xhr.setRequestHeader(</span><span style="color: #800000">"</span><span style="color: #800000">X-CSRFToken</span><span style="color: #800000">"</span></span><span style="color: #000000"><span style="background-color: #ff99cc">, csrftoken);         #将获取到的csrf密串，添加到请求头传输到逻辑处理
+                }
+            }
+        });
+        function Do(){</span>
+  
+            $.ajax({
+                url:</span><span style="color: #800000">"</span><span style="color: #800000">/app01/test/</span><span style="color: #800000">"</span><span style="color: #000000">,
+                data:{id:</span>1<span style="color: #000000">},
+                type:</span><span style="color: #800000">'</span><span style="color: #800000">POST</span><span style="color: #800000">'</span><span style="color: #000000">,
+                success:function(data){
+                    console.log(data);
+                }
+            });
+  
+        }
+    </span>&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><span style="color: #0000ff"><strong>　　</strong></span></span></p></div>

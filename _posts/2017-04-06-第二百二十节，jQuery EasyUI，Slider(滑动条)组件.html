@@ -1,0 +1,339 @@
+第二百二十节，jQuery EasyUI，Slider(滑动条)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #000000"><strong>jQuery EasyUI，Slider(滑动条)组件</strong></span></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170406180113097-2046649286.png" alt=""></p>
+<p><span style="color: #000000"><strong>学习要点： </strong></span></p>
+<p><span style="color: #000000"><strong>　　1.加载方式 </strong></span></p>
+<p><span style="color: #000000"><strong>　　2.属性列表 </strong></span></p>
+<p><span style="color: #000000"><strong>　　3.事件列表 </strong></span></p>
+<p><span style="color: #000000"><strong>　　4.方法列表</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000"><strong>本节课重点了解 EasyUI 中 Slider(滑动条)组件的使用方法，<span style="color: #0000ff">这个组件依赖于 Draggable(拖动)组件。</span></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<p><span style="color: #0000ff"><strong>class 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="easyui-slider"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="12"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px"</span><span style="color: #ff0000"> data-options</span><span style="color: #0000ff">="showTip:true,rule:[0,'|',25,'|',50,'|',75,'|',100]"</span> <span style="color: #0000ff">/&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>slider()将一个输入框执行滑动条方法</strong></span></p>
+<p><strong><span style="color: #0000ff">JS 加载调用</span></strong></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        value: </span>12<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170406171247691-741576599.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170406171257222-1467890104.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>width &nbsp; number 滑动条宽度。默认值 auto。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        height: </span>50<span style="color: #000000">,
+        mode:</span>'v'<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>height &nbsp; number 滑动条高度。默认值 auto。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        height: </span>50<span style="color: #000000">,
+        mode:</span>'v'<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>mode &nbsp; string <span style="color: #0000ff">声明滚动条类型。可用值有：'h'(水平)、'v'(垂直)。默认值'h'</span>。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        height: </span>50<span style="color: #000000">,
+        mode:</span>'v'<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>reversed &nbsp; boolean 设置为 true 时，<span style="color: #0000ff">最小值和最大值将对调他们的位置</span>。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        <span style="color: #ff0000">reversed:</span></span><span style="color: #ff0000">true</span><span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>showTip &nbsp; boolean <span style="color: #0000ff">定义是否显示值信息提示</span>。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        <span style="color: #ff0000">showTip:</span></span><span style="color: #ff0000">true</span><span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>disabled &nbsp; boolean 定义是否禁用滑动条。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        <span style="color: #ff0000">disabled:</span></span><span style="color: #ff0000">true</span><span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>value &nbsp; number <span style="color: #0000ff">默认值</span>。默认值0。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        <span style="color: #ff0000">value:</span></span><span style="color: #ff0000">10</span><span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>min &nbsp; number <span style="color: #0000ff">允许的最小值</span>。默认值0。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        min:</span>10,     <span style="color: #008000">//</span><span style="color: #008000">允许的最小值</span>
+        max:90,     <span style="color: #008000">//</span><span style="color: #008000">允许的最大值</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>max &nbsp; number <span style="color: #0000ff">允许的最大值</span>。默认值100。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        min:</span>10,     <span style="color: #008000">//</span><span style="color: #008000">允许的最小值</span>
+        max:90,     <span style="color: #008000">//</span><span style="color: #008000">允许的最大值</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>step &nbsp; number <span style="color: #0000ff">增加或减少<strong>值</strong>。默认值1</span>。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        step:</span>10,     <span style="color: #008000">//</span><span style="color: #008000">增加或减少值。默认值1。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>rule &nbsp; array显示标签旁边的滑块，'|' — 只显示一行。默认值[]。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        <span style="color: #ff0000">rule: [</span></span><span style="color: #ff0000">0, '|', 25, '|', 50, '|', 75, '|', 100</span><span style="color: #000000"><span style="color: #ff0000">],</span>
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>tipFormatter &nbsp; function 该函数用于格式化滑动条。返回的字符串值将显示提示。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        <span style="color: #ff0000">tipFormatter:</span></span><span style="color: #ff0000">function (value) {
+            return value + '%'</span><span style="color: #000000"><span style="color: #ff0000">;
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．事件列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170406173850863-1380199255.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>onChange &nbsp; newValue, oldValue <span style="color: #0000ff">在字段值更改的时候触发</span>。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        <span style="color: #ff0000">onChange:</span></span><span style="color: #ff0000">function (newValue, oldValue) {
+            alert('接收更改后的值'+newValue);
+            alert('接收更改前的值'+</span><span style="color: #000000"><span style="color: #ff0000">oldValue);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onSlideStart &nbsp; value <span style="color: #0000ff">在开始拖拽滑动条的时候触发</span>。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        <span style="color: #ff0000">onSlideStart:</span></span><span style="color: #ff0000">function</span><span style="color: #000000"><span style="color: #ff0000"> (value) {
+            alert(value);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onSlideEnd &nbsp; value <span style="color: #0000ff">在结束拖拽滑动条的时候触发</span>。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        <span style="color: #ff0000">onSlideEnd:</span></span><span style="color: #ff0000">function</span><span style="color: #000000"><span style="color: #ff0000"> (value) {
+            alert(value);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170406174653550-381954003.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>options &nbsp; none 返回滑动条属性。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    });
+    <span style="color: #ff0000">alert($(</span></span><span style="color: #ff0000">'#box').slider('options'</span><span style="color: #000000"><span style="color: #ff0000">));</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>destroy &nbsp; none 销毁滑动条对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').slider('destroy'</span><span style="color: #000000"><span style="color: #ff0000">);</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>resize &nbsp; param<span style="color: #0000ff">设置滑动条大小</span>。'param'参数包含一下属性：width：新滑动条宽度。height：新滑动条高度。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').slider('resize',{
+        width:500,
+        height:20</span><span style="color: #000000"><span style="color: #ff0000">
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getValue &nbsp; none 获取滑动条的值。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    });
+    <span style="color: #ff0000">alert($(</span></span><span style="color: #ff0000">'#box').slider('getValue'</span><span style="color: #000000"><span style="color: #ff0000">));</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>setValue &nbsp; value 设置滑动条的值。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').slider('setValue',90</span><span style="color: #000000"><span style="color: #ff0000">);</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>clear &nbsp; none 清除滑动条的值。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').slider('clear'</span><span style="color: #000000"><span style="color: #ff0000">);</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>reset &nbsp; none 重置滑动条的值。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').slider('reset'</span><span style="color: #000000"><span style="color: #ff0000">);</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>enable &nbsp; none 启用滑动条控件。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    });
+    $(</span>'#box').slider('enable'<span style="color: #000000">);
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>disable &nbsp; none 禁用滑动条控件。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).slider({
+        width: </span>300<span style="color: #000000">,
+        rule: [</span>0, '|', 25, '|', 50, '|', 75, '|', 100<span style="color: #000000">],
+        showTip:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').slider('disable'</span><span style="color: #000000"><span style="color: #ff0000">);</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>使用$.fn.slider.defaults 重写默认值对象。</strong></span></p></div>

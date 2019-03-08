@@ -1,0 +1,452 @@
+第八十一节，CSS3变形效果
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">CSS3变形效果</span></strong></span></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong><br><strong>    1.transform </strong><br><strong>    2.transform-origin </strong><br><strong>    3.浏览器版本</strong></p>
+<p><strong>本章主要探讨HTML5中CSS3的变形效果，通过变形效果，可以平移、缩放和旋转元素的功能。&nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">一．transform</span> </strong><br><strong>    CSS3提供了元素变形效果，也叫做变换。它可以将元素实现旋转、缩放和平移的功能。属性有两个：transform和transform-origin。</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;属性 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; transform&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　指定应用的变换功能</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; transform-origin&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;指定变换的起点</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>transform<strong>指定应用的变换功能</strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong>对于transform的属性值，具体如下表：</strong></strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 属性值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; none&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　　　　　无变换</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate(长度值或百分数值) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;在水平方向、垂直方向或两个方向上平移元素。&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translateX(长度值或百分数值)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translatY(长度值或百分数值)</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scale(数值) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;在水平方向、垂直方向或两个方向上缩放元素&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scaleX(数值)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scaleY(数值)</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rotate(角度)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　　　旋转元素</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; skew(角度)　　　　　　　　　　　　　　在水平方向、垂直方向或两个方向上使元素倾斜一定的角度&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; skewX(角度)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; skewY(角度)</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; matrix(4~6数值，逗号隔开) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;指定自定义变换。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>向水平和垂直各移动2 像素，也可以使用百分比</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+    
+    transform</span>:<span style="color: #0000ff"> translate(2px, 2px)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>向垂直平移2 像素</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    transform</span>:<span style="color: #0000ff"> translate(0, 2px)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>&nbsp;水平、垂直方向放大1.5倍&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;
+
+    <span style="color: #008000">/*</span><span style="color: #008000">transform: scale(1.5);</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    transform</span>:<span style="color: #0000ff"> scale(1.5,1.5)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>水平、垂直方向缩小0.8倍</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    transform</span>:<span style="color: #0000ff"> scale(0.8,0.8)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>水平方向放大1.5倍&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    transform</span>:<span style="color: #0000ff"> scaleX(1.5)</span>; 
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>垂直方向放大1.5倍</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    transform</span>:<span style="color: #0000ff"> scaleY(1.5)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>旋转元素， ~ 36 度之间，负值均可&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    transform</span>:<span style="color: #0000ff"> rotate(-45deg)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>倾斜元素， ~ 36 度之间，负值均可</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    transform</span>:<span style="color: #0000ff"> skew(45deg, 20deg)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>水平倾斜元素， ~ 36 度之间，负值均可</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    transform</span>:<span style="color: #0000ff"> skewX(45deg)</span>; 
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>垂直倾斜元素， ~ 36 度之间，负值均可&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    transform</span>:<span style="color: #0000ff"> skewY(45deg)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>通过六个数值指定矩形，其内部公式计算较为复杂，请百度吧&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    transform</span>:<span style="color: #0000ff"> matrix(1,0,0,1,30,30)</span>;
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>不同的值可以累计，通过空格分割&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    transform</span>:<span style="color: #0000ff"> rotate(-45deg) scale(1.5)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">二．transform-origin设置变换的起点</span> </strong><br><strong>    transform-origin属性可以设置变换的起点。默认情况下，使用元素的中心作为起点，具体设置方案参考如下表：</strong></p>
+<p>&nbsp;<strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;属性值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 百分数值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　指定元素x轴或y轴的起点</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 长度值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 指定距离</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; left　　　　　　　 &nbsp;指定x轴的位置</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; center &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; right</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; top　　　　　　 &nbsp; &nbsp;&nbsp;指定y轴的位置</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; center &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bottom</strong></p>
+<p><strong>这个属性是用来改变变形的基准点的，默认是在元素的中心位置，如果你改变了基准点。 它就会按照这个基准点进行变形。</strong></p>
+<p><span style="color: #ff0000"><strong>默认值，以中心点变形</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    transform-origin</span>:<span style="color: #0000ff"> center center</span>;<span style="color: #ff0000">
+    transform-origin</span>:<span style="color: #0000ff"> 50% 50%</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>以左上角为基准点变形</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    transform-origin</span>:<span style="color: #0000ff"> left top</span>;<span style="color: #ff0000">
+    transform-origin</span>:<span style="color: #0000ff"> 0px 0px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．浏览器版本</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp; CSS3中的变形效果最低版本和需要前缀版本如下：</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　Opera&nbsp;&nbsp;&nbsp;&nbsp; 　　Firefox&nbsp;　　　　 Chrome&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　Safari&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　 IE</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 支持需带前缀&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11.5~22 　　3.5~15&nbsp; 　　　　4 ~ 35&nbsp; 　　　　 &nbsp; &nbsp; &nbsp;3.1 ~ 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　&nbsp;9.0+</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 支持不带前缀 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;23+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&nbsp;16+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp; &nbsp;26+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp; &nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　 &nbsp;10.0+</strong></p>
+<p><span style="color: #ff0000"><strong>兼容完整版&nbsp;</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+
+    -webkit-transform</span>:<span style="color: #0000ff"> rotate(45deg)</span>;<span style="color: #ff0000">
+    -moz-transform</span>:<span style="color: #0000ff"> rotate(45deg)</span>;<span style="color: #ff0000">
+    -o-transform</span>:<span style="color: #0000ff"> rotate(45deg)</span>;<span style="color: #ff0000"> 
+    -ms-transform</span>:<span style="color: #0000ff"> rotate(45deg)</span>;<span style="color: #ff0000">
+    transform</span>:<span style="color: #0000ff"> rotate(45deg)</span>;<span style="color: #ff0000">
+
+    -webkit-transform-origin</span>:<span style="color: #0000ff"> left top</span>;<span style="color: #ff0000">
+    -moz-transform-origin</span>:<span style="color: #0000ff"> left top</span>;<span style="color: #ff0000">
+    -o-transform-origin</span>:<span style="color: #0000ff"> left top</span>;<span style="color: #ff0000">
+    -ms-transform-origin</span>:<span style="color: #0000ff"> left top</span>;<span style="color: #ff0000">
+    transform-origin</span>:<span style="color: #0000ff"> left top</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="font-size: 18pt; color: #0000ff"><strong>3D变形效果</strong></span></p>
+<p><strong>学习要点：</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 1.3D变形简介</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 2.transform-style</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 3.perspective</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 4.3D变形属性</strong></p>
+<p><strong>&nbsp;</strong><strong>本章主要探讨HTML5中CSS3的变形效果，主要接着上节课的2D平面变形转换到3D立体变形。</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><span style="color: #ff0000"><strong>一．3D变形简介</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp; 之前我们学习了元素的平移、旋转、缩放和倾斜等功能。这些效果只是单纯在二维平面图上的，我们称之为2D。那么其实CSS3也提供了三维立体的一些功能效果，并且目前较新的主流浏览器都比较支持，只不过比2D晚一些，对浏览器的版本要求也要高一些。由于3D是立体三维，在x、y轴的基础上一般会多出一个z轴，深入跃出轴。以下是3D变形的属性值表，如下：</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 属性值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate3d(x,y,z)&nbsp;&nbsp;&nbsp;&nbsp;　　　　 3D方式平移元素，设置x、y和z轴</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translateZ(z)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　 &nbsp; 设置3D方式平移元素的z轴</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scale3d(x,y,z)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;3D方式缩放一个元素</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scaleZ(z)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　&nbsp;设置3D方式缩放元素的z轴</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rotate3d(x,y,z,a)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　3d方式旋转元素</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rotateX(a)　　　　　　 &nbsp; &nbsp; &nbsp;<strong>分别设置3D方式的旋转元素的x、y和z轴</strong></strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rotateY(a) &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rotateZ(a)</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; perspective(长度值)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&nbsp;设置一个透视投影矩阵</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; matrix3d(多个值)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;定义一个矩阵</strong></p>
+<p><strong>3D变形比2D变形出来的要晚一些，所以如果需要兼容旧版本浏览器，可以对照这个表,具体如下：</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;　　　　　　Opera&nbsp;&nbsp;&nbsp;&nbsp; 　　　　Firefox&nbsp; 　　　　Chrome&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　 &nbsp;Safari&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　&nbsp; &nbsp;IE</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 支持需带前缀 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 15 ~ 22 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;10 ~ 15 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 12 ~ 35 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 4 ~ 8 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 无</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 支持不带前缀&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 23+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;16+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 26+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 无 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;10.0+</strong></p>
+<p><span style="color: #ff0000"><strong>&nbsp;</strong></span></p>
+<p><span style="color: #ff0000"><strong>二．transform-style嵌套元素如何在3D空间中呈现，设置父元素</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp; transform-style属性是指定嵌套元素如何在3D空间中呈现。</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 属性值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; flat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　　　 &nbsp; &nbsp;&nbsp; 默认值，表示所有子元素在2D平面呈现。</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; preserve-3d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;表示子元素在3D空间中呈现。</strong></p>
+<p><strong>需要再配合后面的功能属性和变形配置，才能看到效果。同样，这个属性也需要加上各种厂商前缀。</strong></p>
+<p><span style="color: #ff0000"><strong>在父亲元素声明子元素3d呈现</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">div</span>{<span style="color: #ff0000">
+    transform-style</span>:<span style="color: #0000ff"> preserve-3d</span>;
+}<span style="color: #800000">
+p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．perspective <strong>设置查看者的位置，设置父元素</strong></strong></span><br><strong>    perspective是3D变形的重要属性，该属性会设置查看者的位置，并将可视内容映射到一个视锥上，继而投放到一个2D平面上。</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;属性值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　&nbsp;none&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;默认值，表示无限的角度来看3D物体，但看上去是平的。</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长度值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　　 接受一个长度单位大于0的值，其单位不能为百分比。值</strong></p>
+<p><strong>　　　　　　　　　　　　　　　　　　 &nbsp;越大，角度出现的越远，就好比你人离远一点看物体。值越小，正相反。</strong></p>
+<p><strong>设置查看者的距离位置，一般设置在元素的父元素上</strong></p>
+<p><span style="color: #ff0000"><strong><strong>看者的距离位置</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">div</span>{<span style="color: #ff0000">
+    transform-style</span>:<span style="color: #0000ff"> preserve-3d</span>;<span style="color: #ff0000">
+    perspective</span>:<span style="color: #0000ff"> 1000px</span>;
+}<span style="color: #800000">
+p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p><strong>需要再配合后面的功能属性和变形配置，才能看到效果。同样，这个属性也需要加上各种厂商前缀。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．3D变形属性 </strong></span><br><span style="color: #000000"><strong>    我们运用前面3D功能属性transform-style和perspective来构建3D变形效果。 </strong></span></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">translate3d(x,y,z)<strong>3D方式平移元素，设置x、y和z轴，设置子元素</strong></span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">div</span>{<span style="color: #ff0000">
+    transform-style</span>:<span style="color: #0000ff"> preserve-3d</span>;<span style="color: #ff0000">
+    perspective</span>:<span style="color: #0000ff"> 1000px</span>;
+}<span style="color: #800000">
+p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+    transform</span>:<span style="color: #0000ff"> translate3d(300px,100px,240px)</span>; 
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>scale3d(x,y,z)3D缩放，单独设置无效，需要配合角度 ，<strong><strong>设置子元素</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">div</span>{<span style="color: #ff0000">
+    transform-style</span>:<span style="color: #0000ff"> preserve-3d</span>;<span style="color: #ff0000">
+    perspective</span>:<span style="color: #0000ff"> 1000px</span>;
+}<span style="color: #800000">
+p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+    transform</span>:<span style="color: #0000ff"> translate3d(300px,100px,240px)</span>;<span style="color: #ff0000">
+    transform</span>:<span style="color: #0000ff"> scale3d(1,1,1.5) rotateX(45deg)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>rotate3d(x,y,z,a)设置3D旋转，a表示角度，xyz是0或1之间的数值&nbsp;<strong>，<strong><strong>设置子元素</strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">div</span>{<span style="color: #ff0000">
+    transform-style</span>:<span style="color: #0000ff"> preserve-3d</span>;<span style="color: #ff0000">
+    perspective</span>:<span style="color: #0000ff"> 1000px</span>;
+}<span style="color: #800000">
+p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+    transform</span>:<span style="color: #0000ff"> translate3d(300px,100px,240px)</span>;<span style="color: #ff0000">
+    transform</span>:<span style="color: #0000ff"> scale3d(1,1,1.5) rotateX(45deg)</span>;<span style="color: #ff0000">
+    transform</span>:<span style="color: #0000ff"> rotate3d(1,0,0,45deg)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>CSS3还提供了perspective-origin属性来设置3D变形中的源点角度。该属性默认值为50% 50%也就是center center。</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 属性值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 说明</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 百分数值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp; &nbsp;指定元素x轴或y轴的起点</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 长度值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　 &nbsp;&nbsp;指定距离</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; left　　　　　　　　 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<strong>指定x轴的位置</strong></strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; center &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; right</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; top　　　　　　　　　　 &nbsp;&nbsp;<strong>指定y轴的位置</strong></strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; center &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bottom</strong></p>
+<p><span style="color: #ff0000"><strong>源点设置为右上方变形</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">perspective-origin: top right; </span></pre>
+</div>
+<p><strong>CSS3还提供了一个在元素中设置透视的值perspective(长度值)，但它还是和在父元素设置有一定不同。因为父元素整个作为透视，而元素自己作为透视，导致不同。</strong></p>
+<p><strong><span style="color: #ff0000">具体测试看透视的距离</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">div</span>{<span style="color: #ff0000">
+    transform-style</span>:<span style="color: #0000ff"> preserve-3d</span>;<span style="color: #ff0000">
+    perspective</span>:<span style="color: #0000ff"> 1000px</span>;
+}<span style="color: #800000">
+p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #37ff20</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 100px 0 0 100px</span>;<span style="color: #ff0000">
+    transform</span>:<span style="color: #0000ff"> translate3d(300px,100px,240px)</span>;<span style="color: #ff0000">
+    transform</span>:<span style="color: #0000ff"> scale3d(1,1,1.5) rotateX(45deg)</span>;<span style="color: #ff0000">
+    transform</span>:<span style="color: #0000ff"> rotate3d(1,0,0,45deg)</span>;<span style="color: #ff0000">
+    transform</span>:<span style="color: #0000ff"> perspective(1000px) rotateY(45deg)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></p>
+<p>&nbsp;</p></div>

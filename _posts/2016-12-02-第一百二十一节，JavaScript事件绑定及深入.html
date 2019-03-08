@@ -1,0 +1,813 @@
+第一百二十一节，JavaScript事件绑定及深入
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">JavaScript事件绑定及深入</span></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p align="left"><strong>学习要点：</strong></p>
+<p align="left"><strong>1.传统事件绑定的问题</strong></p>
+<p align="left"><strong>2.W3C事件处理函数</strong></p>
+<p align="left"><strong>3.IE事件处理函数</strong></p>
+<p align="left"><strong>4.事件对象的其他补充</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>事件绑定分为两种：一种是传统事件绑定(内联模型，脚本模型)，一种是现代事件绑定(DOM2级模型)。现代事件绑定在传统绑定上提供了更强大更方便的功能。</strong></p>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>一．</strong><strong>传统事件绑定的问题</strong></span></p>
+<p align="left"><strong>传统事件绑定有内联模型和脚本模型，内联模型我们不做讨论，基本很少去用。先来看一下脚本模型，脚本模型将一个函数赋值给一个事件处理函数。</strong></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span> () { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> box = document.getElementById('box');        <span style="color: #008000">//</span><span style="color: #008000">获取元素</span>
+    box.onclick = <span style="color: #0000ff">function</span> () {                    <span style="color: #008000">//</span><span style="color: #008000">元素点击触发事件</span>
+        alert('Lee'<span style="color: #000000">);
+    };
+};</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>问题一：一个事件处理函数触发两次事件</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>如果一个页面引入两个js文件，每个js文件里都有一个window.onload事件，</strong></span><span style="color: #0000ff"><strong>当两组程序或两个JS文件同时执行的时候，后面一个会把前面一个完全覆盖掉。导致前面的window.onload完全失效了。</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>如下：</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">第一组程序项目或第一个JS文件</span>
+    alert('Lee'<span style="color: #000000">);
+};
+
+window.onload </span>= <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">第二组程序项目或第二个JS文件</span>
+    alert('Mr.Lee'<span style="color: #000000">);
+};
+</span><span style="color: #008000">//</span><span style="color: #008000">后面一个会把前面一个完全覆盖掉。导致前面的window.onload完全失效了，只能执行到后面这个window.onload</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>解决覆盖问题，我们可以这样去解决：</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">解决覆盖问题</span>
+window.onload = <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">第一个要执行的事件，会被覆盖</span>
+    alert('Lee'<span style="color: #000000">);
+};
+
+</span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.onload == 'function') {        <span style="color: #008000">//</span><span style="color: #008000">判断之前是否有window.onload</span>
+    <span style="color: #0000ff">var</span> saved = <span style="color: #0000ff">null</span>;                        <span style="color: #008000">//</span><span style="color: #008000">创建一个保存器</span>
+    saved = window.onload;                    <span style="color: #008000">//</span><span style="color: #008000">把之前的window.onload保存起来</span>
+<span style="color: #000000">}
+
+window.onload </span>= <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">最终一个要执行事件</span>
+    <span style="color: #0000ff">if</span> (saved) saved();                        <span style="color: #008000">//</span><span style="color: #008000">执行之前一个事件，saved()相当于window.onload = function ()</span>
+    alert('Mr.Lee');                            <span style="color: #008000">//</span><span style="color: #008000">执行本事件的代码</span>
+};</pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>问题二：事件切换器</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>比如一个元素鼠标点击后改变颜色，在点击后又改变颜色，如下</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">&lt;div id="box" class="red"&gt;测试&lt;/div&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> .red{</span><span style="color: #008000">
+//</span><span style="color: #008000">     width: 200px;</span><span style="color: #008000">
+//</span><span style="color: #008000">     height: 200px;</span><span style="color: #008000">
+//</span><span style="color: #008000">     background-color: #ff0f20;</span><span style="color: #008000">
+//</span><span style="color: #008000"> }</span><span style="color: #008000">
+//</span><span style="color: #008000"> .blue{</span><span style="color: #008000">
+//</span><span style="color: #008000">     width: 200px;</span><span style="color: #008000">
+//</span><span style="color: #008000">     height: 200px;</span><span style="color: #008000">
+//</span><span style="color: #008000">     background-color: #1516ff;</span><span style="color: #008000">
+//</span><span style="color: #008000"> }</span>
+window.onload = <span style="color: #0000ff">function</span> () { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> box = document.getElementById('box');        <span style="color: #008000">//</span><span style="color: #008000">获取元素</span>
+    box.onclick = toBlue;            <span style="color: #008000">//</span><span style="color: #008000">点击元素后执行toBlue函数</span>
+    <span style="color: #0000ff">function</span><span style="color: #000000"> toRed() {
+        </span><span style="color: #0000ff">this</span>.className = 'red';    <span style="color: #008000">//</span><span style="color: #008000">将元素选择器设置为red</span>
+        <span style="color: #0000ff">this</span>.onclick = toBlue;        <span style="color: #008000">//</span><span style="color: #008000">再次点击执行toBlue函数</span>
+<span style="color: #000000">    }
+
+    </span><span style="color: #0000ff">function</span><span style="color: #000000"> toBlue() {
+        </span><span style="color: #0000ff">this</span>.className = 'blue';    <span style="color: #008000">//</span><span style="color: #008000">将元素选择器设置为blue</span>
+        <span style="color: #0000ff">this</span>.onclick = toRed;       <span style="color: #008000">//</span><span style="color: #008000">再次点击执行toRed函数</span>
+<span style="color: #000000">    }
+};</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>这个切换器在扩展的时候，会出现一些问题：</strong></span></p>
+<p align="left"><span style="color: #ff00ff"><strong>1.如果增加一个执行函数，那么会被覆盖</strong></span></p>
+<div class="cnblogs_code">
+<pre>box.onclick = toAlert;                        <span style="color: #008000">//</span><span style="color: #008000">被增加的函数</span>
+box.onclick = toBlue;                        <span style="color: #008000">//</span><span style="color: #008000">toAlert被覆盖了</span></pre>
+</div>
+<p align="left"><strong><span style="color: #ff00ff">2.如果解决覆盖问题，就必须包含同时执行，但又出新问题</span></strong></p>
+<p align="left">&nbsp;</p>
+<div class="cnblogs_code">
+<pre>box.onclick = <span style="color: #0000ff">function</span> () {                    <span style="color: #008000">//</span><span style="color: #008000">包含进去，但可读性降低</span>
+    toAlert();                                <span style="color: #008000">//</span><span style="color: #008000">第一次不会被覆盖，但第二次又被覆盖</span>
+    toBlue.call(<span style="color: #0000ff">this</span>);                        <span style="color: #008000">//</span><span style="color: #008000">还必须把this传递到切换器里</span>
+};</pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>综上的三个问题：覆盖问题、可读性问题、this传递问题。我们来创建一个自定义的事件处理函数，来解决以上三个问题。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">可以同时执行多个同一事件函数</span>
+addEvent(window, 'onload', <span style="color: #0000ff">function</span> () {            <span style="color: #008000">//</span><span style="color: #008000">执行到了</span>
+    alert('Lee'<span style="color: #000000">);
+});
+addEvent(window, </span>'onload', <span style="color: #0000ff">function</span> () {            <span style="color: #008000">//</span><span style="color: #008000">执行到了</span>
+    alert('Mr.Lee'<span style="color: #000000">);
+});
+
+</span><span style="color: #0000ff">function</span> addEvent(obj, type, fn) {      <span style="color: #008000">//</span><span style="color: #008000">可以同时执行多个同一事件函数，接收3个参数，第一个要绑定事件的对象，第二个事件，第三个事件激发的函数</span>
+    <span style="color: #0000ff">var</span> saved = <span style="color: #0000ff">null</span>;                        <span style="color: #008000">//</span><span style="color: #008000">设置一个变量，保存每次触发的事件处理函数</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> obj[type] == 'function') {    <span style="color: #008000">//</span><span style="color: #008000">判断是不是事件</span>
+        saved = obj[type];                <span style="color: #008000">//</span><span style="color: #008000">如果有，保存起来</span>
+<span style="color: #000000">    }
+    obj[type] </span>= <span style="color: #0000ff">function</span> () {            <span style="color: #008000">//</span><span style="color: #008000">然后执行</span>
+        <span style="color: #0000ff">if</span> (saved) saved();                    <span style="color: #008000">//</span><span style="color: #008000">执行上一个事件函数</span>
+        fn.call(<span style="color: #0000ff">this</span>);                        <span style="color: #008000">//</span><span style="color: #008000">冒充addEvent里的匿名函数，执行函数，把this传递过去</span>
+<span style="color: #000000">    };
+}</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>两个相同函数名的函数误注册了两次或多次</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>PS：以上编写的自定义事件处理函数，还有一个问题没有处理，就是两个相同函数名的函数误注册了两次或多次，那么应该把多余的屏蔽掉。那，我们就需要把事件处理函数进行遍历，如果有同样名称的函数名就不添加即可。(这里就不做了)，</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">两个相同函数名的函数误注册了两次或多次</span>
+addEvent(window, 'onload', init);                <span style="color: #008000">//</span><span style="color: #008000">注册第一次</span>
+addEvent(window, 'onload', init);                <span style="color: #008000">//</span><span style="color: #008000">注册第二次，应该忽略</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> init() {
+    alert(</span>'123'<span style="color: #000000">);
+}
+
+
+</span><span style="color: #0000ff">function</span> addEvent(obj, type, fn) {      <span style="color: #008000">//</span><span style="color: #008000">可以同时执行多个同一事件函数，接收3个参数，第一个要绑定事件的对象，第二个事件，第三个事件激发的函数</span>
+    <span style="color: #0000ff">var</span> saved = <span style="color: #0000ff">null</span>;                        <span style="color: #008000">//</span><span style="color: #008000">设置一个变量，保存每次触发的事件处理函数</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> obj[type] == 'function') {    <span style="color: #008000">//</span><span style="color: #008000">判断是不是事件</span>
+        saved = obj[type];                <span style="color: #008000">//</span><span style="color: #008000">如果有，保存起来</span>
+<span style="color: #000000">    }
+    obj[type] </span>= <span style="color: #0000ff">function</span> () {            <span style="color: #008000">//</span><span style="color: #008000">然后执行</span>
+        <span style="color: #0000ff">if</span> (saved) saved();                    <span style="color: #008000">//</span><span style="color: #008000">执行上一个事件函数</span>
+        fn.call(<span style="color: #0000ff">this</span>);                        <span style="color: #008000">//</span><span style="color: #008000">冒充addEvent里的匿名函数，执行函数，把this传递过去</span>
+<span style="color: #000000">    };
+}</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>用自定义事件函数注册到切换器上查看效果</strong></span>：</p>
+<div class="cnblogs_code">
+<pre>addEvent(window, 'onload', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> box = document.getElementById('box'<span style="color: #000000">);
+    addEvent(box, </span>'onclick'<span style="color: #000000">, toBlue);
+});
+
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> toRed() {
+    </span><span style="color: #0000ff">this</span>.className = 'red'<span style="color: #000000">;
+    addEvent(</span><span style="color: #0000ff">this</span>, 'onclick'<span style="color: #000000">, toBlue);
+}
+
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> toBlue() {
+    </span><span style="color: #0000ff">this</span>.className = 'blue'<span style="color: #000000">;
+    addEvent(</span><span style="color: #0000ff">this</span>, 'onclick'<span style="color: #000000">, toRed);
+}
+
+
+</span><span style="color: #0000ff">function</span> addEvent(obj, type, fn) {      <span style="color: #008000">//</span><span style="color: #008000">可以同时执行多个同一事件函数，接收3个参数，第一个要绑定事件的对象，第二个事件，第三个事件激发的函数</span>
+    <span style="color: #0000ff">var</span> saved = <span style="color: #0000ff">null</span>;                        <span style="color: #008000">//</span><span style="color: #008000">设置一个变量，保存每次触发的事件处理函数</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> obj[type] == 'function') {    <span style="color: #008000">//</span><span style="color: #008000">判断是不是事件</span>
+        saved = obj[type];                <span style="color: #008000">//</span><span style="color: #008000">如果有，保存起来</span>
+<span style="color: #000000">    }
+    obj[type] </span>= <span style="color: #0000ff">function</span> () {            <span style="color: #008000">//</span><span style="color: #008000">然后执行</span>
+        <span style="color: #0000ff">if</span> (saved) saved();                    <span style="color: #008000">//</span><span style="color: #008000">执行上一个事件函数</span>
+        fn.call(<span style="color: #0000ff">this</span>);                        <span style="color: #008000">//</span><span style="color: #008000">冒充addEvent里的匿名函数，执行函数，把this传递过去</span>
+<span style="color: #000000">    };
+}</span></pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>删除事件处理函数</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>PS：当你单击很多很多次切换后，浏览器直接卡死，或者弹出一个错误：too much recursion(太多的递归)。主要的原因是，每次切换事件的时候，都保存下来，没有把无用的移除，导致越积越多，最后卡死。</strong></span></p>
+<div class="cnblogs_code">
+<pre>addEvent(window, 'onload', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> box = document.getElementById('box'<span style="color: #000000">);
+    addEvent(box, </span>'onclick'<span style="color: #000000">, toBlue);
+});
+
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> toRed() {
+    </span><span style="color: #0000ff">this</span>.className = 'red'<span style="color: #000000">;
+    removeEvent(</span><span style="color: #0000ff">this</span><span style="color: #000000">,onclick);
+    addEvent(</span><span style="color: #0000ff">this</span>, 'onclick'<span style="color: #000000">, toBlue);
+}
+
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> toBlue() {
+    </span><span style="color: #0000ff">this</span>.className = 'blue'<span style="color: #000000">;
+    removeEvent(</span><span style="color: #0000ff">this</span><span style="color: #000000">,onclick);
+    addEvent(</span><span style="color: #0000ff">this</span>, 'onclick'<span style="color: #000000">, toRed);
+}
+
+
+</span><span style="color: #0000ff">function</span> addEvent(obj, type, fn) {      <span style="color: #008000">//</span><span style="color: #008000">可以同时执行多个同一事件函数，接收3个参数，第一个要绑定事件的对象，第二个事件，第三个事件激发的函数</span>
+    <span style="color: #0000ff">var</span> saved = <span style="color: #0000ff">null</span>;                        <span style="color: #008000">//</span><span style="color: #008000">设置一个变量，保存每次触发的事件处理函数</span>
+    <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> obj[type] == 'function') {    <span style="color: #008000">//</span><span style="color: #008000">判断是不是事件</span>
+        saved = obj[type];                <span style="color: #008000">//</span><span style="color: #008000">如果有，保存起来</span>
+<span style="color: #000000">    }
+    obj[type] </span>= <span style="color: #0000ff">function</span> () {            <span style="color: #008000">//</span><span style="color: #008000">然后执行</span>
+        <span style="color: #0000ff">if</span> (saved) saved();                    <span style="color: #008000">//</span><span style="color: #008000">执行上一个事件函数</span>
+        fn.call(<span style="color: #0000ff">this</span>);                        <span style="color: #008000">//</span><span style="color: #008000">冒充addEvent里的匿名函数，执行函数，把this传递过去</span>
+<span style="color: #000000">    };
+}
+
+</span><span style="color: #0000ff">function</span> removeEvent(obj, type) {   <span style="color: #008000">//</span><span style="color: #008000">删除事件处理函数</span>
+    <span style="color: #0000ff">if</span> (obj + [type]) obj[type] = <span style="color: #0000ff">null</span>;         <span style="color: #008000">//</span><span style="color: #008000">删除事件处理函数</span>
+}</pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>以上的删除事件处理函数只不过是一刀切的删除了，这样虽然解决了卡死和太多递归的问题。但其他的事件处理函数也一并被删除了，导致最后得不到自己想要的结果。如果想要只删除指定的函数中的事件处理函数，那就需要遍历，查找。(这里就不做了)</strong></span></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left"><span style="color: #ff0000; font-size: 14pt; background-color: #ffff00"><strong>二．</strong><strong>W3C</strong><strong>事件处理函数【重点】</strong></span></p>
+<p align="left"><strong>“DOM2级事件”定义了两个方法，用于添加事件和删除事件处理程序的操作：addEventListener()和removeEventListener()。所有DOM节点中都包含这两个方法，并且它们都接受3个参数；事件名、函数、冒泡或捕获的布尔值(true表示捕获，false表示冒泡)。</strong></p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>添加和删除事件</strong></span></p>
+<p><span style="color: #ff0000"><strong>addEventListener()方法，添加事件方法，接受3个参数；事件名、函数、冒泡或捕获的布尔值(true表示捕获，false表示冒泡),&nbsp;<span style="font-size: 14pt; color: #0000ff">注意：传参事件名称不加on，<span style="font-size: 15px; color: #ff0000">IE9以下不支持</span></span></strong></span><br><strong>使用方式：</strong><br><strong>元素对象.addEventListener(事件名称,事件函数,true或false)</strong></p>
+<p><span style="color: #ff00ff"><strong>1.自动解决覆盖问题，也就是同时存在两个相同的事件两个都能执行，不会覆盖</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">addEventListener()方法，添加事件方法，接受3个参数；事件名、函数、冒泡或捕获的布尔值(true表示捕获，false表示冒泡), 注意：传参事件名称不加on</span>
+window.addEventListener('load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    alert(</span>'Lee'<span style="color: #000000">);
+}, </span><span style="color: #0000ff">false</span><span style="color: #000000">);
+</span><span style="color: #008000">//</span><span style="color: #008000">addEventListener()方法，添加事件方法，接受3个参数；事件名、函数、冒泡或捕获的布尔值(true表示捕获，false表示冒泡), 注意：传参事件名称不加on</span>
+window.addEventListener('load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    alert(</span>'Mr.Lee'<span style="color: #000000">);
+}, </span><span style="color: #0000ff">false</span><span style="color: #000000">);
+</span><span style="color: #008000">//</span><span style="color: #008000">两个事件都执行了，没被覆盖</span></pre>
+</div>
+<p><span style="color: #ff00ff"><strong>2.相同事件函数屏蔽问题，也就是一个相同的事件函数重复写了两次，会自动屏蔽只执行一次</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">addEventListener()方法，添加事件方法，接受3个参数；事件名、函数、冒泡或捕获的布尔值(true表示捕获，false表示冒泡), 注意：传参事件名称不加on</span>
+window.addEventListener('load',lik, <span style="color: #0000ff">false</span>);  <span style="color: #008000">//</span><span style="color: #008000">一个相同的事件函数重复写了两次，会自动屏蔽只执行一次</span>
+window.addEventListener('load',lik, <span style="color: #0000ff">false</span><span style="color: #000000">);
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> lik(){
+    alert(</span>'测试'<span style="color: #000000">)
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>removeEventListener()方法，删除指定的事件方法，接受3个参数，参数和addEventListener创建事件时一样，第一个是创建事件时的事件名称，第二个是创建事件时的执行函数，第三个是冒泡或捕获的布尔值(true表示捕获，false表示冒泡), <span style="font-size: 14pt; color: #0000ff">注意：传参事件名称不加on，<span style="color: #ff0000; font-size: 15px">用于一个事件使用完毕后将事件删除，IE9以下不支持</span></span></strong></span><br><strong>使用方式：</strong><br><strong>创建事件时元素对象.removeEventListener(创建事件时的事件名称,创建事件时的执行事件函数,true或false)</strong></p>
+<p><span style="color: #ff00ff"><strong>3.可以通过addEventListener方法将对象的this传到执行函数里，执行函数里的this就是代表事件对象本身</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">addEventListener()方法，添加事件方法，接受3个参数；事件名、函数、冒泡或捕获的布尔值(true表示捕获，false表示冒泡), 注意：传参事件名称不加on</span>
+window.addEventListener('load', <span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">等待页面加载完后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> box = document.getElementById('box');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取元素节点</span>
+    box.addEventListener('click',toBlue , <span style="color: #0000ff">false</span>);  <span style="color: #008000">//</span><span style="color: #008000">将获取到的节点绑定一个点击事件,点击执行toBlue函数</span>
+}, <span style="color: #0000ff">false</span><span style="color: #000000">);
+
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> toRed() {
+    </span><span style="color: #008000">//</span><span style="color: #008000">此时这里的this代码对象本身box，通过addEventListener()函数传递过来</span>
+    <span style="color: #0000ff">this</span>.className = 'red'; <span style="color: #008000">//</span><span style="color: #008000">改变对象class属性值</span>
+   <span style="color: #ff0000"> this.removeEventListener('click', toRed, false);  //此次事件使用完毕，删除此次事件，参数与创建时一样</span>
+    <span style="color: #0000ff">this</span>.addEventListener('click', toBlue, <span style="color: #0000ff">false</span>);  <span style="color: #008000">//</span><span style="color: #008000">给对象创建一个点击事件，点击后执行toBlue函数</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> toBlue() {
+    </span><span style="color: #008000">//</span><span style="color: #008000">此时这里的this代码对象本身box，通过addEventListener()函数传递过来</span>
+    <span style="color: #0000ff">this</span>.className = 'blue'; <span style="color: #008000">//</span><span style="color: #008000">改变对象class属性值</span>
+    <span style="color: #ff0000">this.removeEventListener('click', toBlue, false);  //此次事件使用完毕，删除此次事件，参数与创建时一样</span>
+    <span style="color: #0000ff">this</span>.addEventListener('click', toRed, <span style="color: #0000ff">false</span>);  <span style="color: #008000">//</span><span style="color: #008000">给对象创建一个点击事件，点击后执行toRed函数</span>
+}</pre>
+</div>
+<p><span style="color: #ff00ff"><strong>&nbsp;4.添加一个额外的事件，会不会被覆盖，或者只能执行一次</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">addEventListener()方法，添加事件方法，接受3个参数；事件名、函数、冒泡或捕获的布尔值(true表示捕获，false表示冒泡), 注意：传参事件名称不加on</span>
+window.addEventListener('load', <span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">等待页面加载完后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> box = document.getElementById('box');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取元素节点</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">添加一个额外的事件，会不会被覆盖，或者只能执行一次</span>
+    box.addEventListener('click',<span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">添加一个事件，不会被覆盖</span>
+        alert('添加'<span style="color: #000000">);
+    },</span><span style="color: #0000ff">false</span><span style="color: #000000">);
+
+    box.addEventListener(</span>'click',toBlue , <span style="color: #0000ff">false</span>);  <span style="color: #008000">//</span><span style="color: #008000">将获取到的节点绑定一个点击事件,点击执行toBlue函数</span>
+}, <span style="color: #0000ff">false</span><span style="color: #000000">);
+
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> toRed() {
+    </span><span style="color: #008000">//</span><span style="color: #008000">此时这里的this代码对象本身box，通过addEventListener()函数传递过来</span>
+    <span style="color: #0000ff">this</span>.className = 'red'; <span style="color: #008000">//</span><span style="color: #008000">改变对象class属性值</span>
+    <span style="color: #0000ff">this</span>.removeEventListener('click', toRed, <span style="color: #0000ff">false</span>);  <span style="color: #008000">//</span><span style="color: #008000">此次事件使用完毕，删除此次事件，参数与创建时一样</span>
+    <span style="color: #0000ff">this</span>.addEventListener('click', toBlue, <span style="color: #0000ff">false</span>);  <span style="color: #008000">//</span><span style="color: #008000">给对象创建一个点击事件，点击后执行toBlue函数</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> toBlue() {
+    </span><span style="color: #008000">//</span><span style="color: #008000">此时这里的this代码对象本身box，通过addEventListener()函数传递过来</span>
+    <span style="color: #0000ff">this</span>.className = 'blue'; <span style="color: #008000">//</span><span style="color: #008000">改变对象class属性值</span>
+    <span style="color: #0000ff">this</span>.removeEventListener('click', toBlue, <span style="color: #0000ff">false</span>);  <span style="color: #008000">//</span><span style="color: #008000">此次事件使用完毕，删除此次事件，参数与创建时一样</span>
+    <span style="color: #0000ff">this</span>.addEventListener('click', toRed, <span style="color: #0000ff">false</span>);  <span style="color: #008000">//</span><span style="color: #008000">给对象创建一个点击事件，点击后执行toRed函数</span>
+}</pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>设置冒泡和捕获阶段</strong></span></p>
+<p align="left"><strong>之前我们上一章了解了事件冒泡，即从里到外触发。我们也可以通过event对象来阻止某一阶段的冒泡。那么W3C现代事件绑定可以设置冒泡和捕获。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">addEventListener()方法，添加事件方法，接受3个参数；事件名、函数、冒泡或捕获的布尔值(true表示捕获，false表示冒泡), 注意：传参事件名称不加on</span>
+window.addEventListener('load', <span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">等待页面加载完后，执行匿名函数</span>
+    <span style="color: #0000ff">var</span> box = document.getElementById('box');  <span style="color: #008000">//</span><span style="color: #008000">通过ID获取元素节点</span>
+    document.addEventListener('click', <span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">创建一个点击事件</span>
+        alert('document'<span style="color: #000000">);
+    }, </span><span style="color: #0000ff">true</span>);                                    <span style="color: #008000">//</span><span style="color: #008000">把布尔值设置成true，则为捕获，从外向里激发，设为false为冒泡，从里向为激发</span>
+    box.addEventListener('click', <span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">创建一个点击事件</span>
+        alert('div'<span style="color: #000000">);
+    }, </span><span style="color: #0000ff">true</span><span style="color: #000000">);
+}, </span><span style="color: #0000ff">false</span>);</pre>
+</div>
+<p><span style="font-size: 14pt; color: #ff00ff"><strong>综上所述：w3c是比较完美的解决了传统事件出现的一些问题，但是IE9以下不支持，IE9以下采用了自己的事件</strong></span></p>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>三．</strong><strong>IE</strong><strong>事件处理函数【不推荐使用】</strong></span></p>
+<p align="left"><strong>IE实现了与DOM中类似的两个方法：attachEvent()和detachEvent()。这两个方法接受相同的参数：事件名称和函数。</strong></p>
+<p align="left"><strong>在使用这两组函数的时候，</strong><strong>先把区别说一下：</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>1.IE不支持捕获，只支持冒泡；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>2.IE添加事件不能屏蔽重复的函数；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>3.IE中的this指向的是window而不是DOM对象。</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>4.在传统事件上，IE是无法接受到event对象的，但使用了attchEvent()却可以，但有些区别。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p><span style="color: #ff0000"><strong>attachEvent()方法，IE添加事件方法，接受2个参数，第一个事件名称，第二个事件函数，除IE外不支持</strong></span><br><strong>使用方式：</strong><br><strong>元素对象.attachEvent(事件名称,事件函数)</strong></p>
+<p><br><span style="color: #ff0000"><strong>detachEvent()方法，IE方法，删除一个attachEvent添加的事件，接受2个参数，第一个添加事件时的事件名称，第二个添加事件时的事件函数，<strong>除IE外不支持</strong></strong></span><br><strong>使用方式：</strong><br><strong>元素对象.detachEvent(添加事件时的事件名称,添加事件时的事件函数)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">创建事件.等页面执行完毕后，执行匿名函数</span>
+window.attachEvent('onload',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过ID获取到元素</span>
+    <span style="color: #0000ff">var</span> box = document.getElementById('box'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素添加一个点击事件，点击后执行toBlue函数</span>
+    box.attachEvent('onclick'<span style="color: #000000">,toBlue);
+
+});
+
+
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> toRed() {
+    </span><span style="color: #008000">//</span><span style="color: #008000">获取事件的event对象，通过event对象获取到当前元素节点</span>
+    <span style="color: #0000ff">var</span> that =<span style="color: #000000"> window.event.srcElement;
+    </span><span style="color: #008000">//</span><span style="color: #008000">将元素的class属性值设置为red</span>
+    that.className = 'red'<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">删除上一个创建的对象</span>
+    that.detachEvent('onclick'<span style="color: #000000">, toRed);
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素创建一个点击事件，点击后执行toBlue函数</span>
+    that.attachEvent('onclick'<span style="color: #000000">, toBlue);
+}
+
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> toBlue() {
+    </span><span style="color: #008000">//</span><span style="color: #008000">获取事件的event对象，通过event对象获取到当前元素节点</span>
+    <span style="color: #0000ff">var</span> that =<span style="color: #000000"> window.event.srcElement;
+    </span><span style="color: #008000">//</span><span style="color: #008000">将元素的class属性值设置为blue</span>
+    that.className = 'blue'<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">删除上一个创建的对象                      detachEvent()方法，IE方法，删除一个attachEvent添加的事件，接受2个参数，第一个添加事件时的事件名称，第二个添加事件时的事件函数，</span>
+    that.detachEvent('onclick'<span style="color: #000000">, toBlue);
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素创建一个点击事件，点击后执行toRed函数</span>
+    that.attachEvent('onclick'<span style="color: #000000">, toRed);
+}</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>&nbsp;夸浏览器<strong><strong>自定义</strong></strong>创建事件，<strong><strong>自定义</strong></strong>移除事件，<strong><strong>自定义</strong></strong>获取目标，用自定义写一个完整的切换器 【但不推荐，下面会说明】</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">创建事件，等页面执行完毕后执行匿名函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过ID获取到元素</span>
+    <span style="color: #0000ff">var</span> box = document.getElementById('box'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素创建一个点击事件，点击后执行toBlue函数</span>
+    addEvent(box,'click'<span style="color: #000000">,toBlue);
+
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">切换器</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> toBlue(evt) {
+    </span><span style="color: #008000">//</span><span style="color: #008000">获取事件的event对象，通过event对象获取到当前元素节点</span>
+    <span style="color: #0000ff">var</span> that =<span style="color: #000000"> getTarget(evt);
+    </span><span style="color: #008000">//</span><span style="color: #008000">将元素的class属性值设置为blue</span>
+    that.className = 'blue'<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">删除上一个创建的对象                      detachEvent()方法，IE方法，删除一个attachEvent添加的事件，接受2个参数，第一个添加事件时的事件名称，第二个添加事件时的事件函数，</span>
+    removeEvent(that,'click'<span style="color: #000000">,toBlue);
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素创建一个点击事件，点击后执行toRed函数</span>
+    addEvent(that,'click'<span style="color: #000000">,toRed)
+}
+
+</span><span style="color: #0000ff">function</span><span style="color: #000000"> toRed(evt) {
+    </span><span style="color: #008000">//</span><span style="color: #008000">获取事件的event对象，通过event对象获取到当前元素节点</span>
+    <span style="color: #0000ff">var</span> that =<span style="color: #000000"> getTarget(evt);
+    </span><span style="color: #008000">//</span><span style="color: #008000">将元素的class属性值设置为blue</span>
+    that.className = 'red'<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">删除上一个创建的对象                      detachEvent()方法，IE方法，删除一个attachEvent添加的事件，接受2个参数，第一个添加事件时的事件名称，第二个添加事件时的事件函数，</span>
+    removeEvent(that,'click'<span style="color: #000000">,toRed);
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素创建一个点击事件，点击后执行toRed函数</span>
+    addEvent(that,'click'<span style="color: #000000">,toBlue)
+}
+
+
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器移除事件，移除事件兼容</span>
+<span style="color: #0000ff">function</span> removeEvent(obj, type, fn) {    <span style="color: #008000">//</span><span style="color: #008000">移除事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.removeEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的removeEventListener方法移除对象，将事件名称和事件函数传入移除事件</span>
+        obj.removeEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.detachEvent) {      <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法detachEvent移除事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入移除对象</span>
+        obj.detachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器获取事件目标，获取事件目标兼容</span>
+<span style="color: #0000ff">function</span> getTarget(evt) {    <span style="color: #008000">//</span><span style="color: #008000">参数接收event对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器支持w3c获取event对象</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (evt.target) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">返回获取到的event对象里的标签节点，也就是目标</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> evt.target;
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (window.event.srcElement) {   <span style="color: #008000">//</span><span style="color: #008000">如果是IE浏览器</span>
+        <span style="color: #008000">//</span><span style="color: #008000">返回IE方式获取到的event对象里的标签节点，也就是目标</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> window.event.srcElement;
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>PS：IE中的事件绑定函数attachEvent()和detachEvent()可能在实践中不去使用，有几个原因：1.IE9就将全面支持W3C中的事件绑定函数；2.IE的事件绑定函数无法传递this；3.IE的事件绑定函数不支持捕获；4.同一个函数注册绑定后，没有屏蔽掉；5.有内存泄漏的问题。至于怎么替代，我们将在以后的项目课程中探讨。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>四．</strong><strong>事件对象的其他补充</strong></span></p>
+<p align="left"><strong>在W3C提供了一个属性：relatedTarget；这个属性可以在onmouseover和onmouseout事件中获取从哪里移入和从哪里移出的DOM对象。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>relatedTarget属性，可以在onmouseover事件和onmouseout事件中获取鼠标从哪里移入和从哪里移出的DOM对象。也就是鼠标移动后获取当前对象最近的一个对象，IE9以下不支持</strong></span></p>
+<p><strong>使用方式：</strong><br><strong>event对象.relatedTarget</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;span class="adc"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;div id="box" class="red"&gt;测试&lt;/div&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/span&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">等待页面加载完成后执行匿名函数</span>
+window.onload =  <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过ID获取到元素对象</span>
+    <span style="color: #0000ff">var</span> box = document.getElementById('box'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素添加一个事件，当鼠标移入后激发函数</span>
+    box.onmouseover = <span style="color: #0000ff">function</span> (evt) {  <span style="color: #008000">//</span><span style="color: #008000">接收事件传递的event对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000">relatedTarget属性，可以在onmouseover事件和onmouseout事件中获取鼠标从哪里移入和从哪里移出的DOM对象。也就是鼠标移动后获取当前对象最近的一个对象</span>
+<span style="color: #000000">        alert(evt.relatedTarget.tagName);
+        </span><span style="color: #008000">//</span><span style="color: #008000">返回：span</span>
+<span style="color: #000000">    }
+};</span></pre>
+</div>
+<p><span style="color: #ff00ff"><strong>当鼠标移出后激发</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;span class="adc"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;div id="box" class="red"&gt;测试&lt;/div&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/span&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">等待页面加载完成后执行匿名函数</span>
+window.onload =  <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过ID获取到元素对象</span>
+    <span style="color: #0000ff">var</span> box = document.getElementById('box'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素添加一个事件，当鼠标移出后激发函数</span>
+    box.onmouseout = <span style="color: #0000ff">function</span> (evt) {  <span style="color: #008000">//</span><span style="color: #008000">接收事件传递的event对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000">relatedTarget属性，可以在onmouseover事件和onmouseout事件中获取鼠标从哪里移入和从哪里移出的DOM对象。也就是鼠标移动后获取当前对象最近的一个对象</span>
+<span style="color: #000000">        alert(evt.relatedTarget.tagName);
+        </span><span style="color: #008000">//</span><span style="color: #008000">返回：span</span>
+<span style="color: #000000">    }
+};</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff00ff"><strong>IE提供了两组分别用于移入移出的属性：fromElement获取<strong>移入<strong>最近对象</strong></strong>和toElement获取移出最近对象，分别对应onmouseover和onmouseout。</strong></span></p>
+<p><span style="color: #ff0000"><strong>fromElement属性，IE属性，对应onmouseover事件，获取移入最近对象</strong></span><br><strong>使用方式：</strong><br><strong>event对象.fromElement</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;span class="adc"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;div id="box" class="red"&gt;测试&lt;/div&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/span&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">等待页面加载完成后执行匿名函数</span>
+window.onload =  <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过ID获取到元素对象</span>
+    <span style="color: #0000ff">var</span> box = document.getElementById('box'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素添加一个事件，当鼠标移入后激发函数</span>
+    box.onmouseover = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">fromElement属性，IE属性，对应onmouseover事件，获取移入最近对象</span>
+        alert(window.event.fromElement.tagName);  <span style="color: #008000">//</span><span style="color: #008000">接收事件传递的event对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000">返回：span</span>
+<span style="color: #000000">    }
+};</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>toElement属性，IE属性，对应onmouseout事件，获取移出最近对象</strong></span><br><strong>使用方式：</strong><br><strong>event对象.toElement</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;span class="adc"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;div id="box" class="red"&gt;测试&lt;/div&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/span&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">等待页面加载完成后执行匿名函数</span>
+window.onload =  <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过ID获取到元素对象</span>
+    <span style="color: #0000ff">var</span> box = document.getElementById('box'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素添加一个事件，当鼠标移出后激发函数</span>
+    box.onmouseout = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">toElement属性，IE属性，对应onmouseout事件，获取移出最近对象</span>
+        alert(window.event.toElement.tagName);  <span style="color: #008000">//</span><span style="color: #008000">接收事件传递的event对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000">返回：span</span>
+<span style="color: #000000">    }
+};</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：fromElement和toElement如果分别对应相反的鼠标事件，没有任何意义。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong><strong>根据IE和w3c做兼容，</strong>自定义跨浏览器兼容获取事件最近对象</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> &lt;span class="adc"&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;div id="box" class="red"&gt;测试&lt;/div&gt;</span><span style="color: #008000">
+//</span><span style="color: #008000"> &lt;/span&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">等待页面加载完成后执行匿名函数</span>
+window.onload =  <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过ID获取到元素对象</span>
+    <span style="color: #0000ff">var</span> box = document.getElementById('box'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素添加一个事件，当鼠标移入后激发函数</span>
+    box.onmouseover = <span style="color: #0000ff">function</span> (evt) { <span style="color: #008000">//</span><span style="color: #008000">接收事件传递的event对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000">执行自定义函数获取鼠标移入或者移出最近对象</span>
+        alert(getTarget(evt).tagName);  <span style="color: #008000">//</span><span style="color: #008000">将event对象传入自定义函数</span>
+        <span style="color: #008000">//</span><span style="color: #008000">返回：span</span>
+<span style="color: #000000">    }
+};
+
+</span><span style="color: #008000">//</span><span style="color: #008000">做的就是跨浏览器兼容操作：</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> getTarget(evt) {
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果evt执行不成功，说明是IE9以下的IE浏览器就执行window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt || window.event;                <span style="color: #008000">//</span><span style="color: #008000">得到事件对象</span>
+    <span style="color: #0000ff">if</span> (e.srcElement) {                        <span style="color: #008000">//</span><span style="color: #008000">如果支持srcElement获取事件对象并且，表示IE</span>
+        <span style="color: #0000ff">if</span> (e.type == 'mouseover') {            <span style="color: #008000">//</span><span style="color: #008000">如果事件属性是鼠标移入</span>
+            <span style="color: #0000ff">return</span> e.fromElement;            <span style="color: #008000">//</span><span style="color: #008000">就使用fromElement返回最近对象</span>
+        } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (e.type == 'mouseout') {        <span style="color: #008000">//</span><span style="color: #008000">如果事件属性是鼠标移入</span>
+            <span style="color: #0000ff">return</span> e.toElement;                <span style="color: #008000">//</span><span style="color: #008000">就使用toElement返回最近对象</span>
+<span style="color: #000000">        }
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (e.relatedTarget) {                <span style="color: #008000">//</span><span style="color: #008000">如果支持relatedTarget，表示W3C</span>
+        <span style="color: #0000ff">return</span> e.relatedTarget;  <span style="color: #008000">//</span><span style="color: #008000">通过relatedTarget返回最近对象</span>
+<span style="color: #000000">    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>&nbsp;阻止浏览器超链接默认行为，也就是阻止浏览器默认的连接跳转</strong></span></p>
+<p align="left"><strong>有时我们需要阻止事件的默认行为，比如：一个超链接的默认行为就点击然后跳转到指定的页面。那么阻止默认行为就可以屏蔽跳转的这种操作，而实现自定义操作。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>传统方式屏蔽超链接跳转【不推荐】</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">&lt;a href="http://www.baidu.com"&gt;百度&lt;/a&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">等待页面加载完成后执行匿名函数</span>
+window.onload =  <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过元素名称获取到目标元素对象</span>
+    <span style="color: #0000ff">var</span> link = document.getElementsByTagName('a')[0<span style="color: #000000">];
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素对象添加一个点击事件，点击后执行函数</span>
+    link.onclick = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000">返回假，屏蔽元素跳转，也就是屏蔽掉超链接跳转</span>
+        <span style="color: #0000ff">return</span> <span style="color: #0000ff">false</span><span style="color: #000000">;
+    }
+};</span></pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>PS：虽然return false；可以实现这个功能，但有漏洞；第一：必须写到最后，这样导致中间的代码执行后，有可能执行不到return false；第二：return false写到最前那么之后的自定义操作就失效了。所以，最好的方法应该是在最前面就阻止默认行为，并且后面还能执行代码。</strong></span></p>
+<p><span style="color: #ff0000"><strong>preventDefault()方法，W3C，阻止默认行为，阻止超链接跳转，但ie9以下不支持</strong></span><br><strong>使用方式：</strong><br><strong>event对象.preventDefault()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">&lt;a href="http://www.baidu.com"&gt;百度&lt;/a&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">等待页面加载完成后执行匿名函数</span>
+window.onload =  <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过元素名称获取到目标元素对象</span>
+    <span style="color: #0000ff">var</span> link = document.getElementsByTagName('a')[0<span style="color: #000000">];
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素对象添加一个点击事件，点击后执行函数</span>
+    link.onclick = <span style="color: #0000ff">function</span><span style="color: #000000"> (evt) {
+        evt.preventDefault();   </span><span style="color: #008000">//</span><span style="color: #008000">W3C，阻止默认行为，阻止超链接跳转，但ie9以下不支持</span>
+<span style="color: #000000">    }
+};</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>returnValue属性，IE阻止默认行为，阻止超链接跳转，只支持IE9以下</strong></span><br><strong>使用方式：</strong><br><strong>event对象.returnValue = false</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">&lt;a href="http://www.baidu.com"&gt;百度&lt;/a&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">等待页面加载完成后执行匿名函数</span>
+window.onload =  <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过元素名称获取到目标元素对象</span>
+    <span style="color: #0000ff">var</span> link = document.getElementsByTagName('a')[0<span style="color: #000000">];
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素对象添加一个点击事件，点击后执行函数</span>
+    link.onclick = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        window.event.returnValue </span>= <span style="color: #0000ff">false</span>;  <span style="color: #008000">//</span><span style="color: #008000">returnValue属性，IE阻止默认行为，阻止超链接跳转，只支持IE</span>
+<span style="color: #000000">    }
+};</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>跨浏览器兼容，<strong>阻止默认行为，阻止超链接跳转</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">&lt;a href="http://www.baidu.com"&gt;百度&lt;/a&gt;</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">等待页面加载完成后执行匿名函数</span>
+window.onload =  <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过元素名称获取到目标元素对象</span>
+    <span style="color: #0000ff">var</span> link = document.getElementsByTagName('a')[0<span style="color: #000000">];
+    </span><span style="color: #008000">//</span><span style="color: #008000">给元素对象添加一个点击事件，点击后执行函数</span>
+    link.onclick = <span style="color: #0000ff">function</span><span style="color: #000000"> (evt) {
+        preDef(evt);  </span><span style="color: #008000">//</span><span style="color: #008000">执行函数跨浏览器兼容，阻止超链接跳转，将event对象传入</span>
+<span style="color: #000000">    }
+};
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器兼容，跨浏览器兼容，阻止默认行为，阻止超链接跳转</span>
+<span style="color: #0000ff">function</span> preDef(evt) { <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">判断W3C，阻止默认行为，如果为真</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (e.preventDefault) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用W3C，阻止默认行为</span>
+<span style="color: #000000">        e.preventDefault();
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #008000">//</span><span style="color: #008000">否则就用ie的属性returnValue阻止行为</span>
+        e.returnValue = <span style="color: #0000ff">false</span><span style="color: #000000">;
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #0000ff"><strong>上下文菜单事件：oncontextmenu，当我们右击网页的时候，会自动出现windows自带的菜单。那么我们可以使用oncontextmenu事件来修改我们指定的菜单，但前提是把右击的默认行为取消掉。</strong></span></p>
+<p><span style="color: #ff0000"><strong>oncontextmenu事件，oncontextmenu事件用来修改我们指定的菜单，但前提是把右击的默认行为取消掉。</strong></span><br><strong>使用方式：</strong><br><strong>对象.oncontextmenu.执行函数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">HTML代码</span><span style="color: #008000">
+/*</span><span style="color: #008000">
+&lt;textarea id="wb" placeholder="请输入您的内容"&gt;&lt;/textarea&gt;
+&lt;ul id="cd"&gt;
+    &lt;li&gt;菜单1&lt;/li&gt;
+    &lt;li&gt;菜单2&lt;/li&gt;
+    &lt;li&gt;菜单3&lt;/li&gt;
+&lt;/ul&gt;
+ </span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">css代码</span><span style="color: #008000">
+/*</span><span style="color: #008000">
+#wb{
+    width: 400px;
+    height: 400px;
+}
+#cd{
+    width: 100px;
+    height: 100px;
+    background-color: #b2bbff;
+    display: none;
+}
+ </span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">等待页面加载完成后执行匿名函数</span>
+addEvent(window,'load',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过ID获取到文本框</span>
+    <span style="color: #0000ff">var</span> wb = document.getElementById('wb'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">给文本框添加一个菜单事件</span>
+    addEvent(wb,'contextmenu',<span style="color: #0000ff">function</span><span style="color: #000000"> (evt) {
+        preDef(evt); </span><span style="color: #008000">//</span><span style="color: #008000">执行自定义函数，屏蔽了浏览器默认菜单</span>
+        <span style="color: #008000">//</span><span style="color: #008000">通过ID获取到菜单ul标签</span>
+        <span style="color: #0000ff">var</span> cd = document.getElementById('cd'<span style="color: #000000">);
+        </span><span style="color: #008000">//</span><span style="color: #008000">将标签的style属性设置一个值，display = 'block'，将区块显示出来</span>
+        cd.style.display = 'block'<span style="color: #000000">;
+        </span><span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+        <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+        </span><span style="color: #008000">//</span><span style="color: #008000">通过event对象获取鼠标坐标，将坐标设置成css定位的位置</span>
+        cd.style.left = e.clientX + 'px'<span style="color: #000000">;
+        </span><span style="color: #008000">//</span><span style="color: #008000">通过event对象获取鼠标坐标，将坐标设置成css定位的位置</span>
+        cd.style.top = e.clientX + 'px'<span style="color: #000000">;
+        </span><span style="color: #008000">//</span><span style="color: #008000">在根元素创建一个点击事件，当点击鼠标左键时隐藏菜单区块</span>
+        addEvent(document,'click',<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            cd.style.display </span>= 'none'<span style="color: #000000">;
+        })
+    })
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}
+
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器兼容，阻止默认行为</span>
+<span style="color: #0000ff">function</span> preDef(evt) { <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">判断W3C，阻止默认行为，如果为真</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (e.preventDefault) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用W3C，阻止默认行为</span>
+<span style="color: #000000">        e.preventDefault();
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #008000">//</span><span style="color: #008000">否则就用ie的属性returnValue阻止行为</span>
+        e.returnValue = <span style="color: #0000ff">false</span><span style="color: #000000">;
+    }
+}</span></pre>
+</div>
+<p align="left"><span style="color: #ff00ff"><strong>PS：oncontextmenu事件很常用，这直接导致浏览器兼容性较为稳定。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #0000ff"><strong>卸载前事件：onbeforeunload，这个事件可以帮助在离开本页的时候给出相应的提示，“离开”或者“返回”操作。</strong></span></p>
+<p><span style="color: #ff0000"><strong>onbeforeunload事件，这个事件可以帮助在离开本页的时候给出相应的提示，“离开”或者“返回”操作。</strong></span><br><strong>使用方式：</strong><br><strong>对象.onbeforeunload.执行函数</strong></p>
+<p align="left">&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">当用户离开当前页面时激发函数</span>
+addEvent(window,'beforeunload',<span style="color: #0000ff">function</span><span style="color: #000000"> (evt) {
+    </span><span style="color: #008000">//</span><span style="color: #008000">屏蔽当前对象的默认行为</span>
+<span style="color: #000000">    preDef(evt);
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}
+
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器兼容，阻止默认行为</span>
+<span style="color: #0000ff">function</span> preDef(evt) { <span style="color: #008000">//</span><span style="color: #008000">接收event对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">判断W3C，阻止默认行为，如果为真</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (e.preventDefault) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用W3C，阻止默认行为</span>
+<span style="color: #000000">        e.preventDefault();
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #008000">//</span><span style="color: #008000">否则就用ie的属性returnValue阻止行为</span>
+        e.returnValue = <span style="color: #0000ff">false</span><span style="color: #000000">;
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><strong>鼠标滚轮(mousewheel)和DOMMouseScroll，用于获取鼠标上下滚轮的距离。</strong></p>
+<p><strong><span style="color: #ff0000">onmousewheel事件，当用户滚动鼠标滚轮时激发函数，<strong>非火狐</strong></span></strong><br><strong><span style="color: #ff0000">wheelDelta属性，用于获取鼠标上下滚轮的距离，非火狐</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">当用户滚动鼠标滚轮时激发函数</span>
+addEvent(document,'mousewheel',<span style="color: #0000ff">function</span> (evt) {  <span style="color: #008000">//</span><span style="color: #008000">非火狐</span>
+    <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">获取鼠标滚轮滚动的距离</span>
+<span style="color: #000000">    alert(e.wheelDelta);
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onDOMMouseScroll事件，当用户滚动鼠标滚轮时激发函数，</strong></span><span style="color: #ff0000"><strong>火狐</strong></span><br><span style="color: #ff0000"><strong>detail属性，用于获取鼠标上下滚轮的距离，火狐</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">当用户滚动鼠标滚轮时激发函数</span>
+addEvent(document,'DOMMouseScroll',<span style="color: #0000ff">function</span> (evt) {  
+    <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">获取鼠标滚轮滚动的距离</span>
+    alert(evt.detail * 30<span style="color: #000000">);
+});
+
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}</span></pre>
+</div>
+<p align="left">&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>浏览器兼容</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">当用户滚动鼠标滚轮时激发函数</span>
+addEvent(document,'DOMMouseScroll',<span style="color: #0000ff">function</span> (evt) {  <span style="color: #008000">//</span><span style="color: #008000">火狐</span>
+    alert(getWD(evt));    <span style="color: #008000">//</span><span style="color: #008000">执行自定义函数</span>
+<span style="color: #000000">});
+addEvent(document,</span>'mousewheel',<span style="color: #0000ff">function</span> (evt) {  <span style="color: #008000">//</span><span style="color: #008000">非火狐</span>
+    alert(getWD(evt));    <span style="color: #008000">//</span><span style="color: #008000">执行自定义函数</span>
+<span style="color: #000000">});
+</span><span style="color: #008000">//</span><span style="color: #008000">跨浏览器添加事件，添加事件兼容</span>
+<span style="color: #0000ff">function</span> addEvent(obj, type, fn) {     <span style="color: #008000">//</span><span style="color: #008000">添加事件函数，接收3个参数，1事件对象，2事件名称，3事件函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断浏览器如果支持w3c</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (obj.addEventListener) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">就用w3c的addEventListener方法添加对象，将事件名称和事件函数传入添加事件</span>
+        obj.addEventListener(type, fn, <span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (obj.attachEvent) {   <span style="color: #008000">//</span><span style="color: #008000">判断如果浏览器是IE9以下，就用IE的方法attachEvent添加事件</span>
+        <span style="color: #008000">//</span><span style="color: #008000">将事件名称和事件函数传入创建对象</span>
+        obj.attachEvent('on' +<span style="color: #000000"> type, fn);
+    }
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">自定义获取鼠标滚动的距离，浏览器兼容</span>
+<span style="color: #0000ff">function</span> getWD(evt) {   <span style="color: #008000">//</span><span style="color: #008000">event对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">如果不能执行evt，说明是IE浏览器就用window.event获取event对象</span>
+    <span style="color: #0000ff">var</span> e = evt ||<span style="color: #000000"> window.event;
+    </span><span style="color: #008000">//</span><span style="color: #008000">如果不是IE用wheelDelta获取距离</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (e.wheelDelta) {
+        </span><span style="color: #0000ff">return</span><span style="color: #000000"> e.wheelDelta;
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (e.detail) {  <span style="color: #008000">//</span><span style="color: #008000">如果是IE用detail获取距离</span>
+        <span style="color: #0000ff">return</span> -evt.detail * 30<span style="color: #000000">;
+    }
+}</span></pre>
+</div>
+<p class="MsoNormal" style="text-indent: 21pt" align="left"><span style="color: #0000ff"><strong><span lang="EN-US">PS</span><span style="font-family: 宋体">：通过浏览器检测可以确定火狐只执行</span><span lang="EN-US">DOMMouseScroll</span><span style="font-family: 宋体">。</span></strong></span></p>
+<p class="MsoNormal" style="text-indent: 21pt" align="left"><span style="color: #ff00ff"><strong><span lang="EN-US">DOMContentLoaded</span><span style="font-family: 宋体">事件和</span><span lang="EN-US">readystatechange</span><span style="font-family: 宋体">事件，有关</span><span lang="EN-US">DOM</span><span style="font-family: 宋体">加载方面的事件，关于这两个事件的内容非常多且繁杂，我们先点明在这里，在项目课程中使用的时候详细讨论。</span></strong></span></p></div>

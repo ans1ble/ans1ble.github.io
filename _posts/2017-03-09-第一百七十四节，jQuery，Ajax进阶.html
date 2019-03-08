@@ -1,0 +1,334 @@
+第一百七十四节，jQuery，Ajax进阶
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery，Ajax进阶</strong></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载请求 </strong></p>
+<p><strong>　　2.错误处理 </strong></p>
+<p><strong>　　3.请求全局事件 </strong></p>
+<p><strong>　　4.JSON 和 JSONP </strong></p>
+<p><strong>　　5.jqXHR 对象</strong></p>
+<p>&nbsp;</p>
+<p><strong>在 Ajax 课程中，我们了解了最基本的异步处理方式。本章，我们将了解一下 Ajax 的 一些全局请求事件、跨域处理和其他一些问题。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载请求 </strong></span></p>
+<p><strong>在 Ajax 异步发送请求时，遇到网速较慢的情况，就会出现请求时间较长的问题。而超 过一定时间的请求，用户就会变得不再耐烦而关闭页面。而如果在请求期间能给用户一些提 示，比如：正在努力加载中...，那么相同的请求时间会让用户体验更加的好一些。</strong></p>
+<p><span style="color: #0000ff"><strong>jQuery 提供了两个全局事件，.ajaxStart()和.ajaxStop()。这两个全局事件，只要用户触发 了 Ajax，请求开始时（未完成其他请求）激活.ajaxStart()，请求结束时（所有请求都结束了） 激活.ajaxStop()。</strong></span></p>
+<p><span style="color: #ff0000"><strong>ajaxStart()方法，请求开始时（未完成其他请求）激活.ajaxStart()，在document上使用，参数是匿名函数，可以在函数里做请求时的提示和操作</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>ajaxStop()方法，请求结束时（所有请求都结束了）激活.ajaxStop()，在document上使用，参数是匿名函数，可以在函数里做请求结束的提示和操作</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">//</span><span style="color: #008000">ajax请求</span>
+    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.ajax({
+            type: </span>'POST'<span style="color: #000000">,
+            url: </span>'http://www.test.php'<span style="color: #000000">,
+            data: $(</span>'form'<span style="color: #000000">).serialize(),
+            success: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+                $(</span>'#box'<span style="color: #000000">).html(response);
+            }
+        });
+    });
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">监测ajax请求</span>
+    $(document).ajaxStart(<span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">未完成请求时</span>
+        $('span').show();  <span style="color: #008000">//</span><span style="color: #008000">显示正在请求，请稍等</span>
+    }).ajaxStop(<span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">请求结束时</span>
+        $('span').hide();  <span style="color: #008000">//</span><span style="color: #008000">隐藏请求提示元素</span>
+    });</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>如果请求时间太长，可以设置超时</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">//</span><span style="color: #008000">ajax请求</span>
+    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.ajax({
+            type: </span>'POST'<span style="color: #000000">,
+            url: </span>'http://www.test.php'<span style="color: #000000">,
+            data: $(</span>'form'<span style="color: #000000">).serialize(),
+            success: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+                $(</span>'#box'<span style="color: #000000">).html(response);
+            },
+            <span style="color: #ff0000">timeout : </span></span><span style="color: #ff0000">500  //如果请求时间太长，可以设置超时</span>
+<span style="color: #000000">        });
+    });
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">监测ajax请求</span>
+    $(document).ajaxStart(<span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">未完成请求时</span>
+        $('span').show();  <span style="color: #008000">//</span><span style="color: #008000">显示正在请求，请稍等</span>
+    }).ajaxStop(<span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">请求结束时</span>
+        $('span').hide();  <span style="color: #008000">//</span><span style="color: #008000">隐藏请求提示元素</span>
+    });</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>如果某个 ajax 不想触发全局事件，可以设置取消</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">//</span><span style="color: #008000">ajax请求</span>
+    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.ajax({
+            type: </span>'POST'<span style="color: #000000">,
+            url: </span>'http://www.test.php'<span style="color: #000000">,
+            data: $(</span>'form'<span style="color: #000000">).serialize(),
+            success: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+                $(</span>'#box'<span style="color: #000000">).html(response);
+            },
+            <span style="color: #ff0000">global : </span></span><span style="color: #ff0000">false  //如果某个 ajax 不想触发全局事件，可以设置取消</span>
+<span style="color: #000000">        });
+    });
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">监测ajax请求</span>
+    <span style="color: #008000">//</span><span style="color: #008000">global : false了就不会触发这两个事件了，这里就不起作用了</span>
+    $(document).ajaxStart(<span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">未完成请求时</span>
+        $('span').show();  <span style="color: #008000">//</span><span style="color: #008000">显示正在请求，请稍等</span>
+    }).ajaxStop(<span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">请求结束时</span>
+        $('span').hide();  <span style="color: #008000">//</span><span style="color: #008000">隐藏请求提示元素</span>
+    });</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．错误处理 </strong></span></p>
+<p><span style="color: #000000"><strong>Ajax 异步提交时，不可能所有情况都是成功完成的，也有因为代码异步文件错误、网 络错误导致提交失败的。这时，我们应该把错误报告出来，提醒用户重新提交或提示开发者 进行修补。</strong></span></p>
+<p><span style="color: #0000ff"><strong>&nbsp;在之前高层封装中是没有回调错误处理的，比如$.get()、$.post()和.load()。所以，早期 的方法通过全局.ajaxError()事件方法来返回错误信息。而在 jQuery1.5 之后，可以通过连缀 处理使用局部.error()方法即可。而对于$.ajax()方法，不但可以用这两种方法，还有自己的属 性方法 error : function () {}。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>$.ajax()使用属性提示错误,error : function () {}。</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">//</span><span style="color: #008000">ajax请求</span>
+    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.ajax({
+            type: </span>'POST'<span style="color: #000000">,
+            url: </span>'test.php'<span style="color: #000000">,
+            data: $(</span>'form'<span style="color: #000000">).serialize(),
+            success: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+                $(</span>'#box'<span style="color: #000000">).html(response);
+            },
+            <span style="color: #ff0000">error: </span></span><span style="color: #ff0000">function (xhr, errorText, errorStatus) {  //如果发生错误，返回错误信息
+                alert(xhr.statusText + ':' +</span><span style="color: #000000"><span style="color: #ff0000"> xhr.status);
+            }</span>
+        });
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>error()方法提示错误</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong>fail()<strong><strong>.方法将取代<strong>error()，请求失败时调用的回调函数，接收三个形式参数xhr, status, info</strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>$.post()使用连缀.error()方法提示错误，连缀方法将被.fail()取代</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.post(</span>'ttttest.php').error(<span style="color: #0000ff">function</span> (xhr, status, info) {  <span style="color: #008000">//</span><span style="color: #008000">如果出现错误打印错误信息</span>
+            alert(xhr.status + ':' +<span style="color: #000000"> xhr.statusText);
+        });
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>ajaxError()全局事件提示错误,在document上使用，参数是一个匿名函数，函数接收4个形式参数，event对象, xhr通讯对象, settings, infoError</strong></span></p>
+<p><span style="color: #ff0000"><strong>$.post()使用全局.ajaxError()事件提示错误</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">//</span><span style="color: #008000">ajax请求</span>
+    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.ajax({
+            type: </span>'POST'<span style="color: #000000">,
+            url: </span>'test.php'<span style="color: #000000">,
+            data: $(</span>'form'<span style="color: #000000">).serialize(),
+            success: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+                $(</span>'#box'<span style="color: #000000">).html(response);
+            }
+        });
+    });
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">ajaxError()全局事件提示错误,在document上使用，参数是一个匿名函数，函数接收4个形式参数，event对象, xhr通讯对象, settings, infoError</span>
+    $(document).ajaxError(<span style="color: #0000ff">function</span><span style="color: #000000"> (event, xhr, settings, infoError) {
+        alert(xhr.status </span>+ ':' +<span style="color: #000000"> xhr.statusText);
+        alert(settings </span>+ ':' +<span style="color: #000000"> infoError);
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．请求全局事件 </strong></span></p>
+<p><strong>jQuery 对于 Ajax 操作提供了很多全局事件方法，.ajaxStart()、.ajaxStop()、.ajaxError() 等事件方法。他们都属于请求时触发的全局事件，除了这些，还有一些其他全局事件：</strong></p>
+<p><span style="color: #0000ff"><strong>注意：全局事件方法是所有 Ajax 请求都会触发到，并且只能绑定在 document 上。而局 部方法，则针对某个 Ajax。 对于一些全局事件方法的参数，大部分为对象，而这些对象有哪些属性或方法能调用， 可以通过遍历方法得到。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>ajaxSuccess()，对应一个局部方法：.success()，请求成功完成时执行。请求成功时执行</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">//</span><span style="color: #008000">$.post()使用全局事件方法.ajaxSuccess()</span>
+    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.post(</span>'test.php', $('form').serialize(), <span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+            $(</span>'#box'<span style="color: #000000">).html(response);
+        });
+    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">使用全局事件方法.ajaxSuccess()</span>
+    $(document).ajaxSuccess(<span style="color: #0000ff">function</span><span style="color: #000000"> (event, xhr, settings) {
+        alert(xhr.responseText);
+    });</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong><strong>success()<strong>Ajax局部方法，<strong>请求成功完成时执行。请求成功时执行</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong>done().方法将取代<strong>success()，请求成功后调用的回调函数，接收三个形式参数response, status, xhr【推荐】</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">//</span><span style="color: #008000">$.post()使用局部方法.success()</span>
+    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.post(</span>'test.php', $('form').serialize(), <span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+            $(</span>'#box'<span style="color: #000000">).html(response);
+        }).success(</span><span style="color: #0000ff">function</span> (response, status, xhr) {   <span style="color: #008000">//</span><span style="color: #008000">success()Ajax局部方法，请求成功完成时执行。请求成功时执行</span>
+<span style="color: #000000">            alert(response);
+        });
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>ajaxComplete()，对应一个局部方法：.complete()，请求完成后注册一个回调函数。请求完成无论成功失败都执行</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.post(</span>'test.php', $('form').serialize(), <span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+            alert(</span>'成功'<span style="color: #000000">);
+        });
+    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">$.post()请求完成的全局方法.ajaxComplete()</span>
+    $(document).ajaxComplete(<span style="color: #0000ff">function</span><span style="color: #000000"> (event, xhr, settings) {
+        alert(</span>'完成'<span style="color: #000000">);
+    });</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong><strong>complete()<strong><strong><strong>Ajax局部方法，<strong>请求完成无论成功失败都执行</strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong>always()<strong><strong>.方法将取代<strong>complete()，请求完成后调用的回调函数，接收三个形式参数response, status, xhr【推荐】</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">//</span><span style="color: #008000">$.post()请求完成的局部方法.complete()</span>
+    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.post(</span>'test.php', $('form').serialize(), <span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+            alert(</span>'成功'<span style="color: #000000">);
+        }).complete(</span><span style="color: #0000ff">function</span> (xhr, status) {  <span style="color: #008000">//</span><span style="color: #008000">complete()Ajax局部方法，请求完成无论成功失败都执行</span>
+            alert('完成'<span style="color: #000000">);
+        });
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>ajaxSend()，没有对应的局部方法，只有属性 beforeSend，请求发送之前要绑定的函数。请求之前执行</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.post(</span>'test.php', $('form').serialize(), <span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+            alert(</span>'成功'<span style="color: #000000">);
+        });
+    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">$.post()请求发送之前的全局方法.ajaxSend()</span>
+    $(document).ajaxSend(<span style="color: #0000ff">function</span><span style="color: #000000"> (event, xhr, settings) {
+        alert(</span>'发送请求之前'<span style="color: #000000">);
+    });</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>beforeSend，<strong><strong><strong><strong><strong>Ajax局部<strong>属性，<strong>请求之前执行</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">//</span><span style="color: #008000">$.ajax()方法，可以直接通过属性设置即可。</span>
+    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.ajax({
+            type: </span>'POST'<span style="color: #000000">,
+            url: </span>'test.php'<span style="color: #000000">,
+            data: $(</span>'form'<span style="color: #000000">).serialize(),
+            success: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+                $(</span>'#box'<span style="color: #000000">).html(response);
+            },
+            complete: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (xhr, status) {
+                alert(</span>'完成' + ' - ' + xhr.responseText + ' - ' +<span style="color: #000000"> status);
+            },
+            beforeSend: </span><span style="color: #0000ff">function</span> (xhr, settings) {   <span style="color: #008000">//</span><span style="color: #008000">beforeSend，Ajax局部属性，请求之前执行</span>
+                alert('请求之前' + ' - ' + xhr.readyState + ' - ' +<span style="color: #000000"> settings.url);
+            }
+        });
+
+    });</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>&nbsp;注意：在 jQuery1.5 版本以后，使用.success()、.error()和.complete()连缀的方法，可以 用.done()、.fail()和.always()取代。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．JSON 和 JSONP </strong></span></p>
+<p><span style="color: #000000"><strong>如果在同一个域下，$.ajax()方法只要设置 dataType 属性即可加载 JSON 文件。而在非 同域下，可以使用 JSONP，但也是有条件的。</strong></span></p>
+<p><span style="color: #ff0000"><strong>ajax()同一个域下加载 JSON 文件</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.ajax({
+            type: </span>'POST'<span style="color: #000000">,
+            url: </span>'test.json'<span style="color: #000000">,
+            dataType: </span>'json'<span style="color: #000000">,
+            success: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+                alert(response[</span>0<span style="color: #000000">].url);
+            }
+        });
+
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>如果想跨域操作文件的话，我们就必须使用 JSONP。JSONP(JSON with Padding)是一个 非官方的协议，它允许在服务器端集成 Script tags 返回至客户端，通过 javascript callback 的 形式实现跨域访问（这仅仅是 JSONP 简单的实现形式）。</strong></span></p>
+<p><span style="color: #ff0000"><strong>跨域的 PHP 端文件</strong></span></p>
+<div class="cnblogs_code">
+<pre>&lt;?<span style="color: #000000">php
+    </span><span style="color: #800080">$arr</span> = <span style="color: #0000ff">array</span>('a'=&gt;1,'b'=&gt;2,'c'=&gt;3,'d'=&gt;4,'e'=&gt;5<span style="color: #000000">);
+    </span><span style="color: #800080">$result</span> = json_encode(<span style="color: #800080">$arr</span><span style="color: #000000">);
+    </span><span style="color: #ff0000">$callback = $_GET['callback'];  //这里是通讯契约
+    echo $callback."($result)";
+</span>?&gt;</pre>
+</div>
+<p><span style="color: #ff0000"><strong>$.getJSON()方法跨域获取 JSON</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $.getJSON('http://www.li.cc/test.php?callback=?', <span style="color: #0000ff">function</span><span style="color: #000000"> (response) {  //必须传递契约
+        console.log(response);
+    });</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>ajax()方法跨域获取 JSON</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">    $.ajax({
+        url: </span>'http://www.li.cc/test.php?<span style="color: #ff0000">callback=?</span>'<span style="color: #000000">,
+        dataType: </span>'json',  <span style="color: #008000">//</span><span style="color: #008000">必须指定类型</span>
+        success: <span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+            console.log(response);
+            alert(response.a);
+        }
+    });</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>注意：跨域获取必须传递契约</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>JSONP，数据类型dataType: 'jsonp'，这种类型不需要传递契约【重点】</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">//</span><span style="color: #008000">跨域获取 JSON</span>
+    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $.ajax({
+            type: </span>'POST'<span style="color: #000000">,
+            url: </span>'http://www.li.cc/test.php'<span style="color: #000000">,
+            dataType: </span>'jsonp',   <span style="color: #008000">//</span><span style="color: #008000">JSONP，数据类型dataType: 'jsonp'，这种类型不需要传递契约</span>
+            success: <span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+                alert(response);
+            }
+        });
+
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>五．jqXHR 对象【推荐】</strong></span></p>
+<p><strong>在之前，我们使用了局部方法：.success()、.complete()和.error()。这三个局部方法并不 是 XMLHttpRequest 对象调用的，而是$.ajax()之类的全局方法返回的对象调用的。这个对象， 就是 jqXHR 对象，它是原生对象 XHR 的一个超集。</strong></p>
+<p><span style="color: #ff0000"><strong>jqXHR就是$.ajax()返回的本身对象</strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('form input[type=button]').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">var</span> jqXHR =<span style="color: #000000"> $.ajax({
+            type: </span>'POST'<span style="color: #000000">,
+            url: </span>'test.php'<span style="color: #000000">,
+            data: $(</span>'form').serialize() <span style="color: #008000">//</span><span style="color: #008000">表单序列化</span>
+<span style="color: #000000">        });
+        </span><span style="color: #008000">//</span><span style="color: #008000">此时的jqXHR就是ajax的返回对象,后面还可以连缀</span>
+        jqXHR.done(<span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+            alert(response </span>+ '1'<span style="color: #000000">)
+        }).done(</span><span style="color: #0000ff">function</span><span style="color: #000000"> (response, status, xhr) {
+            alert(response </span>+ '2'<span style="color: #000000">)
+        });
+
+    });</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong><span style="color: #ff0000">注意：如果使用 jqXHR 对象的话，那么建议用.done()、.always()和.fail()代 替.success()、.complete()和.error()。以为在未来版本中，很可能将这三种方法废弃取消</span>。</strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>done().方法将取代<strong>success()，请求成功后调用的回调函数，接收三个形式参数response, status, xhr</strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>always()<strong><strong>.方法将取代<strong>complete()，请求完成后调用的回调函数，接收三个形式参数response, status, xhr</strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>fail()<strong><strong>.方法将取代<strong>error()，请求失败时调用的回调函数，接收三个形式参数xhr, status, info</strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>使用 jqXHR 的连缀方式比$.ajax()的属性方式有三大好处： 1.可连缀操作，可读性大大提高； 2.可以多次执行同一个回调函数； 3.为多个操作指定回调函数；</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>多个操作指定回调函数</strong></span></p>
+<p><span style="color: #ff0000"><strong>when()全局方法，可以接收多个jqXHR对象处理，参数是要处理的，jqXHR对象，在方法的匿名函数里接收处理</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">var</span> jqXHR = $.ajax('test.php'<span style="color: #000000">);
+    </span><span style="color: #0000ff">var</span> jqXHR2 = $.ajax('test2.php'<span style="color: #000000">);
+    $.when(jqXHR, jqXHR2).done(</span><span style="color: #0000ff">function</span><span style="color: #000000"> (r1, r2) {
+        alert(r1[</span>0<span style="color: #000000">]);
+        alert(r2[</span>0<span style="color: #000000">]);
+    });</span></pre>
+</div>
+<p>&nbsp;</p></div>

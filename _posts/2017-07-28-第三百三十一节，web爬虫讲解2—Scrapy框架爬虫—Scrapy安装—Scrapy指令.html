@@ -1,0 +1,83 @@
+第三百三十一节，web爬虫讲解2—Scrapy框架爬虫—Scrapy安装—Scrapy指令
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百三十一节，web爬虫讲解2—Scrapy框架爬虫—Scrapy安装—Scrapy指令</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>Scrapy框架安装</strong></strong></span></p>
+<p><strong>1、首先，终端执行命令升级pip: python -m pip install --upgrade pip</strong><br><strong>2、安装，wheel(建议网络安装) pip install wheel</strong><br><strong>3、安装，lxml(建议下载安装)</strong><br><strong>4、安装，Twisted(建议下载安装)</strong><br><strong>5、安装，Scrapy(建议网络安装) pip install Scrapy</strong></p>
+<p><strong>测试<strong>Scrapy是否安装成功</strong></strong></p>
+<p><strong><strong><img src="https://images2017.cnblogs.com/blog/955761/201707/955761-20170728035116727-47164665.png" alt=""></strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong>Scrapy框架指令</strong></strong></strong></span></p>
+<p><strong>scrapy -h &nbsp;查看帮助信息</strong></p>
+<p><strong>Available commands:</strong><br><strong>  　　bench　　　　　　         Run quick benchmark test<span style="color: #ff0000"> (<span style="color: #0000ff">scrapy bench</span> &nbsp;硬件测试指令，可以测试当前服务器每分钟最多能爬多少个页面)</span></strong><br><strong>  　　fetch　　　　　　 &nbsp;         Fetch a URL using the Scrapy downloader<span style="color: #ff0000"> (<strong><span style="color: #0000ff">scrapy fetch http://www.iqiyi.com/</span> &nbsp;获取一个网页html源码</strong>)</span></strong><br><strong>  　　genspider 　　 　 &nbsp;&nbsp;Generate new spider using pre-defined templates ()</strong><br><strong>  　　runspider　　 　　    Run a self-contained spider (without creating a project) ()</strong><br><strong>  　　settings　　 　　 &nbsp;&nbsp;Get settings values ()</strong><br><strong>  　　shell 　　 　　　　       Interactive scraping console ()</strong><br><strong>  　　startproject 　　 　Create new project <span style="color: #ff0000">(<strong>cd 进入要创建项目的目录，<span style="color: #0000ff">scrapy startproject 项目名称</span> ，创建scrapy项目</strong>)&nbsp;</span></strong><br><strong>  　　version 　　 　　 &nbsp;     Print Scrapy version ()</strong><br><strong>  　　view 　　 　　　 &nbsp; &nbsp;Open URL in browser, as seen by Scrapy ()</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>创建项目以及项目说明</strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong>scrapy startproject adc &nbsp;创建项目</strong></strong></strong></span></p>
+<p><strong>项目说明</strong></p>
+<p>目录结构如下：</p>
+<p class="p1"><span class="s1">├── firstCrawler</span></p>
+<p class="p1"><span class="s1">│&nbsp;&nbsp; ├── __init__.py</span></p>
+<p class="p1"><span class="s1">│&nbsp;&nbsp; ├── items.py</span></p>
+<p class="p1"><span class="s1">│&nbsp;&nbsp; ├── middlewares.py</span></p>
+<p class="p1"><span class="s1">│&nbsp;&nbsp; ├── pipelines.py</span></p>
+<p class="p1"><span class="s1">│&nbsp;&nbsp; ├── settings.py</span></p>
+<p class="p1"><span class="s1">│&nbsp;&nbsp; └── spiders</span></p>
+<p class="p1"><span class="s1">│&nbsp;&nbsp; &nbsp; &nbsp; └── __init__.py</span></p>
+<p class="p1"><span class="s1">└── scrapy.cfg</span></p>
+<ul class="simple">
+<ul class="simple">
+<ul class="simple">
+<li><code class="docutils literal">scrapy.cfg</code>: 项目的配置文件</li>
+<li><code class="docutils literal">tems.py</code>: 项目中的item文件，用来定义解析对象对应的属性或字段。</li>
+<li><code class="docutils literal">pipelines.py</code>:&nbsp;负责处理被spider提取出来的item。典型的处理有清理、 验证及持久化(例如存取到数据库）<a class="replace_word" title="MySQL知识库" href="http://lib.csdn.net/base/mysql" target="_blank"><br></a>
+</li>
+<li><code class="docutils literal">settings.py</code>: 项目的设置文件. 
+</li>
+<li>spiders：实现自定义爬虫的目录 
+
+</li>
+<li>middlewares.py：Spider中间件是在引擎及Spider之间的特定钩子(specific 
+hook)，处理spider的输入(response)和输出(items及requests)。 
+其提供了一个简便的机制，通过插入自定义代码来扩展Scrapy功能。</li>
+
+
+
+
+
+</ul>
+
+
+
+
+
+</ul>
+
+
+
+
+</ul>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201707/955761-20170728143410305-484420184.png" alt="">&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>项目指令</strong></span></p>
+<p><span style="color: #000000"><strong>项目指令是需要cd进入项目目录执行的指令</strong></span></p>
+<p><span style="color: #0000ff"><strong>scrapy -h &nbsp;<span style="color: #ff0000">项目指令帮助</span></strong></span></p>
+<p><strong>Available commands:</strong><br><strong>  　　bench　　 　　        Run quick benchmark test</strong><br><strong>  　　check　　 　　        Check spider contracts</strong><br><strong>  　　crawl　　　　&nbsp;&nbsp; Run a spider</strong><br><strong>  　　edit 　　　　 &nbsp;&nbsp; Edit spider</strong><br><strong>  　　fetch　　 　　 &nbsp;Fetch a URL using the Scrapy downloader</strong><br><strong>  　　genspider　　&nbsp; Generate new spider using pre-defined templates</strong><br><strong>  　　list 　　 　　　&nbsp;List available spiders</strong><br><strong>  　　parse　　 　　        Parse URL (using its spider) and print the results</strong><br><strong>  　　runspider 　　    Run a self-contained spider (without creating a project)</strong><br><strong>  　　settings 　　&nbsp; &nbsp;Get settings values</strong><br><strong>  　　shell　　 　　        Interactive scraping console</strong><br><strong>  　　startproject 　&nbsp;Create new project</strong><br><strong>  　　version　　&nbsp; &nbsp; &nbsp;Print Scrapy version<span style="color: #ff0000"> (<span style="color: #0000ff">scrapy version</span> &nbsp;查看scrapy版本信息)</span></strong><br><strong>  　　view　　　　&nbsp;          Open URL in browser, as seen by Scrapy<span style="color: #ff0000"> (<span style="color: #0000ff">scrapy view http://www.zhimaruanjian.com/</span> &nbsp;下载一个网页并打开)</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>创建爬虫文件</strong></span></p>
+<p><span style="color: #000000"><strong>创建爬虫文件是根据scrapy的母版来创建爬虫文件的</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">scrapy genspider -l</span> &nbsp;查看scrapy创建爬虫文件可用的母版</strong></span></p>
+<p><strong>Available templates:母版说明</strong><br><span style="color: #0000ff"><strong>  　　basic　　 &nbsp; &nbsp;　　创建基础爬虫文件</strong></span></p>
+<p><span style="color: #0000ff"><strong> 　　crawl　　　　 &nbsp; &nbsp;创建自动爬虫文件</strong></span><br><span style="color: #0000ff"><strong>  　　csvfeed　　 &nbsp; &nbsp; &nbsp;创建爬取csv数据爬虫文件</strong></span></p>
+<p><span style="color: #0000ff"><strong>  　　xmlfeed　　　 &nbsp;创建爬取xml数据爬虫文件</strong></span></p>
+<p><span style="color: #ff0000"><strong>创建一个基础母版爬虫，其他同理</strong></span></p>
+<p><strong><span style="color: #0000ff">scrapy genspider &nbsp;-t &nbsp;母版名称 &nbsp;爬虫文件名称 &nbsp;要爬取的域名</span> 创建一个基础母版爬虫，其他同理</strong><br><span style="color: #0000ff"><strong>如：scrapy genspider &nbsp;-t &nbsp;basic &nbsp;pach &nbsp;baidu.com</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201707/955761-20170728153746602-1163835662.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">scrapy check 爬虫文件名称</span> 测试一个爬虫文件是否合规</strong></span><br><strong>如：scrapy check pach</strong></p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/955761/201707/955761-20170728154755977-668476286.png" alt=""></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #0000ff">scrapy crawl 爬虫名称</span>&nbsp;&nbsp;<span style="color: #ff0000">执行爬虫文件，显示日志 【重点】</span></strong></p>
+<p><strong><span style="color: #0000ff">scrapy crawl 爬虫名称 --nolog</span>&nbsp;&nbsp;<span style="color: #ff0000">执行爬虫文件，不显示日志【重点】</span></strong></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">&nbsp;</span></strong></span></p>
+<p>&nbsp;</p></div>

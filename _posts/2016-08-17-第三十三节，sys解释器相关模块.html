@@ -1,0 +1,216 @@
+第三十三节，sys解释器相关模块
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>首先要引入import sys模块</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>sys.argv</strong></span></p>
+<p><strong>功能：获取向脚本文件传入的参数，返回的列表，列表里的第一个元素是脚本文件路径和名称，后面的元素是传入的向脚本传入的参数</strong></p>
+<p><strong>使用方法：sys.argv<strong><br /></strong></strong></p>
+<p><strong><strong>格式如：a = sys.argv</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> sys
+a </span>= sys.argv    <span style="color: #008000;">#</span><span style="color: #008000;">获取脚本传入的参数</span>
+<span style="color: #0000ff;">print</span>(a)    <span style="color: #008000;">#</span><span style="color: #008000;">打印出此脚本文件的文件名称和路径，和外部向此脚本文件传入的参数</span><span style="color: #008000;">
+#</span><span style="color: #008000;">注意：在pycharm的Terminal模式下调试</span></pre>
+</div>
+<p><strong><strong>在pycharm的Terminal模式下调试</strong></strong></p>
+<p><strong><strong>输入脚本文件路径和名称，加上向脚本传入的参数 &nbsp;回车</strong></strong></p>
+<p><strong><strong>就可以得到，一个列表，<strong>列表里的第一个元素是脚本文件路径和名称，后面的元素是传入的向脚本传入的参数</strong></strong></strong></p>
+<p><strong><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201608/955761-20160817235807328-39529156.png" alt="" /></strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>列2</strong></span></p>
+<p><span style="color: #ff0000;"><strong>外部向一个脚本文件传入一个参数，脚本判断传入的参数执行不同的功能</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> sys
+a </span>= sys.argv    <span style="color: #008000;">#</span><span style="color: #008000;">获取脚本传入的参数</span>
+<span style="color: #0000ff;">if</span> a[1] == <span style="color: #800000;">"</span><span style="color: #800000;">正确</span><span style="color: #800000;">"</span>:    <span style="color: #008000;">#</span><span style="color: #008000;">判断外部传入的参数</span>
+    <span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">正确</span><span style="color: #800000;">"</span>)     <span style="color: #008000;">#</span><span style="color: #008000;">如果正确打印正确</span>
+<span style="color: #0000ff;">else</span><span style="color: #000000;">:
+    </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">不正确</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">如果不正确打印不正确</span><span style="color: #008000;">
+#</span><span style="color: #008000;">这样就可以外部向这个文件传入一个参数，判断这个参数执行不同的功能</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201608/955761-20160818002456203-304727009.png" alt="" /></p>
+<p><span style="color: #ff0000;"><strong>列3</strong></span></p>
+<p><span style="color: #ff0000;"><strong>根据外部传入的参数创建一个相同名称的文件夹&nbsp;</strong></span></p>
+<p><strong>os.mkdir("要创建的文件夹名称") 创建文件夹，需要import os 引入os模块</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;">  os
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> sys
+</span><span style="color: #0000ff;">print</span>(sys.argv) <span style="color: #008000;">#</span><span style="color: #008000;">打印外部向本文件脚本传入的参数</span>
+os.mkdir(sys.argv[1]) <span style="color: #008000;">#</span><span style="color: #008000;">根据外部传入的参数创建一个相同名称的文件夹</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>sys.path</strong></span></p>
+<p><strong>功能：获取python的各种路径</strong></p>
+<p><strong>使用方法：<strong>sys.path</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：a =&nbsp;<strong>sys.path</strong></strong></p>
+<p>获取python的各种路径</p>
+<p># ['H:\\py\\1\\def\\1', #当前文件所在路径<br />#  'H:\\py',            #当前工程所在路径<br /># 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35\\python35.zip',<br /># 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35\\DLLs',<br /># 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35\\lib',<br /># 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35',<br /># 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35\\lib\\site-packages'] <span style="color: #ff0000;"><strong>#第三方模块安装路径，模块要想被全局导入就要放在这个文件夹</strong></span></p>
+<p><span style="color: #ff0000;"><strong>注意：在写程序时一旦引入了模块，Python就会根据<strong><strong>sys.path输出的路径依次去寻找引入的模块，如果有两个相同名字的模块，在以上不同的两个路径，Python就会依次从列表第一个元素路径开始，</strong></strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong><strong>先找到的就引入，后面路径相同名称的模块就不引入了</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> sys
+a </span>= sys.path    <span style="color: #008000;">#</span><span style="color: #008000;">获取python的各种路径</span>
+<span style="color: #0000ff;">print</span>(a) <span style="color: #008000;">#</span><span style="color: #008000;">打印各种路径</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ['H:\\py\\1\\def\\1', #当前文件所在路径</span><span style="color: #008000;">
+#</span><span style="color: #008000;">  'H:\\py',            #当前工程所在路径</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35\\python35.zip',</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35\\DLLs',</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35\\lib',</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35',</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35\\lib\\site-packages'] #第三方模块安装路径</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>给Python解释器，添加模块新路径</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> sys      <span style="color: #008000;">#</span><span style="color: #008000;">引入sys模块</span>
+sys.path.append(<span style="color: #800000;">"</span><span style="color: #800000;">H:\py\lib</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">给Python解释器，添加模块路径</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> sys.path:  <span style="color: #008000;">#</span><span style="color: #008000;">循环出Python解释器的所有关联路径</span>
+    <span style="color: #0000ff;">print</span>(i) <span style="color: #008000;">#</span><span style="color: #008000;">打印出循环的所有关联路径</span>
+<span style="color: #0000ff;">import</span> mk <span style="color: #008000;">#</span><span style="color: #008000;">引入模块文件</span>
+<span style="color: #0000ff;">print</span>(mk.dlu())     <span style="color: #008000;">#</span><span style="color: #008000;">打印执行函数</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>sys.exit()</strong></span></p>
+<p><strong>功能：退出程序<strong>程序功能与<strong>exit()相同，不同的是<strong>sys.exit()需要引入sys模块，<strong><strong><strong>exit()可以直接使用</strong></strong></strong></strong></strong></strong></strong></p>
+<p><strong>使用方法：<strong>sys.exit("退出提示")</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：<strong>sys.exit()</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> sys
+a </span>= 1
+<span style="color: #0000ff;">if</span> a == 1<span style="color: #000000;">:
+    sys.exit(</span><span style="color: #800000;">"</span><span style="color: #800000;">退出程序</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">else</span><span style="color: #000000;">:
+    </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">不退出程序，继续执行</span><span style="color: #800000;">"</span>)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>sys.version</strong></span></p>
+<p><strong>功能：获取Python解释程序的版本信息</strong></p>
+<p><strong>使用方法：sys.version<strong><br /></strong></strong></p>
+<p><strong>格式如：a = sys.version<strong><br /></strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> sys
+a </span>= sys.version     <span style="color: #008000;">#</span><span style="color: #008000;">获取Python解释程序的版本信息</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 3.5.1 (v3.5.1:37a07cee5969, Dec  6 2015, 01:54:25) [MSC v.1900 64 bit (AMD64)]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>sys.platform</strong></span></p>
+<p><strong>功能：返回操作系统平台名称,可以判断是什么系统</strong></p>
+<p><strong>使用方法：sys.platform<strong><br /></strong></strong></p>
+<p><strong>格式如：a = sys.platform</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> sys
+a </span>= sys.platform     <span style="color: #008000;">#</span><span style="color: #008000;">返回操作系统平台名称,可以判断是什么系统</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> win32     win系统</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>安装卸载第三方模块如django模块</strong></span></p>
+<p>第一步，运行cmd<br />在 cmd命令输入Python回车 进入Python程序<br />输入import sys 引入sys模块<br />输入 sys.path 打印出python程序的路径<br />如：<br /># [''C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35\\python35.zip',<br /># 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35\\DLLs',<br /># 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35\\lib',<br /># 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35',<br /># 'C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python35\\lib\\site-packages'] #第三方模块安装路径<br />注意：Python35\lib\site-packages 这个目录就是安装第三方模块的，第三方模块都安装在里面<br />然后用鼠标根据你的Python安装路径找到Python下的Scripts文件夹，这个文件夹里的pip.exe就是安装第三方模块的安装卸载器</p>
+<p><span style="color: #ff0000;"><strong>注意：以下操作必须在Scripts目录下进行</strong></span></p>
+<p><span style="color: #000000;"><strong>Scripts文件夹</strong></span></p>
+<p>接下来在cmd命令输入exit()退出已链接的python程序<br />在cmd命令进入Python下的Scripts文件夹，<br />进入方法是 cd命令加上Scripts文件夹完整的路径，这个路径可以用鼠标打开Scripts文件夹然后在地址栏复制<br />如：cd C:\Users\admin\AppData\Local\Programs\Python\Python35\Scripts 进去这个文件夹</p>
+<p>&nbsp;</p>
+<p><strong>安装模块</strong></p>
+<p>接下来启动pip.exe来安装第三方模块<br />方法是在cmd命令输入 pip.exe install django 回车进行安装django模块 <br />安装卸载器会自动到网上去下载来安装django模块，等待安装完成即可<br />说明<br />pip.exe （安装卸载器）<br />install (安装的意思)<br />django  （第三方模块名称）</p>
+<p>&nbsp;</p>
+<p><strong>升级安装器</strong></p>
+<p>安装后如果提示pip安装卸载器版本太低不可用，可以的版本是x.x.x<br />需要升级pip安装卸载器版本<br />方法是在cmd命令输入 easy_install.exe pip==x.x.x  回车即可等待执行完成<br />说明<br />easy_install.exe（升级器）<br />pip==x.x.x （要升级的程序名称==要升级的版本号）</p>
+<p>&nbsp;</p>
+<p><strong>卸载模块</strong></p>
+<p>卸载第三方模块<br />在cmd命令输入  pip.exe uninstall django 卸载等待执行完成即可<br />说明<br />pip.exe  （安装卸载器）<br />uninstall （卸载的意思）<br />django  （第三方模块名称）</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>安装卸载第三方模块二【推荐】</strong></span></p>
+<p><span style="color: #000000;"><strong>说明：安装第三方模块，有两种安装方法，</strong></span></p>
+<p><strong><span style="color: #ff0000;">第一种</span>，是安装器pip安装，pip安装器有链接强大的模块库，能安装各种模块</strong></p>
+<p><strong>安装器需要依赖&nbsp;setuptools ，在安装，安装器之前先安装&nbsp;<strong>setuptools</strong></strong></p>
+<p><strong>然后在安装pip3 , 安装器pip3安装后，在python安装目录的Scripts文件夹里</strong></p>
+<p><strong>如果你在<strong>Scripts文件夹里，已经找到了<strong>pip3，说明你的python已经安装好了，<strong><strong><strong>pip3安装器，安装好了安装器的就不需要安装，<strong>setuptools 和&nbsp;<strong>pip3了</strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong><strong><strong><strong><strong>安装器安装第三方模块方法</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000;"><strong><strong><strong><strong><strong><strong><strong><strong>将<strong><strong><strong><strong><strong><strong><strong><strong>pip3</strong></strong></strong></strong></strong></strong></strong></strong>安装器，路径添加到系统环境变量里</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000;"><strong><strong><strong><strong><strong><strong><strong><strong>如：C:\Users\admin\AppData\Local\Programs\Python\Python35\Scripts\pip3.exe</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000;"><strong><strong><strong><strong><strong><strong><strong><strong>添加系统环境变量，鼠标右键计算机-属性-高级系统设置-环境变量-path-编辑 添加pip3.exe完整绝对路径确定即可</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong><strong><strong><strong><strong>在运行里输入cmd<span style="color: #000000;">,在命令行输入：pip3&nbsp;install&nbsp;requests 回车等待安装完成 &nbsp;<span style="color: #ff0000;">【pip3 <strong><strong><strong><strong><strong><strong><strong><strong>install(安装的意思)&nbsp;<strong><strong><strong><strong><strong><strong><strong><strong>request(第三方模块名称)）</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>】</span></span></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong><strong><strong><strong><strong><span style="color: #000000;"><span style="color: #ff0000;">卸载第三方插件<span style="color: #000000;"><br /></span></span></span></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong><strong><strong><strong><strong><span style="color: #000000;"><span style="color: #ff0000;"><span style="color: #000000;"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>在命令行输入：pip3&nbsp;uninstall&nbsp;requests 回车等待卸载完成&nbsp;<span style="color: #ff0000;"><strong><strong><strong><strong><strong><strong><strong><strong>【pip3&nbsp;<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>uninstall</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><strong><strong><strong><strong><strong><strong><strong><strong>(卸载的意思)&nbsp;<strong><strong><strong><strong><strong><strong><strong><strong>request(第三方模块名称)）</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>】</span></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></span></span></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong>第二种源码安装第三方模块</strong></span></p>
+<p><strong>下载在好要安装的模块源码，将源码解压到容易找的地方如桌面</strong></p>
+<p><strong>找到解压好的第三方模块文件夹打开，在文件夹里找到setup.py这个文件的绝对路径 &nbsp;<span style="color: #ff0000;">注意：<strong>setup.py为安装文件</strong></span></strong></p>
+<p><strong>如：C:\Users\admin\Desktop\kennethreitz-requests-58d855e &nbsp;&nbsp;<span style="color: #ff0000;"><strong><strong>setup.py文件在<strong>kennethreitz-requests-58d855e文件夹里</strong></strong></strong></span></strong></p>
+<p><strong><span style="color: #ff0000;">运行cmd</span>,在命令行输入：python 回车 看看能否启动python ,需要能启动才能安装，注意如果有多个版本，此时启动的那个版本就安装在哪个版本里</strong></p>
+<p><strong>输入：exit()回车退出python</strong></p>
+<p><strong>输入：cd&nbsp;<strong>C:\Users\admin\Desktop\kennethreitz-requests-58d855e 回车 &nbsp;进入解压好的模块安装目录</strong></strong></p>
+<p><strong><strong>输入：dir 回车显示目录和文件，看看是否能看到<strong><strong>setup.py安装文件，能看到就说明可以安装了</strong></strong><strong><strong><br /></strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong>输入：<span style="color: #ff0000;">python&nbsp;<strong><strong>setup.py&nbsp;install &nbsp;<span style="color: #000000;">回车等待安装完成 &nbsp;<strong><strong><strong><strong><strong><strong>install是安装的意思</strong></strong></strong></strong></strong></strong></span></strong></strong></span></strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong><span style="color: #ff0000;"><strong><strong><span style="color: #000000;"><strong><strong><strong><strong><strong><strong>源码安装完成</strong></strong></strong></strong></strong></strong></span></strong></strong></span></strong></strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>sys.stdout.write()</strong></span></p>
+<p><strong>功能：向显示器打印输出内容【有参】循环打印不会换行</strong></p>
+<p><strong>使用方法：<strong>sys.stdout.write("要输出的内容")<span style="color: #ff0000;">参数\r清空打印输出</span>【有参】</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：sys.stdout.write('输出内容')</strong></p>
+<p><span style="color: #ff0000;"><strong>进度条案例</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;">  time
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> sys
+a </span>= 30
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(a+1):    <span style="color: #008000;">#</span><span style="color: #008000;">循环a加1次</span>
+    sys.stdout.write(<span style="color: #800000;">"</span><span style="color: #800000;">\r</span><span style="color: #800000;">"</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">每次循环前清空向屏幕打印输出的数据</span>
+    sys.stdout.write(<span style="color: #800000;">"</span><span style="color: #800000;">%s%% %s</span><span style="color: #800000;">"</span> % (int(i/a*100), int(i/a*30)*<span style="color: #800000;">"</span><span style="color: #800000;">▆</span><span style="color: #800000;">"</span>))   <span style="color: #008000;">#</span><span style="color: #008000;">向屏幕打印输出拼接的字符串百分之几和进度字符</span>
+    sys.stdout.flush()  <span style="color: #008000;">#</span><span style="color: #008000;">刷新缓冲区，让每次循环都打印</span>
+    time.sleep(3) <span style="color: #008000;">#</span><span style="color: #008000;">每循环一次停留0.1秒</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 100% ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">说明</span><span style="color: #008000;">
+#</span><span style="color: #008000;">int(i/a*100)</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 第一次循环1除以30乘以100取整数等于3%</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 第二次循环2除以30乘以100取整数等于6%</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 第三次循环3除以30乘以100取整数等于10%</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 以此循环打印出百分比数</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">int(i/a*30)*"▆"   里面的30就是打印30个进度符号</span><span style="color: #008000;">
+#</span><span style="color: #008000;">第一次循环打印进度条▆</span><span style="color: #008000;">
+#</span><span style="color: #008000;">第二次循环打印进度条▆▆</span><span style="color: #008000;">
+#</span><span style="color: #008000;">第三次循环打印进度条▆▆▆</span><span style="color: #008000;">
+#</span><span style="color: #008000;">以此循环</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>sys.stdin.readline()</strong></span></p>
+<p><strong>功能：输入内容</strong></p>
+<p><strong>使用方法：<strong>sys.stdin.readline()</strong><strong><br /></strong></strong></p>
+<p><strong>格式如：<code class="python plain">sys.stdin.readline()[:</code><code class="python keyword">-</code><code class="python value">1</code><code class="python plain">]</code></strong></p>
+<p>&nbsp;</p>
+<p><strong>用于提供对Python解释器相关的操作：</strong></p>
+<p><strong><code class="python plain">sys.argv&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 命令行参数</code><code class="python functions">List</code><code class="python plain">，第一个元素是程序本身路径</code></strong></p>
+<div class="line number2 index1 alt1"><strong><code class="python plain">sys.exit(n)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 退出程序，正常退出时exit(</code><code class="python value">0</code><code class="python plain">)</code></strong></div>
+<div class="line number3 index2 alt2"><strong><code class="python plain">sys.version&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 获取Python解释程序的版本信息</code></strong></div>
+<div class="line number4 index3 alt1"><strong><code class="python plain">sys.maxint&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 最大的</code><code class="python functions">Int</code><code class="python plain">值</code></strong></div>
+<div class="line number5 index4 alt2"><strong><code class="python plain">sys.path&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 返回模块的搜索路径，初始化时使用PYTHONPATH环境变量的值</code></strong></div>
+<div class="line number6 index5 alt1"><strong><code class="python plain">sys.platform&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 返回操作系统平台名称</code></strong></div>
+<div class="line number7 index6 alt2"><strong><code class="python plain">sys.stdin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 输入相关</code></strong></div>
+<div class="line number8 index7 alt1"><strong><code class="python plain">sys.stdout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 输出相关</code></strong></div>
+<div class="line number9 index8 alt2"><strong><code class="python plain">sys.stderror&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 错误相关</code></strong></div></div>

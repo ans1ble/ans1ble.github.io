@@ -1,0 +1,330 @@
+第九十八节，JavaScript语法、关键保留字及变量
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">JavaScript语法、关键保留字及变量</span></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p align="left"><strong>学习要点：</strong></p>
+<p align="left"><strong>1.语法构成</strong></p>
+<p align="left"><strong>2.关键字保留字</strong></p>
+<p align="left"><strong>3.变量</strong></p>
+<p align="left"><strong>任何语言的核心都必然会描述这门语言最基本的工作原理。而JavaScript的语言核心就是ECMAScript，而目前用的最普遍的是第3版，我们就主要以这个版本来讲解。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>一．</strong><strong>语法构成</strong></span></p>
+<p align="left"><strong>区分大小写</strong></p>
+<p align="left"><strong>ECMAScript中的一切，包括变量、函数名和操作符都是区分大小写的。例如：text和Text表示两种不同的变量。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>标识符</strong></span></p>
+<p align="left"><strong>所谓标识符，就是指变量、函数、属性的名字，或者函数的参数。标识符可以是下列格式规则组合起来的一或多个字符：</strong></p>
+<p align="left"><strong>1.第一字符必须是一个字母<span style="color: #ff0000">【f】</span>、下划线<span style="color: #ff0000">【_】</span>或一个美元符号<span style="color: #ff0000">【$】</span>开头。</strong></p>
+<p align="left"><strong>2.其他字符可以是字母、下划线、美元符号或数字。</strong></p>
+<p align="left"><strong>3.不能把关键字、保留字、true、false和null作为标识符。</strong></p>
+<p align="left"><strong>例如：myName、book123等</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>注释</strong></span></p>
+<p align="left"><strong>ECMAScript使用C风格的注释，包括单行注释和块级注释。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000"> 单行注释</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">
+* 这是一个多行
+* 注释
+</span><span style="color: #008000">*/</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>直接量(</strong><strong>字面量literal)也就是数据类型</strong></span></p>
+<p align="left"><strong>所有直接量(字面量)，就是程序中直接显示出来的数据值。<span style="color: #0000ff">也就是数据类型</span></strong></p>
+<p align="left"><strong>100&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //数字字面量</strong></p>
+<p align="left"><strong>'林贵秀'&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //字符串字面量</strong></p>
+<p align="left"><strong>false &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //布尔字面量</strong></p>
+<p align="left"><strong>/js/gi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //正则表达式字面量</strong></p>
+<p align="left"><strong>null&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //对象字面量</strong></p>
+<p align="left"><strong>在ECMAScript第3版中，像数组字面量和对象字面量的表达式也是支持的，如下：</strong></p>
+<p align="left"><strong>{x:1, y:2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //对象字面量表达式</strong></p>
+<p align="left"><strong>[1,2,3,4,5]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //数组字面量表达式</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>二．</strong><strong>关键字和保留字，也就是这些不能作为标识符</strong></span></p>
+<p align="left"><span style="color: #000000"><strong>ECMAScript-262描述了一组具有特定用途的关键字，一般用于控制语句的开始或结束，或者用于执行特定的操作等。关键字也是语言保留的，不能用作标识符</strong></span></p>
+<p align="center"><strong>ECMAScript全部关键字&nbsp;</strong></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="121">
+<p align="center"><strong>break</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>else</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>new</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>var</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>case</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>finally</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>return</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>void</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>catch</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>for</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>switch</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>while</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>continue</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>function</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>this</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>with</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>default</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>if</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>throw</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>&nbsp;</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>delete</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>in</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>try</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>&nbsp;</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>do</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>instanceof</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>typeof</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>&nbsp;</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: left"><strong>ECMAScript-262还描述了另一组不能用作标识符的保留字。尽管保留字在JavaScript中还没有特定的用途，但它们很有可能在将来被用作关键字</strong></p>
+<p align="center"><strong>ECMAScript-262第3版定义的全部保留字&nbsp;</strong></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="121">
+<p align="center"><strong>abstract</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>enum</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>int</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>short</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>boolean</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>export</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>interface</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>static</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>byte</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>extends</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>long</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>super</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>char</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>final</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>native</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>synchronized</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>class</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>float</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>package</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>throws</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>const</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>goto</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>private</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>transient</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>debugger</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>implements</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>protected</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>volatile</strong></p>
+</td>
+</tr>
+<tr>
+<td width="121">
+<p align="center"><strong>double</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>import</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>public</strong></p>
+</td>
+<td width="121">
+<p align="center"><strong>&nbsp;</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="center"><strong>&nbsp;</strong></p>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>三．变量</strong></span></p>
+<p align="left"><strong>ECMAScript的变量是松散类型的，所谓松散类型就是用来保存任何类型的数据。<span style="color: #ff0000">定义变量时要使用var操作符</span>（<span style="color: #ff0000">var是关键</span>），后面跟一个变量名（变量名是标识符）。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>var<strong>关键字声明变量</strong></strong></strong></span></p>
+<p align="left"><span style="color: #000000"><strong><strong><strong><strong>定义变量的方法：</strong></strong></strong></strong></span></p>
+<p align="left"><strong>var(关键字声明变量) adc(标识符，就是变量名称) = 123（变量值）</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>alert()以弹窗的方式打印变量</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> adc=123; <span style="color: #008000">//</span><span style="color: #008000">定义一个变量</span>
+alert(adc) <span style="color: #008000">//</span><span style="color: #008000">打印出这个变量的值</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>undefined打印变量时输出<strong>undefined，表示打印的变量没有赋值</strong></strong></span></p>
+<p align="left"><strong>如果变量没有对它初始化，（也就是没有给变量赋值）。这时，系统会给它一个特殊的值 -- undefined（表示未定义）。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span><span style="color: #000000"> box; 
+alert(box);</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><strong>所谓变量，就是可以初始化后可以再次改变的量。ECMAScript属于弱类型(松散类型)的语言，可以同时改变不同类型的量。(PS：虽然可以改变不同类型的量，但这样做对于后期维护带来困难，而且性能也不高，导致成本很高！)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> boxString = '李炎恢'<span style="color: #000000">;
+boxString </span>= 100<span style="color: #000000">;    
+alert(boxString);</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><strong>重复的使用var声明一个变量，只不过是一个赋值操作，并不会报错。但这样的操作是比较二的，没有任何必要。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box= '李炎恢'<span style="color: #000000">;
+</span><span style="color: #0000ff">var</span> box= 'Lee';</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>还有一种变量不需要前面var关键字即可创建变量。这种变量和var的变量有一定的区别和作用范围，我们会在作用域那一节详细探讨</strong></p>
+<div class="cnblogs_code">
+<pre>box= '李炎恢';</pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><strong>当你想声明多个变量的时候，可以在一行或者多行操作。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box= '李炎恢';<span style="color: #0000ff">var</span> age= 100;</pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><strong>而当你每条语句都在不同行的时候，你可以省略分号。(PS：这是ECMAScript支持的，但绝对是一个非常不好的编程习惯，切记不要)。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box= '李炎恢'
+<span style="color: #0000ff">var</span> age= 100<span style="color: #000000">
+alert(box)</span></pre>
+</div>
+<p>&nbsp;</p>
+<p align="left"><strong>可以使用一条语句定义多个变量，只要把每个变量(初始化或者不初始化均可)用逗号分隔开即可，为了可读性，每个变量，最好另起一行，并且第二变量和第一变量对齐(PS：这些都不是必须的)。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box= '李炎恢'<span style="color: #000000">,
+   age </span>= 28<span style="color: #000000">,
+       height;</span></pre>
+</div>
+<p>&nbsp;</p></div>

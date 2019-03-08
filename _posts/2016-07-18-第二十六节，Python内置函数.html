@@ -1,0 +1,1389 @@
+第二十六节，Python内置函数
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p>Python3.0内置函数</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201607/955761-20160718123716060-1062417374.png" alt="" /></p>
+<p>&nbsp;</p>
+<pre><span style="font-size: 16px;"><strong>abs() 取数字的绝对值,也就是无论是正数还是负数取它的绝对值<br />格式：abs(目标变量)<br />返回：数字类型</strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">abs() 取数字的绝对值,也就是无论是正数还是负数取它的绝对值</span>
+a = 123<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> abs(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出 123</span>
+<span style="color: #000000;">
+a1</span>= -123<span style="color: #000000;">
+b1 </span>=<span style="color: #000000;"> abs(a1)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b1)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出 123</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>all() 接收可迭代类型，循环参数，如果每个元素都为真，那么all的返回值为真，有一个元素为假返回的都是假</strong></p>
+<p><strong>格式：all(目标变量)</strong></p>
+<p><strong>假数据有，0（数字），None（返回值），"" (空字符串)，[] (空列表)，（） （空元组），{} （空字典）</strong></p>
+<p><strong>返回：布尔值</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">all() 接收可迭代类型，循环参数，如果每个元素都为真，那么all的返回值为真，有一个元素为假返回的都是假</span><span style="color: #008000;">
+#</span><span style="color: #008000;">假数据有，0（数字），None（返回值），"" (空字符串)，[] (空列表)，（） （空元组），{} （空字典）</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列1</span>
+a = [1,<span style="color: #800000;">"</span><span style="color: #800000;">123</span><span style="color: #800000;">"</span>,[123,456],(123,456),{<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>:123,<span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>:456<span style="color: #000000;">}]
+f1 </span>=<span style="color: #000000;"> all(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(f1)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出 True （真）</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列2</span>
+b = [0,<span style="color: #800000;">"</span><span style="color: #800000;">你好</span><span style="color: #800000;">"</span>,[123,456],(123,456),{<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>:123,<span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>:456<span style="color: #000000;">}]
+f2 </span>=<span style="color: #000000;"> all(b)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(f2)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出 False （假）说明：里面的类型中有一个或者多个为假</span></pre>
+</div>
+<p>&nbsp;</p>
+<pre></pre>
+<pre><span style="font-size: 16px;"><strong>any() 接收可迭代类型，循环参数，如果有一个元素都为真，那么all的返回值为真，全部为假才返回假<br />格式：any(目标变量)<br /><strong>假数据有，0（数字），None（返回值），"" (空字符串)，[] (空列表)，（） （空元组），{} （空字典）</strong><br />返回：布尔值<br /></strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">any() 接收可迭代类型，循环参数，如果有一个元素都为真，那么all的返回值为真，全部为假才返回假</span><span style="color: #008000;">
+#</span><span style="color: #008000;">假数据有，0（数字），None（返回值），"" (空字符串)，[] (空列表)，（） （空元组），{} （空字典）</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列1</span>
+a = [0,<span style="color: #800000;">"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span>,[],(),{}]    <span style="color: #008000;">#</span><span style="color: #008000;">其中有1个为真</span>
+f1 =<span style="color: #000000;"> any(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(f1)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出 True （真）</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列2</span>
+b = [0,<span style="color: #800000;">""</span>,[],(),{}]     <span style="color: #008000;">#</span><span style="color: #008000;">全部为假</span>
+f2 =<span style="color: #000000;"> all(b)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(f2)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出 False （假）说明：里面的类型全部为假</span></pre>
+</div>
+<p>&nbsp;</p>
+<pre><strong><span style="font-size: 16px;">ascii() 根据对象，在对象类中找到 _repr_ 获取其返回值，中文返回</span><span style="font-size: 16px;">ascii()码<br /></span></strong><strong><span style="font-size: 16px;">格式： ascii(目标变量)<br /></span></strong><em><strong><span style="font-size: 16px;">返回：对应的类型，中文返回</span></strong></em><span style="font-size: 16px;"><strong>ascii()码<br /></strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">ascii() 根据对象，在对象类中找到 _repr_ 获取其返回值，中文返回ascii()码</span>
+a = 1234<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> ascii(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 1234</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">如果是中文字符串转换成ascii码返回</span>
+a1 = <span style="color: #800000;">"</span><span style="color: #800000;">林贵秀</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b1 </span>=<span style="color: #000000;"> ascii(a1)
+</span><span style="color: #0000ff;">print</span>(b1) <span style="color: #008000;">#</span><span style="color: #008000;">中文字符串转换成ascii码返回</span><span style="color: #008000;">
+#</span><span style="color: #008000;">返回 '\u6797\u8d35\u79c0'</span></pre>
+</div>
+<pre><span style="font-size: 16px;"><strong>&nbsp;</strong></span></pre>
+<pre><strong><span style="font-size: 16px;">bin() 二进制表示,十进制转换二进制<br />格式：bin(目标变量)<br />返回：二进制<br /></span></strong></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">bin() 二进制表示</span>
+a = 12<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> bin(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 0b1100 （0b表示二进制的意思）</span></pre>
+</div>
+<pre></pre>
+<p><strong><span style="font-size: 16px;">oct() 八进制表示，十进制转换八进制&nbsp;</span></strong></p>
+<p><strong><span style="font-size: 16px;">格式：oct(目标变量)</span></strong></p>
+<p><strong><span style="font-size: 16px;">返回：八进制</span></strong></p>
+<pre></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">oct() 八进制表示</span>
+a = 123<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> oct(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 0173 （0表示八进制的意思）</span></pre>
+</div>
+<pre></pre>
+<pre><strong><span style="font-size: 16px;">int() 十进制表示<strong>，十进制转换十进制</strong><br />格式：int(目标变量)<br />返回：十进制<br /></span></strong></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">int() 十进制表示</span>
+a = 123987<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> int(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 123987 （表示十进制的意思）</span></pre>
+</div>
+<pre></pre>
+<pre><strong><span style="font-size: 16px;">hex() 十六进制表示<strong>，十进制转换十六进制</strong><br />格式:hex(目标变量)<br />返回：十六进制<br /></span></strong></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">hex() 十六进制表示</span>
+a = 123987<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> hex(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 0x1e453 （0x表示十进制的意思）</span></pre>
+</div>
+<pre></pre>
+<pre><strong><span style="font-size: 16px;">int()  二进制转换成十进制<br />格式：int(目标变量,base=2&nbsp;)<br />返回：十进制<br /></span></strong></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">int()  二进制转换成十进制</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">0b1100</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= int(a,base=2<span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 12 表示十进制的意思</span></pre>
+</div>
+<pre></pre>
+<pre><span style="font-size: 16px;"><strong>int()  八进制转换成十进制<br />格式：int(目标变量,base=8&nbsp;)<br />返回：十进制<br /></strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">int()  八进制转换成十进制</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">0173</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= int(a,base=8<span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 123 表示十进制的意思</span></pre>
+</div>
+<p>&nbsp;</p>
+<pre><span style="font-size: 16px;"><strong>int()  十进制转换成十进制<br />格式：int(目标变量,base=10&nbsp;)<br />返回：十进制<br /></strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">int()  十进制转换成十进制</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">123987</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= int(a,base=10<span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 123987 表示十进制的意思</span></pre>
+</div>
+<p>&nbsp;</p>
+<pre><span style="font-size: 16px;"><strong>int()  十六进制转换成十进制<br />格式：int(目标变量,base=16&nbsp;)<br />返回：十进制<br /></strong></span></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">int()  十六进制转换成十进制</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">0x1e453</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= int(a,base=16<span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 123987 表示十进制的意思</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>bool() 判断真假，把一个对象转换成布尔值 </strong><br /><strong>假数据有，0（数字），None（返回值），"" (空字符串)，[] (空列表)，（） （空元组），{} （空字典）</strong><br /><strong>格式：bool(目标变量) </strong><br /><strong>返回：假返回False 真返回True</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">bool() 判断真假，把一个对象转换成布尔值</span>
+a1 = <span style="color: #800000;">""</span><span style="color: #000000;">
+b </span>=<span style="color: #000000;"> bool(a1)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 False 表示a1空字符串为假</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px;">bytes() 字符串转换成字节</span></strong><br /><strong><span style="font-size: 16px;">格式：bytes(目标变量,encoding="utf-8")</span></strong><br /><strong><span style="font-size: 16px;">返回：字节码</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">bytes() 字符串转换成字节</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">林贵秀</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= bytes(a, encoding = <span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 b'\xe6\x9e\x97\xe8\xb4\xb5\xe7\xa7\x80'  字节</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>decode()将二进制字节类型解码成字符串</strong></p>
+<p><strong>格式：字节码变量.<strong>decode("utf-8")&nbsp;</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">bytes() 字符串转换成字节</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">林贵秀</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= bytes(a, encoding = <span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 b'\xe6\x9e\x97\xe8\xb4\xb5\xe7\xa7\x80'  字节</span>
+f = b.decode(<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(f)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> b'\xe6\x9e\x97\xe8\xb4\xb5\xe7\xa7\x80'</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 林贵秀</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px;">str() 将字节转换成字符串</span></strong><br /><strong><span style="font-size: 16px;">格式：str(目标变量,encoding="utf-8")</span></strong><br /><strong><span style="font-size: 16px;">返回：字符串</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">str() 将字节转换成字符串</span><span style="color: #800000;">"""</span>
+<span style="color: #008000;">#</span><span style="color: #008000;">bytes() 字符串转换成字节</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">林贵秀</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= bytes(a, encoding = <span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 b'\xe6\x9e\x97\xe8\xb4\xb5\xe7\xa7\x80'  字节</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">str() 将字节转换成字符串</span>
+c = str(b, encoding = <span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 林贵秀 字符串</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px;">bytearray() 将字符串转换成字节列表</span></strong><br /><strong><span style="font-size: 16px;">格式：bytearray(目标变量,encoding="utf-8")</span></strong><br /><strong><span style="font-size: 16px;">返回：字节列表</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">bytearray() 字节列表</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">林贵秀</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= bytearray(a, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 bytearray(b'\xe6\x9e\x97\xe8\xb4\xb5\xe7\xa7\x80') 字节列表</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">字节列表也可以用str()转换成字符串</span>
+c = str(b, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 林贵秀 字符串</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px;">chr() 将十进制ascii码转换成对应的（英文，字符，数字） </span></strong><br /><strong><span style="font-size: 16px;">格式：chr(目标变量)</span></strong><br /><strong><span style="font-size: 16px;">返回：对应的（英文，字符，数字）</span></strong></p>
+<p><strong><span style="font-size: 16px;">详情见：<strong>ascii</strong>码对照表</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">chr() 将十进制ascii码转换成对应的（英文，字符，数字）</span>
+a = 77<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> chr(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 M  ascii码对应的（英文，字符，数字）</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px;">ord() 将（英文，字符，数字）转换成十进制对应的ascii码</span></strong><br /><strong><span style="font-size: 16px;">格式：ord(目标变量)</span></strong><br /><strong><span style="font-size: 16px;">返回：十进制对应的ascii码</span></strong></p>
+<p><strong><span style="font-size: 16px;"><strong>详情见：<strong>ascii</strong>码对照表</strong></span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">ord() 将（英文，字符，数字）转换成十进制对应的ascii码</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">M</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>=<span style="color: #000000;"> ord(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 77  十进制对应的ascii码</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px;">random 随机数模块</span></strong><br /><strong><span style="font-size: 16px;">格式：</span></strong><br /><strong><span style="font-size: 16px;">	　　import random  引入随机模块文件</span></strong><br /><strong><span style="font-size: 16px;">	　　random.randrange(65,91)  调用随机函数random.randrange(随机数开始范围,随机数结束范围)</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">实现随机数</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> random   <span style="color: #008000;">#</span><span style="color: #008000;">引入随机模块文件</span>
+f1 = random.randrange(65,91)    <span style="color: #008000;">#</span><span style="color: #008000;">调用随机函数random.randrange(随机数开始范围,随机数结束范围)</span>
+<span style="color: #0000ff;">print</span>(f1)   <span style="color: #008000;">#</span><span style="color: #008000;">返回一个65至91之间的随机数</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre><strong><span style="font-size: 16px;">实现随机验证码<br /></span></strong></pre>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">实现随机验证码</span><span style="color: #800000;">"""</span>
+
+<span style="color: #800000;">"""</span><span style="color: #800000;">实现随机数</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> random   <span style="color: #008000;">#</span><span style="color: #008000;">引入随机模块文件</span>
+f1 = random.randrange(65,91)    <span style="color: #008000;">#</span><span style="color: #008000;">调用随机函数random.randrange(随机数开始范围,随机数结束范围)</span>
+<span style="color: #0000ff;">print</span>(f1)   <span style="color: #008000;">#</span><span style="color: #008000;">返回一个65至91之间的随机数</span>
+
+<span style="color: #800000;">"""</span><span style="color: #800000;">实现8位数字随机数</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+suij </span>= <span style="color: #800000;">""</span>   <span style="color: #008000;">#</span><span style="color: #008000;">统计随机数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(4):  <span style="color: #008000;">#</span><span style="color: #008000;">循环4次</span>
+    rad = random.randrange(65,91)   <span style="color: #008000;">#</span><span style="color: #008000;">每一次循环随机一个65至91之间的一个数赋值rad变量</span>
+    c = str(rad)    <span style="color: #008000;">#</span><span style="color: #008000;">将每次得到的随机数转换成字符串类型</span>
+    suij = suij + c     <span style="color: #008000;">#</span><span style="color: #008000;">将转换成字符串类型的随机数赋值给，统计随机数</span>
+<span style="color: #0000ff;">print</span>(suij)     <span style="color: #008000;">#</span><span style="color: #008000;">打印出统计随机数</span>
+
+<span style="color: #800000;">"""</span><span style="color: #800000;">实现4位字母随机数130</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+suij2 </span>= <span style="color: #800000;">""</span>      <span style="color: #008000;">#</span><span style="color: #008000;">统计随机数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(4):      <span style="color: #008000;">#</span><span style="color: #008000;">循环4次</span>
+    rad = random.randrange(65,91)       <span style="color: #008000;">#</span><span style="color: #008000;">每一次循环随机一个65至91之间的一个数赋值rad变量</span>
+    c = chr(rad)        <span style="color: #008000;">#</span><span style="color: #008000;">将每次得到的随机数以十进制的ascii码转换成对应字母（ascii码字母范围是65-91）</span>
+    suij2 += c      <span style="color: #008000;">#</span><span style="color: #008000;">将转换的字母赋值给，统计随机数</span>
+<span style="color: #0000ff;">print</span>(suij2)        <span style="color: #008000;">#</span><span style="color: #008000;">打印出统计随机数</span>
+
+<span style="color: #800000;">"""</span><span style="color: #800000;">实现随机数字字母的组合</span><span style="color: #800000;">"""</span><span style="color: #000000;">
+suij3 </span>= <span style="color: #800000;">""</span>      <span style="color: #008000;">#</span><span style="color: #008000;">统计随机数</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> range(4):      <span style="color: #008000;">#</span><span style="color: #008000;">循环4次</span>
+    rad1 = random.randrange(0,6)        <span style="color: #008000;">#</span><span style="color: #008000;">每一次循环随机一个0至6之间的一个数</span>
+    <span style="color: #0000ff;">if</span> rad1 == 1 <span style="color: #0000ff;">or</span> rad1 == 3:          <span style="color: #008000;">#</span><span style="color: #008000;">判断如果rad1变量随机数等于1或者等于3</span>
+        rad2 = random.randrange(65,91)      <span style="color: #008000;">#</span><span style="color: #008000;">每一次循环随机一个65至91之间的一个数</span>
+        c1 = str(rad2)      <span style="color: #008000;">#</span><span style="color: #008000;">将随机数转换成字符串</span>
+        suij3 = suij3 + c1      <span style="color: #008000;">#</span><span style="color: #008000;">将转换的字符串赋值给，统计随机数</span>
+    <span style="color: #0000ff;">else</span>:       <span style="color: #008000;">#</span><span style="color: #008000;">如果rad1变量随机数不等于1或者3</span>
+        rad3 = random.randrange(65,91)      <span style="color: #008000;">#</span><span style="color: #008000;">每一次循环随机一个65至91之间的一个数</span>
+        c2 = chr(rad3)      <span style="color: #008000;">#</span><span style="color: #008000;">将随机到的数以十进制的ascii码转换成对应字母</span>
+        suij3 = suij3 + c2      <span style="color: #008000;">#</span><span style="color: #008000;">将转换的字母赋值给，统计随机数</span>
+<span style="color: #0000ff;">print</span>(suij3)        <span style="color: #008000;">#</span><span style="color: #008000;">打印出统计随机数</span></pre>
+</div>
+<pre></pre>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px;">callable() 一个对象是否可以被执行，也就是判断一个对象是否可以执行一个功能，如判断函数</span></strong><br /><strong><span style="font-size: 16px;">格式：callable(目标变量)</span></strong><br /><strong><span style="font-size: 16px;">返回：布尔值，可以执行返回True,不可以执行返回False</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">callable() 一个对象是否可以被执行，也就是判断一个对象是否可以执行一个功能，如判断函数</span>
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(a,b):
+    c </span>= a +<span style="color: #000000;"> b
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> c
+f1(</span>5,5<span style="color: #000000;">)
+r </span>=<span style="color: #000000;"> callable(f1)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(r)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 True 表示可执行对象</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>dict() 字典，创建字典</strong><br /><strong>格式：dict(目标变量)</strong><br /><strong>返回：字典</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">dict() 字典，创建字典</span><span style="color: #008000;">
+#</span><span style="color: #008000;">创建字典</span>
+a = dict({<span style="color: #800000;">"</span><span style="color: #800000;">k1</span><span style="color: #800000;">"</span>:123,<span style="color: #800000;">"</span><span style="color: #800000;">k2</span><span style="color: #800000;">"</span>:456,<span style="color: #800000;">"</span><span style="color: #800000;">k3</span><span style="color: #800000;">"</span>:789<span style="color: #000000;">})
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 {'k3': 789, 'k1': 123, 'k2': 456}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>dir() 查看一个对象的类库所有功能</strong><br /><strong>格式：dir(目标变量)</strong><br /><strong>返回：对象的类库详情</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">dir() 查看一个对象的类库所有功能</span>
+a =<span style="color: #000000;"> []
+b </span>=<span style="color: #000000;"> dir(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回：对象的类库详情</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>help() 查看一个类的类库功能详情</strong><br /><strong>格式：help(类名称)</strong><br /><strong>返回：一个类的类库功能详情</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">help() 查看一个类的类库功能详情</span>
+a =<span style="color: #000000;"> help(str)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 一个类的类库功能详情</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>divmod() 除数，判断除数结果，如果结果是整数返回整数加余数0，如果结果有小数返回整数加余数1</strong><br /><strong>格式：divmod(除数,被除数)</strong><br /><strong>返回：整数加余数1 ，<strong>整数加余数0</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">divmod() 除数，判断除数结果，如果结果是整数返回整数加余数0，如果结果有小数返回整数加余数1</span><span style="color: #008000;">
+#</span><span style="color: #008000;">除数结果是整数列</span>
+a = divmod(10,5<span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 (2, 0)</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">除数结果有小数列</span>
+b = divmod(10,3<span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 (3, 1)</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>enumerate() 自定义有序类型的起始索引，如：列表，元组等</strong><br /><strong>格式：(目标变量,起始索引位置数)</strong><br /><strong>返回：对应类型的索引自定义位置开始</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">enumerate() 自定义有序类型的起始索引，如：列表，元组等</span><span style="color: #008000;">
+#</span><span style="color: #008000;">列1</span>
+a = [123,456,789<span style="color: #000000;">]
+</span><span style="color: #0000ff;">for</span> k,v <span style="color: #0000ff;">in</span> enumerate(a,1<span style="color: #000000;">):
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(k,v)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回</span><span style="color: #008000;">
+#</span><span style="color: #008000;">1 123</span><span style="color: #008000;">
+#</span><span style="color: #008000;">2 456</span><span style="color: #008000;">
+#</span><span style="color: #008000;">3 789</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列2</span>
+b = [987,654,321<span style="color: #000000;">]
+c </span>= enumerate(b,1<span style="color: #000000;">)
+</span><span style="color: #0000ff;">for</span> k,v <span style="color: #0000ff;">in</span><span style="color: #000000;"> c:
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(k,v)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回</span><span style="color: #008000;">
+#</span><span style="color: #008000;">1 987</span><span style="color: #008000;">
+#</span><span style="color: #008000;">2 654</span><span style="color: #008000;">
+#</span><span style="color: #008000;">3 321</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>eval() 计算字符串类型的算数</strong><br /><strong>格式：eval(目标变量,赋值字典)</strong><br /><strong>返回：计算结果</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">eval() 计算字符串类型的算数</span><span style="color: #008000;">
+#</span><span style="color: #008000;">列1</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">3 + 2 - 5 + 1</span><span style="color: #800000;">"</span>     <span style="color: #008000;">#</span><span style="color: #008000;">字符串类的表达式</span>
+b = eval(a)     <span style="color: #008000;">#</span><span style="color: #008000;">计算字符串类的表达式</span>
+<span style="color: #0000ff;">print</span>(b)    <span style="color: #008000;">#</span><span style="color: #008000;">返回结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">返回 1</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列2</span>
+b1 = eval(<span style="color: #800000;">"</span><span style="color: #800000;">f + 5</span><span style="color: #800000;">"</span>,{<span style="color: #800000;">"</span><span style="color: #800000;">f</span><span style="color: #800000;">"</span>:8})      <span style="color: #008000;">#</span><span style="color: #008000;">f+5,相当于f是一个变量+5，后面可以传一个字典，就相当于赋值f变量等于8</span>
+<span style="color: #0000ff;">print</span>(b1)       <span style="color: #008000;">#</span><span style="color: #008000;">返回结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">返回 13</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>exec() 执行字符串类型的代码</strong><br /><strong>格式：exec(目标变量)</strong><br /><strong>返回：无返回值，只执行字符串类型的代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">exec() 执行字符串类型的代码</span><span style="color: #008000;">
+#</span><span style="color: #008000;">列1</span>
+a1 = <span style="color: #800000;">"</span><span style="color: #800000;">for i in range(8): print(i)</span><span style="color: #800000;">"</span>      <span style="color: #008000;">#</span><span style="color: #008000;">字符串类型的一个8次循环</span>
+b1 = <span style="color: #0000ff;">exec</span>(a1)   <span style="color: #008000;">#</span><span style="color: #008000;">执行字符串代码</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列2</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">for i in range(x): print(i)</span><span style="color: #800000;">"</span>   <span style="color: #008000;">#</span><span style="color: #008000;">字符串类型的一个8次循环</span>
+b = <span style="color: #0000ff;">exec</span>(a,{<span style="color: #800000;">"</span><span style="color: #800000;">x</span><span style="color: #800000;">"</span>:8})     <span style="color: #008000;">#</span><span style="color: #008000;">后面可以传一个字典，就相当于赋值x变量等于8</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>filter() 帅选<strong>一个可迭代对象</strong>，循序一个可迭代对象，将每次循环到的元素传入一个判断函数，判断函数返回True就将此元素保留，返回False的元素不保留</strong><br /><strong>格式：filter(函数,<strong>可迭代对象</strong>)</strong><br /><strong>返回：函数返回True的元素</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">filter() 循序一个<strong>可迭代对象</strong>，将每次循环到的元素传入一个判断函数，判断函数返回True就将此元素保留，返回False的元素不保留</span><span style="color: #008000;">
+#</span><span style="color: #008000;">列1</span>
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(x):
+    </span><span style="color: #0000ff;">if</span> x &gt; 5:   <span style="color: #008000;">#</span><span style="color: #008000;">判断函数传入的参数是否大于5</span>
+        <span style="color: #0000ff;">return</span> True     <span style="color: #008000;">#</span><span style="color: #008000;">如果大于5返回True</span>
+    <span style="color: #0000ff;">else</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">return</span> False    <span style="color: #008000;">#</span><span style="color: #008000;">如果不大于5返回False</span>
+a = filter(f1,[1,2,3,4,5,6,7,8,9])      <span style="color: #008000;">#</span><span style="color: #008000;">循环<strong>可迭代对象</strong>每次循环到的元素传入f1函数，每次传入函数返回True的元素保留给a变量，返回False 的元素不保留</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> a:     <span style="color: #008000;">#</span><span style="color: #008000;">循环出保留的元素</span>
+    <span style="color: #0000ff;">print</span>(i)    <span style="color: #008000;">#</span><span style="color: #008000;">打印出保留的元素</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 6</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 7</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 9</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列2</span><span style="color: #008000;">
+#</span><span style="color: #008000;">用lambda的表达式创建函数</span>
+a1 = filter(<span style="color: #0000ff;">lambda</span> x: x &gt; 5 ,[1,2,3,4,5,6,7,8,9])   <span style="color: #008000;">#</span><span style="color: #008000;">循环<strong>可迭代对象</strong>每次循环到的元素传入f1函数，每次传入函数返回True的元素保留给a变量，返回False 的元素不保留</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> a1:    <span style="color: #008000;">#</span><span style="color: #008000;">循环出保留的元素</span>
+    <span style="color: #0000ff;">print</span>(i)    <span style="color: #008000;">#</span><span style="color: #008000;">打印出保留的元素</span><span style="color: #008000;">
+#</span><span style="color: #008000;">打印出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 6</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 7</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 8</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 9</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>map() 对一个可迭代对象的每个元素做一种操作，返回以处理后的元素</strong><br /><strong>格式：map(函数，可迭代对象)</strong><br /><strong>返回：返回以处理后的元素</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">map() 对一个可迭代对象的每个元素做一种操作，返回以处理后的元素</span><span style="color: #008000;">
+#</span><span style="color: #008000;">列1</span>
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> f1(x):
+    </span><span style="color: #0000ff;">return</span> x + 100  <span style="color: #008000;">#</span><span style="color: #008000;">将函数接收到的参数加100返回</span>
+a = map(f1,[1,2,3,4,5])     <span style="color: #008000;">#</span><span style="color: #008000;">循环列表将每次循环的元素传入函数，将每次函数返回结果赋值给a变量</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> a:     <span style="color: #008000;">#</span><span style="color: #008000;">循环出结果赋值的变量</span>
+    <span style="color: #0000ff;">print</span>(i)    <span style="color: #008000;">#</span><span style="color: #008000;">打印结果</span><span style="color: #008000;">
+#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 101</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 102</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 103</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 104</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 105</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">列2</span><span style="color: #008000;">
+#</span><span style="color: #008000;">用lambda表达式创建函数</span>
+a1 = map(<span style="color: #0000ff;">lambda</span> x: x + 100, [1,2,3,4,5<span style="color: #000000;">])
+</span><span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> a1:
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(i)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 101</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 102</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 103</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 104</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 105</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>globals() 获取当前代码里的所有全局变量</strong><br /><strong>格式：print(globals())</strong><br /><strong>返回：当前代码里的所有全局变量</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">globals() 获取当前代码里的所有全局变量</span>
+a = 123<span style="color: #000000;">
+b </span>= 456<span style="color: #000000;">
+c </span>= 789
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(globals())
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回：当前代码里的所有全局变量</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>locals() 获取当前代码里的所有局部变量</strong><br /><strong>格式：print(locals())</strong><br /><strong>返回：当前代码里的所有局部变量</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">locals() 获取当前代码里的所有局部变量</span>
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> f1():
+    a </span>= 123<span style="color: #000000;">
+    b </span>= 456<span style="color: #000000;">
+    c </span>= 789
+    <span style="color: #0000ff;">print</span>(locals())     <span style="color: #008000;">#</span><span style="color: #008000;">获取当前代码里的所有局部变量</span>
+f1()</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>hash() 计算一个字符串的哈希值</strong><br /><strong>格式：hash(目标变量)</strong><br /><strong>返回：哈希值</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">hash() 计算一个字符串的哈希值</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">ihdaho;uybvy8h9adghoda</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>=<span style="color: #000000;"> hash(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 2278432038003157021 哈希值</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>help() 查看类的帮助信息</strong><br /><strong>格式：help(type(a))</strong><br /><strong>返回：帮助信息</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">help() 查看类的帮助信息</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">ihvfijwj</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>=<span style="color: #000000;"> help(type(a))
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回：帮助信息</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>id() 获取对象的内存地址</strong><br /><strong>格式：id(目标变量)</strong><br /><strong>返回：对象内存地址</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">id() 获取对象的内存地址</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">ewjwehnig</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>=<span style="color: #000000;"> id(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回：对象内存地址</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>input() 等待用户输入</strong><br /><strong>格式：变量 = input()</strong><br /><strong>返回：用户输入信息</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">input() 等待用户输入</span>
+a =<span style="color: #000000;"> input()
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回：用户输入信息</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>int() 创建或者转换整数类型</strong><br /><strong>格式：int(目标变量)</strong><br /><strong>返回：整数</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">int() 创建或者转换整数类型</span><span style="color: #008000;">
+#</span><span style="color: #008000;">创建整数</span>
+a = int(1234<span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+
+</span><span style="color: #008000;">#</span><span style="color: #008000;">转换整数</span>
+b = <span style="color: #800000;">"</span><span style="color: #800000;">1234</span><span style="color: #800000;">"</span><span style="color: #000000;">
+c </span>=<span style="color: #000000;"> int(b)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(c)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回：整数</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>isinstance() 判断一个对象是否是某个类型</strong><br /><strong>格式：isinstance(目标对象,类型)</strong><br /><strong>返回：如果是对应的类型True，不是对应的类型False</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">isinstance() 判断一个对象是否是某个类型</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">林贵秀</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>=<span style="color: #000000;"> isinstance(a,str)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 True</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>iter() 创建可迭代的对象，结合next()取出里面的每个元素</strong><br /><strong>格式：iter(目标变量)</strong><br /><strong>返回：可迭代类型</strong><br /><strong>可结合next()取出里面的每个元素</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">iter() 创建可迭代的对象</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">rghrthrhkjhtr</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= iter(a) <span style="color: #008000;">#</span><span style="color: #008000;">创建可迭代的对象</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+c1 </span>= next(b) <span style="color: #008000;">#</span><span style="color: #008000;">取出里面一个元素</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(c1)
+c2 </span>= next(b) <span style="color: #008000;">#</span><span style="color: #008000;">取出里面一个元素</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(c2)
+c3 </span>= next(b) <span style="color: #008000;">#</span><span style="color: #008000;">取出里面一个元素</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(c3)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 返回：可迭代类型</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 可结合next()取出里面的每个元素</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>next()取出可迭代类型里面的每个元素，结合iter()使用</strong><br /><strong>格式：next(目标对象)</strong><br /><strong>返回：可迭代类型的一个元素</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">iter() 创建可迭代的对象</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">rghrthrhkjhtr</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= iter(a) <span style="color: #008000;">#</span><span style="color: #008000;">创建可迭代的对象</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+c1 </span>= next(b) <span style="color: #008000;">#</span><span style="color: #008000;">取出里面一个元素</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(c1)
+c2 </span>= next(b) <span style="color: #008000;">#</span><span style="color: #008000;">取出里面一个元素</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(c2)
+c3 </span>= next(b) <span style="color: #008000;">#</span><span style="color: #008000;">取出里面一个元素</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(c3)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 返回：可迭代类型</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 可结合next()取出里面的每个元素</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>len() 判断一个可迭代对象里面有多少个元素</strong><br /><strong>格式：len(目标对象)</strong><br /><strong>返回：可迭代对象里面元素的数量</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">len() 判断一个可迭代对象里面有多少个元素</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">12345</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>=<span style="color: #000000;"> len(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 返回：可迭代对象里面元素的数量</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>max() 取一个可迭代对象的最大值</strong><br /><strong>格式：max(目标变量)</strong><br /><strong>返回：最大值</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">max() 取一个可迭代对象的最大值</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">128345</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>=<span style="color: #000000;"> max(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 返回：最大值</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>min() 取一个可迭代对象的最小值</strong><br /><strong>格式：min(目标变量)</strong><br /><strong>返回：最小值</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">min() 取一个可迭代对象的最小值</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">128345</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>=<span style="color: #000000;"> min(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 返回：最小值</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>pow() 求一个数的对少次方</strong><br /><strong>格式：pow(要求的数,多少次方)</strong><br /><strong>返回：一个数的次方</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">pow() 求一个数的对少次方</span>
+a = pow(2,10) <span style="color: #008000;">#</span><span style="color: #008000;">2的10次方</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 1024</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>property() 打印结果</strong><br /><strong>格式：property(目标变量)</strong><br /><strong>返回：结果</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">property() 打印结果</span>
+a = 12345
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 12345 结果</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>range() 自动创建一个数字列表，py3.0以上版本需要for循环后才创建</strong><br /><strong>格式：range(开始数字，结束数字)</strong><br /><strong>返回：需要for循环后返回创建的元素</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">range() 自动创建一个列表</span>
+a = range(1,10) <span style="color: #008000;">#</span><span style="color: #008000;">如果传一个参数，默认从0开始</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> a:
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(i)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 需要for循环后返回创建的元素</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>repr() 在对象类中找到 _repr_ 获取其返回值，返回对应的类型</strong><br /><strong>格式：repr（目标变量）</strong><br /><strong>返回：对应的类型</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">repr（）在对象类中找到 _repr_ 获取其返回值，返回对应的类型</span>
+a = 1234<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> repr(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 1234</span>
+<span style="color: #000000;">
+
+a1 </span>= <span style="color: #800000;">"</span><span style="color: #800000;">林贵秀</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b1 </span>=<span style="color: #000000;"> repr(a1)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b1)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 '林贵秀'</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>reversed() 对可迭代类型的元素排序进行反转，需要for循环后返回</strong><br /><strong>格式：reversed(目标变量)</strong><br /><strong>返回：需要for循环后返回，将元素进行反转排序后返回</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">reversed() 对可迭代类型的元素排序进行反转，需要for循环后返回</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">1234</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>=<span style="color: #000000;"> reversed(a)
+</span><span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> b:
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(i)
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> 返回</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 4</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 3</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 1</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>round() 四舍五入</strong><br /><strong>格式：round(目标变量)</strong><br /><strong>返回：四舍五入</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">round() 四舍五入</span><span style="color: #008000;">
+#</span><span style="color: #008000;">四舍</span>
+a = 3.4<span style="color: #000000;">
+b </span>=<span style="color: #000000;"> round(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 3</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">五入</span>
+a1 = 5.5<span style="color: #000000;">
+b1 </span>=<span style="color: #000000;"> round(a1)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b1)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 6</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>set() 创建或转换无序集合</strong><br /><strong>格式：set(目标变量)</strong><br /><strong>返回：无序集合</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">set() 创建或转换无序集合</span><span style="color: #008000;">
+#</span><span style="color: #008000;">创建结合</span>
+a1 = set({1,2,3<span style="color: #000000;">})
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(a1)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 {1, 2, 3}</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">转换集合</span>
+a = [1,2,3,4,5<span style="color: #000000;">]
+b </span>=<span style="color: #000000;"> set(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 {1, 2, 3, 4, 5}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>sum() 将一个可迭代对象的数字元素求和</strong><br /><strong>格式：sum(目标变量)</strong><br /><strong>返回：求和</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">sum() 将一个可迭代对象的数字元素求和</span>
+a = [11,22,33,44<span style="color: #000000;">]
+b </span>=<span style="color: #000000;"> sum(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 110 求和</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>tuple() 创建或转换元组</strong><br /><strong>格式：tuple(目标变量)</strong><br /><strong>返回：元组</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">tuple() 创建或转换元组</span><span style="color: #008000;">
+#</span><span style="color: #008000;">创建元组</span>
+a = tuple((11,22,33,44<span style="color: #000000;">))
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(a)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 (11, 22, 33, 44)</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">转换元组</span>
+a1 = [11,22,33,44<span style="color: #000000;">]
+b1 </span>=<span style="color: #000000;"> tuple(a1)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b1)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 (11, 22, 33, 44)</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>type() 查看一个对象的类型</strong><br /><strong>格式：type(目标变量)</strong><br /><strong>返回：类型</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">type() 查看一个对象的类型</span>
+a = <span style="color: #800000;">"</span><span style="color: #800000;">你好</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>=<span style="color: #000000;"> type(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回类型 &lt;class 'str'&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>zip() 将两个列表的元素，组合成两个元素为一对元组，需要for循环后返回</strong><br /><strong>格式：zip(列表，列表)</strong><br /><strong>返回：需要for循环后返回，两个元素为一对元组</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">zip() 将两个列表的元素，组合成两个元素为一对元组，需要for循环后返回</span>
+a = [1,2,3,4,5<span style="color: #000000;">]
+b </span>= [<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">b</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">c</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">d</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">e</span><span style="color: #800000;">"</span><span style="color: #000000;">]
+c </span>=<span style="color: #000000;"> zip(a,b)
+</span><span style="color: #0000ff;">print</span>(c)    <span style="color: #008000;">#</span><span style="color: #008000;">&lt;zip object at 0x0000012584DA0F88&gt;</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> c:
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(i)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> (1, 'a')</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> (2, 'b')</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> (3, 'c')</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> (4, 'd')</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> (5, 'e')</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>sorted() 对可迭代对象排序，注意可迭代对象元素一定要是同一类型，否则不能排序</strong><br /><strong>格式：sorted(目标变量)</strong><br /><strong>返回：排序后的对应对象</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">sorted() 对可迭代对象排序，注意可迭代对象元素一定要是同一类型，否则不能排序</span><span style="color: #008000;">
+#</span><span style="color: #008000;">数字排序，数字从小到大排序</span>
+a = [6,3,8,2,9,7,5<span style="color: #000000;">]
+b </span>=<span style="color: #000000;"> sorted(a)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 [2, 3, 5, 6, 7, 8, 9]</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">字母排序，字母按照顺序排序</span>
+a1 = [<span style="color: #800000;">"</span><span style="color: #800000;">d</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">f</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">s</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">e</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">a</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">u</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">g</span><span style="color: #800000;">"</span>,<span style="color: #800000;">"</span><span style="color: #800000;">l</span><span style="color: #800000;">"</span><span style="color: #000000;">]
+b1 </span>=<span style="color: #000000;">sorted(a1)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b1)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 ['a', 'd', 'e', 'f', 'g', 'l', 's', 'u']</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">字符串排序，是按照字符串的字节码数字和字母的<strong>ascii码</strong>排序的</span>
+a2 = <span style="color: #800000;">"</span><span style="color: #800000;">自贡玉秀文化传播有限公司</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b2 </span>=<span style="color: #000000;"> sorted(a2)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(b2)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">返回 ['传', '公', '化', '司', '播', '文', '有', '玉', '秀', '自', '贡', '限']</span>
+
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> b2:
+    </span><span style="color: #0000ff;">print</span>(bytes(i,encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>))    <span style="color: #008000;">#</span><span style="color: #008000;">查看字符串的字节码</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 18pt;">文件操作</span></strong><br /><strong>文件操作的步骤</strong><br /><strong>1.打开文件： open()打开文件</strong><br /><strong>2.操作文件： read()读出文件，write()写入文件</strong><br /><strong>3.关闭文件： close()关闭文件</strong></p>
+<p>&nbsp;</p>
+<p><strong>open() 打开一个文件</strong><br /><strong>格式：句柄变量 = open(要打开的文件名或文件路径，打开模式，编码)</strong><br /><strong>注意：默认是只读模式</strong><br /><strong>注意：编码只有在普通模式的时候用（3.0版本默认是utf-8编码），字节码模式不需要编码因为基层就是字节码保存的</strong><br /><strong>返回：文件句柄</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">open() 打开一个文件</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以r模式（只读）打开，以utf-8编码</span>
+<span style="color: #0000ff;">print</span>(f)    <span style="color: #008000;">#</span><span style="color: #008000;">打印文件句柄，&lt;_io.TextIOWrapper name='h.log' mode='r' encoding='utf-8'&gt;</span>
+f1 = f.read()   <span style="color: #008000;">#</span><span style="color: #008000;">read()读出文件内容</span>
+f.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span>
+<span style="color: #0000ff;">print</span>(f1)   <span style="color: #008000;">#</span><span style="color: #008000;">读出文件内容，tjhutrjtr</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>read() 读出文件内容</strong><br /><strong>格式：句柄变量.read(位数从指针位置开始向后读多少位) &nbsp;默认全部读出</strong><br /><strong>返回：文件里的内容</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">read() 读出文件内容</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以r模式（只读）打开，以utf-8编码</span>
+<span style="color: #0000ff;">print</span>(f)    <span style="color: #008000;">#</span><span style="color: #008000;">打印文件句柄，&lt;_io.TextIOWrapper name='h.log' mode='r' encoding='utf-8'&gt;</span>
+f1 = f.read()   <span style="color: #008000;">#</span><span style="color: #008000;">read()读出文件内容</span>
+f.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span>
+<span style="color: #0000ff;">print</span>(f1)   <span style="color: #008000;">#</span><span style="color: #008000;">读出文件内容，tjhutrjtr</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>write() 写入文件</strong><br /><strong>格式：句柄变量.write(要写入的内容)</strong><br /><strong>返回：无返回，将内容写入文件</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">write() 写入文件</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以r模式（只读）打开，以utf-8编码</span>
+f1 = f.write(<span style="color: #800000;">"</span><span style="color: #800000;">林贵秀</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">write()写入文件内容</span>
+f.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>close() 关闭文件</strong><br /><strong>格式：句柄变量.close()</strong><br /><strong>返回：无，关闭打开的文件</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">read() 读出文件内容</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以r模式（只读）打开，以utf-8编码</span>
+<span style="color: #0000ff;">print</span>(f)    <span style="color: #008000;">#</span><span style="color: #008000;">打印文件句柄，&lt;_io.TextIOWrapper name='h.log' mode='r' encoding='utf-8'&gt;</span>
+f1 = f.read()   <span style="color: #008000;">#</span><span style="color: #008000;">read()读出文件内容</span>
+f.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span>
+<span style="color: #0000ff;">print</span>(f1)   <span style="color: #008000;">#</span><span style="color: #008000;">读出文件内容，tjhutrjtr</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px;">打开文件的模式有：</span></strong></p>
+<ul>
+<li><strong><span style="font-size: 16px;">r ，只读模式【默认】</span></strong></li>
+<li>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">r ，只读模式【默认】</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以r模式（只读）打开，以utf-8编码</span>
+f2 = f.read()   <span style="color: #008000;">#</span><span style="color: #008000;">read()读出文件</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(f2)
+f.close()   </span><span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 只能读，不能写入</span></pre>
+</div>
+<p>&nbsp;下面相同原理</p>
+</li>
+<li><strong><span style="font-size: 16px;">w，只写模式【不可读；不存在则创建；存在则清空内容；】</span></strong></li>
+<li><strong><span style="font-size: 16px;">x， 只写模式【不可读；不存在则创建，存在则报错】</span></strong></li>
+<li><strong><span style="font-size: 16px;">a， 追加模式【<strong>不</strong>可读； &nbsp; 不存在则创建；存在则只追加内容；】</span></strong></li>
+</ul>
+<p><strong><span style="font-size: 16px;">"+" 表示可以同时读写某个文件</span></strong></p>
+<ul>
+<li><strong><span style="font-size: 16px;">r+， 读写【可读，可写】</span></strong></li>
+</ul>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">r ，只读模式【默认】</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r+</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以r+模式（读写）打开，以utf-8编码</span>
+f2 = f.read()   <span style="color: #008000;">#</span><span style="color: #008000;">read()读出文件</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(f2)
+f.write(</span><span style="color: #800000;">"</span><span style="color: #800000;">9444</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">写入文件</span>
+f.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 可读，可写</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>　　下面相同原理</p>
+<p>&nbsp;</p>
+<ul>
+<li><strong><span style="font-size: 16px;">w+，写读【可读，可写，<strong>不存在则创建；存在则清空内容；</strong>】</span></strong></li>
+<li><strong><span style="font-size: 16px;">x+ ，写读【可读，可写，<strong>不存在则创建，存在则报错</strong>】</span></strong></li>
+<li><strong><span style="font-size: 16px;">a+， 写读【可读，可写，<strong>不存在则创建；存在则只追加内容；</strong>】</span></strong></li>
+</ul>
+<p><strong><span style="font-size: 16px;">&nbsp;<span style="color: #000000;">"b"表示以字节的方式操作，<strong>以b方式打开时，读取到的内容是字节类型，写入时也需要提供字节类型</strong></span></span></strong></p>
+<p><span style="color: #ff0000;"><strong><span style="font-size: 16px;"><strong>　　<strong>&nbsp;注：以b方式打开时，读取到的内容是字节类型（不需要编码），写入时也需要提供字节类型（需要用<strong>bytes()转换成字节写入</strong>）</strong></strong></span></strong></span></p>
+<ul>
+<li><strong><span style="font-size: 16px;">rb 或 r+b 【原有基础上增加字节码模式】</span></strong></li>
+</ul>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">r+b 读写字节方式</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r+b</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以r+b模式（读写字节方式）</span>
+f2 = f.read()   <span style="color: #008000;">#</span><span style="color: #008000;">read()读出文件内容字节</span>
+f3 = str(f2, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">将字节转换成字符串</span>
+<span style="color: #0000ff;">print</span>(f3)   <span style="color: #008000;">#</span><span style="color: #008000;">打印出字符串</span>
+<span style="color: #000000;">
+a </span>= <span style="color: #800000;">"</span><span style="color: #800000;">你好</span><span style="color: #800000;">"</span><span style="color: #000000;">
+b </span>= bytes(a,encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)   <span style="color: #008000;">#</span><span style="color: #008000;">注意：字节模式写入前一定要转换成字节</span>
+f.write(b)  <span style="color: #008000;">#</span><span style="color: #008000;">写入文件</span>
+f.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 可读，可写</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>　　下面相同原理</p>
+<p>&nbsp;</p>
+<ul>
+<li><strong><span style="font-size: 16px;">wb 或 w+b &nbsp;<strong>【原有基础上增加字节码模式】</strong>　　</span></strong></li>
+<li><strong><span style="font-size: 16px;">xb&nbsp;或 w+b &nbsp;<strong>【原有基础上增加字节码模式】</strong></span></strong></li>
+<li><strong><span style="font-size: 16px;">ab&nbsp;或 a+b &nbsp;<strong>【原有基础上增加字节码模式】</strong></span></strong></li>
+</ul>
+<p><strong><span style="font-size: 16px;">&nbsp;</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>文件指针</strong></span><br /><span style="font-size: 18px;"><strong>操作文件，写入内容或者读出内容都是从指针位置开始向后操作的。</strong></span><br /><span style="font-size: 18px;"><strong>指针位置在开始位置后面的内容就可以读出，指针位置在结束的位置后面是空的此时读出就是空白</strong></span></p>
+<p><span style="font-size: 18px;"><strong>写入内容后指针就停留在写入内容的结束位置，追加模式写入内容是先将指针调到结束位置写入，写入后停留在写入结束位置</strong></span><br /><span style="font-size: 18px;"><strong>根据打开文件的模式不同指针位置不同，</strong></span></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong>tell() 查看文件指针位置</strong><br /><strong>格式：句柄变量.tell()</strong><br /><strong>返回：指针位置</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">tell() 查看文件指针位置</span><span style="color: #008000;">
+#</span><span style="color: #008000;">如：h.log里有一串字符串"自贡玉秀文化传播有限公司"</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以r只读模式，以utf-8编码</span>
+f1 = f.tell()   <span style="color: #008000;">#</span><span style="color: #008000;">tell()获取文件指针位置，注意：中文字符一个汉字算3个指针</span>
+<span style="color: #0000ff;">print</span>(f1)   <span style="color: #008000;">#</span><span style="color: #008000;">打印出指针位置</span>
+<span style="color: #000000;">
+f.seek(</span>9)   <span style="color: #008000;">#</span><span style="color: #008000;">自定义文件指针位置</span>
+f2 = f.tell()   <span style="color: #008000;">#</span><span style="color: #008000;">tell()获取文件指针位置，注意：中文字符一个汉字算3个指针</span>
+<span style="color: #0000ff;">print</span>(f2)   <span style="color: #008000;">#</span><span style="color: #008000;">打印出指针位置</span>
+<span style="color: #000000;">
+f3 </span>= f.read()   <span style="color: #008000;">#</span><span style="color: #008000;">读取文件内容</span>
+<span style="color: #0000ff;">print</span>(f3)   <span style="color: #008000;">#</span><span style="color: #008000;">打印出文件内容</span>
+f.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>seek() <strong>自定义</strong>文件指针位置</strong><br /><strong>格式：句柄变量.seek(自定义指针位置) 默认指针位置0</strong><br /><strong>返回：无，<strong>自定义</strong>文件指针位置</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">tell() 查看文件指针位置</span><span style="color: #008000;">
+#</span><span style="color: #008000;">如：h.log里有一串字符串"自贡玉秀文化传播有限公司"</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以r只读模式，以utf-8编码</span>
+f1 = f.tell()   <span style="color: #008000;">#</span><span style="color: #008000;">tell()获取文件指针位置，注意：中文字符一个汉字算3个指针</span>
+<span style="color: #0000ff;">print</span>(f1)   <span style="color: #008000;">#</span><span style="color: #008000;">打印出指针位置</span>
+<span style="color: #000000;">
+f.seek(</span>9)   <span style="color: #008000;">#</span><span style="color: #008000;">自定义文件指针位置</span>
+f2 = f.tell()   <span style="color: #008000;">#</span><span style="color: #008000;">tell()获取文件指针位置，注意：中文字符一个汉字算3个指针</span>
+<span style="color: #0000ff;">print</span>(f2)   <span style="color: #008000;">#</span><span style="color: #008000;">打印出指针位置</span>
+<span style="color: #000000;">
+f3 </span>= f.read()   <span style="color: #008000;">#</span><span style="color: #008000;">读取文件内容</span>
+<span style="color: #0000ff;">print</span>(f3)   <span style="color: #008000;">#</span><span style="color: #008000;">打印出文件内容</span>
+f.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>flush() 刷新文件内部缓冲区（将内容刷到硬盘文件里）</strong><br /><strong>格式：句柄变量.flush()</strong><br /><strong>返回：无，将内容刷到硬盘文件里</strong></p>
+<p>&nbsp;下面是将内容刷到硬盘文件里，与不将内容刷到硬盘文件里的区别</p>
+<p>1不将内容刷到硬盘文件里</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">flush() 刷新文件内部缓冲区（将内容刷到硬盘文件里）</span><span style="color: #008000;">
+#</span><span style="color: #008000;">不将内容刷到硬盘文件里</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以w只写，以utf-8编码</span>
+f.write(<span style="color: #800000;">"</span><span style="color: #800000;">林贵秀</span><span style="color: #800000;">"</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">写入内容</span>
+input()     <span style="color: #008000;">#</span><span style="color: #008000;">等待用户输入，进程没结束</span>
+f.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;">如上列说明，等待用户输入，只要用户没有输入信息确认进程就没结束，上面的内容就不会写入文件</span></pre>
+</div>
+<p>2将内容刷到硬盘文件里</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">flush() 刷新文件内部缓冲区（将内容刷到硬盘文件里）</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以w只写，以utf-8编码</span>
+f.write(<span style="color: #800000;">"</span><span style="color: #800000;">林贵秀</span><span style="color: #800000;">"</span>)  <span style="color: #008000;">#</span><span style="color: #008000;">写入内容</span>
+f.flush()   <span style="color: #008000;">#</span><span style="color: #008000;">将内容刷到硬盘文件里</span>
+input()     <span style="color: #008000;">#</span><span style="color: #008000;">等待用户输入，进程没结束</span>
+f.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;">如上列说明，等待用户输入，只要用户没有输入信息确认进程就没结束，上面的内容也会写入文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>readline() 仅读取一行数据，后面行的数据不读取</strong><br /><strong>格式：句柄变量.readline()</strong><br /><strong>返回：仅返回文件里一行数据</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">readline() 仅读取一行数据</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以r只读模式，以utf-8编码</span>
+f1 = f.readline()   <span style="color: #008000;">#</span><span style="color: #008000;">readline() 仅读取一行数据,后面行的数据不读取</span>
+<span style="color: #0000ff;">print</span><span style="color: #000000;">(f1)
+f.close()   </span><span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>truncate() 截断数据，仅保留指针之前数据，指针之后的数据删除</strong><br /><strong>格式：句柄变量.truncate()</strong><br /><strong>返回：仅保留指针之前数据，指针之后的数据删除</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">truncate()  截断数据，仅保留指针之前数据</span><span style="color: #008000;">
+#</span><span style="color: #008000;">如文件里有:123456789</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r+</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以r+读写模式，以utf-8编码</span>
+<span style="color: #0000ff;">print</span>(f.tell())     <span style="color: #008000;">#</span><span style="color: #008000;">查看文件指针</span>
+f.seek(5)   <span style="color: #008000;">#</span><span style="color: #008000;">将文件指针定位到第5个位置</span>
+<span style="color: #0000ff;">print</span>(f.tell())     <span style="color: #008000;">#</span><span style="color: #008000;">查看文件指针</span>
+f.truncate()   <span style="color: #008000;">#</span><span style="color: #008000;">truncate()  截断数据，仅保留指针之前数据，指针之后的数据删除</span>
+f.close()   <span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;">最后文件里是 12345 后面的被删除了</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>for <strong>循环文件里的内容，</strong>文件句柄是可以被循环的，适合大文件读取好处是节省内存，相当于一行一行的读的，（推荐）</strong><br /><strong>格式：句柄变量 = 打开文件</strong><br /><strong>	for 循环</strong><br /><strong>返回：文件里的内容</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;">for 文件句柄是可以被循环的，循环文件里的内容，适合大文件读取好处是节省内存，相当于一行一行的读的，</span>
+f = open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r+</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)    <span style="color: #008000;">#</span><span style="color: #008000;">打开h.log文件，以r+读写模式，以utf-8编码</span>
+<span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> f:
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(i)
+f.close()   </span><span style="color: #008000;">#</span><span style="color: #008000;">关闭文件</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>with 自动打开文件，对文件操作后，自动关闭文件,不用写关闭文件函数，而且支持同时打开两个文件（推荐）</strong><br /><strong>格式：with open("文件路径","打开模式") as 句柄变量:</strong><br /><strong>返回：句柄变量</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> with 自动打开文件，对文件操作后，自动关闭文件（推荐）</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 格式：with open("文件路径","打开模式") as 句柄变量:</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 返回：句柄变量</span>
+with open(<span style="color: #800000;">"</span><span style="color: #800000;">h.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r+</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) as f:    <span style="color: #008000;">#</span><span style="color: #008000;">自动打开文件，对文件操作后，自动关闭文件</span>
+    a = f.read()    <span style="color: #008000;">#</span><span style="color: #008000;">读出文件内容</span>
+    <span style="color: #0000ff;">print</span>(a)    <span style="color: #008000;">#</span><span style="color: #008000;">打印出文件内容</span></pre>
+</div>
+<p>列2 同时打开两个文件，将一个文件的内容写入另外一个文件<br />假如原始文件很大，所以通过循环文件句柄，读一行写一行到新文件，减少内存使用率</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf-8 -*-</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 列2 同时打开两个文件，将一个文件的内容写入另外一个文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 假如原始文件很大，所以通过循环文件句柄，读一行写一行到新文件，减少内存使用率</span>
+with open(<span style="color: #800000;">"</span><span style="color: #800000;">1.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">r</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) as  a, open(<span style="color: #800000;">"</span><span style="color: #800000;">2.log</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">w</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) as b:    <span style="color: #008000;">#</span><span style="color: #008000;">自动打开文件，对文件操作后，自动关闭文件</span>
+    <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> a:     <span style="color: #008000;">#</span><span style="color: #008000;">循环出原始文件的数据</span>
+        b.write(i)  <span style="color: #008000;">#</span><span style="color: #008000;">每循环出一行原始文件数据，写入新文件里</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>文件操作2.x源码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> file(object)
+    </span><span style="color: #0000ff;">def</span> close(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        关闭文件
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        close() -&gt; None or (perhaps) an integer.  Close the file.
+         
+        Sets data attribute .closed to True.  A closed file cannot be used for
+        further I/O operations.  close() may be called more than once without
+        error.  Some kinds of file objects (for example, opened by popen())
+        may return an exit status upon closing.
+        </span><span style="color: #800000;">"""</span>
+ 
+    <span style="color: #0000ff;">def</span> fileno(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        文件描述符  
+         </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        fileno() -&gt; integer "file descriptor".
+         
+        This is needed for lower-level file interfaces, such os.read().
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> 0    
+ 
+    </span><span style="color: #0000ff;">def</span> flush(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        刷新文件内部缓冲区
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;"> flush() -&gt; None.  Flush the internal I/O buffer. </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+ 
+ 
+    <span style="color: #0000ff;">def</span> isatty(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        判断文件是否是同意tty设备
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;"> isatty() -&gt; true or false.  True if the file is connected to a tty device. </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> False
+ 
+ 
+    </span><span style="color: #0000ff;">def</span> next(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        获取下一行数据，不存在，则报错
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;"> x.next() -&gt; the next value, or raise StopIteration </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+ 
+    <span style="color: #0000ff;">def</span> read(self, size=None): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        读取指定字节数据
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        read([size]) -&gt; read at most size bytes, returned as a string.
+         
+        If the size argument is negative or omitted, read until EOF is reached.
+        Notice that when in non-blocking mode, less data than what was requested
+        may be returned, even if no size parameter was given.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+ 
+    <span style="color: #0000ff;">def</span> readinto(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        读取到缓冲区，不要用，将被遗弃
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;"> readinto() -&gt; Undocumented.  Don't use this; it may go away. </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+ 
+    <span style="color: #0000ff;">def</span> readline(self, size=None): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        仅读取一行数据
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        readline([size]) -&gt; next line from the file, as a string.
+         
+        Retain newline.  A non-negative size argument limits the maximum
+        number of bytes to return (an incomplete line may be returned then).
+        Return an empty string at EOF.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+ 
+    <span style="color: #0000ff;">def</span> readlines(self, size=None): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        读取所有数据，并根据换行保存值列表
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        readlines([size]) -&gt; list of strings, each a line from the file.
+         
+        Call readline() repeatedly and return a list of the lines so read.
+        The optional size argument, if given, is an approximate bound on the
+        total number of bytes in the lines returned.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> []
+ 
+    </span><span style="color: #0000ff;">def</span> seek(self, offset, whence=None): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        指定文件中指针位置
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        seek(offset[, whence]) -&gt; None.  Move to new file position.
+         
+        Argument offset is a byte count.  Optional argument whence defaults to
+(offset from start of file, offset should be &gt;= 0); other values are 1
+        (move relative to current position, positive or negative), and 2 (move
+        relative to end of file, usually negative, although many platforms allow
+        seeking beyond the end of a file).  If the file is opened in text mode,
+        only offsets returned by tell() are legal.  Use of other offsets causes
+        undefined behavior.
+        Note that not all file objects are seekable.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+ 
+    <span style="color: #0000ff;">def</span> tell(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        获取当前指针位置
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;"> tell() -&gt; current file position, an integer (may be a long integer). </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+ 
+    <span style="color: #0000ff;">def</span> truncate(self, size=None): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        截断数据，仅保留指定之前数据
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        truncate([size]) -&gt; None.  Truncate the file to at most size bytes.
+         
+        Size defaults to the current file position, as returned by tell().
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+ 
+    <span style="color: #0000ff;">def</span> write(self, p_str): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        写内容
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        write(str) -&gt; None.  Write string str to file.
+         
+        Note that due to buffering, flush() or close() may be needed before
+        the file on disk reflects the data written.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+ 
+    <span style="color: #0000ff;">def</span> writelines(self, sequence_of_strings): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        将一个字符串列表写入文件
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        writelines(sequence_of_strings) -&gt; None.  Write the strings to the file.
+         
+        Note that newlines are not added.  The sequence can be any iterable object
+        producing strings. This is equivalent to calling write() for each string.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+ 
+    <span style="color: #0000ff;">def</span> xreadlines(self): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown; restored from __doc__</span>
+<span style="color: #000000;">        可用于逐行读取文件，非全部
+        </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+        xreadlines() -&gt; returns self.
+         
+        For backward compatibility. File objects now include the performance
+        optimizations previously implemented in the xreadlines module.
+        </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>文件操作3.x源码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> TextIOWrapper(_TextIOBase):
+    </span><span style="color: #800000;">"""</span><span style="color: #800000;">
+    Character and line based layer over a BufferedIOBase object, buffer.
+    
+    encoding gives the name of the encoding that the stream will be
+    decoded or encoded with. It defaults to locale.getpreferredencoding(False).
+    
+    errors determines the strictness of encoding and decoding (see
+    help(codecs.Codec) or the documentation for codecs.register) and
+    defaults to "strict".
+    
+    newline controls how line endings are handled. It can be None, '',
+    '\n', '\r', and '\r\n'.  It works as follows:
+    
+    * On input, if newline is None, universal newlines mode is
+      enabled. Lines in the input can end in '\n', '\r', or '\r\n', and
+      these are translated into '\n' before being returned to the
+      caller. If it is '', universal newline mode is enabled, but line
+      endings are returned to the caller untranslated. If it has any of
+      the other legal values, input lines are only terminated by the given
+      string, and the line ending is returned to the caller untranslated.
+    
+    * On output, if newline is None, any '\n' characters written are
+      translated to the system default line separator, os.linesep. If
+      newline is '' or '\n', no translation takes place. If newline is any
+      of the other legal values, any '\n' characters written are translated
+      to the given string.
+    
+    If line_buffering is True, a call to flush is implied when a call to
+    write contains a newline character.
+    </span><span style="color: #800000;">"""</span>
+    <span style="color: #0000ff;">def</span> close(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        关闭文件
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> fileno(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        文件描述符  
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> flush(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        刷新文件内部缓冲区
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> isatty(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        判断文件是否是同意tty设备
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> read(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        读取指定字节数据
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> readable(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        是否可读
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> readline(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        仅读取一行数据
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> seek(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        指定文件中指针位置
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> seekable(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        指针是否可操作
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> tell(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        获取指针位置
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> truncate(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        截断数据，仅保留指定之前数据
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> writable(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        是否可写
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> write(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+<span style="color: #000000;">        写内容
+        </span><span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__getstate__</span>(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span>(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+        <span style="color: #0000ff;">pass</span><span style="color: #000000;">
+
+    @staticmethod </span><span style="color: #008000;">#</span><span style="color: #008000;"> known case of __new__</span>
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__new__</span>(*args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> Create and return a new object.  See help(type) for accurate signature. </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__next__</span>(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> Implement next(self). </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span>
+
+    <span style="color: #0000ff;">def</span> <span style="color: #800080;">__repr__</span>(self, *args, **kwargs): <span style="color: #008000;">#</span><span style="color: #008000;"> real signature unknown</span>
+        <span style="color: #800000;">"""</span><span style="color: #800000;"> Return repr(self). </span><span style="color: #800000;">"""</span>
+        <span style="color: #0000ff;">pass</span><span style="color: #000000;">
+
+    buffer </span>= property(<span style="color: #0000ff;">lambda</span> self: object(), <span style="color: #0000ff;">lambda</span> self, v: None, <span style="color: #0000ff;">lambda</span> self: None)  <span style="color: #008000;">#</span><span style="color: #008000;"> default</span>
+<span style="color: #000000;">
+    closed </span>= property(<span style="color: #0000ff;">lambda</span> self: object(), <span style="color: #0000ff;">lambda</span> self, v: None, <span style="color: #0000ff;">lambda</span> self: None)  <span style="color: #008000;">#</span><span style="color: #008000;"> default</span>
+<span style="color: #000000;">
+    encoding </span>= property(<span style="color: #0000ff;">lambda</span> self: object(), <span style="color: #0000ff;">lambda</span> self, v: None, <span style="color: #0000ff;">lambda</span> self: None)  <span style="color: #008000;">#</span><span style="color: #008000;"> default</span>
+<span style="color: #000000;">
+    errors </span>= property(<span style="color: #0000ff;">lambda</span> self: object(), <span style="color: #0000ff;">lambda</span> self, v: None, <span style="color: #0000ff;">lambda</span> self: None)  <span style="color: #008000;">#</span><span style="color: #008000;"> default</span>
+<span style="color: #000000;">
+    line_buffering </span>= property(<span style="color: #0000ff;">lambda</span> self: object(), <span style="color: #0000ff;">lambda</span> self, v: None, <span style="color: #0000ff;">lambda</span> self: None)  <span style="color: #008000;">#</span><span style="color: #008000;"> default</span>
+<span style="color: #000000;">
+    name </span>= property(<span style="color: #0000ff;">lambda</span> self: object(), <span style="color: #0000ff;">lambda</span> self, v: None, <span style="color: #0000ff;">lambda</span> self: None)  <span style="color: #008000;">#</span><span style="color: #008000;"> default</span>
+<span style="color: #000000;">
+    newlines </span>= property(<span style="color: #0000ff;">lambda</span> self: object(), <span style="color: #0000ff;">lambda</span> self, v: None, <span style="color: #0000ff;">lambda</span> self: None)  <span style="color: #008000;">#</span><span style="color: #008000;"> default</span>
+<span style="color: #000000;">
+    _CHUNK_SIZE </span>= property(<span style="color: #0000ff;">lambda</span> self: object(), <span style="color: #0000ff;">lambda</span> self, v: None, <span style="color: #0000ff;">lambda</span> self: None)  <span style="color: #008000;">#</span><span style="color: #008000;"> default</span>
+<span style="color: #000000;">
+    _finalizing </span>= property(<span style="color: #0000ff;">lambda</span> self: object(), <span style="color: #0000ff;">lambda</span> self, v: None, <span style="color: #0000ff;">lambda</span> self: None)  <span style="color: #008000;">#</span><span style="color: #008000;"> default</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre><span style="font-size: 16px;"><strong>&nbsp;</strong></span></pre>
+<pre><span style="font-size: 16px;"><strong>&nbsp;</strong></span></pre>
+<pre><span style="font-size: 16px;"><strong>&nbsp;</strong></span></pre>
+<pre><strong><span style="font-size: 16px;">&nbsp;</span></strong></pre>
+<pre><strong><span style="font-size: 16px;">&nbsp;</span></strong></pre>
+<pre><strong><span style="font-size: 16px;">&nbsp;</span></strong></pre>
+<pre><strong><span style="font-size: 16px;">&nbsp;</span></strong></pre>
+<p>&nbsp;</p>
+<pre><span style="font-size: 16px;"><strong>&nbsp;</strong></span></pre>
+<pre><span style="font-size: 16px;"><strong>&nbsp;</strong></span></pre></div>

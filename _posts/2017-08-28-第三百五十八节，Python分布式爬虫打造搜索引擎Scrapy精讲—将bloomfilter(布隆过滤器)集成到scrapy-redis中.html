@@ -1,0 +1,310 @@
+第三百五十八节，Python分布式爬虫打造搜索引擎Scrapy精讲—将bloomfilter(布隆过滤器)集成到scrapy-redis中
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百五十八节，Python分布式爬虫打造搜索引擎Scrapy精讲—将bloomfilter(布隆过滤器)集成到scrapy-redis中，判断URL是否重复</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>布隆过滤器(Bloom Filter)详解</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170828080511812-1176148746.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<h3><span id=".E5.9F.BA.E6.9C.AC.E6.A6.82.E5.BF.B5" class="mw-headline" style="color: #ff0000">基本概念</span></h3>
+<p>如果想判断一个元素是不是在一个集合里，一般想到的是将所有元素保存起来，然后通过比较确定。链表，树等等数据结构都是这种思路. 但是随着集合中元素的增加，我们需要的存储空间越来越大，检索速度也越来越慢。不过世界上还有一种叫作<span class="mw-redirect">散列表（又叫哈希表，Hash table）的数据结构。它可以通过一个Hash函数将一个元素映射成一个位阵列（Bit Array）中的一个点。这样一来，我们只要看看这个点是不是 1 就知道可以集合中有没有它了。这就是布隆过滤器的基本思想。</span></p>
+<p>Hash面临的问题就是冲突。假设 Hash 函数是良好的，如果我们的位阵列长度为 m 个点，那么如果我们想将冲突率降低到例如 1%, 这个散列表就只能容纳 m/100 个元素。显然这就不叫空间有效了（Space-efficient）。解决方法也简单，就是使用多个 Hash，如果它们有一个说元素不在集合中，那肯定就不在。如果它们都说在，虽然也有一定可能性它们在说谎，不过直觉上判断这种事情的概率是比较低的。</p>
+<p>&nbsp;</p>
+<h3><span id=".E4.BC.98.E7.82.B9" class="mw-headline" style="color: #ff0000">优点</span></h3>
+<p>相比于其它的数据结构，布隆过滤器在空间和时间方面都有巨大的优势。布隆过滤器存储空间和插入/查询时间都是常数。另外, Hash 函数相互之间没有关系，方便由硬件并行实现。布隆过滤器不需要存储元素本身，在某些对保密要求非常严格的场合有优势。</p>
+<p>布隆过滤器可以表示全集，其它任何数据结构都不能；</p>
+<p>k 和 m 相同，使用同一组 Hash 函数的两个布隆过滤器的交并差运算可以使用位操作进行。</p>
+<p>&nbsp;</p>
+<h3><span style="color: #ff0000">缺点</span></h3>
+<p>但是布隆过滤器的缺点和优点一样明显。误算率（False Positive）是其中之一。随着存入的元素数量增加，误算率随之增加。但是如果元素数量太少，则使用散列表足矣。</p>
+<p>另外，一般情况下不能从布隆过滤器中删除元素. 我们很容易想到把位列阵变成整数数组，每插入一个元素相应的计数器加1, 这样删除元素时将计数器减掉就可以了。然而要保证安全的删除元素并非如此简单。首先我们必须保证删除的元素的确在布隆过滤器里面. 这一点单凭这个过滤器是无法保证的。另外计数器回绕也会造成问题。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>python 基于redis实现的bloomfilter(布隆过滤器)，</strong></span><span style="color: #0000ff"><span style="color: #ff0000"><strong>BloomFilter_imooc</strong></span></span></p>
+<p><span style="color: #ff0000"><strong>BloomFilter_imooc</strong></span><strong style="color: #ff0000">下载</strong></p>
+<p><span style="color: #ff0000"><strong>下载地址：<span style="color: #0000ff">https://github.com/liyaopinner/BloomFilter_imooc</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">依赖关系：</span></strong></span><span style="color: #ff0000"><strong><span style="color: #0000ff">　</span></strong></span></p>
+<p>　　python 基于redis实现的bloomfilter</p>
+<p>　　依赖mmh3</p>
+<p>　　安装依赖包：</p>
+<p>　　pip install mmh3</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>1、安装好</strong></span><strong style="color: #ff0000"><span style="color: #0000ff">BloomFilter_imooc</span>所需要的依赖</strong></p>
+<p><span style="color: #ff0000"><strong>2、将下载的</strong></span><strong style="color: #ff0000"><span style="color: #0000ff">BloomFilter_imooc</span>包解压后，将里面的</strong><span style="color: #ff0000"><strong><span style="color: #0000ff">py_bloomfilter.py</span>文件复制到</strong></span><strong style="color: #ff0000">scrapy工程目录</strong></p>
+<h1 style="margin-right: 0px; margin-bottom: 16px; margin-left: 0px; line-height: 1.25; padding-bottom: 0.3em; border-bottom: 1px solid #eaecef; color: #24292e; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; margin-top: 0px !important"><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170828101801593-932061874.png" alt=""></h1>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">py_bloomfilter.py</span><strong>(布隆过滤器)源码</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">import</span><span style="color: #000000"> mmh3
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> redis
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> math
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> time
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> PyBloomFilter():
+    </span><span style="color: #008000">#</span><span style="color: #008000">内置100个随机种子</span>
+    SEEDS = [543, 460, 171, 876, 796, 607, 650, 81, 837, 545, 591, 946, 846, 521, 913, 636, 878, 735, 414, 372<span style="color: #000000">,
+             </span>344, 324, 223, 180, 327, 891, 798, 933, 493, 293, 836, 10, 6, 544, 924, 849, 438, 41, 862, 648, 338<span style="color: #000000">,
+             </span>465, 562, 693, 979, 52, 763, 103, 387, 374, 349, 94, 384, 680, 574, 480, 307, 580, 71, 535, 300, 53<span style="color: #000000">,
+             </span>481, 519, 644, 219, 686, 236, 424, 326, 244, 212, 909, 202, 951, 56, 812, 901, 926, 250, 507, 739, 371<span style="color: #000000">,
+             </span>63, 584, 154, 7, 284, 617, 332, 472, 140, 605, 262, 355, 526, 647, 923, 199, 518<span style="color: #000000">]
+
+    </span><span style="color: #008000">#</span><span style="color: #008000">capacity是预先估计要去重的数量</span>
+    <span style="color: #008000">#</span><span style="color: #008000">error_rate表示错误率</span>
+    <span style="color: #008000">#</span><span style="color: #008000">conn表示redis的连接客户端</span>
+    <span style="color: #008000">#</span><span style="color: #008000">key表示在redis中的键的名字前缀</span>
+    <span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span>(self, capacity=1000000000, error_rate=0.00000001, conn=None, key=<span style="color: #800000">'</span><span style="color: #800000">BloomFilter</span><span style="color: #800000">'</span><span style="color: #000000">):
+        self.m </span>= math.ceil(capacity*math.log2(math.e)*math.log2(1/error_rate))      <span style="color: #008000">#</span><span style="color: #008000">需要的总bit位数</span>
+        self.k = math.ceil(math.log1p(2)*self.m/capacity)                           <span style="color: #008000">#</span><span style="color: #008000">需要最少的hash次数</span>
+        self.mem = math.ceil(self.m/8/1024/1024)                                    <span style="color: #008000">#</span><span style="color: #008000">需要的多少M内存</span>
+        self.blocknum = math.ceil(self.mem/512)                                     <span style="color: #008000">#</span><span style="color: #008000">需要多少个512M的内存块,value的第一个字符必须是ascii码，所有最多有256个内存块</span>
+        self.seeds =<span style="color: #000000"> self.SEEDS[0:self.k]
+        self.key </span>=<span style="color: #000000"> key
+        self.N </span>= 2**31-1<span style="color: #000000">
+        self.redis </span>=<span style="color: #000000"> conn
+        </span><span style="color: #008000">#</span><span style="color: #008000"> print(self.mem)</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> print(self.k)</span>
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> add(self, value):
+        name </span>= self.key + <span style="color: #800000">"</span><span style="color: #800000">_</span><span style="color: #800000">"</span> + str(ord(value[0])%<span style="color: #000000">self.blocknum)
+        hashs </span>=<span style="color: #000000"> self.get_hashs(value)
+        </span><span style="color: #0000ff">for</span> hash <span style="color: #0000ff">in</span><span style="color: #000000"> hashs:
+            self.redis.setbit(name, hash, </span>1<span style="color: #000000">)
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> is_exist(self, value):
+        name </span>= self.key + <span style="color: #800000">"</span><span style="color: #800000">_</span><span style="color: #800000">"</span> + str(ord(value[0])%<span style="color: #000000">self.blocknum)
+        hashs </span>=<span style="color: #000000"> self.get_hashs(value)
+        exist </span>=<span style="color: #000000"> True
+        </span><span style="color: #0000ff">for</span> hash <span style="color: #0000ff">in</span><span style="color: #000000"> hashs:
+            exist </span>= exist &amp;<span style="color: #000000"> self.redis.getbit(name, hash)
+        </span><span style="color: #0000ff">return</span><span style="color: #000000"> exist
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> get_hashs(self, value):
+        hashs </span>=<span style="color: #000000"> list()
+        </span><span style="color: #0000ff">for</span> seed <span style="color: #0000ff">in</span><span style="color: #000000"> self.seeds:
+            hash </span>=<span style="color: #000000"> mmh3.hash(value, seed)
+            </span><span style="color: #0000ff">if</span> hash &gt;=<span style="color: #000000"> 0:
+                hashs.append(hash)
+            </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+                hashs.append(self.N </span>-<span style="color: #000000"> hash)
+        </span><span style="color: #0000ff">return</span><span style="color: #000000"> hashs
+
+
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379, db=<span style="color: #000000">0)
+conn </span>= redis.StrictRedis(connection_pool=<span style="color: #000000">pool)
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> 使用方法</span><span style="color: #008000">
+#</span><span style="color: #008000"> if __name__ == "__main__":</span><span style="color: #008000">
+#</span><span style="color: #008000">     bf = PyBloomFilter(conn=conn)           # 利用连接池连接Redis</span><span style="color: #008000">
+#</span><span style="color: #008000">     bf.add('www.jobbole.com')               # 向Redis默认的通道添加一个域名</span><span style="color: #008000">
+#</span><span style="color: #008000">     bf.add('www.luyin.org')                 # 向Redis默认的通道添加一个域名</span><span style="color: #008000">
+#</span><span style="color: #008000">     print(bf.is_exist('www.zhihu.com'))     # 打印此域名在通道里是否存在，存在返回1，不存在返回0</span><span style="color: #008000">
+#</span><span style="color: #008000">     print(bf.is_exist('www.luyin.org'))     # 打印此域名在通道里是否存在，存在返回1，不存在返回0</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>将<span style="color: #0000ff"><strong>py_bloomfilter.py</strong></span>(布隆过滤器)集成到<span style="color: #0000ff">scrapy-redis</span>中的<span style="color: #0000ff">dupefilter.py</span>去重器中，使其抓取过的URL不添加到下载器，没抓取过的URL添加到下载器</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170828102512343-304722001.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>scrapy-redis中的dupefilter.py去重器修改</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">import</span><span style="color: #000000"> logging
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> time
+
+</span><span style="color: #0000ff">from</span> scrapy.dupefilters <span style="color: #0000ff">import</span><span style="color: #000000"> BaseDupeFilter
+</span><span style="color: #0000ff">from</span> scrapy.utils.request <span style="color: #0000ff">import</span><span style="color: #000000"> request_fingerprint
+
+</span><span style="color: #0000ff">from</span> . <span style="color: #0000ff">import</span><span style="color: #000000"> defaults
+</span><span style="color: #0000ff">from</span> .connection <span style="color: #0000ff">import</span><span style="color: #000000"> get_redis_from_settings
+</span><span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> bloomfilter.py_bloomfilter <span style="color: #0000ff">import</span> conn,PyBloomFilter   <span style="color: #008000">#</span><span style="color: #008000">导入布隆过滤器</span></span>
+<span style="color: #000000">
+logger </span>= logging.getLogger(<span style="color: #800080">__name__</span><span style="color: #000000">)
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> TODO: Rename class to RedisDupeFilter.</span>
+<span style="color: #0000ff">class</span><span style="color: #000000"> RFPDupeFilter(BaseDupeFilter):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">Redis-based request duplicates filter.
+
+    This class can also be used with default Scrapy's scheduler.
+
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+
+    logger </span>=<span style="color: #000000"> logger
+
+    </span><span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span>(self, server, key, debug=<span style="color: #000000">False):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">Initialize the duplicates filter.
+
+        Parameters
+        ----------
+        server : redis.StrictRedis
+            The redis server instance.
+        key : str
+            Redis key Where to store fingerprints.
+        debug : bool, optional
+            Whether to log filtered requests.
+
+        </span><span style="color: #800000">"""</span><span style="color: #000000">
+        self.server </span>=<span style="color: #000000"> server
+        self.key </span>=<span style="color: #000000"> key
+        self.debug </span>=<span style="color: #000000"> debug
+        self.logdupes </span>=<span style="color: #000000"> True
+
+        </span><span style="background-color: #ff99cc"><span style="color: #008000">#</span><span style="color: #008000"> 集成布隆过滤器</span>
+        self.bf = PyBloomFilter(conn=conn, key=key)     <span style="color: #008000">#</span><span style="color: #008000"> 利用连接池连接Redis</span></span>
+<span style="color: #000000">
+    @classmethod
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> from_settings(cls, settings):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">Returns an instance from given settings.
+
+        This uses by default the key ``dupefilter:&lt;timestamp&gt;``. When using the
+        ``scrapy_redis.scheduler.Scheduler`` class, this method is not used as
+        it needs to pass the spider name in the key.
+
+        Parameters
+        ----------
+        settings : scrapy.settings.Settings
+
+        Returns
+        -------
+        RFPDupeFilter
+            A RFPDupeFilter instance.
+
+
+        </span><span style="color: #800000">"""</span><span style="color: #000000">
+        server </span>=<span style="color: #000000"> get_redis_from_settings(settings)
+        </span><span style="color: #008000">#</span><span style="color: #008000"> XXX: This creates one-time key. needed to support to use this</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> class as standalone dupefilter with scrapy's default scheduler</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> if scrapy passes spider on open() method this wouldn't be needed</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> TODO: Use SCRAPY_JOB env as default and fallback to timestamp.</span>
+        key = defaults.DUPEFILTER_KEY % {<span style="color: #800000">'</span><span style="color: #800000">timestamp</span><span style="color: #800000">'</span><span style="color: #000000">: int(time.time())}
+        debug </span>= settings.getbool(<span style="color: #800000">'</span><span style="color: #800000">DUPEFILTER_DEBUG</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #0000ff">return</span> cls(server, key=key, debug=<span style="color: #000000">debug)
+
+    @classmethod
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> from_crawler(cls, crawler):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">Returns instance from crawler.
+
+        Parameters
+        ----------
+        crawler : scrapy.crawler.Crawler
+
+        Returns
+        -------
+        RFPDupeFilter
+            Instance of RFPDupeFilter.
+
+        </span><span style="color: #800000">"""</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> cls.from_settings(crawler.settings)
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> request_seen(self, request):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">Returns True if request was already seen.
+
+        Parameters
+        ----------
+        request : scrapy.http.Request
+
+        Returns
+        -------
+        bool
+
+        </span><span style="color: #800000">"""</span><span style="color: #000000">
+        fp </span>=<span style="color: #000000"> self.request_fingerprint(request)
+
+        </span><span style="background-color: #ff99cc"><span style="color: #008000">#</span><span style="color: #008000"> 集成布隆过滤器</span>
+        <span style="color: #0000ff">if</span> self.bf.is_exist(fp):    <span style="color: #008000">#</span><span style="color: #008000"> 判断如果域名在Redis里存在</span>
+            <span style="color: #0000ff">return</span><span style="color: #000000"> True
+        </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+            self.bf.add(fp)         </span><span style="color: #008000">#</span><span style="color: #008000"> 如果不存在，将域名添加到Redis</span>
+            <span style="color: #0000ff">return</span><span style="color: #000000"> False
+
+        </span></span><span style="color: #008000">#</span><span style="color: #008000"> This returns the number of values added, zero if already exists.</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> added = self.server.sadd(self.key, fp)</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> return added == 0</span>
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> request_fingerprint(self, request):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">Returns a fingerprint for a given request.
+
+        Parameters
+        ----------
+        request : scrapy.http.Request
+
+        Returns
+        -------
+        str
+
+        </span><span style="color: #800000">"""</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> request_fingerprint(request)
+
+    </span><span style="color: #0000ff">def</span> close(self, reason=<span style="color: #800000">''</span><span style="color: #000000">):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">Delete data on close. Called by Scrapy's scheduler.
+
+        Parameters
+        ----------
+        reason : str, optional
+
+        </span><span style="color: #800000">"""</span><span style="color: #000000">
+        self.clear()
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> clear(self):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">Clears fingerprints data.</span><span style="color: #800000">"""</span><span style="color: #000000">
+        self.server.delete(self.key)
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> log(self, request, spider):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">Logs given request.
+
+        Parameters
+        ----------
+        request : scrapy.http.Request
+        spider : scrapy.spiders.Spider
+
+        </span><span style="color: #800000">"""</span>
+        <span style="color: #0000ff">if</span><span style="color: #000000"> self.debug:
+            msg </span>= <span style="color: #800000">"</span><span style="color: #800000">Filtered duplicate request: %(request)s</span><span style="color: #800000">"</span><span style="color: #000000">
+            self.logger.debug(msg, {</span><span style="color: #800000">'</span><span style="color: #800000">request</span><span style="color: #800000">'</span>: request}, extra={<span style="color: #800000">'</span><span style="color: #800000">spider</span><span style="color: #800000">'</span><span style="color: #000000">: spider})
+        </span><span style="color: #0000ff">elif</span><span style="color: #000000"> self.logdupes:
+            msg </span>= (<span style="color: #800000">"</span><span style="color: #800000">Filtered duplicate request %(request)s</span><span style="color: #800000">"</span>
+                   <span style="color: #800000">"</span><span style="color: #800000"> - no more duplicates will be shown</span><span style="color: #800000">"</span>
+                   <span style="color: #800000">"</span><span style="color: #800000"> (see DUPEFILTER_DEBUG to show all duplicates)</span><span style="color: #800000">"</span><span style="color: #000000">)
+            self.logger.debug(msg, {</span><span style="color: #800000">'</span><span style="color: #800000">request</span><span style="color: #800000">'</span>: request}, extra={<span style="color: #800000">'</span><span style="color: #800000">spider</span><span style="color: #800000">'</span><span style="color: #000000">: spider})
+            self.logdupes </span>= False</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong style="color: #ff0000">爬虫文件</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+
+<span style="color: #0000ff">from</span> scrapy_redis.spiders <span style="color: #0000ff">import</span> RedisCrawlSpider    <span style="color: #008000">#</span><span style="color: #008000"> 导入scrapy_redis里的RedisCrawlSpider类</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.linkextractors <span style="color: #0000ff">import</span><span style="color: #000000"> LinkExtractor
+</span><span style="color: #0000ff">from</span> scrapy.spiders <span style="color: #0000ff">import</span><span style="color: #000000"> Rule
+
+
+</span><span style="color: #0000ff">class</span> jobboleSpider(RedisCrawlSpider):               <span style="color: #008000">#</span><span style="color: #008000"> 自定义爬虫类,继承RedisSpider类</span>
+    name = <span style="color: #800000">'</span><span style="color: #800000">jobbole</span><span style="color: #800000">'</span>                                 <span style="color: #008000">#</span><span style="color: #008000"> 设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">www.luyin.org</span><span style="color: #800000">'</span>]              <span style="color: #008000">#</span><span style="color: #008000"> 爬取域名</span>
+    redis_key = <span style="color: #800000">'</span><span style="color: #800000">jobbole:start_urls</span><span style="color: #800000">'</span>                 <span style="color: #008000">#</span><span style="color: #008000"> 向redis设置一个名称储存url</span>
+<span style="color: #000000">
+    rules </span>=<span style="color: #000000"> (
+        </span><span style="color: #008000">#</span><span style="color: #008000"> 配置抓取列表页规则</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> Rule(LinkExtractor(allow=('ggwa/.*')), follow=True),</span>
+
+        <span style="color: #008000">#</span><span style="color: #008000"> 配置抓取内容页规则</span>
+        Rule(LinkExtractor(allow=(<span style="color: #800000">'</span><span style="color: #800000">.*</span><span style="color: #800000">'</span>)), callback=<span style="color: #800000">'</span><span style="color: #800000">parse_job</span><span style="color: #800000">'</span>, follow=<span style="color: #000000">True),
+    )
+
+
+    </span><span style="color: #0000ff">def</span> parse_job(self, response):  <span style="color: #008000">#</span><span style="color: #008000"> 回调函数，注意：因为CrawlS模板的源码创建了parse回调函数，所以切记我们不能创建parse名称的函数</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 利用ItemLoader类，加载items容器类填充数据</span>
+        neir = response.css(<span style="color: #800000">'</span><span style="color: #800000">title::text</span><span style="color: #800000">'</span><span style="color: #000000">).extract()
+        </span><span style="color: #0000ff">print</span>(neir)</pre>
+</div>
+<p><strong>启动爬虫&nbsp;<span style="color: #0000ff">scrapy crawl jobbole</span></strong></p>
+<p><strong style="color: #ff0000"><span style="color: #000000">cd 到</span><strong><span style="color: #000000">redis安装目录执行命令：</span><span style="color: #0000ff">redis-cli -h 127.0.0.1 -p 6379 &nbsp;<span style="color: #000000">连接<strong><strong>redis客户端</strong></strong></span></span></strong></strong></p>
+<p><strong><strong>连接<strong><strong>redis客户端后执行命令：<span style="color: #0000ff">lpush jobbole:start_urls http://www.luyin.org &nbsp;<span style="color: #000000">向<strong><strong><strong><strong>redis添加一个爬虫起始url</strong></strong></strong></strong></span></span></strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong><span style="color: #0000ff"><span style="color: #000000"><strong><strong><strong><strong>开始爬取</strong></strong></strong></strong></span></span></strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong><span style="color: #0000ff"><span style="color: #000000"><strong><strong><strong><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170828104042593-816499995.png" alt=""></strong></strong></strong></strong></span></span></strong></strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>redis状态说明：</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170828104346062-1681114889.png" alt=""></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p></div>

@@ -1,0 +1,119 @@
+第一百一十八节，JavaScript，动态加载脚本和样式
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">JavaScript，动态加载脚本和样式</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; font-size: 16px; background-color: #ffff00"><strong><strong>一动态脚本</strong></strong></span></p>
+<p align="left"><strong>当网站需求变大，脚本的需求也逐步变大。我们就不得不引入太多的JS脚本而降低了整站的性能，所以就出现了动态脚本的概念，在适时的时候加载相应的脚本。</strong></p>
+<p align="left"><strong>比如：我们想在需要检测浏览器的时候，再引入检测文件。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>1动态加载js文件</strong></span></p>
+<div class="cnblogs_code">
+<pre>window.onload = <span style="color: #0000ff">function</span>() { <span style="color: #008000">//</span><span style="color: #008000">window.onload事件，等待html执行完成后，执行匿名函数</span>
+    <span style="color: #008000">//</span><span style="color: #008000">判断要加载的文件是否加载成功</span>
+    alert(<span style="color: #0000ff">typeof</span><span style="color: #000000"> BrowserDetect);
+};
+
+
+</span><span style="color: #008000">//</span><span style="color: #008000">注意：判断加载写在，window.onload外面，也就是先加载代码，不然网页执行后在生成&lt;script&gt;元素标签就连接不了</span><span style="color: #008000">
+//</span><span style="color: #008000">设置一个变量，值为true再加载，值为false不加载文件</span>
+<span style="color: #0000ff">var</span> flag = <span style="color: #0000ff">true</span><span style="color: #000000">;
+
+</span><span style="color: #0000ff">if</span> (flag) { <span style="color: #008000">//</span><span style="color: #008000">判断flag值为真时，执行加载js文件函数</span>
+    loadScript('browserdetect.js'<span style="color: #000000">);
+}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">定义加载js函数，接收一个参数要加载的js我们路径名称</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> loadScript(url) {
+    </span><span style="color: #008000">//</span><span style="color: #008000">创建&lt;script&gt;元素标签</span>
+    <span style="color: #0000ff">var</span> script = document.createElement('script'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">向标签添加属性</span>
+    script.type = 'text/javascript'<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">向标签添加属性</span>
+    script.src =<span style="color: #000000"> url;
+    </span><span style="color: #008000">//</span><span style="color: #008000">向标签添加属性</span>
+    script.charset = 'utf-8'<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">通过标签名称获取到第一个&lt;head&gt;标签，将新创建&lt;script&gt;元素标签添加到&lt;head&gt;标签的子标签末尾</span>
+    document.getElementsByTagName('head')[0<span style="color: #000000">].appendChild(script);
+}</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>&nbsp;2多态加载js代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">注意：判断加载写在，window.onload外面，也就是先加载代码，不然网页执行后在生成&lt;script&gt;元素标签就连接不了</span><span style="color: #008000">
+//</span><span style="color: #008000">设置一个变量，值为true再加载，值为false不加载代码</span>
+<span style="color: #0000ff">var</span> flag = <span style="color: #0000ff">true</span><span style="color: #000000">;
+
+</span><span style="color: #0000ff">if</span> (flag) { <span style="color: #008000">//</span><span style="color: #008000">判断flag值为真时，执行加载js代码函数</span>
+    loadScript(); <span style="color: #008000">//</span><span style="color: #008000">执行函数</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">//</span><span style="color: #008000">定义加载js代码函数，</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> loadScript() {
+    </span><span style="color: #008000">//</span><span style="color: #008000">创建一个script标签</span>
+    <span style="color: #0000ff">var</span> script = document.createElement('script'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">向标签添加属性</span>
+    script.type = 'text/javascript'<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">向标签添加属性</span>
+    script.charset = 'utf-8'<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">要执行的代码</span>
+    script.text = "alert('你好')"<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">将script标签添加到第一个head标签的子标签末尾</span>
+    document.getElementsByTagName('head')[0<span style="color: #000000">].appendChild(script);
+}</span></pre>
+</div>
+<p align="left"><strong>PS：当然，如果不支持text，那么就可以针对不同的浏览器特性来使用不同的方法。这里就忽略写法了。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong><strong>二动态样式</strong></strong></span></p>
+<p align="left"><strong>为了动态的加载样式表，比如切换网站皮肤。样式表有两种方式进行加载，一种是&lt;link&gt;标签，一种是&lt;style&gt;标签。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>1动态加载css文件</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">动态执行link，加载css文件</span>
+<span style="color: #0000ff">var</span> flag = <span style="color: #0000ff">true</span>;   <span style="color: #008000">//</span><span style="color: #008000">设置一个变量，值为true加载文件，false不加载</span>
+
+<span style="color: #008000">//</span><span style="color: #008000">判断执行函数</span>
+<span style="color: #0000ff">if</span><span style="color: #000000"> (flag) {
+    loadStyles(</span>'1.css');  <span style="color: #008000">//</span><span style="color: #008000">执行加载文件函数</span>
+<span style="color: #000000">}
+
+</span><span style="color: #0000ff">function</span> loadStyles(url) {  <span style="color: #008000">//</span><span style="color: #008000">接收一个参数，css文件路径名称</span>
+    <span style="color: #008000">//</span><span style="color: #008000">创建link标签元素</span>
+    <span style="color: #0000ff">var</span> link = document.createElement('link'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">添加link标签属性</span>
+    link.rel = 'stylesheet'<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">添加link标签属性</span>
+    link.type = 'text/css'<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">添加link标签属性</span>
+    link.href =<span style="color: #000000"> url;
+    </span><span style="color: #008000">//</span><span style="color: #008000">将新创建的link标签，添加到第一个head标签的子元素末尾</span>
+    document.getElementsByTagName('head')[0<span style="color: #000000">].appendChild(link);
+}</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>2动态加载css代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">动态加载css代码</span>
+<span style="color: #0000ff">var</span> flag = <span style="color: #0000ff">true</span>;  <span style="color: #008000">//</span><span style="color: #008000">设置一个变量，值为true加载样式代码，值为false不加载</span>
+
+<span style="color: #0000ff">if</span> (flag) {  <span style="color: #008000">//</span><span style="color: #008000">判断flag为真执行里面代码</span>
+    <span style="color: #008000">//</span><span style="color: #008000">创建一个style元素标签</span>
+    <span style="color: #0000ff">var</span> style = document.createElement('style'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">添加style元素属性</span>
+    style.type = 'text/css'<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">获取到第一个head标签，将新创建的style元素标签添加到head标签的子元素末尾</span>
+    document.getElementsByTagName('head')[0<span style="color: #000000">].appendChild(style);
+    </span><span style="color: #008000">//</span><span style="color: #008000">执行样式函数</span>
+    insertRule(document.styleSheets[0], '#box', 'background:red', 0<span style="color: #000000">);
+}
+
+</span><span style="color: #0000ff">function</span> insertRule(sheet, selectorText, cssText, position) {  <span style="color: #008000">//</span><span style="color: #008000">执行函数，接收4个参数，参数1css样式对象，参数2选择器名称，参数3样式代码，参数4要添加的位置</span>
+        <span style="color: #008000">//</span><span style="color: #008000">如果是非IE</span>
+    <span style="color: #0000ff">if</span> (sheet.insertRule) { <span style="color: #008000">//</span><span style="color: #008000">判断如果为真</span>
+        <span style="color: #008000">//</span><span style="color: #008000">通过insertRule方法向样式表对象添加一个选择器</span>
+        sheet.insertRule(selectorText + "{" + cssText + "}"<span style="color: #000000">, position);
+        </span><span style="color: #008000">//</span><span style="color: #008000">如果是IE</span>
+    } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (sheet.addRule) { <span style="color: #008000">//</span><span style="color: #008000">判断如果为真</span>
+        <span style="color: #008000">//</span><span style="color: #008000">通过addRule方法向样式表对象添加一个选择器</span>
+<span style="color: #000000">        sheet.addRule(selectorText, cssText, position);
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,85 @@
+第八十七节，html5+css3pc端固定布局，大纲算法，section和div，结构分析
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">html5+css3pc端固定布局，大纲算法，section和div，结构分析</span></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．大纲算法 </strong></span><br><span style="color: #000000"><strong>在HTML5中有一个很重要的概念，叫做HTML5 大纲算法(HTML5Outliner)，它的用途是为用户提供一份页面的信息结构目录。比如我们经常使用的手册就是一个非常好的大纲结构：</strong></span></p>
+<p><span style="color: #000000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161025110627187-582272179.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><strong>测试工具：<a href="https://gsnedders.html5.org/outliner/" target="_blank">https://gsnedders.html5.org/outliner/ </a></strong><br><strong>    这个工具可以上传本地html文件，也可以填写URL，或者直接在多行文本框上编写HTML5代码均可了解大纲。 </strong><br><strong>    通过我们将上一节课的代码编写，发现这个页面的大纲非常的难看，出现三个Untitled Section，这个意思表示页面此处缺少大纲标题，不规范。如果你的页面在这里测试，大纲都比较清晰，那么HTML5页面是比较规范的。 </strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>需要大纲的标签</strong></span></p>
+<p><strong>1.&lt;body&gt;,是需要大纲标题的，注意：&lt;body&gt;里面的大纲标题的上级，如果是需要大纲标题的，大纲标题就归属于上级，如果上级是不需要大纲标题的，大纲标题就归属于&lt;body&gt;标签</strong></p>
+<p><strong>语义标签一般就是拿来布局大纲，最好不要用于css样式，css样式用div，</strong></p>
+<p>&nbsp;</p>
+<p><strong>语义标签说明</strong></p>
+<p><strong>&lt;body&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　　　网页主体&nbsp; &nbsp; &nbsp;　　　　　　　　　　　　　　　　　　　　需要大纲</strong></p>
+<p><strong>&lt;header&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　表示首部 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 　　 &nbsp; &nbsp;不需要要大纲 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 用于头部<strong>区域</strong></strong></p>
+<p><strong>&lt;footer&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&nbsp;表示尾部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　 &nbsp;不需要要大纲 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 用于尾部区域</strong></p>
+<p><strong>&lt;nav&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 表示有意集中在一起的导航元素&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 需要大纲</strong></p>
+<p><strong>&lt;section&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&nbsp;表示重要概念或主题&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　需要大纲 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<strong>主题</strong></strong></p>
+<p><span style="color: #ff0000"><strong>&lt;article&gt; &nbsp; &nbsp; &nbsp;　　 &nbsp;&nbsp;表示一段独立的内容&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp;需要大纲</strong></span></p>
+<p><strong>&lt;address&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;表示文档或article的联系信息 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;不需要要大纲</strong></p>
+<p><strong>&lt;aside&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　 &nbsp; &nbsp; &nbsp; 表示与周边内容少有牵涉的内容&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;&nbsp;需要大纲</strong></p>
+<p><strong>&lt;hgroup&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　 &nbsp; &nbsp;将一组标题组织在一起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　 &nbsp;需要大纲,会自动变成下一个主大纲 &nbsp;<span style="color: #ff0000">需要定义大纲的地方</span></strong></p>
+<p><strong>&lt;details&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;生成一个区域，用户将其展开可以获得更多细节&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 不需要要大纲</strong></p>
+<p><strong>&lt;summary&gt; &nbsp; &nbsp; &nbsp; &nbsp; 用在details元素中，表示该元素内容的标题或说明 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;不需要要大纲</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>注意：&lt;article&gt;表示一段独立的内容，里面又可以添加<strong>&lt;header&gt; &nbsp;，<strong>&lt;nav&gt; ，<strong>&lt;section&gt; ，<strong>&lt;footer&gt;当上门的标签嵌套</strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">二．section和div</span> </strong><br><strong>    首先，我们暂不探讨怎么让html5页面大纲合乎规范。先探讨一下section和div的区别。div元素在html5之前就是非常常用的标签，它本身没有任何语义，用来页面布局和CSS样式以及JS调用。那么，div的用途已经说的很清楚了： </strong><br><strong>    　　1.如果是页面布局，且不是header、footer之类的专属区域，都应该使用div； </strong><br><strong>    　　2.如果只是单纯的对一个端内容进行CSS样式定义，那么也应该使用div; </strong><br><strong>    　　3.如果想对一段内容进行JS控制，那么也应该使用div。</strong></p>
+<p><strong>html5中，section并不是用来取代div的。在基础课程中已经简单的了解过，它是具有语义的文档标签。表示一段文档中的章节，比如包含一个标题和一个段落，而大纲规范中，至少要包含一个标题。 </strong><br><strong>通过上诉说明，我们可以对section标签，增加一个h2即可实现大纲要求。</strong></p>
+<p><strong><strong>测试工具：<a href="https://gsnedders.html5.org/outliner/" target="_blank">https://gsnedders.html5.org/outliner/&nbsp;</a></strong></strong></p>
+<p>&nbsp;</p>
+<p><strong>火狐插件：&nbsp;HeadingsMap</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三.完成大纲</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161025150846515-1917557211.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><strong>可以看出已经有很好的大纲结构了</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000"><strong>html代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>瓢城旅行社<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="css/index.css"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">导航</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">header </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang2"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="log"</span><span style="color: #0000ff">&gt;</span>瓢城旅行社<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">nav</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>网站导航<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="index.html"</span><span style="color: #0000ff">&gt;</span>首页<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>旅游资讯<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>机票订购<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>风景欣赏<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>公司简介<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">nav</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">header</span><span style="color: #0000ff">&gt;</span>
+
+
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">主体</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">section</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">section
+</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>主题<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">section</span><span style="color: #0000ff">&gt;</span>
+
+
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">尾部</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">footer</span><span style="color: #0000ff">&gt;</span>footer<span style="color: #0000ff">&lt;/</span><span style="color: #800000">footer</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p></div>

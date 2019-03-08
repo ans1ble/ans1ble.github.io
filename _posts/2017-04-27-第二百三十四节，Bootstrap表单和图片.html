@@ -1,0 +1,337 @@
+第二百三十四节，Bootstrap表单和图片
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Bootstrap表单和图片</strong></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.表单 </strong></p>
+<p><strong>　　2.图片</strong></p>
+<p><strong>本节课我们主要学习一下 Bootstrap 表单和图片功能，通过内置的 CSS 定义，显示各 种丰富的效果。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．表单</strong></span></p>
+<p><span style="color: #000000"><strong>Bootstrap 提供了一些丰富的表单样式供开发者使用。</strong></span></p>
+<p><span style="color: #ff0000"><strong>1.基本格式</strong></span></p>
+<p><span style="color: #000000"><strong>实现基本的表单样式</strong></span></p>
+<p><span style="color: #ff0000"><strong>form-control样式class类，写在&lt;input&gt;里,设置输入框样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>form-group样式class类，写在输入框外面的&lt;div&gt;里,设置输入框与输入框之间的样式(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00">form-group</span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="email"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00">form-control</span>"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入您的电子邮件"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00">form-group</span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>密码<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="password"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00">form-control</span>"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入您的密码"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170427230245975-461433524.png" alt=""></p>
+<p><span style="color: #0000ff"><strong>注：只有正确设置了输入框的 type 类型，才能被赋予正确的样式。支持的输入框控件 包括：text、password、datetime、datetime-local、date、month、time、week、 number、email、url、search、tel 和 color。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>2.内联表单</strong></span></p>
+<p><span style="color: #000000"><strong>让表单左对齐浮动，并表现为 inline-block 内联块结构，当小于 768px，会恢复独占样式</strong></span></p>
+<p><span style="color: #ff0000"><strong>form-inline样式class类，写在&lt;form&gt;里,让表单左对齐浮动，并表现为 inline-block 内联块结构，当小于 768px，会恢复独占样式(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00">form-inline</span>"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="email"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入您的电子邮件"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>密码<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="password"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入您的密码"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>大于768px</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170427231132381-2025187424.png" alt=""></p>
+<p><span style="color: #0000ff"><strong>小于768px</strong></span></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170427231217319-33990857.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>3.表单合组</strong></span></p>
+<p><span style="color: #000000"><strong>前后增加片段，给输入框前后加上片段</strong></span></p>
+<p><span style="color: #ff0000"><strong>input-group-addon样式class类，写在input同级的&lt;div&gt;里,给输入框加一个片段(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>input-group样式class类，写在input父级的&lt;div&gt;里,将输入框和片段合并(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-inline"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="email"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入您的电子邮件"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>密码<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="password"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入您的密码"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>金额<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>input-group</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00"><strong><span style="color: #ff0000">input-group-addon</span></strong></span>"</span><span style="color: #0000ff">&gt;</span>￥<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>input-group-addon</strong></span>"</span><span style="color: #0000ff">&gt;</span>.00<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170427232903584-1539085639.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>4.水平排列</strong></span></p>
+<p><span style="color: #000000"><strong>让表单内的元素保持水平排列</strong></span></p>
+<p><span style="color: #ff0000"><strong>form-horizontal样式class类，写在&lt;form&gt;里,让表单内的元素保持水平排列(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>col-sm-2样式class类，写在&lt;label&gt;里,给输入框的标题设置所占比例(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>col-sm-10样式class类，写在input的父级&lt;div&gt;里,给输入框设置所占比例(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>control-label样式class类，写在&lt;label&gt;里,让输入框标题和form元素同步(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>form-horizontal</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000"><span style="background-color: #ffff00"><strong>col-sm-2</strong> <strong>control-label</strong></span></span>"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>col-sm-10</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="email"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入您的电子邮件"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>col-sm-2</strong> <strong>control-label</strong></span>"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>col-sm-10</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>大屏</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170427235403475-344762142.png" alt=""></p>
+<p><span style="color: #0000ff"><strong>小屏</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170427235431240-236563290.png" alt=""></p>
+<p><span style="color: #0000ff"><strong>注：这里用到了 col-sm 栅格系统，后面章节会重点讲解，而 control-label 表示和 父元素样式同步。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>5.复选框和单选框</strong></span></p>
+<p><span style="color: #000000"><strong>设置复选框，为区块一行</strong></span></p>
+<p><span style="color: #ff0000"><strong>checkbox样式class类，写在input外层&lt;div&gt;里,设置复选框为区块一行样式(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>checkbox</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">体育
+        </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>checkbox</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">音乐
+        </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428024453350-1595089145.png" alt=""></p>
+<p>&nbsp;</p>
+<p><strong>设置禁用的复选框</strong></p>
+<p><span style="color: #ff0000"><strong>disabled样式class类，写在input外层&lt;div&gt;里,禁止复选框文字选择(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="checkbox <span style="color: #ff0000; background-color: #ffff00"><strong>disabled</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #ff0000"> disabled</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">体育
+        </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="checkbox"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">音乐
+        </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428030231225-286406598.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000"><strong>设置内联一行显示的复选框</strong></span></p>
+<p><span style="color: #ff0000"><strong>checkbox-inline样式class类，写在input外层&lt;label&gt;里,设置内联一行显示的复选框(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>checkbox-inline</strong></span> disabled"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #ff0000"> disabled</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">体育
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>checkbox-inline</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">音乐
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428030829990-535455656.png" alt=""></p>
+<p>&nbsp;</p>
+<p><strong>设置单选框区块一行显示</strong></p>
+<p><span style="color: #ff0000"><strong>radio样式class类，写在input外层&lt;div&gt;里,设置单选框区块一行显示(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>radio</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sex"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">男
+        </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>radio</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sex"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">女
+        </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428120732709-418874763.png" alt=""></p>
+<p>&nbsp;</p>
+<p><strong>设置单选框内联一行显示</strong></p>
+<p><span style="color: #ff0000"><strong>radio-inline样式class类，写在input外层&lt;div&gt;里,设置单选框内联一行显示(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>radio-inline</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sex"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">男
+        </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="color: #ff0000; background-color: #ffff00"><strong>radio-inline</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sex"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">女
+        </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428121224740-345791060.png" alt=""></p>
+<p><span style="color: #0000ff"><strong>注意：禁用单选框和禁用复选框一样</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>6.下拉列表</strong></span></p>
+<p><strong>设置下拉列表</strong></p>
+<p><span style="color: #ff0000"><strong>form-control样式class类，写在&lt;select&gt;里,设置下拉列表(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">&lt;</span><span style="color: #800000">select </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00"><strong><span style="color: #ff0000">form-control</span></strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>1<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>2<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>3<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>4<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">option</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">select</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428122339615-92310151.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>7.校验状态</strong></span></p>
+<p><span style="color: #000000"><strong>设置<strong>校验状态，也就是设置输入框的<strong>校验状态样式，</strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>has-error样式class类，写在input最外层&lt;div&gt;里,设置校验状态，也就是设置输入框的校验状态样式，错误状态(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>has-success样式class类，写在input最外层&lt;div&gt;里,设置校验状态，也就是设置输入框的校验状态样式，成功状态(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>has-warning样式class类，写在input最外层&lt;div&gt;里,设置校验状态，也就是设置输入框的校验状态样式，警告状态(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group <span style="color: #ff0000; background-color: #ffff00"><strong>has-error</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 control-label"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group <span style="color: #ff0000; background-color: #ffff00"><strong>has-success</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 control-label"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group <span style="color: #ff0000; background-color: #ffff00"><strong>has-warning</strong></span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 control-label"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428123534115-1393443513.png" alt=""></p>
+<p><span style="color: #0000ff"><strong>label 标签同步相应状态，如果标题名字没有同步校验状态可以在<strong>label标签加class="control-label"同步</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>control-label样式class类，写在要同步样式的标签里,将当前元素与最外层div样式同步，也就共用样式(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group has-error"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 <span style="color: #ff0000; background-color: #ffff00"><strong>control-label</strong></span>"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group has-success"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 <span style="color: #ff0000; background-color: #ffff00"><strong>control-label</strong></span>"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group has-warning"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 <span style="color: #ff0000; background-color: #ffff00"><strong>control-label</strong></span>"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428125120115-1725934379.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>8.给输入框添加额外的文字图标</strong></span></p>
+<p><strong>文本框右侧内置文本图标</strong></p>
+<p><span style="color: #ff0000"><strong>glyphicon样式class类，写在input同级的&lt;span&gt;里,设置文本图标基础样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>glyphicon-ok样式class类，写在input同级的&lt;span&gt;里,设置文本图标(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>form-control-feedback样式class类，写在input同级的&lt;span&gt;里,设置文本图标的位置(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>has-feedback样式class类，写在input最外层的&lt;div&gt;里,将文本图标位置应用到输入框(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group has-warning <span style="background-color: #ffff00">has-feedback</span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 control-label"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">glyphicon glyphicon-ok form-control-feedback</span>"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428130656412-888622427.png" alt=""></p>
+<p><span style="color: #0000ff"><strong>图标样式</strong></span></p>
+<p><span style="color: #ff0000"><strong>glyphicon-ok样式class类，写在input同级的&lt;span&gt;里,成功状态图标(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>glyphicon-warning-sign样式class类，写在input同级的&lt;span&gt;里,警告状态图标(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>glyphicon-remove样式class类，写在input同级的&lt;span&gt;里,错误状态图标(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group has-success has-feedback"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 control-label"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="glyphicon <span style="background-color: #ffff00">glyphicon-ok</span> form-control-feedback"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group has-warning has-feedback"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 control-label"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="glyphicon <span style="background-color: #ffff00">glyphicon-warning-sign</span> form-control-feedback"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group has-error has-feedback"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 control-label"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="glyphicon <span style="background-color: #ffff00">glyphicon-remove</span> form-control-feedback"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428132412819-342463196.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>9.输入框控制尺寸</strong></span></p>
+<p><span style="color: #000000"><strong>从大到小</strong></span></p>
+<p><span style="color: #ff0000"><strong>input-lg样式class类，写在&lt;input&gt;里,大尺寸输入框(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>input-sm样式class类，写在&lt;input&gt;里,小尺寸输入框(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group has-success has-feedback"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 control-label"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control <span style="background-color: #ffff00">input-lg</span>"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="glyphicon glyphicon-ok form-control-feedback"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group has-warning has-feedback"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 control-label"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="glyphicon glyphicon-warning-sign form-control-feedback"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group has-error has-feedback"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-2 control-label"</span><span style="color: #0000ff">&gt;</span>电子邮件<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="col-sm-10"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="form-control <span style="background-color: #ffff00">input-sm</span>"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入名称"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="glyphicon glyphicon-remove form-control-feedback"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428133040600-1338076639.png" alt=""></p>
+<p><span style="color: #0000ff"><strong>注：也可以设置父元素 form-group-lg、form-group-sm，来调整。</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．图片</strong></span></p>
+<p><span style="color: #000000"><strong>Bootstrap 提供了一些丰富的图片样式供开发者使用。</strong></span></p>
+<p><span style="color: #ff0000"><strong>1.图片形状</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>img-rounded样式class类，写在&lt;img&gt;里,设置图片圆角样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>img-circle样式class类，写在&lt;img&gt;里,设置图片圆形，图片时正方形的就是圆形，图片时长方形的就是椭圆(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>img-thumbnail样式class类，写在&lt;img&gt;里,设置图片缩略图样式(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/pic.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="图片"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">img-rounded</span>"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/pic.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="图片"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">img-circle</span>"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/pic.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="图片"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">img-thumbnail</span>"</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428134554272-912499626.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">&nbsp;2响应式图片</span></strong></p>
+<p><strong><span style="color: #ff0000">img-responsive样式class类，写在&lt;img&gt;里,设置图片响应式(Bootstrap)</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/pic.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="图片"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="img-thumbnail <span style="background-color: #ffff00">img-responsive</span>"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/pic.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="图片"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="img-thumbnail <span style="background-color: #ffff00">img-responsive</span>"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/pic.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">="图片"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="img-thumbnail <span style="background-color: #ffff00">img-responsive</span>"</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170428135444850-1360716248.png" alt=""></p>
+<p>&nbsp;</p></div>

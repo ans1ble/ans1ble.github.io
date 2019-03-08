@@ -1,0 +1,235 @@
+第三百七十九节，Django+Xadmin打造上线标准的在线教育平台—xadmin的安装
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百七十九节，Django+Xadmin打造上线标准的在线教育平台—xadmin的安装</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>xadmin介绍</strong></strong></span></p>
+<p><strong><strong><strong>xadmin是基于Django的admin开发的更完善的后台管理系统，页面基于Bootstrap3开发的</strong></strong></strong></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong>xadmin安装</strong></strong></strong></strong></strong></span></p>
+<p><strong><strong><strong>下载地址：<span style="color: #0000ff">https://github.com/sshwsfc/xadmin</span></strong></strong></strong></p>
+<p><strong><strong><strong><span style="color: #0000ff">下载后解压下载包，cd 进入解压目录执行命令，python&nbsp;<strong><strong>setup.py&nbsp;install &nbsp; 安装</strong></strong></span></strong></strong></strong></p>
+<p><strong><strong><strong><span style="color: #0000ff"><strong><strong>安装时会安装依赖包</strong></strong></span></strong></strong></strong></p>
+<p><strong><strong><strong><span style="color: #0000ff"><strong><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170909211041382-831682346.png" alt=""></strong></strong></span></strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>安装django-import-export</strong></span></p>
+<div class="cnblogs_code">
+<pre>pip install django-<span style="color: #0000ff">import</span>-export</pre>
+</div>
+<p><span style="color: #0000ff"><strong><strong><strong><strong><strong><strong>安装django-import-export</strong>会安装依赖包</strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #000000">django-import-export-0.5.1&nbsp;</span></p>
+<p><span style="color: #000000">et-xmlfile-1.0.1&nbsp;</span></p>
+<p><span style="color: #000000">jdcal-1.3 odfpy-1.3.5&nbsp;</span></p>
+<p><span style="color: #000000">openpyxl-2.4.8&nbsp;</span></p>
+<p><span style="color: #000000">tablib-0.12.1&nbsp;</span></p>
+<p><span style="color: #000000">unicodecsv-0.14.1&nbsp;</span></p>
+<p><span style="color: #000000">xlrd-1.1.0&nbsp;</span></p>
+<p><span style="color: #000000">xlwt-1.3.0</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>安装好xadmin后，在Django的settings.py配置文件，配置xadmin的相关app注册配置</strong></span></p>
+<div class="cnblogs_code">
+<pre>INSTALLED_APPS =<span style="color: #000000"> [
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.admin</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.contenttypes</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.sessions</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.messages</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.staticfiles</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app_users</span><span style="color: #800000">'</span>,                        <span style="color: #008000">#</span><span style="color: #008000"> 注册 APP</span>
+    <span style="color: #800000">'</span><span style="color: #800000">app_courses</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app_organization</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app_operation</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="background-color: #ffff00"><span style="color: #800000">'</span><span style="color: #800000">xadmin</span><span style="color: #800000">'</span>,                           <span style="color: #008000">#</span><span style="color: #008000"> 注册xadmin的app</span>
+    <span style="color: #800000">'</span><span style="color: #800000">crispy_forms</span><span style="color: #800000">'</span>,                     <span style="color: #008000">#</span><span style="color: #008000"> 注册xadmin的依赖app</span></span>
+]</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong>在urls.py文件设置xadmin的路由映射</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.conf.urls <span style="color: #0000ff">import</span><span style="color: #000000"> url
+</span><span style="color: #0000ff">from</span> django.contrib <span style="color: #0000ff">import</span><span style="color: #000000"> admin
+</span><span style="background-color: #ffff00"><span style="color: #0000ff">import</span> xadmin               <span style="color: #008000">#</span><span style="color: #008000"> 导入xadmin</span></span>
+<span style="color: #000000">
+urlpatterns </span>=<span style="color: #000000"> [
+    <span style="background-color: #ffff00">url(r</span></span><span style="background-color: #ffff00"><span style="color: #800000">'</span><span style="color: #800000">^xadmin/</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ffff00">, xadmin.site.urls),</span>
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong>执行命令生成xadmin相关的数据库表</strong></span></p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong>执行命令：<span style="color: #0000ff">makemigrations</span>&nbsp;&nbsp;然后在输入 &nbsp;&nbsp;<span style="color: #0000ff">migrate</span> &nbsp;&nbsp;来生成表</strong></span></p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170909222450976-717623570.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>访问：http://127.0.0.1:8000/xadmin/</strong></span></p>
+<p><span style="color: #0000ff"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170909223944460-1432014278.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>这样网站后台就搭建了，xadmin的各种依赖包也有了</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>接下来我们将用xadmin的源码安装方式将<strong>xadmin集成到我们的<strong><strong><strong>Django项目中</strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong><strong><strong>目前我们通过命令安装的<strong>xadmin在python的第三方模块里，与<strong><strong><strong><strong><strong>Django项目脱离了，不是<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Django项目的一部分，不方便管理和修改源码自定制<strong><strong>xadmin</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>所以前面的安装只是让我们的<strong><strong><strong><strong><strong><strong>xadmin运行起来，配置好相关依赖包，接下来我们需要用<strong>源码安装方式将<strong>xadmin集成到我们的<strong><strong><strong>Django项目中，然后用命令将原来安装的<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>xadmin卸载掉</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>源码安装方式将<strong>xadmin集成到我们的<strong><strong><strong>Django项目中</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>解压我们先下载的<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>xadmin源码包，找到解压包里的xadmin文件夹，将整个文件夹复制到<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Django项目中</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong><strong><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170909231845882-182466279.png" alt=""></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>在目录里创建extra_apps目录，用于专门存放第三方源码程序，这样目录结构清晰，将xadmin放到extra_apps目录</strong></span></p>
+<p><span style="color: #0000ff"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170909232550913-315840332.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>第一步，解决PyCharm无法识别<strong>extra_apps目录</strong><strong>的方法，在<strong>PyCharm将<strong>extra_apps</strong>设置成python可识别路径，在<strong>extra_apps</strong>文件夹鼠标右键-标记目录为-Sources Root</strong></strong></strong></span></p>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170909232931929-1704354634.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong><strong><strong><strong><strong><strong>第二步，在settings.py设置文件，将<strong><strong><strong><strong>extra_apps</strong></strong></strong></strong>目录设置成python可识别目录，</strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">"""</span><span style="color: #800000">
+Django settings for MxOnline project.
+
+Generated by 'django-admin startproject' using Django 1.10.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/1.10/topics/settings/
+
+For the full list of settings and their values, see
+https://docs.djangoproject.com/en/1.10/ref/settings/
+</span><span style="color: #800000">"""</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> os
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> sys
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> Build paths inside the project like this: os.path.join(BASE_DIR, ...)</span>
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(<span style="color: #800080">__file__</span>)))      <span style="color: #008000">#</span><span style="color: #008000"> 当前目录路径</span>
+sys.path.insert(0, os.path.join(BASE_DIR, <span style="color: #800000">'</span><span style="color: #800000">apps</span><span style="color: #800000">'</span>))                          <span style="color: #008000">#</span><span style="color: #008000"> 将apps目录设置成python可识别目录</span>
+<span style="background-color: #ffff00">sys.path.insert(1, os.path.join(BASE_DIR, <span style="color: #800000">'</span><span style="color: #800000">extra_apps</span><span style="color: #800000">'</span>))                    <span style="color: #008000">#</span><span style="color: #008000"> 将xadmin所在目录设置成python可识别目录</span></span>
+
+<span style="color: #008000">#</span><span style="color: #008000"> Quick-start development settings - unsuitable for production</span><span style="color: #008000">
+#</span><span style="color: #008000"> See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/</span>
+
+<span style="color: #008000">#</span><span style="color: #008000"> SECURITY WARNING: keep the secret key used in production secret!</span>
+SECRET_KEY = <span style="color: #800000">'</span><span style="color: #800000">!#-519=(t8yl=of8^u$(zdcfcovctqlh0n2p#fky&amp;9c3la+j1k</span><span style="color: #800000">'</span>
+
+<span style="color: #008000">#</span><span style="color: #008000"> SECURITY WARNING: don't run with debug turned on in production!</span>
+DEBUG =<span style="color: #000000"> True
+
+ALLOWED_HOSTS </span>=<span style="color: #000000"> []
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> Application definition</span>
+<span style="color: #000000">
+INSTALLED_APPS </span>=<span style="color: #000000"> [
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.admin</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.contenttypes</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.sessions</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.messages</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.staticfiles</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app_users</span><span style="color: #800000">'</span>,                        <span style="color: #008000">#</span><span style="color: #008000"> 注册 APP</span>
+    <span style="color: #800000">'</span><span style="color: #800000">app_courses</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app_organization</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">app_operation</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">xadmin</span><span style="color: #800000">'</span>,                           <span style="color: #008000">#</span><span style="color: #008000"> 注册xadmin的app</span>
+    <span style="color: #800000">'</span><span style="color: #800000">crispy_forms</span><span style="color: #800000">'</span>,                     <span style="color: #008000">#</span><span style="color: #008000"> 注册xadmin的依赖app</span>
+<span style="color: #000000">]
+
+MIDDLEWARE </span>=<span style="color: #000000"> [
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.middleware.security.SecurityMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.sessions.middleware.SessionMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.middleware.common.CommonMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.middleware.csrf.CsrfViewMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth.middleware.AuthenticationMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.messages.middleware.MessageMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+    </span><span style="color: #800000">'</span><span style="color: #800000">django.middleware.clickjacking.XFrameOptionsMiddleware</span><span style="color: #800000">'</span><span style="color: #000000">,
+]
+
+ROOT_URLCONF </span>= <span style="color: #800000">'</span><span style="color: #800000">MxOnline.urls</span><span style="color: #800000">'</span><span style="color: #000000">
+
+TEMPLATES </span>=<span style="color: #000000"> [
+    {
+        </span><span style="color: #800000">'</span><span style="color: #800000">BACKEND</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.template.backends.django.DjangoTemplates</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">DIRS</span><span style="color: #800000">'</span>: [os.path.join(BASE_DIR, <span style="color: #800000">'</span><span style="color: #800000">templates</span><span style="color: #800000">'</span>)],           <span style="color: #008000">#</span><span style="color: #008000"> 配置模板文件路径，也就是html路径</span>
+        <span style="color: #800000">'</span><span style="color: #800000">APP_DIRS</span><span style="color: #800000">'</span><span style="color: #000000">: True,
+        </span><span style="color: #800000">'</span><span style="color: #800000">OPTIONS</span><span style="color: #800000">'</span><span style="color: #000000">: {
+            </span><span style="color: #800000">'</span><span style="color: #800000">context_processors</span><span style="color: #800000">'</span><span style="color: #000000">: [
+                </span><span style="color: #800000">'</span><span style="color: #800000">django.template.context_processors.debug</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">django.template.context_processors.request</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth.context_processors.auth</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">django.contrib.messages.context_processors.messages</span><span style="color: #800000">'</span><span style="color: #000000">,
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION </span>= <span style="color: #800000">'</span><span style="color: #800000">MxOnline.wsgi.application</span><span style="color: #800000">'</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000"> Database</span><span style="color: #008000">
+#</span><span style="color: #008000"> https://docs.djangoproject.com/en/1.10/ref/settings/#databases</span><span style="color: #008000">
+#
+#</span><span style="color: #008000"> DATABASES = {</span><span style="color: #008000">
+#</span><span style="color: #008000">     'default': {</span><span style="color: #008000">
+#</span><span style="color: #008000">         'ENGINE': 'django.db.backends.sqlite3',</span><span style="color: #008000">
+#</span><span style="color: #008000">         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),</span><span style="color: #008000">
+#</span><span style="color: #008000">     }</span><span style="color: #008000">
+#</span><span style="color: #008000"> }</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">MySQL数据库</span>
+DATABASES =<span style="color: #000000"> {
+    </span><span style="color: #800000">'</span><span style="color: #800000">default</span><span style="color: #800000">'</span><span style="color: #000000">: {
+        </span><span style="color: #800000">'</span><span style="color: #800000">ENGINE</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.db.backends.mysql</span><span style="color: #800000">'</span>,       <span style="color: #008000">#</span><span style="color: #008000"> 配置数据库引擎名称</span>
+        <span style="color: #800000">'</span><span style="color: #800000">NAME</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">mxonline</span><span style="color: #800000">'</span>,                         <span style="color: #008000">#</span><span style="color: #008000"> 数据库名称</span>
+        <span style="color: #800000">'</span><span style="color: #800000">USER</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">root</span><span style="color: #800000">'</span>,                             <span style="color: #008000">#</span><span style="color: #008000"> 数据库用户名</span>
+        <span style="color: #800000">'</span><span style="color: #800000">PASSWORD</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">279819</span><span style="color: #800000">'</span>,                       <span style="color: #008000">#</span><span style="color: #008000"> 数据库密码</span>
+        <span style="color: #800000">'</span><span style="color: #800000">HOST</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>,                        <span style="color: #008000">#</span><span style="color: #008000"> 数据库链接地址</span>
+        <span style="color: #800000">'</span><span style="color: #800000">PORT</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">3306</span><span style="color: #800000">'</span>,                             <span style="color: #008000">#</span><span style="color: #008000"> 数据库端口</span>
+<span style="color: #000000">    }
+}
+
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> Password validation</span><span style="color: #008000">
+#</span><span style="color: #008000"> https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators</span>
+<span style="color: #000000">
+AUTH_PASSWORD_VALIDATORS </span>=<span style="color: #000000"> [
+    {
+        </span><span style="color: #800000">'</span><span style="color: #800000">NAME</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth.password_validation.UserAttributeSimilarityValidator</span><span style="color: #800000">'</span><span style="color: #000000">,
+    },
+    {
+        </span><span style="color: #800000">'</span><span style="color: #800000">NAME</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth.password_validation.MinimumLengthValidator</span><span style="color: #800000">'</span><span style="color: #000000">,
+    },
+    {
+        </span><span style="color: #800000">'</span><span style="color: #800000">NAME</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth.password_validation.CommonPasswordValidator</span><span style="color: #800000">'</span><span style="color: #000000">,
+    },
+    {
+        </span><span style="color: #800000">'</span><span style="color: #800000">NAME</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">django.contrib.auth.password_validation.NumericPasswordValidator</span><span style="color: #800000">'</span><span style="color: #000000">,
+    },
+]
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> Internationalization</span><span style="color: #008000">
+#</span><span style="color: #008000"> https://docs.djangoproject.com/en/1.10/topics/i18n/</span>
+<span style="color: #000000">
+LANGUAGE_CODE </span>= <span style="color: #800000">'</span><span style="color: #800000">zh-hans</span><span style="color: #800000">'</span>       <span style="color: #008000">#</span><span style="color: #008000"> 设置自带后台admin为中文</span>
+<span style="color: #000000">
+TIME_ZONE </span>= <span style="color: #800000">'</span><span style="color: #800000">Asia/Shanghai</span><span style="color: #800000">'</span>     <span style="color: #008000">#</span><span style="color: #008000"> 设置系统时间为上海时间</span>
+<span style="color: #000000">
+USE_I18N </span>=<span style="color: #000000"> True
+
+USE_L10N </span>=<span style="color: #000000"> True
+
+USE_TZ </span>= False                  <span style="color: #008000">#</span><span style="color: #008000"> 设置数据库写入时间，不用国际时间</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000"> Static files (CSS, JavaScript, Images)</span><span style="color: #008000">
+#</span><span style="color: #008000"> https://docs.djangoproject.com/en/1.10/howto/static-files/</span>
+<span style="color: #000000">
+STATIC_URL </span>= <span style="color: #800000">'</span><span style="color: #800000">/static/</span><span style="color: #800000">'</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>源码安装方式将<strong>xadmin集成到我们的<strong><strong><strong>Django项目中后，删除以前用命令安装<strong><strong>xadmin</strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong>执行命令：<span style="color: #0000ff">pip3 uninstall xadmin</span></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><span style="color: #0000ff"><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170909234139663-2049366316.png" alt=""></span></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong><strong><strong><strong><strong>这样原来命令安装的<strong><strong>xadmin就被卸载了，<strong><strong><strong><strong><strong><strong><strong>xadmin所需要的依赖关系包却没卸载，因为我们<strong>源码安装方式将<strong>xadmin集成到我们的<strong><strong><strong>Django项目中后也会用到<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>xadmin所需要的依赖关系包的</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>访问：http://127.0.0.1:8000/xadmin/</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170909234910554-2139709489.png" alt=""></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>此时访问的xadmin就是<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Django项目中集成的xadmin了</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p></div>

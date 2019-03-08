@@ -1,0 +1,252 @@
+第二百六十九节，Tornado框架-Session登录判断
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Tornado框架-Session登录判断</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong>Session需要结合cookie来实现</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong>Session的理解</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong>　　1、用户登录系统时，服务器端获取系统当前时间，进行nd5加密，得到加密后的密串</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong>　　2、将密串作为一个字典的键，值为一个字典，也就是嵌套字典，键为密串的字典里保存用户信息</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong>　　3、将这个密串当做<strong><strong>cookie值写入浏览器</strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong>　　4、当用户访问时，判断值为密串的<strong><strong>cookie是否存在，如果存在，获取<strong><strong>cookie的值也就是密串，将这个密串在服务端的字典里查找是否存在，如果存在就可以拿到用户保存的各种信息，判断用户是否是登录状态</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170524102500122-621710224.png" alt=""></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>框架引擎</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="background-color: #ff99cc"><span style="color: #000000">
+
+container </span>= {}</span>                                  <span style="color: #008000">#</span><span style="color: #008000">用户登录信息字典,保存着用户的登录信息，{'328eb994f73b89c5f1de57742be1ee82': {'is_login': True, 'mim': 'admin', 'yhm': 'admin'}}</span>
+
+<span style="color: #0000ff">class</span> indexHandler(tornado.web.RequestHandler):  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="color: #0000ff">def</span> get(self):                                              <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+        <span style="background-color: #ff99cc">hq_cookie = self.get_cookie(<span style="color: #800000">'</span><span style="color: #800000">xr_cookie</span><span style="color: #800000">'</span>)                <span style="color: #008000">#</span><span style="color: #008000">获取浏览器cookie</span>
+        session = container.get(hq_cookie,None)                 <span style="color: #008000">#</span><span style="color: #008000">将获取到的cookie值作为下标，在数据字典里找到对应的用户信息字典</span>
+        <span style="color: #0000ff">if</span> <span style="color: #0000ff">not</span> session:                                         <span style="color: #008000">#</span><span style="color: #008000">判断用户信息不存在</span>
+            self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/dlu</span><span style="color: #800000">"</span>)  <span style="color: #008000">#</span><span style="color: #008000"> 显示登录html文件            #跳转到登录页面</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            </span><span style="color: #0000ff">if</span> session.get(<span style="color: #800000">'</span><span style="color: #800000">is_login</span><span style="color: #800000">'</span>,None) == True:            <span style="color: #008000">#</span><span style="color: #008000">否则判断用户信息字典里的下标is_login是否等于True</span>
+                self.render(<span style="color: #800000">"</span><span style="color: #800000">index.html</span><span style="color: #800000">"</span>)  <span style="color: #008000">#</span><span style="color: #008000"> 显示index.html文件  #显示查看页面</span>
+            <span style="color: #0000ff">else</span><span style="color: #000000">:
+                self.redirect(</span><span style="color: #800000">"</span><span style="color: #800000">/dlu</span><span style="color: #800000">"</span>)            </span>               <span style="color: #008000">#</span><span style="color: #008000">跳转登录页面</span>
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> dluHandler(tornado.web.RequestHandler):
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> get(self):
+        <span style="background-color: #ff99cc">hq_cookie </span></span><span style="background-color: #ff99cc">= self.get_cookie(<span style="color: #800000">'</span><span style="color: #800000">xr_cookie</span><span style="color: #800000">'</span>)                <span style="color: #008000">#</span><span style="color: #008000">获取浏览器cookie</span>
+        session = container.get(hq_cookie,None)                 <span style="color: #008000">#</span><span style="color: #008000">将获取到的cookie值作为下标，在数据字典里找到对应的用户信息字典</span>
+        <span style="color: #0000ff">if</span> <span style="color: #0000ff">not</span> session:                                         <span style="color: #008000">#</span><span style="color: #008000">判断用户信息不存在</span>
+            self.render(<span style="color: #800000">"</span><span style="color: #800000">dlu.html</span><span style="color: #800000">"</span>)  <span style="color: #008000">#</span><span style="color: #008000"> 显示登录html文件          #打开到登录页面</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            </span><span style="color: #0000ff">if</span> session.get(<span style="color: #800000">'</span><span style="color: #800000">is_login</span><span style="color: #800000">'</span>,None) == True:            <span style="color: #008000">#</span><span style="color: #008000">否则判断用户信息字典里的下标is_login是否等于True</span>
+                self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>)  <span style="color: #008000">#</span><span style="color: #008000"> 显示index.html文件    #跳转查看页面</span>
+            <span style="color: #0000ff">else</span><span style="color: #000000">:
+                self.redirect(</span><span style="color: #800000">"</span><span style="color: #800000">/dlu</span><span style="color: #800000">"</span>)</span>                           <span style="color: #008000">#</span><span style="color: #008000">跳转登录页面</span>
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> post(self):
+        <span style="background-color: #ff99cc">yhm </span></span><span style="background-color: #ff99cc">= self.get_argument(<span style="color: #800000">'</span><span style="color: #800000">yhm</span><span style="color: #800000">'</span>)                          <span style="color: #008000">#</span><span style="color: #008000">接收用户输入的登录账号</span>
+        mim = self.get_argument(<span style="color: #800000">'</span><span style="color: #800000">mim</span><span style="color: #800000">'</span>)                          <span style="color: #008000">#</span><span style="color: #008000">接收用户输入的登录密码</span>
+        <span style="color: #0000ff">if</span> yhm == <span style="color: #800000">'</span><span style="color: #800000">admin</span><span style="color: #800000">'</span> <span style="color: #0000ff">and</span> mim == <span style="color: #800000">'</span><span style="color: #800000">admin</span><span style="color: #800000">'</span>:                   <span style="color: #008000">#</span><span style="color: #008000">判断用户的密码和账号</span>
+            <span style="color: #0000ff">import</span> hashlib                                      <span style="color: #008000">#</span><span style="color: #008000">导入md5加密模块</span>
+            <span style="color: #0000ff">import</span> time                                         <span style="color: #008000">#</span><span style="color: #008000">导入时间模块</span>
+            obj = hashlib.md5()                                 <span style="color: #008000">#</span><span style="color: #008000">创建md5加密对象</span>
+            obj.update(bytes(str(time.time()),encoding = <span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>))  <span style="color: #008000">#</span><span style="color: #008000">获取系统当前时间，传入到md5加密对象里加密</span>
+            suijishu = obj.hexdigest()                              <span style="color: #008000">#</span><span style="color: #008000">获取加密后的密串</span>
+            container[suijishu] = {}                                <span style="color: #008000">#</span><span style="color: #008000">将密串作为下标到container字典里，创建一个新空字典</span>
+            container[suijishu][<span style="color: #800000">'</span><span style="color: #800000">yhm</span><span style="color: #800000">'</span>] = yhm                        <span style="color: #008000">#</span><span style="color: #008000">字典里的键为yhm，值为用户名</span>
+            container[suijishu][<span style="color: #800000">'</span><span style="color: #800000">mim</span><span style="color: #800000">'</span>] = mim                        <span style="color: #008000">#</span><span style="color: #008000">字典里的键为mim，值为用户密码</span>
+            container[suijishu][<span style="color: #800000">'</span><span style="color: #800000">is_login</span><span style="color: #800000">'</span>] = True                  <span style="color: #008000">#</span><span style="color: #008000">字典里的键为is_login，值为True</span>
+            self.set_cookie(<span style="color: #800000">'</span><span style="color: #800000">xr_cookie</span><span style="color: #800000">'</span>,suijishu,expires_days=1)    <span style="color: #008000">#</span><span style="color: #008000">将密串作为cookie值写入浏览器</span>
+            self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>)                                 <span style="color: #008000">#</span><span style="color: #008000">跳转到查看页面</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            self.redirect(</span><span style="color: #800000">"</span><span style="color: #800000">/dlu</span><span style="color: #800000">"</span></span><span style="color: #000000"><span style="background-color: #ff99cc">)</span>
+
+settings </span>= {                                        <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">views</span><span style="color: #800000">"</span>,                     <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">statics</span><span style="color: #800000">"</span>,                         <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">cookie_secret</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">61oETzKXQAGaYdkL5gEmGeJJY</span><span style="color: #800000">"</span><span style="color: #000000">,
+}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>, indexHandler),                   <span style="color: #008000">#</span><span style="color: #008000">判断用户请求路径后缀是否匹配字符串index,如果匹配执行MainHandler方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/dlu</span><span style="color: #800000">"</span><span style="color: #000000">, dluHandler),
+],</span>**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong><strong><strong>Session模块封装以及使用</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>Session(self,1) 创建session对象，参数1接收接收tornado.web.RequestHandler的self对象，也就是继承RequestHandler对象，参数2cookie过期时间</strong></span><br><span style="color: #ff0000"><strong>session['yhm']=yhm 自定义用户保存数据，保存在字典里['键']=值</strong></span><br><span style="color: #ff0000"><strong>session['yhm'] 获取自定义保存的数据，['键']</strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong><strong><strong>Session封装模块</strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="background-color: #ffff00"><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+<span style="color: #000000">
+container </span>=<span style="color: #000000"> {}
+</span><span style="color: #008000">#</span><span style="color: #008000"> container = {</span><span style="color: #008000">
+#</span><span style="color: #008000">     # "第一个人的随机字符串":{}，</span><span style="color: #008000">
+#</span><span style="color: #008000">     # "第一个人的随机字符串":{'k1': 111, 'parents': '你'}，</span><span style="color: #008000">
+#</span><span style="color: #008000"> }</span>
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> Session:
+    </span><span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span><span style="color: #000000">(self, handler,gqshijian):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">
+        创建Session()对象时接收两个参数
+        参数1、接收RequestHandler的self对象，也就是继承RequestHandler对象
+        参数2、接收cookie过期时间天数
+        </span><span style="color: #800000">"""</span><span style="color: #000000">
+        self.handler </span>= handler                                  <span style="color: #008000">#</span><span style="color: #008000">handler接收tornado.web.RequestHandler的self对象，也就是继承RequestHandler对象</span>
+        self.random_str = None                                  <span style="color: #008000">#</span><span style="color: #008000">初始化随机密串</span>
+        self.gqshijian = gqshijian                              <span style="color: #008000">#</span><span style="color: #008000">获取设置cookie过期时间</span>
+
+    <span style="color: #0000ff">def</span> <span style="color: #800080">__genarate_random_str</span>(self):                            <span style="color: #008000">#</span><span style="color: #008000">生成随机密串</span>
+        <span style="color: #0000ff">import</span> hashlib                                          <span style="color: #008000">#</span><span style="color: #008000">导入md5加密模块</span>
+        <span style="color: #0000ff">import</span> time                                             <span style="color: #008000">#</span><span style="color: #008000">导入时间模块</span>
+        obj = hashlib.md5()                                     <span style="color: #008000">#</span><span style="color: #008000">创建md5加密对象</span>
+        obj.update(bytes(str(time.time()), encoding=<span style="color: #800000">'</span><span style="color: #800000">utf-8</span><span style="color: #800000">'</span>))   <span style="color: #008000">#</span><span style="color: #008000">获取系统当前时间，进行md5加密</span>
+        random_str = obj.hexdigest()                            <span style="color: #008000">#</span><span style="color: #008000">获取加密后的md5密串</span>
+        <span style="color: #0000ff">return</span> random_str                                       <span style="color: #008000">#</span><span style="color: #008000">返回加密后的md5密串</span>
+
+    <span style="color: #0000ff">def</span> <span style="color: #800080">__setitem__</span>(self, key,value):                                   <span style="color: #008000">#</span><span style="color: #008000">当创建Session对象，后面跟着[xxx]=xxx的时候自动执行并且接收[xxx]=xxx的值</span>
+        <span style="color: #800000">"""</span><span style="color: #800000">
+        使用方法：Session对象[xxx]=xxx
+        功能：随机生成密串写入cookie，接收自定义用户数据，添加到cookie密串对应的字典里
+        </span><span style="color: #800000">"""</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 在container中加入随机字符串</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 定义专属于自己的数据</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 在客户端中写入随机字符串</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 判断，请求的用户是否已有随机字符串</span>
+        <span style="color: #0000ff">if</span> <span style="color: #0000ff">not</span> self.random_str:                                         <span style="color: #008000">#</span><span style="color: #008000">判断初始化密串不存在</span>
+            random_str = self.handler.get_cookie(<span style="color: #800000">'</span><span style="color: #800000">xr_cookie</span><span style="color: #800000">'</span>)          <span style="color: #008000">#</span><span style="color: #008000">获取客服端浏览器get_cookie里的密串</span>
+            <span style="color: #0000ff">if</span> <span style="color: #0000ff">not</span> random_str:                                          <span style="color: #008000">#</span><span style="color: #008000">判断客服端浏览器get_cookie里如果没有密串</span>
+                random_str = self.<span style="color: #800080">__genarate_random_str</span>()               <span style="color: #008000">#</span><span style="color: #008000">执行密串生成方法，生成密串</span>
+                container[random_str] = {}                              <span style="color: #008000">#</span><span style="color: #008000">在container字典里添加一个，密串作为键，值为空字典的元素</span>
+            <span style="color: #0000ff">else</span>:                                                       <span style="color: #008000">#</span><span style="color: #008000">如果客服端浏览器get_cookie里有密串</span>
+                <span style="color: #008000">#</span><span style="color: #008000"> 客户端有随机字符串</span>
+                <span style="color: #0000ff">if</span> random_str <span style="color: #0000ff">in</span> container.keys():                      <span style="color: #008000">#</span><span style="color: #008000">判断密串在container字典的键里是否存在</span>
+                    <span style="color: #0000ff">pass</span>                                                <span style="color: #008000">#</span><span style="color: #008000">如果存在什么都不做</span>
+                <span style="color: #0000ff">else</span>:                                                   <span style="color: #008000">#</span><span style="color: #008000">如果不存在</span>
+                    random_str = self.<span style="color: #800080">__genarate_random_str</span>()           <span style="color: #008000">#</span><span style="color: #008000">重新生成密串</span>
+                    container[random_str] = {}                          <span style="color: #008000">#</span><span style="color: #008000">在container字典里添加一个，密串作为键，值为空字典的元素</span>
+            self.random_str = random_str                                <span style="color: #008000">#</span><span style="color: #008000">将密串赋值给，初始化密串</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 如果用户密串初始化就存在，说明登录过并且cookie和container字典里都存在</span>
+        container[self.random_str][key] = value                                                     <span style="color: #008000">#</span><span style="color: #008000">找到container字典里键为密串的元素值是一个字典，将接收到的key作为键，value作为值添加到元素字典里</span>
+        self.handler.set_cookie(<span style="color: #800000">"</span><span style="color: #800000">xr_cookie</span><span style="color: #800000">"</span>, self.random_str,expires_days = self.gqshijian)        <span style="color: #008000">#</span><span style="color: #008000">将密串作为cookie值，向浏览器写入cookie</span>
+
+    <span style="color: #0000ff">def</span> <span style="color: #800080">__getitem__</span>(self,key):                                          <span style="color: #008000">#</span><span style="color: #008000">当创建Session对象，后面跟着[xxx]自动执行，并接收[xxx]的值</span>
+        <span style="color: #800000">"""</span><span style="color: #800000">
+        使用方法：Session对象[xxx]
+        功能：获取cookie对应字典里，键为接收到参数的值，存在返回值，不存在返回None
+        </span><span style="color: #800000">"""</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 获取客户端的随机字符串</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 从container中获取专属于我的数据</span>
+        <span style="color: #008000">#</span><span style="color: #008000">  专属信息【key】</span>
+        random_str =  self.handler.get_cookie(<span style="color: #800000">"</span><span style="color: #800000">xr_cookie</span><span style="color: #800000">"</span>)             <span style="color: #008000">#</span><span style="color: #008000">获取cookie里的密串</span>
+        <span style="color: #0000ff">if</span> <span style="color: #0000ff">not</span> random_str:                                              <span style="color: #008000">#</span><span style="color: #008000">判断cookie里的密串如果不存在</span>
+            <span style="color: #0000ff">return</span> None                                                 <span style="color: #008000">#</span><span style="color: #008000">返回None</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 客户端有随机字符串</span>
+        user_info_dict = container.get(random_str,None)                 <span style="color: #008000">#</span><span style="color: #008000">在container字典里找到密串对应的元素</span>
+        <span style="color: #0000ff">if</span> <span style="color: #0000ff">not</span> user_info_dict:                                          <span style="color: #008000">#</span><span style="color: #008000">如果container字典里没有密串对应的元素</span>
+            <span style="color: #0000ff">return</span> None                                                 <span style="color: #008000">#</span><span style="color: #008000">返回None</span>
+        <span style="color: #008000">#</span><span style="color: #008000">如果cookie里的密串存在，并且container字典里也存在密串对应的元素</span>
+        value = user_info_dict.get(key, None)                           <span style="color: #008000">#</span><span style="color: #008000">接收用户传来的值，将值作为键找到字典里对应的值</span>
+        <span style="color: #0000ff">return</span> value                                                    <span style="color: #008000">#</span><span style="color: #008000">返回值</span></span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>框架引擎</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="background-color: #ff99cc"><span style="color: #0000ff">import</span> session_lei</span>                              <span style="color: #008000">#</span><span style="color: #008000">导入session模块</span>
+
+
+
+
+<span style="color: #0000ff">class</span> indexHandler(tornado.web.RequestHandler):  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="color: #0000ff">def</span> get(self):                               <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+        <span style="background-color: #ff99cc">session = session_lei.Session(self,1)</span>    <span style="color: #008000">#</span><span style="color: #008000">创建session对象，cookie保留1天</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">if</span> session[<span style="color: #800000">'</span><span style="color: #800000">zhuangtai</span><span style="color: #800000">'</span>] == True:</span>         <span style="color: #008000">#</span><span style="color: #008000">判断session里的zhuangtai等于True</span>
+            self.render(<span style="color: #800000">"</span><span style="color: #800000">index.html</span><span style="color: #800000">"</span>)            <span style="color: #008000">#</span><span style="color: #008000">显示查看页面</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            self.redirect(</span><span style="color: #800000">"</span><span style="color: #800000">/dlu</span><span style="color: #800000">"</span>)                <span style="color: #008000">#</span><span style="color: #008000">跳转到登录页面</span>
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> dluHandler(tornado.web.RequestHandler):
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> get(self):
+        <span style="background-color: #ff99cc">session </span></span><span style="background-color: #ff99cc">= session_lei.Session(self,1)</span>    <span style="color: #008000">#</span><span style="color: #008000">创建session对象，cookie保留1天</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">if</span> session[<span style="color: #800000">'</span><span style="color: #800000">zhuangtai</span><span style="color: #800000">'</span>] == True:</span>         <span style="color: #008000">#</span><span style="color: #008000">判断session里的zhuangtai等于True</span>
+            self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>)              <span style="color: #008000">#</span><span style="color: #008000">跳转到查看页面</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            self.render(</span><span style="color: #800000">"</span><span style="color: #800000">dlu.html</span><span style="color: #800000">"</span>,tishi = <span style="color: #800000">'</span><span style="color: #800000">请登录</span><span style="color: #800000">'</span>)  <span style="color: #008000">#</span><span style="color: #008000">打开登录页面</span>
+    <span style="color: #0000ff">def</span><span style="color: #000000"> post(self):
+        yhm </span>= self.get_argument(<span style="color: #800000">'</span><span style="color: #800000">yhm</span><span style="color: #800000">'</span>)               <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的用户名</span>
+        mim = self.get_argument(<span style="color: #800000">'</span><span style="color: #800000">mim</span><span style="color: #800000">'</span>)               <span style="color: #008000">#</span><span style="color: #008000">接收用户提交的密码</span>
+        <span style="color: #0000ff">if</span> yhm == <span style="color: #800000">'</span><span style="color: #800000">admin</span><span style="color: #800000">'</span> <span style="color: #0000ff">and</span> mim == <span style="color: #800000">'</span><span style="color: #800000">admin</span><span style="color: #800000">'</span>:        <span style="color: #008000">#</span><span style="color: #008000">判断用户名和密码</span>
+            <span style="background-color: #ff99cc">session = session_lei.Session(self,1)</span>    <span style="color: #008000">#</span><span style="color: #008000">创建session对象，cookie保留1天</span>
+            <span style="background-color: #ff99cc">session[<span style="color: #800000">'</span><span style="color: #800000">yhm</span><span style="color: #800000">'</span>] = yhm</span>                     <span style="color: #008000">#</span><span style="color: #008000">将用户名保存到session</span>
+            <span style="background-color: #ff99cc">session[<span style="color: #800000">'</span><span style="color: #800000">mim</span><span style="color: #800000">'</span>] = mim</span>                     <span style="color: #008000">#</span><span style="color: #008000">将密码保存到session</span>
+            <span style="background-color: #ff99cc">session[<span style="color: #800000">'</span><span style="color: #800000">zhuangtai</span><span style="color: #800000">'</span>] = True</span>              <span style="color: #008000">#</span><span style="color: #008000">在session写入登录状态</span>
+            self.redirect(<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>)                  <span style="color: #008000">#</span><span style="color: #008000">跳转查看页面</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            self.render(</span><span style="color: #800000">"</span><span style="color: #800000">dlu.html</span><span style="color: #800000">"</span>,tishi = <span style="color: #800000">'</span><span style="color: #800000">用户名或密码错误</span><span style="color: #800000">'</span>) <span style="color: #008000">#</span><span style="color: #008000">打开登录页面</span>
+<span style="color: #000000">
+settings </span>= {                                        <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">views</span><span style="color: #800000">"</span>,                     <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">statics</span><span style="color: #800000">"</span>,                         <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span><span style="color: #000000">
+}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>, indexHandler),                   <span style="color: #008000">#</span><span style="color: #008000">判断用户请求路径后缀是否匹配字符串index,如果匹配执行MainHandler方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/dlu</span><span style="color: #800000">"</span><span style="color: #000000">, dluHandler),
+],</span>**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p><span style="color: #0000ff"><strong>登录页面</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>请登录<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">method</span><span style="color: #0000ff">="post"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="/dlu"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        用户名</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="yhm"</span><span style="color: #0000ff">/&gt;</span><span style="color: #000000">
+        密码</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="mim"</span><span style="color: #0000ff">/&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="submit"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="提交"</span><span style="color: #0000ff">/&gt;&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="color: #ff201e"</span><span style="color: #0000ff">&gt;</span>{{tishi}}<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>登录后查看页面</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>测试网站<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">='{{static_url("muban.css")}}'</span><span style="color: #0000ff">&gt;</span>     <span style="color: #008000">&lt;!--</span><span style="color: #008000">接收被继承页面的css连接</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+登录后才能查看的信息
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170524231923341-2059470155.gif" alt=""></p>
+<p>&nbsp;</p></div>

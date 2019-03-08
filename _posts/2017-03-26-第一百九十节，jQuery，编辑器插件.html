@@ -1,0 +1,36 @@
+第一百九十节，jQuery，编辑器插件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong>jQuery，编辑器插件</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000"><strong>学习要点： </strong></span></p>
+<p><span style="color: #000000"><strong>　　1.编辑器简介 </strong></span></p>
+<p><span style="color: #000000"><strong>　　2.引入 uEditor</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000"><strong>编辑器（Editor），一般用于类似于 word 一样的文本编辑器，只不过是编辑为 HTML 格式的。分类纯 JS 类型的，还有 jQuery 插件类型的。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．编辑器简介 </strong></span></p>
+<p><span style="color: #000000"><strong>我们使用的 jQuery 版本比较新，但尚未全面使用 2.0 的版本，因为 IE6,7,8 被抛弃了。 而恰恰在这个时期，就出现编辑器插件的两极分化的局面。高端和先进的 HTML 编辑器已 经全面不支持 IE6,7,8 了，而老版本的 HTML 编辑器，在使用 jQuery1.10.x 版本时会发生这 样那样的不兼容。为此，还需要引入 jquery-migrate-1.2.1.js 向下兼容插件才能解决一部分问 题。并且需要手动修改源代码保证了正常运行。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．引入 uEditor </strong></span></p>
+<p><span style="color: #000000"><strong>　　第一步：引入 jquery-migrate-1.2.1.js 文件，排除编辑器低版本的问题。 </strong></span></p>
+<p><span style="color: #000000"><strong>　　第二步：把编辑器文件夹包放入根目录下。 </strong></span></p>
+<p><span style="color: #000000"><strong>　　第三步：引入 uEditor.js 和 uEditor.css 两个文件。 第四步：插入 textarea，设置规定值。 第五步：jQuery 调用运行。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>插入 textarea，设置规定值</strong></span></p>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<p><span style="color: #0000ff"><strong>注意表单里的文本框&lt;textarea&gt;标签，<span style="color: #ff0000">必须class="uEditorCustom"</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">textarea </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="uEditorCustom"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="content"</span><span style="color: #0000ff">&gt;</span>请填写问题描述！<span style="color: #0000ff">&lt;/</span><span style="color: #800000">textarea</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">uEditor()方法，让一个<strong>&lt;textarea&gt;标签</strong>文本框，执行编辑器方法，一般在<strong><strong>&lt;textarea&gt;标签上使用</strong></strong></span></strong></p>
+<p><span style="color: #0000ff"><strong>js代码</strong></span></p>
+<div class="cnblogs_code">
+<pre>$('.uEditorCustom').uEditor();</pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170326155318908-1954550829.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>注意：如果文本框内容无法传输到数据库，通过$('.uEditorIframe').contents().find('#iframeBody').html(),获取到输入框内容，然后在ajaxSubmit()里面当做额外参数传递</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>屏蔽低版本浏览器不支持jQuery的浏览器</strong></span></p>
+<p><span style="color: #0000ff"><strong>可以用js判断浏览器的版本，然后跳转到指定提示页面</strong></span></p></div>

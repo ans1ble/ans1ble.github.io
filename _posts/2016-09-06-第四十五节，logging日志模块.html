@@ -1,0 +1,129 @@
+第四十五节，logging日志模块
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>用于便捷记录日志且<span style="color: #ff0000;">线程安全</span>的模块</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>单文件日志</strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong><strong>basicConfig()模块函数</strong></strong></strong></span></p>
+<p><strong><strong>功能：创建日志文件和写日志模式【有参】</strong><br /></strong></p>
+<p><strong><strong>使用方法：模块名称.<strong><strong><strong>basicConfig(<span style="color: #ff0000;">filename=</span>"日志文件名称",<span style="color: #ff0000;">format=</span>"(日期时间),(权限用户),(写入等级),(产生日志文件名称),(日志内容)",<span style="color: #ff0000;">datefmt=</span>"日期时间格式",<span style="color: #ff0000;">level=</span>"日志等级")</strong></strong></strong></strong></strong></p>
+<p><strong>格式如：logging.basicConfig(filename='log.log',format='%(asctime)s - %(name)s - %(levelname)s -%(module)s: &nbsp;%(message)s',datefmt='%Y-%m-%d %H:%M:%S %p',level=logging.WARNING)</strong></p>
+<p><span style="color: #ff0000;"><strong>内置等级写入函数【有参写入的内容】</strong></span></p>
+<p><span style="color: #ff0000;"><strong>critical()模块函数，critical等级写入日志</strong></span><br /><span style="color: #ff0000;"><strong>fatal()模块函数，fatal等级写入日志</strong></span><br /><span style="color: #ff0000;"><strong>error()模块函数，error等级写入日志</strong></span><br /><span style="color: #ff0000;"><strong>warning()模块函数，warning等级写入日志</strong></span><br /><span style="color: #ff0000;"><strong>warn()模块函数，warn等级写入日志</strong></span><br /><span style="color: #ff0000;"><strong>info()模块函数，info等级写入日志</strong></span><br /><span style="color: #ff0000;"><strong>debug()模块函数，debug等级写入日志</strong></span></p>
+<p>等级对照表<br />CRITICAL = 50<br />FATAL = CRITICAL<br />ERROR = 40<br />WARNING = 30<br />WARN = WARNING<br />INFO = 20<br />DEBUG = 10</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> logging
+logging.basicConfig(filename</span>=<span style="color: #800000;">'</span><span style="color: #800000;">log.log</span><span style="color: #800000;">'</span><span style="color: #000000;">,
+                    format</span>=<span style="color: #800000;">'</span><span style="color: #800000;">%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s</span><span style="color: #800000;">'</span>,<span style="color: #008000;">#</span><span style="color: #008000;">(日期时间),(权限用户),(写入等级),(产生日志文件名称),(日志内容)</span>
+                    datefmt=<span style="color: #800000;">'</span><span style="color: #800000;">%Y-%m-%d %H:%M:%S %p</span><span style="color: #800000;">'</span>,<span style="color: #008000;">#</span><span style="color: #008000;">日期时间格式</span>
+                    level=logging.WARNING)<span style="color: #008000;">#</span><span style="color: #008000;">日志等级，日志等级要求大写</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 等级对照表</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> CRITICAL = 50</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> FATAL = CRITICAL</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ERROR = 40</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> WARNING = 30</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> WARN = WARNING</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> INFO = 20</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> DEBUG = 10</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">注意：写入等级大于日志等级，才写入日志数据</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 写入等级，写入日志</span>
+logging.critical(<span style="color: #800000;">'</span><span style="color: #800000;">sss</span><span style="color: #800000;">'</span>)<span style="color: #008000;">#</span><span style="color: #008000;">写入日志，写入等级要求小写</span>
+logging.fatal(<span style="color: #800000;">"</span><span style="color: #800000;">333</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">写入日志，写入等级要求小写</span>
+logging.error(<span style="color: #800000;">"</span><span style="color: #800000;">2222</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">写入日志，写入等级要求小写</span>
+logging.warning(<span style="color: #800000;">"</span><span style="color: #800000;">5555</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">写入日志，写入等级要求小写</span>
+logging.warn(<span style="color: #800000;">"</span><span style="color: #800000;">999</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">写入日志，写入等级要求小写</span>
+logging.info(<span style="color: #800000;">"</span><span style="color: #800000;">598</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">写入日志，写入等级要求小写</span>
+logging.debug(<span style="color: #800000;">"</span><span style="color: #800000;">5646</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">写入日志，写入等级要求小写</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">log日志写入数据</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2016-09-06 15:10:38 PM - root - CRITICAL -index:  sss</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2016-09-06 15:10:38 PM - root - CRITICAL -index:  333</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2016-09-06 15:10:38 PM - root - ERROR -index:  2222</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2016-09-06 15:10:38 PM - root - WARNING -index:  5555</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 2016-09-06 15:10:38 PM - root - WARNING -index:  999</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">以上可以看出，写入等级大于日志等级，才写入日志数据</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>log()模块函数</strong></span></p>
+<p><strong><strong>功能：自定义写入等级，写入日志【有参】</strong><br /></strong></p>
+<p><strong><strong>使用方法：模块名称.<strong>log(写入等级数,"写入内容")</strong></strong></strong></p>
+<p><strong>格式如：logging.log(40,'log')</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> logging
+logging.basicConfig(filename</span>=<span style="color: #800000;">'</span><span style="color: #800000;">log.log</span><span style="color: #800000;">'</span><span style="color: #000000;">,
+                    format</span>=<span style="color: #800000;">'</span><span style="color: #800000;">%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s</span><span style="color: #800000;">'</span>,<span style="color: #008000;">#</span><span style="color: #008000;">(日期时间),(权限用户),(写入等级),(产生日志文件名称),(日志内容)</span>
+                    datefmt=<span style="color: #800000;">'</span><span style="color: #800000;">%Y-%m-%d %H:%M:%S %p</span><span style="color: #800000;">'</span>,<span style="color: #008000;">#</span><span style="color: #008000;">日期时间格式</span>
+                    level=logging.WARNING)<span style="color: #008000;">#</span><span style="color: #008000;">日志等级，日志等级要求大写</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 等级对照表</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> CRITICAL = 50</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> FATAL = CRITICAL</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> ERROR = 40</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> WARNING = 30</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> WARN = WARNING</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> INFO = 20</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> DEBUG = 10</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">注意：写入等级大于日志等级，才写入日志数据</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 自定义写入等级，写入日志</span>
+logging.log(40,<span style="color: #800000;">'</span><span style="color: #800000;">log</span><span style="color: #800000;">'</span>)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>多文件日志（推荐）</strong></span></p>
+<p><span style="color: #ff0000;"><strong>FileHandler()模块函数</strong></span></p>
+<p><strong><strong>功能：打开或创建日志文件【有参】</strong><br /></strong></p>
+<p><strong><strong>使用方法：模块名称.<strong>FileHandler("文件路径名称","打开模式",encoding='字符编码')</strong></strong></strong></p>
+<p><strong>格式如：logging.FileHandler('l1_1.log', 'a', encoding='utf-8')</strong></p>
+<p><span style="color: #ff0000;"><strong>Formatter()模块函数</strong></span></p>
+<p><strong><strong>功能：创建日志写入格式【有参】</strong><br /></strong></p>
+<p><strong><strong>使用方法：<strong><strong>模块名称.<strong>Formatter(fmt="%(日期和时间)s - %(日志等级名称)s - %(写入等级名称)s -%(产生日志程序名称)s: &nbsp;%(日志内容)s")</strong></strong></strong></strong></strong></p>
+<p><strong>格式如：logging.Formatter(fmt="%(asctime)s - %(name)s - %(levelname)s -%(module)s: &nbsp;%(message)s")</strong></p>
+<p><span style="color: #ff0000;"><strong>setFormatter()模块函数</strong></span></p>
+<p><strong><strong>功能：将日志写入格式应用到，打开文件【有参】</strong><br /></strong></p>
+<p><strong><strong>使用方法：打开日志文件变量.<strong>setFormatter(创建日志写入格式变量)</strong></strong></strong></p>
+<p><strong>格式如：file_1_1.setFormatter(fmt)</strong></p>
+<p><span style="color: #ff0000;"><strong>Logger()模块函数</strong></span></p>
+<p><strong><strong>功能：创建日志等级，注意这个日志等级可以参照等级对照表来设置，要求大写【有参】</strong><br /></strong></p>
+<p><strong><strong>使用方法：模块名称.<strong>Logger("自定义日志等级名称",level=日志等级参数)</strong></strong></strong></p>
+<p><strong>格式如：logging.Logger('s1', level=logging.ERROR)</strong></p>
+<p><span style="color: #ff0000;"><strong>addHandler()模块函数</strong></span></p>
+<p><strong><strong>功能：将日志等级追加到打开的文件【有参】</strong><br /></strong></p>
+<p><strong><strong>使用方法：<strong><strong>创建日志等级变量.<strong>addHandler(打开日志文件变量)</strong></strong></strong></strong></strong></p>
+<p><strong>格式如：logger1.addHandler(file_1_1)</strong></p>
+<p><span style="color: #ff0000;"><strong>close()模块函数</strong></span></p>
+<p><strong><strong>功能：关闭打开的日志文件【无参】</strong><br /></strong></p>
+<p><strong><strong>使用方法：<strong><strong>打开日志文件变量.<strong>close()</strong></strong></strong><strong><strong><br /></strong></strong></strong></strong></p>
+<p><strong>格式如：file_1_1.close()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span> logging <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 定义文件1</span>
+file_1_1 = logging.FileHandler(<span style="color: #800000;">'</span><span style="color: #800000;">l1_1.log</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">a</span><span style="color: #800000;">'</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)<span style="color: #008000;">#</span><span style="color: #008000;">以a模式打开或创建日志文件</span>
+fmt = logging.Formatter(fmt=<span style="color: #800000;">"</span><span style="color: #800000;">%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">创建日志写入格式</span>
+file_1_1.setFormatter(fmt)<span style="color: #008000;">#</span><span style="color: #008000;">将日志写入格式应用到，打开文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 定义文件2</span>
+file_1_2 = logging.FileHandler(<span style="color: #800000;">'</span><span style="color: #800000;">l1_2.log</span><span style="color: #800000;">'</span>, <span style="color: #800000;">'</span><span style="color: #800000;">a</span><span style="color: #800000;">'</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)<span style="color: #008000;">#</span><span style="color: #008000;">以a模式打开或创建日志文件</span>
+fmt = logging.Formatter(fmt=<span style="color: #800000;">"</span><span style="color: #800000;">%(message)s</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">创建日志写入格式</span>
+file_1_2.setFormatter(fmt)<span style="color: #008000;">#</span><span style="color: #008000;">将日志写入格式应用到，打开文件</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 定义日志</span>
+logger1 = logging.Logger(<span style="color: #800000;">'</span><span style="color: #800000;">s1</span><span style="color: #800000;">'</span>, level=logging.ERROR)<span style="color: #008000;">#</span><span style="color: #008000;">创建日志等级，注意这个日志等级可以参照等级对照表来设置，要求大写</span>
+logger1.addHandler(file_1_1)<span style="color: #008000;">#</span><span style="color: #008000;">将日志等级追加到打开的文件</span>
+logger1.addHandler(file_1_2)<span style="color: #008000;">#</span><span style="color: #008000;">将日志等级追加到打开的文件</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;"> 写日志</span>
+logger1.critical(<span style="color: #800000;">'</span><span style="color: #800000;">1111</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">写入等级函数写入日志，注意这个写入等级函数参照等级对照表来设置，要求小写，也可以用log()模块函数来自定义等级，参照log()模块函数</span>
+<span style="color: #000000;">
+file_1_1.close()</span><span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的日志文件</span>
+file_1_2.close()<span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的日志文件</span><span style="color: #008000;">
+#</span><span style="color: #008000;">这样就将一个日志数据同时写入两个日志文件，注意：要将日志数据写入几个日志文件，就按照上面操作打开几个日志文件</span></pre>
+</div>
+<p>&nbsp;</p></div>

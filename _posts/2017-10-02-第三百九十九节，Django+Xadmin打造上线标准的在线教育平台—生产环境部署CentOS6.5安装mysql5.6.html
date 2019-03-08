@@ -1,0 +1,203 @@
+第三百九十九节，Django+Xadmin打造上线标准的在线教育平台—生产环境部署CentOS6.5安装mysql5.6
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百九十九节，Django+Xadmin打造上线标准的在线教育平台—生产环境部署CentOS6.5安装mysql5.6</strong></p>
+<p>&nbsp;</p>
+<p><strong>1.检测系统是否已经安装过mysql或其依赖，若已装过要先将其删除，否则第4步使用yum安装时会报错：</strong></p>
+<div class="cnblogs_code">
+<pre>[root@192 ~]<span style="color: #008000">#</span><span style="color: #008000; background-color: #ffff00"> yum list installed | grep mysql</span>
+mysql-libs.x86_64       5.1.71-1.el6    @anaconda-CentOS-201311272149.x86_64/6.5<span style="color: #000000">
+[root@</span>192 ~]<span style="color: #008000">#</span> </pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>2.删除已安装的MySQL</strong></p>
+<div class="cnblogs_code">
+<pre>[root@192 ~]<span style="color: #008000">#</span><span style="color: #008000"> yum -y remove mysql-libs.x86_64</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>3.从mysql的官网下载.rpm安装库，有了安装库才能在线安装</strong></p>
+<p><strong>到官网下载系统对应的版本</strong></p>
+<p><strong>https://dev.mysql.com/downloads/repo/yum/</strong></p>
+<p><strong><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171002103019427-589043265.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>wget dev.mysql.com/get/mysql57-community-release-el6-11.noarch.rpm  下载安装库</pre>
+</div>
+<p><strong>如果报以下错误</strong></p>
+<p><strong><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171002103512021-1265427771.png" alt=""></strong></p>
+<div class="cnblogs_code">
+<pre>wget <span style="background-color: #ffff00">--no-check-certificate</span> dev.mysql.com/get/mysql57-community-release-el6-11.noarch.rpm</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>4.安装刚才下载的<strong>mysql安装库</strong></strong></p>
+<div class="cnblogs_code">
+<pre>yum install mysql57-community-release-el6-11.noarch.rpm</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>5.安装成功后，我们可以看到/etc/yum.repos.d/目录下增加了以下两个文件</strong></p>
+<div class="cnblogs_code">
+<pre>[root@192 ~]<span style="color: #008000">#</span><span style="color: #008000"> ls /etc/yum.repos.d</span>
+CentOS-Base.repo  CentOS-Debuginfo.repo  CentOS-Media.repo  CentOS-Vault.repo  <span style="background-color: #ffff00">mysql-community.repo</span>  <span style="background-color: #ffff00">mysql-community-</span><span style="color: #000000"><span style="background-color: #ffff00">source.repo</span>
+[root@</span>192 ~]<span style="color: #008000">#</span> </pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>6.查看mysql5.6的安装源是否可用</strong></p>
+<div class="cnblogs_code">
+<pre>[root@192 ~]<span style="color: #008000">#</span><span style="color: #008000"> yum repolist enabled | grep mysql</span>
+mysql-connectors-community           MySQL Connectors Community              42<span style="color: #000000">
+mysql</span>-tools-community                MySQL Tools Community                   51<span style="color: #000000">
+mysql57</span>-community                    <span style="background-color: #ffff00">MySQL 5.7 Community Server</span>             201<span style="color: #000000">
+[root@</span>192 ~]<span style="color: #008000">#</span> </pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>7.可以看到现在mysql安装源是5.7版本，我需要修改成5.6版本</strong></p>
+<p><strong>使mysql5.6下面的enable=1</strong></p>
+<p><strong>若有mysql其它版本的安装源可用，也请自行修改配置文件使其enable=0</strong></p>
+<div class="cnblogs_code">
+<pre>vim /etc/yum.repos.d/mysql-community.repo   修改文件</pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171002105336474-25858919.png" alt=""></p>
+<p>&nbsp;</p>
+<p><strong>8.使用yum命令安装mysql</strong></p>
+<div class="cnblogs_code">
+<pre>[root@bogon ~]<span style="color: #008000">#</span><span style="color: #008000">  yum -y install mysql-server </span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>9.设置开机启动</strong></p>
+<div class="cnblogs_code">
+<pre>[root@bogon ~]<span style="color: #008000">#</span><span style="color: #008000">  chkconfig mysqld on </span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>10.启动MySQL服务</strong></p>
+<p><span style="color: #ff0000"><strong>启动文件在/usr/sbin/mysqld</strong></span></p>
+<div class="cnblogs_code">
+<pre>[root@bogon ~]<span style="color: #008000">#</span><span style="color: #008000">  service mysqld start</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>11.设置MySQL的root用户设置密码</strong></p>
+<div class="cnblogs_code">
+<pre>[root@bogon ~]<span style="color: #008000">#</span><span style="color: #008000">  mysql -u root  　　　　　　　　　　　　　　//登录数据库</span>
+mysql&gt; select user,host,password <span style="color: #0000ff">from</span><span style="color: #000000"> mysql.user;  　　　//查看数据库用户名和密码
+</span>+------+-----------+----------+  
+| user | host      | password |  
++------+-----------+----------+  
+| root | localhost |          |  
+| root | bogon     |          |  
+| root | 127.0.0.1 |          |  
+|      | localhost |          |  
+|      | bogon     |          |  
++------+-----------+----------+ </pre>
+</div>
+<p>可以看到用户名root的密码为空，用下面的命令设置root的密码为root</p>
+<div class="cnblogs_code">
+<pre>mysql&gt; set password <span style="color: #0000ff">for</span> root@localhost=password(<span style="color: #800000">'</span><span style="color: #800000">root</span><span style="color: #800000">'</span><span style="color: #000000">);  
+mysql</span>&gt; exit </pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>12.用新密码登陆</strong></p>
+<div class="cnblogs_code">
+<pre>[root@bogon ~]<span style="color: #008000">#</span><span style="color: #008000">  mysql -u root -p  </span>
+Enter password: </pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>13.查看mysql默认存储引擎,保证储引擎是InnoDB，因为InnoDB引擎才支持事务</strong></p>
+<div class="cnblogs_code">
+<pre>[root@bogon etc]<span style="color: #008000">#</span><span style="color: #008000; background-color: #ffff00"> mysql -u root -p  </span>
+<span style="color: #000000">Enter password:   
+Welcome to the MySQL monitor.  Commands end with ; </span><span style="color: #0000ff">or</span><span style="color: #000000"> \g.  
+Your MySQL connection id </span><span style="color: #0000ff">is</span> 2<span style="color: #000000">  
+Server version: </span>5.1.73<span style="color: #000000"> Source distribution  
+  
+Copyright (c) </span>2000, 2013, Oracle <span style="color: #0000ff">and</span>/<span style="color: #0000ff">or</span><span style="color: #000000"> its affiliates. All rights reserved.  
+  
+Oracle </span><span style="color: #0000ff">is</span> a registered trademark of Oracle Corporation <span style="color: #0000ff">and</span>/<span style="color: #0000ff">or</span><span style="color: #000000"> its  
+affiliates. Other names may be trademarks of their respective  
+owners.  
+  
+Type </span><span style="color: #800000">'</span><span style="color: #800000">help;</span><span style="color: #800000">'</span> <span style="color: #0000ff">or</span> <span style="color: #800000">'</span><span style="color: #800000">\h</span><span style="color: #800000">'</span> <span style="color: #0000ff">for</span> help. Type <span style="color: #800000">'</span><span style="color: #800000">\c</span><span style="color: #800000">'</span><span style="color: #000000"> to clear the current input statement.  
+  
+mysql</span>&gt; <span style="background-color: #ffff00">show variables like <span style="color: #800000">'</span><span style="color: #800000">storage_engine</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ffff00">;</span>  
+</span>+----------------+--------+  
+| Variable_name  | Value  |  
++----------------+--------+  
+| storage_engine | <span style="background-color: #ff99cc">InnoDB</span> |  
++----------------+--------+  
+1 row <span style="color: #0000ff">in</span> set (0.00 sec)  </pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>14.CentOS6.5开放mysql端口3306，CentOS6.5默认是不开放端口的，如果要让外部的系统访问CentOS6.5上的mysql，必须开放mysql的端口3306，修改/etc/sysconfig/iptables</strong></p>
+<div class="cnblogs_code">
+<pre>vim /etc/sysconfig/iptables</pre>
+</div>
+<p><strong>在文件里加上</strong></p>
+<p><strong>-A&nbsp;INPUT&nbsp;-m&nbsp;state&nbsp;--state&nbsp;NEW&nbsp;-m&nbsp;tcp&nbsp;-p&nbsp;tcp&nbsp;--dport&nbsp;3306&nbsp;-j&nbsp;ACCEPT</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> Firewall configuration written by system-config-firewall</span><span style="color: #008000">
+#</span><span style="color: #008000"> Manual customization of this file is not recommended.</span>
+*<span style="color: #000000">filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+</span>-A INPUT -m state --state ESTABLISHED,RELATED -<span style="color: #000000">j ACCEPT
+</span>-A INPUT -p icmp -<span style="color: #000000">j ACCEPT
+</span>-A INPUT -i lo -<span style="color: #000000">j ACCEPT
+</span>-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -<span style="color: #000000">j ACCEPT
+</span><span style="color: #008000">#</span><span style="color: #008000">添加配置项</span>
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -<span style="color: #000000">j ACCEPT   
+</span><span style="background-color: #ffff00">-A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -<span style="color: #000000">j ACCEPT
+</span></span>-A INPUT -j REJECT --reject-with icmp-host-<span style="color: #000000">prohibited
+</span>-A FORWARD -j REJECT --reject-with icmp-host-<span style="color: #000000">prohibited
+COMMIT</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>15.重启防火墙</strong></p>
+<div class="cnblogs_code">
+<pre>[root@bogon etc]<span style="color: #008000">#</span><span style="color: #008000"> service iptables restart</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>16.创建新用户test_user，远程登录mysql</strong></p>
+<p><strong>create user '用户名'@'IP地址' identified by '密码'; &nbsp;创建一个用户</strong></p>
+<p><strong>%表示任意ip</strong></p>
+<div class="cnblogs_code">
+<pre>create user <span style="color: #800000">'</span><span style="color: #800000">test_user</span><span style="color: #800000">'</span>@<span style="color: #800000">'</span><span style="color: #800000">%</span><span style="color: #800000">'</span> identified by <span style="color: #800000">'</span><span style="color: #800000">test_user</span><span style="color: #800000">'</span>;</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>17.给新用户test_user授权，让他可以从外部登陆和本地登陆</strong></p>
+<p><strong>1</strong></p>
+<p><strong>grant <span style="background-color: #ffff00">all privileges(除授权外的所有权限)</span> on <span style="background-color: #ffff00">*.*(表示所有数据库的所有表)</span> to '<span style="background-color: #ffff00">test_user(授权的用户名)</span>'@'<span style="background-color: #ffff00">localhost(授权ip)</span>' identified by '<span style="background-color: #ffff00">test_user(用户密码)</span>';</strong></p>
+<div class="cnblogs_code">
+<pre>grant all privileges on *.* to <span style="color: #800000">'</span><span style="color: #800000">test_user</span><span style="color: #800000">'</span>@<span style="color: #800000">'</span><span style="color: #800000">localhost</span><span style="color: #800000">'</span> identified by <span style="color: #800000">'</span><span style="color: #800000">test_user</span><span style="color: #800000">'</span>;</pre>
+</div>
+<p>2</p>
+<pre>grant <span style="background-color: #ffff00">all privileges(<strong>除授权外的所有权限</strong>)</span> on <span style="background-color: #ffff00">*.*(<strong>表示所有数据库的所有表</strong>)</span> to '<span style="background-color: #ffff00">test_user(<strong>授权的用户名</strong>)</span>'@'<span style="background-color: #ffff00">%(所有ip)</span>' identified by '<span style="background-color: #ffff00">test_user(用户密码)</span>';</pre>
+<div class="cnblogs_code">
+<pre>grant all privileges on *.* to <span style="color: #800000">'</span><span style="color: #800000">test_user</span><span style="color: #800000">'</span>@<span style="color: #800000">'</span><span style="color: #800000">%</span><span style="color: #800000">'</span> identified by <span style="color: #800000">'</span><span style="color: #800000">test_user</span><span style="color: #800000">'</span>;</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>18.查看用户授权后的情况</strong></p>
+<div class="cnblogs_code">
+<pre>mysql&gt; <span style="background-color: #ffff00">select user,host,password <span style="color: #0000ff">from</span><span style="color: #000000"> mysql.user;
+</span></span>+-----------+-----------------+-------------------------------------------+
+| user      | host            | password                                  |
++-----------+-----------------+-------------------------------------------+
+| root      | localhost       | *81F5E21E35407D884A6CD4A731AEBFB6AF209E1B |
+| root      | 192.168.158.128 |                                           |
+| root      | 127.0.0.1       |                                           |
+| root      | ::1             |                                           |
+|           | localhost       |                                           |
+|           | 192.168.158.128 |                                           |
+| <span style="background-color: #ffff00">test_user</span> | <span style="background-color: #ffff00">%</span>               | <span style="background-color: #ffff00">*8A447777509932F0ED07ADB033562027D95A0F17</span> |
+| <span style="background-color: #ffff00">test_user</span> | <span style="background-color: #ffff00">localhost</span>       | <span style="background-color: #ffff00">*8A447777509932F0ED07ADB033562027D95A0F17</span> |
++-----------+-----------------+-------------------------------------------+
+8 rows <span style="color: #0000ff">in</span> set (0.00<span style="color: #000000"> sec)
+
+mysql</span>&gt; </pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>19.使用授权用户远程登陆</strong></p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171002184657396-2021876446.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;可以远程登陆了</p>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201710/955761-20171002184830599-745985483.png" alt=""></p>
+<p><br><br></p>
+<p>&nbsp;</p></div>

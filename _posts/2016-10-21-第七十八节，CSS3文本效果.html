@@ -1,0 +1,143 @@
+第七十八节，CSS3文本效果
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">CSS3文本效果</span></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">一．文本阴影</span> </strong><br><strong>    CSS3提供了text-shadow文本阴影效果，这个属性在之前讲过，只是没有涉及浏览器 支持情况。</strong></p>
+<p><strong>浏览器支持情况</strong></p>
+<p><strong>text-shadow&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opera&nbsp;&nbsp;&nbsp;&nbsp; Firefox&nbsp;&nbsp;&nbsp;&nbsp; Chrome&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Safari</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;9.5+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.5+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 10+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.1+</strong></p>
+<p>这里有几个注意点：1.text-shadow在CSS2的时候出现过，但各大浏览器碍于消耗大量的资源，迟迟未支持，然后在CSS2.1中剔除了。现在，CSS3已经全面支持了；2.最低支持版本上，不同手册和教材上都不太同，但版本年代久远，无伤大雅。最准确的可以查询这个网站：<a href="http://caniuse.com/#index" target="_blank">http://caniuse.com/#index</a>。最需要注意的只有IE10才支持，IE9不支持的；3.目前的浏览器不需要给这个属性加上任何前缀，具体查询前缀版本可以访问刚才提供的地址。</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>正值阴影</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 400px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 300px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 2px solid silver</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> silver</span>;<span style="color: #ff0000">
+
+    text-shadow</span>:<span style="color: #0000ff"> 1px 1px 1px red</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>负值阴影</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 400px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 300px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 2px solid silver</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> silver</span>;<span style="color: #ff0000">
+
+    text-shadow</span>:<span style="color: #0000ff"> -1px -1px 1px red</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>多重阴影叠加</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 400px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 300px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 2px solid silver</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> silver</span>;<span style="color: #ff0000">
+
+    text-shadow</span>:<span style="color: #0000ff"> 0px 0px 0 rgb(188,178,188),
+                 1px 0px 0 rgb(173,163,173),
+                 2px 0px 0 rgb(157,147,157),
+                 3px 0px 0 rgb(142,132,142),
+                 4px 0px 0 rgb(126,116,126),
+                 5px 0px 0 rgb(111,101,111), 
+                 6px 0px 0 rgb(95,85,95),
+                 7px 0px 0 rgb(79,69,79),
+                 8px 0px 7px rgba(0,0,0,0.35),
+                 8px 0px 1px rgba(0,0,0,0.5),
+                 0px 0px 7px rgba(0,0,0,0.2)</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;这是一段文本&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">二．文本裁剪</span> </strong></p>
+<p><span style="color: #ff0000"><strong><strong>text-overflow<strong>文本裁剪是否加上省略号</strong></strong></strong></span><br><strong>    CSS3提供了text-overflow属性来控制文本的溢出部分，它的作用是对溢出的部分裁剪掉，然后判定是否添加省略号。首先我们先看下样式表的属性，如下：</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;属性值 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;说明</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; clip&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　 &nbsp;&nbsp;默认值，裁剪文本时不添加“...”省略号</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ellipsis&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　　　　　 &nbsp;裁剪文本时添加“...”省略号</strong></p>
+<p><span style="color: #0000ff"><strong>注意：首先要将文本white-space: nowrap;强制不换行，然后将文本overflow: hidden;溢出处理后，在写<strong><strong>text-overflow属性才有用</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 100px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 2px solid silver</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> silver</span>;<span style="color: #ff0000">
+
+    white-space</span>:<span style="color: #0000ff"> nowrap</span>;<span style="color: #ff0000">
+    overflow</span>:<span style="color: #0000ff"> hidden</span>;<span style="color: #ff0000">
+    text-overflow</span>:<span style="color: #0000ff"> ellipsis</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份有限公司、北京电视台、大前门北京文化艺术有限公司联合出品的励志电视剧，由刘家成执导，朱亚文、是一部由北青传媒股份有限公司、北京电视台、大前门北京文化艺术有限公司联合出品的励志电视剧，由刘家成执导，朱亚文、&lt;/p&gt;</span></pre>
+</div>
+<p><strong>对于text-overflow的支持度，是根据它的属性值来判定的，不同的属性值浏览器支 持度不同。</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;属性值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 Opera&nbsp; 　　Firefox&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 Chrome&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 IE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;Safari</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; clip&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &nbsp; &nbsp; 9.63+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.0+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　&nbsp;1.0+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp;6.0+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3.1+</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ellipsis&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &nbsp;&nbsp; 10.5+ &nbsp; &nbsp; &nbsp; 6.0+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;&nbsp;1.0+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp; &nbsp;6.0+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　 &nbsp;3.1+</strong></p>
+<p><strong>而在Opera主流版本中，引擎已经靠拢webkit，则不需要-o-了。目前来说，也不需要兼容-o-了。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">三．文本描边，实验阶段的产物，了解即可&nbsp;</span></strong><br><strong>    CSS3提供了描边属性，即text-stroke、text-stroke-width、text-stroke-color。目前只有webkit引擎的浏览器支持，并且必须加上-webkit-前缀才能有效。</strong></p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;属性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　Opera&nbsp; 　　　　Firefox&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　Chrome&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　IE&nbsp;&nbsp;&nbsp;&nbsp; 　　　　Safari</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; text-stroke系列&nbsp; 　　 &nbsp; &nbsp;15.0+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 不支持 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;4.0+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;不支持 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 3.1+</p>
+<p>&nbsp;</p>
+<p><strong>描边</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 50px</span>;<span style="color: #ff0000">
+    -webkit-text-stroke</span>:<span style="color: #0000ff">1px red</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份有限公司&lt;/p&gt;</span></pre>
+</div>
+<p><strong>修改描边的颜色和厚度</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 50px</span>;<span style="color: #ff0000">
+    -webkit-text-stroke</span>:<span style="color: #0000ff">1px red</span>;<span style="color: #ff0000">
+    -webkit-text-stroke-color</span>:<span style="color: #0000ff">orange</span>;<span style="color: #ff0000">
+    -webkit-text-stroke-width</span>:<span style="color: #0000ff"> 2px</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份有限公司&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">四．文本填充</span> </strong></p>
+<p><span style="color: #ff0000"><strong>text-fill-color<strong>文本颜色填充</strong></strong></span><br><strong>    CSS3提供了一个文本颜色填充功能：text-fill-color，感觉和color属性很像。其实在配合其他属性才能达到不一样的效果。</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 属性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　　　Opera&nbsp; 　　　　Firefox&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 Chrome&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　IE &nbsp;&nbsp;&nbsp;&nbsp;　　　　Safari</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; text-fill-color&nbsp; 　　　　　15.0+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;不支持&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 4.0+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　 &nbsp;&nbsp;不支持 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 3.1+</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>不配合背景样式时，和color属性没区别</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 150px</span>;<span style="color: #ff0000">
+    -webkit-text-fill-color</span>:<span style="color: #0000ff"> red</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份有限公司&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>和CSS3背景的新特性搭配产生渐变文字</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">p</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 150px</span>;<span style="color: #ff0000">
+    font-family</span>:<span style="color: #0000ff"> 黑体</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> -webkit-linear-gradient(top,#eee,#aaa 50%,#333 51%,#000)</span>;<span style="color: #ff0000">
+    -webkit-background-clip</span>:<span style="color: #0000ff">text</span>;<span style="color: #ff0000">
+    -webkit-text-fill-color</span>:<span style="color: #0000ff">transparent</span>;
+}<span style="color: #800000">
+
+&lt;p&gt;是一部由北青传媒股份&lt;/p&gt;</span></pre>
+</div>
+<p>&nbsp;</p></div>

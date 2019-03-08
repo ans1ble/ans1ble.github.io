@@ -1,0 +1,77 @@
+第三百七十六节，Django+Xadmin打造上线标准的在线教育平台—创建用户操作app，在models.py文件生成5张表，用户咨询表、课程评论表、用户收藏表、用户消息表、用户学习表
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百七十六节，Django+Xadmin打造上线标准的在线教育平台—创建用户操作app，在models.py文件生成5张表，用户咨询表、课程评论表、用户收藏表、用户消息表、用户学习表</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong>创建名称为app_operation的<strong>用户操作</strong>APP，写数据库操作文件<strong>models.py</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170909112825476-584924650.png" alt=""></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>models.py<strong>文件</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+<span style="color: #0000ff">from</span> <span style="color: #800080">__future__</span> <span style="color: #0000ff">import</span><span style="color: #000000"> unicode_literals
+</span><span style="color: #0000ff">from</span> datetime <span style="color: #0000ff">import</span><span style="color: #000000"> datetime
+
+</span><span style="color: #0000ff">from</span> django.db <span style="color: #0000ff">import</span> models            <span style="color: #008000">#</span><span style="color: #008000"> 导入models对象</span>
+
+<span style="color: #0000ff">from</span> app_users.models <span style="color: #0000ff">import</span> Users      <span style="color: #008000">#</span><span style="color: #008000"> 导入用户信息表</span>
+<span style="color: #0000ff">from</span> app_courses.models <span style="color: #0000ff">import</span> Course   <span style="color: #008000">#</span><span style="color: #008000"> 导入课程表</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> UserAsk(models.Model):
+    name </span>= models.CharField(max_length=20, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span><span style="color: #000000">)
+    mobile </span>= models.CharField(max_length=10, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">手机</span><span style="color: #800000">'</span><span style="color: #000000">)
+    course_name </span>= models.CharField(max_length=50, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">课程名</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=<span style="color: #000000">datetime.now)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">用户咨询表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> CourseComments(models.Model):
+    user </span>= models.ForeignKey(Users, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">评论用户</span><span style="color: #800000">'</span><span style="color: #000000">)
+    course </span>= models.ForeignKey(Course, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">评论课程</span><span style="color: #800000">'</span><span style="color: #000000">)
+    comments </span>= models.CharField(max_length=200, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">评论内容</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">评论时间</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">课程评论表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> UserFavorite(models.Model):
+    user </span>= models.ForeignKey(Users, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">用户收藏</span><span style="color: #800000">'</span><span style="color: #000000">)
+    fav_id </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">收藏数据ID</span><span style="color: #800000">'</span><span style="color: #000000">)
+    fav_type </span>= models.IntegerField(choices=((1, <span style="color: #800000">'</span><span style="color: #800000">课程</span><span style="color: #800000">'</span>), (2, <span style="color: #800000">'</span><span style="color: #800000">课程机构</span><span style="color: #800000">'</span>), (3, <span style="color: #800000">'</span><span style="color: #800000">讲师</span><span style="color: #800000">'</span>)), default=1, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">用户收藏类型</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">收藏时间</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">用户收藏表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> UserMessage(models.Model):
+    user </span>= models.IntegerField(default=0, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">接收用户id</span><span style="color: #800000">'</span>)    <span style="color: #008000">#</span><span style="color: #008000"> 0表示所有用户</span>
+    message = models.CharField(max_length=500, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">消息内容</span><span style="color: #800000">'</span><span style="color: #000000">)
+    has_read </span>= models.BooleanField(default=False, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">是否已读</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">消息时间</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">用户消息表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> UserCourse(models.Model):
+    user </span>= models.ForeignKey(Users, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">学习用户</span><span style="color: #800000">'</span><span style="color: #000000">)
+    course </span>= models.ForeignKey(Course, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">学习课程</span><span style="color: #800000">'</span><span style="color: #000000">)
+    add_time </span>= models.DateTimeField(default=datetime.now, verbose_name=<span style="color: #800000">'</span><span style="color: #800000">学习时间</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">用户学习表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>= verbose_name</pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170909113134351-1276761649.png" alt=""></p>
+<p>&nbsp;</p></div>

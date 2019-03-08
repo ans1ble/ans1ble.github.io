@@ -1,0 +1,468 @@
+第九十四节，html5+css3移动手机端流体布局，旅游部分，媒体查询
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">html5+css3移动手机端流体布局，旅游部分，媒体查询</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; font-size: 16px"><strong><strong>媒体查询</strong></strong></span></p>
+<p><span style="color: #000000; font-size: 16px"><strong><strong>媒体查询是手机网站和自适应网站的重要部分，媒体查询可以根据不同的屏幕大小，做响应的处理，如文字的大小，区块隐藏等等</strong></strong></span></p>
+<p><strong>媒体查询，这里我们不去详细去讲解，这个放到后面响应式章节讲解，这里简单使用即&nbsp;可。</strong></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">/*</span><span style="color: #008000">媒体查询，大于480小于640</span><span style="color: #008000">*/</span><span style="color: #800000"> 
+    @media (min-width:480px) and (max-width:640px) </span>{<span style="color: #ff0000"> 
+        #tour h2 { 
+            font-size</span>:<span style="color: #0000ff"> .26rem</span>; 
+        }<span style="color: #800000"> 
+        #tour h3 </span>{<span style="color: #ff0000"> 
+            font-size</span>:<span style="color: #0000ff"> .16rem</span>; 
+        }<span style="color: #800000"> 
+        #footer </span>{<span style="color: #ff0000"> 
+            font-size</span>:<span style="color: #0000ff"> .14rem</span>; 
+        }<span style="color: #800000"> 
+    } 
+
+    </span><span style="color: #008000">/*</span><span style="color: #008000">媒体查询，小于480</span><span style="color: #008000">*/</span><span style="color: #800000"> 
+    @media (max-width:480px) </span>{<span style="color: #ff0000"> 
+        #tour h2 { 
+            font-size</span>:<span style="color: #0000ff"> .18rem</span>; 
+        }<span style="color: #800000"> 
+        #tour h3 </span>{<span style="color: #ff0000"> 
+            font-size</span>:<span style="color: #0000ff"> .14rem</span>; 
+        }<span style="color: #800000"> 
+        #footer </span>{<span style="color: #ff0000"> 
+            font-size</span>:<span style="color: #0000ff"> .12rem</span>; 
+        }<span style="color: #800000"> 
+    } </span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>旅游部分</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161030131331843-806690475.png" alt=""></strong></span></p>
+<p><span style="color: #000000"><strong>注意旅游部分要两个内容并排，就需要设置两个div各站50%，然后在div里面做内容,边距用div的内边距来挤，这样才会并排，标题部分如果标题长了会换行影响布局，将标题强制一行显示，溢出裁剪掉显示省略号</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>完成效果</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161030131915406-2018949655.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000"><strong>html代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">自适应手机，禁止缩放</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="viewport"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>瓢城旅行社<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="css/index.css"</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">头部导航</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">header </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="dao-hang"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang2"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>瓢城旅行社<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">nav</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>网站导航<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao shou"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="index.html"</span><span style="color: #0000ff">&gt;</span>首页<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>资讯<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>机票<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dao-hang-lie-biao"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>关于<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">nav</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">header</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">图片轮播</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="lun"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="lun-bo"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/adver.png"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">搜索</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="sou-su"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>搜索<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">主体</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">section </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="zhu-ti"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="zhu-ti2"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>热门旅游<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;</span>最新的各种热门旅游资讯的推荐！<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h3</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="zhu-ti3"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/tour1.png"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="lr"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>曼谷-芭提雅6日游包团特惠，超丰富景点曼谷-芭提雅6日游包<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="jg"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                ¥
+                </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span>2709<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                起
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>满意度 90%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="zhu-ti3"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/tour2.png"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="lr"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>曼谷-芭提雅6日游包团特惠，超丰富景点曼谷-芭提雅6日游包<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="jg"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                ¥
+                </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span>2709<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                起
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>满意度 90%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="zhu-ti3"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/tour3.png"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="lr"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>曼谷-芭提雅6日游包团特惠，超丰富景点曼谷-芭提雅6日游包<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="jg"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                ¥
+                </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span>2709<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                起
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>满意度 90%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="zhu-ti3"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/tour4.png"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="lr"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>曼谷-芭提雅6日游包团特惠，超丰富景点曼谷-芭提雅6日游包<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="jg"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                ¥
+                </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span>2709<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                起
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>满意度 90%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="zhu-ti3"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/tour5.png"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="lr"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>曼谷-芭提雅6日游包团特惠，超丰富景点曼谷-芭提雅6日游包<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="jg"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                ¥
+                </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span>2709<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                起
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>满意度 90%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="zhu-ti3"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/tour6.png"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="lr"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>曼谷-芭提雅6日游包团特惠，超丰富景点曼谷-芭提雅6日游包<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="jg"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                ¥
+                </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span>2709<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                起
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>满意度 90%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="zhu-ti3"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/tour7.png"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="lr"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>曼谷-芭提雅6日游包团特惠，超丰富景点曼谷-芭提雅6日游包<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="jg"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                ¥
+                </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span>2709<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                起
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>满意度 90%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="zhu-ti3"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/tour8.png"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="lr"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>曼谷-芭提雅6日游包团特惠，超丰富景点曼谷-芭提雅6日游包<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="jg"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                ¥
+                </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span>2709<span style="color: #0000ff">&lt;/</span><span style="color: #800000">strong</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                起
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>满意度 90%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">em</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">section</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">尾部</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">footer </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="wei-bu"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="wei-bu2"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>客户端 | 触屏版 | 电脑版<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="wei-bu3"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">P</span><span style="color: #0000ff">&gt;</span>Copyright &amp;#169; YCKU 瓢城旅行社 | 苏ICP备120110119号 <span style="color: #0000ff">&lt;/</span><span style="color: #800000">P</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">footer</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>css代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8";
+</span><span style="color: #008000">/*</span><span style="color: #008000">通用样式</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">去除所有元素的内外边距</span><span style="color: #008000">*/</span><span style="color: #800000">
+html</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 16px</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">设置字体</span><span style="color: #008000">*/</span><span style="color: #800000">
+body</span>{<span style="color: #ff0000">
+    font-family</span>:<span style="color: #0000ff"> "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei UI", "Microsoft YaHei", SimHei, "\5B8B\4F53", simsun, sans-serif</span>;
+}<span style="color: #800000">
+*</span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    box-sizing</span>:<span style="color: #0000ff"> border-box</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">去除所有ul里li的小圆点</span><span style="color: #008000">*/</span><span style="color: #800000">
+ul</span>{<span style="color: #ff0000">
+    list-style-type</span>:<span style="color: #0000ff"> none</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">去除所有a的下划线</span><span style="color: #008000">*/</span><span style="color: #800000">
+a</span>{<span style="color: #ff0000">
+    text-decoration</span>:<span style="color: #0000ff"> none</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">将图片转换成区块，将图片最大宽度设置成100%,使图片自适应</span><span style="color: #008000">*/</span><span style="color: #800000">
+img</span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> block</span>;<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 100%</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">通用样式结束</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">头部导航</span><span style="color: #008000">*/</span><span style="color: #800000">
+#dao-hang .dao-hang2</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100%</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2.8rem</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #333333</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> fixed</span>;<span style="color: #ff0000">
+    z-index</span>:<span style="color: #0000ff"> 200</span>;
+}<span style="color: #800000">
+#dao-hang .dao-hang2 h1</span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> none</span>;
+}<span style="color: #800000">
+#dao-hang .dao-hang2 h2</span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> none</span>;
+}<span style="color: #800000">
+#dao-hang .dao-hang2 ul</span>{<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 40rem</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2.8rem</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #FFFFFF</span>;
+}<span style="color: #800000">
+#dao-hang .dao-hang2 ul li</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 25%</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2.8rem</span>;<span style="color: #ff0000">
+    float</span>:<span style="color: #0000ff"> left</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 2.8rem</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 15px</span>;
+}<span style="color: #800000">
+#dao-hang .dao-hang2 ul li a</span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> block</span>;<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100%</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2.8rem</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #FFFFFF</span>;<span style="color: #ff0000">
+    font-weight</span>:<span style="color: #0000ff"> normal</span>;
+}<span style="color: #800000">
+#dao-hang .dao-hang2 ul li a:hover, #dao-hang .dao-hang2 .shou</span>{<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #000000</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">图片轮播</span><span style="color: #008000">*/</span><span style="color: #800000">
+.lun</span>{<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 40rem</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2.8rem</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;
+}<span style="color: #800000">
+.lun-bo</span>{<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 40rem</span>;<span style="color: #ff0000">
+    max-height</span>:<span style="color: #0000ff"> 12.5rem</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #3835ff</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">搜索</span><span style="color: #008000">*/</span><span style="color: #800000">
+.sou-su</span>{<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 40rem</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 2.5rem</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #DCE1E7</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 7px 0 0 0</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> relative</span>;
+}<span style="color: #800000">
+.sou-su input</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 87%</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 26px</span>;<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> block</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 1px solid #5F89C4</span>;<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 6px</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> relative</span>;<span style="color: #ff0000">
+    outline</span>:<span style="color: #0000ff"> none</span>;
+}<span style="color: #800000">
+.sou-su button</span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> block</span>;<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 50px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 25px</span>;<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 0 6px 6px 0</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 8px</span>;<span style="color: #ff0000">
+    right</span>:<span style="color: #0000ff"> 6.2%</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> none</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #5F89C4</span>;<span style="color: #ff0000">
+    outline</span>:<span style="color: #0000ff"> none</span>;<span style="color: #ff0000">
+    cursor</span>:<span style="color: #0000ff"> pointer</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">主体</span><span style="color: #008000">*/</span><span style="color: #800000">
+.zhu-ti</span>{<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 40rem</span>;<span style="color: #ff0000">
+    min-height</span>:<span style="color: #0000ff"> 3.125rem</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #F5F5F5</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;
+}<span style="color: #800000">
+.zhu-ti .zhu-ti2</span>{<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;
+}<span style="color: #800000">
+.zhu-ti .zhu-ti2 h2</span>{<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0.625rem 0 0.625rem 0</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 1.4375rem</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #666666</span>;
+}<span style="color: #800000">
+.zhu-ti .zhu-ti2 h3</span>{<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0 0 0.125rem 0</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 1rem</span>;<span style="color: #ff0000">
+    font-weight</span>:<span style="color: #0000ff"> normal</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #666666</span>;
+}<span style="color: #800000">
+.zhu-ti .zhu-ti3</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 50%</span>;<span style="color: #ff0000">
+    float</span>:<span style="color: #0000ff"> left</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0.7% 0.5% 0.7% 0.5%</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #DCE1E7</span>;
+}<span style="color: #800000">
+.zhu-ti .zhu-ti3 img</span>{<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 3px</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">background-color: #5df569;</span><span style="color: #008000">*/</span>
+}<span style="color: #800000">
+.zhu-ti .zhu-ti3 .lr h4</span>{
+    <span style="color: #008000">/*</span><span style="color: #008000">background-color: #302ff5;</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 2px 0 2px 2px</span>;<span style="color: #ff0000">
+    font-weight</span>:<span style="color: #0000ff"> normal</span>;<span style="color: #ff0000">
+    white-space</span>:<span style="color: #0000ff"> nowrap</span>;<span style="color: #ff0000">
+    overflow</span>:<span style="color: #0000ff"> hidden</span>;<span style="color: #ff0000">
+    text-overflow</span>:<span style="color: #0000ff"> ellipsis</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #666666</span>;
+}<span style="color: #800000">
+.zhu-ti .zhu-ti3 .jg</span>{
+    <span style="color: #008000">/*</span><span style="color: #008000">background-color: #f5e52b;</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 2px 2px 2px 2px</span>;<span style="color: #ff0000">
+    white-space</span>:<span style="color: #0000ff"> nowrap</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> relative</span>;
+}<span style="color: #800000">
+.zhu-ti .zhu-ti3 .jg span</span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #FF6600</span>;
+}<span style="color: #800000">
+.zhu-ti .zhu-ti3 .jg span strong</span>{<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 20px</span>;
+}<span style="color: #800000">
+.zhu-ti .zhu-ti3 .jg em</span>{<span style="color: #ff0000">
+    font-style</span>:<span style="color: #0000ff"> normal</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">background-color: #dca9f5;</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> inline-block</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 14px</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #666666</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    right</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 2px</span>;
+}
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">尾部</span><span style="color: #008000">*/</span><span style="color: #800000">
+.wei-bu</span>{<span style="color: #ff0000">
+    max-width</span>:<span style="color: #0000ff"> 40rem</span>;<span style="color: #ff0000">
+    min-height</span>:<span style="color: #0000ff"> 69px</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #333333</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #6F6F6F</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;<span style="color: #ff0000">
+    clear</span>:<span style="color: #0000ff"> both</span>;
+}<span style="color: #800000">
+.wei-bu .wei-bu2</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100%</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 34px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 34px</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 17px</span>;
+}<span style="color: #800000">
+.wei-bu .wei-bu3</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100%</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 17px</span>;
+}
+
+ <span style="color: #008000">/*</span><span style="color: #008000">媒体查询，小于400</span><span style="color: #008000">*/</span><span style="color: #800000">
+@media (max-width:400px)</span>{
+    <span style="color: #008000">/*</span><span style="color: #008000">导航文字大小</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    #dao-hang .dao-hang2 ul li a{
+        font-size</span>:<span style="color: #0000ff"> 16px</span>;
+    }
+    <span style="color: #008000">/*</span><span style="color: #008000">主题标题</span><span style="color: #008000">*/</span><span style="color: #800000">
+    .zhu-ti .zhu-ti2 h2</span>{<span style="color: #ff0000">
+        font-size</span>:<span style="color: #0000ff"> 17px</span>;
+    }
+    <span style="color: #008000">/*</span><span style="color: #008000">底部文字</span><span style="color: #008000">*/</span><span style="color: #800000">
+    .wei-bu .wei-bu2</span>{<span style="color: #ff0000">
+        font-size</span>:<span style="color: #0000ff"> 15px</span>;
+    }<span style="color: #800000">
+    .wei-bu .wei-bu3</span>{<span style="color: #ff0000">
+        font-size</span>:<span style="color: #0000ff"> 12px</span>;
+    }
+    <span style="color: #008000">/*</span><span style="color: #008000">内容标题</span><span style="color: #008000">*/</span><span style="color: #800000">
+    .zhu-ti .zhu-ti3 .lr h4</span>{<span style="color: #ff0000">
+        font-size</span>:<span style="color: #0000ff"> 14px</span>;
+    }<span style="color: #800000">
+    .zhu-ti .zhu-ti3 .jg span</span>{<span style="color: #ff0000">
+        font-size</span>:<span style="color: #0000ff"> 14px</span>;
+    }<span style="color: #800000">
+    .zhu-ti .zhu-ti3 .jg span strong</span>{<span style="color: #ff0000">
+        font-size</span>:<span style="color: #0000ff"> 16px</span>;
+    }<span style="color: #800000">
+    .zhu-ti .zhu-ti3 .jg em</span>{<span style="color: #ff0000">
+        font-size</span>:<span style="color: #0000ff"> 12px</span>;
+    }<span style="color: #800000">
+
+}
+
+ </span><span style="color: #008000">/*</span><span style="color: #008000">媒体查询，小于250</span><span style="color: #008000">*/</span><span style="color: #800000">
+@media (max-width:270px)</span>{
+    <span style="color: #008000">/*</span><span style="color: #008000">导航文字</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    #dao-hang .dao-hang2 ul li a{
+        font-size</span>:<span style="color: #0000ff"> 14px</span>;
+    }
+    <span style="color: #008000">/*</span><span style="color: #008000">主体文字</span><span style="color: #008000">*/</span><span style="color: #800000">
+    .zhu-ti .zhu-ti2 h3</span>{<span style="color: #ff0000">
+        font-size</span>:<span style="color: #0000ff"> 10px</span>;
+    }
+    <span style="color: #008000">/*</span><span style="color: #008000">底部文字</span><span style="color: #008000">*/</span><span style="color: #800000">
+    .wei-bu .wei-bu3</span>{<span style="color: #ff0000">
+        font-size</span>:<span style="color: #0000ff"> 12px</span>;
+    }
+    <span style="color: #008000">/*</span><span style="color: #008000">隐藏满意度</span><span style="color: #008000">*/</span><span style="color: #800000">
+    .zhu-ti .zhu-ti3 .jg em</span>{<span style="color: #ff0000">
+        display</span>:<span style="color: #0000ff"> none</span>;
+    }<span style="color: #800000">
+}</span></pre>
+</div>
+<p>&nbsp;</p></div>

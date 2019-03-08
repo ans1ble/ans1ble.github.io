@@ -1,0 +1,551 @@
+第三百六十八节，Python分布式爬虫打造搜索引擎Scrapy精讲—elasticsearch(搜索引擎)用Django实现搜索的自动补全功能
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百六十八节，Python分布式爬虫打造搜索引擎Scrapy精讲—用Django实现搜索的自动补全功能</strong></p>
+<p><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170903235908452-1270455367.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>elasticsearch(搜索引擎)提供了自动补全接口</strong></p>
+<p><strong>官方说明：<span style="color: #0000ff">https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-completion.html</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>1、创建搜索自动补全字段<strong>suggest</strong></strong></span></p>
+<p><span style="color: #000000"><strong>自动补全需要用到一个字段<span style="color: #ff0000">名称为</span><span style="color: #ff0000">suggest</span>类型为<span style="color: #ff0000">Completion</span>类型的一个字段</strong></span></p>
+<p><span style="color: #000000"><strong>所以我们需要用将前面的<strong><strong><strong><strong><strong><strong><strong><strong>elasticsearch-dsl操作<strong>elasticsearch(搜索引擎)增加<strong>suggest类型为<strong>Completion</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>注意：因为<strong><strong><strong><strong><strong><strong><strong><strong><strong>elasticsearch-dsl源码问题，设置字段为<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Completion类型指定分词器时会报错，所以我们需要重写CustomAnalyzer类</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>只有<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Completion类型才是，其他类型不用，其他类型直接指定分词器即可</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span>
+
+<span style="color: #0000ff">from</span> datetime <span style="color: #0000ff">import</span><span style="color: #000000"> datetime
+</span><span style="color: #0000ff">from</span> elasticsearch_dsl <span style="color: #0000ff">import</span><span style="color: #000000"> DocType, Date, Nested, Boolean, \
+    analyzer, InnerObjectWrapper, Completion, Keyword, Text, Integer
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> 更多字段类型见第三百六十四节elasticsearch(搜索引擎)的mapping映射管理</span>
+<span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> elasticsearch_dsl.analysis <span style="color: #0000ff">import</span> CustomAnalyzer as _CustomAnalyzer    <span style="color: #008000">#</span><span style="color: #008000">导入CustomAnalyzer类</span></span>
+
+<span style="color: #0000ff">from</span> elasticsearch_dsl.connections <span style="color: #0000ff">import</span> connections                       <span style="color: #008000">#</span><span style="color: #008000"> 导入连接elasticsearch(搜索引擎)服务器方法</span>
+connections.create_connection(hosts=[<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span><span style="color: #000000">])
+
+
+</span><span style="background-color: #ff99cc"><span style="color: #0000ff">class</span> CustomAnalyzer(_CustomAnalyzer):                                      <span style="color: #008000">#</span><span style="color: #008000"> 自定义CustomAnalyzer类，来重写CustomAnalyzer类</span>
+    <span style="color: #0000ff">def</span><span style="color: #000000"> get_analysis_definition(self):
+        </span><span style="color: #0000ff">return</span></span><span style="color: #000000"><span style="background-color: #ff99cc"> {}
+</span>
+<span style="background-color: #ff99cc">ik_analyzer </span></span><span style="background-color: #ff99cc">= CustomAnalyzer(<span style="color: #800000">"</span><span style="color: #800000">ik_max_word</span><span style="color: #800000">"</span>, filter=[<span style="color: #800000">"</span><span style="color: #800000">lowercase</span><span style="color: #800000">"</span>])           <span style="color: #008000">#</span><span style="color: #008000"> 实例化重写的CustomAnalyzer类传入分词器和大小写转，将大写转换成小写</span></span>
+
+
+<span style="color: #0000ff">class</span> lagouType(DocType):                                                   <span style="color: #008000">#</span><span style="color: #008000"> 自定义一个类来继承DocType类</span>
+    suggest = Completion(analyzer=<span style="color: #000000"><span style="background-color: #ff99cc">ik_analyzer</span>)
+    </span><span style="color: #008000">#</span><span style="color: #008000"> Text类型需要分词，所以需要知道中文分词器，ik_max_wordwei为中文分词器</span>
+    title = Text(analyzer=<span style="color: #800000">"</span><span style="color: #800000">ik_max_word</span><span style="color: #800000">"</span>)                                    <span style="color: #008000">#</span><span style="color: #008000"> 设置，字段名称=字段类型，Text为字符串类型并且可以分词建立倒排索引</span>
+    description = Text(analyzer=<span style="color: #800000">"</span><span style="color: #800000">ik_max_word</span><span style="color: #800000">"</span><span style="color: #000000">)
+    keywords </span>= Text(analyzer=<span style="color: #800000">"</span><span style="color: #800000">ik_max_word</span><span style="color: #800000">"</span><span style="color: #000000">)
+    url </span>= Keyword()                                                         <span style="color: #008000">#</span><span style="color: #008000"> 设置，字段名称=字段类型，Keyword为普通字符串类型，不分词</span>
+    riqi = Date()                                                           <span style="color: #008000">#</span><span style="color: #008000"> 设置，字段名称=字段类型，Date日期类型</span>
+
+    <span style="color: #0000ff">class</span> Meta:                                                             <span style="color: #008000">#</span><span style="color: #008000"> Meta是固定写法</span>
+        index = <span style="color: #800000">"</span><span style="color: #800000">lagou</span><span style="color: #800000">"</span>                                                     <span style="color: #008000">#</span><span style="color: #008000"> 设置索引名称(相当于数据库名称)</span>
+        doc_type = <span style="color: #800000">'</span><span style="color: #800000">biao</span><span style="color: #800000">'</span>                                                   <span style="color: #008000">#</span><span style="color: #008000"> 设置表名称</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span>:          <span style="color: #008000">#</span><span style="color: #008000"> 判断在本代码文件执行才执行里面的方法，其他页面调用的则不执行里面的方法</span>
+    lagouType.init()                <span style="color: #008000">#</span><span style="color: #008000"> 生成elasticsearch(搜索引擎)的索引，表，字段等信息</span>
+
+
+<span style="color: #008000">#</span><span style="color: #008000"> 使用方法说明：</span><span style="color: #008000">
+#</span><span style="color: #008000"> 在要要操作elasticsearch(搜索引擎)的页面，导入此模块</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou = lagouType()           #实例化类</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou.title = '值'            #要写入字段=值</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou.description = '值'</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou.keywords = '值'</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou.url = '值'</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou.riqi = '值'</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou.save()                  #将数据写入elasticsearch(搜索引擎)</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>2、搜索自动补全字段suggest写入数据</strong></span></p>
+<p><span style="color: #ff0000"><strong>搜索自动补全字段suggest接收的要搜索的字段分词数据，详情见下面的自定义分词函数</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>elasticsearch-dsl操作elasticsearch(搜索引擎)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span><span style="color: #008000">
+#</span><span style="color: #008000">!/usr/bin/env python</span>
+
+<span style="color: #0000ff">from</span> datetime <span style="color: #0000ff">import</span><span style="color: #000000"> datetime
+</span><span style="color: #0000ff">from</span> elasticsearch_dsl <span style="color: #0000ff">import</span><span style="color: #000000"> DocType, Date, Nested, Boolean, \
+    analyzer, InnerObjectWrapper, Completion, Keyword, Text, Integer
+</span><span style="color: #0000ff">from</span> elasticsearch_dsl.connections <span style="color: #0000ff">import</span> connections                       <span style="color: #008000">#</span><span style="color: #008000"> 导入连接elasticsearch(搜索引擎)服务器方法</span><span style="color: #008000">
+#</span><span style="color: #008000"> 更多字段类型见第三百六十四节elasticsearch(搜索引擎)的mapping映射管理</span>
+<span style="color: #0000ff">from</span> elasticsearch_dsl.analysis <span style="color: #0000ff">import</span> CustomAnalyzer as _CustomAnalyzer    <span style="color: #008000">#</span><span style="color: #008000">导入CustomAnalyzer类</span>
+<span style="color: #000000">
+connections.create_connection(hosts</span>=[<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span><span style="color: #000000">])
+
+
+</span><span style="color: #0000ff">class</span> CustomAnalyzer(_CustomAnalyzer):                                      <span style="color: #008000">#</span><span style="color: #008000"> 自定义CustomAnalyzer类，来重写CustomAnalyzer类</span>
+    <span style="color: #0000ff">def</span><span style="color: #000000"> get_analysis_definition(self):
+        </span><span style="color: #0000ff">return</span><span style="color: #000000"> {}
+
+ik_analyzer </span>= CustomAnalyzer(<span style="color: #800000">"</span><span style="color: #800000">ik_max_word</span><span style="color: #800000">"</span>, filter=[<span style="color: #800000">"</span><span style="color: #800000">lowercase</span><span style="color: #800000">"</span>])           <span style="color: #008000">#</span><span style="color: #008000"> 实例化重写的CustomAnalyzer类传入分词器和大小写转，将大写转换成小写</span>
+
+
+<span style="color: #0000ff">class</span> lagouType(DocType):                                                   <span style="color: #008000">#</span><span style="color: #008000"> 自定义一个类来继承DocType类</span>
+    suggest = Completion(analyzer=<span style="color: #000000">ik_analyzer)
+    </span><span style="color: #008000">#</span><span style="color: #008000"> Text类型需要分词，所以需要知道中文分词器，ik_max_wordwei为中文分词器</span>
+    title = Text(analyzer=<span style="color: #800000">"</span><span style="color: #800000">ik_max_word</span><span style="color: #800000">"</span>)                                    <span style="color: #008000">#</span><span style="color: #008000"> 设置，字段名称=字段类型，Text为字符串类型并且可以分词建立倒排索引</span>
+    description = Text(analyzer=<span style="color: #800000">"</span><span style="color: #800000">ik_max_word</span><span style="color: #800000">"</span><span style="color: #000000">)
+    keywords </span>= Text(analyzer=<span style="color: #800000">"</span><span style="color: #800000">ik_max_word</span><span style="color: #800000">"</span><span style="color: #000000">)
+    url </span>= Keyword()                                                         <span style="color: #008000">#</span><span style="color: #008000"> 设置，字段名称=字段类型，Keyword为普通字符串类型，不分词</span>
+    riqi = Date()                                                           <span style="color: #008000">#</span><span style="color: #008000"> 设置，字段名称=字段类型，Date日期类型</span>
+
+    <span style="color: #0000ff">class</span> Meta:                                                             <span style="color: #008000">#</span><span style="color: #008000"> Meta是固定写法</span>
+        index = <span style="color: #800000">"</span><span style="color: #800000">lagou</span><span style="color: #800000">"</span>                                                     <span style="color: #008000">#</span><span style="color: #008000"> 设置索引名称(相当于数据库名称)</span>
+        doc_type = <span style="color: #800000">'</span><span style="color: #800000">biao</span><span style="color: #800000">'</span>                                                   <span style="color: #008000">#</span><span style="color: #008000"> 设置表名称</span>
+
+
+<span style="background-color: #ffff00"><span style="color: #0000ff">def</span><span style="color: #000000"> gen_suggest(index, info_tuple):
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 根据字符串生成搜索建议数组</span>
+    <span style="color: #800000">"""</span><span style="color: #800000">
+    此函数主要用于,连接elasticsearch(搜索引擎)，使用ik_max_word分词器，将传入的字符串进行分词，返回分词后的结果
+    此函数需要两个参数：
+    第一个参数：要调用elasticsearch(搜索引擎)分词的索引index，一般是（索引操作类._doc_type.index）
+    第二个参数：是一个元组，元祖的元素也是元组，元素元祖里有两个值一个是要分词的字符串，第二个是分词的权重，多个分词传多个元祖如下
+    书写格式：
+    gen_suggest(lagouType._doc_type.index, (('字符串', 10),('字符串', 8)))
+    </span><span style="color: #800000">"""</span><span style="color: #000000">
+    es </span>= connections.create_connection(lagouType._doc_type.using)       <span style="color: #008000">#</span><span style="color: #008000"> 连接elasticsearch(搜索引擎)，使用操作搜索引擎的类下面的_doc_type.using连接</span>
+    used_words =<span style="color: #000000"> set()
+    suggests </span>=<span style="color: #000000"> []
+    </span><span style="color: #0000ff">for</span> text, weight <span style="color: #0000ff">in</span><span style="color: #000000"> info_tuple:
+        </span><span style="color: #0000ff">if</span><span style="color: #000000"> text:
+            </span><span style="color: #008000">#</span><span style="color: #008000"> 调用es的analyze接口分析字符串，</span>
+            words = es.indices.analyze(index=index, analyzer=<span style="color: #800000">"</span><span style="color: #800000">ik_max_word</span><span style="color: #800000">"</span>, params={<span style="color: #800000">'</span><span style="color: #800000">filter</span><span style="color: #800000">'</span>:[<span style="color: #800000">"</span><span style="color: #800000">lowercase</span><span style="color: #800000">"</span>]}, body=<span style="color: #000000">text)
+            anylyzed_words </span>= set([r[<span style="color: #800000">"</span><span style="color: #800000">token</span><span style="color: #800000">"</span>] <span style="color: #0000ff">for</span> r <span style="color: #0000ff">in</span> words[<span style="color: #800000">"</span><span style="color: #800000">tokens</span><span style="color: #800000">"</span>] <span style="color: #0000ff">if</span> len(r[<span style="color: #800000">"</span><span style="color: #800000">token</span><span style="color: #800000">"</span>])&gt;1<span style="color: #000000">])
+            new_words </span>= anylyzed_words -<span style="color: #000000"> used_words
+        </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+            new_words </span>=<span style="color: #000000"> set()
+
+        </span><span style="color: #0000ff">if</span><span style="color: #000000"> new_words:
+            suggests.append({</span><span style="color: #800000">"</span><span style="color: #800000">input</span><span style="color: #800000">"</span>:list(new_words), <span style="color: #800000">"</span><span style="color: #800000">weight</span><span style="color: #800000">"</span><span style="color: #000000">:weight})
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 返回分词后的列表，里面是字典，</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> 如：[{'input': ['录音', '广告'], 'weight': 10}, {'input': ['新能源', '汽车',], 'weight': 8}]</span>
+    <span style="color: #0000ff">return</span><span style="color: #000000"> suggests
+
+
+</span></span><span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span>:          <span style="color: #008000">#</span><span style="color: #008000"> 判断在本代码文件执行才执行里面的方法，其他页面调用的则不执行里面的方法</span>
+    lagouType.init()                <span style="color: #008000">#</span><span style="color: #008000"> 生成elasticsearch(搜索引擎)的索引，表，字段等信息</span>
+<span style="color: #008000">#</span><span style="color: #008000"> 使用方法说明：</span><span style="color: #008000">
+#</span><span style="color: #008000"> 在要要操作elasticsearch(搜索引擎)的页面，导入此模块</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou = lagouType()           #实例化类</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou.title = '值'            #要写入字段=值</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou.description = '值'</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou.keywords = '值'</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou.url = '值'</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou.riqi = '值'</span><span style="color: #008000">
+#</span><span style="color: #008000"> lagou.save()                  #将数据写入elasticsearch(搜索引擎)</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>suggest字段写入数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+
+<span style="color: #008000">#</span><span style="color: #008000"> Define here the models for your scraped items</span><span style="color: #008000">
+#
+#</span><span style="color: #008000"> See documentation in:</span><span style="color: #008000">
+#</span><span style="color: #008000"> http://doc.scrapy.org/en/latest/topics/items.html</span><span style="color: #008000">
+#</span><span style="color: #008000"> items.py,文件是专门用于，接收爬虫获取到的数据信息的，就相当于是容器文件</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.loader.processors <span style="color: #0000ff">import</span><span style="color: #000000"> MapCompose, TakeFirst
+</span><span style="color: #0000ff">from</span> scrapy.loader <span style="color: #0000ff">import</span> ItemLoader                            <span style="color: #008000">#</span><span style="color: #008000"> 导入ItemLoader类也就加载items容器类填充数据</span>
+<span style="color: #0000ff">from</span> adc.models.elasticsearch_orm <span style="color: #0000ff">import</span> lagouType, gen_suggest  <span style="color: #008000">#</span><span style="color: #008000"> 导入elasticsearch操作模块</span>
+
+
+<span style="color: #0000ff">class</span> LagouItemLoader(ItemLoader):                  <span style="color: #008000">#</span><span style="color: #008000"> 自定义Loader继承ItemLoader类，在爬虫页面调用这个类填充数据到Item类</span>
+    default_output_processor = TakeFirst()          <span style="color: #008000">#</span><span style="color: #008000"> 默认利用ItemLoader类，加载items容器类填充数据，是列表类型，可以通过TakeFirst()方法，获取到列表里的内容</span>
+
+
+<span style="color: #0000ff">def</span> tianjia(value):                                 <span style="color: #008000">#</span><span style="color: #008000"> 自定义数据预处理函数</span>
+    <span style="color: #0000ff">return</span> value                                    <span style="color: #008000">#</span><span style="color: #008000"> 将处理后的数据返给Item</span>
+
+
+<span style="color: #0000ff">class</span> LagouItem(scrapy.Item):                       <span style="color: #008000">#</span><span style="color: #008000"> 设置爬虫获取到的信息容器类</span>
+    title = scrapy.Field(                           <span style="color: #008000">#</span><span style="color: #008000"> 接收爬虫获取到的title信息</span>
+        input_processor=MapCompose(tianjia),        <span style="color: #008000">#</span><span style="color: #008000"> 将数据预处理函数名称传入MapCompose方法里处理，数据预处理函数的形式参数value会自动接收字段title</span>
+<span style="color: #000000">    )
+    description </span>=<span style="color: #000000"> scrapy.Field()
+    keywords </span>=<span style="color: #000000"> scrapy.Field()
+    url </span>=<span style="color: #000000"> scrapy.Field()
+    riqi </span>=<span style="color: #000000"> scrapy.Field()
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> save_to_es(self):
+        lagou </span>= lagouType()                         <span style="color: #008000">#</span><span style="color: #008000"> 实例化elasticsearch(搜索引擎对象)</span>
+        lagou.title = self[<span style="color: #800000">'</span><span style="color: #800000">title</span><span style="color: #800000">'</span>]                 <span style="color: #008000">#</span><span style="color: #008000"> 字段名称=值</span>
+        lagou.description = self[<span style="color: #800000">'</span><span style="color: #800000">description</span><span style="color: #800000">'</span><span style="color: #000000">]
+        lagou.keywords </span>= self[<span style="color: #800000">'</span><span style="color: #800000">keywords</span><span style="color: #800000">'</span><span style="color: #000000">]
+        lagou.url </span>= self[<span style="color: #800000">'</span><span style="color: #800000">url</span><span style="color: #800000">'</span><span style="color: #000000">]
+        lagou.riqi </span>= self[<span style="color: #800000">'</span><span style="color: #800000">riqi</span><span style="color: #800000">'</span><span style="color: #000000">]
+        </span><span style="color: #008000">#</span><span style="color: #008000"> 将title和keywords数据传入分词函数，进行分词组合后返回写入搜索建议字段suggest</span>
+        <span style="background-color: #ffff00">lagou.suggest = gen_suggest(lagouType._doc_type.index, ((lagou.title, 10),(lagou.keywords, 8</span><span style="color: #000000"><span style="background-color: #ffff00">)))</span>
+        lagou.save()                                </span><span style="color: #008000">#</span><span style="color: #008000"> 将数据写入elasticsearch(搜索引擎对象)</span>
+        <span style="color: #0000ff">return</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>写入elasticsearch(搜索引擎)后的情况</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080">{
+    "_index": "lagou",
+    "_type": "biao",
+    "_id": "AV5MDu0NXJs9MkF5tFxW",
+    "_version": 1,
+    "_score": 1,
+    "_source": {
+        "title": "LED光催化灭蚊灯广告录音_广告录音网-火红广告录音_叫卖录音下载_语音广告制作",
+        "keywords": "各类小商品,广告录音,叫卖录音,火红广告录音",
+        "url": "http://www.luyin.org/post/2486.html",
+        "suggest": [
+            {
+                "input": [
+                    "广告"
+                    ,
+                    "火红"
+                    ,
+                    "制作"
+                    ,
+                    "叫卖"
+                    ,
+                    "灭蚊灯"
+                    ,
+                    "语音"
+                    ,
+                    "下载"
+                    ,
+                    "led"
+                    ,
+                    "录音"
+                    ,
+                    "灭蚊"
+                    ,
+                    "光催化"
+                    ,
+                    "催化"
+                ],
+                "weight": 10
+            }
+            ,
+            {
+                "input": [
+                    "小商品"
+                    ,
+                    "广告"
+                    ,
+                    "各类"
+                    ,
+                    "火红"
+                    ,
+                    "叫卖"
+                    ,
+                    "商品"
+                    ,
+                    "小商"
+                    ,
+                    "录音"
+                ],
+                "weight": 8
+            }
+        ],
+        "riqi": "2017-09-04T16:43:20",
+        "description": "LED光催化灭蚊灯广告录音 是广告录音网-火红广告录音中一篇关于 各类小商品 的文章，欢迎您阅读和评论,专业叫卖录音-广告录音-语音广告制作"
+    }
+}</span></pre>
+</div>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170904170418007-1507876769.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>用Django实现搜索的自动补全功能说明</strong></span></p>
+<p><span style="color: #ff0000"><strong>1.将搜索框绑定一个事件，每输入一个字触发这个事件，获取到输入框里的内容，用ajax将输入的词请求到<strong>Django的逻辑处理函数。</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>2.在逻辑处理函数里，将请求词用<strong>elasticsearch(搜索引擎)的</strong><strong>fuzzy模糊查询，查询<strong>suggest字段里存在请求词的数据，将查询到的数据添加到自动补全</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>html代码：</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html </span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">xmlns</span><span style="color: #0000ff">="http://www.w3.org/1999/xhtml"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000; background-color: #ffff00">
+{#引入静态文件路径#}
+{% load staticfiles %}
+</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">http-equiv</span><span style="color: #0000ff">="X-UA-Compatible"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="IE=emulateIE7"</span> <span style="color: #0000ff">/&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">http-equiv</span><span style="color: #0000ff">="Content-Type"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="text/html; charset=utf-8"</span> <span style="color: #0000ff">/&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>lcv-search 搜索引擎<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+<span style="background-color: #ffff00"><span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="{% static 'css/style.css'%}"</span><span style="color: #ff0000"> rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/css"</span> <span style="color: #0000ff">/&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="{% static 'css/index.css'%}"</span><span style="color: #ff0000"> rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/css"</span> <span style="color: #0000ff">/&gt;</span></span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="container"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="bd"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="main"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h1 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="title"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="logo large"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="nav ue-clear"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="searchList"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="searchItem current"</span><span style="color: #ff0000"> data-type</span><span style="color: #0000ff">="article"</span><span style="color: #0000ff">&gt;</span>文章<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="searchItem"</span><span style="color: #ff0000"> data-type</span><span style="color: #0000ff">="question"</span><span style="color: #0000ff">&gt;</span>问答<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="searchItem"</span><span style="color: #ff0000"> data-type</span><span style="color: #0000ff">="job"</span><span style="color: #0000ff">&gt;</span>职位<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="inputArea"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                {% csrf_token %}
+                </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="searchInput"</span> <span style="color: #0000ff">/&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="button"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="searchButton"</span><span style="color: #ff0000"> onclick</span><span style="color: #0000ff">="add_search()"</span> <span style="color: #0000ff">/&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="dataList"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>如何学好设计<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>界面设计<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>UI设计培训要多少钱<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>设计师学习<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>哪里有好的网站<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="historyArea"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="history"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>热门搜索：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+                    
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="history mysearch"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>我的搜索：<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="all-search"</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="javascript:;"</span><span style="color: #0000ff">&gt;</span>专注界面设计网站<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="javascript:;"</span><span style="color: #0000ff">&gt;</span>用户体验<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="javascript:;"</span><span style="color: #0000ff">&gt;</span>互联网<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="javascript:;"</span><span style="color: #0000ff">&gt;</span>资费套餐<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span><span style="color: #008000">&lt;!--</span><span style="color: #008000"> End of main </span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span><span style="color: #008000">&lt;!--</span><span style="color: #008000">End of bd</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="foot"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="wrap"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="copyright"</span><span style="color: #0000ff">&gt;</span>Copyright <span style="color: #ff0000">&amp;copy;</span>uimaker.com 版权所有  E-mail:admin@uimaker.com<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="background-color: #ffff00"><span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="{% static 'js/jquery.js'%}"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="{% static 'js/global.js'%}"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span></span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #0000ff">&gt;</span>
+    <span style="background-color: #ffff00"><span style="color: #0000ff">var</span><span style="color: #000000"> suggest_url </span><span style="color: #000000">=</span> <span style="color: #000000">"</span><span style="color: #000000">/suggest/</span><span style="color: #000000">"</span></span>
+    <span style="background-color: #f5f5f5; color: #0000ff">var</span><span style="background-color: #f5f5f5; color: #000000"> search_url </span><span style="background-color: #f5f5f5; color: #000000">=</span> <span style="background-color: #f5f5f5; color: #000000">"</span><span style="background-color: #f5f5f5; color: #000000">/search/</span><span style="background-color: #f5f5f5; color: #000000">"</span><span style="background-color: #f5f5f5; color: #000000">
+
+
+    $(</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">.searchList</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">).on(</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">click</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">, </span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">.searchItem</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">, </span><span style="background-color: #f5f5f5; color: #0000ff">function</span><span style="background-color: #f5f5f5; color: #000000">(){
+        $(</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">.searchList .searchItem</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">).removeClass(</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">current</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">);
+        $(</span><span style="background-color: #f5f5f5; color: #0000ff">this</span><span style="background-color: #f5f5f5; color: #000000">).addClass(</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">current</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">);
+    });
+
+    </span><span style="background-color: #f5f5f5; color: #0000ff">function</span><span style="background-color: #f5f5f5; color: #000000"> removeByValue(arr, val) {
+      </span><span style="background-color: #f5f5f5; color: #0000ff">for</span><span style="background-color: #f5f5f5; color: #000000">(</span><span style="background-color: #f5f5f5; color: #0000ff">var</span><span style="background-color: #f5f5f5; color: #000000"> i</span><span style="background-color: #f5f5f5; color: #000000">=</span><span style="background-color: #f5f5f5; color: #000000">0</span><span style="background-color: #f5f5f5; color: #000000">; i</span><span style="background-color: #f5f5f5; color: #000000">&lt;</span><span style="background-color: #f5f5f5; color: #000000">arr.length; i</span><span style="background-color: #f5f5f5; color: #000000">++</span><span style="background-color: #f5f5f5; color: #000000">) {
+        </span><span style="background-color: #f5f5f5; color: #0000ff">if</span><span style="background-color: #f5f5f5; color: #000000">(arr[i] </span><span style="background-color: #f5f5f5; color: #000000">==</span><span style="background-color: #f5f5f5; color: #000000"> val) {
+          arr.splice(i, </span><span style="background-color: #f5f5f5; color: #000000">1</span><span style="background-color: #f5f5f5; color: #000000">);
+          </span><span style="background-color: #f5f5f5; color: #0000ff">break</span><span style="background-color: #f5f5f5; color: #000000">;
+        }
+      }
+    }
+
+
+    </span><span style="background-color: #f5f5f5; color: #008000">//</span><span style="background-color: #f5f5f5; color: #008000"> 搜索建议</span>
+<span style="background-color: #ffff00"><span style="color: #000000">    $(</span><span style="color: #0000ff">function</span><span style="color: #000000">(){
+        $(</span><span style="color: #000000">'</span><span style="color: #000000">.searchInput</span><span style="color: #000000">'</span><span style="color: #000000">).bind(</span><span style="color: #000000">'</span><span style="color: #000000"> input propertychange </span><span style="color: #000000">'</span><span style="color: #000000">,</span><span style="color: #0000ff">function</span><span style="color: #000000">(){
+            </span><span style="color: #0000ff">var</span><span style="color: #000000"> searchText </span><span style="color: #000000">=</span><span style="color: #000000"> $(</span><span style="color: #0000ff">this</span><span style="color: #000000">).val();
+            </span><span style="color: #0000ff">var</span><span style="color: #000000"> tmpHtml </span><span style="color: #000000">=</span> <span style="color: #000000">""</span><span style="color: #000000">
+            $.ajax({
+                cache: </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+                type: </span><span style="color: #000000">'</span><span style="color: #000000">get</span><span style="color: #000000">'</span><span style="color: #000000">,
+                dataType:</span><span style="color: #000000">'</span><span style="color: #000000">json</span><span style="color: #000000">'</span><span style="color: #000000">,
+                url:suggest_url</span><span style="color: #000000">+</span><span style="color: #000000">"</span><span style="color: #000000">?s=</span><span style="color: #000000">"</span><span style="color: #000000">+</span><span style="color: #000000">searchText</span><span style="color: #000000">+</span><span style="color: #000000">"</span><span style="color: #000000">&amp;s_type=</span><span style="color: #000000">"</span><span style="color: #000000">+</span><span style="color: #000000">$(</span><span style="color: #000000">"</span><span style="color: #000000">.searchItem.current</span><span style="color: #000000">"</span><span style="color: #000000">).attr(</span><span style="color: #000000">'</span><span style="color: #000000">data-type</span><span style="color: #000000">'</span><span style="color: #000000">),
+                async: </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+                success: </span><span style="color: #0000ff">function</span><span style="color: #000000">(data) {
+                    </span><span style="color: #0000ff">for</span><span style="color: #000000"> (</span><span style="color: #0000ff">var</span><span style="color: #000000"> i</span><span style="color: #000000">=</span><span style="color: #000000">0</span><span style="color: #000000">;i</span><span style="color: #000000">&lt;</span><span style="color: #000000">data.length;i</span><span style="color: #000000">++</span><span style="color: #000000">){
+                        tmpHtml </span><span style="color: #000000">+=</span> <span style="color: #000000">'</span><span style="color: #000000">&lt;li&gt;&lt;a href="</span><span style="color: #000000">'</span><span style="color: #000000">+</span><span style="color: #000000">search_url</span><span style="color: #000000">+</span><span style="color: #000000">'</span><span style="color: #000000">?q=</span><span style="color: #000000">'</span><span style="color: #000000">+</span><span style="color: #000000">data[i]</span><span style="color: #000000">+</span><span style="color: #000000">'</span><span style="color: #000000">"&gt;</span><span style="color: #000000">'</span><span style="color: #000000">+</span><span style="color: #000000">data[i]</span><span style="color: #000000">+</span><span style="color: #000000">'</span><span style="color: #000000">&lt;/a&gt;&lt;/li&gt;</span><span style="color: #000000">'</span><span style="color: #000000">
+                    }
+                    $(</span><span style="color: #000000">"</span><span style="color: #000000">.dataList</span><span style="color: #000000">"</span><span style="color: #000000">).html(</span><span style="color: #000000">""</span><span style="color: #000000">)
+                    $(</span><span style="color: #000000">"</span><span style="color: #000000">.dataList</span><span style="color: #000000">"</span><span style="color: #000000">).append(tmpHtml);
+                    </span><span style="color: #0000ff">if</span><span style="color: #000000"> (data.length </span><span style="color: #000000">==</span> <span style="color: #000000">0</span><span style="color: #000000">){
+                        $(</span><span style="color: #000000">'</span><span style="color: #000000">.dataList</span><span style="color: #000000">'</span><span style="color: #000000">).hide()
+                    }</span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                        $(</span><span style="color: #000000">'</span><span style="color: #000000">.dataList</span><span style="color: #000000">'</span></span><span style="background-color: #f5f5f5; color: #000000"><span style="background-color: #ffff00">).show()
+                    }
+                }
+            });
+        } );
+    })</span>
+
+    hideElement($(</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">.dataList</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">), $(</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">.searchInput</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">));
+
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+    <span style="background-color: #f5f5f5; color: #0000ff">var</span><span style="background-color: #f5f5f5; color: #000000"> searchArr;
+    </span><span style="background-color: #f5f5f5; color: #008000">//</span><span style="background-color: #f5f5f5; color: #008000">定义一个search的，判断浏览器有无数据存储（搜索历史）</span>
+    <span style="background-color: #f5f5f5; color: #0000ff">if</span><span style="background-color: #f5f5f5; color: #000000">(localStorage.search){
+    </span><span style="background-color: #f5f5f5; color: #008000">//</span><span style="background-color: #f5f5f5; color: #008000">如果有，转换成 数组的形式存放到searchArr的数组里（localStorage以字符串的形式存储，所以要把它转换成数组的形式）</span>
+<span style="background-color: #f5f5f5; color: #000000">        searchArr</span><span style="background-color: #f5f5f5; color: #000000">=</span><span style="background-color: #f5f5f5; color: #000000"> localStorage.search.split(</span><span style="background-color: #f5f5f5; color: #000000">"</span><span style="background-color: #f5f5f5; color: #000000">,</span><span style="background-color: #f5f5f5; color: #000000">"</span><span style="background-color: #f5f5f5; color: #000000">)
+    }</span><span style="background-color: #f5f5f5; color: #0000ff">else</span><span style="background-color: #f5f5f5; color: #000000">{
+    </span><span style="background-color: #f5f5f5; color: #008000">//</span><span style="background-color: #f5f5f5; color: #008000">如果没有，则定义searchArr为一个空的数组</span>
+<span style="background-color: #f5f5f5; color: #000000">        searchArr </span><span style="background-color: #f5f5f5; color: #000000">=</span><span style="background-color: #f5f5f5; color: #000000"> [];
+    }
+    </span><span style="background-color: #f5f5f5; color: #008000">//</span><span style="background-color: #f5f5f5; color: #008000">把存储的数据显示出来作为搜索历史</span>
+<span style="background-color: #f5f5f5; color: #000000">    MapSearchArr();
+
+    </span><span style="background-color: #f5f5f5; color: #0000ff">function</span><span style="background-color: #f5f5f5; color: #000000"> add_search(){
+        </span><span style="background-color: #f5f5f5; color: #0000ff">var</span><span style="background-color: #f5f5f5; color: #000000"> val </span><span style="background-color: #f5f5f5; color: #000000">=</span><span style="background-color: #f5f5f5; color: #000000"> $(</span><span style="background-color: #f5f5f5; color: #000000">"</span><span style="background-color: #f5f5f5; color: #000000">.searchInput</span><span style="background-color: #f5f5f5; color: #000000">"</span><span style="background-color: #f5f5f5; color: #000000">).val();
+        </span><span style="background-color: #f5f5f5; color: #0000ff">if</span><span style="background-color: #f5f5f5; color: #000000"> (val.length</span><span style="background-color: #f5f5f5; color: #000000">&gt;=</span><span style="background-color: #f5f5f5; color: #000000">2</span><span style="background-color: #f5f5f5; color: #000000">){
+            </span><span style="background-color: #f5f5f5; color: #008000">//</span><span style="background-color: #f5f5f5; color: #008000">点击搜索按钮时，去重</span>
+<span style="background-color: #f5f5f5; color: #000000">            KillRepeat(val);
+            </span><span style="background-color: #f5f5f5; color: #008000">//</span><span style="background-color: #f5f5f5; color: #008000">去重后把数组存储到浏览器localStorage</span>
+<span style="background-color: #f5f5f5; color: #000000">            localStorage.search </span><span style="background-color: #f5f5f5; color: #000000">=</span><span style="background-color: #f5f5f5; color: #000000"> searchArr;
+            </span><span style="background-color: #f5f5f5; color: #008000">//</span><span style="background-color: #f5f5f5; color: #008000">然后再把搜索内容显示出来</span>
+<span style="background-color: #f5f5f5; color: #000000">            MapSearchArr();
+        }
+
+        window.location.href</span><span style="background-color: #f5f5f5; color: #000000">=</span><span style="background-color: #f5f5f5; color: #000000">search_url</span><span style="background-color: #f5f5f5; color: #000000">+</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">?q=</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">+</span><span style="background-color: #f5f5f5; color: #000000">val</span><span style="background-color: #f5f5f5; color: #000000">+</span><span style="background-color: #f5f5f5; color: #000000">"</span><span style="background-color: #f5f5f5; color: #000000">&amp;s_type=</span><span style="background-color: #f5f5f5; color: #000000">"</span><span style="background-color: #f5f5f5; color: #000000">+</span><span style="background-color: #f5f5f5; color: #000000">$(</span><span style="background-color: #f5f5f5; color: #000000">"</span><span style="background-color: #f5f5f5; color: #000000">.searchItem.current</span><span style="background-color: #f5f5f5; color: #000000">"</span><span style="background-color: #f5f5f5; color: #000000">).attr(</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">data-type</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">)
+
+    }
+
+    </span><span style="background-color: #f5f5f5; color: #0000ff">function</span><span style="background-color: #f5f5f5; color: #000000"> MapSearchArr(){
+        </span><span style="background-color: #f5f5f5; color: #0000ff">var</span><span style="background-color: #f5f5f5; color: #000000"> tmpHtml </span><span style="background-color: #f5f5f5; color: #000000">=</span> <span style="background-color: #f5f5f5; color: #000000">""</span><span style="background-color: #f5f5f5; color: #000000">;
+        </span><span style="background-color: #f5f5f5; color: #0000ff">var</span><span style="background-color: #f5f5f5; color: #000000"> arrLen </span><span style="background-color: #f5f5f5; color: #000000">=</span> <span style="background-color: #f5f5f5; color: #000000">0</span>
+        <span style="background-color: #f5f5f5; color: #0000ff">if</span><span style="background-color: #f5f5f5; color: #000000"> (searchArr.length </span><span style="background-color: #f5f5f5; color: #000000">&gt;=</span> <span style="background-color: #f5f5f5; color: #000000">5</span><span style="background-color: #f5f5f5; color: #000000">){
+            arrLen </span><span style="background-color: #f5f5f5; color: #000000">=</span> <span style="background-color: #f5f5f5; color: #000000">5</span><span style="background-color: #f5f5f5; color: #000000">
+        }</span><span style="background-color: #f5f5f5; color: #0000ff">else</span><span style="background-color: #f5f5f5; color: #000000"> {
+            arrLen </span><span style="background-color: #f5f5f5; color: #000000">=</span><span style="background-color: #f5f5f5; color: #000000"> searchArr.length
+        }
+        </span><span style="background-color: #f5f5f5; color: #0000ff">for</span><span style="background-color: #f5f5f5; color: #000000"> (</span><span style="background-color: #f5f5f5; color: #0000ff">var</span><span style="background-color: #f5f5f5; color: #000000"> i</span><span style="background-color: #f5f5f5; color: #000000">=</span><span style="background-color: #f5f5f5; color: #000000">0</span><span style="background-color: #f5f5f5; color: #000000">;i</span><span style="background-color: #f5f5f5; color: #000000">&lt;</span><span style="background-color: #f5f5f5; color: #000000">arrLen;i</span><span style="background-color: #f5f5f5; color: #000000">++</span><span style="background-color: #f5f5f5; color: #000000">){
+            tmpHtml </span><span style="background-color: #f5f5f5; color: #000000">+=</span> <span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">&lt;a href="</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">+</span><span style="background-color: #f5f5f5; color: #000000">search_url</span><span style="background-color: #f5f5f5; color: #000000">+</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">?q=</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">+</span><span style="background-color: #f5f5f5; color: #000000">searchArr[i]</span><span style="background-color: #f5f5f5; color: #000000">+</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">"&gt;</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">+</span><span style="background-color: #f5f5f5; color: #000000">searchArr[i]</span><span style="background-color: #f5f5f5; color: #000000">+</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">&lt;/a&gt;</span><span style="background-color: #f5f5f5; color: #000000">'</span><span style="background-color: #f5f5f5; color: #000000">
+        }
+        $(</span><span style="background-color: #f5f5f5; color: #000000">"</span><span style="background-color: #f5f5f5; color: #000000">.mysearch .all-search</span><span style="background-color: #f5f5f5; color: #000000">"</span><span style="background-color: #f5f5f5; color: #000000">).html(tmpHtml);
+    }
+    </span><span style="background-color: #f5f5f5; color: #008000">//</span><span style="background-color: #f5f5f5; color: #008000">去重</span>
+    <span style="background-color: #f5f5f5; color: #0000ff">function</span><span style="background-color: #f5f5f5; color: #000000"> KillRepeat(val){
+        </span><span style="background-color: #f5f5f5; color: #0000ff">var</span><span style="background-color: #f5f5f5; color: #000000"> kill </span><span style="background-color: #f5f5f5; color: #000000">=</span> <span style="background-color: #f5f5f5; color: #000000">0</span><span style="background-color: #f5f5f5; color: #000000">;
+        </span><span style="background-color: #f5f5f5; color: #0000ff">for</span><span style="background-color: #f5f5f5; color: #000000"> (</span><span style="background-color: #f5f5f5; color: #0000ff">var</span><span style="background-color: #f5f5f5; color: #000000"> i</span><span style="background-color: #f5f5f5; color: #000000">=</span><span style="background-color: #f5f5f5; color: #000000">0</span><span style="background-color: #f5f5f5; color: #000000">;i</span><span style="background-color: #f5f5f5; color: #000000">&lt;</span><span style="background-color: #f5f5f5; color: #000000">searchArr.length;i</span><span style="background-color: #f5f5f5; color: #000000">++</span><span style="background-color: #f5f5f5; color: #000000">){
+            </span><span style="background-color: #f5f5f5; color: #0000ff">if</span><span style="background-color: #f5f5f5; color: #000000">(val</span><span style="background-color: #f5f5f5; color: #000000">===</span><span style="background-color: #f5f5f5; color: #000000">searchArr[i]){
+                kill </span><span style="background-color: #f5f5f5; color: #000000">++</span><span style="background-color: #f5f5f5; color: #000000">;
+            }
+        }
+        </span><span style="background-color: #f5f5f5; color: #0000ff">if</span><span style="background-color: #f5f5f5; color: #000000">(kill</span><span style="background-color: #f5f5f5; color: #000000">&lt;</span><span style="background-color: #f5f5f5; color: #000000">1</span><span style="background-color: #f5f5f5; color: #000000">){
+            searchArr.unshift(val);
+        }</span><span style="background-color: #f5f5f5; color: #0000ff">else</span><span style="background-color: #f5f5f5; color: #000000"> {
+            removeByValue(searchArr, val)
+            searchArr.unshift(val)
+        }
+    }
+
+
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>Django路由映射</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">"""</span><span style="color: #800000">pachong URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/1.10/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.conf.urls import url, include
+    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
+</span><span style="color: #800000">"""</span>
+<span style="color: #0000ff">from</span> django.conf.urls <span style="color: #0000ff">import</span><span style="color: #000000"> url
+</span><span style="color: #0000ff">from</span> django.contrib <span style="color: #0000ff">import</span><span style="color: #000000"> admin
+</span><span style="color: #0000ff">from</span> app1 <span style="color: #0000ff">import</span><span style="color: #000000"> views
+
+urlpatterns </span>=<span style="color: #000000"> [
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^admin/</span><span style="color: #800000">'</span><span style="color: #000000">, admin.site.urls),
+<span style="background-color: #ffff00">    url(r</span></span><span style="background-color: #ffff00"><span style="color: #800000">'</span><span style="color: #800000">^$</span><span style="color: #800000">'</span><span style="color: #000000">, views.indexluoji),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^index/</span><span style="color: #800000">'</span><span style="color: #000000">, views.indexluoji),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^suggest/$</span><span style="color: #800000">'</span>, views.suggestluoji,name=<span style="color: #800000">"</span><span style="color: #800000">suggest</span><span style="color: #800000">"</span>),     <span style="color: #008000">#</span><span style="color: #008000"> 搜索字段补全请求</span></span>
+<span style="color: #000000">
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>Django静态文件配置</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> Static files (CSS, JavaScript, Images)</span><span style="color: #008000">
+#</span><span style="color: #008000"> https://docs.djangoproject.com/en/1.10/howto/static-files/</span><span style="color: #008000">
+#</span><span style="color: #008000">配置静态文件前缀</span>
+<span style="background-color: #ffff00">STATIC_URL = <span style="color: #800000">'</span><span style="color: #800000">/static/</span><span style="color: #800000">'</span></span>
+<span style="color: #008000">#</span><span style="color: #008000">配置静态文件目录</span>
+<span style="background-color: #ffff00">STATICFILES_DIRS =<span style="color: #000000"> [
+    os.path.join(BASE_DIR, </span><span style="color: #800000">'</span><span style="color: #800000">static</span><span style="color: #800000">'</span><span style="color: #000000">)
+]</span></span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>备注：搜索自动补全fuzzy查询</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">搜索自动补全fuzzy查询</span>
+<span style="background-color: #ff99cc">POST lagou/biao/<span style="color: #000000">_search?pretty
+{
+  </span><span style="color: #800000">"</span><span style="color: #800000">suggest</span><span style="color: #800000">"</span><span style="color: #000000">:{　　　　　　　　　　#字段名称
+    </span><span style="color: #800000">"</span><span style="color: #800000">my_suggest</span><span style="color: #800000">"</span><span style="color: #000000">:{　　　　　　　#自定义变量
+      </span><span style="color: #800000">"</span><span style="color: #800000">text</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">广告</span><span style="color: #800000">"</span><span style="color: #000000">,　　　　　　#搜索词
+      </span><span style="color: #800000">"</span><span style="color: #800000">completion</span><span style="color: #800000">"</span><span style="color: #000000">:{
+        </span><span style="color: #800000">"</span><span style="color: #800000">field</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">suggest</span><span style="color: #800000">"</span><span style="color: #000000">,　　#搜索字段
+        </span><span style="color: #800000">"</span><span style="color: #800000">fuzzy</span><span style="color: #800000">"</span><span style="color: #000000">:{
+          </span><span style="color: #800000">"</span><span style="color: #800000">fuzziness</span><span style="color: #800000">"</span>:1　　　　#编辑距离<span style="color: #000000">
+        }
+      }
+    }
+  },
+  </span><span style="color: #800000">"</span><span style="color: #800000">_source</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span><span style="color: #000000">
+}</span></span></pre>
+</div>
+<p><span style="color: #ff0000"><strong><strong>Django逻辑处理文件</strong></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+
+</span><span style="color: #008000">#</span><span style="color: #008000"> Create your views here.</span>
+<span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render,HttpResponse
+</span><span style="color: #0000ff">from</span> django.views.generic.base <span style="color: #0000ff">import</span><span style="color: #000000"> View
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> lagouType   <span style="color: #008000">#</span><span style="color: #008000">导入操作elasticsearch(搜索引擎)类</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> json
+
+
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> indexluoji(request):
+    </span><span style="color: #0000ff">print</span>(request.method)  <span style="color: #008000">#</span><span style="color: #008000"> 获取用户请求的路径</span>
+    <span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+
+</span><span style="background-color: #ffff00"><span style="color: #0000ff">def</span> suggestluoji(request):                                      <span style="color: #008000">#</span><span style="color: #008000"> 搜索自动补全逻辑处理</span>
+    key_words = request.GET.get(<span style="color: #800000">'</span><span style="color: #800000">s</span><span style="color: #800000">'</span>, <span style="color: #800000">''</span>)                        <span style="color: #008000">#</span><span style="color: #008000"> 获取到请求词</span>
+    re_datas =<span style="color: #000000"> []
+    </span><span style="color: #0000ff">if</span><span style="color: #000000"> key_words:
+        <span style="background-color: #ff99cc">s </span></span><span style="background-color: #ff99cc">= lagouType.search()                                  <span style="color: #008000">#</span><span style="color: #008000"> 实例化elasticsearch(搜索引擎)类的search查询</span>
+        s = s.suggest(<span style="color: #800000">'</span><span style="color: #800000">my_suggest</span><span style="color: #800000">'</span>, key_words, completion=<span style="color: #000000">{
+            </span><span style="color: #800000">"</span><span style="color: #800000">field</span><span style="color: #800000">"</span>: <span style="color: #800000">"</span><span style="color: #800000">suggest</span><span style="color: #800000">"</span>, <span style="color: #800000">"</span><span style="color: #800000">fuzzy</span><span style="color: #800000">"</span><span style="color: #000000">: {
+                </span><span style="color: #800000">"</span><span style="color: #800000">fuzziness</span><span style="color: #800000">"</span>: 2<span style="color: #000000">
+            },
+            </span><span style="color: #800000">"</span><span style="color: #800000">size</span><span style="color: #800000">"</span>: 5<span style="color: #000000">
+        })
+        suggestions </span>=<span style="color: #000000"> s.execute_suggest()
+        </span><span style="color: #0000ff">for</span> match <span style="color: #0000ff">in</span><span style="color: #000000"> suggestions.my_suggest[0].options:
+            source </span>=<span style="color: #000000"> match._source
+            re_datas.append(source[</span><span style="color: #800000">"</span><span style="color: #800000">title</span><span style="color: #800000">"</span><span style="color: #000000">])
+    </span></span><span style="color: #0000ff">return</span> HttpResponse(json.dumps(re_datas), content_type=<span style="color: #800000">"</span><span style="color: #800000">application/json</span><span style="color: #800000">"</span>)</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170904205110569-247403745.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>最终完成</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170904205440694-872065690.png" alt=""></strong></span></p>
+<p>&nbsp;</p></div>

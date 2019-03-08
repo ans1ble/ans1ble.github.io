@@ -1,0 +1,464 @@
+第三百零八节，Django框架,models.py模块，数据库操作——链表结构，一对多、一对一、多对多
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p>&nbsp;</p>
+<p><br><strong>第三百零八节，Django框架,models.py模块，数据库操作——链表结构，一对多、一对一、多对多</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>链表操作</strong></span></p>
+<p><span style="color: #ff0000"><strong>链表，就是一张表的外键字段，连接另外一张表的主键字段</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>一对多</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">models.ForeignKey()</span>外键字段一对多，值是要外键的表类</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> <span style="color: #800080">__future__</span> <span style="color: #0000ff">import</span><span style="color: #000000"> unicode_literals
+
+</span><span style="color: #0000ff">from</span> django.db <span style="color: #0000ff">import</span> models        <span style="color: #008000">#</span><span style="color: #008000">导入models对象</span>
+
+
+<span style="color: #0000ff">class</span> <span style="background-color: #ffff00">yong_hu_shen_fen</span>(models.Model):                        <span style="color: #008000">#</span><span style="color: #008000">创建用户是否表类</span>
+    id = models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=True)             <span style="color: #008000">#</span><span style="color: #008000">自增id</span>
+    shen_fen = models.CharField(<span style="color: #800000">'</span><span style="color: #800000">身份</span><span style="color: #800000">'</span>,max_length=16)         <span style="color: #008000">#</span><span style="color: #008000">字符串类型字段，记录用户身份</span>
+
+    <span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">用户身份表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> yong_hu_biao(models.Model):
+    yong_hu </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">用户</span><span style="color: #800000">'</span>,max_length=32<span style="color: #000000">)
+    you_xiang </span>= models.EmailField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=32<span style="color: #000000">)
+    mi_ma </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">密码</span><span style="color: #800000">'</span>,max_length=64<span style="color: #000000">)
+    <span style="background-color: #ff99cc">wai_jian_yong_hu_shen_fen </span></span><span style="background-color: #ff99cc">= models.ForeignKey(<span style="background-color: #ffff00">yong_hu_shen_fen</span>)</span>     <span style="color: #008000">#</span><span style="color: #008000">外键链表</span>
+
+    <span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">用户表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>= verbose_name</pre>
+</div>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170713133535993-1048857528.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong><strong>正向查找，也就是通过表的外键，查找到外键连接的表里的数据</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>链表查询之了不起的<span style="color: #0000ff">__双下划线</span></strong></span></p>
+<p><span style="color: #ff0000"><strong>也就是一般普通查询外键字段时，得到的是另外一张表的主键值，</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><span style="color: #0000ff">__双下划线</span>，表示跨表查询的意思，<span style="color: #0000ff">注意，<strong><strong>__双下划线跨表查询</strong></strong>必须是外键连接的表</span></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>查询一张表的外键字段时可以通过，外键字段名称__连接表的字段名称，查询到外键连接表里的指定字段值</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    a </span>= yong_hu_biao.objects.all().values(<span style="color: #800000">'</span><span style="color: #800000">yong_hu</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">wai_jian_yong_hu_shen_fen_id</span><span style="color: #800000">'</span>)             <span style="color: #008000">#</span><span style="color: #008000">获取用户名字段，和外键字段</span>
+    <span style="color: #0000ff">print</span><span style="color: #000000">(a)
+    b </span>= yong_hu_biao.objects.all().values(<span style="color: #800000">'</span><span style="color: #800000">yong_hu</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000; background-color: #ffff00">wai_jian_yong_hu_shen_fen_id__shen_fen</span><span style="color: #800000">'</span>)   <span style="color: #008000">#</span><span style="color: #008000">获取用户名字段，和外键字段连接的表里的指定字段</span>
+    <span style="color: #0000ff">print</span><span style="color: #000000">(b)
+
+    </span><span style="color: #0000ff">return</span> render(request,<span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span>,locals())   <span style="color: #008000">#</span><span style="color: #008000">打开页面</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> &lt;QuerySet [{'yong_hu': '林贵秀', 'wai_jian_yong_hu_shen_fen_id': <span style="background-color: #ff99cc">1</span>}, {'yong_hu': '马云', 'wai_jian_yong_hu_shen_fen_id': <span style="background-color: #ff99cc">2</span>}, {'yong_hu': '张三', 'wai_jian_yong_hu_shen_fen_id': <span style="background-color: #ff99cc">3</span>}]&gt;</span><span style="color: #008000">
+#</span><span style="color: #008000"> &lt;QuerySet [{'wai_jian_yong_hu_shen_fen_id__shen_fen': '<span style="background-color: #ffff00">普通用户</span>', 'yong_hu': '林贵秀'}, {'wai_jian_yong_hu_shen_fen_id__shen_fen': '<span style="background-color: #ffff00">vip用户</span>', 'yong_hu': '马云'}, {'wai_jian_yong_hu_shen_fen_id__shen_fen': <span style="background-color: #ffff00">'超级用户'</span>, 'yong_hu': '张三'}]&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>&nbsp;注意：__双下划线跨表查询，都是用过外键关系跨表的</strong></span></p>
+<p><span style="color: #ff0000"><strong>举例：如果a表外键连接b表，b表又外键连接c表，这就有了三张表，也就是多层一对多的关系</strong></span></p>
+<p><span style="color: #ff0000"><strong>如果我们要从a表跨表查询到c表的字段，那么就是：<span style="color: #0000ff">a表外键字段__b表外键字段__c表字段 &nbsp; &nbsp;<span style="color: #ff0000">，无论多少层继续__</span></span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">filter()条件，加__双下划线</span>，跨表查询</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    a </span>= yong_hu_biao.objects.<span style="background-color: #ff99cc">filter(<span style="background-color: #ffff00">wai_jian_yong_hu_shen_fen_id</span>__<span style="background-color: #ffff00">shen_fen</span>=<span style="color: #800000">'</span><span style="color: #800000">普通用户</span><span style="color: #800000">'</span>)</span>.values()  <span style="color: #008000">#</span><span style="color: #008000">获取当前表里外键字段跨表的shen_fen字段等于普通用户的数据</span>
+    <span style="color: #0000ff">print</span><span style="color: #000000">(a)
+
+    </span><span style="color: #0000ff">return</span> render(request,<span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span>,locals())   <span style="color: #008000">#</span><span style="color: #008000">打开页面</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> &lt;QuerySet [{'you_xiang': '729088188@qq.com', 'id': 1, 'wai_jian_yong_hu_shen_fen_id': 1, 'mi_ma': '279819', 'yong_hu': '林贵秀'}]&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>反向查找，从一张表查到它，被那张表外键连接，然后查出<strong>外键连接表里的信息</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><span style="color: #0000ff">外键表类名称_set</span> ，链表反向查找</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    obj </span>= <span style="background-color: #ffff00">yong_hu_shen_fen</span>.objects.filter(shen_fen=<span style="color: #800000">'</span><span style="color: #800000">超级用户</span><span style="color: #800000">'</span>).first()   <span style="color: #008000">#</span><span style="color: #008000">通过条件查找到符合条件的对象，获取到第一个对象</span>
+    <span style="color: #0000ff">print</span><span style="color: #000000">(obj)
+    a </span>= obj.<span style="background-color: #ff99cc">yong_hu_biao_set</span>.all().values()   <span style="color: #008000">#</span><span style="color: #008000">通过查找到的对象，找外键表里符合这个对象的数据，反向查找</span>
+    <span style="color: #0000ff">print</span><span style="color: #000000">(a)
+
+    </span><span style="color: #0000ff">return</span> render(request,<span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span>,locals())   <span style="color: #008000">#</span><span style="color: #008000">打开页面</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> &lt;QuerySet [{'yong_hu': '张三', 'wai_jian_yong_hu_shen_fen_id': 3, 'mi_ma': '279819', 'id': 3, 'you_xiang': '123456@qq.com'}]&gt;</span></pre>
+</div>
+<p><strong><span style="color: #0000ff">&nbsp;__双下划</span><span style="color: #ff0000">线反向查找</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    a </span>= yong_hu_shen_fen.objects.all().values(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">shen_fen</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000; background-color: #ff99cc">yong_hu_biao__yong_hu</span><span style="color: #800000">'</span>)  <span style="color: #008000">#</span><span style="color: #008000">反向查找</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> a = yong_hu_shen_fen.objects.all().values('id', 'shen_fen', '外键表类名称__外键表字段')</span>
+    <span style="color: #0000ff">print</span><span style="color: #000000">(a)
+
+
+    </span><span style="color: #0000ff">return</span> render(request,<span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span>,locals())   <span style="color: #008000">#</span><span style="color: #008000">打开页面</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000">&lt;QuerySet [{'yong_hu_biao__yong_hu': '林贵秀', 'shen_fen': '普通用户', 'id': 1}, {'yong_hu_biao__yong_hu': '马云', 'shen_fen': 'vip用户', 'id': 2}, {'yong_hu_biao__yong_hu': '张三', 'shen_fen': '超级用户', 'id': 3}]&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>链表操作一对一</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">OneToOneField()</span>外键链表，一对一类型，也就是相当于，在外键字段加了一个唯一索引，在添加数据时不能有重复类容，只能一对一</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> <span style="color: #800080">__future__</span> <span style="color: #0000ff">import</span><span style="color: #000000"> unicode_literals
+
+</span><span style="color: #0000ff">from</span> django.db <span style="color: #0000ff">import</span> models        <span style="color: #008000">#</span><span style="color: #008000">导入models对象</span>
+
+
+<span style="color: #0000ff">class</span> <span style="background-color: #ff99cc">yong_hu_shen_fen</span>(models.Model):                        <span style="color: #008000">#</span><span style="color: #008000">创建用户是否表类</span>
+    id = models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=True)             <span style="color: #008000">#</span><span style="color: #008000">自增id</span>
+    shen_fen = models.CharField(<span style="color: #800000">'</span><span style="color: #800000">身份</span><span style="color: #800000">'</span>,max_length=16)         <span style="color: #008000">#</span><span style="color: #008000">字符串类型字段，记录用户身份</span>
+
+    <span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">用户身份表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> yong_hu_biao(models.Model):
+    yong_hu </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">用户</span><span style="color: #800000">'</span>,max_length=32<span style="color: #000000">)
+    you_xiang </span>= models.EmailField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=32<span style="color: #000000">)
+    mi_ma </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">密码</span><span style="color: #800000">'</span>,max_length=64<span style="color: #000000">)
+    wai_jian_yong_hu_shen_fen </span>= models.<span style="background-color: #ff99cc">OneToOneField(yong_hu_shen_fen)</span>     <span style="color: #008000">#</span><span style="color: #008000">外键链表一对一</span>
+
+    <span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">用户表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>= verbose_name</pre>
+</div>
+<p><span style="color: #ff0000"><strong>其他链表操作与上面相同</strong></span></p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>链表操作多对多</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170713175546009-1826464143.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">ManyToManyField()</span>多对多字段类型</strong></span></p>
+<p><span style="color: #ff0000"><strong>创建一对多结构有3中方式</strong></span></p>
+<p><span style="color: #0000ff"><strong>方式一，传统方式【不推荐】</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> <span style="color: #800080">__future__</span> <span style="color: #0000ff">import</span><span style="color: #000000"> unicode_literals
+
+</span><span style="color: #0000ff">from</span> django.db <span style="color: #0000ff">import</span> models        <span style="color: #008000">#</span><span style="color: #008000">导入models对象</span>
+
+<span style="color: #0000ff">class</span><span style="color: #000000"><span style="background-color: #ff99cc"> yu_wen_lao_shi</span>(models.Model):
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">语文老师表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"><span style="background-color: #ff99cc"> shu_xue_lao_shi</span>(models.Model):
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">数学老师表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> tong_xue_biao(models.Model):　　　　　　　　　　　　　　　　  <span style="background-color: #ff99cc">#关系表</span>
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+<span style="background-color: #ff99cc">    wj_yu_wen_lao_shi </span></span><span style="background-color: #ff99cc">= models.ForeignKey(yu_wen_lao_shi)      <span style="color: #008000">#</span><span style="color: #008000">外键语文老师表</span>
+    WJ_shu_xue_lao_shi = models.ForeignKey(shu_xue_lao_shi)    <span style="color: #008000">#</span><span style="color: #008000">外键数学老师表</span></span>
+
+    <span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">同学表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>= verbose_name</pre>
+</div>
+<p><span style="color: #ff0000"><strong>&nbsp;方式二<span style="color: #0000ff">ManyToManyField()</span>多对多字段类型，自动生成关系表【不推荐】</strong></span></p>
+<p><span style="color: #ff0000"><strong>将<strong><span style="color: #0000ff">ManyToManyField(另外一张表的名称)</span>写在，要建立关系的任意一张表里，参数是另外的要建立关系的表类名称</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> <span style="color: #800080">__future__</span> <span style="color: #0000ff">import</span><span style="color: #000000"> unicode_literals
+
+</span><span style="color: #0000ff">from</span> django.db <span style="color: #0000ff">import</span> models        <span style="color: #008000">#</span><span style="color: #008000">导入models对象</span>
+
+<span style="color: #0000ff">class</span><span style="color: #000000"><span style="background-color: #ffff00"> yu_wen_lao_shi</span>(models.Model):
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">语文老师表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> shu_xue_lao_shi(models.Model):
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+
+    guan_xi </span>= models.<span style="background-color: #ff99cc">ManyToManyField(<span style="background-color: #ffff00">yu_wen_lao_shi</span>)</span>     <span style="color: #008000">#</span><span style="color: #008000">注意不会生成guan_xi这个字段，只会<span style="background-color: #ff99cc">自动生成一张多对多关系表</span></span>
+
+    <span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">数学老师表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>= verbose_name</pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170713183419118-1333912088.png" alt=""></p>
+<p><strong>&nbsp;<span style="color: #ff0000">可以看到，这个方式虽然简单，但是自动生成的关系表，只有外键关系的字段，如果我们需要有其他字段，无法满足</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffff00"><strong><span style="color: #ff0000">方式三，上面两种方式的结合【推荐】</span></strong></span></p>
+<p><strong><span style="color: #ff0000"><strong>将<strong><span style="color: #0000ff">ManyToManyField(另外一张表的名称，through='关系表名称')</span>写在，要建立关系的任意一张表里，参数是另外的要建立关系的表类名称</strong></strong></span></strong></p>
+<p><strong><span style="color: #ff0000"><strong><strong>同时也在关系表设置外键字段</strong></strong></span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> <span style="color: #800080">__future__</span> <span style="color: #0000ff">import</span><span style="color: #000000"> unicode_literals
+
+</span><span style="color: #0000ff">from</span> django.db <span style="color: #0000ff">import</span> models        <span style="color: #008000">#</span><span style="color: #008000">导入models对象</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"><span style="background-color: #ffff00"> yu_wen_lao_shi</span>(models.Model):
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">语文老师表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"><span style="background-color: #00ffff"> shu_xue_lao_shi</span>(models.Model):
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+
+    guan_xi </span>= models<span style="background-color: #ff99cc">.ManyToManyField(<span style="color: #800000">'</span><span style="color: #800000; background-color: #ffff00">yu_wen_lao_shi</span><span style="color: #800000">'</span>, through=<span style="color: #800000">'</span><span style="color: #800000; background-color: #00ff00">tong_xue_biao</span><span style="color: #800000">'</span><span style="color: #000000">)
+    </span></span><span style="color: #008000">#</span><span style="color: #008000"> guan_xi = models.ManyToManyField('另外一张表的名称', through='关系表名称')</span>
+
+    <span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">数学老师表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"><span style="background-color: #00ff00"> tong_xue_biao</span>(models.Model):
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+<span style="background-color: #ff99cc">    wj_yu_wen_lao_shi </span></span><span style="background-color: #ff99cc">= models.ForeignKey(<span style="background-color: #ffff00">yu_wen_lao_shi</span>)       <span style="color: #008000">#</span><span style="color: #008000">外键表</span>
+    wj_shu_xue_lao_shi = models.ForeignKey(<span style="background-color: #00ffff">shu_xue_lao_shi</span>)     <span style="color: #008000">#</span><span style="color: #008000">外键表</span></span>
+
+    <span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">同学表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>= verbose_name</pre>
+</div>
+<p><span style="color: #ff0000"><strong>&nbsp;这样关系表就可以设置其他字段了，注意：此时看起来既然关系表已经外键链表了，干嘛还要用<span style="color: #0000ff"><strong><strong><strong>ManyToManyField()，<span style="color: #ff0000">感觉是多余的，放心以后查询等操作的时候它能帮到你的</span></strong></strong></strong></span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>多对对添加数据</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>自动创建关系表添加数据，关系表类不存在</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>方式二<span style="color: #0000ff">ManyToManyField()</span>多对多字段类型，自动生成关系表，因为关系表是自动生成的，而数据库表类，里没有这个关系表的类，所以无法实现向关系表添加数据，这样我们就需要用<strong><strong><strong><strong><span style="color: #0000ff">ManyToManyField()</span>变量通道</strong></strong></strong></strong>来添加数据了</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>数据库表类里没有关系表类</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> <span style="color: #800080">__future__</span> <span style="color: #0000ff">import</span><span style="color: #000000"> unicode_literals
+
+</span><span style="color: #0000ff">from</span> django.db <span style="color: #0000ff">import</span> models        <span style="color: #008000">#</span><span style="color: #008000">导入models对象</span>
+
+<span style="background-color: #ffff00"><span style="color: #0000ff">class</span><span style="color: #000000"> yu_wen_lao_shi(models.Model):
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">语文老师表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span></span><span style="background-color: #ff99cc"><span style="color: #0000ff">class</span><span style="color: #000000"> shu_xue_lao_shi(models.Model):
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+
+    guan_xi </span>= models.ManyToManyField(yu_wen_lao_shi)     <span style="color: #008000">#</span><span style="color: #008000">注意不会生成guan_xi这个字段，只会自动生成一张多对多关系表</span>
+
+    <span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">数学老师表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>= verbose_name</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><span style="color: #0000ff">ManyToManyField()</span>变量</strong></strong></strong></strong></strong></strong>添加数据到关系表</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">ManyToManyField()变量.add()</span>正向添加关系表数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    </span><span style="color: #008000">#</span><span style="color: #008000">向yu_wen_lao_shi表插入数据</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> yu_wen_lao_shi.objects.create(xing_ming='张三', you_xiang='123')</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> yu_wen_lao_shi.objects.create(xing_ming='李四', you_xiang='456')</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> yu_wen_lao_shi.objects.create(xing_ming='王五', you_xiang='789')</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> yu_wen_lao_shi.objects.create(xing_ming='马六', you_xiang='101112')</span>
+
+    <span style="color: #008000">#</span><span style="color: #008000">向shu_xue_lao_shi表插入数据</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> shu_xue_lao_shi.objects.create(xing_ming='赵好', you_xiang='101112')</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> shu_xue_lao_shi.objects.create(xing_ming='钱的', you_xiang='101112')</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> shu_xue_lao_shi.objects.create(xing_ming='孙客', you_xiang='101112')</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> shu_xue_lao_shi.objects.create(xing_ming='李是', you_xiang='101112')</span>
+
+    <span style="color: #008000">#</span><span style="color: #008000">向关系表插入数据</span>
+    a = shu_xue_lao_shi.objects.get(id=1)    <span style="color: #008000">#</span><span style="color: #008000">获取表类里有ManyToManyField那张表，返回的一条数据对象</span>
+    <span style="color: #0000ff">print</span>(<span style="background-color: #ff99cc">a.guan_xi</span>.all())                   <span style="color: #008000">#</span><span style="color: #008000">通过数据对象，找到ManyToManyField的变量，得到另外一张表的对象</span>
+<span style="color: #000000; background-color: #ffff00">
+    b </span>= yu_wen_lao_shi.objects.get(id=1)     <span style="color: #008000">#</span><span style="color: #008000">获取第二张表里的数据</span>
+    <span style="background-color: #ff99cc">a.guan_xi.add</span>(<span style="background-color: #ffff00">b</span>)                         <span style="color: #008000">#</span><span style="color: #008000">将第二张表里的数据对象通过ManyToManyField的变量通道添加到关系表</span>
+
+    <span style="color: #008000">#</span><span style="color: #008000">a.guan_xi 将第一张表对应的数据添加到关系表</span>
+    <span style="color: #008000">#</span><span style="color: #008000">a.guan_xi.add(b) 将第二张表对应的数据添加到关系表</span>
+
+
+    <span style="color: #0000ff">return</span> render(request,<span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span>,locals())   <span style="color: #008000">#</span><span style="color: #008000">打开页面</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170714124848509-1827168535.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>&nbsp;如果是要添加多条用*接收</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">向关系表插入数据</span>
+    a = shu_xue_lao_shi.objects.get(id=1)    <span style="color: #008000">#</span><span style="color: #008000">获取表类里有ManyToManyField那张表，返回的一条数据对象</span>
+    <span style="color: #0000ff">print</span>(a.guan_xi.all())                   <span style="color: #008000">#</span><span style="color: #008000">通过数据对象，找到ManyToManyField的变量，得到另外一张表的对象</span>
+<span style="color: #000000; background-color: #ff99cc">
+    b </span>= yu_wen_lao_shi.objects.filter(<span style="background-color: #ff99cc">id__gt=1</span>)     <span style="color: #008000">#</span><span style="color: #008000">获取第二张表里的数据</span>
+    a.guan_xi.add(<span style="background-color: #ff99cc">*b</span>)                         <span style="color: #008000">#</span><span style="color: #008000">将第二张表里的数据对象通过ManyToManyField的变量通道添加到关系表</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170714130434337-2050171973.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>&nbsp;反向添加数据</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">通过另外一张表名称_set.add()</span>方法添加数据</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">#</span><span style="color: #008000">向关系表插入数据</span>
+    a = yu_wen_lao_shi.objects.get(id=3)       <span style="color: #008000">#</span><span style="color: #008000">获取没有ManyToManyField变量的那张表</span>
+    <span style="color: #0000ff">print</span>(<span style="background-color: #ff99cc">a.shu_xue_lao_shi_set</span>)               <span style="color: #008000">#</span><span style="color: #008000">对象里有一个，另外一张表名称_set属性</span>
+<span style="color: #000000; background-color: #ffff00">
+    b </span>= shu_xue_lao_shi.objects.filter(id__gt=1) <span style="color: #008000">#</span><span style="color: #008000">获取有ManyToManyField变量的那张表</span>
+    <span style="background-color: #ff99cc">a.shu_xue_lao_shi_set.add</span>(<span style="background-color: #ffff00">*b</span>)              <span style="color: #008000">#</span><span style="color: #008000">通过另外一张表名称_set属性的add()方法添加数据</span></pre>
+</div>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170714132744087-1156469101.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>&nbsp;删除数据</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">remove()</span>删除数据，不删除其他表里相关数据</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">delete()</span>删除数据，删除其他表里相关数据</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">#</span><span style="color: #008000">正向删除数据</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> a = shu_xue_lao_shi.objects.get(id=1)</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> b = yu_wen_lao_shi.objects.filter(id__gt=1)</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> a.guan_xi.<span style="background-color: #ff99cc">remove(*b)</span>    #删除关系表里shu_xue_lao_shi等于1,yu_wen_lao_shi字段大于1的数据</span>
+
+    <span style="color: #008000">#</span><span style="color: #008000">反向删除</span>
+    a = yu_wen_lao_shi.objects.get(id=2<span style="color: #000000">)
+    a.shu_xue_lao_shi_set.all().<span style="background-color: #ff99cc">delete()  </span></span><span style="color: #008000">#</span><span style="color: #008000">删除关系表yu_wen_lao_shi字段为1的数据，shu_xue_lao_shi表相关的数据也会被删除</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>手动创建关系表添加数据，关系表类存在</strong></span></p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong>数据表类</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> <span style="color: #800080">__future__</span> <span style="color: #0000ff">import</span><span style="color: #000000"> unicode_literals
+
+</span><span style="color: #0000ff">from</span> django.db <span style="color: #0000ff">import</span> models        <span style="color: #008000">#</span><span style="color: #008000">导入models对象</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> yu_wen_lao_shi(models.Model):
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+
+    </span><span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">语文老师表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> shu_xue_lao_shi(models.Model):
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+
+    guan_xi </span>= models.ManyToManyField(<span style="color: #800000">'</span><span style="color: #800000">yu_wen_lao_shi</span><span style="color: #800000">'</span>, through=<span style="color: #800000">'</span><span style="color: #800000">tong_xue_biao</span><span style="color: #800000">'</span><span style="color: #000000">)
+    </span><span style="color: #008000">#</span><span style="color: #008000"> guan_xi = models.ManyToManyField('另外一张表的名称', through='关系表名称')</span>
+
+    <span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">数学老师表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>=<span style="color: #000000"> verbose_name
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> tong_xue_biao(models.Model):
+    id </span>= models.AutoField(<span style="color: #800000">'</span><span style="color: #800000">id</span><span style="color: #800000">'</span>,primary_key=<span style="color: #000000">True)
+    xing_ming </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">姓名</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    you_xiang </span>= models.CharField(<span style="color: #800000">'</span><span style="color: #800000">邮箱</span><span style="color: #800000">'</span>,max_length=16<span style="color: #000000">)
+    wj_yu_wen_lao_shi </span>= models.ForeignKey(yu_wen_lao_shi)       <span style="color: #008000">#</span><span style="color: #008000">外键表</span>
+    wj_shu_xue_lao_shi = models.ForeignKey(shu_xue_lao_shi)     <span style="color: #008000">#</span><span style="color: #008000">外键表</span>
+
+    <span style="color: #0000ff">class</span><span style="color: #000000"> Meta:
+        verbose_name </span>= <span style="color: #800000">'</span><span style="color: #800000">同学表</span><span style="color: #800000">'</span><span style="color: #000000">
+        verbose_name_plural </span>= verbose_name</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff; background-color: #ffffff"><strong>操作数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+</span><span style="color: #0000ff">from</span> app1.models <span style="color: #0000ff">import</span> *    <span style="color: #008000">#</span><span style="color: #008000">导入数据库操作模块</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">逻辑处理模块</span>
+<span style="color: #0000ff">def</span><span style="color: #000000"> special(request):
+    </span><span style="color: #008000">#</span><span style="color: #008000">向yu_wen_lao_shi表插入数据</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> yu_wen_lao_shi.objects.create(xing_ming='张三', you_xiang='123')</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> yu_wen_lao_shi.objects.create(xing_ming='李四', you_xiang='456')</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> yu_wen_lao_shi.objects.create(xing_ming='王五', you_xiang='789')</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> yu_wen_lao_shi.objects.create(xing_ming='马六', you_xiang='101112')</span>
+
+    <span style="color: #008000">#</span><span style="color: #008000">向shu_xue_lao_shi表插入数据</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> shu_xue_lao_shi.objects.create(xing_ming='赵好', you_xiang='101112')</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> shu_xue_lao_shi.objects.create(xing_ming='钱的', you_xiang='101112')</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> shu_xue_lao_shi.objects.create(xing_ming='孙客', you_xiang='101112')</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> shu_xue_lao_shi.objects.create(xing_ming='李是', you_xiang='101112')</span>
+
+    <span style="color: #008000">#</span><span style="color: #008000">向关系表添加数据</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> tong_xue_biao.objects.create(xing_ming='丰收1',you_xiang='123',wj_yu_wen_lao_shi_id=1,wj_shu_xue_lao_shi_id=2)</span>
+
+    <span style="color: #008000">#</span><span style="color: #008000">获取数据</span>
+    <span style="color: #008000">#</span><span style="color: #008000">获取全部数据</span>
+    a =<span style="color: #000000"> tong_xue_biao.objects.all().values()
+    </span><span style="color: #0000ff">print</span><span style="color: #000000">(a)
+    </span><span style="color: #008000">#</span><span style="color: #008000">通过外键跨表获取数据</span>
+    b = tong_xue_biao.objects.all().values(<span style="color: #800000">'</span><span style="color: #800000">wj_yu_wen_lao_shi_id__xing_ming</span><span style="color: #800000">'</span><span style="color: #000000">)
+    </span><span style="color: #0000ff">print</span><span style="color: #000000">(b)
+    </span><span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> b:
+        </span><span style="color: #0000ff">print</span><span style="color: #000000">(i)
+
+    </span><span style="color: #0000ff">return</span> render(request,<span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span>,locals())   <span style="color: #008000">#</span><span style="color: #008000">打开页面</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">返回</span><span style="color: #008000">
+#</span><span style="color: #008000"> &lt;QuerySet [{'you_xiang': '123', 'wj_shu_xue_lao_shi_id': 2, 'id': 1, 'xing_ming': '丰收1', 'wj_yu_wen_lao_shi_id': 1}, {'you_xiang': '123', 'wj_shu_xue_lao_shi_id': 2, 'id': 2, 'xing_ming': '丰收2', 'wj_yu_wen_lao_shi_id': 1}, {'you_xiang': '123', 'wj_shu_xue_lao_shi_id': 1, 'id': 3, 'xing_ming': '丰收3', 'wj_yu_wen_lao_shi_id': 1}, {'you_xiang': '123', 'wj_shu_xue_lao_shi_id': 2, 'id': 4, 'xing_ming': '丰收4', 'wj_yu_wen_lao_shi_id': 3}, {'you_xiang': '123', 'wj_shu_xue_lao_shi_id': 2, 'id': 5, 'xing_ming': '丰收5', 'wj_yu_wen_lao_shi_id': 4}]&gt;</span><span style="color: #008000">
+#</span><span style="color: #008000"> &lt;QuerySet [{'wj_yu_wen_lao_shi_id__xing_ming': '张三'}, {'wj_yu_wen_lao_shi_id__xing_ming': '张三'}, {'wj_yu_wen_lao_shi_id__xing_ming': '张三'}, {'wj_yu_wen_lao_shi_id__xing_ming': '王五'}, {'wj_yu_wen_lao_shi_id__xing_ming': '马六'}]&gt;</span><span style="color: #008000">
+#</span><span style="color: #008000"> {'wj_yu_wen_lao_shi_id__xing_ming': '张三'}</span><span style="color: #008000">
+#</span><span style="color: #008000"> {'wj_yu_wen_lao_shi_id__xing_ming': '张三'}</span><span style="color: #008000">
+#</span><span style="color: #008000"> {'wj_yu_wen_lao_shi_id__xing_ming': '张三'}</span><span style="color: #008000">
+#</span><span style="color: #008000"> {'wj_yu_wen_lao_shi_id__xing_ming': '王五'}</span><span style="color: #008000">
+#</span><span style="color: #008000"> {'wj_yu_wen_lao_shi_id__xing_ming': '马六'}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00; font-size: 14pt"><strong>总结；重点</strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>一对多</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">外键字段__连接表字段</span>：正向跨表查找</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">连接表类名称_set</span>: 反向跨表查找</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>一对一</strong></span><br><span style="color: #ff0000"><strong>与一对多相同</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>多对多</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">ManyToManyField()</span>自动创建关系表，数据库表类没有关系表类</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">ManyToManyField()变量.xx()</span>：从ManyToManyField表正向操作关系表</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">另外一张表名称_set.xx()</span>:从非ManyToManyField表反向操作关系表</strong></span><br><span style="color: #ff0000"><strong>注意：以上操作他们之间，必须有文外键关系</strong></span></p>
+<p>&nbsp;</p></div>

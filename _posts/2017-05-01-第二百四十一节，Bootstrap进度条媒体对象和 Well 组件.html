@@ -1,0 +1,213 @@
+第二百四十一节，Bootstrap进度条媒体对象和 Well 组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第二百四十一节，Bootstrap进度条媒体对象和 Well 组件</strong></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.Well 组件 </strong></p>
+<p><strong>　　2.进度条组件 </strong></p>
+<p><strong>　　3.媒体对象组件</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课我们主要学习一下 Bootstrap 的三个组件功能：Well 组件、进度条组件、媒体对 象组件。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．Well 组件</strong></span></p>
+<p><span style="color: #000000"><strong>这个组件可以实现简单的嵌入效果。</strong></span></p>
+<p><span style="color: #ff0000"><strong>嵌入效果</strong></span></p>
+<p><span style="color: #ff0000"><strong>well样式class类，写在&lt;div&gt;里，设置一个div区块嵌入效果(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>well-lg样式class类，写在&lt;div&gt;里，设置一个div区块嵌入效果大尺寸(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>well-sm样式class类，写在&lt;div&gt;里，设置一个div区块嵌入效果小尺寸(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">well</span>"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    Bootstrap
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">well well-lg</span>"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    Bootstrap
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">well well-sm</span>"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    Bootstrap
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170501015236304-304538093.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．进度条组件</strong></span></p>
+<p><span style="color: #000000"><strong>进度条组件为当前工作流程或动作提供时时反馈。</strong></span></p>
+<p><span style="color: #ff0000"><strong>基本进度条</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>progress样式class类，写在&lt;div&gt;里，声明一个进度条区域(Bootstrap)</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>progress-bar样式class类，写在&lt;div&gt;里，设置一个进度条默认样式(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">progress</span>"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">progress-bar</span>"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width: 60%;"</span><span style="color: #0000ff">&gt;</span>60%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170501093704211-880953461.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>最低值进度条</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress-bar"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="<span style="background-color: #ffff00">min-width:20px</span>; width: 0%;"</span><span style="color: #0000ff">&gt;</span>0%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170501162332820-1883093179.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>结合情景的进度条</strong></span></p>
+<p><span style="color: #ff0000"><strong>progress-bar-success样式class类，写在&lt;div&gt;元素里，设置进度条绿色(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>progress-bar-info样式class类，写在&lt;div&gt;元素里，设置进度条蓝色(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>progress-bar-warning样式class类，写在&lt;div&gt;元素里，设置进度条橙色(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>progress-bar-danger样式class类，写在&lt;div&gt;元素里，设置进度条红色(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress-bar <span style="background-color: #ffff00">progress-bar-success</span>"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="min-width:20px;width:60%"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">60%
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress-bar <span style="background-color: #ffff00">progress-bar-info</span>"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="min-width:20px;width:60%"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">60%
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress-bar <span style="background-color: #ffff00">progress-bar-warning</span>"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="min-width:20px;width:60%"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">60%
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress-bar <span style="background-color: #ffff00">progress-bar-danger</span>"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="min-width:20px;width:60%"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">60%
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170501094809742-683600836.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>条纹状，<span style="color: #0000ff">IE10+支持，<strong>IE10以下不支持</strong></span></strong></span></p>
+<p><span style="color: #ff0000"><strong>progress-bar-striped样式class类，写在&lt;div&gt;元素里，设置条纹状进度条(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress-bar progress-bar-success <span style="background-color: #ffff00">progress-bar-striped</span>"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="min-width:20px;width:60%"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">60%
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170501095232976-888053022.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>条纹状动画效果，<span style="color: #0000ff">必须将进度条设置<strong>条纹状</strong></span></strong></span></p>
+<p><span style="color: #ff0000"><strong>active样式class类，写在进度条&lt;div&gt;里，设置进度条，条纹状动画效果(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress-bar progress-bar-success progress-bar-striped <span style="background-color: #ffff00">active</span>"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="min-width:20px;width:60%"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">60%
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170501095707898-669615351.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>进度条堆叠效果</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress-bar <span style="background-color: #ffff00">progress-bar-success</span>"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="min-width:20px;width:30%"</span><span style="color: #0000ff">&gt;</span>30%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress-bar <span style="background-color: #ffff00">progress-bar-warning</span>"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="min-width:20px;width:20%"</span><span style="color: #0000ff">&gt;</span>20%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="progress-bar <span style="background-color: #ffff00">progress-bar-danger</span>"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="min-width:20px;width:50%"</span><span style="color: #0000ff">&gt;</span>50%<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170501100100023-1312694814.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．媒体对象组件，<span style="color: #0000ff">论坛常用</span></strong></span></p>
+<p><strong>媒体对象可以包含图片、视频或音频等媒体，以达到对象和文本组合显示的样式效果。</strong></p>
+<p><span style="color: #ff0000"><strong>基本实例</strong></span></p>
+<p><span style="color: #ff0000"><strong>media样式class类，写在&lt;div&gt;里，声明一个媒体对象div(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>media-left样式class类，写在&lt;div&gt;里，设置一个媒体对象里的媒体区域左边显示(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>media-object样式class类，写在&lt;img&gt;里，设置一个媒体样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>media-body样式class类，写在&lt;div&gt;里，声明一个媒体内容div(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>media-heading样式class类，写在&lt;h1-h4&gt;里，设置一个媒体内容标题样式(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">media</span>"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">media-left</span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/small.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">=""</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">media-object</span>"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">media-body</span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">media-heading</span>"</span><span style="color: #0000ff">&gt;</span>标题<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">企鹅（学名：Spheniscidae）：有“海洋之舟”美称的企鹅是一种最古老
+            的游禽，它们很可能在地球穿上冰甲之前，就已经在南极安家落户。全世界的企鹅共有 17
+            种，大多数都分布在南半球。主要生活在南半球，属于企鹅目，企鹅科。特征为不能飞翔；
+            脚生于身体最下部，故呈直立姿势；趾间有蹼；跖行性（其他鸟类以趾着地）；前肢成鳍状；
+            羽毛短，以减少摩擦和湍流；羽毛间存留一层空气，用以保温。背部黑色，腹部白色。各个
+            种的主要区别在于头部色型和个体大小。</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170501104636320-1794232939.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>媒体对象在右边</strong></span></p>
+<p><span style="color: #ff0000"><strong>media-right样式class类，写在&lt;div&gt;里，设置一个媒体对象里的媒体区域右边显示(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media-body"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media-heading"</span><span style="color: #0000ff">&gt;</span>标题<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">企鹅（学名：Spheniscidae）：有“海洋之舟”美称的企鹅是一种最古老
+            的游禽，它们很可能在地球穿上冰甲之前，就已经在南极安家落户。全世界的企鹅共有 17
+            种，大多数都分布在南半球。主要生活在南半球，属于企鹅目，企鹅科。特征为不能飞翔；
+            脚生于身体最下部，故呈直立姿势；趾间有蹼；跖行性（其他鸟类以趾着地）；前肢成鳍状；
+            羽毛短，以减少摩擦和湍流；羽毛间存留一层空气，用以保温。背部黑色，腹部白色。各个
+            种的主要区别在于头部色型和个体大小。</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">media-right</span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/small.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">=""</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="media-object"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170501105147007-1401353312.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>媒体对象列表，<span style="background-color: #ffff00">也就是声明一个媒体对象列表然后嵌套媒体对象</span></strong></span></p>
+<p><span style="color: #ff0000"><strong>media-list样式class类，写在&lt;ul&gt;里，声明一个媒体对象列表(Bootstrap)</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">media-list</span>"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="meida"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media-left"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/small.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">=""</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="media-object"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media-body"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="meida-heading"</span><span style="color: #0000ff">&gt;</span>内容标题<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>企鹅（学名：Spheniscidae）：有“海洋之舟”美称的企鹅是一种最古老的游禽，它们很可能在地球穿上冰甲之前，就已经在南极安家落户。全世界的企鹅共有17种，大多数都分布在南半球。主要生活在南半球，属于企鹅目，企鹅科。特征为不能飞翔；脚生于身体最下部，故呈直立姿势；趾间有蹼；跖行性（其他鸟类以趾着地）；前肢成鳍状；羽毛短，以减少摩擦和湍流；羽毛间存留一层空气，用以保温。背部黑色，腹部白色。各个种的主要区别在于头部色型和个体大小。<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="meida"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media-left"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/small.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">=""</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="media-object"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media-body"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="meida-heading"</span><span style="color: #0000ff">&gt;</span>内容标题<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>企鹅（学名：Spheniscidae）：有“海洋之舟”美称的企鹅是一种最古老的游禽，它们很可能在地球穿上冰甲之前，就已经在南极安家落户。全世界的企鹅共有17种，大多数都分布在南半球。主要生活在南半球，属于企鹅目，企鹅科。特征为不能飞翔；脚生于身体最下部，故呈直立姿势；趾间有蹼；跖行性（其他鸟类以趾着地）；前肢成鳍状；羽毛短，以减少摩擦和湍流；羽毛间存留一层空气，用以保温。背部黑色，腹部白色。各个种的主要区别在于头部色型和个体大小。<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="meida"</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media-left"</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/small.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">=""</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="media-object"</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media-body"</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="meida-heading"</span><span style="color: #0000ff">&gt;</span>内容标题<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>企鹅（学名：Spheniscidae）：有“海洋之舟”美称的企鹅是一种最古老的游禽，它们很可能在地球穿上冰甲之前，就已经在南极安家落户。全世界的企鹅共有17种，大多数都分布在南半球。主要生活在南半球，属于企鹅目，企鹅科。特征为不能飞翔；脚生于身体最下部，故呈直立姿势；趾间有蹼；跖行性（其他鸟类以趾着地）；前肢成鳍状；羽毛短，以减少摩擦和湍流；羽毛间存留一层空气，用以保温。背部黑色，腹部白色。各个种的主要区别在于头部色型和个体大小。<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="meida"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media-left"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/small.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">=""</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="media-object"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media-body"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="meida-heading"</span><span style="color: #0000ff">&gt;</span>内容标题<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>企鹅（学名：Spheniscidae）：有“海洋之舟”美称的企鹅是一种最古老的游禽，它们很可能在地球穿上冰甲之前，就已经在南极安家落户。全世界的企鹅共有17种，大多数都分布在南半球。主要生活在南半球，属于企鹅目，企鹅科。特征为不能飞翔；脚生于身体最下部，故呈直立姿势；趾间有蹼；跖行性（其他鸟类以趾着地）；前肢成鳍状；羽毛短，以减少摩擦和湍流；羽毛间存留一层空气，用以保温。背部黑色，腹部白色。各个种的主要区别在于头部色型和个体大小。<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="meida"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media-left"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/small.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">=""</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="media-object"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="media-body"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="meida-heading"</span><span style="color: #0000ff">&gt;</span>内容标题<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>企鹅（学名：Spheniscidae）：有“海洋之舟”美称的企鹅是一种最古老的游禽，它们很可能在地球穿上冰甲之前，就已经在南极安家落户。全世界的企鹅共有17种，大多数都分布在南半球。主要生活在南半球，属于企鹅目，企鹅科。特征为不能飞翔；脚生于身体最下部，故呈直立姿势；趾间有蹼；跖行性（其他鸟类以趾着地）；前肢成鳍状；羽毛短，以减少摩擦和湍流；羽毛间存留一层空气，用以保温。背部黑色，腹部白色。各个种的主要区别在于头部色型和个体大小。<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170501161723476-372956560.png" alt=""></p>
+<p>&nbsp;</p></div>

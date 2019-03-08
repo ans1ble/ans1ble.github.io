@@ -1,0 +1,255 @@
+第三百二十九节，web爬虫讲解2—urllib库爬虫—ip代理—用户代理和ip代理结合应用
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><br><strong>第三百二十九节，web爬虫讲解2—urllib库爬虫—ip代理</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>使用IP代理</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">ProxyHandler()</span>格式化IP，第一个参数，请求目标可能是<span style="color: #0000ff">http</span>或者<span style="color: #0000ff">https</span>,对应设置</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">build_opener()</span>初始化IP</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">install_opener()</span>将代理IP设置成全局,当使用urlopen()请求时自动使用代理IP</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> urllib
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> urllib.request
+</span><span style="color: #0000ff">import</span> random   <span style="color: #008000">#</span><span style="color: #008000">引入随机模块文件</span>
+<span style="color: #000000">
+ip </span>= <span style="color: #800000">"</span><span style="color: #800000">180.115.8.212:39109</span><span style="color: #800000">"</span><span style="color: #000000">
+proxy </span>= urllib.request.<span style="background-color: #ff99cc">ProxyHandler</span>({<span style="color: #800000">"</span><span style="color: #800000">https</span><span style="color: #800000">"</span>:ip})                        <span style="color: #008000">#</span><span style="color: #008000">格式化IP,注意：第一个参数可能是http或者https，对应设置</span>
+opener = urllib.request.<span style="background-color: #ff99cc">build_opener</span>(proxy,urllib.request.HTTPHandler)  <span style="color: #008000">#</span><span style="color: #008000">初始化IP</span>
+urllib.request.<span style="background-color: #ff99cc">install_opener</span>(opener)       <span style="color: #008000">#</span><span style="color: #008000">将代理IP设置成全局,当使用urlopen()请求时自动使用代理IP</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">请求</span>
+url = <span style="color: #800000">"</span><span style="color: #800000">https://www.baidu.com/</span><span style="color: #800000">"</span><span style="color: #000000">
+data </span>= urllib.request.urlopen(url).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">)
+</span><span style="color: #0000ff">print</span>(data)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>ip代理池构建一</strong></span></p>
+<p><strong>适合IP存活时间长，稳定性好的代理ip，随机调用列表里的ip</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> urllib
+</span><span style="color: #0000ff">from</span> urllib <span style="color: #0000ff">import</span><span style="color: #000000"> request
+</span><span style="color: #0000ff">import</span> random   <span style="color: #008000">#</span><span style="color: #008000">引入随机模块文件</span>
+<span style="background-color: #ff99cc"><span style="color: #0000ff">def</span><span style="color: #000000"> dai_li_ip():
+    ip </span>=<span style="color: #000000"> [
+        </span><span style="color: #800000">'</span><span style="color: #800000">110.73.8.103:8123</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">115.46.151.100:8123</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">42.233.187.147:19</span><span style="color: #800000">'</span><span style="color: #000000">
+        ]
+    shui </span>=<span style="color: #000000"> random.choice(ip)
+    </span><span style="color: #0000ff">print</span><span style="color: #000000">(shui)
+    proxy </span>= urllib.request.ProxyHandler({<span style="color: #800000">"</span><span style="color: #800000">https</span><span style="color: #800000">"</span>: shui})  <span style="color: #008000">#</span><span style="color: #008000"> 格式化IP,注意，第一个参数，请求目标可能是http或者https,对应设置</span>
+    opener = urllib.request.build_opener(proxy, urllib.request.HTTPHandler)  <span style="color: #008000">#</span><span style="color: #008000"> 初始化IP</span>
+    urllib.request.install_opener(opener)  <span style="color: #008000">#</span><span style="color: #008000"> 将代理IP设置成全局,当使用urlopen()请求时自动使用代理IP</span></span>
+
+<span style="color: #008000">#</span><span style="color: #008000">请求</span>
+<span style="background-color: #ff99cc">dai_li_ip()</span> <span style="color: #008000">#</span><span style="color: #008000">执行代理IP函数</span>
+url = <span style="color: #800000">"</span><span style="color: #800000">https://www.baidu.com/</span><span style="color: #800000">"</span><span style="color: #000000">
+data </span>= urllib.request.urlopen(url).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">)
+</span><span style="color: #0000ff">print</span>(data)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>ip代理池构建二，接口方式</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>每次调用第三方接口动态获取ip,适用于IP存活时间短的情况</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>我们用<span style="background-color: #ffff00">http://http.zhimaruanjian.com/</span>第三方接口测试</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> urllib
+</span><span style="color: #0000ff">from</span> urllib <span style="color: #0000ff">import</span><span style="color: #000000"> request
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> json
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> dai_li_ip():
+<span style="background-color: #ff99cc">    url </span></span><span style="background-color: #ff99cc">= <span style="color: #800000">"</span><span style="color: #800000">http://http-webapi.zhimaruanjian.com/getip?num=1&amp;type=2&amp;pro=&amp;city=0&amp;yys=0&amp;port=11&amp;time=1&amp;ts=0&amp;ys=0&amp;cs=0&amp;lb=1&amp;sb=0&amp;pb=4&amp;mr=1</span><span style="color: #800000">"</span><span style="color: #000000">
+    data </span>= urllib.request.urlopen(url).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">)
+    data2 </span>= json.loads(data)  <span style="color: #008000">#</span><span style="color: #008000"> 将字符串还原它本来的数据类型</span>
+
+    <span style="color: #0000ff">print</span>(data2[<span style="color: #800000">'</span><span style="color: #800000">data</span><span style="color: #800000">'</span><span style="color: #000000">][0])
+    ip </span>= str(data2[<span style="color: #800000">'</span><span style="color: #800000">data</span><span style="color: #800000">'</span>][0][<span style="color: #800000">'</span><span style="color: #800000">ip</span><span style="color: #800000">'</span><span style="color: #000000">])
+    dkou </span>= str(data2[<span style="color: #800000">'</span><span style="color: #800000">data</span><span style="color: #800000">'</span>][0][<span style="color: #800000">'</span><span style="color: #800000">port</span><span style="color: #800000">'</span><span style="color: #000000">])
+    zh_ip </span>= ip + <span style="color: #800000">'</span><span style="color: #800000">:</span><span style="color: #800000">'</span> +<span style="color: #000000"> dkou
+    </span><span style="color: #0000ff">print</span></span><span style="color: #000000"><span style="background-color: #ff99cc">(zh_ip)</span>
+
+
+    proxy </span>= urllib.request.ProxyHandler({<span style="color: #800000">"</span><span style="color: #800000">https</span><span style="color: #800000">"</span>: <span style="background-color: #ff99cc">zh_ip</span>})  <span style="color: #008000">#</span><span style="color: #008000"> 格式化IP,注意，第一个参数，请求目标可能是http或者https,对应设置</span>
+    opener = urllib.request.build_opener(proxy, urllib.request.HTTPHandler)  <span style="color: #008000">#</span><span style="color: #008000"> 初始化IP</span>
+    urllib.request.install_opener(opener)  <span style="color: #008000">#</span><span style="color: #008000"> 将代理IP设置成全局,当使用urlopen()请求时自动使用代理IP</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">请求</span>
+dai_li_ip() <span style="color: #008000">#</span><span style="color: #008000">执行代理IP函数</span>
+url = <span style="color: #800000">"</span><span style="color: #800000">https://www.baidu.com/</span><span style="color: #800000">"</span><span style="color: #000000">
+data </span>= urllib.request.urlopen(url).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">)
+</span><span style="color: #0000ff">print</span>(data)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>用户代理和ip代理结合应用</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> urllib
+</span><span style="color: #0000ff">from</span> urllib <span style="color: #0000ff">import</span><span style="color: #000000"> request
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> json
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> random
+</span><span style="background-color: #ffff00"><span style="color: #0000ff">def</span> yh_dl():    <span style="color: #008000">#</span><span style="color: #008000">创建用户代理池</span>
+    yhdl =<span style="color: #000000"> [
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0.1) Gecko/20100101 Firefox/4.0.1</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows NT 6.1; rv:2.0.1) Gecko/20100101 Firefox/4.0.1</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; en) Presto/2.8.131 Version/11.11</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Maxthon 2.0)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; TencentTraveler 4.0)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; The World)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Avant Browser)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">User-Agent:Mozilla/5.0 (iPod; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (iPad; U; CPU OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Linux; U; Android 2.3.7; en-us; Nexus One Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Opera/9.80 (Android 2.3.4; Linux; Opera Mobi/build-1107180945; U; en-GB) Presto/2.8.149 Version/11.10</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Linux; U; Android 3.0; en-us; Xoom Build/HRI39) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (BlackBerry; U; BlackBerry 9800; en) AppleWebKit/534.1+ (KHTML, like Gecko) Version/6.0.0.337 Mobile Safari/534.1+</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0; HTC; Titan)</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">UCWEB7.0.2.37/28/999</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">NOKIA5700/ UCWEB7.0.2.37/28/999</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Openwave/ UCWEB7.0.2.37/28/999</span><span style="color: #800000">'</span><span style="color: #000000">,
+        </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 6.0; ) Opera/UCWEB7.0.2.37/28/999</span><span style="color: #800000">'</span><span style="color: #000000">
+        ]
+    thisua </span>= random.choice(yhdl)                    <span style="color: #008000">#</span><span style="color: #008000">随机获取代理信息</span>
+    headers = (<span style="color: #800000">"</span><span style="color: #800000">User-Agent</span><span style="color: #800000">"</span>,thisua)                 <span style="color: #008000">#</span><span style="color: #008000">拼接报头信息</span>
+    opener = urllib.request.build_opener()          <span style="color: #008000">#</span><span style="color: #008000">创建请求对象</span>
+    opener.addheaders=[headers]                     <span style="color: #008000">#</span><span style="color: #008000">添加报头到请求对象</span>
+    urllib.request.install_opener(opener)           <span style="color: #008000">#</span><span style="color: #008000">将报头信息设置为全局，urlopen()方法请求时也会自动添加报头</span></span>
+
+<span style="background-color: #ccffcc"><span style="color: #0000ff">def</span> dai_li_ip():    <span style="color: #008000">#</span><span style="color: #008000">创建ip代理池</span>
+    url = <span style="color: #800000">"</span><span style="color: #800000">http://http-webapi.zhimaruanjian.com/getip?num=1&amp;type=2&amp;pro=&amp;city=0&amp;yys=0&amp;port=11&amp;time=1&amp;ts=0&amp;ys=0&amp;cs=0&amp;lb=1&amp;sb=0&amp;pb=4&amp;mr=1</span><span style="color: #800000">"</span><span style="color: #000000">
+    data </span>= urllib.request.urlopen(url).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">)
+    data2 </span>= json.loads(data)  <span style="color: #008000">#</span><span style="color: #008000"> 将字符串还原它本来的数据类型</span>
+
+    <span style="color: #0000ff">print</span>(data2[<span style="color: #800000">'</span><span style="color: #800000">data</span><span style="color: #800000">'</span><span style="color: #000000">][0])
+    ip </span>= str(data2[<span style="color: #800000">'</span><span style="color: #800000">data</span><span style="color: #800000">'</span>][0][<span style="color: #800000">'</span><span style="color: #800000">ip</span><span style="color: #800000">'</span><span style="color: #000000">])
+    dkou </span>= str(data2[<span style="color: #800000">'</span><span style="color: #800000">data</span><span style="color: #800000">'</span>][0][<span style="color: #800000">'</span><span style="color: #800000">port</span><span style="color: #800000">'</span><span style="color: #000000">])
+    zh_ip </span>= ip + <span style="color: #800000">'</span><span style="color: #800000">:</span><span style="color: #800000">'</span> +<span style="color: #000000"> dkou
+    </span><span style="color: #0000ff">print</span><span style="color: #000000">(zh_ip)
+
+
+    proxy </span>= urllib.request.ProxyHandler({<span style="color: #800000">"</span><span style="color: #800000">https</span><span style="color: #800000">"</span>: zh_ip})  <span style="color: #008000">#</span><span style="color: #008000"> 格式化IP,注意，第一个参数，请求目标可能是http或者https,对应设置</span>
+    opener = urllib.request.build_opener(proxy, urllib.request.HTTPHandler)  <span style="color: #008000">#</span><span style="color: #008000"> 初始化IP</span>
+    urllib.request.install_opener(opener)  <span style="color: #008000">#</span><span style="color: #008000"> 将代理IP设置成全局,当使用urlopen()请求时自动使用代理IP</span>
+</span>
+<span style="color: #008000">#</span><span style="color: #008000">请求</span>
+<span style="background-color: #ccffcc">dai_li_ip()</span> <span style="color: #008000">#</span><span style="color: #008000">执行代理IP函数</span>
+<span style="background-color: #ffff00">yh_dl()</span>     <span style="color: #008000">#</span><span style="color: #008000">执行用户代理池函数</span>
+<span style="color: #000000">
+gjci </span>= <span style="color: #800000">'</span><span style="color: #800000">连衣裙</span><span style="color: #800000">'</span><span style="color: #000000">
+zh_gjci </span>= gjc = urllib.request.<span style="background-color: #ff99cc">quote(gjci)</span>         <span style="color: #008000">#</span><span style="color: #008000">将关键词转码成浏览器认识的字符，默认网站不能是中文</span>
+url = <span style="color: #800000">"</span><span style="color: #800000">https://s.taobao.com/search?q=%s&amp;s=0</span><span style="color: #800000">"</span> %<span style="color: #000000">(zh_gjci)
+</span><span style="color: #008000">#</span><span style="color: #008000"> print(url)</span>
+data = urllib.request.urlopen(url).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">)
+</span><span style="color: #0000ff">print</span>(data)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>用户代理和ip代理结合应用封装模块</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> urllib
+</span><span style="color: #0000ff">from</span> urllib <span style="color: #0000ff">import</span><span style="color: #000000"> request
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> json
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> random
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> re
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> urllib.error
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> hq_html(hq_url):
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    hq_html()封装的爬虫函数，自动启用了用户代理和ip代理
+    接收一个参数url,要爬取页面的url，返回html源码
+    </span><span style="color: #800000">"""</span>
+    <span style="background-color: #ffff00"><span style="color: #0000ff">def</span> yh_dl():    <span style="color: #008000">#</span><span style="color: #008000">创建用户代理池</span>
+        yhdl =<span style="color: #000000"> [
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0.1) Gecko/20100101 Firefox/4.0.1</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows NT 6.1; rv:2.0.1) Gecko/20100101 Firefox/4.0.1</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; en) Presto/2.8.131 Version/11.11</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Maxthon 2.0)</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; TencentTraveler 4.0)</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; The World)</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Avant Browser)</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">User-Agent:Mozilla/5.0 (iPod; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (iPad; U; CPU OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Linux; U; Android 2.3.7; en-us; Nexus One Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Opera/9.80 (Android 2.3.4; Linux; Opera Mobi/build-1107180945; U; en-GB) Presto/2.8.149 Version/11.10</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Linux; U; Android 3.0; en-us; Xoom Build/HRI39) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (BlackBerry; U; BlackBerry 9800; en) AppleWebKit/534.1+ (KHTML, like Gecko) Version/6.0.0.337 Mobile Safari/534.1+</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0; HTC; Titan)</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">UCWEB7.0.2.37/28/999</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">NOKIA5700/ UCWEB7.0.2.37/28/999</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Openwave/ UCWEB7.0.2.37/28/999</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">Mozilla/4.0 (compatible; MSIE 6.0; ) Opera/UCWEB7.0.2.37/28/999</span><span style="color: #800000">'</span><span style="color: #000000">
+            ]
+        thisua </span>= random.choice(yhdl)                    <span style="color: #008000">#</span><span style="color: #008000">随机获取代理信息</span>
+        headers = (<span style="color: #800000">"</span><span style="color: #800000">User-Agent</span><span style="color: #800000">"</span>,thisua)                 <span style="color: #008000">#</span><span style="color: #008000">拼接报头信息</span>
+        opener = urllib.request.build_opener()          <span style="color: #008000">#</span><span style="color: #008000">创建请求对象</span>
+        opener.addheaders=[headers]                     <span style="color: #008000">#</span><span style="color: #008000">添加报头到请求对象</span>
+        urllib.request.install_opener(opener)           <span style="color: #008000">#</span><span style="color: #008000">将报头信息设置为全局，urlopen()方法请求时也会自动添加报头</span></span>
+
+    <span style="background-color: #ccffcc"><span style="color: #0000ff">def</span> dai_li_ip(hq_url):    <span style="color: #008000">#</span><span style="color: #008000">创建ip代理池</span>
+        url = <span style="color: #800000">"</span><span style="color: #800000">http://http-webapi.zhimaruanjian.com/getip?num=1&amp;type=2&amp;pro=&amp;city=0&amp;yys=0&amp;port=11&amp;time=1&amp;ts=0&amp;ys=0&amp;cs=0&amp;lb=1&amp;sb=0&amp;pb=4&amp;mr=1</span><span style="color: #800000">"</span>
+        <span style="color: #0000ff">if</span><span style="color: #000000"> url:
+            data </span>= urllib.request.urlopen(url).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">)
+            data2 </span>= json.loads(data)  <span style="color: #008000">#</span><span style="color: #008000"> 将字符串还原它本来的数据类型</span>
+            <span style="color: #008000">#</span><span style="color: #008000"> print(data2['data'][0])</span>
+            ip = str(data2[<span style="color: #800000">'</span><span style="color: #800000">data</span><span style="color: #800000">'</span>][0][<span style="color: #800000">'</span><span style="color: #800000">ip</span><span style="color: #800000">'</span><span style="color: #000000">])
+            dkou </span>= str(data2[<span style="color: #800000">'</span><span style="color: #800000">data</span><span style="color: #800000">'</span>][0][<span style="color: #800000">'</span><span style="color: #800000">port</span><span style="color: #800000">'</span><span style="color: #000000">])
+            zh_ip </span>= ip + <span style="color: #800000">'</span><span style="color: #800000">:</span><span style="color: #800000">'</span> +<span style="color: #000000"> dkou
+            pat </span>= <span style="color: #800000">"</span><span style="color: #800000">(\w*):\w*</span><span style="color: #800000">"</span><span style="color: #000000">
+            rst </span>= re.compile(pat).findall(hq_url)  <span style="color: #008000">#</span><span style="color: #008000">正则匹配获取是http协议还是https协议</span>
+            rst2 =<span style="color: #000000"> rst[0]
+            proxy </span>= urllib.request.ProxyHandler({rst2: zh_ip})  <span style="color: #008000">#</span><span style="color: #008000"> 格式化IP,注意，第一个参数，请求目标可能是http或者https,对应设置</span>
+            opener = urllib.request.build_opener(proxy, urllib.request.HTTPHandler)  <span style="color: #008000">#</span><span style="color: #008000"> 初始化IP</span>
+            urllib.request.install_opener(opener)  <span style="color: #008000">#</span><span style="color: #008000"> 将代理IP设置成全局,当使用urlopen()请求时自动使用代理IP</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            </span><span style="color: #0000ff">pass</span></span>
+
+    <span style="color: #008000">#</span><span style="color: #008000">请求</span>
+    <span style="background-color: #ffcc99"><span style="color: #0000ff">try</span><span style="color: #000000">:
+        dai_li_ip(hq_url) </span><span style="color: #008000">#</span><span style="color: #008000">执行代理IP函数</span>
+        yh_dl()     <span style="color: #008000">#</span><span style="color: #008000">执行用户代理池函数</span>
+<span style="color: #000000">
+        data </span>= urllib.request.urlopen(hq_url).read().decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span><span style="color: #000000">)
+        </span><span style="background-color: #ff99cc"><span style="color: #0000ff">return</span><span style="color: #000000"> data
+    </span></span><span style="color: #0000ff">except</span> urllib.error.URLError as e:  <span style="color: #008000">#</span><span style="color: #008000"> 如果出现错误</span>
+        <span style="color: #0000ff">if</span> hasattr(e, <span style="color: #800000">"</span><span style="color: #800000">code</span><span style="color: #800000">"</span>):  <span style="color: #008000">#</span><span style="color: #008000"> 如果有错误代码</span>
+            <span style="color: #008000">#</span><span style="color: #008000"> print(e.code)  # 打印错误代码</span>
+            <span style="color: #0000ff">pass</span>
+        <span style="color: #0000ff">if</span> hasattr(e, <span style="color: #800000">"</span><span style="color: #800000">reason</span><span style="color: #800000">"</span>):  <span style="color: #008000">#</span><span style="color: #008000"> 如果有错误信息</span>
+            <span style="color: #008000">#</span><span style="color: #008000"> print(e.reason)  # 打印错误信息</span>
+            <span style="color: #0000ff">pass</span></span>
+
+<span style="background-color: #ff99cc"><span style="color: #008000">#</span><span style="color: #008000"> a = hq_html('http://www.baid.com/')</span><span style="color: #008000">
+#</span><span style="color: #008000"> print(a)</span></span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>模块使用</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> urllib.request
+</span><span style="color: #0000ff">import</span><span style="color: #000000"><span style="background-color: #ff99cc"> fzhpach</span>
+gjc </span>= <span style="color: #800000">'</span><span style="color: #800000">广告录音</span><span style="color: #800000">'</span><span style="color: #000000">
+gjc </span>= urllib.request.quote(gjc)                 <span style="color: #008000">#</span><span style="color: #008000">将关键词转码成浏览器认识的字符，默认网站不能是中文</span>
+url = <span style="color: #800000">'</span><span style="color: #800000">https://www.baidu.com/s?wd=%s&amp;pn=0</span><span style="color: #800000">'</span> %<span style="color: #000000">(gjc)
+a </span>=<span style="color: #000000; background-color: #ff99cc"> fzhpach.hq_html(url)
+</span><span style="background-color: #ff99cc"><span style="color: #0000ff">print</span>(a)</span></pre>
+</div>
+<p>&nbsp;</p></div>

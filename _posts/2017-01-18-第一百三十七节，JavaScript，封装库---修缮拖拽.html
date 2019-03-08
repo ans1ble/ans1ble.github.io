@@ -1,0 +1,86 @@
+第一百三十七节，JavaScript，封装库---修缮拖拽
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong>JavaScript，封装库---修缮拖拽</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>修缮拖拽</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">* tuo_zhuai()方法，将一个弹窗元素实现拖拽功能
+ * 注意：有参设置拖拽点区块，只有弹窗的这个拖拽点区块才能拖拽，无参整个弹窗可以拖拽
+ * 注意：一般需要在css文件将弹窗元素里的某一个区块光标设置成提示可以拖拽，如：cursor: move; （设置拖拽点）
+ * 有一个参数，参数是弹窗元素里的拖拽点区块的字符串class值（设置拖拽点的class值）设置后弹窗元素里的这个拖拽点区块才能拖拽
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.tuo_zhuai </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (tuo_zhuai_dian) {
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian.length == 1<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> yan_su = <span style="color: #0000ff">null</span><span style="color: #000000">;
+        </span><span style="color: #0000ff">var</span> sum =<span style="color: #000000"> arguments.length;
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+            yan_su </span>= <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i];
+        }
+        addEvent(yan_su, </span>'mousedown', <span style="color: #0000ff">function</span><span style="color: #000000"> (e) {
+            </span><span style="color: #0000ff">if</span> (trim(yan_su.innerHTML).length == 0<span style="color: #000000">)e.preventDefault();
+            </span><span style="color: #0000ff">var</span> e1 = getEvent(e);  <span style="color: #008000">//</span><span style="color: #008000">getEvent()函数库函数，跨浏览器获取事件对象,事件event对象,</span>
+            <span style="color: #0000ff">var</span> diffx = e1.clientX -<span style="color: #000000"> yan_su.offsetLeft;
+            </span><span style="color: #0000ff">var</span> diffy = e1.clientY -<span style="color: #000000"> yan_su.offsetTop;
+            </span><span style="color: #0000ff">if</span> (sum == 1<span style="color: #000000">) {
+                </span><span style="color: #0000ff">if</span> (e.target.className ===<span style="color: #000000"> tuo_zhuai_dian) {
+                    addEvent(document, </span>'mousemove'<span style="color: #000000">, move);
+                    addEvent(document, </span>'mouseup'<span style="color: #000000">, up);
+                }
+            } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (sum == 0<span style="color: #000000">) {
+                addEvent(document, </span>'mousemove'<span style="color: #000000">, move);
+                addEvent(document, </span>'mouseup'<span style="color: #000000">, up);
+            }
+            </span><span style="color: #0000ff">function</span><span style="color: #000000"> move(e) {
+                </span><span style="color: #0000ff">var</span> e2 =<span style="color: #000000"> getEvent(e);
+                </span><span style="color: #0000ff">var</span> left = e2.clientX -<span style="color: #000000"> diffx;
+                </span><span style="color: #0000ff">var</span> top = e2.clientY -<span style="color: #000000"> diffy;
+                </span><span style="color: #0000ff">if</span> (left &lt; 0<span style="color: #000000">) {
+                    left </span>= 0<span style="color: #000000">;
+                } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (left &gt; getInner().width -<span style="color: #000000"> yan_su.offsetWidth) {
+                    left </span>= getInner().width -<span style="color: #000000"> yan_su.offsetWidth;
+                }
+                </span><span style="color: #0000ff">if</span> (top &lt; 0<span style="color: #000000">) {
+                    top </span>= 0<span style="color: #000000">;
+                } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (top &gt; getInner().height -<span style="color: #000000"> yan_su.offsetHeight) {
+                    top </span>= getInner().height -<span style="color: #000000"> yan_su.offsetHeight;
+                }
+                yan_su.style.left </span>= left + 'px'<span style="color: #000000">;
+                yan_su.style.top </span>= top + 'px'<span style="color: #000000">;
+                </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> yan_su.setCapture != 'undefined'<span style="color: #000000">) {
+                    yan_su.setCapture();
+                }
+            }
+
+            </span><span style="color: #0000ff">function</span><span style="color: #000000"> up() {
+                removeEvent(document, </span>'mousemove'<span style="color: #000000">, move);
+                removeEvent(document, </span>'mouseup'<span style="color: #000000">, up);
+                </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> yan_su.releaseCapture != 'undefined'<span style="color: #000000">) {
+                    yan_su.releaseCapture();
+                }
+            }
+        });
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        alert(</span>"将一个弹窗元素实现拖拽功能,只能设置一个弹窗元素，目前jie_dian数组里是多个元素请检查！"<span style="color: #000000">)
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>前台代码</strong></p>
+<p><span style="color: #ff0000"><strong>html代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="login"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">h2 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tbu"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/close.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">=""</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="close"</span> <span style="color: #0000ff">/&gt;</span>网站登录<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="user"</span><span style="color: #0000ff">&gt;</span>帐 号：<span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span> <span style="color: #0000ff">/&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="pass"</span><span style="color: #0000ff">&gt;</span>密 码：<span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="password"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="pass"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span> <span style="color: #0000ff">/&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="button"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="button"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="submit"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">=""</span> <span style="color: #0000ff">/&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="other"</span><span style="color: #0000ff">&gt;</span>注册新用户 | 忘记密码？<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>前台js代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">拖拽</span>
+    $().huo_qu_id('login').tuo_zhuai('tbu');</pre>
+</div>
+<p>&nbsp;</p></div>

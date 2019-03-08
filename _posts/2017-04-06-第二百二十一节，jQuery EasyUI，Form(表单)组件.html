@@ -1,0 +1,327 @@
+第二百二十一节，jQuery EasyUI，Form(表单)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，Form(表单)组件</strong></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式 </strong></p>
+<p><strong>　　2.属性列表 </strong></p>
+<p><strong>　　3.事件列表 </strong></p>
+<p><strong>　　4.方法列表</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 中 Form(表单)组件的使用方法，这个组件不依赖于任何组件</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<p><strong><span style="color: #0000ff">表单组件只能在 JS 区域设置，首先定义一张表单。</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #ff0000"> method</span><span style="color: #0000ff">="post"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>用户名:<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="name"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>邮　箱:<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="email"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="submit"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>JS 加载调用</strong></span></p>
+<p><span style="color: #ff0000"><strong>form()将form表单元素执行表单组件方法</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).form({
+        url: </span>'user.php'<span style="color: #000000">,
+        onSubmit: </span><span style="color: #0000ff">function</span> (param) {    <span style="color: #008000">//</span><span style="color: #008000">在提交前触发</span>
+            param.code = '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        success: </span><span style="color: #0000ff">function</span> (data) {      <span style="color: #008000">//</span><span style="color: #008000">发送后触发，</span>
+            alert(data);                <span style="color: #008000">//</span><span style="color: #008000">接收响应内容</span>
+<span style="color: #000000">        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>解析 JSON 数据</strong></span></p>
+<p><span style="color: #0000ff">远程返回代码</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">JSON类型</span>
+<span style="color: #000000">{
+    </span>"name" : "bnbbs"<span style="color: #000000">,
+    </span>"email" : "bnbbs@163.com"<span style="color: #000000">
+}</span></pre>
+</div>
+<p><span style="color: #0000ff">js代码</span></p>
+<div class="cnblogs_code">
+<pre>        <span style="color: #008000">//</span><span style="color: #008000">读取JSON里面的email值</span>
+        success: <span style="color: #0000ff">function</span><span style="color: #000000"> (data) {
+            </span><span style="color: #0000ff">var</span> data = eval('(' + data + ')');  <span style="color: #008000">//</span><span style="color: #008000">将字符串转换成JSON类型</span>
+            <span style="color: #0000ff">if</span><span style="color: #000000"> (data.email) {
+                alert(data.email);      </span><span style="color: #008000">//</span><span style="color: #008000">读取JSON里面的email值</span>
+<span style="color: #000000">            }
+        }</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>自动提交，只有在form()方法里，第一个参数写上'submit'就会自动提交</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box').form(<span style="color: #ff0000">'submit'</span><span style="color: #000000">,{
+        url: </span>'user.php'<span style="color: #000000">,
+        onSubmit: </span><span style="color: #0000ff">function</span> (param) {    <span style="color: #008000">//</span><span style="color: #008000">在提交前触发</span>
+            param.code = '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        success: </span><span style="color: #0000ff">function</span> (data) {      <span style="color: #008000">//</span><span style="color: #008000">发送后触发，</span>
+            alert(data);                <span style="color: #008000">//</span><span style="color: #008000">接收响应内容</span>
+<span style="color: #000000">        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170407161306863-1003159600.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>url &nbsp; string <span style="color: #0000ff">提交表单动作的 URL 地址</span>。默认值 null。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box').form('submit'<span style="color: #000000">,{
+        <span style="color: #ff0000">url: </span></span><span style="color: #ff0000">'user.php'</span><span style="color: #000000"><span style="color: #ff0000">,</span>
+        onSubmit: </span><span style="color: #0000ff">function</span> (param) {    <span style="color: #008000">//</span><span style="color: #008000">在提交前触发</span>
+            param.code = '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        success: </span><span style="color: #0000ff">function</span> (data) {      <span style="color: #008000">//</span><span style="color: #008000">发送后触发，</span>
+            alert(data);                <span style="color: #008000">//</span><span style="color: #008000">接收响应内容</span>
+<span style="color: #000000">        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．事件列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170407161517363-1170379255.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>onSubmit &nbsp; param <span style="color: #0000ff">在提交之前触发</span>，返回 false 可以终止提交。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box').form(<span style="color: #000000">{
+        url: </span>'user.php'<span style="color: #000000">,
+        <span style="color: #ff0000">onSubmit: </span></span><span style="color: #ff0000">function (param) {    //在提交前触发
+            param.code = '320902';      //接收的参数可以自定义，额外发送数据，以定义名称=值
+</span><span style="color: #000000"><span style="color: #ff0000">        },</span>
+        success: </span><span style="color: #0000ff">function</span> (data) {      <span style="color: #008000">//</span><span style="color: #008000">发送后触发，</span>
+            alert(data);                <span style="color: #008000">//</span><span style="color: #008000">接收响应内容</span>
+<span style="color: #000000">        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>success &nbsp; data <span style="color: #0000ff">在表单提交成功以后触发</span>。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box').form(<span style="color: #000000">{
+        url: </span>'user.php'<span style="color: #000000">,
+        onSubmit: </span><span style="color: #0000ff">function</span> (param) {    <span style="color: #008000">//</span><span style="color: #008000">在提交前触发</span>
+            param.code = '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">success: </span></span><span style="color: #ff0000">function (data) {      //发送后触发，
+            alert(data);                //接收响应内容
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000; font-size: 18pt; background-color: #ffff00">注意：以下3个事件要结合load方法使用，也就是一般要在获取数据填充到表单时使用</span></strong></p>
+<p><span style="color: #ff0000"><strong>onBeforeLoad &nbsp; param<span style="color: #0000ff">在请求加载数据之前触发</span>。返回 false 可以停止该动作。<span style="color: #0000ff">【<strong>不推荐</strong>】</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).form({
+        <span style="color: #ff0000">onBeforeLoad: </span></span><span style="color: #ff0000">function (param) {
+            alert('在请求之前');
+            param.code = '320902';      //接收的参数可以自定义，额外发送数据，以定义名称=值
+</span><span style="color: #000000"><span style="color: #ff0000">        },</span>
+        onLoadSuccess: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (data) {
+            alert(</span>'在请求完成之后'<span style="color: #000000">);
+            alert(data);
+        },
+        onLoadError: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (param) {
+            alert(</span>'在请求出错后'<span style="color: #000000">);
+        }
+    });
+    $(</span>'#box').form('load','uer.php');   <span style="color: #008000">//</span><span style="color: #008000">获取数据</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onLoadSuccess &nbsp; data <span style="color: #0000ff">在表单数据加载完成后触发</span>。<span style="color: #0000ff"><strong>【<strong>不推荐</strong>】</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).form({
+        onBeforeLoad: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (param) {
+            alert(</span>'在请求之前'<span style="color: #000000">);
+            param.code </span>= '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        <span style="color: #ff0000">onLoadSuccess: </span></span><span style="color: #ff0000">function (data) {
+            alert('在请求完成之后'</span><span style="color: #000000"><span style="color: #ff0000">);
+            alert(data);
+        },</span>
+        onLoadError: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (param) {
+            alert(</span>'在请求出错后'<span style="color: #000000">);
+        }
+    });
+    $(</span>'#box').form('load','uer.php');   <span style="color: #008000">//</span><span style="color: #008000">获取数据</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onLoadError &nbsp; none <span style="color: #0000ff">在表单数据加载出现错误的时候触发</span>。</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).form({
+        onBeforeLoad: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (param) {
+            alert(</span>'在请求之前'<span style="color: #000000">);
+            param.code </span>= '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        onLoadSuccess: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (data) {
+            alert(</span>'在请求完成之后'<span style="color: #000000">);
+            alert(data);
+        },
+        <span style="color: #ff0000">onLoadError: </span></span><span style="color: #ff0000">function (param) {
+            alert('在请求出错后'</span><span style="color: #000000"><span style="color: #ff0000">);
+        }</span>
+    });
+    $(</span>'#box').form('load','uer.php');   <span style="color: #008000">//</span><span style="color: #008000">获取数据</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170407180916550-852135670.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>submit &nbsp; options <span style="color: #0000ff">执行自动提交操作，该选项参数是一个对象。</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box').form(<span style="color: #ff0000">'submit'</span><span style="color: #000000">,{
+       url: </span>'user.php'<span style="color: #000000">,
+        onSubmit: </span><span style="color: #0000ff">function</span> (param) {    <span style="color: #008000">//</span><span style="color: #008000">在提交前触发</span>
+            param.code = '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        success: </span><span style="color: #0000ff">function</span> (data) {      <span style="color: #008000">//</span><span style="color: #008000">发送后触发，</span>
+            alert(data);                <span style="color: #008000">//</span><span style="color: #008000">接收响应内容</span>
+<span style="color: #000000">        },
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>load &nbsp; data 读取记录填充到表单中。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).form({
+       url: </span>'user.php'<span style="color: #000000">,
+        onSubmit: </span><span style="color: #0000ff">function</span> (param) {    <span style="color: #008000">//</span><span style="color: #008000">在提交前触发</span>
+            param.code = '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        success: </span><span style="color: #0000ff">function</span> (data) {      <span style="color: #008000">//</span><span style="color: #008000">发送后触发，</span>
+            alert(data);                <span style="color: #008000">//</span><span style="color: #008000">接收响应内容</span>
+<span style="color: #000000">        },
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').form('load', {    //将对象里的数据填充到对应的输入框
+        name: 'bnbbs',          //将值填充到name为name的输入框
+        email: 'bnbbs@163.com', //将值填充到name为email的输入框
+    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">当然也可以将远程JSON数据填充到输入框如,xxx.php里是JSON数据</span>
+    <span style="color: #008000">//</span><span style="color: #008000"> $('#box').form('load','xxx.php');</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>clear &nbsp; none 清除表单数据。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).form({
+       url: </span>'user.php'<span style="color: #000000">,
+        onSubmit: </span><span style="color: #0000ff">function</span> (param) {    <span style="color: #008000">//</span><span style="color: #008000">在提交前触发</span>
+            param.code = '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        success: </span><span style="color: #0000ff">function</span> (data) {      <span style="color: #008000">//</span><span style="color: #008000">发送后触发，</span>
+            alert(data);                <span style="color: #008000">//</span><span style="color: #008000">接收响应内容</span>
+<span style="color: #000000">        },
+    });
+   <span style="color: #ff0000"> $(</span></span><span style="color: #ff0000">'#box').form('clear'</span><span style="color: #000000"><span style="color: #ff0000">);</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>reset &nbsp; none 重置表单数据。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).form({
+       url: </span>'user.php'<span style="color: #000000">,
+        onSubmit: </span><span style="color: #0000ff">function</span> (param) {    <span style="color: #008000">//</span><span style="color: #008000">在提交前触发</span>
+            param.code = '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        success: </span><span style="color: #0000ff">function</span> (data) {      <span style="color: #008000">//</span><span style="color: #008000">发送后触发，</span>
+            alert(data);                <span style="color: #008000">//</span><span style="color: #008000">接收响应内容</span>
+<span style="color: #000000">        },
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').form('reset'</span><span style="color: #000000"><span style="color: #ff0000">);</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>validate &nbsp; none<span style="color: #0000ff">做表单字段验证，当所有字段都有效的时候 返 回 true 。 该 方 法 使 用validatebox(验证框)插件。<span style="color: #ff0000">【重点】</span></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'input[name=name]').validatebox({  <span style="color: #008000">//</span><span style="color: #008000">验证表单</span>
+        required: <span style="color: #0000ff">true</span>,  <span style="color: #008000">//</span><span style="color: #008000">不能为空</span>
+<span style="color: #000000">    });
+    $(</span>'#box'<span style="color: #000000">).form({
+        url: </span>'user.php'<span style="color: #000000">,
+        onSubmit: </span><span style="color: #0000ff">function</span> (param) {    <span style="color: #008000">//</span><span style="color: #008000">在提交前触发</span>
+            <span style="color: #ff0000">return $(this).form('validate');   //当所有字段都有效的时候 返 回 true ，返回false不能提交表单</span>
+            param.code = '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        success: </span><span style="color: #0000ff">function</span> (data) {      <span style="color: #008000">//</span><span style="color: #008000">发送后触发，</span>
+            alert(data);                <span style="color: #008000">//</span><span style="color: #008000">接收响应内容</span>
+<span style="color: #000000">        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>enableValidation &nbsp; none 启用验证。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'input[name=name]').validatebox({  <span style="color: #008000">//</span><span style="color: #008000">验证表单</span>
+        required: <span style="color: #0000ff">true</span>,  <span style="color: #008000">//</span><span style="color: #008000">不能为空</span>
+<span style="color: #000000">    });
+    $(</span>'#box'<span style="color: #000000">).form({
+        url: </span>'user.php'<span style="color: #000000">,
+        onSubmit: </span><span style="color: #0000ff">function</span> (param) {    <span style="color: #008000">//</span><span style="color: #008000">在提交前触发</span>
+            <span style="color: #0000ff">return</span> $(<span style="color: #0000ff">this</span>).form('validate');   <span style="color: #008000">//</span><span style="color: #008000">当所有字段都有效的时候 返 回 true ，返回false不能提交表单</span>
+            param.code = '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        success: </span><span style="color: #0000ff">function</span> (data) {      <span style="color: #008000">//</span><span style="color: #008000">发送后触发，</span>
+            alert(data);                <span style="color: #008000">//</span><span style="color: #008000">接收响应内容</span>
+<span style="color: #000000">        }
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').form('enableValidation'</span><span style="color: #000000"><span style="color: #ff0000">);</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>disableValidation &nbsp; none 禁用验证。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'input[name=name]').validatebox({  <span style="color: #008000">//</span><span style="color: #008000">验证表单</span>
+        required: <span style="color: #0000ff">true</span>,  <span style="color: #008000">//</span><span style="color: #008000">不能为空</span>
+<span style="color: #000000">    });
+    $(</span>'#box'<span style="color: #000000">).form({
+        url: </span>'user.php'<span style="color: #000000">,
+        onSubmit: </span><span style="color: #0000ff">function</span> (param) {    <span style="color: #008000">//</span><span style="color: #008000">在提交前触发</span>
+            <span style="color: #0000ff">return</span> $(<span style="color: #0000ff">this</span>).form('validate');   <span style="color: #008000">//</span><span style="color: #008000">当所有字段都有效的时候 返 回 true ，返回false不能提交表单</span>
+            param.code = '320902';      <span style="color: #008000">//</span><span style="color: #008000">接收的参数可以自定义，额外发送数据，以定义名称=值</span>
+<span style="color: #000000">        },
+        success: </span><span style="color: #0000ff">function</span> (data) {      <span style="color: #008000">//</span><span style="color: #008000">发送后触发，</span>
+            alert(data);                <span style="color: #008000">//</span><span style="color: #008000">接收响应内容</span>
+<span style="color: #000000">        }
+    });
+    <span style="color: #ff0000">$(</span></span><span style="color: #ff0000">'#box').form('disableValidation'</span><span style="color: #000000"><span style="color: #ff0000">);</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>使用$.fn.form.defaults 重写默认值对象。</strong></span></p></div>

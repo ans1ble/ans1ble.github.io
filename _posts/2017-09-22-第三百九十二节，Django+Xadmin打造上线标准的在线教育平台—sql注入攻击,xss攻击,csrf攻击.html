@@ -1,0 +1,25 @@
+第三百九十二节，Django+Xadmin打造上线标准的在线教育平台—sql注入攻击,xss攻击,csrf攻击
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百九十二节，Django+Xadmin打造上线标准的在线教育平台—sql注入攻击,xss攻击,csrf攻击</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>sql注入攻击</strong></strong></span></p>
+<p>&nbsp;</p>
+<p><strong>也就是黑客通过表单提交的地方，在表单里输入了sql语句，就是通过SQL语句绕开程序判断，获取到数据库的内容</strong></p>
+<p><strong>所以需要对用户输入的内容进行判断合法性，<span style="color: #ff0000"><strong>Django的orm对<strong><strong>sql注入进行了处理</strong></strong></strong></span></strong></p>
+<p><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170922134013134-1226720383.png" alt=""></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>xss攻击</strong></span></p>
+<p><span style="color: #0000ff"><strong>就是黑客通过，构造网站的动态url传参在URL传入js代码，获取到用户的cookie，在根据cookie来冒充用户做用户行为，所以尽量用post来提交信息，如果有动态get请求的URL要对参数做判断</strong></span></p>
+<p><span style="color: #0000ff"><strong>第一步</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170922134153790-451097917.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>第二步</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170922134225181-1556349731.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>csrf攻击</strong></strong></span></p>
+<p><span style="color: #000080"><strong><strong>就是用户登录了一个可信任的网站A时保存了A网站的cookie，当用户又访问了b网站，b网站里做了伪装用户对a网站的请求操作，那么当用户在请求b网站时，就会自动伪装用户行为到A网站操作，因为A网站的cookie还存在,<span style="color: #ff0000"> 所以<strong><strong>Django里一定要启用<strong><strong>Django的<strong><strong>csrf攻击防范</strong></strong></strong></strong></strong></strong></span></strong></strong></span></p>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170922135731978-281810801.png" alt=""></p>
+<p>&nbsp;</p></div>

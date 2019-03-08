@@ -1,0 +1,143 @@
+第六十八节，htnl全局属性和其他属性
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">htnl全局属性和其他属性</span></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong><br><strong>    1.实体 </strong><br><strong>    2.元数据 </strong><br><strong>    3.全局属性</strong></p>
+<p><strong>本章主要探讨HTML5中的HTML实体、以及HTML核心构成的元数据，最后了解一下HTML中的全局属性。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．实体</strong></span></p>
+<p><span style="color: #000000"><strong>HTML实体就是将有特殊意义的字符通过实体代码显示出来。使用方法，实体名称或者实体编号</strong></span></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 显示结果&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 实体名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 实体编号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 描述</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &amp;nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　 &nbsp;&amp;#160; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;空格</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&amp;lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&amp;#60;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　小于号</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &amp;gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&amp;#62;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　 &nbsp;大于号</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &amp;amp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　&amp;#38;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　&nbsp;&nbsp;和号</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &amp;quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　 &amp;#34; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 引号</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&amp;apos; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&amp;#39; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;撇号</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ￠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&amp;cent; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;#162; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;分</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; £&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &amp;pound; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&amp;#163; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;镑</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&amp;yen; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;#165; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 日圆</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; €&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&amp;euro; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;#8364; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 欧元</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; §&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &amp;sect; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&amp;#167; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 小节</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ©&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&amp;copy; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&amp;#169; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 版权</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ®&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &amp;reg; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&amp;#174; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 注册商标</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ™&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&amp;trade; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&amp;#8482; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;商标</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ×&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　　 &amp;times; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;#215; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;乘号</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ÷&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 　　&amp;divide; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&amp;#247; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;除号</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．元数据 </strong></span><br><span style="color: #000000"><strong>&lt;meta&gt;元素可以定义文档中的各种元数据，而且一个HTML页面可以包含多个&lt;meta&gt;元素。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="zh-cn"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">定义文档的编码类型</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="utf-8"</span><span style="color: #0000ff">&gt;</span>
+    
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">
+        name, content 组合的示例如下（不全）
+    </span><span style="color: #008000">--&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">定义文档的作者</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="author"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="webabcd"</span> <span style="color: #0000ff">/&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">定义文档的生成工具</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="generator"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="EditPlus"</span> <span style="color: #0000ff">/&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">如果把此 html5 文档看成一个程序，则此处用于定义程序的名称</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="application-name"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="meta 标签的介绍"</span> <span style="color: #0000ff">/&gt;</span>
+
+
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">
+        http-equiv, content 组合的示例如下（不全）
+    </span><span style="color: #008000">--&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">定义文档内容的语言</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">http-equiv</span><span style="color: #0000ff">="content-language"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="zh-CN"</span> <span style="color: #0000ff">/&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">定义文档内容的类型</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">http-equiv</span><span style="color: #0000ff">="content-type"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="text/html"</span> <span style="color: #0000ff">/&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">定义文档所使用的样式表的 title，从而在有多个样式表的时候，只使用指定 title 的样式表。本例中会强制只使用 title 为 css1 的样式表</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">http-equiv</span><span style="color: #0000ff">="default-style"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="css1"</span> <span style="color: #0000ff">/&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">
+    文档每多少秒刷新一次,或者跳转
+    如果要做成跳转，content属性值里引号加跳转网址，不加网址就跳转本页，相当于刷新
+    如：&lt;meta http-equiv="refresh" content="1;www.baidu.com" /&gt;
+    </span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">http-equiv</span><span style="color: #0000ff">="refresh"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="1"</span> <span style="color: #0000ff">/&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">设置 cookie</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">http-equiv</span><span style="color: #0000ff">="set-cookie"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="author=webabcd;"</span> <span style="color: #0000ff">/&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>标题<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;<br>    <span style="color: #008000">&lt;!--设置图标--&gt;</span><br>　　 &lt;<span style="color: #800000">link</span> <span style="color: #ff0000">rel</span>="icon" <span style="color: #ff0000">href</span>="//www.jd.com/favicon.ico" <span style="color: #ff0000">mce_href</span>="//www.jd.com/favicon.ico" <span style="color: #ff0000">type</span>="image/x-icon"&gt;<br></span></pre>
+<pre><span style="color: #339966">    &lt;!--定义关键字--&gt;</span>
+    &lt;<span style="color: #800000">meta</span> <span style="color: #ff0000">name</span><span style="color: #0000ff">="keywords"</span> <span style="color: #ff0000">content</span><span style="color: #0000ff">="html5, flash, silverlight" /&gt;</span>
+    <span style="color: #339966">&lt;!--定义文档的描述信息--&gt;</span>
+    &lt;<span style="color: #800000">meta</span> <span style="color: #ff0000">name</span><span style="color: #0000ff">="description"</span> <span style="color: #ff0000">content</span><span style="color: #0000ff">="介绍 html5 中的 meta 标签" /&gt;</span></pre>
+<pre><span style="color: #0000ff"><br></span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><strong><span style="color: #ff0000">三．全局属性</span> </strong><br><strong>在此之前，我们涉及到的元素都讲解了它的局部数据，当然也知道一些全局属性，比如id。全局属性是所有元素共有的行为，HTML5还提供了一些其他的全局属性。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">1.id属性，<strong>id属性给元素分配一个唯一标识符</strong></span> </strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="abc"</span><span style="color: #0000ff">&gt;</span>段落<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span> </pre>
+</div>
+<p><strong> 解释：id属性给元素分配一个唯一标识符。这种标识符通常用来给CSS和JavaScript 调用选择元素。一个页面只能出现一次同一个id名称。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000"> 2.class属性，<strong>用来给元素归类</strong></span> </strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="abc"</span><span style="color: #0000ff">&gt;</span>段落<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span> 
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="abc"</span><span style="color: #0000ff">&gt;</span>段落<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span> 
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="abc"</span><span style="color: #0000ff">&gt;</span>段落<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span> </pre>
+</div>
+<p><strong> 解释：class属性用来给元素归类。通过是文档中某一个或多个元素同时设置CSS样式。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000"> 3.accesskey属性</span>&nbsp;<span style="color: #ff0000">,输入框属性，<strong>快捷键操作</strong></span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> accesskey</span><span style="color: #0000ff">="n"</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong> 解释：快捷键操作，windows下alt+accesskey="n"指定键，光标定位到此输入框，前提是浏览器alt并不冲突。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000"> 4.contenteditable属性，<strong>让文本处于可编辑状态</strong></span> </strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">contenteditable</span><span style="color: #0000ff">="true"</span><span style="color: #0000ff">&gt;</span>我可以修改吗<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span> </pre>
+</div>
+<p><strong> 解释：让文本处于可编辑状态，设置true则可以编辑，false则不可编辑。或者直接 设置属性。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">5.dir属性，<strong>让文本左或者右</strong></span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">dir</span><span style="color: #0000ff">="rtl"</span><span style="color: #0000ff">&gt;</span>文字到右边 <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span> </pre>
+</div>
+<p><strong> 解释：让文本从左到右（ltr），还是从右到左（rtl）。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">6.hidden属性，<strong>隐藏元素</strong></span> </strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">hidden</span><span style="color: #0000ff">&gt;</span>文字 <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span> </pre>
+</div>
+<p><strong> 解释：隐藏元素。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">7.lang属性，<strong>可以局部设置语言</strong></span> </strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong> 解释：可以局部设置语言。zh-cn为中文，en为英文</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000"> 8.title属性，<strong>对元素的内容进行额外的提示</strong></span> </strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">title</span><span style="color: #0000ff">="HTML5教程"</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span> </pre>
+</div>
+<p><strong> 解释：对元素的内容进行额外的提示。，也就是鼠标放上去会出现提示内容</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000"> 9.tabindex属性，<strong>表单中按下tab键，实现获取焦点的顺序</strong></span> </strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> tabindex</span><span style="color: #0000ff">="2"</span><span style="color: #0000ff">&gt;</span> 
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> tabindex</span><span style="color: #0000ff">="1"</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong> 解释：表单中按下tab键，实现获取焦点的顺序。如果是-1，则不会被选中。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>10.style属性&nbsp;，<strong>设置元素行内CSS样式</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="color:red;"</span><span style="color: #0000ff">&gt;</span>CSS样式<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span> </pre>
+</div>
+<p><strong> 解释：设置元素行内CSS样式。</strong></p>
+<p>&nbsp;</p></div>

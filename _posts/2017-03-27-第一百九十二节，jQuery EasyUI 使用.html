@@ -1,0 +1,101 @@
+第一百九十二节，jQuery EasyUI 使用
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI 使用</strong></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.引入必要的文件 </strong></p>
+<p><strong>　　2.加载 UI 组件的方式 </strong></p>
+<p><strong>　　3.使用 easyload.js 智能加载 </strong></p>
+<p><strong>　　4.Parser 解析器</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 的两种使用方法，包含不同的加载已经 easyload 智能按需加 载。最后了解一下 Parser 解析器的用法。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．引入必要的文件 </strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #008000">&lt;!--</span><span style="color: #008000">引入 jQuery 核心库，这里采用的是 2.0</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="jQueryEasyUI/jquery.min.js"</span><span style="color: #ff0000"> charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">引入 jQuery EasyUI 核心库，这里采用的是 1.3.6</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="jQueryEasyUI/jquery.easyui.min.js"</span><span style="color: #ff0000"> charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">引入 EasyUI 中文提示信息</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="jQueryEasyUI/locale/easyui-lang-zh_CN.js"</span><span style="color: #ff0000"> charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">引入 EasyUI 核心 UI 文件 CSS</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/css"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="jQueryEasyUI/themes/default/easyui.css"</span><span style="color: #0000ff">/&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">引入 EasyUI 图标文件</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/css"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="jQueryEasyUI/themes/icon.css"</span><span style="color: #0000ff">/&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>PS：引入完毕后，我们就可以编写 jQuery EasyUI 代码了。</strong></span></p>
+<p><strong>&nbsp;</strong></p>
+<p><span style="color: #ff0000"><strong>二．加载 UI 组件的方式 </strong></span></p>
+<p><strong>加载 UI 组件有两种方式：</strong><strong>1.使用 class 方式加载；2.使用 JS 调用加载。</strong></p>
+<p><span style="color: #ff0000"><strong><strong>1.使用 class 方式加载；</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>使用 class 加载，格式为：easyui-组件名</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="easyui-dialog"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="box"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="提示框"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:400px;height:200px;"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    内容部分
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>PS：使用了规定的格式就可以生成一个 UI 组件，这是由于 jQuery EasyUI 的一个解析 器（Parser）的起到了作用。解析之后，从 Firebug 里面可以看到 UI 组件变化后的 HTML。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>2.使用 JS 调用加载。【推荐】</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>$('#box').dialog();</pre>
+</div>
+<p><strong>PS：一般推荐使用第二种 JS 调用加载，因为一个 UI 组件有很多属性和方法，如果使 用 class 的用法将极大的不方便。并且根据 JS 和 HTML 分离的原则，第二种提高了代码的 可读性。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．使用 easyload.js 智能加载【不推荐】</strong></span></p>
+<p><span style="color: #000000"><strong>删除 jQuery EasyUI 的 JS 核心文件及 CSS，引入 easyloader.js 文件</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="easyui/jquery.min.js"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="easyui/easyloader.js"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong><span style="color: #ff0000">easyloader.load()智能加载ui组件，参数第一个是组件名称，第二个是函数，在函数里写加载组件</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>easyloader.load('dialog', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).dialog();
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>PS：使用 easyloader 智能加载，是根据你使用的 UI 组件按需加载。我们可以通过 Firebug 查看 HTML，发现加载了非常多的 js 文件，这些 js 都是 dialog 组件的必须条件。 所以，使用 easyloader 加载会减少不必要的内容加载。但问题是，使用智能加载，你编码 的难度和成本都提高了，效率降低，并且智能加载的 js 文件数量还是非常多的，并不会提 高太大的速度，反而因为 js 文件较多，被搜索引擎要求合并优化。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．Parser 解析器 </strong></span></p>
+<p><strong>Parser 解析器是专门解析渲染各种 UI 组件了，一般来说，我们并不需要使用它即可 自动完成 UI 组件的解析工作。当然，有时可能在某些环境下需要手动解析的情况。 手动解析一般是使用 class 的情况下有效，比如设置 class="easyui-dialog"。</strong></p>
+<p><span style="color: #ff0000"><strong>Parser 属性</strong></span></p>
+<p><span style="color: #ff0000"><strong>$.parser.auto 默认true 定义是否自动解析 EasyUI 组件</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+
+
+});
+$.parser.auto </span>= <span style="color: #0000ff">false</span>;   <span style="color: #008000">//</span><span style="color: #008000">默认true 定义是否自动解析 EasyUI 组件</span></pre>
+</div>
+<p>放在$(function () {})外</p>
+<p><br><span style="color: #ff0000"><strong>$.parser.parse() 空或 JQ 选择器 解析指定的 UI 组件</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $.parser.parse();     </span><span style="color: #008000">//</span><span style="color: #008000">解析指定的 UI 组件,没有传节点对象，就会解析所有ui</span>
+<span style="color: #000000">});
+$.parser.auto </span>= <span style="color: #0000ff">false</span>;   <span style="color: #008000">//</span><span style="color: #008000">默认true 定义是否自动解析 EasyUI 组件</span></pre>
+</div>
+<p>PS：使用指定 UI 解析，必须要设置父类容器才可以解析到。比如：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="easyui-dialog"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="标题"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:400px;height:200px;"</span><span style="color: #0000ff">&gt;</span>
+    　　<span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>内容部分<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>    </pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>$.parser.onComplete回调函数 解析完毕后执行</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000"> $.parser.parse();     //解析指定的 UI 组件,没有传节点对象，就会解析所有ui</span>
+<span style="color: #000000">});
+</span><span style="color: #008000">//</span><span style="color: #008000"> $.parser.auto = false;   //默认true 定义是否自动解析 EasyUI 组件</span>
+$.parser.onComplete = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    alert(</span>'解析完毕后执行'<span style="color: #000000">);
+};</span></pre>
+</div>
+<p>UI 组件解析完毕后执行，放在$(function () {})外</p>
+<p>&nbsp;</p></div>

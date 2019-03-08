@@ -1,0 +1,91 @@
+第八十八节，html5+css3pc端固定布局，搜索区，插入大图，搜索框
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">html5+css3pc端固定布局，搜索区，插入大图，搜索框</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; font-size: 16px"><strong>设置一个div作为搜索区域</strong></span></p>
+<p><span style="color: #000000; font-size: 16px"><strong>1.宽度为百分之百</strong></span></p>
+<p><span style="color: #000000; font-size: 16px"><strong>2.最小宽度为1263，因为要考虑到手机，等小屏幕缩小后宽度会自适应，导致破坏布局，将最小宽度设置为<strong>1263后，当缩小低于<strong>1263时，就是1263的宽度不破坏布局</strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; font-size: 16px"><strong><strong><strong><strong>插入大图</strong></strong></strong></strong></span></p>
+<p><span style="color: #000000; font-size: 16px"><strong><strong><strong><strong>将图片作为背景插入div区域，背景显示一次，背景居中显示</strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; font-size: 16px"><strong><strong><strong><strong>搜索框</strong></strong></strong></strong></span></p>
+<p><span style="color: #000000; font-size: 16px"><strong><strong><strong><strong>在插入背景的div做搜索框，用定位方式居中</strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; font-size: 16px"><strong><strong><strong><strong>完成</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000; font-size: 16px"><strong><strong><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201610/955761-20161025184117734-692293506.png" alt=""></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><strong>html代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">&lt;!--</span><span style="color: #008000">搜索区域</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="sou-suo"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>搜索<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="sou-suo2"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="sou-suo3"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入搜索内容"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>搜索<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>css代码</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">搜索区域</span><span style="color: #008000">*/</span><span style="color: #800000">
+.sou-suo</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100%</span>;<span style="color: #ff0000">
+    min-width</span>:<span style="color: #0000ff">1263px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 600px</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> url("../img/search.jpg") no-repeat center</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> relative</span>;
+}<span style="color: #800000">
+.sou-suo h2</span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> none</span>;
+}<span style="color: #800000">
+.sou-suo .sou-suo2</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 600px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 60px</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #000000</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 50%</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff"> 50%</span>;<span style="color: #ff0000">
+    margin-left</span>:<span style="color: #0000ff"> -300px</span>;<span style="color: #ff0000">
+    margin-top</span>:<span style="color: #0000ff"> -30px</span>;<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 8px</span>;<span style="color: #ff0000">
+    opacity</span>:<span style="color: #0000ff"> 0.7</span>;
+}<span style="color: #800000">
+.sou-suo .sou-suo3</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 600px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 60px</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 50%</span>;<span style="color: #ff0000">
+    left</span>:<span style="color: #0000ff"> 50%</span>;<span style="color: #ff0000">
+    margin-left</span>:<span style="color: #0000ff"> -300px</span>;<span style="color: #ff0000">
+    margin-top</span>:<span style="color: #0000ff"> -30px</span>;<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 8px</span>;
+}<span style="color: #800000">
+.sou-suo .sou-suo3 input</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 500px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 50px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> none</span>;<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 8px</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 5px 0 5px 5px</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0 5px 0 5px</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 22px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 50px</span>;
+}<span style="color: #800000">
+.sou-suo .sou-suo3 button</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 70px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 50px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> none</span>;<span style="color: #ff0000">
+    border-radius</span>:<span style="color: #0000ff"> 8px</span>;<span style="color: #ff0000">
+    float</span>:<span style="color: #0000ff"> right</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 5px 8px 5px 0</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 22px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 50px</span>;<span style="color: #ff0000">
+    cursor</span>:<span style="color: #0000ff"> pointer</span>;
+}<span style="color: #800000">
+.sou-suo .sou-suo3 button:hover</span>{<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #C6C6C6</span>;
+}</pre>
+</div>
+<p>&nbsp;</p></div>

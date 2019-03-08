@@ -1,0 +1,170 @@
+第三百八十二节，Django+Xadmin打造上线标准的在线教育平台—xadmin管理员详情页面布局，导航图标设置
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百八十二节，Django+Xadmin打造上线标准的在线教育平台—xadmin进阶</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>1、后台管理员详情页面布局</strong></span></p>
+<p><span style="color: #000000"><strong><strong>后台管理员详情页面，区块是可以拖动的，而且分为了很多个区块</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170911210256547-1707755522.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="background-color: #ffffff; color: #ff0000"><strong>这个页面的布局在xadmin/plugins/auth.py里的UserAdmin类，修改这个类里的get_form_layout函数，就可以修改布局</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">def</span><span style="color: #000000"> get_form_layout(self):
+    </span><span style="color: #0000ff">if</span><span style="color: #000000"> self.org_obj:
+        self.form_layout </span>=<span style="color: #000000"> (
+        </span><span style="color: #008000">#</span><span style="color: #008000">Fieldset表示一个区块</span>
+<span style="color: #000000">            Main(
+                Fieldset(</span><span style="color: #800000">''</span><span style="color: #000000">,
+                         </span><span style="color: #800000">'</span><span style="color: #800000">username</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span>,                    <span style="color: #008000">#</span><span style="color: #008000"> 显示字段</span>
+                         <span style="background-color: #ff99cc">css_class=<span style="color: #800000">'</span><span style="color: #800000">unsort no_title</span><span style="color: #800000">'</span>                <span style="color: #008000">#</span><span style="color: #008000"> css_class='unsort no_title'表示定位区块不能拖动</span></span>
+<span style="color: #000000">                         ),
+                Fieldset(_(</span><span style="color: #800000">'</span><span style="color: #800000">Personal info</span><span style="color: #800000">'</span>),                        <span style="color: #008000">#</span><span style="color: #008000">Fieldset第一个参数表示区块名称</span>
+                         Row(<span style="color: #800000">'</span><span style="color: #800000">first_name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">last_name</span><span style="color: #800000">'</span>),            <span style="color: #008000">#</span><span style="color: #008000"> Row 表示将里面的字段作为一行显示</span>
+                         <span style="color: #800000">'</span><span style="color: #800000">email</span><span style="color: #800000">'</span><span style="color: #000000">,
+                         ),
+                Fieldset(_(</span><span style="color: #800000">'</span><span style="color: #800000">Permissions</span><span style="color: #800000">'</span><span style="color: #000000">),
+                         </span><span style="color: #800000">'</span><span style="color: #800000">groups</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">user_permissions</span><span style="color: #800000">'</span><span style="color: #000000">,
+                         ),
+                Fieldset(_(</span><span style="color: #800000">'</span><span style="color: #800000">Important dates</span><span style="color: #800000">'</span><span style="color: #000000">),
+                         </span><span style="color: #800000">'</span><span style="color: #800000">last_login</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">date_joined</span><span style="color: #800000">'</span><span style="color: #000000">,
+                         ),
+            ),
+            </span><span style="color: #008000">#</span><span style="color: #008000">Side表示状态区块</span>
+<span style="color: #000000">            Side(
+                Fieldset(_(</span><span style="color: #800000">'</span><span style="color: #800000">Status</span><span style="color: #800000">'</span><span style="color: #000000">),
+                         </span><span style="color: #800000">'</span><span style="color: #800000">is_active</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">is_staff</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">is_superuser</span><span style="color: #800000">'</span><span style="color: #000000">,
+                         ),
+            )
+        )
+    </span><span style="color: #0000ff">return</span> super(UserAdmin, self).get_form_layout()</pre>
+</div>
+<p><span style="color: #ff0000"><strong>如下修改将所有区块定位，不能拖动</strong></span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: #0000ff">def</span><span style="color: #000000"> get_form_layout(self):
+        </span><span style="color: #0000ff">if</span><span style="color: #000000"> self.org_obj:
+            self.form_layout </span>=<span style="color: #000000"> (
+                Main(
+                    Fieldset(</span><span style="color: #800000">''</span><span style="color: #000000">,
+                             </span><span style="color: #800000">'</span><span style="color: #800000">username</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span><span style="color: #000000">,
+                             <span style="background-color: #ff99cc">css_class</span></span><span style="background-color: #ff99cc">=<span style="color: #800000">'</span><span style="color: #800000">unsort no_title</span><span style="color: #800000">'</span></span><span style="color: #000000">
+                             ),
+                    Fieldset(_(</span><span style="color: #800000">'</span><span style="color: #800000">Personal info</span><span style="color: #800000">'</span><span style="color: #000000">),
+                             Row(</span><span style="color: #800000">'</span><span style="color: #800000">first_name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">last_name</span><span style="color: #800000">'</span><span style="color: #000000">),
+                             </span><span style="color: #800000">'</span><span style="color: #800000">email</span><span style="color: #800000">'</span><span style="color: #000000">,
+                             <span style="background-color: #ff99cc">css_class</span></span><span style="background-color: #ff99cc">=<span style="color: #800000">'</span><span style="color: #800000">unsort no_title</span><span style="color: #800000">'</span></span><span style="color: #000000">
+                             ),
+                    Fieldset(_(</span><span style="color: #800000">'</span><span style="color: #800000">Permissions</span><span style="color: #800000">'</span><span style="color: #000000">),
+                             </span><span style="color: #800000">'</span><span style="color: #800000">groups</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">user_permissions</span><span style="color: #800000">'</span><span style="color: #000000">,
+                             <span style="background-color: #ff99cc">css_class</span></span><span style="background-color: #ff99cc">=<span style="color: #800000">'</span><span style="color: #800000">unsort no_title</span><span style="color: #800000">'</span></span><span style="color: #000000">
+                             ),
+                    Fieldset(_(</span><span style="color: #800000">'</span><span style="color: #800000">Important dates</span><span style="color: #800000">'</span><span style="color: #000000">),
+                             </span><span style="color: #800000">'</span><span style="color: #800000">last_login</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">date_joined</span><span style="color: #800000">'</span><span style="color: #000000">,
+                             <span style="background-color: #ff99cc">css_class</span></span><span style="background-color: #ff99cc">=<span style="color: #800000">'</span><span style="color: #800000">unsort no_title</span><span style="color: #800000">'</span></span><span style="color: #000000">
+                             ),
+                ),
+                Side(
+                    Fieldset(_(</span><span style="color: #800000">'</span><span style="color: #800000">Status</span><span style="color: #800000">'</span><span style="color: #000000">),
+                             </span><span style="color: #800000">'</span><span style="color: #800000">is_active</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">is_staff</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">is_superuser</span><span style="color: #800000">'</span><span style="color: #000000">,
+                             ),
+                )
+            )
+        </span><span style="color: #0000ff">return</span> super(UserAdmin, self).get_form_layout()</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>2、导航图标设置</strong></span></p>
+<p><span style="color: #000000"><strong>导航图标采用<strong>font-awesome图标</strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong>如果想用最新版本的<strong><strong>font-awesome图标，到<strong><strong>中文网站<a href="http://fontawesome.dashgame.com/" target="_blank">http://fontawesome.dashgame.com/</a>&nbsp; 下载解压后将解压的css和fonts两个文件夹，替换xadmin/static/xadmin/vendor/font-awesome/下的相同文件</strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong>导航子目录图标设置，也就是数据表的图标</strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170912110613438-2001389184.png" alt=""></strong></span></p>
+<p><strong>在当前app目录下的<span style="color: #0000ff">adminx.py</span>数据库表注册的管理器里设置</strong><br><span style="color: #ff0000"><strong>model_icon = 'fa fa-图标名称'</strong></span><br><strong>如：model_icon = 'fa fa-user-plus'</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> xadmin
+</span><span style="color: #0000ff">from</span> xadmin <span style="color: #0000ff">import</span> views                <span style="color: #008000">#</span><span style="color: #008000"> 导入xadmin的views</span>
+
+<span style="color: #0000ff">from</span> .models <span style="color: #0000ff">import</span><span style="color: #000000"> Users, Email, Banner
+
+
+</span><span style="color: #0000ff">class</span> BasdSetting(object):              <span style="color: #008000">#</span><span style="color: #008000"> 主题管理器</span>
+    enable_themes = True                <span style="color: #008000">#</span><span style="color: #008000"> 使用主题</span>
+    use_bootswatch =<span style="color: #000000"> True
+xadmin.site.register(views.BaseAdminView, BasdSetting)      </span><span style="color: #008000">#</span><span style="color: #008000"> 将主题管理器绑定views.BaseAdminView注册</span>
+
+
+<span style="color: #0000ff">class</span> GlobalSettings(object):                               <span style="color: #008000">#</span><span style="color: #008000"> 头部系统名称和底部版权管理器</span>
+    site_title = <span style="color: #800000">'</span><span style="color: #800000">玉秀管理系统</span><span style="color: #800000">'</span>                              <span style="color: #008000">#</span><span style="color: #008000"> 头部系统名称</span>
+    site_footer = <span style="color: #800000">'</span><span style="color: #800000">玉秀管理系统，玉秀公司版权所有</span><span style="color: #800000">'</span>             <span style="color: #008000">#</span><span style="color: #008000"> 底部版权</span>
+    menu_style = <span style="color: #800000">'</span><span style="color: #800000">accordion</span><span style="color: #800000">'</span>                                <span style="color: #008000">#</span><span style="color: #008000"> 设置数据管理导航折叠，以每一个app为一个折叠框</span>
+xadmin.site.register(views.CommAdminView, GlobalSettings)   <span style="color: #008000">#</span><span style="color: #008000"> 头部系统名称和底部版权管理器绑定views.CommAdminView注册</span>
+
+
+<span style="color: #0000ff">class</span> UsersAdmin(object):               <span style="color: #008000">#</span><span style="color: #008000"> 自定义用户信息数据表管理器类</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台显示字段</span>
+    list_display = [<span style="color: #800000">'</span><span style="color: #800000">username</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">nick_name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">gender</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">email</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">address</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">mobile</span><span style="color: #800000">'</span><span style="color: #000000">,
+                    </span><span style="color: #800000">'</span><span style="color: #800000">first_name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">last_name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">is_active</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">birday</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">last_login</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">date_joined</span><span style="color: #800000">'</span><span style="color: #000000">]
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台搜索字段，注意：搜索字段如果有时间类型会报错</span>
+    search_fields = [<span style="color: #800000">'</span><span style="color: #800000">username</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">nick_name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">gender</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">email</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">address</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">mobile</span><span style="color: #800000">'</span><span style="color: #000000">]
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 设置xadmin后台过滤器帅选字段，时间用过滤器来做</span>
+    list_filter = [<span style="color: #800000">'</span><span style="color: #800000">username</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">nick_name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">gender</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">email</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">address</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">mobile</span><span style="color: #800000">'</span><span style="color: #000000">,
+                    </span><span style="color: #800000">'</span><span style="color: #800000">first_name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">last_name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">is_active</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">birday</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">last_login</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">date_joined</span><span style="color: #800000">'</span><span style="color: #000000">]
+    <span style="background-color: #ff99cc">model_icon </span></span><span style="background-color: #ff99cc">= <span style="color: #800000">'</span><span style="color: #800000">fa fa-user-plus</span><span style="color: #800000">'</span></span><span style="color: #000000">
+xadmin.site.register(Users, UsersAdmin)     </span><span style="color: #008000">#</span><span style="color: #008000"> 将户信息数据表注册到xadmin后台显示</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong>导航主目录图标设置，也就是自定义的app名称的图标</strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><strong>这个我没找到可以设置的地方只有改源码了</strong></p>
+<p><strong>修改源码</strong></p>
+<p><strong>修改xadmin/templates/xadmin/includes/<span style="color: #0000ff">sitemenu_accordion.html</span>文件</strong></p>
+<div class="cnblogs_code">
+<pre>{% extends <span style="color: #800000">'</span><span style="color: #800000">xadmin/includes/sitemenu_default.html</span><span style="color: #800000">'</span> %<span style="color: #000000">}
+{</span>% load i18n xadmin_tags %<span style="color: #000000">}
+
+
+{</span>% block navbar_md %<span style="color: #000000">}
+</span>&lt;div <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">panel-group hide-sm nav-sitemenu col-md-2</span><span style="color: #800000">"</span> id=<span style="color: #800000">"</span><span style="color: #800000">nav-accordion</span><span style="color: #800000">"</span>&gt;<span style="color: #000000">
+  {</span>% <span style="color: #0000ff">for</span> item <span style="color: #0000ff">in</span> nav_menu %<span style="color: #000000">}
+  </span>&lt;div <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">panel panel-{% if item.selected %}info{%else%}default{% endif %}</span><span style="color: #800000">"</span>&gt;
+    &lt;div <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">panel-heading</span><span style="color: #800000">"</span>&gt;
+      &lt;h6 <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">panel-title</span><span style="color: #800000">"</span>&gt;
+        &lt;span <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">badge badge-info</span><span style="color: #800000">"</span>&gt;{{ item.menus|length }}&lt;/span&gt;
+        &lt;a <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">accordion-toggle</span><span style="color: #800000">"</span> data-toggle=<span style="color: #800000">"</span><span style="color: #800000">collapse</span><span style="color: #800000">"</span> data-parent=<span style="color: #800000">"</span><span style="color: #800000">#nav-accordion</span><span style="color: #800000">"</span> href=<span style="color: #800000">"</span><span style="color: #800000">#nav-panel-{{forloop.counter}}</span><span style="color: #800000">"</span>&gt;<span style="color: #000000">
+          {</span>% <span style="color: #0000ff">if</span> item.url %}&lt;a href=<span style="color: #800000">"</span><span style="color: #800000">{{ item.url }}</span><span style="color: #800000">"</span> <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">section</span><span style="color: #800000">"</span>&gt;{% endif %<span style="color: #000000">}
+          {</span>% <span style="color: #0000ff">if</span> item.icon %}&lt;i <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">fa-fw {{item.icon}}</span><span style="color: #800000">"</span>&gt;&lt;/i&gt;<span style="background-color: #ffff00"><span style="color: #000000">
+          {</span>% <span style="color: #0000ff">elif</span> item.first_icon %}  <span style="color: #008080">{#</span><span style="color: #008000"><span style="color: #008080">&lt;i class="fa-fw {{item.first_icon}}"&gt;&lt;/i&gt;#}</span> {#这个标签注释后，当子导航设置了图标时app名称不显示图标#}</span></span>
+          {%<span style="color: #0000ff">else</span>%}&lt;i <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">fa-fw fa fa-circle-o</span><span style="color: #800000">"</span>&gt;&lt;/i&gt;{% endif %<span style="color: #000000">}
+          <span style="background-color: #ffff00">{</span></span><span style="background-color: #ffff00">% autoescape off %} {% trans item.title %} {% endautoescape %}   <span style="color: #008080">{#</span><span style="color: #008000"><span style="color: #008080">这里显示的自定义app名称，加上{% autoescape off %}</span>{% endautoescape %}后在自定义名称时可以通过class自定义图标#}</span></span>
+          {% <span style="color: #0000ff">if</span> item.url %}&lt;/a&gt;{% endif %<span style="color: #000000">}
+        </span>&lt;/a&gt;
+      &lt;/h6&gt;
+    &lt;/div&gt;
+    &lt;div id=<span style="color: #800000">"</span><span style="color: #800000">nav-panel-{{forloop.counter}}</span><span style="color: #800000">"</span> <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">list-group panel-collapse collapse{% if item.selected %} in{% endif %}</span><span style="color: #800000">"</span>&gt;<span style="color: #000000">
+      {</span>% <span style="color: #0000ff">for</span> sitem <span style="color: #0000ff">in</span> item.menus %<span style="color: #000000">}
+      </span>&lt;a href=<span style="color: #800000">"</span><span style="color: #800000">{{ sitem.url|default_if_none:'#' }}</span><span style="color: #800000">"</span> <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">list-group-item{% if sitem.selected %} active{% endif %}</span><span style="color: #800000">"</span>&gt;<span style="color: #000000">
+        {</span>% <span style="color: #0000ff">if</span> sitem.icon %}&lt;i <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">fa-fw {{sitem.icon}}</span><span style="color: #800000">"</span>&gt;&lt;/i&gt;{%<span style="color: #0000ff">else</span>%}&lt;i <span style="color: #0000ff">class</span>=<span style="color: #800000">"</span><span style="color: #800000">fa-fw fa fa-circle-o</span><span style="color: #800000">"</span>&gt;&lt;/i&gt;{% endif %<span style="color: #000000">}
+        {{ sitem.title }}</span>&lt;/span&gt;
+      &lt;/a&gt;<span style="color: #000000">
+      {</span>% endfor %<span style="color: #000000">}
+    </span>&lt;/div&gt;
+  &lt;/div&gt;<span style="color: #000000">
+  {</span>% endfor %<span style="color: #000000">}
+</span>&lt;/div&gt;<span style="color: #000000">
+{</span>% endblock navbar_md %}</pre>
+</div>
+<p><strong><span style="color: #0000ff">sitemenu_accordion.html</span>文件修改后</strong></p>
+<p><strong>在当前app目录的<span style="color: #0000ff">apps.py</span>文件里设置后台app名称时用class自定义图标</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.apps <span style="color: #0000ff">import</span><span style="color: #000000"> AppConfig
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> AppUsersConfig(AppConfig):
+    name </span>= <span style="color: #800000">'</span><span style="color: #800000">app_users</span><span style="color: #800000">'</span>                  <span style="color: #008000">#</span><span style="color: #008000"> app目录名称</span>
+    verbose_name = <span style="color: #800000">'</span><span style="color: #800000"><span style="background-color: #ffff00">&lt;i class="fa fa-user-secret"&gt;&lt;/i&gt;</span>用户管理</span><span style="color: #800000">'</span>  <span style="color: #008000">#</span><span style="color: #008000"> 要设置的中文名称</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170912112851938-207163576.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>&nbsp;</strong></span></p></div>

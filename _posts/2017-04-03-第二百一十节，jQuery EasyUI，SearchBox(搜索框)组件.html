@@ -1,0 +1,518 @@
+第二百一十节，jQuery EasyUI，SearchBox(搜索框)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，SearchBox(搜索框)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170403200919191-1937162080.png" alt=""></p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式 </strong></p>
+<p><strong>　　2.属性列表 </strong></p>
+<p><strong>　　3.方法列表</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 中 SearchBox(搜索框)组件的使用方法，<span style="color: #0000ff">这个组件依赖于 MenuButton(按钮)组件</span>。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<p><span style="color: #0000ff"><strong>class 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">&lt;!--</span><span style="color: #008000">搜索框</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="ss"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="easyui-searchbox"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:300px"</span><span style="color: #ff0000"> data-options</span><span style="color: #0000ff">="menu:'#box'"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">input</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">频道按钮</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="width:120px"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">data-options</span><span style="color: #0000ff">="name:'all',iconCls:'icon-ok'"</span><span style="color: #0000ff">&gt;</span>体育<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">data-options</span><span style="color: #0000ff">="name:'sports'"</span><span style="color: #0000ff">&gt;</span>建材<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>searchbox()将符合规则的元素执行搜索框方法</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>js加载</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;!--搜索框--&gt;
+&lt;input id="ss"&gt;
+&lt;!--频道按钮--&gt;
+&lt;div id="box"&gt;
+    //设置图标和name
+    &lt;div data-options="name:'all',iconCls:'icon-ok'"&gt;体育&lt;/div&gt;
+    //设置图标和name
+    &lt;div data-options="name:'al2',iconCls:'icon-ok'"&gt;建材&lt;/div&gt;
+&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        searcher: </span><span style="color: #0000ff">function</span><span style="color: #000000"> (value, name) {
+            alert(value </span>+ ',' +<span style="color: #000000"> name);
+        },
+        menu: </span>'#box'<span style="color: #000000">,
+        prompt: </span>'请输入内容'<span style="color: #000000">,
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170403185617785-779577177.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170403185628363-491486869.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>width &nbsp; number <span style="color: #0000ff">组件宽度</span>。默认为 auto。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;!--搜索框--&gt;
+&lt;input id="ss"&gt;
+&lt;!--频道按钮--&gt;
+&lt;div id="box"&gt;
+    //设置图标和name
+    &lt;div data-options="name:'all',iconCls:'icon-ok'"&gt;体育&lt;/div&gt;
+    //设置图标和name
+    &lt;div data-options="name:'al2',iconCls:'icon-ok'"&gt;建材&lt;/div&gt;
+&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box'<span style="color: #000000">,
+        prompt: </span>'请输入内容'<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>height &nbsp;number <span style="color: #0000ff">组件高度</span>。默认为22。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;!--搜索框--&gt;
+&lt;input id="ss"&gt;
+&lt;!--频道按钮--&gt;
+&lt;div id="box"&gt;
+    //设置图标和name
+    &lt;div data-options="name:'all',iconCls:'icon-ok'"&gt;体育&lt;/div&gt;
+    //设置图标和name
+    &lt;div data-options="name:'al2',iconCls:'icon-ok'"&gt;建材&lt;/div&gt;
+&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box'<span style="color: #000000">,
+        prompt: </span>'请输入内容'<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>prompt &nbsp; string <span style="color: #0000ff">在输入框中显示提示消息</span>。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;!--搜索框--&gt;
+&lt;input id="ss"&gt;
+&lt;!--频道按钮--&gt;
+&lt;div id="box"&gt;
+    //设置图标和name
+    &lt;div data-options="name:'all',iconCls:'icon-ok'"&gt;体育&lt;/div&gt;
+    //设置图标和name
+    &lt;div data-options="name:'al2',iconCls:'icon-ok'"&gt;建材&lt;/div&gt;
+&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box'<span style="color: #000000">,
+        prompt: </span>'请输入内容'<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>value &nbsp; string 输入的值。<span style="color: #0000ff">默认<strong>value值</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;!--搜索框--&gt;
+&lt;input id="ss"&gt;
+&lt;!--频道按钮--&gt;
+&lt;div id="box"&gt;
+    //设置图标和name
+    &lt;div data-options="name:'all',iconCls:'icon-ok'"&gt;体育&lt;/div&gt;
+    //设置图标和name
+    &lt;div data-options="name:'al2',iconCls:'icon-ok'"&gt;建材&lt;/div&gt;
+&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box'<span style="color: #000000">,
+        </span><span style="color: #008000">//</span><span style="color: #008000"> prompt: '请输入内容',</span>
+        value:55555<span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>menu &nbsp; selector搜索类型菜单。每个菜单项都具备一下属性：<span style="color: #0000ff">绑定频道id</span></strong></span></p>
+<p><span style="color: #ff0000"><strong>　　name：搜索类型名称。</strong></span></p>
+<p><span style="color: #ff0000"><strong>　　selected：自定义默认选中的搜索类型</strong></span></p>
+<p><span style="color: #ff0000"><strong>　　名称。 默认值为 null。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;!--搜索框--&gt;
+&lt;input id="ss"&gt;
+&lt;!--频道按钮--&gt;
+&lt;div id="box"&gt;
+    //设置图标和name
+    &lt;div data-options="name:'all',iconCls:'icon-ok'"&gt;体育&lt;/div&gt;
+    //设置图标和name
+    &lt;div data-options="name:'al2',iconCls:'icon-ok'"&gt;建材&lt;/div&gt;
+&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+       <span style="color: #ff0000"> menu: </span></span><span style="color: #ff0000">'#box',   //绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>searcher &nbsp; Function(value,name)在用户按下搜索按钮或回车键的时候调用 searcher 函数。默认值为 null。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;!--搜索框--&gt;
+&lt;input id="ss"&gt;
+&lt;!--频道按钮--&gt;
+&lt;div id="box"&gt;
+    //设置图标和name
+    &lt;div data-options="name:'all',iconCls:'icon-ok'"&gt;体育&lt;/div&gt;
+    //设置图标和name
+    &lt;div data-options="name:'al2',iconCls:'icon-ok'"&gt;建材&lt;/div&gt;
+&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        <span style="color: #ff0000">searcher:</span></span><span style="color: #ff0000">function (value,name) {
+            alert('用户按下搜索按钮或回车键的时候触发');
+            alert('接收当前值：' + value + '|' + '接收当前频道：' +</span><span style="color: #000000"><span style="color: #ff0000"> name);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>disabled &nbsp; boolean 是否禁用搜索框。默认为 false。</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;!--搜索框--&gt;
+&lt;input id="ss"&gt;
+&lt;!--频道按钮--&gt;
+&lt;div id="box"&gt;
+    //设置图标和name
+    &lt;div data-options="name:'all',iconCls:'icon-ok'"&gt;体育&lt;/div&gt;
+    //设置图标和name
+    &lt;div data-options="name:'al2',iconCls:'icon-ok'"&gt;建材&lt;/div&gt;
+&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+       <span style="color: #ff0000"> disabled:</span></span><span style="color: #ff0000">true</span><span style="color: #000000"><span style="color: #ff0000">,</span>
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170403193015050-731605587.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170403193038222-271423471.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>options &nbsp; none 返回属性对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;!--搜索框--&gt;
+&lt;input id="ss"&gt;
+&lt;!--频道按钮--&gt;
+&lt;div id="box"&gt;
+    //设置图标和name
+    &lt;div data-options="name:'all',iconCls:'icon-ok'"&gt;体育&lt;/div&gt;
+    //设置图标和name
+    &lt;div data-options="name:'al2',iconCls:'icon-ok'"&gt;建材&lt;/div&gt;
+&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        disabled:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    <span style="color: #ff0000">alert($(</span></span><span style="color: #ff0000">'#ss').searchbox('options'));   //返回属性对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>menu &nbsp; none 返回搜索类型菜单对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        disabled:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    <span style="color: #ff0000">alert($(</span></span><span style="color: #ff0000">'#ss').searchbox('menu'));   //返回属性对象</span>
+});</pre>
+</div>
+<p><strong><span style="color: #0000ff">设置频道图标</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    </span><span style="color: #ff0000">var m = $('#ss').searchbox('menu');
+    m.menu('setIcon', {
+        target : m.menu('findItem', '建材').target,
+        iconCls : 'icon-save'</span><span style="color: #000000"><span style="color: #ff0000">
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>textbox &nbsp; none 返回文本框对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        disabled:</span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    <span style="color: #ff0000">alert($(</span></span><span style="color: #ff0000">'#ss').searchbox('textbox'));   //返回文本框对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getValue &nbsp; none 返回当前搜索值。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    alert($(</span>'#ss').searchbox('getValue'));   <span style="color: #008000">//</span><span style="color: #008000">返回当前搜索值</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>setValue &nbsp; value 设置一个新的搜索值。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    alert($(</span>'#ss').searchbox('setValue','88888'));   <span style="color: #008000">//</span><span style="color: #008000">设置一个新的搜索值。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getName &nbsp; none 返回当前搜索类型名。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    alert($(</span>'#ss').searchbox('getName'));   <span style="color: #008000">//</span><span style="color: #008000">返回当前搜索类型名。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>selectName &nbsp; name 选择当前搜索类型名。<span style="color: #0000ff">指定搜素类型，值为name</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+&lt;!--搜索框--&gt;
+&lt;input id="ss"&gt;
+&lt;!--频道按钮--&gt;
+&lt;div id="box"&gt;
+    &lt;div name="all" data-options="iconCls:'icon-ok'"&gt;体育&lt;/div&gt;
+    &lt;div name="ghj" data-options="iconCls:'icon-ok'"&gt;建材&lt;/div&gt;
+&lt;/div&gt;
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+
+$(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    $(</span>'#ss').searchbox('selectName','ghj');     <span style="color: #008000">//</span><span style="color: #008000">指定搜素类型，值为name</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>destroy &nbsp; none 销毁该控件。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    $(</span>'#ss').searchbox('destroy');     <span style="color: #008000">//</span><span style="color: #008000">销毁该控件</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>resize &nbsp; width 重置组件宽度。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    $(</span>'#ss').searchbox('resize',200);     <span style="color: #008000">//</span><span style="color: #008000">重置组件宽度</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>disable &nbsp; none 禁用组件。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    $(</span>'#ss').searchbox('disable');     <span style="color: #008000">//</span><span style="color: #008000">禁用组件</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>enable &nbsp; none 启用组件。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    $(</span>'#ss').searchbox('enable');     <span style="color: #008000">//</span><span style="color: #008000">启用组件</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>clear &nbsp; none 清理搜索框内容。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    $(</span>'#ss').searchbox('clear');     <span style="color: #008000">//</span><span style="color: #008000">清理搜索框内容</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>reset &nbsp; none 重置搜索框内容。</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#ss'<span style="color: #000000">).searchbox({
+        width:</span>800<span style="color: #000000">,
+        height:</span>40<span style="color: #000000">,
+        menu: </span>'#box',   <span style="color: #008000">//</span><span style="color: #008000">绑定频道id</span>
+        prompt: '请输入内容'<span style="color: #000000">,
+        searcher:</span><span style="color: #0000ff">function</span><span style="color: #000000"> (value,name) {
+            alert(</span>'用户按下搜索按钮或回车键的时候触发'<span style="color: #000000">);
+            alert(</span>'接收当前值：' + value + '|' + '接收当前频道：' +<span style="color: #000000"> name);
+        }
+    });
+    $(</span>'#ss').searchbox('reset');     <span style="color: #008000">//</span><span style="color: #008000">重置搜索框内容</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>我们可以使用$.fn.searchbox.defaults 重写默认值对象。见前面章节</strong></span></p>
+<p>&nbsp;</p></div>

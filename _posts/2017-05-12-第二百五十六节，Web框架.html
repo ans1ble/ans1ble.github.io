@@ -1,0 +1,251 @@
+第二百五十六节，Web框架
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Web框架</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>Web框架本质</strong></span></p>
+<p><strong>众所周知，对于所有的Web应用，本质上其实就是一个socket服务端，用户的浏览器其实就是一个socket客户端。</strong></p>
+<p><span style="color: #ff0000"><strong>举例：</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+<span style="color: #0000ff">import</span> socket <span style="color: #008000">#</span><span style="color: #008000">导入单线程通讯模块</span>
+
+<span style="color: #0000ff">def</span> handle_request(client): <span style="color: #008000">#</span><span style="color: #008000">发送内容函数</span>
+    buf = client.recv(1024)  <span style="color: #008000">#</span><span style="color: #008000">设置最大传输字节</span>
+    client.sendall(bytes(<span style="color: #800000">"</span><span style="color: #800000">HTTP/1.1 200 OK\r\n\r\n</span><span style="color: #800000">"</span>, encoding=<span style="color: #800000">'</span><span style="color: #800000">utf-8</span><span style="color: #800000">'</span>))  <span style="color: #008000">#</span><span style="color: #008000">向客户端发送内容，以字节形式发送</span>
+    client.sendall(bytes(<span style="color: #800000">"</span><span style="color: #800000">Hello, World欢迎访问</span><span style="color: #800000">"</span>, encoding=<span style="color: #800000">'</span><span style="color: #800000">utf-8</span><span style="color: #800000">'</span>))         <span style="color: #008000">#</span><span style="color: #008000">向客户端发送内容</span>
+
+<span style="color: #0000ff">def</span> main(): <span style="color: #008000">#</span><span style="color: #008000">创建通讯函数</span>
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)    <span style="color: #008000">#</span><span style="color: #008000">创建服务端通讯对象</span>
+    sock.bind((<span style="color: #800000">'</span><span style="color: #800000">localhost</span><span style="color: #800000">'</span>,8082))                               <span style="color: #008000">#</span><span style="color: #008000">在服务端设置服务端ip和端口</span>
+    sock.listen(5)                                              <span style="color: #008000">#</span><span style="color: #008000">监听IP和端口，设置一个参数，表示最多连接排队数量</span>
+
+    <span style="color: #0000ff">while</span> True: <span style="color: #008000">#</span><span style="color: #008000">循环</span>
+        connection, address = sock.accept() <span style="color: #008000">#</span><span style="color: #008000">等待接收客户端的请求，一旦有客户端请求连接，就会返回两个值，一个是连接对象，一个是客户端的地址信息，所以需要两个变量来接收</span>
+        handle_request(connection)          <span style="color: #008000">#</span><span style="color: #008000">执行handle_request函数，将客户端请求连接传入handle_request函数</span>
+        connection.close()                  <span style="color: #008000">#</span><span style="color: #008000">关闭连接</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">'</span><span style="color: #800000">__main__</span><span style="color: #800000">'</span>:                  <span style="color: #008000">#</span><span style="color: #008000">wds系统下if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题</span>
+    main()                                  <span style="color: #008000">#</span><span style="color: #008000">执行main函数</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170512162839004-181031764.png" alt=""></p>
+<p>上述通过socket来实现了其本质，而对于真实开发中的python web程序来说，一般会分为两部分：服务器程序和应用程序。服务器程序负责对socket服务器进行封装，并在请求到来时，对请求的各种数据进行整理。应用程序则负责具体的逻辑处理。为了方便应用程序的开发，就出现了众多的Web框架，例如：Django、Flask、web.py 等。不同的框架有不同的开发方式，但是无论如何，开发出的应用程序都要和服务器程序配合，才能为用户提供服务。这样，服务器程序就需要为不同的框架提供不同的支持。这样混乱的局面无论对于服务器还是框架，都是不好的。对服务器来说，需要支持各种不同框架，对框架来说，只有支持它的服务器才能被开发出的应用使用。这时候，标准化就变得尤为重要。我们可以设立一个标准，只要服务器程序支持这个标准，框架也支持这个标准，那么他们就可以配合使用。一旦标准确定，双方各自实现。这样，服务器可以支持更多支持标准的框架，框架也可以使用更多支持标准的服务器。</p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170512164225019-335431961.png" alt=""></p>
+<p><span style="color: #0000ff"><strong>所以，对于<strong>Web框架来说分<span style="color: #ff0000">为两类</span>，一类是即包含了<strong>socket服务端，有包含了逻辑处理，一类是只包含逻辑处理需要另外做<strong><strong><strong>socket服务端</strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>python标准库提供的独立WSGI服务器称为wsgiref。</strong></span></p>
+<p><span style="color: #000000"><strong>WSGI（Web Server Gateway Interface）是一种规范，它定义了使用python编写的web app与web server之间接口格式，实现web app与web server间的解耦。</strong></span></p>
+<p><span style="color: #ff0000"><strong>wsgiref模块，python标准库提供的独立WSGI服务器称为wsgiref，就是Web框架逻辑处理包含了<strong><strong><strong>socket服务端</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>注意：<strong>wsgiref模块在<strong>python3以上版本有问题，在2.7上可以使用，所以下面的列子在2.7上运行的</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+<span style="color: #0000ff">from</span> wsgiref.simple_server <span style="color: #0000ff">import</span> make_server  <span style="color: #008000">#</span><span style="color: #008000">引入wsgiref的make_server</span>
+
+
+<span style="color: #0000ff">def</span> RunServer(environ, start_response):  <span style="color: #008000">#</span><span style="color: #008000">创建通讯内容函数</span>
+    start_response(<span style="color: #800000">'</span><span style="color: #800000">200 OK</span><span style="color: #800000">'</span>, [(<span style="color: #800000">'</span><span style="color: #800000">Content-Type</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">text/html</span><span style="color: #800000">'</span>)]) <span style="color: #008000">#</span><span style="color: #008000">HTML方式返回内容</span>
+    <span style="color: #0000ff">return</span> <span style="color: #800000">'</span><span style="color: #800000">&lt;h1&gt;Hello, web!&lt;/h1&gt;</span><span style="color: #800000">'</span> <span style="color: #008000">#</span><span style="color: #008000">返回内容</span>
+
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">'</span><span style="color: #800000">__main__</span><span style="color: #800000">'</span><span style="color: #000000">:
+    httpd </span>= make_server(<span style="color: #800000">''</span>, 8082, RunServer)    <span style="color: #008000">#</span><span style="color: #008000">设置访问端口，和通讯内容函数</span>
+    httpd.serve_forever()   <span style="color: #008000">#</span><span style="color: #008000">执行通讯函数</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170512173208191-1978046240.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>RunServer(environ, start_response)创建通讯内容函数，里面有两个参数</strong></span><br><span style="color: #ff0000"><strong>environ里面包含用户的请求信息如ip等</strong></span><br><span style="color: #ff0000"><strong>start_response里面包含返回信息</strong></span></p>
+<p><span style="color: #0000ff"><strong>查看方式：</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170512183224738-1844926015.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170512183233676-1546775218.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170512183242941-34224351.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>自定义Web框架</strong></span></p>
+<p><span style="color: #ff0000"><strong>一、框架</strong></span></p>
+<p><span style="color: #0000ff"><strong>通过python标准库提供的wsgiref模块开发一个自己的Web框架</strong></span></p>
+<p><span style="color: #ff0000"><strong>根据用户访问的路径，给出相应的内容</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+<span style="color: #0000ff">from</span> wsgiref.simple_server <span style="color: #0000ff">import</span><span style="color: #000000"> make_server
+
+</span><span style="color: #0000ff">def</span> index():            <span style="color: #008000">#</span><span style="color: #008000">函数返回字符串index</span>
+    <span style="color: #0000ff">return</span> <span style="color: #800000">'</span><span style="color: #800000">index</span><span style="color: #800000">'</span>
+
+<span style="color: #0000ff">def</span> login():            <span style="color: #008000">#</span><span style="color: #008000">login</span>
+    <span style="color: #0000ff">return</span> <span style="color: #800000">'</span><span style="color: #800000">login</span><span style="color: #800000">'</span><span style="color: #000000">
+
+URLS </span>= {                <span style="color: #008000">#</span><span style="color: #008000">设置一个字典，键为路径名称，值为函数名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span><span style="color: #000000">:index,
+    </span><span style="color: #800000">"</span><span style="color: #800000">/login</span><span style="color: #800000">"</span><span style="color: #000000">:login,
+}
+
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> RunServer(environ, start_response):
+    start_response(</span><span style="color: #800000">'</span><span style="color: #800000">200 OK</span><span style="color: #800000">'</span>, [(<span style="color: #800000">'</span><span style="color: #800000">Content-Type</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">text/html</span><span style="color: #800000">'</span><span style="color: #000000">)])
+    url </span>= environ[<span style="color: #800000">'</span><span style="color: #800000">PATH_INFO</span><span style="color: #800000">'</span>]  <span style="color: #008000">#</span><span style="color: #008000">接收用户访问的路径名称</span>
+    <span style="color: #0000ff">if</span> url <span style="color: #0000ff">in</span> URLS.keys():      <span style="color: #008000">#</span><span style="color: #008000">判断用户访问路径在URLS字典里是否存在</span>
+        furl = URLS[url]        <span style="color: #008000">#</span><span style="color: #008000">如果存在通过下标拿到字典里的函数名称</span>
+        ret = furl()            <span style="color: #008000">#</span><span style="color: #008000">执行函数赋值给ret变量，相当于ret等于函数返回字符串</span>
+    <span style="color: #0000ff">else</span><span style="color: #000000">:
+        ret </span>= <span style="color: #800000">"</span><span style="color: #800000">404</span><span style="color: #800000">"</span>             <span style="color: #008000">#</span><span style="color: #008000">如果不存在ret变量等于404</span>
+    <span style="color: #0000ff">return</span> ret                  <span style="color: #008000">#</span><span style="color: #008000">最后将ret变量返回给浏览器</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">'</span><span style="color: #800000">__main__</span><span style="color: #800000">'</span><span style="color: #000000">:
+    httpd </span>= make_server(<span style="color: #800000">''</span>, 8082<span style="color: #000000">, RunServer)
+    httpd.serve_forever()</span></pre>
+</div>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170512201622363-153467325.gif" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二、模板引擎，和MVC</strong></span></p>
+<p><span style="color: #ff0000"><strong>MVC框架，就是归类后根据文件夹定义的名字</strong></span></p>
+<p><span style="color: #0000ff"><strong>在上一步骤中，对于所有的login、index均返回给用户浏览器一个简单的字符串，在现实的Web请求中一般会返回一个复杂的符合HTML规则的字符串，所以我们一般将要返回给用户的HTML写在指定文件中，然后再返回。如：</strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>模板引擎归类，归类就是为了以后方便管理</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><span style="color: #0000ff">urls.py</span>将映射文件信息写在这个文件里，以后要添加映射就在这里写</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> controller
+</span><span style="color: #008000">#</span><span style="color: #008000"> 映射文件</span>
+URLS = {                <span style="color: #008000">#</span><span style="color: #008000">设置一个字典，键为路径名称，值为函数名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span><span style="color: #000000">:controller.index,
+    </span><span style="color: #800000">"</span><span style="color: #800000">/login</span><span style="color: #800000">"</span><span style="color: #000000">:controller.login,
+}</span></pre>
+</div>
+<p><strong><span style="color: #ff0000"><span style="color: #0000ff">controller.py</span>逻辑处理文件，根据用户访问路径，给出对应的处理，以后要添加逻辑处理函数就写在这里</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+<span style="color: #0000ff">import</span> os                                                 <span style="color: #008000">#</span><span style="color: #008000">引入os模块</span>
+
+<span style="color: #008000">#</span><span style="color: #008000"> 映射文件对应的函数</span>
+<span style="color: #0000ff">def</span> index():                                              <span style="color: #008000">#</span><span style="color: #008000">函数返HTML文件内容</span>
+    f = open(os.path.join(<span style="color: #800000">'</span><span style="color: #800000">views</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span>),<span style="color: #800000">'</span><span style="color: #800000">r</span><span style="color: #800000">'</span>)      <span style="color: #008000">#</span><span style="color: #008000">拼接路径，打开index.html</span>
+    data = f.read()                                       <span style="color: #008000">#</span><span style="color: #008000">读出html文件内容</span>
+    f.close()                                             <span style="color: #008000">#</span><span style="color: #008000">关闭打开的文件</span>
+    <span style="color: #0000ff">return</span><span style="color: #000000"> data
+
+</span><span style="color: #0000ff">def</span><span style="color: #000000"> login():
+    f </span>= open(os.path.join(<span style="color: #800000">'</span><span style="color: #800000">views</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">login.html</span><span style="color: #800000">'</span>),<span style="color: #800000">'</span><span style="color: #800000">r</span><span style="color: #800000">'</span><span style="color: #000000">)
+    data </span>=<span style="color: #000000"> f.read()
+    f.close()
+    </span><span style="color: #0000ff">return</span> data</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">start.py</span>模板引擎启动文件，用于启动模板引擎，一般不做修改</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+<span style="color: #0000ff">from</span> wsgiref.simple_server <span style="color: #0000ff">import</span> make_server   <span style="color: #008000">#</span><span style="color: #008000">导入wsgiref模块里的make_server方法</span>
+<span style="color: #0000ff">from</span> urls <span style="color: #0000ff">import</span>  URLS                          <span style="color: #008000">#</span><span style="color: #008000">导入映射文件变量</span>
+
+<span style="color: #0000ff">def</span> RunServer(environ, start_response):         <span style="color: #008000">#</span><span style="color: #008000">定义RunServer函数，接收请求信息，和发送内容</span>
+    start_response(<span style="color: #800000">'</span><span style="color: #800000">200 OK</span><span style="color: #800000">'</span>, [(<span style="color: #800000">'</span><span style="color: #800000">Content-Type</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">text/html</span><span style="color: #800000">'</span><span style="color: #000000">)])
+    url </span>= environ[<span style="color: #800000">'</span><span style="color: #800000">PATH_INFO</span><span style="color: #800000">'</span>]                  <span style="color: #008000">#</span><span style="color: #008000">接收用户访问的路径名称</span>
+    <span style="color: #0000ff">if</span> url <span style="color: #0000ff">in</span> URLS.keys():                      <span style="color: #008000">#</span><span style="color: #008000">判断用户访问路径在URLS字典里是否存在</span>
+        furl = URLS[url]                        <span style="color: #008000">#</span><span style="color: #008000">如果存在通过下标拿到字典里的函数名称</span>
+        ret = furl()                            <span style="color: #008000">#</span><span style="color: #008000">执行函数赋值给ret变量，相当于ret等于函数返回字符串</span>
+    <span style="color: #0000ff">else</span><span style="color: #000000">:
+        ret </span>= <span style="color: #800000">"</span><span style="color: #800000">404</span><span style="color: #800000">"</span>                             <span style="color: #008000">#</span><span style="color: #008000">如果不存在ret变量等于404</span>
+    <span style="color: #0000ff">return</span> ret                                  <span style="color: #008000">#</span><span style="color: #008000">最后将ret变量返回给浏览器</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">'</span><span style="color: #800000">__main__</span><span style="color: #800000">'</span><span style="color: #000000">:
+    httpd </span>= make_server(<span style="color: #800000">''</span>, 8082<span style="color: #000000">, RunServer)
+    httpd.serve_forever()</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">views</span>文件夹用于专门存放html文件</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">models</span><strong>文件夹用于专门存放数据库处理文件</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>整理后的结构</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170512223752676-1421186221.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>Web框架，一般根据存放数据库处理文件夹的首字母<span style="color: #0000ff">M</span>，存放html文件夹首字母<span style="color: #0000ff">V</span>，逻辑处理文件首字母<span style="color: #0000ff">C<span style="color: #ff0000">，来命名的，这就是mvc框架</span></span></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>Web框架运行图</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170512230340426-525082485.png" alt=""></strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>Web框架请求动态内容</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong>对于上述代码，虽然可以返回给用户HTML的内容以现实复杂的页面，但是还是存在问题：如何给用户返回动态内容？</strong></span></p>
+<p><span style="color: #ff0000"><strong>1自定义一套特殊的语法，进行替换</strong></span></p>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008000">&lt;!--</span><span style="color: #008000">{{item}}设置一个表示</span><span style="color: #008000">--&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ffff00">{{item}}</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>逻辑处理文件<strong>controller.py</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+<span style="color: #0000ff">import</span> os                                                 <span style="color: #008000">#</span><span style="color: #008000">引入os模块</span>
+<span style="background-color: #ffff00"><span style="color: #0000ff">import</span> time</span>                                               <span style="color: #008000">#</span><span style="color: #008000">引入事件模块</span><span style="color: #008000">
+#</span><span style="color: #008000"> 映射文件对应的函数</span>
+<span style="color: #0000ff">def</span> index():                                              <span style="color: #008000">#</span><span style="color: #008000">函数返HTML文件内容</span>
+    f = open(os.path.join(<span style="color: #800000">'</span><span style="color: #800000">views</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span>),<span style="color: #800000">'</span><span style="color: #800000">r</span><span style="color: #800000">'</span>)      <span style="color: #008000">#</span><span style="color: #008000">拼接路径，打开index.html</span>
+    data = f.read()                                       <span style="color: #008000">#</span><span style="color: #008000">读出html文件内容</span>
+    f.close()                                             <span style="color: #008000">#</span><span style="color: #008000">关闭打开的文件</span>
+    <span style="background-color: #ffff00">new_data = data.replace(<span style="color: #800000">"</span><span style="color: #800000">{{item}}</span><span style="color: #800000">"</span>,str(time.time()))  <span style="color: #008000">#</span><span style="color: #008000">获取系统时间转换成字符串，替换html里的{{item}}</span>
+    <span style="color: #0000ff">return</span><span style="color: #000000"> new_data
+
+</span></span><span style="color: #0000ff">def</span><span style="color: #000000"> login():
+    f </span>= open(os.path.join(<span style="color: #800000">'</span><span style="color: #800000">views</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">login.html</span><span style="color: #800000">'</span>),<span style="color: #800000">'</span><span style="color: #800000">r</span><span style="color: #800000">'</span><span style="color: #000000">)
+    data </span>=<span style="color: #000000"> f.read()
+    f.close()
+    </span><span style="color: #0000ff">return</span> data</pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170512233824457-2026778160.gif" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>2使用开源工具jinja2，遵循其指定语法</strong></span></p>
+<p><span style="color: #ff0000"><strong>jinja2模块Web框架模块</strong></span><br><span style="color: #ff0000"><strong>Template()方法逻辑处理Web框架</strong></span><br><span style="color: #ff0000"><strong>render()方法设置html可调用python变量</strong></span><br><span style="color: #ff0000"><strong>encode()返回逻辑处理后的网页字符串给浏览器</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>&nbsp;首先需要安装jinja2第三方模块</strong></span></p>
+<p><span style="color: #0000ff"><strong>&nbsp;逻辑处理文件controller.py</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+<span style="color: #0000ff">import</span> os                                                 <span style="color: #008000">#</span><span style="color: #008000">引入os模块</span>
+<span style="background-color: #ffff00"><span style="color: #0000ff">from</span> jinja2 <span style="color: #0000ff">import</span> Template</span>                               <span style="color: #008000">#</span><span style="color: #008000">引入jinja2模块</span><span style="color: #008000">
+#</span><span style="color: #008000"> 映射文件对应的函数</span>
+<span style="color: #0000ff">def</span> index():                                              <span style="color: #008000">#</span><span style="color: #008000">函数返HTML文件内容</span>
+    <span style="background-color: #ffff00">f = open(os.path.join(<span style="color: #800000">'</span><span style="color: #800000">views</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span>),<span style="color: #800000">'</span><span style="color: #800000">r</span><span style="color: #800000">'</span>)      <span style="color: #008000">#</span><span style="color: #008000">拼接路径，打开index.html</span>
+    result = f.read()                                     <span style="color: #008000">#</span><span style="color: #008000">读出html文件内容</span>
+    f.close()                                             <span style="color: #008000">#</span><span style="color: #008000"> 关闭打开的文件</span>
+    <span style="background-color: #ff99cc">template = Template(result)</span>                           <span style="color: #008000">#</span><span style="color: #008000">将读出的字符串传入jinja2模块的Template方法逻辑处理网页字符串</span>
+    <span style="background-color: #ff99cc">data = template.render(name=<span style="color: #800000">'</span><span style="color: #800000">John Doe</span><span style="color: #800000">'</span>, user_list=[<span style="color: #800000">'</span><span style="color: #800000">alex</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">eric</span><span style="color: #800000">'</span>])</span>     <span style="color: #008000">#</span><span style="color: #008000">render方法向网页字符串添加python可以变量</span>
+    <span style="background-color: #ff99cc"><span style="color: #0000ff">return</span> data.encode(<span style="color: #800000">'</span><span style="color: #800000">utf-8</span><span style="color: #800000">'</span>)</span>                           <span style="color: #008000">#</span><span style="color: #008000">返回逻辑处理后的字符串给浏览器</span></span>
+
+<span style="color: #0000ff">def</span><span style="color: #000000"> login():
+    f </span>= open(os.path.join(<span style="color: #800000">'</span><span style="color: #800000">views</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">login.html</span><span style="color: #800000">'</span>),<span style="color: #800000">'</span><span style="color: #800000">r</span><span style="color: #800000">'</span><span style="color: #000000">)
+    data </span>=<span style="color: #000000"> f.read()
+    f.close()
+    </span><span style="color: #0000ff">return</span> data</pre>
+</div>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>Title<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+    <span style="background-color: #ffff00"><span style="color: #0000ff">&lt;</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ff99cc">{{name}}</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">h1</span><span style="color: #0000ff">&gt;</span>  <span style="color: #008000">&lt;!--</span><span style="color: #008000">{{引用框架逻辑处理设置变量}}</span><span style="color: #008000">--&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span><span style="color: #000000; background-color: #ff99cc">
+        {% for item in user_list %} </span><span style="color: #008000">&lt;!--</span><span style="color: #008000">{%可以远行代码块%}</span><span style="color: #008000">--&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ff99cc">{{item}}</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span><span style="color: #000000; background-color: #ff99cc">
+        {% endfor %}
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span></span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,162 @@
+第三百四十三节，Python分布式爬虫打造搜索引擎Scrapy精讲—scrapy模拟登陆和知乎倒立文字验证码识别
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百四十三节，Python分布式爬虫打造搜索引擎Scrapy精讲—scrapy模拟登陆和知乎倒立文字验证码识别</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>第一步。首先下载，大神者也的<strong>倒立文字</strong>验证码识别程序</strong></span></p>
+<p><strong>下载地址：https://github.com/muchrooms/zheye</strong></p>
+<p><strong>注意：此程序依赖以下模块包</strong></p>
+<p><span style="background-color: #ffff00"><strong>　　Keras==2.0.1</strong></span><br><span style="background-color: #ffff00"><strong>　　Pillow==3.4.2</strong></span><br><span style="background-color: #ffff00"><strong>　　jupyter==1.0.0</strong></span><br><span style="background-color: #ffff00"><strong>　　matplotlib==1.5.3</strong></span><br><span style="background-color: #ffff00"><strong>　　numpy==1.12.1</strong></span><br><span style="background-color: #ffff00"><strong>　　scikit-learn==0.18.1</strong></span><br><span style="background-color: #ffff00"><strong>　　tensorflow==1.0.1</strong></span><br><span style="background-color: #ffff00"><strong>　　h5py==2.6.0</strong></span></p>
+<p><span style="background-color: #ffff00"><strong>numpy-1.13.1+mkl</strong></span></p>
+<p>&nbsp;</p>
+<p><strong>我们用豆瓣园来加速安以上依赖装如：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="background-color: #ff99cc">pip install -i</span> <span style="background-color: #ccffcc">https://pypi.douban.com/simple</span> <span style="background-color: #ffff00">h5py==2.6.0</span></pre>
+</div>
+<p><strong>如果是win系统，可能存在安装失败的可能，如果那个包安装失败，就到 http://www.lfd.uci.edu/~gohlke/pythonlibs/ &nbsp;找到<strong>win对应的版本下载到本地安装，如：</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="background-color: #ff99cc">pip install</span> <span style="background-color: #ffff00">h5py-2.7.0-cp35-cp35m-win_amd64.whl</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>第二步，将者也的，验证码识别程序的zheye文件夹放到工程目录里</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170808194017402-1306881733.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>第三步，爬虫实现</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">start_requests()</span>方法，起始url函数，会替换start_urls</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">Request()</span>方法，get方式请求网页</strong></span><br><strong>            　　url=字符串类型url</strong><br><strong>            　　headers=字典类型浏览器代理</strong><br><strong>            　　meta=字典类型的数据，会传递给回调函数</strong><br><strong>            　　callback=回调函数名称</strong></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">scrapy.FormRequest()</span>post方式提交数据</strong></span><br><strong>            　　url=字符串类型url</strong><br><strong>            　　headers=字典类型浏览器代理</strong><br><strong>            　　meta=字典类型的数据，会传递给回调函数</strong><br><strong>            　　callback=回调函数名称</strong><br><strong>	    　　formdata=字典类型，要提交的数据字段</strong></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">response.headers.getlist('Set-Cookie')</span> 获取响应Cookies</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">response.request.headers.getlist('Cookie')</span> 获取请求Cookies</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.http <span style="color: #0000ff">import</span><span style="color: #000000"> Request,FormRequest
+</span><span style="color: #0000ff">import</span><span style="color: #000000"> re
+
+</span><span style="color: #0000ff">class</span> PachSpider(scrapy.Spider):                            <span style="color: #008000">#</span><span style="color: #008000">定义爬虫类，必须继承scrapy.Spider</span>
+    name = <span style="color: #800000">'</span><span style="color: #800000">pach</span><span style="color: #800000">'</span>                                           <span style="color: #008000">#</span><span style="color: #008000">设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">zhihu.com</span><span style="color: #800000">'</span>]                    <span style="color: #008000">#</span><span style="color: #008000">爬取域名</span>
+    <span style="color: #008000">#</span><span style="color: #008000"> start_urls = ['']                                     #爬取网址,只适于不需要登录的请求，因为没法设置cookie等信息</span>
+<span style="color: #000000">
+    header </span>= {<span style="color: #800000">'</span><span style="color: #800000">User-Agent</span><span style="color: #800000">'</span>:<span style="color: #800000">'</span><span style="color: #800000">Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0</span><span style="color: #800000">'</span>}  <span style="color: #008000">#</span><span style="color: #008000">设置浏览器用户代理</span>
+
+    <span style="color: #0000ff">def</span> start_requests(self):    <span style="color: #008000">#</span><span style="color: #008000">起始url函数，会替换start_urls</span>
+        <span style="color: #800000">"""</span><span style="color: #800000">第一次请求一下登录页面，设置开启cookie使其得到cookie，设置回调函数</span><span style="color: #800000">"""</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> [Request(
+            url</span>=<span style="color: #800000">'</span><span style="color: #800000">https://www.zhihu.com/#signin</span><span style="color: #800000">'</span><span style="color: #000000">,
+            headers</span>=<span style="color: #000000">self.header,
+            <span style="background-color: #ff99cc">meta</span></span><span style="background-color: #ff99cc">={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>:1},       <span style="color: #008000">#</span><span style="color: #008000">开启Cookies记录，将Cookies传给回调函数</span></span>
+            callback=<span style="color: #000000">self.parse
+        )]
+
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> parse(self, response):
+        </span><span style="color: #008000">#</span><span style="color: #008000"> 响应Cookies</span>
+        Cookie1 = response.headers.getlist(<span style="color: #800000">'</span><span style="color: #800000">Set-Cookie</span><span style="color: #800000">'</span>)                            <span style="color: #008000">#</span><span style="color: #008000">查看一下响应Cookie，也就是第一次访问注册页面时后台写入浏览器的Cookie</span>
+        <span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">后台首次写入的响应Cookies：</span><span style="color: #800000">'</span><span style="color: #000000">,Cookie1)
+
+        </span><span style="color: #008000">#</span><span style="color: #008000">获取xsrf密串</span>
+        <span style="background-color: #ff99cc">xsrf = response.xpath(<span style="color: #800000">'</span><span style="color: #800000">//input[@name="_xsrf"]/@value</span><span style="color: #800000">'</span><span style="color: #000000">).extract()[0]
+        </span></span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">获取xsrf密串：</span><span style="color: #800000">'</span> +<span style="color: #000000"> xsrf)
+
+        </span><span style="color: #008000">#</span><span style="color: #008000">获取验证码</span>
+        <span style="color: #0000ff">import</span><span style="color: #000000"> time
+        t </span>= str(int(time.time()*1000<span style="color: #000000">))
+        captcha_url </span>= <span style="color: #800000">'</span><span style="color: #800000">https://www.zhihu.com/captcha.gif?r={0}&amp;type=login&amp;lang=cn</span><span style="color: #800000">'</span>.format(t)   <span style="color: #008000">#</span><span style="color: #008000">构造验证码请求地址</span>
+        <span style="color: #0000ff">yield</span> Request(url=captcha_url,                                                         <span style="color: #008000">#</span><span style="color: #008000">请求验证码图片</span>
+                      headers=<span style="color: #000000">self.header,
+                      <span style="background-color: #ff99cc">meta</span></span><span style="background-color: #ff99cc">={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>:response.meta[<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>],<span style="color: #800000">'</span><span style="color: #800000">xsrf</span><span style="color: #800000">'</span>:xsrf},</span>               <span style="color: #008000">#</span><span style="color: #008000">将Cookies和xsrf密串传给回调函数</span>
+                      callback=<span style="color: #000000">self.post_tj
+                      )
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> post_tj(self, response):
+        with open(</span><span style="color: #800000">'</span><span style="color: #800000">yzhm.jpg</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">wb</span><span style="color: #800000">'</span>) as f:        <span style="color: #008000">#</span><span style="color: #008000">打开图片句柄</span>
+            f.write(response.body)              <span style="color: #008000">#</span><span style="color: #008000">将验证码图片写入本地</span>
+            f.close()                           <span style="color: #008000">#</span><span style="color: #008000">关闭句柄</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">--------------------------------------------者也验证码识别------------------------------------------</span>
+
+        <span style="background-color: #ffff00"><span style="color: #0000ff">from</span> zheye <span style="color: #0000ff">import</span> zheye                 <span style="color: #008000">#</span><span style="color: #008000">导入者也倒立文字验证码识别模块对象</span>
+        z = zheye()                             <span style="color: #008000">#</span><span style="color: #008000">实例化对象</span>
+        positions = z.Recognize(<span style="color: #800000">'</span><span style="color: #800000">yzhm.jpg</span><span style="color: #800000">'</span>)     <span style="color: #008000">#</span><span style="color: #008000">将验证码本地路径传入Recognize方法识别，返回倒立图片的坐标</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> print(positions)                      #默认倒立文字的y坐标在前，x坐标在后</span>
+
+        <span style="color: #008000">#</span><span style="color: #008000">知乎网要求的倒立文字坐标是x轴在前，y轴在后，所以我们需要定义一个列表来改变默认的，倒立文字坐标位置</span>
+        pos_arr =<span style="color: #000000"> []
+        </span><span style="color: #0000ff">if</span> len(positions) == 2<span style="color: #000000">:
+            </span><span style="color: #0000ff">if</span> positions[0][1] &gt; positions[1][1]:                      <span style="color: #008000">#</span><span style="color: #008000">判断列表里第一个元祖里的第二个元素如果大于,第二个元祖里的第二个元素</span>
+                pos_arr.append([positions[1][1],positions[1<span style="color: #000000">][0]])
+                pos_arr.append([positions[0][</span>1<span style="color: #000000">], positions[0][0]])
+            </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+                pos_arr.append([positions[0][</span>1<span style="color: #000000">], positions[0][0]])
+                pos_arr.append([positions[</span>1][1], positions[1<span style="color: #000000">][0]])
+        </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+            pos_arr.append([positions[0][</span>1<span style="color: #000000">], positions[0][0]])
+
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">处理后的验证码坐标</span><span style="color: #800000">'</span><span style="color: #000000">,pos_arr)
+
+</span></span><span style="color: #008000">#</span><span style="color: #008000"> --------------------------------------------者也验证码识别结束------------------------------------------</span>
+
+        <span style="color: #0000ff">if</span> len(pos_arr) == 2<span style="color: #000000">:
+            data </span>= {                                                                    <span style="color: #008000">#</span><span style="color: #008000"> 设置用户登录信息，对应抓包得到字段</span>
+                <span style="color: #800000">'</span><span style="color: #800000">_xsrf</span><span style="color: #800000">'</span>: response.meta[<span style="color: #800000">'</span><span style="color: #800000">xsrf</span><span style="color: #800000">'</span><span style="color: #000000">],
+                </span><span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">279819</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">captcha</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">{"img_size":[200,44],"input_points":[[<span style="background-color: #ffff00">%.2f</span>,<span style="background-color: #ffff00">%f</span>],[<span style="background-color: #ffff00">%.2f</span>,<span style="background-color: #ffff00">%f</span>]]}</span><span style="color: #800000">'</span> %<span style="color: #000000">(
+                    <span style="background-color: #ffff00">pos_arr[0][0] </span></span><span style="background-color: #ffff00">/ 2</span>, <span style="background-color: #ffff00">pos_arr[0][1] / 2</span>, <span style="background-color: #ffff00">pos_arr[1][0] / 2</span>, <span style="background-color: #ffff00">pos_arr[1][1] / 2</span>),  <span style="color: #008000">#</span><span style="color: #008000">因为验证码识别默认是400X88的尺寸所以要除以2</span>
+                <span style="color: #800000">'</span><span style="color: #800000">captcha_type</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">cn</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">phone_num</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">15284816568</span><span style="color: #800000">'</span><span style="color: #000000">
+            }
+        </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+            data </span>= {                                                                    <span style="color: #008000">#</span><span style="color: #008000"> 设置用户登录信息，对应抓包得到字段</span>
+                <span style="color: #800000">'</span><span style="color: #800000">_xsrf</span><span style="color: #800000">'</span>: response.meta[<span style="color: #800000">'</span><span style="color: #800000">xsrf</span><span style="color: #800000">'</span><span style="color: #000000">],
+                </span><span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">279819</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">captcha</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">{"img_size":[200,44],"input_points":[[<span style="background-color: #ffff00">%.2f</span>,<span style="background-color: #ffff00">%f</span>]]}</span><span style="color: #800000">'</span> %<span style="color: #000000">(
+                    <span style="background-color: #ffff00">pos_arr[0][0] </span></span><span style="background-color: #ffff00">/ 2</span>, <span style="background-color: #ffff00">pos_arr[0][1] / 2</span><span style="color: #000000"><span style="background-color: #ffff00">)</span>,
+                </span><span style="color: #800000">'</span><span style="color: #800000">captcha_type</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">cn</span><span style="color: #800000">'</span><span style="color: #000000">,
+                </span><span style="color: #800000">'</span><span style="color: #800000">phone_num</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">15284816568</span><span style="color: #800000">'</span><span style="color: #000000">
+            }
+
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">登录提交数据</span><span style="color: #800000">'</span><span style="color: #000000">,data)
+
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">登录中....!</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #800000">"""</span><span style="color: #800000">第二次用表单post请求，携带Cookie、浏览器代理、用户登录信息，进行登录给Cookie授权</span><span style="color: #800000">"""</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> [scrapy.FormRequest(
+            url</span>=<span style="color: #800000">'</span><span style="color: #800000">https://www.zhihu.com/login/phone_num</span><span style="color: #800000">'</span>,                        <span style="color: #008000">#</span><span style="color: #008000">真实post地址</span>
+            <span style="background-color: #ff99cc">meta={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>:response.meta[<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>]},</span>                      <span style="color: #008000">#</span><span style="color: #008000">接收第传过来的Cookies</span>
+            headers=<span style="color: #000000">self.header,
+            <span style="background-color: #ffff00">formdata</span></span><span style="background-color: #ffff00">=</span><span style="color: #000000"><span style="background-color: #ffff00">data,</span>
+            callback</span>=<span style="color: #000000">self.next
+        )]
+
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> next(self,response):
+        </span><span style="color: #008000">#</span><span style="color: #008000"> 请求Cookie</span>
+        Cookie2 = response.request.headers.getlist(<span style="color: #800000">'</span><span style="color: #800000">Cookie</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">登录时携带请求的Cookies：</span><span style="color: #800000">'</span><span style="color: #000000">,Cookie2)
+
+        jieg </span>= response.body.decode(<span style="color: #800000">"</span><span style="color: #800000">utf-8</span><span style="color: #800000">"</span>)   <span style="color: #008000">#</span><span style="color: #008000">登录后可以查看一下登录响应信息</span>
+        <span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">登录响应结果：</span><span style="color: #800000">'</span><span style="color: #000000">,jieg)
+
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">正在请需要登录才可以访问的页面....!</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+        </span><span style="color: #800000">"""</span><span style="color: #800000">登录后请求需要登录才能查看的页面，如个人中心，携带授权后的Cookie请求</span><span style="color: #800000">"""</span>
+        <span style="color: #0000ff">yield</span><span style="color: #000000"> Request(
+            url</span>=<span style="color: #800000">'</span><span style="color: #800000">https://www.zhihu.com/people/lin-gui-xiu-41/activities</span><span style="color: #800000">'</span><span style="color: #000000">,
+            headers</span>=<span style="color: #000000">self.header,
+            <span style="background-color: #ff99cc">meta</span></span><span style="background-color: #ff99cc">={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ff99cc">:True},</span>
+            callback</span>=<span style="color: #000000">self.next2
+        )
+
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> next2(self,response):
+        </span><span style="color: #008000">#</span><span style="color: #008000"> 请求Cookie</span>
+        Cookie3 = response.request.headers.getlist(<span style="color: #800000">'</span><span style="color: #800000">Cookie</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">查看需要登录才可以访问的页面携带Cookies：</span><span style="color: #800000">'</span><span style="color: #000000">,Cookie3)
+
+        <span style="background-color: #ff99cc">leir </span></span><span style="background-color: #ff99cc">= response.xpath(<span style="color: #800000">'</span><span style="color: #800000">/html/head/title/text()</span><span style="color: #800000">'</span>).extract()  <span style="color: #008000">#</span><span style="color: #008000">得到个人中心页面</span>
+        <span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">最终内容</span><span style="color: #800000">'</span><span style="color: #000000">,leir)
+        </span></span><span style="color: #008000">#</span><span style="color: #008000"> print(response.body.decode("utf-8"))</span></pre>
+</div>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170808194811542-2067744563.png" alt=""></p>
+<p>&nbsp;</p></div>

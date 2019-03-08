@@ -1,0 +1,268 @@
+第二百四十五节，Bootstrap标签页和工具提示插件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Bootstrap标签页和工具提示插件</strong></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.标签页</strong></p>
+<p><strong> 　　2.工具提示</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课我们主要学习一下 Bootstrap 中的标签页和工具提示插件。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．标签页选项卡</strong></span></p>
+<p><span style="color: #0000ff"><strong>标签页也就是通常所说的选项卡功能。</strong></span></p>
+<p><span style="color: #ff0000"><strong>基本用法</strong></span></p>
+<p><span style="color: #ff0000"><strong>nav样式class类，写在&lt;ul&gt;里，声明导航区域(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>nav-tabs样式class类，写在&lt;ul&gt;里，设置导航样式为选项卡样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>active样式class类，写在&lt;li&gt;里，设置当前菜单或当前内容为首选(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>data-toggle="tab"事件，写在&lt;li&gt;里，设置菜单点击事件(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>tab-content样式class类，写在&lt;div&gt;里，设置当前选项卡内容区域(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>tab-pane样式class类，写在选项卡内容区域里的&lt;div&gt;里，设置当前选项内容样式(Bootstrap)</strong></span><br><span style="color: #ff0000; background-color: #ffff00"><strong>将选项卡的a标签href=对应内容div的id</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">nav nav-tabs</span>"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">active</span>"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="<span style="background-color: #ff99cc">#html5</span>"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span></span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="<span style="background-color: #ff99cc">#bootstrap</span>"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span></span><span style="color: #0000ff">&gt;</span>Bootstrap<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="<span style="background-color: #ff99cc">#jquery</span>"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span></span><span style="color: #0000ff">&gt;</span>jQuery<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="<span style="background-color: #ff99cc">#extjs</span>"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span></span><span style="color: #0000ff">&gt;</span>ExtJS<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">tab-content</span>"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="padding: 10px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">tab-pane</span> <span style="background-color: #ffff00">active</span>"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="<span style="background-color: #ff99cc">html5</span>"</span><span style="color: #0000ff">&gt;</span>html5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">tab-pane</span>"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="<span style="background-color: #ff99cc">bootstrap</span>"</span><span style="color: #0000ff">&gt;</span>bootstrap<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">tab-pane</span>"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="<span style="background-color: #ff99cc">jquery</span>"</span><span style="color: #0000ff">&gt;</span>jquery<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">tab-pane</span>"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="<span style="background-color: #ff99cc">extjs</span>"</span><span style="color: #0000ff">&gt;</span>extjs<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170503200515242-1283718059.gif" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>可以设置淡入淡出效果 fade，而 in 表示首选的内容默认显示</strong></span></p>
+<p><span style="color: #ff0000"><strong>fade样式class类，写在对应内容&lt;div&gt;里，设置内容淡入淡出效果(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>in样式class类，写在对应内容&lt;div&gt;里，设置首选内容淡入淡出效果(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="nav nav-tabs"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="active"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#html5"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#bootstrap"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span><span style="color: #0000ff">&gt;</span>Bootstrap<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#jquery"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span><span style="color: #0000ff">&gt;</span>jQuery<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#extjs"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span><span style="color: #0000ff">&gt;</span>ExtJS<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-content"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="padding: 10px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane active <span style="background-color: #ffff00">fade in</span>"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="html5"</span><span style="color: #0000ff">&gt;</span>html5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane <span style="background-color: #ffff00">fade</span>"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="bootstrap"</span><span style="color: #0000ff">&gt;</span>bootstrap<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane <span style="background-color: #ffff00">fade</span>"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="jquery"</span><span style="color: #0000ff">&gt;</span>jquery<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane <span style="background-color: #ffff00">fade</span>"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="extjs"</span><span style="color: #0000ff">&gt;</span>extjs<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170503201251226-1559369098.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>也可以换成胶囊式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="background-color: #ffff00"><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="nav nav-pills"</span><span style="color: #0000ff">&gt;</span></span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="active"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#html5"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#bootstrap"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span><span style="color: #0000ff">&gt;</span>Bootstrap<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#jquery"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span><span style="color: #0000ff">&gt;</span>jQuery<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#extjs"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span><span style="color: #0000ff">&gt;</span>ExtJS<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-content"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="padding: 10px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane active fade in"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="html5"</span><span style="color: #0000ff">&gt;</span>html5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane fade"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="bootstrap"</span><span style="color: #0000ff">&gt;</span>bootstrap<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane fade"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="jquery"</span><span style="color: #0000ff">&gt;</span>jquery<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane fade"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="extjs"</span><span style="color: #0000ff">&gt;</span>extjs<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170503201508148-704275429.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>将内容区域绑定到指定的选项卡导航的id</strong></span></p>
+<p><span style="color: #ff0000"><strong>data-target="#xxk"事件，将内容区域绑定到指定的选项卡导航，避免多个导航冲突(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="background-color: #ffff00"><span style="color: #ff0000">id</span><span style="color: #0000ff">="xxk"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="nav nav-pills"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="active"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#html5"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#bootstrap"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span><span style="color: #0000ff">&gt;</span>Bootstrap<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#jquery"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span><span style="color: #0000ff">&gt;</span>jQuery<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#extjs"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tab"</span><span style="color: #0000ff">&gt;</span>ExtJS<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="background-color: #ffff00"><span style="color: #ff0000">data-target</span><span style="color: #0000ff">="#xxk"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="tab-content"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="padding: 10px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane active fade in"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="html5"</span><span style="color: #0000ff">&gt;</span>html5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane fade"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="bootstrap"</span><span style="color: #0000ff">&gt;</span>bootstrap<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane fade"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="jquery"</span><span style="color: #0000ff">&gt;</span>jquery<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane fade"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="extjs"</span><span style="color: #0000ff">&gt;</span>extjs<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>使用js执行选项卡</strong></span></p>
+<p><span style="color: #ff0000"><strong>方法</strong></span></p>
+<p><span style="color: #ff0000"><strong>tab('show')方法，将选项卡导航执行选项卡方法事件，<span style="color: #0000ff">可以代替data-toggle="tab"</span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="background-color: #ffff00"><span style="color: #ff0000">id</span><span style="color: #0000ff">="xxk"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="nav nav-tabs"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="active"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#html5"</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#bootstrap"</span><span style="color: #0000ff">&gt;</span>Bootstrap<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#jquery"</span><span style="color: #0000ff">&gt;</span>jQuery<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#extjs"</span><span style="color: #0000ff">&gt;</span>ExtJS<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">data-target</span><span style="color: #0000ff">="#xxk"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="tab-content"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="padding: 10px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane active fade in"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="html5"</span><span style="color: #0000ff">&gt;</span>html5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane fade"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="bootstrap"</span><span style="color: #0000ff">&gt;</span>bootstrap<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane fade"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="jquery"</span><span style="color: #0000ff">&gt;</span>jquery<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane fade"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="extjs"</span><span style="color: #0000ff">&gt;</span>extjs<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>js</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'<span style="background-color: #ffff00">#xxk a</span>').on('click', <span style="color: #0000ff">function</span><span style="color: #000000"> (e) {
+        e.preventDefault();
+        <span style="background-color: #ffff00">$(</span></span><span style="background-color: #ffff00"><span style="color: #0000ff">this</span>).tab('show'</span><span style="color: #000000"><span style="background-color: #ffff00">);</span>
+    });
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170503203305242-1039657687.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>事件</strong></span></p>
+<p><span style="color: #ff0000"><strong>show.bs.tab 在调用 tab 方法时触发(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>shown.bs.tab 在显示整个标签时触发(Bootstrap)</strong></span></p>
+<p><span style="color: #0000ff"><strong>js</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#xxk a').on('click', <span style="color: #0000ff">function</span><span style="color: #000000"> (e) {
+        e.preventDefault();
+        $(</span><span style="color: #0000ff">this</span>).tab('show'<span style="color: #000000">);
+    });
+    <span style="background-color: #ffff00">$(</span></span><span style="background-color: #ffff00">'#xxk a').on('show.bs.tab', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'调用 tab 时触发！'<span style="color: #000000">);
+    });
+    $(</span>'#xxk a').on('shown.bs.tab', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'显示完 tab 时触发！'</span><span style="color: #000000"><span style="background-color: #ffff00">);
+    });</span>
+});</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>HTML</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="background-color: #ffff00"><span style="color: #ff0000">id</span><span style="color: #0000ff">="xxk"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="nav nav-tabs"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="active"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#html5"</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#bootstrap"</span><span style="color: #0000ff">&gt;</span>Bootstrap<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#jquery"</span><span style="color: #0000ff">&gt;</span>jQuery<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#extjs"</span><span style="color: #0000ff">&gt;</span>ExtJS<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">data-target</span><span style="color: #0000ff">="#xxk"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="tab-content"</span><span style="color: #ff0000"> style</span><span style="color: #0000ff">="padding: 10px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane active fade in"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="html5"</span><span style="color: #0000ff">&gt;</span>html5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane fade"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="bootstrap"</span><span style="color: #0000ff">&gt;</span>bootstrap<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane fade"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="jquery"</span><span style="color: #0000ff">&gt;</span>jquery<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-pane fade"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="extjs"</span><span style="color: #0000ff">&gt;</span>extjs<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170503203844898-1324997074.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．工具提示</strong></span></p>
+<p><span style="color: #0000ff"><strong>工具提示就是通过鼠标移动选定在特定的元素上时，显示相关的提示语。</strong></span></p>
+<p><span style="color: #ff0000"><strong>基本实例</strong></span></p>
+<p><span style="color: #0000ff"><strong>以下两个必须</strong></span></p>
+<p><span style="color: #ff0000"><strong>data-toggle="tooltip"事件，写在需要工具提示的元素里，鼠标放上去显示根据提示(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>tooltip()方法，在需要工具提示的元素上使用，将当前元素执行工具提示(Bootstrap)</strong></span></p>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="section"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="#"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tooltip"</span></span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="超文本标识符"</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>js</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    <span style="background-color: #ffff00">$(</span></span><span style="background-color: #ffff00">'#section'</span><span style="color: #000000"><span style="background-color: #ffff00">).tooltip();</span>
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170503222454195-2014840314.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>工具提示有很多属性来配置提示的显示，具体如下：</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">data-animation</span> 默认 <span style="color: #0000ff">true</span>，在 tooltip 上应用一个 CSS fade 动画。如果设置 <span style="color: #0000ff">false</span>，则不应用。<span style="color: #0000ff">设置是否工具提示淡入淡出</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">data-html</span> 默认 <span style="color: #0000ff">false</span>，不允许提示内容格式为 html。如果设置为 <span style="color: #0000ff">true</span>，则可以设置 html 格式的提示内容。<span style="color: #0000ff">提示内容是否支持html标签</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">data-placement</span> 默认值 <span style="color: #0000ff">top</span>，还有 <span style="color: #0000ff">bottom</span>、<span style="color: #0000ff">left</span>、<span style="color: #0000ff">right</span> 和 <span style="color: #0000ff">auto</span>。如果 <span style="color: #0000ff">auto</span> 会自行调整合适的位置，如果是 <span style="color: #0000ff">auto left</span>则会尽量在左边显示，但左边不行就靠右边。<span style="color: #0000ff">设置提示信息位置</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">data-selector</span> 默认 <span style="color: #0000ff">false</span>，可以选择绑定指定的选择器。<span style="color: #0000ff">可以绑定一个自定义属性的元素</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">data-original-title</span> 默认空字符串，提示语的内容。优先级比 title 低，<span style="color: #0000ff">设置提示内容</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">title</span> 默认字空符串，<span style="color: #0000ff">提示语的内容</span>。</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">data-trigger</span> 默认值 <span style="color: #0000ff">hover</span> <span style="color: #0000ff">foucs</span>，表示怎么触发 tooltip，其他值为：<span style="color: #0000ff">click、manual</span>。多个值用空格隔开，manual手动不能和其他同时设置。<span style="color: #0000ff">设置触发提示方式</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">data-delay</span> 默认值 0，延迟触发 tooltip(毫秒)，如果传数字则，表示 show/hide 的毫秒数，如果传对象，结构为：<span style="color: #0000ff">{show:500,hide:100}，设置提示显示和隐藏的延迟时间</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">data-container</span> 默认值 <span style="color: #0000ff">false</span>，将 tooltip 附加到特定的元素上。比如组合按钮组提示，容器不够，可以附加 body 上。<span style="color: #0000ff">container : 'body'，也就是如果提示信息被容器遮挡，可以设置一个外层div，将提示信息的容器重新指定到设置的div上</span></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">data-template</span> 更改提示框的 HTML 提示语的模版，默认值为：</strong></span><br><span style="color: #ff99cc"><strong>　　&lt;div class='tooltip'&gt;</strong></span><br><span style="color: #ff99cc"><strong>    　　　　&lt;div class='tooltip-arrow'&gt;&lt;/div&gt;</strong></span><br><span style="color: #ff99cc"><strong>    　　　　&lt;div class='tooltip-inner'&gt;&lt;/div&gt;</strong></span><br><span style="color: #ff99cc"><strong>　　&lt;/div&gt;</strong></span></p>
+<p><span style="color: #ff0000"><strong>部分属性使用方法，其他相同</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="section"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="#"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tooltip"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="超文本标识符"</span><span style="background-color: #ffff00"><span style="color: #ff0000">
+   data-animation</span><span style="color: #0000ff">="true"</span><span style="color: #ff0000">
+   data-html</span><span style="color: #0000ff">="true"</span><span style="color: #ff0000">
+   data-placement</span><span style="color: #0000ff">="right"</span><span style="color: #ff0000">
+   data-trigger</span><span style="color: #0000ff">="hover"</span><span style="color: #ff0000">
+   data-delay</span><span style="color: #0000ff">="0"</span></span>
+<span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>js</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">$(function () {
+    <span style="background-color: #ffff00">$('#section').tooltip();</span>
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170503225856242-1525591903.gif" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="background-color: #ffff00">js使用属性方法，将上面的属性<span style="color: #0000ff">去掉</span></span><strong><span style="background-color: #ffff00"><span style="color: #0000ff">data就是js里使用的属性</span>，如<strong>data-delay就是<span style="color: #0000ff"><strong><strong><strong>delay</strong></strong></strong></span></strong></span><strong><strong><br></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="section"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="#"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tooltip"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="&lt;b&gt;超文本标识符&lt;/b&gt;"</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong><span style="color: #0000ff">js &nbsp; 注意这是部分属性的js使用方式其他相同</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">$(function () {
+    $('#section').tooltip({
+        <span style="background-color: #ffff00">placement:"right",      //设置提示信息位置右
+        html:"false"            //设置提示内容支持html标签</span>
+    });
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170503231419851-1041461156.gif" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>工具提示方法</strong></span></p>
+<p><span style="color: #ff0000"><strong>show工具提示方法参数，在工具提示元素上使用，显示工具提示(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>hide工具提示方法参数，在工具提示元素上使用，隐藏工具提示(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>toggle工具提示方法参数，在工具提示元素上使用，反转显示和隐藏工具提示(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>destroy工具提示方法参数，在工具提示元素上使用，隐藏并销毁工具提示(Bootstrap)</strong></span></p>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="section"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="#"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tooltip"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="&lt;b&gt;超文本标识符&lt;/b&gt;"</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>js</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#section'<span style="color: #000000">).tooltip({
+        placement: </span>"right",      <span style="color: #008000">//</span><span style="color: #008000">设置提示信息位置右</span>
+        html: "false"            <span style="color: #008000">//</span><span style="color: #008000">设置提示内容支持html标签</span>
+<span style="color: #000000">    });
+    <span style="background-color: #ffff00">$(</span></span><span style="background-color: #ffff00">'#section').tooltip('show'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">隐藏</span>
+    $('#section').tooltip('hide'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">反转显示和隐藏</span>
+    $('#section').tooltip('toggle'<span style="color: #000000">);
+    </span><span style="color: #008000">//</span><span style="color: #008000">隐藏并销毁</span>
+    $('#section').tooltip('destroy'</span><span style="color: #000000"><span style="background-color: #ffff00">);</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>工具提示事件</strong></span></p>
+<p><span style="color: #ff0000"><strong>show.bs.tooltip 在 show 方法调用时立即触发(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>shown.bs.tooltip 在提示框完全显示给用户之后触发(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>hide.bs.tooltip 在 hide 方法调用时立即触发(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>hidden.bs.tooltip 在提示框完全隐藏之后触发(Bootstrap)</strong></span></p>
+<p><span style="color: #0000ff"><strong>html</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="background-color: #ffff00"><span style="color: #ff0000">id</span><span style="color: #0000ff">="section"</span></span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="#"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="tooltip"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">="&lt;b&gt;超文本标识符&lt;/b&gt;"</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>js</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#section'<span style="color: #000000">).tooltip({
+        placement: </span>"right",      <span style="color: #008000">//</span><span style="color: #008000">设置提示信息位置右</span>
+        html: "false"            <span style="color: #008000">//</span><span style="color: #008000">设置提示内容支持html标签</span>
+<span style="color: #000000">    });
+    <span style="background-color: #ffff00">$(</span></span><span style="background-color: #ffff00">'#section').on('show.bs.tooltip', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'调用 show 时触发！'<span style="color: #000000">);
+    });
+    $(</span>'#section').on('shown.bs.tooltip', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'在提示框完全显示给用户之后触发！'<span style="color: #000000">);
+    });
+    $(</span>'#section').on('hide.bs.tooltip', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'在 hide 方法调用时立即触发！'<span style="color: #000000">);
+    });
+    $(</span>'#section').on('hidden.bs.tooltip', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'在提示框完全隐藏之后触发！'</span><span style="color: #000000"><span style="background-color: #ffff00">);
+    });</span>
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170504002908679-934631885.png" alt=""></p>
+<p>&nbsp;</p></div>

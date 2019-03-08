@@ -1,0 +1,1659 @@
+第一百六十一节，封装库--JavaScript，完整封装库文件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong>封装库--JavaScript，完整封装库文件</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+ *feng_zhuang_ku_1.0版本，js封装库，2016/12/29日：林贵秀
+ *</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">* 前台调用
+ * 每次调用$()创建库对象,使其每次调用都是独立的对象
+ * $()创建库对象,有一个可选参数，参数有两种方式，1是传入的this，2是传入的字符串
+ * 可选参数说明：
+ * 传入的this，this，就是当前对象本身
+ *
+ * 传入的字符串，代表获取元素选择器
+ * 参数是元素选择器(id值、class值、标签名称)其中一样的字符串方式，或者是其中几样的字符串组合方式
+ * 获取一个元素传参方式 '#xxx'( 表示获取id)，'.xxx'(表示获取class)，'xxx'(表示获取标签)
+ * 从父元素向下获取组合方式按照，一个元素传参方式加上空格，如: ('#sdf .hjk p')表示获取id为sdf元素下的class为hjk下的p元素
+ *
+ * 传入一个匿名函数，表示是dom页面文档加载，在匿名函数里写代码，表示等待页面文档加载完毕后执行函数里的代码
+ * 加载dom页面文档结构后执行函数，不等待图片，音频视频等文件加载
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">var</span> $ = <span style="color: #0000ff">function</span><span style="color: #000000"> (args) {
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">new</span><span style="color: #000000"> feng_zhuang_ku(args);
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*
+ *定义封装库构造函数，类库
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> feng_zhuang_ku(args) {
+    </span><span style="color: #008000">/*</span><span style="color: #008000">* jie_dian属性，创建数组，初始化，保存获取到的元素节点，返回数组
+     *</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">this</span>.jie_dian =<span style="color: #000000"> [];
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> args == 'string') {                      <span style="color: #008000">//</span><span style="color: #008000">如果传入的是字符串，说明是获取元素选择器</span>
+        <span style="color: #0000ff">if</span> (args.indexOf(' ') != -1<span style="color: #000000">) {
+            </span><span style="color: #008000">/*</span><span style="color: #008000">*从父元素向下获取组合方式*</span><span style="color: #008000">*/</span>
+            <span style="color: #0000ff">var</span> fen_ge = args.split(' ');                <span style="color: #008000">//</span><span style="color: #008000">将接收的组合式元素名称分割成数组</span>
+            <span style="color: #0000ff">var</span> lin_shi = [];                            <span style="color: #008000">//</span><span style="color: #008000">保存临时对象的数组，解决被覆盖问题</span>
+            <span style="color: #0000ff">var</span> fu_yuan_su = [];                         <span style="color: #008000">//</span><span style="color: #008000">保存父元素的数组</span>
+            <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; fen_ge.length; i++<span style="color: #000000">) {
+                </span><span style="color: #0000ff">if</span> (fu_yuan_su.length == 0)fu_yuan_su.push(document);               <span style="color: #008000">//</span><span style="color: #008000">如果没有父节点，就把document放入父节点</span>
+                <span style="color: #0000ff">switch</span> (fen_ge[i].charAt(0)) {                                     <span style="color: #008000">//</span><span style="color: #008000">判断字符串的第一个字符是什么</span>
+                    <span style="color: #0000ff">case</span> '#':                                                      <span style="color: #008000">//</span><span style="color: #008000">说明是id</span>
+                        lin_shi = [];                                              <span style="color: #008000">//</span><span style="color: #008000">清理临时数组，以便父节点失效，子节点有效</span>
+                        lin_shi.push(<span style="color: #0000ff">this</span>.huo_qu_id(fen_ge[i].substring(1)));      <span style="color: #008000">//</span><span style="color: #008000">去除第一个字符，获取到传入的id元素，保存到临时数组</span>
+                        fu_yuan_su = lin_shi;                                      <span style="color: #008000">//</span><span style="color: #008000">将临时节点数组放入父节点数字</span>
+                        <span style="color: #0000ff">break</span>;                                                     <span style="color: #008000">//</span><span style="color: #008000">说明是class</span>
+                    <span style="color: #0000ff">case</span> '.'<span style="color: #000000">:
+                        lin_shi </span>= [];                                                                   <span style="color: #008000">//</span><span style="color: #008000">清理临时数组，以便父节点失效，子节点有效</span>
+                        <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> f = 0; f &lt; fu_yuan_su.length; f++) {                                  <span style="color: #008000">//</span><span style="color: #008000">根据父节点的长度循环</span>
+                            <span style="color: #0000ff">var</span> tempss = <span style="color: #0000ff">this</span>.huo_qu_class(fen_ge[i].substring(1), fu_yuan_su[f]);     <span style="color: #008000">//</span><span style="color: #008000">获取到父节点下的子节点</span>
+                            <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> n = 0; n &lt; tempss.length; n++) {                      <span style="color: #008000">//</span><span style="color: #008000">循环子节点，将每次循环的子节点添加到临时数组</span>
+<span style="color: #000000">                                lin_shi.push(tempss[n]);
+                            }
+                        }
+                        fu_yuan_su </span>= lin_shi;                                               <span style="color: #008000">//</span><span style="color: #008000">将临时节点数组放入父节点数字</span>
+                        <span style="color: #0000ff">break</span><span style="color: #000000">;
+                    </span><span style="color: #0000ff">default</span>:                                                               <span style="color: #008000">//</span><span style="color: #008000">说明是标签</span>
+                        lin_shi = [];                                                       <span style="color: #008000">//</span><span style="color: #008000">清理临时数组，以便父节点失效，子节点有效</span>
+                        <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> j = 0; j &lt; fu_yuan_su.length; j++) {                      <span style="color: #008000">//</span><span style="color: #008000">根据父节点的长度循环</span>
+                            <span style="color: #0000ff">var</span> temps = <span style="color: #0000ff">this</span>.huo_qu_name(fen_ge[i], fu_yuan_su[j]);        <span style="color: #008000">//</span><span style="color: #008000">获取到父节点下的子节点</span>
+                            <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> k = 0; k &lt; temps.length; k++) {                       <span style="color: #008000">//</span><span style="color: #008000">循环子节点，将每次循环的子节点添加到临时数组</span>
+<span style="color: #000000">                                lin_shi.push(temps[k]);
+                            }
+                        }
+                        fu_yuan_su </span>= lin_shi;                                               <span style="color: #008000">//</span><span style="color: #008000">将临时节点数组放入父节点数字</span>
+<span style="color: #000000">                }
+            }
+            </span><span style="color: #0000ff">this</span>.jie_dian = lin_shi;                                            <span style="color: #008000">//</span><span style="color: #008000">将临时数组放入jie_dian数组</span>
+        } <span style="color: #0000ff">else</span><span style="color: #000000"> {
+            </span><span style="color: #008000">/*</span><span style="color: #008000">*一个元素传参方式*</span><span style="color: #008000">*/</span>
+            <span style="color: #0000ff">switch</span> (args.charAt(0)) {                                           <span style="color: #008000">//</span><span style="color: #008000">判断字符串的第一个字符是什么</span>
+                <span style="color: #0000ff">case</span> '#':                                                       <span style="color: #008000">//</span><span style="color: #008000">说明是id</span>
+                    <span style="color: #0000ff">this</span>.jie_dian.push(<span style="color: #0000ff">this</span>.huo_qu_id(args.substring(1)));      <span style="color: #008000">//</span><span style="color: #008000">去除第一个字符，获取到传入的id元素</span>
+                    <span style="color: #0000ff">break</span><span style="color: #000000">;
+                </span><span style="color: #0000ff">case</span> '.':                                                       <span style="color: #008000">//</span><span style="color: #008000">说明是class</span>
+                    <span style="color: #0000ff">this</span>.jie_dian = <span style="color: #0000ff">this</span>.huo_qu_class(args.substring(1));       <span style="color: #008000">//</span><span style="color: #008000">去除第一个字符，获取到传入的class元素</span>
+                    <span style="color: #0000ff">break</span><span style="color: #000000">;
+                </span><span style="color: #0000ff">default</span>:                                                        <span style="color: #008000">//</span><span style="color: #008000">说明是标签</span>
+                    <span style="color: #0000ff">this</span>.jie_dian = <span style="color: #0000ff">this</span>.huo_qu_name(args);                     <span style="color: #008000">//</span><span style="color: #008000">获取到传入的标签元素</span>
+<span style="color: #000000">            }
+        }
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> args == 'object') {                                       <span style="color: #008000">//</span><span style="color: #008000">如果传入的是对象，说明是this，就是当前对象本身</span>
+        <span style="color: #0000ff">if</span> (args !=<span style="color: #000000"> undefined) {
+            </span><span style="color: #0000ff">this</span>.jie_dian[0] =<span style="color: #000000"> args;
+        }
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> args == 'function'<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span><span style="color: #000000">.dom_dom(args);
+    }
+}
+
+
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*█████████████████████████████████████████████████封装库█████████████████████████████████████████████████████████*</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">*▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃获取元素标签开始▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃*</span><span style="color: #008000">*/</span>
+ <span style="color: #008000">/*</span><span style="color: #008000">*获取元素标签说明：
+ * jie_dian属性，保存获取到的元素节点，返回数组,
+ *
+ * huo_qu_id()方法,通过id获取元素标签，参数是id值，将获取到的元素对象返回给方法本身，无法连缀
+ * huo_qu_name()方法，通过标签名称获取相同标签名的元素，
+ * huo_qu_class()方法，获取相同class属性的节点，返回包含相同class属性的节点数组，返回给方法本身,无法连缀
+ * hq_form_name()方法，获取表单里，指定name值的元素节点，也就是获取表单里指定名称的元素节点，在form元素对象下使用
+ * hq_value()方法，获取和设置表单里节点的value属性值
+ * huo_qu_name_zhi()方法，通过元素name值获取指定元素，适用于获取表单元素,
+ * shang_jd()方法，获取当前节点同级的上一个节点
+ * xia_jd()方法，获取当前节点同级的下一个节点
+ * hq_jd()方法,多个节点时，获取某一个节点，并返回这个节点对象,参数是节点索引
+ * sh_jd()方法,多个节点时，获取首个节点，并返回这个节点对象,无参
+ * w_jd()方法,多个节点时，获取末个节点，并返回这个节点对象,无参
+ * guo_lv_jie_dian()方法，多个节点时，获取某一个节点，并且feng_zhuang_ku对象
+ * jd_length()方法，获取一个节点集合的长度
+ * hq_suo_yin()方法，获取一个节点在，父节点下，子节点集合里的索引，也就是在集合里的下标
+ * hq_shu_xing_zhi()方法，获取或设置一个节点的属性值
+ * huo_qu_zi_jie_dian()方法，获取一个元素下的子元素
+ * dom_dom()方法，加载dom页面文档结构后执行函数，不等待图片，音频视频等文件加载
+ *</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">*▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃元素节点操作开始▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*元素节点操作说明：
+ * c_css()方法，给获取到的元素设置ss样式,或者获取css样式，
+ * shzh_tou_ming_du()方法，给元素设置透明度
+ * wen_ben()方法，给获取到的元素设置文本，或者获取文本
+ * wen_ben_guo_lv()方法，给获取到的元素设置文本，或者获取文本，会过滤html标签
+ * tian_jia_class()方法，给获取到的元素添加class属性，参数是class属性值，可以连缀
+ * yi_chu_class()方法，给获取到的元素移除class属性，参数是要移除的class属性值，可以连缀
+ * she_zhi_link_css()方法，设置link连接、或style内嵌、中的CSS样式
+ * yi_chu_link_css()方法，移除link连接、或style内嵌、中的CSS样式
+ * tuo_zhuai()方法，将一个弹窗元素实现拖拽功能
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃元素事件开始▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*元素事件说明：
+ * shu_biao_yi_ru_yi_chu()方法，给元素设置鼠标移入移出事件，接收两个参数，参数是移入和移出时的执行函数(包含代码)
+ * xian_shi()方法，设置元素显示,无参
+ * yin_cang()方法，设置元素隐藏,无参
+ * yuan_su_shi_jian()方，给元素添加一个元素事件
+ * on_click()方法，给获取到的元素添加一个点击事件，参数是一个匿名函数（包含函数功能），
+ * dian_ji_qie_huan()方法，设置点击切换，将元素设置成点击切换，也就是点击目标元素后，循环执行方法里的函数
+ * yuan_su_ju_zhong()方法，将获取到的区块元素居中到页面，
+ * chuang_kou_shi_jian()方法，浏览器窗口事件，当窗口的大小变化时触发函数
+ * zhe_zhao_suo_ping()方法，将一个区块元素设置成遮罩锁屏区块
+ * jie_chu_suo_ping()方法，将一个锁屏区块元素解除锁屏，
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃元素动画开始▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*
+ * 元素动画说明
+ * yi_dong_tou_ming()方法，将一个元素，
+ *
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃插件入口开始▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃*</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">* 插件入口，简单的理解就是通过extend()方法，向此基础库添加一个原型方法
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃ajax通讯▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*
+ * ajax()方法，ajax通讯方法，跨页面向动态页面发送或获取数据
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃表单序列化▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*
+ * xu_lie_biao_dan()方法，表单序列化方法，将自动获取指定表单里面的各项字段name值和value值，无法连缀
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*█████████████████████████████████████████████████封装库██████████████████████████████████████████████████████████*</span><span style="color: #008000">*/</span>
+
+
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------获取元素标签开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_id()方法,通过id获取元素标签，参数是id值，将获取到的元素对象返回给方法本身，无法连缀
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_id </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (id) {
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> document.getElementById(id);
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_name()方法，通过标签名称获取相同标签名的元素，返回包含相同标签名的元素数组，返回给方法本身
+ * 两个参数：获取指定元素下的相同标签元素，参数1标签名称，参数2是要获取元素的父元素
+ * 一个参数：获取页面所有相同标签元素，参数是标签名称
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_name </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (tag, parentnode) {
+    </span><span style="color: #0000ff">var</span> node = <span style="color: #0000ff">null</span><span style="color: #000000">;
+    </span><span style="color: #0000ff">var</span> lin_shi =<span style="color: #000000"> [];
+    </span><span style="color: #0000ff">if</span> (parentnode !=<span style="color: #000000"> undefined) {
+        node </span>=<span style="color: #000000"> parentnode;
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        node </span>=<span style="color: #000000"> document;
+    }
+    </span><span style="color: #0000ff">var</span> tags =<span style="color: #000000"> node.getElementsByTagName(tag);
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; tags.length; i++<span style="color: #000000">) {
+        lin_shi.push(tags[i]);
+    }
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> lin_shi;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_class()方法，获取相同class属性的节点，返回包含相同class属性的节点数组，返回给方法本身,无法连缀
+ * 一个参数：获取整个页面指定的class属性节点，参数是class属性值
+ * 两个参数：获取指定元素区下的class属性节点，参数1是class属性值，参数2是要获取class属性节点的父元素节点
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_class </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (name, parentnode) {
+    </span><span style="color: #0000ff">var</span> node = <span style="color: #0000ff">null</span><span style="color: #000000">;
+    </span><span style="color: #0000ff">var</span> lin_shi =<span style="color: #000000"> [];
+    </span><span style="color: #0000ff">if</span> (parentnode !=<span style="color: #000000"> undefined) {
+        node </span>=<span style="color: #000000"> parentnode;
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        node </span>=<span style="color: #000000"> document;
+    }
+    </span><span style="color: #0000ff">var</span> all = node.getElementsByTagName('*'<span style="color: #000000">);
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; all.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> ((<span style="color: #0000ff">new</span> RegExp('(\\s|^)' + name + '(\\s|$)'<span style="color: #000000">)).test(all[i].className)){
+            lin_shi.push(all[i]);
+        }
+    }
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> lin_shi;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* hq_form_name()方法，获取表单里，指定name值的元素节点，也就是获取表单里指定名称的元素节点，在form元素对象下使用
+ *  参数是要获取表单里的元素name值，也就是名称
+ *  返回表单里有相同name值的节点集合
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.hq_form_name </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (name) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">){
+        </span><span style="color: #0000ff">this</span>.jie_dian[i] = <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i][name];
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* hq_value()方法，获取和设置表单里节点的value属性值
+ *  无参为获取表单里节点的value属性值
+ *  有参为设置表单里节点的value属性值，参数是要设置的value属性值
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.hq_value </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (str) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (arguments.length == 0<span style="color: #000000">) {
+            </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i].value;
+        }
+        </span><span style="color: #0000ff">this</span>.jie_dian[i].value =<span style="color: #000000"> str;
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_name_zhi()方法，通过元素name值获取指定元素，参数是元素name值，返回元素相同name值对象集合，
+ * 循环元素集合，将每次循环到的元素对象添加到 jie_dian属性，适用于获取表单元素
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_name_zhi </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (name) {
+    </span><span style="color: #0000ff">var</span> name_zhi =<span style="color: #000000"> document.getElementsByName(name);
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; name_zhi.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian.push(name_zhi[i]);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* shang_jd()方法，获取当前节点同级的上一个节点
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.shang_jd </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i ++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span>.jie_dian[i] = <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i].previousSibling;
+        </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian[i] == <span style="color: #0000ff">null</span>) <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('找不到上一个同级元素节点！'<span style="color: #000000">);
+        </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian[i].nodeType == 3) <span style="color: #0000ff">this</span><span style="color: #000000">.shang_jd();
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* xia_jd()方法，获取当前节点同级的下一个节点
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.xia_jd </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i ++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span>.jie_dian[i] = <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i].nextSibling;
+        </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian[i] == <span style="color: #0000ff">null</span>) <span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('找不到下一个同级元素节点！'<span style="color: #000000">);
+        </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian[i].nodeType == 3) <span style="color: #0000ff">this</span><span style="color: #000000">.xia_jd();
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* hq_jd()方法,多个节点时，获取某一个节点，并返回这个节点对象,参数是节点索引
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.hq_jd </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (num) {
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[num];
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* sh_jd()方法,多个节点时，获取首个节点，并返回这个节点对象,无参
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.sh_jd </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.jie_dian[0<span style="color: #000000">];
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* w_jd()方法,多个节点时，获取末个节点，并返回这个节点对象,无参
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.w_jd </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span>.jie_dian[<span style="color: #0000ff">this</span>.jie_dian.length - 1<span style="color: #000000">];
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* guo_lv_jie_dian()方法，多个节点时，获取某一个节点，并且feng_zhuang_ku对象
+ * 参数是要获取jie_dian属性里的对象索引
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.guo_lv_jie_dian </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (num) {
+    </span><span style="color: #0000ff">var</span> element = <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[num];
+    </span><span style="color: #0000ff">this</span>.jie_dian =<span style="color: #000000"> [];
+    </span><span style="color: #0000ff">this</span>.jie_dian[0] =<span style="color: #000000"> element;
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* jd_length()方法，获取一个节点集合的长度
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.jd_length </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian.length;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* hq_suo_yin()方法，获取一个节点在，父节点下，子节点集合里的索引，也就是在集合里的下标
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.hq_suo_yin </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">var</span> children = <span style="color: #0000ff">this</span>.jie_dian[0<span style="color: #000000">].parentNode.children;
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; children.length; i++<span style="color: #000000">){
+        </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian[0] == children[i]) <span style="color: #0000ff">return</span><span style="color: #000000"> i;
+    }
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* hq_shu_xing_zhi()方法，获取或设置一个节点的属性值
+ * 1个参数，获取属性值，参数是属性名称
+ * 2个参数，设置属性值，第1个属性名称，第2个属性值
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.hq_shu_xing_zhi </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (shu_xing, zhi) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (arguments.length == 1<span style="color: #000000">) {
+            </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i].getAttribute(shu_xing);
+        } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (arguments.length == 2<span style="color: #000000">){
+            </span><span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i].setAttribute(shu_xing,zhi);
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_zi_jie_dian()方法，获取一个元素下的子元素
+ * 注意首先要获取到父元素，在使用huo_qu_zi_jie_dian()方法
+ * 参数是要获取的，子元素(id值、class值、标签名称)其中一样的字符串方式，
+ * 传参方式 '#xxx'( 表示获取id)，'.xxx'(表示获取class)，'xxx'(表示获取标签)
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_zi_jie_dian </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (str) {
+    </span><span style="color: #0000ff">var</span> lin_shi = [];                                               <span style="color: #008000">//</span><span style="color: #008000">临时数组</span>
+    <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++) {               <span style="color: #008000">//</span><span style="color: #008000">根据父元素的长度，循环出父元素</span>
+        <span style="color: #0000ff">switch</span> (str.charAt(0)) {                                   <span style="color: #008000">//</span><span style="color: #008000">判断字符串的第一个字符是什么</span>
+            <span style="color: #0000ff">case</span> '#':                                              <span style="color: #008000">//</span><span style="color: #008000">说明是id</span>
+                lin_shi.push(<span style="color: #0000ff">this</span>.huo_qu_id(str.substring(1)));    <span style="color: #008000">//</span><span style="color: #008000">获取到父元素下的子元素id等于str的标签，将它添加到临时数组</span>
+                <span style="color: #0000ff">break</span><span style="color: #000000">;
+            </span><span style="color: #0000ff">case</span> '.':                                                     <span style="color: #008000">//</span><span style="color: #008000">说明是class</span>
+                <span style="color: #0000ff">var</span> tempss = <span style="color: #0000ff">this</span>.huo_qu_class(str.substring(1), <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i]);
+                </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> k = 0; k &lt; tempss.length; k++<span style="color: #000000">) {
+                    lin_shi.push(tempss[k]);
+                }
+                </span><span style="color: #0000ff">break</span><span style="color: #000000">;
+            </span><span style="color: #0000ff">default</span>:                                                      <span style="color: #008000">//</span><span style="color: #008000">说明是标签名称</span>
+                <span style="color: #0000ff">var</span> temps = <span style="color: #0000ff">this</span>.huo_qu_name(str, <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i]);
+                </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> j = 0; j &lt; temps.length; j++<span style="color: #000000">) {
+                    lin_shi.push(temps[j]);
+                }
+        }
+    }
+    </span><span style="color: #0000ff">this</span>.jie_dian = lin_shi;                                               <span style="color: #008000">//</span><span style="color: #008000">将临时数组替换成节点数组</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*  dom_dom()方法，加载dom页面文档结构后执行函数，不等待图片，音频视频等文件加载
+ *  参数是页面文档加载后要执行的函数
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.dom_dom </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (fn) {
+    dom_jia_zai(fn);
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------获取元素标签结束--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------元素节点操作开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">* c_css()方法，给获取到的元素设置ss样式,或者获取css样式，
+ * 两个参数：设置样式，参数1样式名称，参数2样式值,设置的行内样式
+ * 一个参数：获取样式，参数是样式名称，无法连缀，获取即可用获取行内也可以获取连接
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.c_css </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (attr, value) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (arguments.length == 1<span style="color: #000000">) {
+            </span><span style="color: #0000ff">return</span> getStyle(<span style="color: #0000ff">this</span>.jie_dian[i], attr); <span style="color: #008000">//</span><span style="color: #008000">getStyle()函数库函数，跨浏览器获取元素Style，样式指定属性</span>
+        } <span style="color: #0000ff">else</span><span style="color: #000000"> {
+            </span><span style="color: #0000ff">this</span>.jie_dian[i].style[attr] =<span style="color: #000000"> value;
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* shzh_tou_ming_du()方法，给元素设置透明度
+ *  参数是要设置的透明度值，为百分比值，如10%，就是10
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.shzh_tou_ming_du </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (zhi) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">){
+        </span><span style="color: #0000ff">this</span>.jie_dian[i].style.opacity = zhi / 100<span style="color: #000000">;
+        </span><span style="color: #0000ff">this</span>.jie_dian[i].style.filter = 'alpha(opacity='+ zhi +')'<span style="color: #000000">;
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* wen_ben()方法，给获取到的元素设置文本，或者获取文本
+ * 有参：设置文本，参数是要设置的文本字符串。
+ * 无参：获取文本。无法连缀
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.wen_ben </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (str) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (arguments.length == 0<span style="color: #000000">) {
+            </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i].innerHTML;
+        }
+        </span><span style="color: #0000ff">this</span>.jie_dian[i].innerHTML =<span style="color: #000000"> str;
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* wen_ben_guo_lv()方法，给获取到的元素设置文本，或者获取文本，会过滤html标签
+ * 有参：设置文本，参数是要设置的文本字符串。如果有html标签会自动转换成字符串形式在设置
+ * 无参：获取文本。如果有html标签获取后会自动过滤html标签，无法连缀
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.wen_ben_guo_lv </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (str) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (arguments.length == 0<span style="color: #000000">) {
+            </span><span style="color: #0000ff">if</span>(<span style="color: #0000ff">typeof</span> <span style="color: #0000ff">this</span>.jie_dian[i].innerText == 'string'<span style="color: #000000">){
+                </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i].innerText;
+            }</span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> <span style="color: #0000ff">this</span>.jie_dian[i].textContent == 'string'<span style="color: #000000">){
+                </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i].textContent;
+            }
+        }</span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> <span style="color: #0000ff">this</span>.jie_dian[i].innerText == 'string'<span style="color: #000000">){
+            </span><span style="color: #0000ff">this</span>.jie_dian[i].innerText =<span style="color: #000000"> str;
+        }</span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> <span style="color: #0000ff">this</span>.jie_dian[i].textContent == 'string'<span style="color: #000000">){
+            </span><span style="color: #0000ff">this</span>.jie_dian[i].textContent =<span style="color: #000000"> str;
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* tian_jia_class()方法，给获取到的元素添加class属性，参数是class属性值，可以连缀
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.tian_jia_class </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (classname) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (hasClass(<span style="color: #0000ff">this</span>.jie_dian[i], classname)) {   <span style="color: #008000">//</span><span style="color: #008000">hasClass()函数库函数，判断一个元素的class属性值是否存在</span>
+            <span style="color: #0000ff">this</span>.jie_dian[i].className += ' ' +<span style="color: #000000"> classname;
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* yi_chu_class()方法，给获取到的元素移除class属性，参数是要移除的class属性值，可以连缀
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yi_chu_class </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (classname) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (hasClass(<span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i], classname)) {
+            </span><span style="color: #0000ff">this</span>.jie_dian[i].className = <span style="color: #0000ff">this</span>.jie_dian[i].className.replace(<span style="color: #0000ff">new</span> RegExp('(\\s|^)' + classname + '(\\s|$)'), ' '<span style="color: #000000">);
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* she_zhi_link_css()方法，设置link连接、或style内嵌、中的CSS样式
+ * 在Web应用中，很少用到添加CSS规则和移除CSS规则，一般只用行内和Class；因为添加和删除原本的规则会破坏整个CSS的结构，所以使用需要非常小心。
+ * 直接在库对象下使用  如：$().she_zhi_link_css()
+ * 四个参数：
+ * 参数1，样式表索引位置，就是要操作的样式表位置索引，第几个样式表【数值】
+ * 参数2，要添加的选择器名称，【字符串】
+ * 参数3，要添加的样式名称和值，如：background:#ff2a16 【字符串】
+ * 参数4，将样式和选择器添加到样式表什么位置，【数值】
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.she_zhi_link_css </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (num, selectorText, cssText, position) {
+    </span><span style="color: #0000ff">var</span> sheet =<span style="color: #000000"> document.styleSheets[num];
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> sheet.insertRule != 'undefined'<span style="color: #000000">) {
+        sheet.insertRule(selectorText </span>+ "{" + cssText + "}"<span style="color: #000000">, position);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> sheet.addRule != 'undefined'<span style="color: #000000">) {
+        sheet.addRule(selectorText, cssText, position);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* yi_chu_link_css()方法，移除link连接、或style内嵌、中的CSS样式
+ * 在Web应用中，很少用到添加CSS规则和移除CSS规则，一般只用行内和Class；因为添加和删除原本的规则会破坏整个CSS的结构，所以使用需要非常小心。
+ * 直接在库对象下使用
+ * 两个参数：
+ * 参数1，样式表索引位置，就是要操作的样式表位置索引，第几个样式表【数值】
+ * 参数2，删除样式表里的第几个选择器【数值】
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yi_chu_link_css </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (num, position) {
+    </span><span style="color: #0000ff">var</span> sheet =<span style="color: #000000"> document.styleSheets[num];
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> sheet.deleteRule != 'undefined'<span style="color: #000000">) {
+        sheet.deleteRule(position);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span><span style="color: #000000"> sheet.removeRule) {
+        sheet.removeRule(position);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* tuo_zhuai()方法，将一个弹窗元素实现拖拽功能
+ * 注意：有参设置拖拽点区块，只有弹窗的这个拖拽点区块才能拖拽，无参整个弹窗可以拖拽
+ * 注意：一般需要在css文件将弹窗元素里的某一个区块光标设置成提示可以拖拽，如：cursor: move; （设置拖拽点）
+ * 有一个参数，参数是弹窗元素里的拖拽点区块的字符串class值（设置拖拽点的class值）设置后弹窗元素里的这个拖拽点区块才能拖拽
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.tuo_zhuai </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (tuo_zhuai_dian) {
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian.length == 1<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> yan_su = <span style="color: #0000ff">null</span><span style="color: #000000">;
+        </span><span style="color: #0000ff">var</span> sum =<span style="color: #000000"> arguments.length;
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+            yan_su </span>= <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i];
+        }
+        addEvent(yan_su, </span>'mousedown', <span style="color: #0000ff">function</span><span style="color: #000000"> (e) {
+            </span><span style="color: #0000ff">if</span> (trim(yan_su.innerHTML).length == 0<span style="color: #000000">)e.preventDefault();
+            </span><span style="color: #0000ff">var</span> e1 = getEvent(e);  <span style="color: #008000">//</span><span style="color: #008000">getEvent()函数库函数，跨浏览器获取事件对象,事件event对象,</span>
+            <span style="color: #0000ff">var</span> diffx = e1.clientX -<span style="color: #000000"> yan_su.offsetLeft;
+            </span><span style="color: #0000ff">var</span> diffy = e1.clientY -<span style="color: #000000"> yan_su.offsetTop;
+            </span><span style="color: #0000ff">if</span> (sum == 1<span style="color: #000000">) {
+                </span><span style="color: #0000ff">if</span> (e.target.className ===<span style="color: #000000"> tuo_zhuai_dian) {
+                    addEvent(document, </span>'mousemove'<span style="color: #000000">, move);
+                    addEvent(document, </span>'mouseup'<span style="color: #000000">, up);
+                }
+            } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (sum == 0<span style="color: #000000">) {
+                addEvent(document, </span>'mousemove'<span style="color: #000000">, move);
+                addEvent(document, </span>'mouseup'<span style="color: #000000">, up);
+            }
+            </span><span style="color: #0000ff">function</span><span style="color: #000000"> move(e) {
+                </span><span style="color: #0000ff">var</span> e2 =<span style="color: #000000"> getEvent(e);
+                </span><span style="color: #0000ff">var</span> left = e2.clientX -<span style="color: #000000"> diffx;
+                </span><span style="color: #0000ff">var</span> top = e2.clientY -<span style="color: #000000"> diffy;
+                </span><span style="color: #0000ff">if</span> (left &lt; 0<span style="color: #000000">) {
+                    left </span>= 0<span style="color: #000000">;
+                }</span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span>(left &lt;=<span style="color: #000000"> gun_dong_tiao_wei_zhi().left){
+                    left </span>=<span style="color: #000000"> gun_dong_tiao_wei_zhi().left;
+                }</span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (left &gt; getInner().width + gun_dong_tiao_wei_zhi().left -<span style="color: #000000"> yan_su.offsetWidth) {
+                    left </span>= getInner().width + gun_dong_tiao_wei_zhi().left -<span style="color: #000000"> yan_su.offsetWidth;
+                }
+                </span><span style="color: #0000ff">if</span> (top &lt; 0<span style="color: #000000">) {
+                    top </span>= 0<span style="color: #000000">;
+                }</span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span>(top &lt;=<span style="color: #000000"> gun_dong_tiao_wei_zhi().top){
+                    top </span>=<span style="color: #000000"> gun_dong_tiao_wei_zhi().top;
+                }</span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (top &gt; getInner().height + gun_dong_tiao_wei_zhi().top -<span style="color: #000000"> yan_su.offsetHeight) {
+                    top </span>= getInner().height + gun_dong_tiao_wei_zhi().top -<span style="color: #000000"> yan_su.offsetHeight;
+                }
+                yan_su.style.left </span>= left + 'px'<span style="color: #000000">;
+                yan_su.style.top </span>= top + 'px'<span style="color: #000000">;
+                </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> yan_su.setCapture != 'undefined'<span style="color: #000000">) {
+                    yan_su.setCapture();
+                }
+            }
+
+            </span><span style="color: #0000ff">function</span><span style="color: #000000"> up() {
+                removeEvent(document, </span>'mousemove'<span style="color: #000000">, move);
+                removeEvent(document, </span>'mouseup'<span style="color: #000000">, up);
+                </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> yan_su.releaseCapture != 'undefined'<span style="color: #000000">) {
+                    yan_su.releaseCapture();
+                }
+            }
+        });
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        alert(</span>"将一个弹窗元素实现拖拽功能,只能设置一个弹窗元素，目前jie_dian数组里是多个元素请检查！"<span style="color: #000000">)
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------元素节点操作结束--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------元素事件开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">* shu_biao_yi_ru_yi_chu()方法，给元素设置鼠标移入移出事件，接收两个参数，参数是移入和移出时的执行函数(包含代码)
+ *参数1是移入时的执行函数(包含代码)
+ *参数2是移出时的执行函数(包含代码)
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.shu_biao_yi_ru_yi_chu </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (yi_ru, yi_chu) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        addEvent(</span><span style="color: #0000ff">this</span>.jie_dian[i], 'mouseover'<span style="color: #000000">, yi_ru);
+        addEvent(</span><span style="color: #0000ff">this</span>.jie_dian[i], 'mouseout'<span style="color: #000000">, yi_chu);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* xian_shi()方法，设置元素显示,无参
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.xian_shi </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span>.jie_dian[i].style.display = 'block'<span style="color: #000000">;
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* yin_cang()方法，设置元素隐藏,无参
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yin_cang </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span>.jie_dian[i].style.display = 'none'<span style="color: #000000">;
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* yuan_su_shi_jian()方，给元素添加一个元素事件
+ *  两个参数，参数1事件名称不加on，参数2事件函数
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yuan_su_shi_jian </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (ming_cheng,fn) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        addEvent(</span><span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i],ming_cheng, fn);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* on_click()方法，给获取到的元素添加一个点击事件，参数是一个匿名函数（包含函数功能），
+ * 循环jie_dian属性里的节点，将每次循环的节点添加元素点击事件
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.on_click </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (fu) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        addEvent(</span><span style="color: #0000ff">this</span>.jie_dian[i], 'click'<span style="color: #000000">, fu);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* dian_ji_qie_huan()方法，设置点击切换，将元素设置成点击切换，也就是点击目标元素后，循环执行方法里的函数
+ * 参数是点击后要执行的函数，可以是多个函数，点击一次循环执行一个函数，从第一个开始，循环完毕后再次循环从第一个开始
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.dian_ji_qie_huan </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        (</span><span style="color: #0000ff">function</span><span style="color: #000000"> (jiedian, args) {
+            </span><span style="color: #0000ff">var</span> count = 0;                                          <span style="color: #008000">//</span><span style="color: #008000">计数器</span>
+            addEvent(jiedian, 'click', <span style="color: #0000ff">function</span> () {                <span style="color: #008000">//</span><span style="color: #008000">给对象添加点击事件</span>
+                args[count++ % args.length].call(<span style="color: #0000ff">this</span>);             <span style="color: #008000">//</span><span style="color: #008000">点击后计数器数值求于作为下标执行传入的函数，计数器在累加,将对象传入</span>
+<span style="color: #000000">            });
+        })(</span><span style="color: #0000ff">this</span>.jie_dian[i], arguments);                            <span style="color: #008000">//</span><span style="color: #008000">通过arguments接收传入方法的函数</span>
+<span style="color: #000000">    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* yuan_su_ju_zhong()方法，将获取到的区块元素居中到页面，
+ * 注意：使用此方法时，首先要在css里将目标区块设置成(绝对定位,position: absolute;)
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yuan_su_ju_zhong </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian.length == 1<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> yan_su = <span style="color: #0000ff">null</span><span style="color: #000000">;
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+            yan_su </span>= <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i];
+        }
+        </span><span style="color: #0000ff">var</span> y_style = getStyle(yan_su, 'display'); <span style="color: #008000">//</span><span style="color: #008000">getStyle()函数库函数，跨浏览器获取元素Style，样式指定属性</span>
+        <span style="color: #0000ff">if</span> (y_style === "none"<span style="color: #000000">) {
+            yan_su.style.display </span>= "block"<span style="color: #000000">;
+        }
+        </span><span style="color: #0000ff">var</span> width =<span style="color: #000000"> yan_su.offsetWidth;
+        </span><span style="color: #0000ff">var</span> height =<span style="color: #000000"> yan_su.offsetHeight;
+        </span><span style="color: #0000ff">if</span> (y_style === "none"<span style="color: #000000">) {
+            yan_su.style.display </span>= "none"<span style="color: #000000">;
+        }
+        </span><span style="color: #0000ff">var</span> chang_w =<span style="color: #000000"> getInner().width;
+        </span><span style="color: #0000ff">var</span> chang_h =<span style="color: #000000"> getInner().height;
+        </span><span style="color: #0000ff">var</span> top = (chang_h - height) / 2 +<span style="color: #000000"> gun_dong_tiao_wei_zhi().top;
+        </span><span style="color: #0000ff">var</span> left = (chang_w - width) / 2 +<span style="color: #000000"> gun_dong_tiao_wei_zhi().left;
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> ii = 0; ii &lt; <span style="color: #0000ff">this</span>.jie_dian.length; ii++<span style="color: #000000">) {
+            </span><span style="color: #0000ff">this</span>.jie_dian[ii].style.top = top + 'px'<span style="color: #000000">;
+            </span><span style="color: #0000ff">this</span>.jie_dian[ii].style.left = left + 'px'<span style="color: #000000">;
+        }
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        alert(</span>"区块元素页面居中,只能设置一个区块元素，目前jie_dian数组里是多个元素请检查！"<span style="color: #000000">)
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* chuang_kou_shi_jian()方法，浏览器窗口事件，当窗口的大小变化时触发函数
+ * 接收一个参数，就是触发时要执行的函数（包含函数功能）
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.chuang_kou_shi_jian </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (fn) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> yan_su = <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i];
+    }
+    addEvent(window, </span>'resize', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        fn();
+        </span><span style="color: #0000ff">if</span> (yan_su.offsetLeft &gt; getInner().width + gun_dong_tiao_wei_zhi().left -<span style="color: #000000"> yan_su.offsetWidth) {
+            yan_su.style.left </span>= getInner().width + gun_dong_tiao_wei_zhi().left - yan_su.offsetWidth + 'px'<span style="color: #000000">;
+            </span><span style="color: #0000ff">if</span> (yan_su.offsetLeft &lt;= 0 +<span style="color: #000000"> gun_dong_tiao_wei_zhi().width){
+                yan_su.style.left </span>= 0 + gun_dong_tiao_wei_zhi().left + 'px'<span style="color: #000000">;
+            }
+        }
+        </span><span style="color: #0000ff">if</span> (yan_su.offsetTop &gt; getInner().height + gun_dong_tiao_wei_zhi().top -<span style="color: #000000"> yan_su.offsetHeight) {
+            yan_su.style.top </span>= getInner().height + gun_dong_tiao_wei_zhi().top - yan_su.offsetHeight + 'px'<span style="color: #000000">;
+            </span><span style="color: #0000ff">if</span> (yan_su.offsetTop &lt;= 0 +<span style="color: #000000"> gun_dong_tiao_wei_zhi().top){
+                yan_su.style.top </span>= 0 + gun_dong_tiao_wei_zhi().top + 'px'<span style="color: #000000">;
+            }
+        }
+    });
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* zhe_zhao_suo_ping()方法，将一个区块元素设置成遮罩锁屏区块
+ * 注意：一般需要在css文件将元素设置成隐藏
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.zhe_zhao_suo_ping </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian.length == 1<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> yan_su = <span style="color: #0000ff">null</span><span style="color: #000000">;
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+            yan_su </span>= <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i];
+        }
+        fixedScroll.top </span>=<span style="color: #000000"> gun_dong_tiao_wei_zhi().top;
+        fixedScroll.left </span>=<span style="color: #000000"> gun_dong_tiao_wei_zhi().left;
+        </span><span style="color: #0000ff">var</span> chang_w = getInner().width;  <span style="color: #008000">//</span><span style="color: #008000">getInner()函数库函数，跨浏览器获取浏览器视窗大小</span>
+        <span style="color: #0000ff">var</span> chang_h =<span style="color: #000000"> getInner().height;
+        yan_su.style.width </span>= chang_w + gun_dong_tiao_wei_zhi().left + 'px'<span style="color: #000000">;
+        yan_su.style.height </span>= chang_h + gun_dong_tiao_wei_zhi().top + 'px'<span style="color: #000000">;
+        yan_su.style.position </span>= 'absolute'<span style="color: #000000">;
+        yan_su.style.top </span>= '0'<span style="color: #000000">;
+        yan_su.style.left </span>= '0'<span style="color: #000000">;
+        </span><span style="color: #0000ff">var</span> y_style = getStyle(yan_su, 'display'); <span style="color: #008000">//</span><span style="color: #008000">getStyle()函数库函数，跨浏览器获取元素Style，样式指定属性</span>
+        <span style="color: #0000ff">if</span> (y_style === "block"<span style="color: #000000">) {
+            addEvent(window, </span>'scroll', fixedScroll);  <span style="color: #008000">//</span><span style="color: #008000">定位滚动条</span>
+            gdt_cao_zuo('y');  <span style="color: #008000">//</span><span style="color: #008000">隐藏滚动条</span>
+<span style="color: #000000">        }
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        alert(</span>"遮罩锁屏区块,只能设置一个区块元素，目前jie_dian数组里是多个元素请检查！"<span style="color: #000000">)
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* jie_chu_suo_ping()方法，将一个锁屏区块元素解除锁屏
+ * 注意：一般需要在css文件将元素设置成隐藏
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.jie_chu_suo_ping </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span>.jie_dian[i].style.display = 'none'<span style="color: #000000">;
+    }
+    removeEvent(window, </span>'scroll', fixedScroll);  <span style="color: #008000">//</span><span style="color: #008000">删除定位滚动条</span>
+    gdt_cao_zuo('x');  <span style="color: #008000">//</span><span style="color: #008000">显示滚动条</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------元素事件结束--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------元素动画开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*
+ * 元素动画说明
+ * yi_dong_tou_ming()方法，将一个元素，
+ * 1，x将元素横向左移动或者右移动
+ * 2, y将元素竖向上移动或者下移动
+ * 3，w将元素动画增加或者减少宽度
+ * 4，h将元素动画增加或者减少高度
+ * 5，o将元素动画增加或者减少透明度
+ * 注意：也可以写其他css属性名称（全称），来动画增加或者减少css属性的数值，必须是值为数值的css属性，如：font-size
+ * *******************************************
+ *
+ *</span><span style="color: #008000">*/</span>
+
+
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">* yi_dong_tou_ming()方法，动态改变css属性说明
+ * * yi_dong_tou_ming()方法，将一个元素，进行一下动画操作
+ * 1，x将元素横向左移动或者右移动
+ * 2, y将元素竖向上移动或者下移动
+ * 3，w将元素动画增加或者减少宽度
+ * 4，h将元素动画增加或者减少高度
+ * 5，o将元素动画增加或者减少透明度
+ * 注意：也可以写其他css属性名称（全称），来动画增加或者减少css属性的数值，必须是值为数值的css属性，如：font-size
+ * *************************************
+ *  x将元素横向左移动或者右移动，首先将目标设置定位，position:absolute;
+ *  o将元素动画增加或者减少透明度，结合css里元素原始透明度filter: alpha(opacity=0);opacity: 0;
+ *  *************************************
+ *  yi_dong_tou_ming()方法，参数说明
+ *  参数是一个对象如下
+ *  yi_dong_tou_ming({
+            'attr':'x',        【为动画方式】，   x.为横向移动，y.为竖向移动，w.为增加宽度动画，h.为增加高度动画，o.为透明度动画，【必填】
+                                                  注意：也可以写其他css属性名称（全称），来动画增加或者减少css属性的数值，必须是值为数值的css属性，如：font-size
+                                                  o.为透明度动画,设置透明度动画时，必须先在css里设置初始透明度如：opacity:1;filter:alpha(opacity=100);
+                                                  否则IE9以下无法实现透明度动画
+
+            'type':'1',        【动画模式】，     0.匀速模式，1.缓冲模式【可选，默认缓冲】
+            'speed':6,         【缓冲速度】，     动画模式为缓冲时设置，【可选，默认为6】,以此值改变跨度.每一次动画动态增加或者减少，实现缓冲效果
+
+            'start':50,        【动画起始位置】， 起始的像素或者透明度【可选，默认为对象原始位置】一般不需要传
+                                                  注意：动画起始位置，一般按钮动画使用，如果是鼠标触动动画，会不停的初始化，因为鼠标一动就改变了动画起始位置
+
+            'target':100,      【目标量】，       就是在原始的像素或者透明度上，增加或者减少到目标量的像素或者透明度【可先，注意目标量不填，增量必填】
+            'alter':50,        【增量】，         就是在对象原始的像素或者透明度上，增加或者减少像素或者透明度【可先，注意增量不填，目标量必填】
+            'step':7,          【跨度】，         每一次动画增加或者减少的，像素或者透明度,【可选，默认20】
+            'danwei':'em',     【属性值单位】     danwei.为属性值单位，也就是以什么单位来计算css属性，如是px还是em等，不传默认px
+            't':50 ,           【每次动画时间】， 也就是多少毫秒执行一次动画【可选，默认10】
+            fn:function () {   【回调函数，列队】， 回调函数，用于动画执行完毕后执行函数，在回调函数里在写入动画，就是列队动画，也就是一个动画执行完毕后执行第二个动画
+
+            }
+            mul:{              【同步动画对象】，用于同时要执行多个动画，同步动画属性，属性值为对象，对象里面是，动画方式:目标量，组合的键值对，只能动画方式加目标量的键值对
+                                同步动画，除了动画方式和目标量外，其他的都是在同步动画对象外设置，因为他们是统一的其他参数
+                'w':101,
+                'h':500,
+                'o':30
+            }
+        });
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yi_dong_tou_ming </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (obj) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> element = <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i];
+         </span><span style="color: #008000">//</span><span style="color: #008000"> attr，为动画方式，</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> x.为横向移动</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> y.为竖向移动</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> w.为增加宽度动画</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> h.为增加高度动画</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> o.为透明度动画</span>
+        <span style="color: #0000ff">var</span> attr = obj['attr'] == 'x' ? 'left' : obj['attr'] == 'y' ? 'top'<span style="color: #000000"> :
+            obj[</span>'attr'] == 'w' ? 'width' : obj['attr'] == 'h' ? 'height'<span style="color: #000000"> :
+                obj[</span>'attr'] == 'o' ? 'opacity' : obj['attr'] != undefined ? obj['attr'] : 'left'<span style="color: #000000">;
+
+        </span><span style="color: #008000">//</span><span style="color: #008000"> start.为动画起始位置，</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> 如果输入了动画起始位置，值就为输入的起始位置，移动动画是像素值（如100），透明度动画是透明度百分比（如50）</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> 如果没输入，默认移动动画获取的对象原始像素位置，透明度动画获取的对象原始透明度，除以100等于原始透明度百分比</span>
+        <span style="color: #0000ff">var</span> start = obj['start'] != undefined ? obj['start'<span style="color: #000000">] :
+            attr </span>== 'opacity' ? parseFloat(getStyle(element, attr)) * 100<span style="color: #000000"> :
+                parseInt(getStyle(element, attr));
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> t.为每次动画时间，也就是多少毫秒执行一次动画</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> 不传默认，是10毫秒执行一次动画</span>
+        <span style="color: #0000ff">var</span> t = obj['t'] != undefined ? obj['t'] : 10<span style="color: #000000">;
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> step.为跨度，每一次动画增加或者减少的，像素或者透明度</span>
+        <span style="color: #0000ff">var</span> step = obj['step'] != undefined ? obj['step'] : 20<span style="color: #000000">;
+
+        </span><span style="color: #008000">//</span><span style="color: #008000"> danwei.为属性值单位，也就是以什么单位来计算css属性，如是px还是em等，不传默认px</span>
+        <span style="color: #0000ff">var</span> danwei = obj['danwei'] != undefined ? obj['danwei'] : 'px'<span style="color: #000000">;
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> alter.为增量，就是在对象原始的像素或者透明度上，增加或者减少像素或者透明度</span>
+        <span style="color: #0000ff">var</span> alter = obj['alter'<span style="color: #000000">];
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> target.为目标量，就是在原始的像素或者透明度上，增加或者减少到目标量的像素或者透明度</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> 注意，增量，是在原始上增加或者减少多少，目标量是在原始的基础上增加或者减少到目标</span>
+        <span style="color: #0000ff">var</span> target = obj['target'<span style="color: #000000">];
+
+        </span><span style="color: #008000">//</span><span style="color: #008000">mul,接收的，obj对象里的mul属性，而mul属性是一个对象，由动画方式加目标量组合的键值对，也就是要同步动画的参数</span>
+        <span style="color: #0000ff">var</span> mul = obj['mul'];    <span style="color: #008000">//</span><span style="color: #008000">接收同步动画（参数对象）</span>
+
+         <span style="color: #008000">//</span><span style="color: #008000"> speed.为缓冲速度，动画模式为缓冲时，以此值改变step.每一次动画动态增加或者减少，实现缓冲效果</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> 不传，默认为6</span>
+        <span style="color: #0000ff">var</span> speed = obj['speed'] != undefined ? obj['speed'] : 6<span style="color: #000000">;
+
+         </span><span style="color: #008000">//</span><span style="color: #008000"> type.为动画模式，匀速为匀速模式，缓冲为缓冲模式</span>
+         <span style="color: #008000">//</span><span style="color: #008000"> 不传，默认为缓冲模式</span>
+        <span style="color: #0000ff">var</span> type = obj['type'] == 0 ? 'constant' : obj['type'] == 1 ? 'buffer' : 'buffer'<span style="color: #000000">;
+
+        </span><span style="color: #0000ff">if</span> (alter != undefined &amp;&amp; target ==<span style="color: #000000"> undefined) {
+            target </span>= alter +<span style="color: #000000"> start;
+        } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (alter == undefined &amp;&amp; target == undefined &amp;&amp; mul ==<span style="color: #000000"> undefined) {
+            </span><span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('alter增量，或target目标量，或者同步动画对象，必须传一个！'<span style="color: #000000">);
+        }
+        </span><span style="color: #0000ff">if</span> (start &gt; target) step = -<span style="color: #000000">step;
+
+        </span><span style="color: #0000ff">if</span> (!<span style="color: #000000">isNaN(start)) {
+            </span><span style="color: #0000ff">if</span> (attr == 'opacity'<span style="color: #000000">) {
+                element.style.opacity </span>= parseInt(start) / 100<span style="color: #000000">;
+                element.style.filter </span>= 'alpha(opacity=' + parseInt(start) + ')'<span style="color: #000000">;
+            } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                element.style[attr] </span>= start +<span style="color: #000000"> danwei;
+            }
+        }
+
+        </span><span style="color: #0000ff">if</span> (mul == undefined){      <span style="color: #008000">//</span><span style="color: #008000">判断如果同步动画对象没有传，说明是单个动画</span>
+            mul = {};               <span style="color: #008000">//</span><span style="color: #008000">创建mul对象</span>
+            mul[attr] = target;     <span style="color: #008000">//</span><span style="color: #008000">将单个动画的，动画方式当作对象键，将目标量当作值，组合成键值对到对象里</span>
+<span style="color: #000000">        }
+
+        clearInterval(element.timer);                            </span><span style="color: #008000">//</span><span style="color: #008000">给对每个象创建定时器并停止定时器</span>
+        element.timer = setInterval(<span style="color: #0000ff">function</span> () {               <span style="color: #008000">//</span><span style="color: #008000">将对象下的定时器开启</span>
+            <span style="color: #008000">//</span><span style="color: #008000">创建一个布尔值，这个值可以了解对个动画是否执行完毕</span>
+            <span style="color: #0000ff">var</span> flag = <span style="color: #0000ff">true</span>;    <span style="color: #008000">//</span><span style="color: #008000">表示都执行完毕了</span>
+
+            <span style="color: #008000">//</span><span style="color: #008000">循环同步动画对象</span>
+            <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> mul) {
+                attr </span>= i == 'x' ? 'left' : i == 'y' ? 'top'<span style="color: #000000"> :
+                    i </span>== 'w' ? 'width' : i == 'h' ? 'height'<span style="color: #000000"> :
+                        i </span>== 'o' ? 'opacity' : i != undefined ? i : 'left';            <span style="color: #008000">//</span><span style="color: #008000">得到同步动画对象里的，动画方式</span>
+                target = mul[i];                                                       <span style="color: #008000">//</span><span style="color: #008000">得到同步动画对象里的，目标量</span>
+
+                <span style="color: #0000ff">if</span> (type == 'buffer'<span style="color: #000000">) {
+                    step </span>= attr == 'opacity' ? (target - parseFloat(getStyle(element, attr)) * 100) /<span style="color: #000000"> speed :
+                    (target </span>- parseInt(getStyle(element, attr))) /<span style="color: #000000"> speed;
+                    step </span>= step &gt; 0 ?<span style="color: #000000"> Math.ceil(step) : Math.floor(step);
+                }
+                </span><span style="color: #0000ff">if</span> (attr == 'opacity'<span style="color: #000000">) {
+                    </span><span style="color: #0000ff">if</span> (step == 0<span style="color: #000000">) {
+                        setOpacity();
+                    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (step &gt; 0 &amp;&amp; Math.abs(parseFloat(getStyle(element, attr)) * 100 - target) &lt;=<span style="color: #000000"> step) {
+                        setOpacity();
+                    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (step &lt; 0 &amp;&amp; (parseFloat(getStyle(element, attr)) * 100 - target) &lt;=<span style="color: #000000"> Math.abs(step)) {
+                        setOpacity();
+                    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                        </span><span style="color: #0000ff">var</span> temp = parseFloat(getStyle(element, attr)) * 100<span style="color: #000000">;
+                        element.style.opacity </span>= parseInt(temp + step) / 100<span style="color: #000000">;
+                        element.style.filter </span>= 'alpha(opacity=' + parseInt(temp + step) + ')'<span style="color: #000000">;
+                    }
+                    </span><span style="color: #008000">//</span><span style="color: #008000">判断目标值不等于元素当前值，说明动画还没到达目标值，将flag修改成false</span>
+                    <span style="color: #0000ff">if</span> (parseInt(target) !=  parseInt(parseFloat(getStyle(element, attr)) * 100)) flag = <span style="color: #0000ff">false</span><span style="color: #000000">;
+                } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                    </span><span style="color: #0000ff">if</span> (step == 0<span style="color: #000000">) {
+                        setTarget();
+                    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (step &gt; 0 &amp;&amp; Math.abs(parseInt(getStyle(element, attr)) - target) &lt;=<span style="color: #000000"> step) {
+                        setTarget();
+                    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (step &lt; 0 &amp;&amp; (parseInt(getStyle(element, attr)) - target) &lt;=<span style="color: #000000"> Math.abs(step)) {
+                        setTarget();
+                    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                        element.style[attr] </span>= parseInt(getStyle(element, attr)) + step +<span style="color: #000000"> danwei;
+                    }
+                    </span><span style="color: #008000">//</span><span style="color: #008000">判断目标值不等于元素当前值，说明动画还没到达目标值，将flag修改成false</span>
+                    <span style="color: #0000ff">if</span> (parseInt(target) != parseInt(getStyle(element, attr))) flag = <span style="color: #0000ff">false</span><span style="color: #000000">;
+                }
+            }
+            </span><span style="color: #008000">//</span><span style="color: #008000">判断flag = true;了说明元素的当前值已经达到目标值，可以停止定时器了</span>
+            <span style="color: #0000ff">if</span><span style="color: #000000"> (flag) {
+                clearInterval(element.timer);       </span><span style="color: #008000">//</span><span style="color: #008000">停止定时器</span>
+                <span style="color: #0000ff">if</span> (obj.fn != undefined)obj.fn();   <span style="color: #008000">//</span><span style="color: #008000">判断如果传入了回调函数，动画执行完毕后执行回调函数,列队动画</span>
+<span style="color: #000000">            }
+        }, t);
+        </span><span style="color: #0000ff">function</span><span style="color: #000000"> setTarget() {
+            element.style[attr] </span>= target +<span style="color: #000000"> danwei;
+        }
+        </span><span style="color: #0000ff">function</span><span style="color: #000000"> setOpacity() {
+            element.style.opacity </span>= parseInt(target) / 100<span style="color: #000000">;
+            element.style.filter </span>= 'alpha(opacity=' + parseInt(target) + ')'<span style="color: #000000">;
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------元素动画结束--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------插件入口开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">* 插件入口，简单的理解就是通过extend()方法，向此基础库添加一个原型方法
+ *  此extend()方法，一般是给插件文件使用的，插件就是通过extend()方法，将插件方法添加到基础库原型的
+ *  接收两个参数
+ *  参数1是传入要添加的方法名称
+ *  参数2是此方法的执行函数（包含代码）
+ *  使用方法：$().ext_end(方法名称，方法匿名函数)
+ *
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.ext_end </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (name, fn) {
+    feng_zhuang_ku.prototype[name] </span>=<span style="color: #000000"> fn;
+};
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------插件入口结束--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------ajax通讯开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">* ajax()方法，ajax通讯方法，跨页面向动态页面发送或获取数据
+ *  参数是一个对象{}，如下
+ *  $().ajax({
+            method:'post',                  【method】属性，通讯模式，post为post模式，get为get模式
+            url:'hj.php',                   【url】属性，发送数据或请求数据的url地址
+            data:{                          【data】属性，是发送内容，是一个对象，里面是键值对形式的发送数据对象
+                'name':'lee',
+                'age':100
+            },
+            success:function (text) {       【success】属性，是一个回调函数，函数参数是text，会接收到发送或者获取到的数据
+                alert(text);
+            },
+            async:true                      【async】属性，请求方式，true异步方式，false同步方式
+        });
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.Ajax </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (obj) {
+    </span><span style="color: #008000">//</span><span style="color: #008000">注意：引入了开源库json2，如果浏览器版本太低不支持JSON对象，通过一个开源库json2来模拟执行，如果支持JSON对象就用JSON对象</span>
+    <span style="color: #008000">//</span><span style="color: #008000">开源库json2写在函数库里</span>
+    <span style="color: #008000">//</span><span style="color: #008000">创建XHR对象</span>
+    <span style="color: #0000ff">var</span> xhr = (<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> XMLHttpRequest != 'undefined') {           <span style="color: #008000">//</span><span style="color: #008000">判断是否可以直接创建XHR对象，w3c</span>
+            <span style="color: #0000ff">return</span> <span style="color: #0000ff">new</span> XMLHttpRequest();                      <span style="color: #008000">//</span><span style="color: #008000">如果可以就直接创建XHR对象</span>
+        } <span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> ActiveXObject != 'undefined') {     <span style="color: #008000">//</span><span style="color: #008000">判断IE低版本的3种模式是否支持</span>
+            <span style="color: #0000ff">var</span> version =<span style="color: #000000"> [
+                </span>'MSXML2.XMLHttp.6.0'<span style="color: #000000">,
+                </span>'MSXML2.XMLHttp.3.0'<span style="color: #000000">,
+                </span>'MSXML2.XMLHttp'<span style="color: #000000">
+            ];
+            </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; version.length; i++<span style="color: #000000">) {
+                </span><span style="color: #0000ff">try</span><span style="color: #000000"> {
+                    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">new</span><span style="color: #000000"> ActiveXObject(version[i]);
+                } </span><span style="color: #0000ff">catch</span><span style="color: #000000"> (e) {
+                    </span><span style="color: #008000">//</span><span style="color: #008000">跳过</span>
+<span style="color: #000000">                }
+            }
+        } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+            </span><span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('您的系统或浏览器不支持XHR对象！');   <span style="color: #008000">//</span><span style="color: #008000">如果都不支持报错</span>
+<span style="color: #000000">        }
+    })();  </span><span style="color: #008000">//</span><span style="color: #008000">自我执行闭包里的函数,创建XHR对象</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">接收对象url地址</span>
+    obj.url = obj.url + '?rand=' + Math.random();                 <span style="color: #008000">//</span><span style="color: #008000">组合对象传进来的通讯url地址</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">接收对象传来的内容，进行名值对编码</span>
+    obj.data = (<span style="color: #0000ff">function</span><span style="color: #000000"> (data) {
+        </span><span style="color: #0000ff">var</span> arr =<span style="color: #000000"> [];
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> data) {
+            arr.push(encodeURIComponent(i) </span>+ '=' +<span style="color: #000000"> encodeURIComponent(data[i]));
+        }
+        </span><span style="color: #0000ff">return</span> arr.join('&amp;');  <span style="color: #008000">//</span><span style="color: #008000">将数组格式化分隔符后返回</span>
+    })(obj.data);  <span style="color: #008000">//</span><span style="color: #008000">自我执行闭包里的函数</span>
+
+    <span style="color: #008000">//</span><span style="color: #008000">判断请求方式来</span>
+    <span style="color: #0000ff">if</span> (obj.method === 'get') obj.url += obj.url.indexOf('?') == -1 ? '?' + obj.data : '&amp;' +<span style="color: #000000"> obj.data;
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">判断发送模式如果是异步</span>
+    <span style="color: #0000ff">if</span> (obj.async === <span style="color: #0000ff">true</span><span style="color: #000000">) {
+        </span><span style="color: #008000">//</span><span style="color: #008000">添加一个加载事件</span>
+        xhr.onreadystatechange = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            </span><span style="color: #008000">//</span><span style="color: #008000">判断已经接受到全部响应数据，而且可以使用</span>
+            <span style="color: #0000ff">if</span> (xhr.readyState == 4<span style="color: #000000">) {
+                callback();
+            }
+        };
+    }
+    xhr.open(obj.method, obj.url, obj.async);
+    </span><span style="color: #0000ff">if</span> (obj.method === 'post'<span style="color: #000000">) {
+        xhr.setRequestHeader(</span>'Content-Type', 'application/x-www-form-urlencoded'<span style="color: #000000">);
+        xhr.send(obj.data);
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        xhr.send(</span><span style="color: #0000ff">null</span><span style="color: #000000">);
+    }
+    </span><span style="color: #0000ff">if</span> (obj.async === <span style="color: #0000ff">false</span><span style="color: #000000">) {
+        callback();
+    }
+    </span><span style="color: #0000ff">function</span><span style="color: #000000"> callback() {
+        </span><span style="color: #0000ff">if</span> (xhr.status == 200<span style="color: #000000">) {
+            obj.success(xhr.responseText);            </span><span style="color: #008000">//</span><span style="color: #008000">回调传递参数</span>
+        } <span style="color: #0000ff">else</span><span style="color: #000000"> {
+            alert(</span>'获取数据错误！错误代号：' + xhr.status + '，错误信息：' +<span style="color: #000000"> xhr.statusText);
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------ajax通讯结束--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------表单序列化开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">* xu_lie_biao_dan()方法，表单序列化方法，将自动获取指定表单里面的各项字段name值和value值，无法连缀
+ *  参数是要获取指定表单的原生态对象
+ *  返回，包含表单数据的对象，如，{表单数据}
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.xu_lie_biao_dan </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (form) {
+    </span><span style="color: #0000ff">var</span> parts =<span style="color: #000000"> {};
+            </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; form.elements.length; i++) {    <span style="color: #008000">//</span><span style="color: #008000">根据表单字段长度循环</span>
+                <span style="color: #0000ff">var</span> filed = form.elements[i];                   <span style="color: #008000">//</span><span style="color: #008000">得到没一项表单的字段</span>
+                <span style="color: #0000ff">switch</span> (filed.type) {                           <span style="color: #008000">//</span><span style="color: #008000">判断得到字段的属性</span>
+                    <span style="color: #0000ff">case</span><span style="color: #000000"> undefined:
+                    </span><span style="color: #0000ff">case</span> 'submit'<span style="color: #000000">:
+                    </span><span style="color: #0000ff">case</span> 'reset'<span style="color: #000000">:
+                    </span><span style="color: #0000ff">case</span> 'file'<span style="color: #000000">:
+                    </span><span style="color: #0000ff">case</span> 'button'<span style="color: #000000">:
+                        </span><span style="color: #0000ff">break</span>;                                   <span style="color: #008000">//</span><span style="color: #008000">如果是以上几种的一种直接跳出</span>
+                    <span style="color: #0000ff">case</span> 'radio'<span style="color: #000000">:
+                    </span><span style="color: #0000ff">case</span> 'checkbox'<span style="color: #000000">:
+                        </span><span style="color: #0000ff">if</span> (!filed.selected) <span style="color: #0000ff">break</span>;              <span style="color: #008000">//</span><span style="color: #008000">如果是以上两种，判断是否被勾选，没勾选直接跳出</span>
+                    <span style="color: #0000ff">case</span> 'select-one'<span style="color: #000000">:
+                    </span><span style="color: #0000ff">case</span> 'select-multiple'<span style="color: #000000">:
+                        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> j = 0; j &lt; filed.options.length; j++) {     <span style="color: #008000">//</span><span style="color: #008000">下拉选项</span>
+                            <span style="color: #0000ff">var</span> option =<span style="color: #000000"> filed.options[j];
+                            </span><span style="color: #0000ff">if</span><span style="color: #000000"> (option.selected) {
+                                </span><span style="color: #0000ff">var</span> optvalue = ''<span style="color: #000000">;
+                                </span><span style="color: #0000ff">if</span> (option.hasAttribute) {                   <span style="color: #008000">//</span><span style="color: #008000">非ie</span>
+                                    optvalue = (option.hasAttribute('value') ? option.value : option.text);             <span style="color: #008000">//</span><span style="color: #008000">value值存在取value值，value值不存在取text值</span>
+                                } <span style="color: #0000ff">else</span> {  <span style="color: #008000">//</span><span style="color: #008000">ie</span>
+                                    optvalue = (option.attributes('value').specified ? option.value : option.text);     <span style="color: #008000">//</span><span style="color: #008000">value值存在取value值，value值不存在取text值</span>
+<span style="color: #000000">                                }
+                                parts[filed.name] </span>= optvalue;                                                           <span style="color: #008000">//</span><span style="color: #008000">如果不是以上情况，将表单字段的name值加上value值，添加到对象</span>
+<span style="color: #000000">                            }
+
+                        }
+                        </span><span style="color: #0000ff">break</span><span style="color: #000000">;
+                    </span><span style="color: #0000ff">default</span><span style="color: #000000">:
+                        parts[filed.name] </span>= filed.value;                                                                <span style="color: #008000">//</span><span style="color: #008000">如果不是以上情况，将表单字段的name值加上value值，添加到对象</span>
+<span style="color: #000000">                }
+            }
+            </span><span style="color: #0000ff">return</span><span style="color: #000000"> parts;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------表单序列化结束--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+
+
+
+
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*█████████████████████████████████████████████████函数库██████████████████████████████████████████████████████*</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">* 函数库说明：
+ * sys浏览器检测对象，对象下有8个属性
+ * dom_jia_zai()函数，DOM页面加载函数，等待页面结构加载完毕后就执行函数，不需要等待页面音频视频等文件加载完毕，提高加载速度
+ * addEvent()函数库函数，跨浏览器添加事件绑定,注意：传入事件名称时不要on
+ * removeEvent()函数库函数，跨浏览器删除事件绑定,注意：传入事件名称时不要on
+ * getInner()函数库函数，跨浏览器获取浏览器视窗大小
+ * gun_dong_tiao_wei_zhi()函数库函数，获取滚动条头部与浏览器头部的位置，获取底部滚动条与浏览器左边的位置
+ * ju_li_liu_lan_qi_tou()函数库函数，跨浏览器获取当前元素的头部与浏览器头部的位置是多少
+ * getStyle()函数库函数，跨浏览器获取元素Style，样式指定属性
+ * hasClass()函数库函数，判断一个元素的class属性值是否存在
+ * yuan_su_da_xiao()函数库函数，获取指定元素的绝对大小（包含边框）
+ * getEvent()函数库函数，跨浏览器获取事件对象,事件event对象,
+ * preDef()函数库函数，阻止事件默认行为,
+ * trim()函数库函数，删除字符串的前后空格
+ * scrollTop()函数库函数，滚动条清零，使滚动条无法下拉
+ * gdt_cao_zuo()函数库函数，显示和隐藏浏览器滚动条
+ * fixedScroll()函数库函数，定位滚动条
+ * pd_shuzu()函数库函数，判断一个类容是否存在一个数组中，返回布尔值
+ * sh_jd_suo_yin()函数库函数，获取当前节点的上一个节点，在父元素的索引
+ * xia_jd_suo_yin()函数库函数，获取当前节点的下一个节点，在父元素的索引
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*-----------------------------------------------------------------------------------------------------------------*</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">* sys浏览器检测对象，对象下有8个属性
+ * liu_lan_qi属性，检测浏览器名称和版本号，如：alert(sys.liu_lan_qi);
+ * xi_tong属性，检测浏览器运行环境，如：alert(sys.xi_tong);
+ * ie属性，检测IE浏览器的版本号，返回IE浏览器的版本号
+ * firefox属性，检测firefox浏览器的版本号，返回firefox浏览器的版本号
+ * chrome属性，检测chrome浏览器的版本号，返回chrome浏览器的版本号
+ * opera属性，检测opera浏览器的版本号，返回opera浏览器的版本号
+ * safari属性，检测safari浏览器的版本号，返回safari浏览器的版本号
+ * webkit属性，检测webkit浏览器的版本号，返回webkit浏览器的版本号
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+(</span><span style="color: #0000ff">function</span> () {                       <span style="color: #008000">//</span><span style="color: #008000">闭包，自我执行</span>
+    window.sys = {};                  <span style="color: #008000">//</span><span style="color: #008000">全局变量对象，保存浏览器信息</span>
+    <span style="color: #0000ff">var</span> ua = navigator.userAgent.toLowerCase();           <span style="color: #008000">//</span><span style="color: #008000">获取浏览器信息，并转化成小写</span>
+    <span style="color: #0000ff">var</span> s = [];                                           <span style="color: #008000">//</span><span style="color: #008000">浏览器信息数组</span>
+    <span style="color: #008000">/*</span><span style="color: #008000">*判断IE浏览器*</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">if</span> ((/msie ([\d.]+)/).test(ua)) {                      <span style="color: #008000">//</span><span style="color: #008000">IE10以下判断字段为：msie x版本号</span>
+        s = ua.match(/msie ([\d.]+)/);                    <span style="color: #008000">//</span><span style="color: #008000">如果有获取到msie x版本号返回数组</span>
+        sys.liu_lan_qi = '浏览器为IE：' + s[1];            <span style="color: #008000">//</span><span style="color: #008000">向sys对象添加liu_lan_qi属性，属性值等于获取到的数组第二个元素</span>
+        sys.ie = s[1<span style="color: #000000">];
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> ((/trident/).test(ua)) {                      <span style="color: #008000">//</span><span style="color: #008000">ie10以上判断字段为：trident</span>
+        s = ua.match(/rv:([\d.]+)/);                      <span style="color: #008000">//</span><span style="color: #008000">如果有获取到trident字段返回数组</span>
+        sys.liu_lan_qi = '浏览器为IE：' + s[1<span style="color: #000000">];
+        sys.ie </span>= s[1<span style="color: #000000">];
+    }
+    </span><span style="color: #008000">/*</span><span style="color: #008000">*判断火狐浏览器*</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">if</span> ((/firefox\/([\d.]+)/).test(ua)) {                  <span style="color: #008000">//</span><span style="color: #008000">火狐判断字段为：firefox</span>
+        s = ua.match(/firefox\/([\d.]+)/<span style="color: #000000">);
+        sys.liu_lan_qi </span>= '浏览器为firefox：' + s[1<span style="color: #000000">];
+        sys.firefox </span>= s[1<span style="color: #000000">];
+    }
+    </span><span style="color: #008000">/*</span><span style="color: #008000">*判断谷歌浏览器*</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">if</span> ((/chrome\/([\d.]+)/).test(ua)) {                    <span style="color: #008000">//</span><span style="color: #008000">谷歌判断字段为：chrome</span>
+        s = ua.match(/chrome\/([\d.]+)/<span style="color: #000000">);
+        sys.liu_lan_qi </span>= '浏览器为chrome：' + s[1<span style="color: #000000">];
+        sys.chrome </span>= s[1<span style="color: #000000">];
+    }
+    </span><span style="color: #008000">/*</span><span style="color: #008000">*判断Opera浏览器*</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">if</span> ((/opera\/.*version\/([\d.]+)/).test(ua)) {         <span style="color: #008000">//</span><span style="color: #008000">谷歌判断字段为：opera 与 version</span>
+        s = ua.match(/opera\/.*version\/([\d.]+)/<span style="color: #000000">);
+        sys.liu_lan_qi </span>= '浏览器为Opera：' + s[1<span style="color: #000000">];
+        sys.opera </span>= s[1<span style="color: #000000">];
+    }
+    </span><span style="color: #008000">/*</span><span style="color: #008000">*判断safari浏览器*</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">if</span> ((/version\/([\d.]+).*safari/).test(ua)) {         <span style="color: #008000">//</span><span style="color: #008000">谷歌判断字段为：version 与 safari</span>
+        s = ua.match(/version\/([\d.]+).*safari/<span style="color: #000000">);
+        sys.liu_lan_qi </span>= '浏览器为Opera：' + s[1<span style="color: #000000">];
+        sys.safari </span>= s[1<span style="color: #000000">];
+    }
+    </span><span style="color: #008000">/*</span><span style="color: #008000">*判断webkit浏览器*</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">if</span> ((/webkit/).test(ua)) {                  <span style="color: #008000">//</span><span style="color: #008000">webkit判断字段为：webkit</span>
+        s = ua.match(/webkit\/([\d.]+)/<span style="color: #000000">);
+        sys.liu_lan_qi </span>= '浏览器为webkit：' + s[1<span style="color: #000000">];
+        sys.webkit </span>= s[1<span style="color: #000000">];
+    }
+    </span><span style="color: #008000">/*</span><span style="color: #008000">*判断系统*</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">if</span><span style="color: #000000"> (Boolean(navigator.platform)) {
+        sys.xi_tong </span>= '环境系统为：' +<span style="color: #000000"> navigator.platform;
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        alert(</span>"无法检测到环境系统"<span style="color: #000000">)
+    }
+})();
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* dom_jia_zai()函数，DOM页面加载函数，等待页面结构加载完毕后就执行函数，不需要等待页面音频视频等文件加载完毕，提高加载速度
+ * 参数是页面结构加载完毕后要执行的函数
+ * 一般前写前台js文件时，使用此方法加载DOM页面后执行代码，提高速度
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> dom_jia_zai(fn) {
+    </span><span style="color: #0000ff">var</span> isReady = <span style="color: #0000ff">false</span><span style="color: #000000">;
+    </span><span style="color: #0000ff">var</span> timer = <span style="color: #0000ff">null</span><span style="color: #000000">;
+
+    </span><span style="color: #0000ff">function</span><span style="color: #000000"> doReady() {
+        </span><span style="color: #0000ff">if</span><span style="color: #000000"> (timer) clearInterval(timer);
+        </span><span style="color: #0000ff">if</span> (isReady) <span style="color: #0000ff">return</span><span style="color: #000000">;
+        isReady </span>= <span style="color: #0000ff">true</span><span style="color: #000000">;
+        fn();
+    }
+
+    </span><span style="color: #0000ff">if</span> ((sys.opera &amp;&amp; sys.opera &lt; 9) || (sys.firefox &amp;&amp; sys.firefox &lt; 3) || (sys.webkit &amp;&amp; sys.webkit &lt; 525<span style="color: #000000">)) {
+        timer </span>= setInterval(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            </span><span style="color: #0000ff">if</span> (document &amp;&amp; document.getElementById &amp;&amp; document.getElementsByTagName &amp;&amp;<span style="color: #000000"> document.body) {
+                doReady();
+            }
+        }, </span>1<span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (document.addEventListener) {<span style="color: #008000">//</span><span style="color: #008000">W3C</span>
+        addEvent(document, 'DOMContentLoaded', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            fn();
+            removeEvent(document, </span>'DOMContentLoaded'<span style="color: #000000">, arguments.callee);
+        });
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (sys.ie &amp;&amp; sys.ie &lt; 9<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> timer = <span style="color: #0000ff">null</span><span style="color: #000000">;
+        timer </span>= setInterval(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+            </span><span style="color: #0000ff">try</span><span style="color: #000000"> {
+                document.documentElement.doScroll(</span>'left'<span style="color: #000000">);
+                doReady();
+            } </span><span style="color: #0000ff">catch</span><span style="color: #000000"> (e) {
+            }
+        }, </span>1<span style="color: #000000">);
+    }
+}
+
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* addEvent()函数库函数，跨浏览器添加事件绑定,注意：传入事件名称时不要on
+ * 接收3个参数
+ * 参数1要绑定事件的元素对象，
+ * 参数2事件名称，也就是什么事件，注意：传入事件名称时不要on
+ * 参数3接收的事件执行函数
+ * 注意：一个元素对象，执行了多个相同的事件函数时只执行一次，其他的会被忽略，注意是相同的事件函数
+ * 说明：
+ * 事件函数里的this，代表绑定事件元素对象本身
+ * 事件函数里有一个可选参数e,e接收的元素event对象，传入addEvent()后跨浏览器获取到元素event对象，将元素event对象赋值给e
+ * 所以事件函数里的e,代表元素event对象，前提是首先要在事件函数传参e后，再在事件函数里调用e,得到元素event对象
+ * e.preventDefault()方法，在事件函数里写e.preventDefault()方法，兼容浏览器阻止事件元素对象默认行为，前提在事件函数要传参e
+ * e.stopPropagation()方法，在事件函数里写e.stopPropagation()方法，阻止元素对象的父级元素事件冒泡行为，前提在事件函数要传参e
+ * e.target属性，在事件函数里写e.target属性，获取到事件对象元素的标签节点（包含一个事件对象里的子节点）
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> addEvent(obj, type, fn) {
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> obj.addEventListener != 'undefined'<span style="color: #000000">) {
+        obj.addEventListener(type, fn, </span><span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #0000ff">if</span> (!obj.events) obj.events = {};                               <span style="color: #008000">//</span><span style="color: #008000">创建一个存放事件的哈希表(散列表)</span>
+        <span style="color: #0000ff">if</span> (!obj.events[type]) {                                        <span style="color: #008000">//</span><span style="color: #008000">第一次执行时执行</span>
+            obj.events[type] = [];                                      <span style="color: #008000">//</span><span style="color: #008000">创建一个存放事件处理函数的数组</span>
+            <span style="color: #0000ff">if</span> (obj['on' + type]) obj.events[type][0] = fn;             <span style="color: #008000">//</span><span style="color: #008000">把第一次的事件处理函数先储存到第一个位置上</span>
+        } <span style="color: #0000ff">else</span><span style="color: #000000"> {
+            </span><span style="color: #0000ff">if</span> (addEvent.equal(obj.events[type], fn)) <span style="color: #0000ff">return</span> <span style="color: #0000ff">false</span>;    <span style="color: #008000">//</span><span style="color: #008000">同一个注册函数进行屏蔽，不添加到计数器中</span>
+<span style="color: #000000">        }
+        obj.events[type][addEvent.ID</span>++] = fn;                           <span style="color: #008000">//</span><span style="color: #008000">从第二次开始我们用事件计数器来存储</span>
+        obj['on' + type] = addEvent.exec;                               <span style="color: #008000">//</span><span style="color: #008000">执行事件处理函数</span>
+<span style="color: #000000">    }
+}
+</span><span style="color: #008000">/*</span><span style="color: #008000">-------------------------------------------------------------------------------------</span><span style="color: #008000">*/</span>
+<span style="color: #008000">//</span><span style="color: #008000">为每个事件分配一个计数器</span><span style="color: #008000">
+//</span><span style="color: #008000">JS一切皆为对象，所以addEvent.ID语法正确，实际上是个全局变量</span>
+addEvent.ID = 1<span style="color: #000000">;
+addEvent.exec </span>= <span style="color: #0000ff">function</span> (event) {                          <span style="color: #008000">//</span><span style="color: #008000">执行事件处理函数</span>
+    <span style="color: #0000ff">var</span> e = event ||<span style="color: #000000"> addEvent.fixEvent(window.event);
+    </span><span style="color: #0000ff">var</span> es = <span style="color: #0000ff">this</span><span style="color: #000000">.events[e.type];
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> es) {
+        es[i].call(</span><span style="color: #0000ff">this</span><span style="color: #000000">, e);
+    }
+};
+addEvent.equal </span>= <span style="color: #0000ff">function</span> (es, fn) {                        <span style="color: #008000">//</span><span style="color: #008000">同一个注册函数进行屏蔽</span>
+    <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> es) {
+        </span><span style="color: #0000ff">if</span> (es[i] == fn) <span style="color: #0000ff">return</span> <span style="color: #0000ff">true</span><span style="color: #000000">;
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">false</span><span style="color: #000000">;
+};
+addEvent.fixEvent </span>= <span style="color: #0000ff">function</span> (event) {                      <span style="color: #008000">//</span><span style="color: #008000">把IE常用的Event对象配对到W3C中去</span>
+    event.preventDefault =<span style="color: #000000"> addEvent.fixEvent.preventDefault;
+    event.stopPropagation </span>=<span style="color: #000000"> addEvent.fixEvent.stopPropagation;
+    event.target </span>=<span style="color: #000000"> event.srcElement;
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> event;
+};
+addEvent.fixEvent.preventDefault </span>= <span style="color: #0000ff">function</span> () {            <span style="color: #008000">//</span><span style="color: #008000">IE阻止默认行为</span>
+    <span style="color: #0000ff">this</span>.returnValue = <span style="color: #0000ff">false</span><span style="color: #000000">;
+};
+addEvent.fixEvent.stopPropagation </span>= <span style="color: #0000ff">function</span> () {           <span style="color: #008000">//</span><span style="color: #008000">IE取消冒泡</span>
+    <span style="color: #0000ff">this</span>.cancelBubble = <span style="color: #0000ff">true</span><span style="color: #000000">;
+};
+</span><span style="color: #008000">/*</span><span style="color: #008000">---------------------------------------------------------------------------------------</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">* removeEvent()函数库函数，跨浏览器删除事件绑定,注意：传入事件名称时不要on
+ * 接收3个参数
+ * 参数1接收事件绑定时的元素对象
+ * 参数2接收事件绑定时的事件名称，也就是什么事件，注意：传入事件名称时不要on
+ * 参数3接收事件绑定时的执行函数
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> removeEvent(obj, type, fn) {
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> obj.removeEventListener != 'undefined'<span style="color: #000000">) {
+        obj.removeEventListener(type, fn, </span><span style="color: #0000ff">false</span><span style="color: #000000">);
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #0000ff">if</span><span style="color: #000000"> (obj.events) {
+            </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> obj.events[type]) {
+                </span><span style="color: #0000ff">if</span> (obj.events[type][i] ==<span style="color: #000000"> fn) {
+                    </span><span style="color: #0000ff">delete</span><span style="color: #000000"> obj.events[type][i];
+                }
+            }
+        }
+    }
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* getInner()函数库函数，跨浏览器获取浏览器视窗大小
+ * 返回一个对象，里面有两个属性
+ * width属性，代表浏览器视窗宽度
+ * height属性，代表浏览器视窗高度
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> getInner() {
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.innerWidth != 'undefined'<span style="color: #000000">) {
+        </span><span style="color: #0000ff">return</span><span style="color: #000000"> {
+            width: window.innerWidth,
+            height: window.innerHeight
+        }
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        </span><span style="color: #0000ff">return</span><span style="color: #000000"> {
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight
+        }
+    }
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* gun_dong_tiao_wei_zhi()函数库函数，获取滚动条头部与浏览器头部的位置，获取底部滚动条与浏览器左边的位置
+ * 无参
+ * 返回一个对象
+ * 对象有两个属性
+ * top，返回，滚动条头部与浏览器头部的位置
+ * left，返回，滚动条底部与浏览器底部的位置
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> gun_dong_tiao_wei_zhi() {
+    </span><span style="color: #0000ff">return</span><span style="color: #000000">{
+        top:document.documentElement.scrollTop </span>||<span style="color: #000000"> document.body.scrollTop,
+        left:document.documentElement.scrollLeft </span>||<span style="color: #000000"> document.body.scrollLeft
+    };
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* ju_li_liu_lan_qi_tou()函数库函数，跨浏览器获取当前元素的头部与浏览器头部的位置是多少
+ *  参数是要获取的元素对象
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> ju_li_liu_lan_qi_tou(element) {
+    </span><span style="color: #0000ff">var</span> top =<span style="color: #000000"> element.offsetTop;
+    </span><span style="color: #0000ff">var</span> parent =<span style="color: #000000"> element.offsetParent;
+    </span><span style="color: #0000ff">while</span> (parent != <span style="color: #0000ff">null</span><span style="color: #000000">){
+        top </span>+=<span style="color: #000000"> parent.offsetTop;
+        parent </span>=<span style="color: #000000"> parent.offsetParent;
+    }
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> top;
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* getStyle()函数库函数，跨浏览器获取元素Style，样式指定属性
+ * 两个参数
+ * 参数1接收元素对象
+ * 参数2接收css样式名称
+ * 返回指定元素的指定样式值
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> getStyle(jie_dian, attr) {
+    </span><span style="color: #0000ff">var</span><span style="color: #000000"> value;
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> window.getComputedStyle != 'undefined') {<span style="color: #008000">//</span><span style="color: #008000">W3C</span>
+        value = window.getComputedStyle(jie_dian, <span style="color: #0000ff">null</span><span style="color: #000000">)[attr];
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> jie_dian.currentStyle != 'undeinfed') {<span style="color: #008000">//</span><span style="color: #008000">IE</span>
+        value =<span style="color: #000000"> jie_dian.currentStyle[attr];
+    }
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> value;
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* hasClass()函数库函数，判断一个元素的class属性值是否存在
+ * 两个参数
+ * 参数1接收元素对象
+ * 参数2接收class属性值
+ * 返回指定元素的class属性值是否存在，
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> hasClass(jie_dian, className) {
+    </span><span style="color: #0000ff">return</span> jie_dian.className.match(<span style="color: #0000ff">new</span> RegExp('(\\s|^)' + className + '(\\s|$)'<span style="color: #000000">));
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* yuan_su_da_xiao()函数库函数，获取指定元素的绝对大小（包含边框）
+ * 接收一个参数，参数是元素对象
+ * 返回一个对象，里面有两个属性
+ * width属性，元素的宽度
+ * height属性，元素的高度
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> yuan_su_da_xiao(jie_dian) {
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> {
+        width: jie_dian.offsetWidth,
+        height: jie_dian.offsetHeight
+    }
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* getEvent()函数库函数，跨浏览器获取事件对象,事件event对象,
+ * 这个对象包含着所有与事件有关的信息。包括导致事件的元素、事件的类型、以及其它与特定事件相关的信息。
+ * 接收一个参数，参数是事件函数的形式参数，也就是事件函数的形式参数接收到的event对象
+ * 返回event对象,
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> getEvent(event) {
+    </span><span style="color: #0000ff">return</span> event ||<span style="color: #000000"> window.event;
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* preDef()函数库函数，阻止事件默认行为,
+ * 接收一个参数，参数是事件函数的形式参数，也就是事件函数的形式参数接收到的event对象
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> preDef(event) {
+    </span><span style="color: #0000ff">var</span> e =<span style="color: #000000"> getEvent(event);
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> e.preventDefault != 'undefined') {<span style="color: #008000">//</span><span style="color: #008000">W3C</span>
+<span style="color: #000000">        e.preventDefault();
+    } </span><span style="color: #0000ff">else</span> {<span style="color: #008000">//</span><span style="color: #008000">IE</span>
+        e.returnValue = <span style="color: #0000ff">false</span><span style="color: #000000">;
+    }
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* trim()函数库函数，删除字符串的前后空格
+ * 接收一个参数，参数是要删除前后空格的字符串
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> trim(str) {
+    </span><span style="color: #0000ff">return</span> str.replace(/(^\s*)|(\s*$)/g, ''<span style="color: #000000">);
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* scrollTop()函数库函数，滚动条清零，使滚动条无法下拉
+ * 无参
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> scrollTop() {
+    document.documentElement.scrollTop </span>= 0<span style="color: #000000">;
+    document.body.scrollTop </span>= 0<span style="color: #000000">;
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* gdt_cao_zuo()函数库函数，显示和隐藏浏览器滚动条
+ * 有参，x为显示滚动条，y为隐藏滚动条
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> gdt_cao_zuo(zhi) {
+    </span><span style="color: #0000ff">if</span> (zhi == 'x'<span style="color: #000000">){
+        parseFloat(sys.firefox) </span>&lt; 4 ? document.body.style.overflow = 'auto' : document.documentElement.style.overflow = 'auto'<span style="color: #000000">;
+    }</span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span>(zhi == 'y'<span style="color: #000000">){
+        parseFloat(sys.firefox) </span>&lt; 4 ? document.body.style.overflow = 'hidden' : document.documentElement.style.overflow = 'hidden'<span style="color: #000000">;
+    }</span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        alert(</span>'gdt_cao_zuo()函数库函数,参数不正确'<span style="color: #000000">);
+    }
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* fixedScroll()函数库函数，定位滚动条
+ *  fixedScroll.left参数，是外部通过fixedScroll属性方式传递的，如外部fixedScroll.left = getScroll().left;
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> fixedScroll() {
+    setTimeout(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        window.scrollTo(fixedScroll.left, fixedScroll.top);
+    }, </span>100<span style="color: #000000">);
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* pd_shuzu()函数库函数，判断一个类容是否存在一个数组中，返回布尔值
+ * 参数1判断的数组，参数2判断的内容
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> pd_shuzu(shuzu, value) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> shuzu) {
+        </span><span style="color: #0000ff">if</span> (shuzu[i] === value) <span style="color: #0000ff">return</span> <span style="color: #0000ff">true</span><span style="color: #000000">;
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">false</span><span style="color: #000000">;
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* sh_jd_suo_yin()函数库函数，获取当前节点的上一个节点，在父元素的索引
+ *  参数1，当前元素在父元素的索引
+ *  参数2，父元素原生对象
+ *  如果当前索引是开始位置0，返回的总索引减一
+ *  如果当前索引是结束位置，返回的当前索引减一
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> sh_jd_suo_yin(suoy,fjid) {
+    </span><span style="color: #0000ff">var</span> length = fjid.children.length;    <span style="color: #008000">//</span><span style="color: #008000">获取父节点里所有子节点的长度</span>
+    <span style="color: #0000ff">if</span> (suoy == 0) <span style="color: #0000ff">return</span> length - 1<span style="color: #000000">;
+    </span><span style="color: #0000ff">return</span> parseInt(suoy) - 1<span style="color: #000000">;
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* xia_jd_suo_yin()函数库函数，获取当前节点的下一个节点，在父元素的索引
+ *  参数1，当前元素在父元素的索引
+ *  参数2，父元素原生对象
+ *  如果当前索引是开始位置0，返回的当前索引减一
+ *  如果当前索引是结束位置，返回0
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> xia_jd_suo_yin(suoy,fjid) {
+    </span><span style="color: #0000ff">var</span> length = fjid.children.length;    <span style="color: #008000">//</span><span style="color: #008000">获取父节点里所有子节点的长度</span>
+    <span style="color: #0000ff">if</span> (suoy == length - 1) <span style="color: #0000ff">return</span> 0<span style="color: #000000">;
+    </span><span style="color: #0000ff">return</span> parseInt(suoy) + 1<span style="color: #000000">;
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃开源库json2开始▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃*</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">* json2.js 开源库json2，
+ *  如果浏览器版本太低不支持JSON对象，通过一个开源库json2.js来模拟执行，如果支持JSON对象就用JSON对象
+ *</span><span style="color: #008000">*/</span>
+
+<span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> JSON !== 'object'<span style="color: #000000">) {
+    JSON </span>=<span style="color: #000000"> {};
+}
+(</span><span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span>'use strict'<span style="color: #000000">;
+    </span><span style="color: #0000ff">function</span><span style="color: #000000"> f(n) {
+        </span><span style="color: #0000ff">return</span> n &lt; 10 ? '0' +<span style="color: #000000"> n : n;
+    }
+
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> Date.prototype.toJSON !== 'function'<span style="color: #000000">) {
+        Date.prototype.toJSON </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (key) {
+            </span><span style="color: #0000ff">return</span> isFinite(<span style="color: #0000ff">this</span><span style="color: #000000">.valueOf())
+                </span>? <span style="color: #0000ff">this</span>.getUTCFullYear() + '-' +<span style="color: #000000">
+            f(</span><span style="color: #0000ff">this</span>.getUTCMonth() + 1) + '-' +<span style="color: #000000">
+            f(</span><span style="color: #0000ff">this</span>.getUTCDate()) + 'T' +<span style="color: #000000">
+            f(</span><span style="color: #0000ff">this</span>.getUTCHours()) + ':' +<span style="color: #000000">
+            f(</span><span style="color: #0000ff">this</span>.getUTCMinutes()) + ':' +<span style="color: #000000">
+            f(</span><span style="color: #0000ff">this</span>.getUTCSeconds()) + 'Z'<span style="color: #000000">
+                : </span><span style="color: #0000ff">null</span><span style="color: #000000">;
+        };
+        String.prototype.toJSON </span>=<span style="color: #000000">
+            Number.prototype.toJSON </span>=<span style="color: #000000">
+                Boolean.prototype.toJSON </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (key) {
+                    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.valueOf();
+                };
+    }
+    </span><span style="color: #0000ff">var</span> cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/<span style="color: #000000">g,
+        escapable </span>= /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/<span style="color: #000000">g,
+        gap,
+        indent,
+        meta </span>= {    <span style="color: #008000">//</span><span style="color: #008000"> table of character substitutions</span>
+            '\b': '\\b'<span style="color: #000000">,
+            </span>'\t': '\\t'<span style="color: #000000">,
+            </span>'\n': '\\n'<span style="color: #000000">,
+            </span>'\f': '\\f'<span style="color: #000000">,
+            </span>'\r': '\\r'<span style="color: #000000">,
+            </span>'"': '\\"'<span style="color: #000000">,
+            </span>'\\': '\\\\'<span style="color: #000000">
+        },
+        rep;
+
+    </span><span style="color: #0000ff">function</span><span style="color: #000000"> quote(string) {
+        escapable.lastIndex </span>= 0<span style="color: #000000">;
+        </span><span style="color: #0000ff">return</span> escapable.test(string) ? '"' + string.replace(escapable, <span style="color: #0000ff">function</span><span style="color: #000000"> (a) {
+            </span><span style="color: #0000ff">var</span> c =<span style="color: #000000"> meta[a];
+            </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">typeof</span> c === 'string'
+                ?<span style="color: #000000"> c
+                : </span>'\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4<span style="color: #000000">);
+        }) </span>+ '"' : '"' + string + '"'<span style="color: #000000">;
+    }
+
+    </span><span style="color: #0000ff">function</span><span style="color: #000000"> str(key, holder) {
+        </span><span style="color: #0000ff">var</span> i,          <span style="color: #008000">//</span><span style="color: #008000"> The loop counter.</span>
+            k,          <span style="color: #008000">//</span><span style="color: #008000"> The member key.</span>
+            v,          <span style="color: #008000">//</span><span style="color: #008000"> The member value.</span>
+<span style="color: #000000">            length,
+            mind </span>=<span style="color: #000000"> gap,
+            partial,
+            value </span>=<span style="color: #000000"> holder[key];
+        </span><span style="color: #0000ff">if</span> (value &amp;&amp; <span style="color: #0000ff">typeof</span> value === 'object' &amp;&amp;
+            <span style="color: #0000ff">typeof</span> value.toJSON === 'function'<span style="color: #000000">) {
+            value </span>=<span style="color: #000000"> value.toJSON(key);
+        }
+        </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> rep === 'function'<span style="color: #000000">) {
+            value </span>=<span style="color: #000000"> rep.call(holder, key, value);
+        }
+        </span><span style="color: #0000ff">switch</span> (<span style="color: #0000ff">typeof</span><span style="color: #000000"> value) {
+            </span><span style="color: #0000ff">case</span> 'string'<span style="color: #000000">:
+                </span><span style="color: #0000ff">return</span><span style="color: #000000"> quote(value);
+            </span><span style="color: #0000ff">case</span> 'number'<span style="color: #000000">:
+                </span><span style="color: #0000ff">return</span> isFinite(value) ? String(value) : 'null'<span style="color: #000000">;
+            </span><span style="color: #0000ff">case</span> 'boolean'<span style="color: #000000">:
+            </span><span style="color: #0000ff">case</span> 'null'<span style="color: #000000">:
+                </span><span style="color: #0000ff">return</span><span style="color: #000000"> String(value);
+            </span><span style="color: #0000ff">case</span> 'object'<span style="color: #000000">:
+                </span><span style="color: #0000ff">if</span> (!<span style="color: #000000">value) {
+                    </span><span style="color: #0000ff">return</span> 'null'<span style="color: #000000">;
+                }
+                gap </span>+=<span style="color: #000000"> indent;
+                partial </span>=<span style="color: #000000"> [];
+                </span><span style="color: #0000ff">if</span> (Object.prototype.toString.apply(value) === '[object Array]'<span style="color: #000000">) {
+                    length </span>=<span style="color: #000000"> value.length;
+                    </span><span style="color: #0000ff">for</span> (i = 0; i &lt; length; i += 1<span style="color: #000000">) {
+                        partial[i] </span>= str(i, value) || 'null'<span style="color: #000000">;
+                    }
+                    v </span>= partial.length === 0
+                        ? '[]'<span style="color: #000000">
+                        : gap
+                        </span>? '[\n' + gap + partial.join(',\n' + gap) + '\n' + mind + ']'<span style="color: #000000">
+                        : </span>'[' + partial.join(',') + ']'<span style="color: #000000">;
+                    gap </span>=<span style="color: #000000"> mind;
+                    </span><span style="color: #0000ff">return</span><span style="color: #000000"> v;
+                }
+                </span><span style="color: #0000ff">if</span> (rep &amp;&amp; <span style="color: #0000ff">typeof</span> rep === 'object'<span style="color: #000000">) {
+                    length </span>=<span style="color: #000000"> rep.length;
+                    </span><span style="color: #0000ff">for</span> (i = 0; i &lt; length; i += 1<span style="color: #000000">) {
+                        </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> rep[i] === 'string'<span style="color: #000000">) {
+                            k </span>=<span style="color: #000000"> rep[i];
+                            v </span>=<span style="color: #000000"> str(k, value);
+                            </span><span style="color: #0000ff">if</span><span style="color: #000000"> (v) {
+                                partial.push(quote(k) </span>+ (gap ? ': ' : ':') +<span style="color: #000000"> v);
+                            }
+                        }
+                    }
+                } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                    </span><span style="color: #0000ff">for</span> (k <span style="color: #0000ff">in</span><span style="color: #000000"> value) {
+                        </span><span style="color: #0000ff">if</span><span style="color: #000000"> (Object.prototype.hasOwnProperty.call(value, k)) {
+                            v </span>=<span style="color: #000000"> str(k, value);
+                            </span><span style="color: #0000ff">if</span><span style="color: #000000"> (v) {
+                                partial.push(quote(k) </span>+ (gap ? ': ' : ':') +<span style="color: #000000"> v);
+                            }
+                        }
+                    }
+                }
+                v </span>= partial.length === 0
+                    ? '{}'<span style="color: #000000">
+                    : gap
+                    </span>? '{\n' + gap + partial.join(',\n' + gap) + '\n' + mind + '}'<span style="color: #000000">
+                    : </span>'{' + partial.join(',') + '}'<span style="color: #000000">;
+                gap </span>=<span style="color: #000000"> mind;
+                </span><span style="color: #0000ff">return</span><span style="color: #000000"> v;
+        }
+    }
+
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> JSON.stringify !== 'function'<span style="color: #000000">) {
+        JSON.stringify </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (value, replacer, space) {
+            </span><span style="color: #0000ff">var</span><span style="color: #000000"> i;
+            gap </span>= ''<span style="color: #000000">;
+            indent </span>= ''<span style="color: #000000">;
+            </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> space === 'number'<span style="color: #000000">) {
+                </span><span style="color: #0000ff">for</span> (i = 0; i &lt; space; i += 1<span style="color: #000000">) {
+                    indent </span>+= ' '<span style="color: #000000">;
+                }
+            } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> space === 'string'<span style="color: #000000">) {
+                indent </span>=<span style="color: #000000"> space;
+            }
+            rep </span>=<span style="color: #000000"> replacer;
+            </span><span style="color: #0000ff">if</span> (replacer &amp;&amp; <span style="color: #0000ff">typeof</span> replacer !== 'function' &amp;&amp;<span style="color: #000000">
+                (</span><span style="color: #0000ff">typeof</span> replacer !== 'object' ||
+                <span style="color: #0000ff">typeof</span> replacer.length !== 'number'<span style="color: #000000">)) {
+                </span><span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> Error('JSON.stringify'<span style="color: #000000">);
+            }
+            </span><span style="color: #0000ff">return</span> str('', {''<span style="color: #000000">: value});
+        };
+    }
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> JSON.parse !== 'function'<span style="color: #000000">) {
+        JSON.parse </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (text, reviver) {
+            </span><span style="color: #0000ff">var</span><span style="color: #000000"> j;
+
+            </span><span style="color: #0000ff">function</span><span style="color: #000000"> walk(holder, key) {
+                </span><span style="color: #0000ff">var</span> k, v, value =<span style="color: #000000"> holder[key];
+                </span><span style="color: #0000ff">if</span> (value &amp;&amp; <span style="color: #0000ff">typeof</span> value === 'object'<span style="color: #000000">) {
+                    </span><span style="color: #0000ff">for</span> (k <span style="color: #0000ff">in</span><span style="color: #000000"> value) {
+                        </span><span style="color: #0000ff">if</span><span style="color: #000000"> (Object.prototype.hasOwnProperty.call(value, k)) {
+                            v </span>=<span style="color: #000000"> walk(value, k);
+                            </span><span style="color: #0000ff">if</span> (v !==<span style="color: #000000"> undefined) {
+                                value[k] </span>=<span style="color: #000000"> v;
+                            } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+                                </span><span style="color: #0000ff">delete</span><span style="color: #000000"> value[k];
+                            }
+                        }
+                    }
+                }
+                </span><span style="color: #0000ff">return</span><span style="color: #000000"> reviver.call(holder, key, value);
+            }
+
+            text </span>=<span style="color: #000000"> String(text);
+            cx.lastIndex </span>= 0<span style="color: #000000">;
+            </span><span style="color: #0000ff">if</span><span style="color: #000000"> (cx.test(text)) {
+                text </span>= text.replace(cx, <span style="color: #0000ff">function</span><span style="color: #000000"> (a) {
+                    </span><span style="color: #0000ff">return</span> '\\u' +<span style="color: #000000">
+                        (</span>'0000' + a.charCodeAt(0).toString(16)).slice(-4<span style="color: #000000">);
+                });
+            }
+            </span><span style="color: #0000ff">if</span> (/^[\],:{}\s]*$/<span style="color: #000000">
+                    .test(text.replace(</span>/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@'<span style="color: #000000">)
+                        .replace(</span>/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']'<span style="color: #000000">)
+                        .replace(</span>/(?:^|:|,)(?:\s*\[)+/g, ''<span style="color: #000000">))) {
+                j </span>= eval('(' + text + ')'<span style="color: #000000">);
+                </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">typeof</span> reviver === 'function'
+                    ? walk({'': j}, ''<span style="color: #000000">)
+                    : j;
+            }
+            </span><span style="color: #0000ff">throw</span> <span style="color: #0000ff">new</span> SyntaxError('JSON.parse'<span style="color: #000000">);
+        };
+    }
+}());
+</span><span style="color: #008000">/*</span><span style="color: #008000">*▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃开源库json2结束▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃*</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">*█████████████████████████████████████████████████函数库██████████████████████████████████████████████████████*</span><span style="color: #008000">*/</span></pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,140 @@
+第一百六十七节，jQuery，DOM 节点操作，DOM 节点模型操作
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong>jQuery，DOM 节点操作，DOM 节点模型操作</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>学习要点： </strong></span></p>
+<p><span style="color: #0000ff"><strong>　　1.创建节点 </strong></span></p>
+<p><span style="color: #0000ff"><strong>　　2.插入节点 </strong></span></p>
+<p><span style="color: #0000ff"><strong>　　3.包裹节点 </strong></span></p>
+<p><span style="color: #0000ff"><strong>　　4.节点操作</strong></span></p>
+<p><span style="color: #000000"><strong>DOM 中有一个非常重要的功能，就是节点模型，也就是 DOM 中的“M”。页面中的元 素结构就是通过这种节点模型来互相对应着的，我们只需要通过这些节点关系，可以创建、 插入、替换、克隆、删除等等一些列的元素操作</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．创建节点 </strong></span></p>
+<p><span style="color: #000000"><strong>为了使页面更加智能化，有时我们想动态的在 html 结构页面添加一个元素标签，那么 在插入之前首先要做的动作就是：创建节点。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = $('&lt;div id="box"&gt;节点&lt;/div&gt;'); <span style="color: #008000">//</span><span style="color: #008000">创建一个节点</span>
+$('body').append(box); <span style="color: #008000">//</span><span style="color: #008000">将节点插入到&lt;body&gt;元素内部</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．插入节点 </strong></span></p>
+<p><strong>在创建节点的过程中，其实我们已经演示怎么通过.append()方法来插入一个节点。但除 了这个方法之余呢，jQuery 提供了其他几个方法来插入节点。</strong></p>
+<p><span style="color: #ff0000"><strong>内部插入节点方法</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170306175343281-1226681071.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>append(content) 向指定元素<span style="color: #0000ff">内部后面</span>插入节点 content参数是要插入的节点</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>append(function (index, html) {}) 使用匿名函数向指定元素<span style="color: #0000ff">内部后面</span>插入节点</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>appendTo(content) 将指定元素<span style="color: #0000ff">移入到</span>指定元素 content <span style="color: #0000ff">内部后面</span></strong></span></p>
+<p><br><span style="color: #ff0000"><strong>prepend(content) 向指定元素 content <span style="color: #0000ff">内部的前面</span>插入节点</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>prepend(function (index, html) {}) 使用匿名函数向指定元素<span style="color: #0000ff">内部的前面</span>插入节点</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>prependTo(content) 将指定元素<span style="color: #0000ff">移入到</span>指定元素 content <span style="color: #0000ff">内部前面</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>    $('div').append('&lt;strong&gt;节点&lt;/strong&gt;'); <span style="color: #008000">//</span><span style="color: #008000">向 div 内部插入 strong 节点</span>
+    $('div').append(<span style="color: #0000ff">function</span> (index, html) { <span style="color: #008000">//</span><span style="color: #008000">使用匿名函数插入节点，html 是原节点</span>
+        <span style="color: #0000ff">return</span> '&lt;strong&gt;节点&lt;/strong&gt;'<span style="color: #000000">;
+    });
+    $(</span>'span').appendTo('div'); <span style="color: #008000">//</span><span style="color: #008000">讲 span 节点移入 div 节点内</span>
+    $('span').appendTo($('div')); <span style="color: #008000">//</span><span style="color: #008000">同上</span>
+    $('div').prepend('&lt;span&gt;节点&lt;/span&gt;'); <span style="color: #008000">//</span><span style="color: #008000">将 span 插入到 div 内部的前面</span>
+    $('div').append(<span style="color: #0000ff">function</span> (index, html) { <span style="color: #008000">//</span><span style="color: #008000">使用匿名函数，同上</span>
+        <span style="color: #0000ff">return</span> '&lt;span&gt;节点&lt;/span&gt;'<span style="color: #000000">;
+    });
+    $(</span>'span').prependTo('div'); <span style="color: #008000">//</span><span style="color: #008000">将 span 移入 div 内部的前面</span>
+    $('span').prependTo($('div')); <span style="color: #008000">//</span><span style="color: #008000">同上</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>外部插入节点方法</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170306181155031-2053725409.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>after(content) 向指定元素的<span style="color: #0000ff">外部后面</span>插入节点 content参数是要插入的节点</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>after(function (index, html) {}) 使用匿名函数向指定元素的<span style="color: #0000ff">外部后面</span>插入节点</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>before(content) 向指定元素的<span style="color: #0000ff">外部前面</span>插入节点 content</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>before(function (index, html) {}) 使用匿名函数向指定元素的<span style="color: #0000ff">外部前面</span>插入节点</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>insertAfter(content) 将指定节点<span style="color: #0000ff">移到</span>指定元素 content <span style="color: #0000ff">外部的后面</span></strong></span></p>
+<p><br><span style="color: #ff0000"><strong>insertBefore(content) 将指定节点<span style="color: #0000ff">移到</span>指定元素 content <span style="color: #0000ff">外部的前面</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>　　$('div').after('&lt;span&gt;节点&lt;/span&gt;'); <span style="color: #008000">//</span><span style="color: #008000">向 div 的同级节点后面插入 span</span>
+    $('div').after(<span style="color: #0000ff">function</span> (index, html) { <span style="color: #008000">//</span><span style="color: #008000">使用匿名函数，同上</span>
+        <span style="color: #0000ff">return</span> '&lt;span&gt;节点&lt;/span&gt;'<span style="color: #000000">;
+    });
+    $(</span>'div').before('&lt;span&gt;节点&lt;/span&gt;'); <span style="color: #008000">//</span><span style="color: #008000">向 div 的同级节点前面插入 span</span>
+    $('div').before(<span style="color: #0000ff">function</span> (index, html) { <span style="color: #008000">//</span><span style="color: #008000">使用匿名函数，同上</span>
+        <span style="color: #0000ff">return</span> '&lt;span&gt;节点&lt;/span&gt;'<span style="color: #000000">;
+    });
+    $(</span>'span').insertAfter('div'); <span style="color: #008000">//</span><span style="color: #008000">将 span 元素移到 div 元素外部的后面</span>
+    $('span').insertBefore('div'); <span style="color: #008000">//</span><span style="color: #008000">将 span 元素移到 div 元素外部的前面</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．包裹节点 </strong></span></p>
+<p><strong>jQuery 提供了一系列方法用于包裹节点，那包裹节点是什么意思呢？其实就是使用字符 串代码将指定元素的代码包含着的意思。</strong></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170306182249219-1988483777.png" alt=""></strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170306182300156-855495428.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>wrap(html) 向指定元素<span style="color: #0000ff">外层包裹</span>一层 html 代码</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>wrap(element) 向指定元素<span style="color: #0000ff"><strong>外层</strong>包裹</span>一层 DOM 对象节点，参数必须是原生节点对象</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>wrap(function (index) {}) 使用匿名函数向指定元素<span style="color: #0000ff"><strong>外层</strong>包裹</span>一层自定义内容</strong></span></p>
+<div class="cnblogs_code">
+<pre>$('div').wrap('&lt;strong&gt;&lt;/strong&gt;'); <span style="color: #008000">//</span><span style="color: #008000">在 div 外层包裹一层 strong</span>
+$('div').wrap('&lt;strong&gt;123&lt;/strong&gt;'); <span style="color: #008000">//</span><span style="color: #008000">包裹的元素可以带内容</span>
+$('div').wrap('&lt;strong&gt;&lt;em&gt;&lt;/em&gt;&lt;/strong&gt;'); <span style="color: #008000">//</span><span style="color: #008000">包裹多个元素</span>
+$('div').wrap($('strong').get(0)); <span style="color: #008000">//</span><span style="color: #008000">也可以包裹一个原生 DOM</span>
+$('div').wrap(document.createElement('strong')); <span style="color: #008000">//</span><span style="color: #008000">临时的原生 DOM</span>
+$('div').wrap(<span style="color: #0000ff">function</span> (index) { <span style="color: #008000">//</span><span style="color: #008000">匿名函数</span>
+<span style="color: #0000ff">return</span> '&lt;strong&gt;&lt;/strong&gt;'<span style="color: #000000">;
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>unwrap() <span style="color: #0000ff">移除</span>一层指定元素包裹的内容</strong></span></p>
+<div class="cnblogs_code">
+<pre>$('div').unwrap(); <span style="color: #008000">//</span><span style="color: #008000">移除一层包裹内容，多个需移除多次</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>wrapAll(html) 用 html 将<span style="color: #0000ff">所有元素包裹</span>到一起</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>wrapAll(element) 用 <span style="color: #0000ff">DOM 对象将所有元素包裹</span>在一起，参数是原生对象</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>wrapInner(html) 向指定元素的<span style="color: #0000ff">子内容包裹一层</span> html</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>wrapInner(element) 向指定元素的<span style="color: #0000ff">子内容包裹一层 DOM</span> 对象节点，<strong>参数是原生对象</strong></strong></span></p>
+<p><br><span style="color: #ff0000"><strong>wrapInner(function (index) {}) 用匿名函数向指定元素的<span style="color: #0000ff">子内容包裹一层</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$('div').wrapAll('&lt;strong&gt;&lt;/strong&gt;'); <span style="color: #008000">//</span><span style="color: #008000">所有 div 外面只包一层 strong</span>
+$('div').wrapAll($('strong').get(0)); <span style="color: #008000">//</span><span style="color: #008000">同上</span>
+$('div').wrapInner('&lt;strong&gt;&lt;/strong&gt;'); <span style="color: #008000">//</span><span style="color: #008000">包裹子元素内容</span>
+$('div').wrapInner($('strong').get(0)); <span style="color: #008000">//</span><span style="color: #008000">DOM 节点</span>
+$('div').wrapInner(<span style="color: #0000ff">function</span> () { <span style="color: #008000">//</span><span style="color: #008000">匿名函数</span>
+<span style="color: #0000ff">return</span> '&lt;strong&gt;&lt;/strong&gt;'<span style="color: #000000">;
+});</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>&nbsp;注意：.wrap()和.wrapAll()的区别在前者把每个元素当成一个独立体，分别包含一层外 层；后者将所有元素作为一个整体作为一个独立体，只包含一层外层。这两种都是在外层包 含，而.wrapInner()在内层包含。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．节点操作，<strong>复制、替换和 删除节点</strong></strong></span></p>
+<p><strong>除了创建、插入和包裹节点，jQuery 还提供了一些常规的节点操作方法：复制、替换和 删除节点。</strong></p>
+<p><span style="color: #ff0000"><strong>clone()方法，复制一个节点，也叫克隆一个节点，有一个可选参数</strong></span></p>
+<p><span style="color: #0000ff"><strong>注意：clone(true)参数可以为空，表示只复制元素和内容，不复制事件行为。而加上 true 参数的话，这个元素附带的事件处理行为也复制出来。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$('div').clone().appendTo('body');  <span style="color: #008000">//</span><span style="color: #008000">复制一个节点添加到 body中</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>remove()方法，删除一个节点，有参可选，</strong></span></p>
+<p><span style="color: #0000ff"><strong>注意：.remove()不带参数时，删除前面对象选择器指定的元素。而.remove()也可以 带选择符参数的，比如：$('div').remove('#box');只删除 id=box 的 div。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">删除节点</span>
+$('div').remove(); <span style="color: #008000">//</span><span style="color: #008000">直接删除 div 元素</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>detach()保留事件的删除节点</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">保留事件的删除节点</span>
+$('div').detach(); <span style="color: #008000">//</span><span style="color: #008000">保留事件行为的删除</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>注意：.remove()和.detach()都是删除节点，而删除后本身方法可以返回当前被删除的节 点对象，但区别在于前者在恢复时不保留事件行为，后者则保留。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>empty()清空节点，删除掉节点里的内容</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">清空节点</span>
+$('div').empty(); <span style="color: #008000">//</span><span style="color: #008000">删除掉节点里的内容</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>replaceWith()替换节点,参数是要替换的节点</strong></span></p>
+<p><br><span style="color: #ff0000"><strong>replaceAll()替换节点,参数是被替换的节点</strong></span></p>
+<div class="cnblogs_code">
+<pre>$('div').replaceWith('&lt;span&gt;节点&lt;/span&gt;'); <span style="color: #008000">//</span><span style="color: #008000">将 div 替换成 span 元素</span>
+$('&lt;span&gt;节点&lt;/span&gt;').replaceAll('div'); <span style="color: #008000">//</span><span style="color: #008000">同上</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>注意：节点被替换后，所包含的事件行为就全部消失了。</strong></span></p>
+<p>&nbsp;</p></div>

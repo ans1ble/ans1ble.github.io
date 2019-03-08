@@ -1,0 +1,75 @@
+第二百九十一节，RabbitMQ多设备消息队列-安装与简介
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>RabbitMQ多设备消息队列-安装与简介</strong></p>
+<p>&nbsp;</p>
+<h3><span style="color: #ff0000">RabbitMQ简介</span></h3>
+<p>解释RabbitMQ，就不得不提到AMQP（Advanced Message Queuing Protocol）协议。 AMQP协议是一种基于网络的消息传输协议，它能够在应用或组织之间提供可靠的消息传输。RabbitMQ是该AMQP协议的一种实现，利用它，可以将消息安全可靠的从发 送方传输到接收方。简单的说，就是消息发送方利用RabbitMQ将信息安全的传递给接收方。</p>
+<p>RabbitMQ是一个在AMQP基础上完整的，可复用的企业消息系统。他遵循Mozilla Public License开源协议。</p>
+<p>MQ全称为Message Queue, 消息队列（MQ）是一种应用程序对应用程序的通信方法。应用程序通过读写出入队列的消息（针对应用程序的数据）来通信，而无需专用连接来链接它们。消 息传递指的是程序之间通过在消息中发送数据进行通信，而不是通过直接调用彼此来通信，直接调用通常是用于诸如远程过程调用的技术。排队指的是应用程序通过 队列来通信。队列的使用除去了接收和发送应用程序同时执行的要求。</p>
+<p>下载地址http://www.rabbitmq.com/download.html</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>RabbitMQ安装</strong></span></p>
+<p><strong><strong><strong><strong>安装</strong></strong>RabbitMQ，首先要安装erlang软件，然后在安装<strong>RabbitMQ软件</strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong>第一步：安装Erlang</strong></strong></strong></span></p>
+<p>(RabbitMQ是基于Erlang的，所以首先必须配置Erlang环境。)<br>        版本：otp_win32_R15B01.exe </p>
+<p>        安装目录：C:\ProgramFiles\erl5.9.1</p>
+<p>安装步骤如下：</p>
+<p><strong><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622122422710-521280881.jpg" alt=""></strong></strong></strong></p>
+<p><strong><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622122441257-1059045100.jpg" alt=""></strong></strong></strong></p>
+<p><strong><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622122521570-830800414.jpg" alt=""></strong></strong></strong></p>
+<p><strong><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622122529773-1368587921.jpg" alt=""></strong></strong></strong></p>
+<p><strong><strong><strong>Erlang 安装完成。</strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong>第二步：安装RabbitMQ-Server</strong></strong></strong></span></p>
+<p>安装路径：C:\Program Files\RabbitMQ Server</p>
+<p>bin目录： &nbsp;C:\Program Files\RabbitMQServer\rabbitmq_server-3.4.3\sbin</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622122658976-1020850994.jpg" alt=""></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622122721820-1599625696.jpg" alt=""></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622122742288-311057940.jpg" alt=""></p>
+<p>安装完成。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1><span style="color: #ff0000">测试安装是否成功：</span></h1>
+<p>使用 rabbitmqctl list_users（列出所有用户） 命令</p>
+<p>执行cmd命令，cd &nbsp;&nbsp;C:\Program Files\RabbitMQServer\rabbitmq_server-3.4.3\sbin &nbsp; &nbsp;首先进入sbin目录</p>
+<p>然后执行 &nbsp;rabbitmqctl list_users &nbsp;命令</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622123109101-824997879.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt"><strong>启用RabbitMQ 自带的Web 管理工具（先定位到rabbitmq安装目录sbin目录）：</strong></span><br>命令： rabbitmq-plugins enable rabbitmq_management</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622123232398-1180766791.png" alt=""></p>
+<p><strong>启动后，本机访问，界面如下：</strong></p>
+<p><strong>在浏览器地址输入：<a href="http://localhost:15672/" target="_blank">http://localhost:15672/</a>&nbsp; &nbsp;账号密码都是：guest&nbsp; &nbsp;&nbsp;</strong></p>
+<p><strong>注：guest账号只能 localhost 进行访问，远程无法用此默认账号</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622123335413-1400223025.jpg" alt=""></p>
+<p>&nbsp;</p>
+<p><strong>远程访问，需先添加账号 (Tags: administrator)：</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622123557773-10762264.png" alt=""></p>
+<p>&nbsp;</p>
+<p><strong>用刚分配好的Test进行远程登录，界面如下：</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622123653070-434346327.png" alt=""></p>
+<p>&nbsp;</p>
+<p><strong>完美收工！</strong></p>
+<p><span style="color: #ff0000"><strong>注意：</strong></span></p>
+<p>1. &nbsp;Rabbit MQ 远程程序开发过程中&nbsp;&nbsp;&nbsp; 需要开启15672&nbsp; 和&nbsp; 5672 两个端口</p>
+<p>2. 是否启动 RabbitMQ</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170622123932382-1565195487.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>执行cmd命令，cd &nbsp;&nbsp;C:\Program Files\RabbitMQServer\rabbitmq_server-3.4.3\sbin &nbsp; &nbsp;首先进入sbin目录下在写命令</strong></span></p>
+<p><span style="color: #ff0000"><strong>开启插件：网页管理工具</strong></span><br><strong>rabbitmq-plugins enable rabbitmq_management  </strong></p>
+<p><span style="color: #ff0000"><strong>重启rabbitmq-server服务</strong></span><br><strong>rabbitmq-server restart   </strong></p>
+<p><span style="color: #ff0000"><strong>服务器启动与关闭</strong></span><br><strong><span style="color: #ff0000"> 启动:</span> </strong><br><strong>rabbitmq-server –detached 【推荐】</strong><br><strong>rabbitmq-server start   </strong></p>
+<p><span style="color: #ff0000"><strong> 关闭:</strong></span><br><strong>rabbitmqctl stop  </strong><br><strong>rabbitmq-service stop  </strong></p>
+<p><span style="color: #ff0000"><strong>通过查看端口是否被监听</strong></span><br><strong>netstat -nlp | grep beam  </strong><br><strong>tcp        0      0 0.0.0.0:55672               0.0.0.0:*                   LISTEN      31054/beam.smp        </strong><br><strong>tcp        0      0 0.0.0.0:55354               0.0.0.0:*                   LISTEN      31054/beam.smp        </strong><br><strong>tcp        0      0 :::5672                     :::*                        LISTEN      31054/beam.smp   </strong></p>
+<p><span style="color: #ff0000"><strong>创建web管理用户</strong></span><br><strong>linux-bnnq:~ # rabbitmqctl add_user web_admin 123.com #添加web监听账户  </strong></p>
+<p><span style="color: #ff0000"><strong>设置web管理用户的角色</strong></span><br><strong>linux-bnnq:~ # rabbitmqctl set_user_tags web_admin monitoring #设置用户角色  </strong></p>
+<p><span style="color: #ff0000"><strong>查看设置的用户是否正确</strong></span><br><strong>linux-bnnq:~ #  rabbitmqctl list_users #查看监听用户</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>Rabbit MQ管理工具</strong></span></p>
+<p><strong><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170623044542195-233621860.png" alt=""></strong></p>
+<p><span style="color: #ff0000"><strong>删除队列操作，其他的类似</strong></span></p>
+<p><span style="color: #ff0000"><strong>选择一个队列进入后delete</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201706/955761-20170623044634945-255929978.png" alt=""></strong></span></p>
+<p>&nbsp;</p></div>

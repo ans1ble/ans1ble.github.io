@@ -1,0 +1,136 @@
+第六十九节，css入门基础
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">css入门基础</span></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong><br><strong>    1.使用CSS </strong><br><strong>    2.三种方式 </strong><br><strong>    3.层叠和继承</strong></p>
+<p>&nbsp;</p>
+<p><strong>本章主要探讨HTML5中CSS （层叠样式表），它是用来对HTML文档外观的表现形式进行排版和格式化。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">一 使用CSS</span> </strong><br><strong>    CSS样式由一条或多条以分号隔开的样式声明组成。每条声明的样式包含着一个CSS属性和属性值。 </strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="color:red;font-size:50px;"</span><span style="color: #0000ff">&gt;</span>这是一段文本<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span> </pre>
+</div>
+<p><strong> 解释：style是行内样式属性。color是颜色属性，red是颜色属性值；font-size 是字体大小属性，50px是字体大小属性值。 </strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">二 有三种使用方式</span> </strong><br><strong>    创建CSS样式表有三种方式：1.元素内嵌样式；2.文档内嵌样式；3.外部引入样式。</strong></p>
+<p><strong><span style="color: #ff0000"> 1.元素内嵌样式</span> </strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="color:red;font-size:50px;"</span><span style="color: #0000ff">&gt;</span>这是一段文本<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span> </pre>
+</div>
+<p><strong> 解释：即在当前元素使用style属性的声明方式。 </strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">2.文档内嵌样式</span>&nbsp;</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="zh-cn"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">定义文档的编码类型</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="utf-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>标题<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">css样式控制p标签</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">style </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/css"</span><span style="color: #0000ff">&gt;</span><span style="background-color: #f5f5f5; color: #800000">
+        p</span><span style="background-color: #f5f5f5; color: #000000">{</span><span style="background-color: #f5f5f5; color: #ff0000">
+            color</span><span style="background-color: #f5f5f5; color: #000000">:</span><span style="background-color: #f5f5f5; color: #0000ff"> blue</span><span style="background-color: #f5f5f5; color: #000000">;</span><span style="background-color: #f5f5f5; color: #ff0000">
+            font-size</span><span style="background-color: #f5f5f5; color: #000000">:</span><span style="background-color: #f5f5f5; color: #0000ff"> 40px</span><span style="background-color: #f5f5f5; color: #000000">;</span>
+        <span style="background-color: #f5f5f5; color: #000000">}</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">style</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>这是一段文本<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong> 解释：在&lt;head&gt;元素之间创建&lt;style&gt;元素，通过选择器的方式调用指定的元素并设置相关CSS。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>3.外部引用样式&nbsp;</strong></span></p>
+<p><span style="color: #000000"><strong>html文件</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="zh-cn"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">定义文档的编码类型</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="utf-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>标题<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #008000">&lt;!--</span><span style="color: #008000">外部引用css样式控制p标签</span><span style="color: #008000">--&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/css"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="1.css"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>这是一段文本<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>css文件</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8";
+p</span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #ff272d</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 40px</span>;
+}</pre>
+</div>
+<p><strong>解释：很多时候，大量的HTML页面使用了同一个组CSS。那么就可以将这些CSS样式保存在一个单独的.css文件中，然后通过&lt;link&gt;元素去引入它即可。@charset "utf-8"表明设置CSS的字符编码，如果不写默认就是utf-8。如果有多个.css文件，可以使用@import导入方式引入.css文件。只不过，性能不如多个&lt;link&gt;链接。&nbsp;</strong></p>
+<p><span style="color: #0000ff"><strong>在一个css文件里导入另外一个css文件，不推荐，<strong>性能不如在html页面多个&lt;link&gt;链接</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8";
+</span><span style="color: #008000">/*</span><span style="color: #008000">导入另外一个css文件</span><span style="color: #008000">*/</span><span style="color: #800000">
+@import "2.css";
+p</span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #ff272d</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 40px</span>;
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">三 层叠和继承</span> </strong><br><strong>所谓的样式表层叠：指的是同一个元素通过不同方式设置样式表产生的样式重叠。样式表继承：指的是某一个被嵌套的元素得到它父元素样式。还有一种样式叫浏览器样式，是这个元素在这个浏览器运行时默认附加的样式。</strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000"> 1.浏览器样式</span> </strong><strong><br></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">b</span><span style="color: #0000ff">&gt;</span>这个元素隐含加粗样式<span style="color: #0000ff">&lt;/</span><span style="color: #800000">b</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="font-weight:bold;"</span><span style="color: #0000ff">&gt;</span>这个元素通过style加粗<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong> 解释：如&lt;b&gt;元素就是具有加粗的隐含样式，而&lt;span&gt;元素没有任何隐含样式，通过style属性设置样式。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"> <strong>2.样式表层叠优先级</strong></span><br><strong>    样式表层叠通过四种方式进行，如果样式相同，那么比如会产生冲突替换。这时，它的优先级顺序就显的比较重要。以下优先级从低到高： </strong><br><strong>    (1).浏览器样式（元素自身携带的样式）；优先级4最低&nbsp;</strong><br><strong>    (2).外部引入样式（使用&lt;link&gt;引入的样式）； 优先级3</strong><br><strong>    (3).文档内嵌样式（使用&lt;style&gt;元素设置）；优先级2&nbsp;</strong><br><strong>    (4).元素内嵌样式（使用style属性设置）。优先级1最高</strong></p>
+<p><strong>元素内嵌，<strong>优先级1最高</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="color:red;font-size:30px;"</span><span style="color: #0000ff">&gt;</span>我将被三种方式叠加样式<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>文档内嵌 ，<strong>优先级2</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">style </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/css"</span><span style="color: #0000ff">&gt;</span><span style="background-color: #f5f5f5; color: #800000"> 
+p 
+color:blue; 
+font-weight: bold; 
+} 
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">style</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>外部引入 ，<strong>优先级3</strong></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8"; 
+p 
+color: green;
+
+font-style: italic; 
+}</span></pre>
+</div>
+<p><strong>如果某一个样式被优先级高的给替换掉了，却又想执行这个样式方案，可以将这个方案标记成重要样式（important），强行设置最高优先级。</strong></p>
+<p><strong>强行设置最高优先级</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">color: green !important;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>3.样式继承 </strong></span><br><strong>    如果某一个元素并没有设置父元素相关的样式，那么就会使用继承机制将父元素的样式集成下来。 </strong><br><strong>&lt;b&gt;元素继承了&lt;p&gt;元素的样式</strong> </p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">p </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="color:red;"</span><span style="color: #0000ff">&gt;</span>这是<span style="color: #0000ff">&lt;</span><span style="color: #800000">b</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">b</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong>样式继承只适用于元素的外观（文字、颜色、字体等），而元素在页面上的布局样式则不会被继承。如果继承布局样式，就必须使用强制继承：inherit。</strong></p>
+<p><strong>强制继承布局样式</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">style </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/css"</span><span style="color: #0000ff">&gt;<br></span><span style="background-color: #f5f5f5; color: #800000">　　p</span><span style="background-color: #f5f5f5; color: #000000">{</span><span style="background-color: #f5f5f5; color: #ff0000">
+　　　　border</span><span style="background-color: #f5f5f5; color: #000000">:</span><span style="background-color: #f5f5f5; color: #0000ff"> 1px solid red</span><span style="background-color: #f5f5f5; color: #000000">;</span>
+　　<span style="background-color: #f5f5f5; color: #000000">}</span><span style="background-color: #f5f5f5; color: #800000">
+　　b</span><span style="background-color: #f5f5f5; color: #000000">{</span><span style="background-color: #f5f5f5; color: #ff0000">
+　　　　border </span><span style="background-color: #f5f5f5; color: #000000">:</span><span style="background-color: #f5f5f5; color: #0000ff">inherit</span><span style="background-color: #f5f5f5; color: #000000">;</span>
+　　<span style="background-color: #f5f5f5; color: #000000">}</span><br><span style="color: #0000ff">&lt;/</span><span style="color: #800000">style</span><span style="color: #0000ff">&gt;</span><br><span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>这是<span style="color: #0000ff">&lt;</span><span style="color: #800000">b</span><span style="color: #0000ff">&gt;</span>HTML5<span style="color: #0000ff">&lt;/</span><span style="color: #800000">b</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p></div>

@@ -1,0 +1,1649 @@
+第二百二十六节，jQuery EasyUI，Tree(树)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，Tree(树)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170423121859288-1315071549.png" alt=""></p>
+<p><strong>本节课重点了解 EasyUI 中 Tree(树)组件的使用方法，<span style="color: #ff0000">这个组件依赖于 Draggable(拖 动)和 Droppable(放置)组件。</span></strong></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000">一．加载方式</span></strong></p>
+<p><span style="color: #0000ff"><strong>class 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="easyui-tree"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>系统管理<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>主机信息<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>版本信息<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>数据库信息<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>更新信息<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>程序信息<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>会员管理<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>新增会员<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>审核会员<span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #0000ff">JS 加载方式</span></strong></p>
+<p><span style="color: #ff0000"><strong>tree()将一个ul元素执行Tree(树)组件</strong></span></p>
+<p><span style="color: #0000ff"><strong>树控件数据格式化：<span style="color: #ff0000">注意：这些属性都是写在json远程数据里的</span></strong></span></p>
+<p><span style="color: #000000"><strong><span style="color: #0000ff"> id</span>：节点 ID，对加载远程数据很重要。 </strong></span></p>
+<p><span style="color: #ff0000"><strong>text：显示节点文本。(必选) </strong></span></p>
+<p><span style="color: #000000"><strong><span style="color: #0000ff">state</span>：节点状态，'open' 或 'closed'，默认：'open'。如果为'closed'的时候， 将不自动展开该节点。</strong></span></p>
+<p><span style="color: #000000"><strong><span style="color: #0000ff"> checked</span>：表示该节点是否被选中。 </strong></span></p>
+<p><span style="color: #000000"><strong><span style="color: #0000ff">attributes</span>: 被添加到节点的自定义属性。</strong></span></p>
+<p><span style="color: #000000"><strong><span style="color: #0000ff"> children:</span> 一个节点数组声明了若干节点。</strong></span></p>
+<p>&nbsp;</p>
+<p>html</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>js</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'content.json',    <span style="color: #008000">//</span><span style="color: #008000">远程加载数据</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; font-size: 18pt; background-color: #ffff00"><strong>注意：这些属性都是写在<span style="color: #0000ff">json远程数据</span>里的</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">id</span>：节点 ID，对加载远程数据很重要。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">[
+  {
+    </span><span style="color: #ff0000">"id": 1,
+    </span>"text": "系统管理"<span style="color: #000000">,
+    </span>"iconCls": "icon-add"<span style="color: #000000">
+  }
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">text</span>：显示节点文本。(必选)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">[
+  {
+    </span>"id": 1<span style="color: #000000">,
+    </span><span style="color: #ff0000">"text": "系统管理",
+    </span>"iconCls": "icon-add"<span style="color: #000000">
+  }
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">children</span>:&nbsp;一个节点数组声明了若干节点。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">[
+  {
+    </span>"id": 1<span style="color: #000000">,
+    </span>"text": "系统管理"<span style="color: #000000">,
+    </span>"iconCls": "icon-add"<span style="color: #000000">,
+    </span><span style="color: #ff0000">"children": [
+      {
+        "text": "主机信息",
+        <span style="color: #ff00ff">"children":[
+          {
+            "text" : "版本信息"
+          },
+          {
+            "text" : "数据库信息"
+          }
+        ]</span>
+      },
+      {
+        "text": "更新信息"
+      },
+      {
+        "text": "程序信息"</span><span style="color: #000000"><span style="color: #ff0000">
+      }
+    ]</span>
+  },
+  {
+    </span>"id": 2<span style="color: #000000">,
+    </span>"text": "会员管理"<span style="color: #000000">,
+    </span>"iconCls": "icon-add"<span style="color: #000000">,
+    </span><span style="color: #ff0000">"children": [
+      {
+        "text": "新增会员"
+      },
+      {
+        "text": "审核会员"</span><span style="color: #000000"><span style="color: #ff0000">
+      }
+    ]</span>
+  }
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170416201650681-1307829968.png" alt=""></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">state</span>：节点状态，'open' 或 'closed'，默认：'open'。如果为'closed'的时候， 将不自动展开该节点。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">[
+  {
+    </span>"id": 1<span style="color: #000000">,
+    </span>"text": "系统管理"<span style="color: #000000">,
+    </span>"iconCls": "icon-add"<span style="color: #000000">,
+    </span>"children"<span style="color: #000000">: [
+      {
+        </span>"text": "主机信息"<span style="color: #000000">,
+        </span><span style="color: #ff0000">"state":"closed",
+        </span>"children"<span style="color: #000000">:[
+          {
+            </span>"text" : "版本信息"<span style="color: #000000">
+          },
+          {
+            </span>"text" : "数据库信息"<span style="color: #000000">
+          }
+        ]
+      },
+      {
+        </span>"text": "更新信息"<span style="color: #000000">
+      },
+      {
+        </span>"text": "程序信息"<span style="color: #000000">
+      }
+    ]
+  },
+  {
+    </span>"id": 2<span style="color: #000000">,
+    </span>"text": "会员管理"<span style="color: #000000">,
+    </span>"iconCls": "icon-add"<span style="color: #000000">,
+    </span>"children"<span style="color: #000000">: [
+      {
+        </span>"text": "新增会员"<span style="color: #000000">
+      },
+      {
+        </span>"text": "审核会员"<span style="color: #000000">
+      }
+    ]
+  }
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">checked</span>：表示该节点是否被选中。</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">[
+  {
+    </span>"id": 1<span style="color: #000000">,
+    </span>"text": "系统管理"<span style="color: #000000">,
+    </span>"iconCls": "icon-add"<span style="color: #000000">,
+    </span>"children"<span style="color: #000000">: [
+      {
+        </span>"text": "主机信息"<span style="color: #000000">,
+        </span>"state":"closed"<span style="color: #000000">,
+        </span>"children"<span style="color: #000000">:[
+          {
+            </span>"text" : "版本信息"<span style="color: #000000">,
+            </span><span style="color: #ff0000">"checked":true</span><span style="color: #000000">
+          },
+          {
+            </span>"text" : "数据库信息"<span style="color: #000000">
+          }
+        ]
+      },
+      {
+        </span>"text": "更新信息"<span style="color: #000000">
+      },
+      {
+        </span>"text": "程序信息"<span style="color: #000000">
+      }
+    ]
+  },
+  {
+    </span>"id": 2<span style="color: #000000">,
+    </span>"text": "会员管理"<span style="color: #000000">,
+    </span>"iconCls": "icon-add"<span style="color: #000000">,
+    </span>"children"<span style="color: #000000">: [
+      {
+        </span>"text": "新增会员"<span style="color: #000000">
+      },
+      {
+        </span>"text": "审核会员"<span style="color: #000000">
+      }
+    ]
+  }
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170417110024602-625818818.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">attributes</span>: 被添加到节点的自定义属性。</strong></span></p>
+<p><span style="color: #ff0000; font-size: 18pt; background-color: #ffff00"><strong>以上属性都是写在<strong>json远程数据里的</strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．属性列表</strong></span></p>
+<p><strong>&nbsp;属性表格的属性扩展自 Tree(数据表格)，属性表格新增的的属性如下：</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170416232643743-1222587902.png" alt=""></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170416232650149-1999375182.png" alt=""></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170416232656274-227935236.png" alt=""></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">url</span> &nbsp; string 检索远程数据的 URL 地址。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        <span style="color: #ff0000">url: </span></span><span style="color: #ff0000">'content.json',    //远程加载数据</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">method</span> &nbsp; string 检索数据的 HTTP 方法。（POST / GET）</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'content.json',    <span style="color: #008000">//</span><span style="color: #008000">远程加载数据</span>
+        <span style="color: #ff0000">method:'POST'           //检索数据的 HTTP 方法</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">animate</span> &nbsp; boolean 定义节点在展开或折叠的时候是否显示动画效果。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'content.json',    <span style="color: #008000">//</span><span style="color: #008000">远程加载数据</span>
+        method:'POST',           <span style="color: #008000">//</span><span style="color: #008000">检索数据的 HTTP 方法</span>
+       <span style="color: #ff0000"> animate:true            //定义节点在展开或折叠的时候是否显示动画效果</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">checkbox</span> &nbsp; boolean 定义是否在每一个借点之前都显示复选框。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'content.json',    <span style="color: #008000">//</span><span style="color: #008000">远程加载数据</span>
+        method:'POST',           <span style="color: #008000">//</span><span style="color: #008000">检索数据的 HTTP 方法</span>
+        animate:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义节点在展开或折叠的时候是否显示动画效果</span>
+        <span style="color: #ff0000">checkbox:true            //定义是否在每一个借点之前都显示复选框</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170417103111227-304430407.png" alt=""></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">cascadeCheck</span> &nbsp; boolean 定义是否层叠选中状态。<span style="color: #0000ff">也就是选择时不关联上级目录</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'content.json',    <span style="color: #008000">//</span><span style="color: #008000">远程加载数据</span>
+        method:'POST',           <span style="color: #008000">//</span><span style="color: #008000">检索数据的 HTTP 方法</span>
+        animate:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义节点在展开或折叠的时候是否显示动画效果</span>
+        checkbox:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义是否在每一个借点之前都显示复选框</span>
+        <span style="color: #ff0000">cascadeCheck:false      //定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170417103654790-304862669.png" alt=""></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onlyLeafCheck</span> &nbsp; boolean 定义是否只在末级节点之前显示复选框。<span style="color: #0000ff">也就是只有最底层目录才显示复选框</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'content.json',    <span style="color: #008000">//</span><span style="color: #008000">远程加载数据</span>
+        method:'POST',           <span style="color: #008000">//</span><span style="color: #008000">检索数据的 HTTP 方法</span>
+        animate:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义节点在展开或折叠的时候是否显示动画效果</span>
+        checkbox:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义是否在每一个借点之前都显示复选框</span>
+        <span style="color: #ff0000">onlyLeafCheck:true,     //定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170417104146477-412201875.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">lines</span> &nbsp; boolean 定义是否显示树控件上的虚线。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'content.json',    <span style="color: #008000">//</span><span style="color: #008000">远程加载数据</span>
+        method:'POST',           <span style="color: #008000">//</span><span style="color: #008000">检索数据的 HTTP 方法</span>
+        animate:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义节点在展开或折叠的时候是否显示动画效果</span>
+        checkbox:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义是否在每一个借点之前都显示复选框</span>
+        onlyLeafCheck:<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        <span style="color: #ff0000">lines:true              //定义是否显示树控件上的虚线。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170417104419587-1649424771.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">dnd</span> &nbsp; boolean 定义是否启用拖拽功能。<span style="color: #0000ff">也就是支持拖拽改变层级关系</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'content.json',    <span style="color: #008000">//</span><span style="color: #008000">远程加载数据</span>
+        method:'POST',           <span style="color: #008000">//</span><span style="color: #008000">检索数据的 HTTP 方法</span>
+        animate:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义节点在展开或折叠的时候是否显示动画效果</span>
+        checkbox:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义是否在每一个借点之前都显示复选框</span>
+        onlyLeafCheck:<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        lines:<span style="color: #0000ff">true</span>,              <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        <span style="color: #ff0000">dnd:true                //定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">data</span> &nbsp; array 节点数据加载。<span style="color: #0000ff">本地加载节点数据</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        </span><span style="color: #008000">//</span><span style="color: #008000"> url: 'content.json',    //远程加载数据</span>
+        method:'POST',           <span style="color: #008000">//</span><span style="color: #008000">检索数据的 HTTP 方法</span>
+        animate:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义节点在展开或折叠的时候是否显示动画效果</span>
+        checkbox:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义是否在每一个借点之前都显示复选框</span>
+        onlyLeafCheck:<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        lines:<span style="color: #0000ff">true</span>,              <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        dnd:<span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">data: [{                 //节点数据加载。本地加载节点数据
+            "text": "本地数据",
+            "children": [
+                {
+                    "text": "子目录"</span><span style="color: #000000"><span style="color: #ff0000">
+                }
+            ]
+        }]</span>
+    });
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170417110917946-2126954654.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">formatter</span> &nbsp; function(node) 定义如何渲染节点的文本。<span style="color: #0000ff">格式化目录文本，<strong>node返回节点对象</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'content.json',    <span style="color: #008000">//</span><span style="color: #008000">远程加载数据</span>
+        method:'POST',           <span style="color: #008000">//</span><span style="color: #008000">检索数据的 HTTP 方法</span>
+        animate:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义节点在展开或折叠的时候是否显示动画效果</span>
+        checkbox:<span style="color: #0000ff">true</span>,            <span style="color: #008000">//</span><span style="color: #008000">定义是否在每一个借点之前都显示复选框</span>
+        onlyLeafCheck:<span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        lines:<span style="color: #0000ff">true</span>,              <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        dnd:<span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">formatter:function (node) {     //定义如何渲染节点的文本。格式化目录文本，node返回节点对象
+            return '['+node.text+']'</span><span style="color: #000000"><span style="color: #ff0000">;
+        }</span>
+    });
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170417111519306-790056416.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">loader</span> &nbsp; function(param,success,error)定义如何从远程服务器加载数据。返回false 可以忽略本操作。该函数具备以下参数：param：发送到远程服务器的参数对象。success(data)：当检索数据成功的时候调用的回调函数。error()：当检索数据失败的时候调用的回调函数。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">loadFilter</span> &nbsp; function(data,parent)返回过滤过的数据进行展示。返回数据是标准树格式。该函数具备以下参数：data：加载的原始数据。parent: DOM 对象，代表父节点。</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三，异步加载，<span style="color: #0000ff">也就是远程数据库动态加载目录</span></strong></span></p>
+<p><span style="color: #000000"><strong>如果想从数据库里获取导航内容，那么就必须实现一张父类子类的无限极数据库分类表。主要字段 有 </strong></span></p>
+<p><span style="color: #000000"><strong><span style="color: #0000ff">id(编号)</span>、自动编号，<span style="color: #ff0000">记录每一条目录的id号</span></strong></span></p>
+<p><span style="color: #000000"><strong><span style="color: #0000ff">text(名称)</span>、记录每一条目录的名称</strong></span></p>
+<p><span style="color: #000000"><strong><span style="color: #0000ff">state(状态)</span>、记录每一条目录是否有子目录，<span style="color: #ff0000">closed表示有子目录，open表示无子目录</span></strong></span></p>
+<p><span style="color: #000000"><strong><span style="color: #0000ff">tid(类别)</span>。记录每一条目录的父级目录id，<span style="color: #ff0000">也就是所属目录的id号，一级目录用0表示</span></strong></span></p>
+<p><span style="color: #000000"><strong><span style="color: #ff0000"><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170418082141477-1879043635.png" alt=""></span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>第一步，显示所有一级目录</strong></span></p>
+<p><span style="color: #0000ff"><strong>首次打开页面，时传递数据库tid为0，获取到所有tid为0的数据，也就是获取所有一级目录</strong></span></p>
+<p><span style="color: #000000">html</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>js</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url : </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+<span style="color: #000000">    });
+
+});</span></pre>
+</div>
+<p>tree.php</p>
+<div class="cnblogs_code">
+<pre>&lt;?<span style="color: #000000">php
+    </span><span style="color: #008000">//</span><span style="color: #008000">sleep(3);</span>
+    <span style="color: #0000ff">require</span> 'config.php'<span style="color: #000000">;
+    
+    </span><span style="color: #008000">//</span><span style="color: #008000">$q = $_POST['q'] ? $_POST['q'] : '';</span>
+    
+    <span style="color: #ff0000">$tid = 0;       //</span><span style="color: #008000"><span style="color: #ff0000">首次打开页面，时传递数据库tid为0，获取到所有tid为0的数据</span>
+    
+//    if (isset($_POST['id'])) {
+//        $tid = $_POST['id'];
+//    }</span>
+    
+    <span style="color: #800080">$query</span> = <span style="color: #008080">mysql_query</span>("SELECT id,text,state FROM think_nav WHERE tid='<span style="color: #ff0000">$tid</span>'") or <span style="color: #0000ff">die</span>('SQL 错误！'<span style="color: #000000">);
+
+    
+    </span><span style="color: #800080">$json</span> = ''<span style="color: #000000">;
+    
+    </span><span style="color: #0000ff">while</span> (!!<span style="color: #800080">$row</span> = <span style="color: #008080">mysql_fetch_array</span>(<span style="color: #800080">$query</span>,<span style="color: #000000"> MYSQL_ASSOC)) {
+        </span><span style="color: #800080">$json</span> .= json_encode(<span style="color: #800080">$row</span>).','<span style="color: #000000">;
+    }
+
+    </span><span style="color: #800080">$json</span> = <span style="color: #008080">substr</span>(<span style="color: #800080">$json</span>, 0, -1<span style="color: #000000">);
+    </span><span style="color: #ff0000">echo '['.$json.']';
+    </span><span style="color: #008000">//</span><span style="color: #008000">将获取到的数据转换为json格式
+    <span style="color: #ff0000">//[{"id":"1","text":"\u7cfb\u7edf\u7ba1\u7406","state":"closed"},{"id":"2","text":"\u4f1a\u5458\u7ba1\u7406","state":"closed"},{"id":"3","text":"\u4e3b\u673a\u4fe1\u606f","state":"closed"}]</span></span>
+    <span style="color: #008080">mysql_close</span><span style="color: #000000">();
+</span>?&gt;</pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170418091150477-1104148982.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>&nbsp;第二步，动态获取子目录</strong></span></p>
+<p><span style="color: #0000ff"><strong>当用户点击父级目录是，会自动将父级目录的id传递到远程地址，<span style="color: #ff0000">获取数据库tid为这个父级id的数据，也就是这个父级目录的子目录</span></strong></span></p>
+<p><span style="color: #000000">tree.php</span></p>
+<div class="cnblogs_code">
+<pre>&lt;?<span style="color: #000000">php
+    </span><span style="color: #008000">//</span><span style="color: #008000">sleep(3);</span>
+    <span style="color: #0000ff">require</span> 'config.php'<span style="color: #000000">;
+    
+    </span><span style="color: #008000">//</span><span style="color: #008000">$q = $_POST['q'] ? $_POST['q'] : '';</span>
+    
+    <span style="color: #ff0000">$tid = 0;       //首次打开页面，时传递数据库tid为0，获取到所有tid为0的数据
+    
+    if (isset($_POST['id'])) {          //判断如果，用户点击父级目录时有传递id
+        $tid = $_POST['id'];            //将传递的id赋值给tid
+    }
+    
+    </span><span style="color: #800080">$query</span> = <span style="color: #008080">mysql_query</span>("SELECT id,text,state FROM think_nav WHERE tid='<span style="color: #ff0000">$tid</span>'") or <span style="color: #0000ff">die</span>('SQL 错误！'<span style="color: #000000">);
+
+    
+    </span><span style="color: #800080">$json</span> = ''<span style="color: #000000">;
+    
+    </span><span style="color: #0000ff">while</span> (!!<span style="color: #800080">$row</span> = <span style="color: #008080">mysql_fetch_array</span>(<span style="color: #800080">$query</span>,<span style="color: #000000"> MYSQL_ASSOC)) {
+        </span><span style="color: #800080">$json</span> .= json_encode(<span style="color: #800080">$row</span>).','<span style="color: #000000">;
+    }
+
+    </span><span style="color: #ff0000">$json = substr($json, 0, -1);
+    echo '['.$json.']';
+    </span><span style="color: #008000">//</span><span style="color: #008000">获取到tid为接收到的父亲id的数据转换为json格式
+    <span style="color: #ff0000">//[{"id":"6","text":"\u66f4\u65b0\u4fe1\u606f","state":"open"},{"id":"7","text":"\u7a0b\u5e8f\u4fe1\u606f","state":"open"}]</span></span>
+    <span style="color: #008080">mysql_close</span><span style="color: #000000">();
+</span>?&gt;</pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170418094437852-627678155.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>注意：这个过程是动态获取子目录的</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>第三步，展开所有的目录</strong></span></p>
+<p>html</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>js</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        <span style="color: #ff0000">onLoadSuccess: function (node, data) {   //当加载完毕后执行
+            //data接收返回的目录对象
+            if (data) {        //判断返回的目录对象如果有值
+                $(data).each(function (index, value) {        //遍历所有的目录对象
+                    if (this.state == 'closed') {            //判断如果目录对象里的state等于closed,说明此目录有子目录
+                        $('#box').tree('expandAll');        //展开所有子目录
+</span><span style="color: #000000"><span style="color: #ff0000">                    }
+                })
+            }
+        }</span>
+    });
+
+});</span></pre>
+</div>
+<p>tree.php</p>
+<div class="cnblogs_code">
+<pre>&lt;?<span style="color: #000000">php
+    </span><span style="color: #008000">//</span><span style="color: #008000">sleep(3);</span>
+    require 'config.php'<span style="color: #000000">;
+    
+    </span><span style="color: #008000">//</span><span style="color: #008000">$q = $_POST['q'] ? $_POST['q'] : '';</span>
+<span style="color: #000000">    
+    $tid </span>= 0;       <span style="color: #008000">//</span><span style="color: #008000">首次打开页面，时传递数据库tid为0，获取到所有tid为0的数据</span>
+    
+    <span style="color: #0000ff">if</span> (isset($_POST['id'])) {          <span style="color: #008000">//</span><span style="color: #008000">判断如果，用户点击父级目录时有传递id</span>
+        $tid = $_POST['id'];            <span style="color: #008000">//</span><span style="color: #008000">将传递的id赋值给tid</span>
+<span style="color: #000000">    }
+    
+    $query </span>= mysql_query("SELECT id,text,state FROM think_nav WHERE tid='$tid'") or die('SQL 错误！'<span style="color: #000000">);
+
+    
+    $json </span>= ''<span style="color: #000000">;
+    
+    </span><span style="color: #0000ff">while</span> (!!$row =<span style="color: #000000"> mysql_fetch_array($query, MYSQL_ASSOC)) {
+        $json .</span>= json_encode($row).','<span style="color: #000000">;
+    }
+
+    $json </span>= substr($json, 0, -1<span style="color: #000000">);
+    echo </span>'['.$json.']'<span style="color: #000000">;
+    </span><span style="color: #008000">//</span><span style="color: #008000">获取到tid为接收到的父亲id的数据转换为json格式</span>
+<span style="color: #000000">    mysql_close();
+</span>?&gt;</pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170418103553274-238752965.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四，事件列表</strong></span></p>
+<p><span style="color: #0000ff"><strong>很多事件的回调函数都包含<span style="color: #ff0000">'node'参数对象</span>，其具备如下属性：</strong></span></p>
+<p><span style="color: #ff0000"><strong> 　　id：绑定节点的标识值。</strong></span></p>
+<p><span style="color: #ff0000"><strong> 　　text：显示的节点文本。</strong></span></p>
+<p><span style="color: #ff0000"><strong> 　　iconCls：显示的节点图标 CSS 类 ID。 </strong></span></p>
+<p><span style="color: #ff0000"><strong>　　checked：该节点是否被选中。 </strong></span></p>
+<p><span style="color: #ff0000"><strong>　　state：节点状态，'open' 或 'closed'。 </strong></span></p>
+<p><span style="color: #ff0000"><strong>　　attributes：绑定该节点的自定义属性。</strong></span></p>
+<p><span style="color: #ff0000"><strong> 　　target：目标 DOM 对象。</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170418110745290-1973006754.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170418110803884-791461664.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170418110811446-1423954213.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170418110822352-2026007232.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170418110835806-601087564.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170418110845102-354718636.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onClick</span> &nbsp; node 在用户点击一个节点的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onClick:function (node) {                    //点击目录后触发
+            $.each(node, function (attr, value){    //遍历出目录对象
+                alert(attr + '：' + value);            //打印出对象里的数据
+</span><span style="color: #000000"><span style="color: #ff0000">            });
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onDblClick</span> &nbsp; node 在用户双击一个节点的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onDblClick:function (node) {                //双击目录后触发
+            $.each(node, function (attr, value){    //遍历出目录对象
+                alert(attr + '：' + value);            //打印出对象里的数据
+</span><span style="color: #000000"><span style="color: #ff0000">            });
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onBeforeLoad</span> &nbsp; node,param在请求加载远程数据之前触发，返回false 可以取消加载操作。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onBeforeLoad:function (node,param) {        //在请求加载远程数据之前触发，返回false 可以取消加载操作。
+            alert(node);    //接收的目录信息对象
+            alert(param);    //接收的目录id对象
+            // return false;
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onLoadSuccess</span> &nbsp; node, data 在数据加载成功以后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onLoadSuccess:function (node, data) {        //在数据加载成功以后触发
+            alert(node);    //接收的当前目录信息对象
+            alert(data);    //接收的所有目录信息对象
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onLoadError</span> &nbsp; arguments在数据加载失败的时候触发，arguments参数和 jQuery 的$.ajax()函数里面的'error'回调函数的参数相同。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree1.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onLoadError:function (arguments) {        //在数据加载失败的时候触发
+            <span style="color: #008080">// alert(arguments);    //接收错误信息对象
+            // $.each(arguments, function (attr, value){
+            //     alert(attr+value)
+            // });</span>
+            alert(arguments.status);  //打印错误信息代码
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onBeforeExpand</span> &nbsp; node 在节点展开之前触发，返回 false 可以取消展开操作。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onBeforeExpand:function (node) {        //在节点展开之前触发，返回 false 可以取消展开操作
+            alert(node);    //接收展开目录信息对象
+            // return false;
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onExpand</span> &nbsp; node 在节点展开的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onExpand:function (node) {        //在节点展开的时候触发
+            alert(node);    //接收展开目录信息对象
+            // return false;
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onBeforeCollapse</span> &nbsp; node 在节点折叠之前触发，返回 false 可以取消折叠操作。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onBeforeCollapse:function (node) {        //在节点折叠之前触发，返回 false 可以取消折叠操作
+            alert(node);    //接收折叠目录信息对象
+            // return false;
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onCollapse</span> &nbsp; node 在节点折叠的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onCollapse:function (node) {        //在节点折叠的时候触发
+            alert(node);    //接收折叠目录信息对象
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onBeforeCheck</span> &nbsp; node,checked在用户点击勾选复选框之前触发，返回false 可以取消选择动作。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onBeforeCheck:function (node,checked) {        //在用户点击勾选复选框之前触发，返回false 可以取消选择动作
+            alert(node);    //接收勾选目录信息对象
+            alert(checked); //接收勾选状态，布尔值
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onCheck</span> &nbsp; node,checked 在用户点击勾选复选框的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onCheck:function (node,checked) {        //在用户点击勾选复选框的时候触发
+            alert(node);    //接收勾选目录信息对象
+            alert(checked); //接收勾选状态，布尔值
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onBeforeSelect</span> &nbsp; node 在用户选择一个节点之前触发，返回false 可以取消选择动作。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onBeforeSelect:function (node) {        //在用户选择一个节点之前触发，返回false 可以取消选择动作。
+            alert(node);    //接收选择目录信息对象
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onSelect</span> &nbsp; node 在用户选择节点的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onSelect:function (node) {        //在用户选择节点的时候触发
+            alert(node);    //接收选择目录信息对象
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onContextMenu</span> &nbsp; e, node 在右键点击节点的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onContextMenu:function (node) {        //在右键点击节点的时候触发
+            alert(node);    //接收点击目录信息对象
+            //可以制作右击弹出菜单
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onBeforeDrag</span> &nbsp; node 在开始拖动节点之前触发，返回 false 可以拒绝拖动。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onBeforeDrag:function (node) {        //在开始拖动节点之前触发，返回 false 可以拒绝拖动
+            alert(node);    //接收拖动目录信息对象
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onStartDrag</span> &nbsp; node 在开始拖动节点的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onStartDrag:function (node) {        //在开始拖动节点的时候触发
+            alert(node);    //接收拖动目录信息对象
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onStopDrag</span> &nbsp; node 在停止拖动节点的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onStopDrag:function (node) {        //在停止拖动节点的时候触发
+            alert(node);    //接收拖动目录信息对象
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onDragEnter</span> &nbsp; target,source在拖动一个节点进入到某个目标节点并释放的时候触发，返回 false 可以拒绝拖动。target：释放的目标节点元素。source：开始拖动的源节点。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onDragEnter:function (target,source) {        //在拖动一个节点进入到某个目标节点并释放的时候触发，返回 false 可以拒绝拖动
+            alert(target);    //target：释放的目标节点元素
+            alert(source);    //source：开始拖动的源节点对象
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onDragOver</span> &nbsp; target,source在拖动一个节点经过某个目标节点并释放的时候触发，返回 false 可以拒绝拖动。target：释放的目标节点元素。source：开始拖动的源节点。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onDragOver:function (target,source) {        //在拖动一个节点经过某个目标节点并释放的时候触发，返回 false 可以拒绝拖动
+            alert(target);    //target：释放的目标节点元素
+            alert(source);    //source：开始拖动的源节点对象
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onDragLeave</span> &nbsp; target,source在拖动一个节点离开某个目标节点并释放的时候触发，返回 false 可以拒绝拖动。target：释放的目标节点元素。source：开始拖动的源节点。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onDragLeave:function (target,source) {        //在拖动一个节点离开某个目标节点并释放的时候触发，返回 false 可以拒绝拖动
+            alert(target);    //target：释放的目标节点元素
+            alert(source);    //source：开始拖动的源节点对象
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onBeforeDrop</span> &nbsp; target,source,point在拖动一个节点放置之前触发，返回 false 可以拒绝拖动。target：释放的目标节点元素。source：开始拖动的源节点。point：表示哪一种拖动操作，可用值有：'append','top' 或 'bottom'。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onBeforeDrop:function (target,source,point) {        //在拖动一个节点放置之前触发，返回 false 可以拒绝拖动
+            alert(target);    //target：释放的目标节点元素
+            alert(source);    //source：开始拖动的源节点对象
+            alert(point);    //point：表示哪一种拖动操作，可用值有：'append','top' 或 'bottom'。
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onDrop</span> &nbsp; target,source,point当节点位置被拖动放置时触发。target：DOM 对象，需要被拖动动的目标节点。source：源节点。point：表示哪一种拖动操作，可用值有：'append','top' 或 'bottom'。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onDrop:function (target,source,point) {        //当节点位置被拖动放置时触发
+            alert(target);    //target：释放的目标节点元素
+            alert(source);    //source：开始拖动的源节点对象
+            alert(point);    //point：表示哪一种拖动操作，可用值有：'append','top' 或 'bottom'。
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onBeforeEdit</span> &nbsp; node 在编辑节点之前触发。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onAfterEdit</span> &nbsp; node 在编辑节点之后触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd: <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onDblClick: function (node) {                    //双击一个节点时
+            $('#box').tree('beginEdit', node.target);    //开始编辑一个节点
+        },
+        onAfterEdit: function (node) {                        //在编辑节点之后触发
+            alert('执行服务器端'</span><span style="color: #000000"><span style="color: #ff0000">);
+            alert(node);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">onCancelEdit</span> &nbsp; node 在取消编辑操作的时候触发</strong></span>。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>五，方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170420124750056-438534068.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170420124801977-890929308.png" alt=""></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170420124807477-1515099253.png" alt=""></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170420124816493-1020932573.png" alt=""></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201704/955761-20170420124822196-632830230.png" alt=""></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">options</span> &nbsp; none 返回树控件属性。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+<span style="color: #000000">    });
+    <span style="color: #ff0000">alert($(</span></span><span style="color: #ff0000">'#box').tree('options'));        //返回树控件属性</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">loadData</span> &nbsp; data 读取树控件数据。<span style="color: #0000ff">也就是读取一个本地数据替换原来的数据</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+<span style="color: #000000">    });
+
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        $('#box').tree('loadData', [
+            {
+                text: '加载'</span><span style="color: #000000"><span style="color: #ff0000">
+            }
+        ]);
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">getNode</span> &nbsp; target 获取指定节点对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onClick : function (node) {
+            alert($('#box').tree('getNode', node.target)); //获取指定节点对象
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">getData</span> &nbsp; target 获取指定节点数据，包含它的子节点。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onClick : function (node) {
+            alert($('#box').tree('getData', node.target)); //获取指定节点数据，包含它的子节点。
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">reload</span> &nbsp; target 重新载入树控件数据。<span style="color: #0000ff">也就是重新加载一下数据相当于刷新</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        $('#box').tree('reload');    //重新载入树控件数据。也就是重新加载一下数据相当于刷新
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">getRoot</span> &nbsp; none 获取根节点，返回节点对象。也就是获取一级目录</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        alert($('#box').tree('getRoot'));    //获取根节点，返回节点对象。
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">getRoots</span> &nbsp; none 获取所有根节点，返回节点数组。也就是获取所有一级目录</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        alert($('#box').tree('getRoots'));    //获取所有根节点，返回节点数组。也就是获取所有一级目录
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">getParent</span> &nbsp; target 获取父节点，'target'参数代表节点的 DOM对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onClick : function (node) {
+            alert($('#box').tree('getParent', node.target)); //获取父节点，'target'参数代表节点的 DOM对象。
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #008000">//</span><span style="color: #008000"> $('#anl').click(function () {</span>
+     <span style="color: #008000">//</span><span style="color: #008000">    alert($('#box').tree('getRoots'));    //获取所有根节点，返回节点数组。也就是获取所有一级目录</span>
+    <span style="color: #008000">//</span><span style="color: #008000"> });</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">getChildren</span> &nbsp; target 获取所有子节点，'target'参数代表节点的DOM 对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onClick : function (node) {
+            alert($('#box').tree('getChildren', node.target));     //获取所有子节点，'target'参数代表节点的DOM 对象
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #008000">//</span><span style="color: #008000"> $('#anl').click(function () {</span>
+     <span style="color: #008000">//</span><span style="color: #008000">    alert($('#box').tree('getRoots'));    //获取所有根节点，返回节点数组。也就是获取所有一级目录</span>
+    <span style="color: #008000">//</span><span style="color: #008000"> });</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">getChecked</span> &nbsp; state获取所有选中的节点。'state'可用值有：<span style="color: #0000ff">'checked获取勾选的','unchecked获取没勾选的'</span>,'indeterminate获取未知状态的'。如果'state'第二个参数未指定，将返回'checked'节点。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('getChildren', node.target));     //获取所有子节点，'target'参数代表节点的DOM 对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        alert($('#box').tree('getChecked','unchecked'));    //获取勾选或者未勾选的节点对象
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">getSelected</span> &nbsp; none获取选择节点并返回它，如果未选择则返回null。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('getChildren', node.target));     //获取所有子节点，'target'参数代表节点的DOM 对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        alert($('#box').tree('getSelected'));    //获取选择节点并返回它，如果未选择则返回null
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">isLeaf</span> &nbsp; target 判断指定的节点是否是叶子节点，target 参数是一个节点 DOM 对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onClick : function (node) {
+            alert($('#box').tree('isLeaf', node.target));     //判断指定的节点是否是叶子节点
+</span><span style="color: #000000"><span style="color: #ff0000">        }</span>
+    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #008000">//</span><span style="color: #008000"> $('#anl').click(function () {</span>
+     <span style="color: #008000">//</span><span style="color: #008000">    alert($('#box').tree('getSelected'));    //获取选择节点并返回它，如果未选择则返回null</span>
+    <span style="color: #008000">//</span><span style="color: #008000"> });</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">find</span> &nbsp; id 查找指定节点并返回节点对象。<span style="color: #0000ff">通过id查找指定节点</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('isLeaf', node.target));     //判断指定的节点是否是叶子节点</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        var node = $('#box').tree('find',2);    //查找指定节点并返回节点对象。通过id查找指定节点
+        $('#box').tree('select',node.target);    //选择一个节点，'target'参数表示节点的 DOM对象
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">select</span> &nbsp; target 选择一个节点，'target'参数表示节点的 DOM对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('isLeaf', node.target));     //判断指定的节点是否是叶子节点</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        var node = $('#box').tree('find',2);    //查找指定节点并返回节点对象。通过id查找指定节点
+        $('#box').tree('select',node.target);    //选择一个节点，'target'参数表示节点的 DOM对象
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">check</span> &nbsp; target 选中指定节点。勾选一个节点</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('isLeaf', node.target));     //判断指定的节点是否是叶子节点</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        var node = $('#box').tree('find',7);    //查找指定节点并返回节点对象。通过id查找指定节点
+        $('#box').tree('check',node.target);    //选中指定节点。勾选一个节点
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">uncheck</span> &nbsp; target 取消选中指定节点。取消勾选一个节点</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('isLeaf', node.target));     //判断指定的节点是否是叶子节点</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        var node = $('#box').tree('find',7);    //查找指定节点并返回节点对象。通过id查找指定节点
+        $('#box').tree('uncheck',node.target);    //取消选中指定节点。取消勾选一个节点
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">collapse</span> &nbsp; target 折叠一个节点，'target'参数表示节点的 DOM对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('isLeaf', node.target));     //判断指定的节点是否是叶子节点</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        var node = $('#box').tree('find',1);    //查找指定节点并返回节点对象。通过id查找指定节点
+        $('#box').tree('collapse',node.target);    //折叠一个节点
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">expand</span> &nbsp; target展开一个节点，'target'参数表示节点的 DOM对象。在节点关闭或没有子节点的时候，节点ID 的值(名为'id'的参数)将会发送给服务器请求子节点的数据。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('isLeaf', node.target));     //判断指定的节点是否是叶子节点</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        var node = $('#box').tree('find',1);    //查找指定节点并返回节点对象。通过id查找指定节点
+        $('#box').tree('expand',node.target);    //展开一个节点，'target'参数表示节点的 DOM对象。在节点关闭或没有子节点的时候，节点ID 的值(名为'id'的参数)将会发送给服务器请求子节点的数据。
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">collapseAll</span> &nbsp; target 折叠所有节点。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('isLeaf', node.target));     //判断指定的节点是否是叶子节点</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    $('#anl').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000"> var node = $('#box').tree('find',1);    //查找指定节点并返回节点对象。通过id查找指定节点</span>
+        <span style="color: #ff0000">$('#box').tree('collapseAll');    //折叠所有节点。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">expandAll</span> &nbsp; target 展开所有节点。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('isLeaf', node.target));     //判断指定的节点是否是叶子节点</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    $('#anl').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000"> var node = $('#box').tree('find',1);    //查找指定节点并返回节点对象。通过id查找指定节点</span>
+        <span style="color: #ff0000">$('#box').tree('expandAll');    //展开所有节点。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">expandTo</span> &nbsp; target 打开从根节点到指定节点之间的所有节点。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">scrollTo</span> &nbsp; target 滚动到指定节点。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">append</span> &nbsp; param追加若干子节点到一个父节点，param 参数有2 个属性：parent：DOM 对象，将要被追加子节点的父节点，如果未指定，子节点将被追加至根节点。data：数组，节点数据。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('isLeaf', node.target));     //判断指定的节点是否是叶子节点</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        var node = $('#box').tree('find',1);    //查找指定节点并返回节点对象。通过id查找指定节点
+        $('#box').tree('append',{        //追加若干子节点到一个父节点，param 参数有2 个属性：parent：DOM 对象，将要被追加子节点的父节点，如果未指定，子节点将被追加至根节点。data：数组，节点数据。
+            parent:node.target,            //要插入的父节点
+            data:[{                        //要插入的节点
+                text:'添加节点1'</span><span style="color: #000000"><span style="color: #ff0000">
+            }]
+        });
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">toggle</span> &nbsp; target 打开或关闭节点的触发器，<span style="color: #0000ff">也就是展开关闭来回切换器</span>，target 参数是一个节点 DOM 对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('toggle', node.target));     //打开或关闭节点的触发器，target 参数是一个节点 DOM 对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        var node = $('#box').tree('find',1);    //查找指定节点并返回节点对象。通过id查找指定节点
+        $('#box').tree('toggle',node.target);    //打开或关闭节点的触发器，也就是展开关闭来回切换器，target 参数是一个节点 DOM 对象。
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">insert</span> &nbsp; param<span style="color: #0000ff">在一个指定节点之前或之后插入节点</span>，'param'参数包含如下属性：before：DOM 对象，在某个节点之前插入。after：DOM 对象，在某个节点之后插入。data：对象，节点数据。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('toggle', node.target));     //打开或关闭节点的触发器，target 参数是一个节点 DOM 对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        var node = $('#box').tree('find',2);    //查找指定节点并返回节点对象。通过id查找指定节点
+        $('#box').tree('insert',{                //在一个指定节点之前或之后插入节点
+            before:node.target,
+            data:[
+                {
+                    text:'插入节点'</span><span style="color: #000000"><span style="color: #ff0000">
+                }
+            ]
+        });
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">remove</span> &nbsp; target 移除一个节点和它的子节点，'target'参数是该节点的 DOM 对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('toggle', node.target));     //打开或关闭节点的触发器，target 参数是一个节点 DOM 对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        var node = $('#box').tree('find',2);    //查找指定节点并返回节点对象。通过id查找指定节点
+        $('#box').tree('remove',node.target);    //移除一个节点和它的子节点
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">pop</span> &nbsp; target移除一个节点和它的子节点，该方法跟remove 方法一样，不同的是它将返回被移除的节点数据。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('toggle', node.target));     //打开或关闭节点的触发器，target 参数是一个节点 DOM 对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        var node = $('#box').tree('find',2);    //查找指定节点并返回节点对象。通过id查找指定节点
+        alert($('#box').tree('pop',node.target));    //移除一个节点和它的子节点，该方法跟remove 方法一样，不同的是它将返回被移除的节点数据。
+</span><span style="color: #000000"><span style="color: #ff0000">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">update</span> &nbsp; param修改指定节点。'param'参数包含以下属性：target(DOM 对象，将被更新的目标节点)，<span style="color: #0000ff">id，text，iconCls，checked</span> 等。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('toggle', node.target));     //打开或关闭节点的触发器，target 参数是一个节点 DOM 对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    <span style="color: #ff0000">$('#anl').click(function () {
+        var node = $('#box').tree('find',2);    //查找指定节点并返回节点对象。通过id查找指定节点
+        $('#box').tree('update',{
+            target:node.target,                    //要修改的目标
+            text:'修改'                            //修改名称
+</span><span style="color: #000000"><span style="color: #ff0000">        });
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">enableDnd</span> &nbsp; none 启用拖拽功能。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('toggle', node.target));     //打开或关闭节点的触发器，target 参数是一个节点 DOM 对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    $('#anl').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000"> var node = $('#box').tree('find',2);    //查找指定节点并返回节点对象。通过id查找指定节点</span>
+        <span style="color: #ff0000">$('#box').tree('enableDnd');            //启用拖拽功能</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">disableDnd</span> &nbsp; none 禁用拖拽功能。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd : <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> onClick : function (node) {</span>
+        <span style="color: #008000">//</span><span style="color: #008000">     alert($('#box').tree('toggle', node.target));     //打开或关闭节点的触发器，target 参数是一个节点 DOM 对象</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> }</span>
+<span style="color: #000000">    });
+    </span><span style="color: #008000">//</span><span style="color: #008000">点击一个按钮</span>
+    $('#anl').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        </span><span style="color: #008000">//</span><span style="color: #008000"> var node = $('#box').tree('find',2);    //查找指定节点并返回节点对象。通过id查找指定节点</span>
+        <span style="color: #ff0000">$('#box').tree('disableDnd');            //禁用拖拽功能</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">beginEdit</span> &nbsp; target 开始编辑一个节点。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).tree({
+        url: </span>'tree.php',    <span style="color: #008000">//</span><span style="color: #008000">远程加目录载数据</span>
+        lines: <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">定义是否显示树控件上的虚线。</span>
+        animate : <span style="color: #0000ff">true</span>,        <span style="color: #008000">//</span><span style="color: #008000">在展开或者折叠时显示动画效果</span>
+        checkbox : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义节点显示复选框</span>
+        cascadeCheck : <span style="color: #0000ff">false</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否层叠选中状态。也就是选择时不关联上级目录</span>
+        onlyLeafCheck : <span style="color: #0000ff">true</span>,    <span style="color: #008000">//</span><span style="color: #008000">定义是否只在末级节点之前显示复选框。也就是只有最底层目录才显示复选框</span>
+        dnd: <span style="color: #0000ff">true</span>,                <span style="color: #008000">//</span><span style="color: #008000">定义是否启用拖拽功能。也就是支持拖拽改变层级关系</span>
+        <span style="color: #ff0000">onDblClick: function (node) {                    //双击一个节点时
+            $('#box').tree('beginEdit', node.target);    //开始编辑一个节点
+        },
+        onAfterEdit: function (node) {                        //在编辑节点之后触发
+            alert('执行服务器端'</span><span style="color: #000000"><span style="color: #ff0000">);
+            alert(node);
+        }</span>
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">endEdit</span> &nbsp; target 结束编辑一个节点。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">cancelEdit</span> &nbsp; target 取消编辑一个节点。</strong></span></p></div>

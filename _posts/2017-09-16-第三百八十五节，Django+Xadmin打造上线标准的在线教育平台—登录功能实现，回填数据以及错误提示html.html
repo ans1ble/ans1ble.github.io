@@ -1,0 +1,268 @@
+第三百八十五节，Django+Xadmin打造上线标准的在线教育平台—登录功能实现，回填数据以及错误提示html
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百八十五节，Django+Xadmin打造上线标准的在线教育平台—登录功能实现</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>1，配置登录路由</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">from</span> django.conf.urls <span style="color: #0000ff">import</span> url, include                   <span style="color: #008000">#</span><span style="color: #008000"> 导入django自在的include逻辑</span>
+<span style="color: #0000ff">from</span> django.contrib <span style="color: #0000ff">import</span><span style="color: #000000"> admin
+</span><span style="color: #0000ff">from</span> django.views.generic <span style="color: #0000ff">import</span> TemplateView               <span style="color: #008000">#</span><span style="color: #008000"> 导入django自带的TemplateView逻辑</span>
+
+<span style="color: #0000ff">import</span> xadmin                                               <span style="color: #008000">#</span><span style="color: #008000"> 导入xadmin</span>
+
+<span style="color: #0000ff">from</span> app_users.views <span style="color: #0000ff">import</span> deng_lu, zhu_ce, active_code, logout                 <span style="color: #008000">#</span><span style="color: #008000"> 导入登录逻辑处理类</span>
+<span style="color: #000000">
+urlpatterns </span>=<span style="color: #000000"> [
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^xadmin/</span><span style="color: #800000">'</span><span style="color: #000000">, xadmin.site.urls),
+
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^index.html</span><span style="color: #800000">'</span>, TemplateView.as_view(template_name=<span style="color: #800000">'</span><span style="color: #800000">index.html</span><span style="color: #800000">'</span>), name=<span style="color: #800000">'</span><span style="color: #800000">index</span><span style="color: #800000">'</span><span style="color: #000000">),
+
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^register.html</span><span style="color: #800000">'</span>, zhu_ce.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">register</span><span style="color: #800000">'</span><span style="color: #000000">),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^captcha/</span><span style="color: #800000">'</span>, include(<span style="color: #800000">'</span><span style="color: #800000">captcha.urls</span><span style="color: #800000">'</span>), name=<span style="color: #800000">'</span><span style="color: #800000">captcha</span><span style="color: #800000">'</span><span style="color: #000000">),
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^active/(?P&lt;active_de&gt;.*)/$</span><span style="color: #800000">'</span>, active_code.as_view(), name=<span style="color: #800000">"</span><span style="color: #800000">user_active</span><span style="color: #800000">"</span><span style="color: #000000">),
+
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^login.html</span><span style="color: #800000">'</span>, TemplateView.as_view(template_name=<span style="color: #800000">'</span><span style="color: #800000">login.html</span><span style="color: #800000">'</span>), name=<span style="color: #800000">'</span><span style="color: #800000">login</span><span style="color: #800000">'</span><span style="color: #000000">),
+    <span style="background-color: #ff99cc">url(r</span></span><span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">^deng_lu</span><span style="color: #800000">'</span>, deng_lu.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">deng_lu</span><span style="color: #800000">'</span></span><span style="color: #000000"><span style="background-color: #ff99cc">),</span>
+    url(r</span><span style="color: #800000">'</span><span style="color: #800000">^logout</span><span style="color: #800000">'</span>, logout.as_view(), name=<span style="color: #800000">'</span><span style="color: #800000">deng_lu</span><span style="color: #800000">'</span><span style="color: #000000">),
+]</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>2，编写表单验证</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span><span style="color: #008000">
+#</span><span style="color: #008000"> 表单验证</span>
+
+<span style="color: #0000ff">from</span> django <span style="color: #0000ff">import</span> forms                 <span style="color: #008000">#</span><span style="color: #008000"> 导入Django的表单验证模块</span>
+<span style="color: #0000ff">from</span> captcha.fields <span style="color: #0000ff">import</span><span style="color: #000000"> CaptchaField
+
+</span><span style="color: #0000ff">class</span> deng_lu_forms(forms.Form):         <span style="color: #008000">#</span><span style="color: #008000"> 自定义验证表单类，继承Django的表单验证类</span>
+    username =<span style="color: #000000"> forms.CharField(
+        required</span>=<span style="color: #000000">True,
+        max_length</span>=20<span style="color: #000000">,
+        min_length</span>=2<span style="color: #000000">,
+        error_messages</span>=<span style="color: #000000">{
+            </span><span style="color: #800000">'</span><span style="color: #800000">required</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">用户名不能为空</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">max_length</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">用户名长度不得超过20个字符</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">min_length</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">用户名长度不得少于2个字符</span><span style="color: #800000">'</span><span style="color: #000000">,
+        }
+    )
+    password </span>=<span style="color: #000000"> forms.CharField(
+        required</span>=<span style="color: #000000">True,
+        max_length</span>=20<span style="color: #000000">,
+        min_length</span>=2<span style="color: #000000">,
+        error_messages</span>=<span style="color: #000000">{
+            </span><span style="color: #800000">'</span><span style="color: #800000">required</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">密码不能为空</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">max_length</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">密码长度不得超过20个字符</span><span style="color: #800000">'</span><span style="color: #000000">,
+            </span><span style="color: #800000">'</span><span style="color: #800000">min_length</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">密码长度不得少于2个字符</span><span style="color: #800000">'</span><span style="color: #000000">,
+        }
+    )</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>3，在逻辑处理里，进行表单验证，如果验证失败提示错误回填数据，如果验证成功，获取验证后的表单数据，将获取到的用户名拿到数据库查找用户是否存在，如果不存在提示用户不存在回填数据，如果存在获取到用户密码，用django的密码验证函数check_password(用户输入密码, 数据库加密密码)，返回布尔值，如果一致返回真，如果密码正确创建session，向session里写入一个表示登录的键值，如果密码不正确提示密码错误回填数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">import</span> io  <span style="color: #008000">#</span><span style="color: #008000"> 导入io模块</span>
+
+<span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span> render, HttpResponse, redirect                                 <span style="color: #008000">#</span><span style="color: #008000"> 导入django向浏览器返回方法</span>
+<span style="color: #0000ff">from</span> django.views.generic.base <span style="color: #0000ff">import</span><span style="color: #000000"> View
+</span><span style="color: #0000ff">from</span> django.db.models <span style="color: #0000ff">import</span> F,Q                                                            <span style="color: #008000">#</span><span style="color: #008000"> 导入F和Q</span>
+<span style="color: #0000ff">from</span> django.contrib.auth.hashers <span style="color: #0000ff">import</span> make_password, check_password                       <span style="color: #008000">#</span><span style="color: #008000"> 导入django密码加密，和密码验证</span>
+<span style="color: #0000ff">from</span> django.contrib.auth <span style="color: #0000ff">import</span> login                                                       <span style="color: #008000">#</span><span style="color: #008000"> 调用django的登录函数</span>
+
+<span style="color: #0000ff">from</span> app_users.forms <span style="color: #0000ff">import</span> deng_lu_forms, zhu_ce_forms                                    <span style="color: #008000">#</span><span style="color: #008000"> 导入登录页面表单认证</span>
+<span style="color: #0000ff">from</span> app_users.models <span style="color: #0000ff">import</span> Users, Email                                                   <span style="color: #008000">#</span><span style="color: #008000"> 导入数据库操作</span>
+<span style="color: #0000ff">from</span> utils.email_send <span style="color: #0000ff">import</span> send_register_email                                            <span style="color: #008000">#</span><span style="color: #008000"> 导入邮件发送</span>
+
+<span style="background-color: #ff99cc"><span style="color: #0000ff">class</span><span style="color: #000000"> deng_lu(View):
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> get(self, request):
+        </span><span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">login.html</span><span style="color: #800000">'</span><span style="color: #000000">, {})
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> post(self, request):
+        f </span>= deng_lu_forms(request.POST)                 <span style="color: #008000">#</span><span style="color: #008000"> 实列化表单认证类，将用户post提交的数据传入进行认证</span>
+        <span style="color: #0000ff">if</span> f.is_valid():                                <span style="color: #008000">#</span><span style="color: #008000"> 判断认证是否成功</span>
+            tong_guo = f.cleaned_data                   <span style="color: #008000">#</span><span style="color: #008000"> 认证成功，接收用户数据</span>
+            username = tong_guo[<span style="color: #800000">'</span><span style="color: #800000">username</span><span style="color: #800000">'</span><span style="color: #000000">]
+            password </span>= tong_guo[<span style="color: #800000">'</span><span style="color: #800000">password</span><span style="color: #800000">'</span><span style="color: #000000">]
+            user </span>= Users.objects.filter(username=<span style="color: #000000">username)
+            </span><span style="color: #0000ff">if</span><span style="color: #000000"> user:
+                </span><span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> user:
+                    mima </span>=<span style="color: #000000"> i.password
+                    pdmima </span>=<span style="color: #000000"> check_password(password, mima)
+                    </span><span style="color: #0000ff">if</span> <span style="color: #0000ff">not</span><span style="color: #000000"> pdmima:
+                        tishi </span>= <span style="color: #800000">'</span><span style="color: #800000">密码不正确</span><span style="color: #800000">'</span>
+                        <span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">login.html</span><span style="color: #800000">'</span>, {<span style="color: #800000">'</span><span style="color: #800000">tishi</span><span style="color: #800000">'</span><span style="color: #000000">: tishi})
+                    </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+                        request.session[</span><span style="color: #800000">"</span><span style="color: #800000">zhuang_tai</span><span style="color: #800000">"</span>] = True                      <span style="color: #008000">#</span><span style="color: #008000"> 创建session</span>
+                        request.session[<span style="color: #800000">"</span><span style="color: #800000">username</span><span style="color: #800000">"</span>] =<span style="color: #000000"> username
+                        </span><span style="color: #008000">#</span><span style="color: #008000"> request.session["password"] = password</span>
+                        <span style="color: #0000ff">return</span> redirect(<span style="color: #800000">'</span><span style="color: #800000">/index.html</span><span style="color: #800000">'</span><span style="color: #000000">)
+            </span><span style="color: #0000ff">else</span><span style="color: #000000">:
+                tishi </span>= <span style="color: #800000">'</span><span style="color: #800000">用户不存在</span><span style="color: #800000">'</span>
+                <span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">login.html</span><span style="color: #800000">'</span>, {<span style="color: #800000">'</span><span style="color: #800000">tishi</span><span style="color: #800000">'</span><span style="color: #000000">: tishi})
+        </span><span style="color: #0000ff">else</span>:                                                                   <span style="color: #008000">#</span><span style="color: #008000"> 认证不成功，接收错误信息</span>
+            cuo_wu = f.errors                                                   <span style="color: #008000">#</span><span style="color: #008000"> 接收错误信息</span>
+            <span style="color: #0000ff">return</span> render(request, <span style="color: #800000">'</span><span style="color: #800000">login.html</span><span style="color: #800000">'</span>, {<span style="color: #800000">'</span><span style="color: #800000">cuo_wu</span><span style="color: #800000">'</span>: cuo_wu})            <span style="color: #008000">#</span><span style="color: #008000"> 将错误信息传到登录页面</span>
+</span>
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> logout(View):
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> get(self, request):
+        </span><span style="color: #0000ff">try</span><span style="color: #000000">:
+            request.session.flush()
+        </span><span style="color: #0000ff">except</span><span style="color: #000000"> KeyError:
+            </span><span style="color: #0000ff">pass</span>
+
+        <span style="color: #0000ff">return</span> redirect(<span style="color: #800000">'</span><span style="color: #800000">/index.html</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> post(self, request):
+        </span><span style="color: #0000ff">pass</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>4，settings.py配置session</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> session配置</span>
+SESSION_COOKIE_NAME = <span style="color: #800000">"</span><span style="color: #800000">_sessionid_</span><span style="color: #800000">"</span>             <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存在浏览器上时的key，即：sessionid＝随机字符串（默认）</span>
+SESSION_COOKIE_PATH = <span style="color: #800000">"</span><span style="color: #800000">/</span><span style="color: #800000">"</span>                       <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存的路径（默认）</span>
+SESSION_COOKIE_DOMAIN = None                    <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie保存的域名（默认）</span>
+SESSION_COOKIE_SECURE = False                   <span style="color: #008000">#</span><span style="color: #008000"> 是否Https传输cookie（默认）</span>
+SESSION_COOKIE_HTTPONLY = True                  <span style="color: #008000">#</span><span style="color: #008000"> 是否Session的cookie只支持http传输（默认）</span>
+SESSION_COOKIE_AGE = 1209600                    <span style="color: #008000">#</span><span style="color: #008000"> Session的cookie失效日期（2周）（默认）</span>
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False         <span style="color: #008000">#</span><span style="color: #008000"> 是否关闭浏览器使得Session过期（默认）</span>
+SESSION_SAVE_EVERY_REQUEST = False              <span style="color: #008000">#</span><span style="color: #008000"> 是否每次请求都保存Session，默认修改之后才保存（默认），默认就好</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>5，编写一个中间件来专门用于用户登录账号状态检测，在中间件里获取设置的session状态,通过request.META将登录状态向所有页面注入，在页面接收这个登录状态，判断如果登录显示会员区块，如果状态是没登录显示，注册和登录区块</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff">from</span> django.utils.deprecation <span style="color: #0000ff">import</span><span style="color: #000000"> MiddlewareMixin
+</span><span style="color: #0000ff">from</span> django.shortcuts <span style="color: #0000ff">import</span><span style="color: #000000"> render
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> zhongjianjian(MiddlewareMixin):
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> process_request(self, request):
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">有请求时执行</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #008000">#</span><span style="color: #008000"> print(request.META) #请求对象内容</span>
+        <span style="color: #008000">#</span><span style="color: #008000">在这里可以做ip访问拦截器</span>
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> process_view(self, request, callback, callback_args, callback_kwargs):
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">逻辑处理之前执行</span><span style="color: #800000">'</span><span style="color: #000000">)
+        <span style="background-color: #ff99cc">zhuang_tai </span></span><span style="background-color: #ff99cc">= request.session.get(<span style="color: #800000">"</span><span style="color: #800000">zhuang_tai</span><span style="color: #800000">"</span><span style="color: #000000">)
+        request.META[</span><span style="color: #800000">'</span><span style="color: #800000">zhuang_tai</span><span style="color: #800000">'</span>] =<span style="color: #000000"> zhuang_tai
+
+        username </span>= request.session.get(<span style="color: #800000">"</span><span style="color: #800000">username</span><span style="color: #800000">"</span><span style="color: #000000">)
+        request.META[</span><span style="color: #800000">'</span><span style="color: #800000">username</span><span style="color: #800000">'</span>] =<span style="color: #000000"> username
+
+    </span></span><span style="color: #0000ff">def</span><span style="color: #000000"> process_exception(self, request, exception):
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">出错时执行</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #008000">#</span><span style="color: #008000"> return render(request, 'app1/cuowu.html')</span>
+        <span style="color: #0000ff">print</span><span style="color: #000000">(exception)
+        </span><span style="color: #008000">#</span><span style="color: #008000">做程序出错时处理</span>
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> process_response(self, request, response):
+        </span><span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">响应后执行，无论是否出错</span><span style="color: #800000">'</span><span style="color: #000000">)
+
+        </span><span style="color: #0000ff">return</span> response</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>html页面接收中间件注入的登录状态</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+{% load staticfiles %}      {# 启用静态文件引用 #}
+</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="renderer"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="webkit"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">http-equiv</span><span style="color: #0000ff">="X-UA-Compatible"</span><span style="color: #ff0000"> content</span><span style="color: #0000ff">="IE=Edge,chrome=1"</span> <span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>课程机构列表 - 慕学在线网<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/css"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="{% static 'css/reset.css' %}"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">     {# 启用静态文件引用后才可以 #}
+    </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/css"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="{% static 'css/animate.css' %}"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/css"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="{% static 'css/style.css' %}"</span><span style="color: #0000ff">&gt;</span>
+    
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="{% static 'js/jquery.min.js' %}"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="{% static 'js/jquery-migrate-1.2.1.min.js' %}"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">section </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="headerwrap "</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">header</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div  </span><span style="color: #ff0000">class</span><span style="color: #0000ff">=" header"</span><span style="color: #0000ff">&gt;</span>
+             <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="top"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="wp"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="fl"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>服务电话：<span style="color: #0000ff">&lt;</span><span style="color: #800000">b</span><span style="color: #0000ff">&gt;</span>33333333<span style="color: #0000ff">&lt;/</span><span style="color: #800000">b</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #008000">&lt;!--</span><span style="color: #008000">登录后跳转</span><span style="color: #008000">--&gt;</span><span style="color: #000000; background-color: #ff99cc">
+                    {{ request.META.zhuang_tai }}
+                    {% if request.META.zhuang_tai == True %}
+                        </span><span style="background-color: #ccffcc"><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="personal"</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;</span><span style="color: #800000">dl </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="user fr"</span><span style="color: #0000ff">&gt;</span>
+                                <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ff99cc">{{ request.META.username }}</span><span style="color: #0000ff">&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="down fr"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="/static/images/top_down.png"</span><span style="color: #0000ff">/&gt;&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+                                <span style="color: #0000ff">&lt;</span><span style="color: #800000">dt</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">width</span><span style="color: #0000ff">="20"</span><span style="color: #ff0000"> height</span><span style="color: #0000ff">="20"</span><span style="color: #ff0000">
+                                         src</span><span style="color: #0000ff">="/static/media/image/2016/12/default_big_14.png"</span><span style="color: #0000ff">/&gt;&lt;/</span><span style="color: #800000">dt</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">dl</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="userdetail"</span><span style="color: #0000ff">&gt;</span>
+                                <span style="color: #0000ff">&lt;</span><span style="color: #800000">dl</span><span style="color: #0000ff">&gt;</span>
+                                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">dt</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">width</span><span style="color: #0000ff">="80"</span><span style="color: #ff0000"> height</span><span style="color: #0000ff">="80"</span><span style="color: #ff0000">
+                                             src</span><span style="color: #0000ff">="/static/media/image/2016/12/default_big_14.png"</span><span style="color: #0000ff">/&gt;&lt;/</span><span style="color: #800000">dt</span><span style="color: #0000ff">&gt;</span>
+                                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+
+                                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ff99cc">{{ request.META.username }}</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>
+                                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span><span style="background-color: #ff99cc">{{ request.META.username }}</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+                                    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">dd</span><span style="color: #0000ff">&gt;</span>
+                                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">dl</span><span style="color: #0000ff">&gt;</span>
+                                <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="btn"</span><span style="color: #0000ff">&gt;</span>
+                                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="personcenter fl"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="usercenter-info.html"</span><span style="color: #0000ff">&gt;</span>进入个人中心<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+                                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="fr"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="/logout/"</span><span style="color: #0000ff">&gt;</span>退出<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+                                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></span><span style="background-color: #ffff00"><span style="color: #000000; background-color: #ff99cc">
+                    {% elif request.META.zhuang_tai != True %}
+                        </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="color:white"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="fr registerbtn"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="{% url 'register' %}"</span><span style="color: #0000ff">&gt;</span>注册<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">style</span><span style="color: #0000ff">="color:white"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="fr loginbtn"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="/login.html"</span><span style="color: #0000ff">&gt;</span>登录<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span><span style="color: #000000; background-color: #ff99cc">
+                    {% endif %}
+
+                </span></span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+
+</pre>
+</div>
+<p>&nbsp;</p>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201709/955761-20170916132737078-365697745.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>回填数据以及错误提示html</strong></span></p>
+<p><span style="color: #ff0000"><strong>回填数据 yanzh.email.value &nbsp; <span style="color: #0000ff">表单对象.表单字段.<strong>value</strong></span></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tab-form"</span><span style="color: #0000ff">&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">form </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="email_register_form"</span><span style="color: #ff0000"> method</span><span style="color: #0000ff">="post"</span><span style="color: #ff0000"> action</span><span style="color: #0000ff">="{% url 'register'%}"</span><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">='hidden' </span><span style="color: #ff0000">name</span><span style="color: #0000ff">='csrfmiddlewaretoken' </span><span style="color: #ff0000">value</span><span style="color: #0000ff">='gTZljXgnpvxn0fKZ1XkWrM1PrCGSjiCZ' </span><span style="color: #0000ff">/&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group marb20 {% if cuo_wu.email %}errorput{% endif %} "</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>邮<span style="color: #ff0000">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>箱<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input  </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="id_email"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="email"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="<span style="background-color: #ccffcc">{{ yanzh.email.value }}</span>"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入您的邮箱地址"</span> <span style="color: #0000ff">/&gt;</span>
+                        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group marb8 {% if cuo_wu.password %}errorput{% endif %}"</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>密<span style="color: #ff0000">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>码<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="password"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="id_password"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="password"</span><span style="color: #ff0000">  value</span><span style="color: #0000ff">="<span style="background-color: #ccffcc">{{ yanzh.password.value }}</span>"</span><span style="color: #ff0000"> placeholder</span><span style="color: #0000ff">="请输入6-20位非中文字符密码"</span> <span style="color: #0000ff">/&gt;</span>
+                        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="form-group marb8 captcha1 {% if cuo_wu.captcha %}errorput{% endif %}"</span><span style="color: #0000ff">&gt;</span>
+                            <span style="color: #0000ff">&lt;</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>验<span style="color: #ff0000">&amp;nbsp;</span>证<span style="color: #ff0000">&amp;nbsp;</span>码<span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                            {{ yanzhm.captcha }}
+                        </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="error btns"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="jsEmailTips"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000; background-color: #ff99cc">
+                            {% for key,error in cuo_wu.items %}{{ error }}{% endfor %}    #错误提示
+                            {% if tishi %}{{ tishi }}{% endif %}
+                        </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="auto-box marb8"</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+                        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="btn btn-green"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="jsEmailRegBtn"</span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="submit"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="注册并登录"</span> <span style="color: #0000ff">/&gt;</span>
+                    <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">='hidden' </span><span style="color: #ff0000">name</span><span style="color: #0000ff">='csrfmiddlewaretoken' </span><span style="color: #ff0000">value</span><span style="color: #0000ff">='5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy' </span><span style="color: #0000ff">/&gt;</span><span style="color: #000000">
+                    {% csrf_token %}
+                    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">form</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p></div>

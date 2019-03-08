@@ -1,0 +1,61 @@
+第三百五十五节，Python分布式爬虫打造搜索引擎Scrapy精讲—scrapy信号详解
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百五十五节，Python分布式爬虫打造搜索引擎Scrapy精讲—scrapy信号详解</strong></p>
+<p><span style="color: #0000ff"><strong>信号一般使用信号分发器dispatcher.connect()，来设置信号，和信号触发函数，当捕获到信号时执行一个函数</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">dispatcher.connect()</span>信号分发器，第一个参数信号触发函数，第二个参数是触发信号，</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>以下是各种信号</strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">signals.engine_started</span>当Scrapy引擎启动爬取时发送该信号。该信号支持返回deferreds。</strong></span><br><span style="color: #ff0000"><strong><span style="color: #0000ff">signals.engine_stopped</span>当Scrapy引擎停止时发送该信号(例如，爬取结束)。该信号支持返回deferreds。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">signals.item_scraped(item, response, spider)</span>当item被爬取，并通过所有 Item Pipeline 后(没有被丢弃(dropped)，发送该信号。该信号支持返回deferreds。</strong></span><br><strong>	　　参数:	</strong><br><strong>	　　item (Item 对象) – 爬取到的item</strong><br><strong>	　　spider (Spider 对象) – 爬取item的spider</strong><br><strong>	　　response (Response 对象) – 提取item的response</strong></p>
+<p><br><span style="color: #ff0000"><strong><span style="color: #0000ff">signals.item_dropped(item, exception, spider)</span>当item通过 Item Pipeline ，有些pipeline抛出 DropItem 异常，丢弃item时，该信号被发送。该信号支持返回deferreds。</strong></span><br><strong>	　　参数:	</strong><br><strong>	　　item (Item 对象) – Item Pipeline 丢弃的item</strong><br><strong>	　　spider (Spider 对象) – 爬取item的spider</strong><br><strong>	　　exception (DropItem 异常) – 导致item被丢弃的异常(必须是 DropItem 的子类)</strong></p>
+<p><br><span style="color: #ff0000"><strong><span style="color: #0000ff">signals.spider_closed(spider, reason)</span>当某个spider被关闭时，该信号被发送。该信号可以用来释放每个spider在 spider_opened 时占用的资源。该信号支持返回deferreds。</strong></span><br><strong>	　　参数:	</strong><br><strong>	　　spider (Spider 对象) – 关闭的spider</strong><br><strong>	　　reason (str) – 描述spider被关闭的原因的字符串。如果spider是由于完成爬取而被关闭，则其为 'finished' 。否则，如果spider是被引擎的 close_spider 方法所关闭，则其为调用该方法时传入的 　　reason 参数(默认为 'cancelled')。如果引擎被关闭(例如， 输入Ctrl-C)，则其为 'shutdown' 。</strong></p>
+<p><br><span style="color: #ff0000"><strong><span style="color: #0000ff">signals.spider_opened(spider)</span>当spider开始爬取时发送该信号。该信号一般用来分配spider的资源，不过其也能做任何事。该信号支持返回deferreds。</strong></span><br><strong>	　　参数:	spider (Spider 对象) – 开启的spider</strong></p>
+<p><br><span style="color: #ff0000"><strong><span style="background-color: #ffffff; color: #0000ff">signals.spider_idle(spider)</span>当spider进入空闲(idle)状态时该信号被发送。空闲意味着:</strong></span><br><strong>	　　requests正在等待被下载</strong><br><strong>	　　requests被调度</strong><br><strong>	　　items正在item pipeline中被处理</strong><br><strong>当该信号的所有处理器(handler)被调用后，如果spider仍然保持空闲状态， 引擎将会关闭该spider。当spider被关闭后， spider_closed 信号将被发送。您可以，比如，在 spider_idle 处理器中调度某些请求来避免spider被关闭。该信号 不支持 返回deferreds。</strong><br><strong>	　　参数:	spider (Spider 对象) – 空闲的spider</strong></p>
+<p><br><span style="color: #ff0000"><strong><span style="color: #0000ff">signals.spider_error(failure, response, spider)</span>当spider的回调函数产生错误时(例如，抛出异常)，该信号被发送</strong></span><br><strong>	　　参数:	</strong><br><strong>	　　failure (Failure 对象) – 以Twisted Failure 对象抛出的异常</strong><br><strong>	　　response (Response 对象) – 当异常被抛出时被处理的response</strong><br><strong>	　　spider (Spider 对象) – 抛出异常的spider</strong></p>
+<p><br><span style="color: #ff0000"><strong><span style="color: #0000ff">signals.request_scheduled(request, spider)</span>当引擎调度一个 Request 对象用于下载时，该信号被发送。该信号 不支持 返回deferreds。</strong></span><br><strong>	　　参数:	</strong><br><strong>	　　request (Request 对象) – 到达调度器的request</strong><br><strong>	　　spider (Spider 对象) – 产生该request的spider</strong></p>
+<p><br><span style="color: #ff0000"><strong><span style="color: #0000ff">signals.response_received(response, request, spider)</span>当引擎从downloader获取到一个新的 Response 时发送该信号。该信号 不支持 返回deferreds。</strong></span><br><strong>	　　参数:	</strong><br><strong>	　　response (Response 对象) – 接收到的response</strong><br><strong>	　　request (Request 对象) – 生成response的request</strong><br><strong>	　　spider (Spider 对象) – response所对应的spider</strong></p>
+<p><br><span style="color: #ff0000"><strong><span style="color: #0000ff">signals.response_downloaded(response, request, spider)</span>当一个 HTTPResponse 被下载时，由downloader发送该信号。该信号 不支持 返回deferreds。</strong></span><br><strong>	　　参数:	</strong><br><strong>	　　response (Response 对象) – 下载的response</strong><br><strong>	　　request (Request 对象) – 生成response的request</strong><br><strong>	　　spider (Spider 对象) – response所对应的spider</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>我们以<strong>signals.spider_closed(spider, reason)信号举例其他信号同理：</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.http <span style="color: #0000ff">import</span><span style="color: #000000"> Request,FormRequest
+</span><span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> scrapy.xlib.pydispatch <span style="color: #0000ff">import</span> dispatcher   <span style="color: #008000">#</span><span style="color: #008000"> 信号分发器</span>
+<span style="color: #0000ff">from</span> scrapy <span style="color: #0000ff">import</span> signals                      <span style="color: #008000">#</span><span style="color: #008000"> 信号</span></span>
+
+
+
+<span style="color: #0000ff">class</span> PachSpider(scrapy.Spider):                            <span style="color: #008000">#</span><span style="color: #008000">定义爬虫类，必须继承scrapy.Spider</span>
+    name = <span style="color: #800000">'</span><span style="color: #800000">pach</span><span style="color: #800000">'</span>                                           <span style="color: #008000">#</span><span style="color: #008000">设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">www.dict.cn</span><span style="color: #800000">'</span>]                       <span style="color: #008000">#</span><span style="color: #008000">爬取域名</span>
+
+    <span style="color: #0000ff">def</span> start_requests(self):    <span style="color: #008000">#</span><span style="color: #008000">起始url函数，会替换start_urls</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> [Request(
+            url</span>=<span style="color: #800000">'</span><span style="color: #800000">http://www.dict.cn/9999998888</span><span style="color: #800000">'</span><span style="color: #000000">,
+            callback</span>=<span style="color: #000000">self.parse
+        )]
+
+    </span><span style="color: #008000">#</span><span style="color: #008000"> 利用数据收集器，收集所有404的url以及，404页面数量</span>
+    handle_httpstatus_list = [404]                                      <span style="color: #008000">#</span><span style="color: #008000"> 设置不过滤404</span>
+
+    <span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span><span style="color: #000000">(self):
+        self.fail_urls </span>= []                                             <span style="color: #008000">#</span><span style="color: #008000"> 创建一个变量来储存404URL</span>
+<span style="background-color: #ff99cc">        dispatcher.connect(self.spider_closed, signals.spider_closed)   <span style="color: #008000">#</span><span style="color: #008000"> dispatcher.connect()信号分发器，第一个参数信号触发函数，第二个参数是触发信号，signals.spider_closed是爬虫结束信号</span></span>
+
+<span style="background-color: #ff99cc">    <span style="color: #0000ff">def</span> spider_closed(self, spider, reason):  <span style="color: #008000">#</span><span style="color: #008000"> 信号触发函数</span>
+        <span style="color: #0000ff">print</span>(<span style="color: #800000">'</span><span style="color: #800000">爬虫结束 停止爬虫</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #0000ff">print</span>(self.fail_urls)  <span style="color: #008000">#</span><span style="color: #008000"> 打印404URL列表</span>
+        <span style="color: #0000ff">print</span>(self.crawler.stats.get_value(<span style="color: #800000">'</span><span style="color: #800000">failed_url</span><span style="color: #800000">'</span>))  <span style="color: #008000">#</span><span style="color: #008000"> 打印数据收集值</span></span>
+
+    <span style="color: #0000ff">def</span> parse(self, response):                                          <span style="color: #008000">#</span><span style="color: #008000"> 回调函数</span>
+        <span style="color: #0000ff">if</span> response.status == 404:                                      <span style="color: #008000">#</span><span style="color: #008000"> 判断返回状态码如果是404</span>
+            self.fail_urls.append(response.url)                         <span style="color: #008000">#</span><span style="color: #008000"> 将URL追加到列表</span>
+            self.crawler.stats.inc_value(<span style="color: #800000">'</span><span style="color: #800000">failed_url</span><span style="color: #800000">'</span>)                  <span style="color: #008000">#</span><span style="color: #008000"> 设置一个数据收集，值为自增，每执行一次自增1</span>
+        <span style="color: #0000ff">else</span><span style="color: #000000">:
+            title </span>= response.css(<span style="color: #800000">'</span><span style="color: #800000">title::text</span><span style="color: #800000">'</span><span style="color: #000000">).extract()
+            </span><span style="color: #0000ff">print</span>(title)</pre>
+</div>
+<p>&nbsp;</p></div>

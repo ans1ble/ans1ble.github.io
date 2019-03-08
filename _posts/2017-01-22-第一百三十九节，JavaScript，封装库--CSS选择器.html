@@ -1,0 +1,701 @@
+第一百三十九节，JavaScript，封装库--CSS选择器
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>JavaScript，封装库--修改元素选择器</strong></p>
+<p><strong>就是将构造库函数修改成<strong>元素选择器，像css那样，输入#xxx .xxx xxx &nbsp;（<strong><strong>获取指定id下的指定class下的指定标签元素</strong></strong>）</strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>修改后的基础库</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+ *feng_zhuang_ku_1.0版本，js封装库，2016/12/29日：林贵秀
+ *</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">* 前台调用
+ * 每次调用$()创建库对象,使其每次调用都是独立的对象
+ * $()创建库对象,有一个可选参数，参数有两种方式，1是传入的this，2是传入的字符串
+ * 可选参数说明：
+ * 传入的this，this，就是当前对象本身
+ * 传入的字符串，代表获取元素选择器
+ * 参数是元素选择器(id值、class值、标签名称)其中一样的字符串方式，或者是其中几样的字符串组合方式
+ * 获取一个元素传参方式 '#xxx'( 表示获取id)，'.xxx'(表示获取class)，'xxx'(表示获取标签)
+ * 从父元素向下获取组合方式按照，一个元素传参方式加上空格，如: ('#sdf .hjk p')表示获取id为sdf元素下的class为hjk下的p元素
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">var</span> $ = <span style="color: #0000ff">function</span><span style="color: #000000"> (args) {
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">new</span><span style="color: #000000"> feng_zhuang_ku(args);
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*
+ *定义封装库构造函数，类库
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> feng_zhuang_ku(args) {
+    </span><span style="color: #008000">/*</span><span style="color: #008000">* jie_dian属性，创建数组，初始化，保存获取到的元素节点，返回数组
+     *</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">this</span>.jie_dian =<span style="color: #000000"> [];
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> args == 'string') {                      <span style="color: #008000">//</span><span style="color: #008000">如果传入的是字符串，说明是获取元素选择器</span>
+        <span style="color: #0000ff">if</span> (args.indexOf(' ') != -1<span style="color: #000000">) {
+            </span><span style="color: #008000">/*</span><span style="color: #008000">*从父元素向下获取组合方式*</span><span style="color: #008000">*/</span>
+            <span style="color: #0000ff">var</span> fen_ge = args.split(' ');                <span style="color: #008000">//</span><span style="color: #008000">将接收的组合式元素名称分割成数组</span>
+            <span style="color: #0000ff">var</span> lin_shi = [];                            <span style="color: #008000">//</span><span style="color: #008000">保存临时对象的数组，解决被覆盖问题</span>
+            <span style="color: #0000ff">var</span> fu_yuan_su = [];                         <span style="color: #008000">//</span><span style="color: #008000">保存父元素的数组</span>
+            <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; fen_ge.length; i++<span style="color: #000000">) {
+                </span><span style="color: #0000ff">if</span> (fu_yuan_su.length == 0)fu_yuan_su.push(document);               <span style="color: #008000">//</span><span style="color: #008000">如果没有父节点，就把document放入父节点</span>
+                <span style="color: #0000ff">switch</span> (fen_ge[i].charAt(0)) {                                     <span style="color: #008000">//</span><span style="color: #008000">判断字符串的第一个字符是什么</span>
+                    <span style="color: #0000ff">case</span> '#':                                                      <span style="color: #008000">//</span><span style="color: #008000">说明是id</span>
+                        lin_shi = [];                                              <span style="color: #008000">//</span><span style="color: #008000">清理临时数组，以便父节点失效，子节点有效</span>
+                        lin_shi.push(<span style="color: #0000ff">this</span>.huo_qu_id(fen_ge[i].substring(1)));      <span style="color: #008000">//</span><span style="color: #008000">去除第一个字符，获取到传入的id元素，保存到临时数组</span>
+                        fu_yuan_su = lin_shi;                                      <span style="color: #008000">//</span><span style="color: #008000">将临时节点数组放入父节点数字</span>
+                        <span style="color: #0000ff">break</span>;                                                     <span style="color: #008000">//</span><span style="color: #008000">说明是class</span>
+                    <span style="color: #0000ff">case</span> '.'<span style="color: #000000">:
+                        lin_shi </span>= [];                                                                   <span style="color: #008000">//</span><span style="color: #008000">清理临时数组，以便父节点失效，子节点有效</span>
+                        <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> f = 0; f &lt; fu_yuan_su.length; f++) {                                  <span style="color: #008000">//</span><span style="color: #008000">根据父节点的长度循环</span>
+                            <span style="color: #0000ff">var</span> tempss = <span style="color: #0000ff">this</span>.huo_qu_class(fen_ge[i].substring(1), fu_yuan_su[f]);     <span style="color: #008000">//</span><span style="color: #008000">获取到父节点下的子节点</span>
+                            <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> n = 0; n &lt; tempss.length; n++) {                      <span style="color: #008000">//</span><span style="color: #008000">循环子节点，将每次循环的子节点添加到临时数组</span>
+<span style="color: #000000">                                lin_shi.push(tempss[n]);
+                            }
+                        }
+                        fu_yuan_su </span>= lin_shi;                                               <span style="color: #008000">//</span><span style="color: #008000">将临时节点数组放入父节点数字</span>
+                        <span style="color: #0000ff">break</span><span style="color: #000000">;
+                    </span><span style="color: #0000ff">default</span>:                                                               <span style="color: #008000">//</span><span style="color: #008000">说明是标签</span>
+                        lin_shi = [];                                                       <span style="color: #008000">//</span><span style="color: #008000">清理临时数组，以便父节点失效，子节点有效</span>
+                        <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> j = 0; j &lt; fu_yuan_su.length; j++) {                      <span style="color: #008000">//</span><span style="color: #008000">根据父节点的长度循环</span>
+                            <span style="color: #0000ff">var</span> temps = <span style="color: #0000ff">this</span>.huo_qu_name(fen_ge[i], fu_yuan_su[j]);        <span style="color: #008000">//</span><span style="color: #008000">获取到父节点下的子节点</span>
+                            <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> k = 0; k &lt; temps.length; k++) {                       <span style="color: #008000">//</span><span style="color: #008000">循环子节点，将每次循环的子节点添加到临时数组</span>
+<span style="color: #000000">                                lin_shi.push(temps[k]);
+                            }
+                        }
+                        fu_yuan_su </span>= lin_shi;                                               <span style="color: #008000">//</span><span style="color: #008000">将临时节点数组放入父节点数字</span>
+<span style="color: #000000">                }
+            }
+            </span><span style="color: #0000ff">this</span>.jie_dian = lin_shi;                                            <span style="color: #008000">//</span><span style="color: #008000">将临时数组放入jie_dian数组</span>
+        } <span style="color: #0000ff">else</span><span style="color: #000000"> {
+            </span><span style="color: #008000">/*</span><span style="color: #008000">*一个元素传参方式*</span><span style="color: #008000">*/</span>
+            <span style="color: #0000ff">switch</span> (args.charAt(0)) {                                           <span style="color: #008000">//</span><span style="color: #008000">判断字符串的第一个字符是什么</span>
+                <span style="color: #0000ff">case</span> '#':                                                       <span style="color: #008000">//</span><span style="color: #008000">说明是id</span>
+                    <span style="color: #0000ff">this</span>.jie_dian.push(<span style="color: #0000ff">this</span>.huo_qu_id(args.substring(1)));      <span style="color: #008000">//</span><span style="color: #008000">去除第一个字符，获取到传入的id元素</span>
+                    <span style="color: #0000ff">break</span><span style="color: #000000">;
+                </span><span style="color: #0000ff">case</span> '.':                                                       <span style="color: #008000">//</span><span style="color: #008000">说明是class</span>
+                    <span style="color: #0000ff">this</span>.jie_dian = <span style="color: #0000ff">this</span>.huo_qu_class(args.substring(1));       <span style="color: #008000">//</span><span style="color: #008000">去除第一个字符，获取到传入的class元素</span>
+                    <span style="color: #0000ff">break</span><span style="color: #000000">;
+                </span><span style="color: #0000ff">default</span>:                                                        <span style="color: #008000">//</span><span style="color: #008000">说明是标签</span>
+                    <span style="color: #0000ff">this</span>.jie_dian = <span style="color: #0000ff">this</span>.huo_qu_name(args);                     <span style="color: #008000">//</span><span style="color: #008000">获取到传入的标签元素</span>
+<span style="color: #000000">            }
+        }
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> args == 'object') {                                       <span style="color: #008000">//</span><span style="color: #008000">如果传入的是对象，说明是this，就是当前对象本身</span>
+        <span style="color: #0000ff">if</span> (args !=<span style="color: #000000"> undefined) {
+            </span><span style="color: #0000ff">this</span>.jie_dian[0] =<span style="color: #000000"> args;
+        }
+    }
+}
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------获取元素标签开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*获取元素标签说明：
+ * jie_dian属性，保存获取到的元素节点，返回数组,
+ *
+ * huo_qu_id()方法,通过id获取元素标签，参数是id值，将获取到的元素对象返回给方法本身，无法连缀
+ * huo_qu_name()方法，通过标签名称获取相同标签名的元素，
+ * huo_qu_class()方法，获取相同class属性的节点，返回包含相同class属性的节点数组，返回给方法本身,无法连缀
+ *
+ * huo_qu_name_zhi()方法，通过元素name值获取指定元素，适用于获取表单元素,
+ * guo_lv_jie_dian()方法，获取多个节点时，过滤jie_dian属性里的数组，就是过滤掉指定索引外的元素对象
+ * huo_qu_zi_jie_dian()方法，获取一个元素下的子元素
+ *</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_id()方法,通过id获取元素标签，参数是id值，将获取到的元素对象返回给方法本身，无法连缀
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_id </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (id) {
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> document.getElementById(id);
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_name()方法，通过标签名称获取相同标签名的元素，返回包含相同标签名的元素数组，返回给方法本身
+ * 两个参数：获取指定元素下的相同标签元素，参数1标签名称，参数2是要获取元素的父元素
+ * 一个参数：获取页面所有相同标签元素，参数是标签名称
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_name </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (tag, parentnode) {
+    </span><span style="color: #0000ff">var</span> node = <span style="color: #0000ff">null</span><span style="color: #000000">;
+    </span><span style="color: #0000ff">var</span> lin_shi =<span style="color: #000000"> [];
+    </span><span style="color: #0000ff">if</span> (parentnode !=<span style="color: #000000"> undefined) {
+        node </span>=<span style="color: #000000"> parentnode;
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        node </span>=<span style="color: #000000"> document;
+    }
+    </span><span style="color: #0000ff">var</span> tags =<span style="color: #000000"> node.getElementsByTagName(tag);
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; tags.length; i++<span style="color: #000000">) {
+        lin_shi.push(tags[i]);
+    }
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> lin_shi;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_class()方法，获取相同class属性的节点，返回包含相同class属性的节点数组，返回给方法本身,无法连缀
+ * 一个参数：获取整个页面指定的class属性节点，参数是class属性值
+ * 两个参数：获取指定元素区下的class属性节点，参数1是class属性值，参数2是要获取class属性节点的父元素节点
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_class </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (name, parentnode) {
+    </span><span style="color: #0000ff">var</span> node = <span style="color: #0000ff">null</span><span style="color: #000000">;
+    </span><span style="color: #0000ff">var</span> lin_shi =<span style="color: #000000"> [];
+    </span><span style="color: #0000ff">if</span> (parentnode !=<span style="color: #000000"> undefined) {
+        node </span>=<span style="color: #000000"> parentnode;
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        node </span>=<span style="color: #000000"> document;
+    }
+    </span><span style="color: #0000ff">var</span> all = node.getElementsByTagName('*'<span style="color: #000000">);
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; all.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (all[i].className ==<span style="color: #000000"> name) {
+            lin_shi.push(all[i]);
+        }
+    }
+    </span><span style="color: #0000ff">return</span><span style="color: #000000"> lin_shi;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_name_zhi()方法，通过元素name值获取指定元素，参数是元素name值，返回元素相同name值对象集合，
+ * 循环元素集合，将每次循环到的元素对象添加到 jie_dian属性，适用于获取表单元素
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_name_zhi </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (name) {
+    </span><span style="color: #0000ff">var</span> name_zhi =<span style="color: #000000"> document.getElementsByName(name);
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; name_zhi.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian.push(name_zhi[i]);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* guo_lv_jie_dian()方法，获取多个节点时，过滤jie_dian属性里的数组，就是过滤掉指定索引外的元素对象
+ * 参数是要保留jie_dian属性里的对象索引
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.guo_lv_jie_dian </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (num) {
+    </span><span style="color: #0000ff">var</span> element = <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[num];
+    </span><span style="color: #0000ff">this</span>.jie_dian =<span style="color: #000000"> [];
+    </span><span style="color: #0000ff">this</span>.jie_dian[0] =<span style="color: #000000"> element;
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_zi_jie_dian()方法，获取一个元素下的子元素
+ * 注意首先要获取到父元素，在使用huo_qu_zi_jie_dian()方法
+ * 参数是要获取的，子元素(id值、class值、标签名称)其中一样的字符串方式，
+ * 传参方式 '#xxx'( 表示获取id)，'.xxx'(表示获取class)，'xxx'(表示获取标签)
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.huo_qu_zi_jie_dian </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (str) {
+    </span><span style="color: #0000ff">var</span> lin_shi = [];                                               <span style="color: #008000">//</span><span style="color: #008000">临时数组</span>
+    <span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++) {               <span style="color: #008000">//</span><span style="color: #008000">根据父元素的长度，循环出父元素</span>
+        <span style="color: #0000ff">switch</span> (str.charAt(0)) {                                   <span style="color: #008000">//</span><span style="color: #008000">判断字符串的第一个字符是什么</span>
+            <span style="color: #0000ff">case</span> '#':                                              <span style="color: #008000">//</span><span style="color: #008000">说明是id</span>
+                lin_shi.push(<span style="color: #0000ff">this</span>.huo_qu_id(str.substring(1)));    <span style="color: #008000">//</span><span style="color: #008000">获取到父元素下的子元素id等于str的标签，将它添加到临时数组</span>
+                <span style="color: #0000ff">break</span><span style="color: #000000">;
+            </span><span style="color: #0000ff">case</span> '.':                                                     <span style="color: #008000">//</span><span style="color: #008000">说明是class</span>
+                <span style="color: #0000ff">var</span> tempss = <span style="color: #0000ff">this</span>.huo_qu_class(str.substring(1), <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i]);
+                </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> k = 0; k &lt; tempss.length; k++<span style="color: #000000">) {
+                    lin_shi.push(tempss[k]);
+                }
+                </span><span style="color: #0000ff">break</span><span style="color: #000000">;
+            </span><span style="color: #0000ff">default</span>:                                                      <span style="color: #008000">//</span><span style="color: #008000">说明是标签名称</span>
+                <span style="color: #0000ff">var</span> temps = <span style="color: #0000ff">this</span>.huo_qu_name(str, <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i]);
+                </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> j = 0; j &lt; temps.length; j++<span style="color: #000000">) {
+                    lin_shi.push(temps[j]);
+                }
+        }
+    }
+    </span><span style="color: #0000ff">this</span>.jie_dian = lin_shi;                                               <span style="color: #008000">//</span><span style="color: #008000">将临时数组替换成节点数组</span>
+    <span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------获取元素标签结束--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------元素节点操作开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*元素节点操作说明：
+ * c_css()方法，给获取到的元素设置ss样式,或者获取css样式，
+ * wen_ben()方法，给获取到的元素设置文本，或者获取文本
+ * tian_jia_class()方法，给获取到的元素添加class属性，参数是class属性值，可以连缀
+ * yi_chu_class()方法，给获取到的元素移除class属性，参数是要移除的class属性值，可以连缀
+ * she_zhi_link_css()方法，设置link连接、或style内嵌、中的CSS样式
+ * yi_chu_link_css()方法，移除link连接、或style内嵌、中的CSS样式
+ *</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">* c_css()方法，给获取到的元素设置ss样式,或者获取css样式，
+ * 两个参数：设置样式，参数1样式名称，参数2样式值,设置的行内样式
+ * 一个参数：获取样式，参数是样式名称，无法连缀，获取即可用获取行内也可以获取连接
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.c_css </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (attr, value) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (arguments.length == 1<span style="color: #000000">) {
+            </span><span style="color: #0000ff">return</span> getStyle(<span style="color: #0000ff">this</span>.jie_dian[i], attr); <span style="color: #008000">//</span><span style="color: #008000">getStyle()函数库函数，跨浏览器获取元素Style，样式指定属性</span>
+        } <span style="color: #0000ff">else</span><span style="color: #000000"> {
+            </span><span style="color: #0000ff">this</span>.jie_dian[i].style[attr] =<span style="color: #000000"> value;
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* wen_ben()方法，给获取到的元素设置文本，或者获取文本
+ * 有参：设置文本，参数是要设置的文本字符串。
+ * 无参：获取文本。无法连缀
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.wen_ben </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (str) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (arguments.length == 0<span style="color: #000000">) {
+            </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i].innerHTML;
+        }
+        </span><span style="color: #0000ff">this</span>.jie_dian[i].innerHTML =<span style="color: #000000"> str;
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* tian_jia_class()方法，给获取到的元素添加class属性，参数是class属性值，可以连缀
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.tian_jia_class </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (classname) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (hasClass(<span style="color: #0000ff">this</span>.jie_dian[i], classname)) {   <span style="color: #008000">//</span><span style="color: #008000">hasClass()函数库函数，判断一个元素的class属性值是否存在</span>
+            <span style="color: #0000ff">this</span>.jie_dian[i].className += ' ' +<span style="color: #000000"> classname;
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* yi_chu_class()方法，给获取到的元素移除class属性，参数是要移除的class属性值，可以连缀
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yi_chu_class </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (classname) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">if</span> (hasClass(<span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i], classname)) {
+            </span><span style="color: #0000ff">this</span>.jie_dian[i].className = <span style="color: #0000ff">this</span>.jie_dian[i].className.replace(<span style="color: #0000ff">new</span> RegExp('(\\s|^)' + classname + '(\\s|$)'), ' '<span style="color: #000000">);
+        }
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* she_zhi_link_css()方法，设置link连接、或style内嵌、中的CSS样式
+ * 在Web应用中，很少用到添加CSS规则和移除CSS规则，一般只用行内和Class；因为添加和删除原本的规则会破坏整个CSS的结构，所以使用需要非常小心。
+ * 直接在库对象下使用  如：$().she_zhi_link_css()
+ * 四个参数：
+ * 参数1，样式表索引位置，就是要操作的样式表位置索引，第几个样式表【数值】
+ * 参数2，要添加的选择器名称，【字符串】
+ * 参数3，要添加的样式名称和值，如：background:#ff2a16 【字符串】
+ * 参数4，将样式和选择器添加到样式表什么位置，【数值】
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.she_zhi_link_css </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (num, selectorText, cssText, position) {
+    </span><span style="color: #0000ff">var</span> sheet =<span style="color: #000000"> document.styleSheets[num];
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> sheet.insertRule != 'undefined'<span style="color: #000000">) {
+        sheet.insertRule(selectorText </span>+ "{" + cssText + "}"<span style="color: #000000">, position);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> sheet.addRule != 'undefined'<span style="color: #000000">) {
+        sheet.addRule(selectorText, cssText, position);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* yi_chu_link_css()方法，移除link连接、或style内嵌、中的CSS样式
+ * 在Web应用中，很少用到添加CSS规则和移除CSS规则，一般只用行内和Class；因为添加和删除原本的规则会破坏整个CSS的结构，所以使用需要非常小心。
+ * 直接在库对象下使用
+ * 两个参数：
+ * 参数1，样式表索引位置，就是要操作的样式表位置索引，第几个样式表【数值】
+ * 参数2，删除样式表里的第几个选择器【数值】
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yi_chu_link_css </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (num, position) {
+    </span><span style="color: #0000ff">var</span> sheet =<span style="color: #000000"> document.styleSheets[num];
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span> sheet.deleteRule != 'undefined'<span style="color: #000000">) {
+        sheet.deleteRule(position);
+    } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (<span style="color: #0000ff">typeof</span><span style="color: #000000"> sheet.removeRule) {
+        sheet.removeRule(position);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------元素节点操作结束--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------元素事件开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">*元素事件说明：
+ * shu_biao_yi_ru_yi_chu()方法，给元素设置鼠标移入移出事件，接收两个参数，参数是移入和移出时的执行函数(包含代码)
+ * xian_shi()方法，设置元素显示,无参
+ * yin_cang()方法，设置元素隐藏,无参
+ * on_click()方法，给获取到的元素添加一个点击事件，参数是一个匿名函数（包含函数功能），
+ * yuan_su_ju_zhong()方法，将获取到的区块元素居中到页面，
+ * chuang_kou_shi_jian()方法，浏览器窗口事件，当窗口的大小变化时触发函数
+ * zhe_zhao_suo_ping()方法，将一个区块元素设置成遮罩锁屏区块
+ *</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">* shu_biao_yi_ru_yi_chu()方法，给元素设置鼠标移入移出事件，接收两个参数，参数是移入和移出时的执行函数(包含代码)
+ *参数1是移入时的执行函数(包含代码)
+ *参数2是移出时的执行函数(包含代码)
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.shu_biao_yi_ru_yi_chu </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (yi_ru, yi_chu) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        addEvent(</span><span style="color: #0000ff">this</span>.jie_dian[i], 'mouseover'<span style="color: #000000">, yi_ru);
+        addEvent(</span><span style="color: #0000ff">this</span>.jie_dian[i], 'mouseout'<span style="color: #000000">, yi_chu);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* xian_shi()方法，设置元素显示,无参
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.xian_shi </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span>.jie_dian[i].style.display = 'block'<span style="color: #000000">;
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* yin_cang()方法，设置元素隐藏,无参
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yin_cang </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">this</span>.jie_dian[i].style.display = 'none'<span style="color: #000000">;
+        document.documentElement.style.overflow </span>= 'auto'<span style="color: #000000">;
+        removeEvent(window, </span>'scroll', scrollTop); <span style="color: #008000">//</span><span style="color: #008000">遮罩锁屏时有用</span>
+<span style="color: #000000">    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* on_click()方法，给获取到的元素添加一个点击事件，参数是一个匿名函数（包含函数功能），
+ * 循环jie_dian属性里的节点，将每次循环的节点添加元素点击事件
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.on_click </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (fu) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        addEvent(</span><span style="color: #0000ff">this</span>.jie_dian[i], 'click'<span style="color: #000000">, fu);
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* yuan_su_ju_zhong()方法，将获取到的区块元素居中到页面，
+ * 注意：使用此方法时，首先要在css里将目标区块设置成(绝对定位,position: absolute;)
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.yuan_su_ju_zhong </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian.length == 1<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> yan_su = <span style="color: #0000ff">null</span><span style="color: #000000">;
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+            yan_su </span>= <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i];
+        }
+        </span><span style="color: #0000ff">var</span> y_style = getStyle(yan_su, 'display'); <span style="color: #008000">//</span><span style="color: #008000">getStyle()函数库函数，跨浏览器获取元素Style，样式指定属性</span>
+        <span style="color: #0000ff">if</span> (y_style === "none"<span style="color: #000000">) {
+            yan_su.style.display </span>= "block"<span style="color: #000000">;
+        }
+        </span><span style="color: #0000ff">var</span> width =<span style="color: #000000"> yan_su.offsetWidth;
+        </span><span style="color: #0000ff">var</span> height =<span style="color: #000000"> yan_su.offsetHeight;
+        </span><span style="color: #0000ff">if</span> (y_style === "none"<span style="color: #000000">) {
+            yan_su.style.display </span>= "none"<span style="color: #000000">;
+        }
+        </span><span style="color: #0000ff">var</span> chang_w =<span style="color: #000000"> getInner().width;
+        </span><span style="color: #0000ff">var</span> chang_h =<span style="color: #000000"> getInner().height;
+        </span><span style="color: #0000ff">var</span> top = (chang_h - height) / 2<span style="color: #000000">;
+        </span><span style="color: #0000ff">var</span> left = (chang_w - width) / 2<span style="color: #000000">;
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> ii = 0; ii &lt; <span style="color: #0000ff">this</span>.jie_dian.length; ii++<span style="color: #000000">) {
+            </span><span style="color: #0000ff">this</span>.jie_dian[ii].style.top = top + 'px'<span style="color: #000000">;
+            </span><span style="color: #0000ff">this</span>.jie_dian[ii].style.left = left + 'px'<span style="color: #000000">;
+        }
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        alert(</span>"区块元素页面居中,只能设置一个区块元素，目前jie_dian数组里是多个元素请检查！"<span style="color: #000000">)
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* chuang_kou_shi_jian()方法，浏览器窗口事件，当窗口的大小变化时触发函数
+ * 接收一个参数，就是触发时要执行的函数（包含函数功能）
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.chuang_kou_shi_jian </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (fn) {
+    </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> yan_su = <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i];
+    }
+    addEvent(window, </span>'resize', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        fn();
+        </span><span style="color: #0000ff">if</span> (yan_su.offsetLeft &gt; getInner().width -<span style="color: #000000"> yan_su.offsetWidth) {
+            yan_su.style.left </span>= getInner().width - yan_su.offsetWidth + 'px'<span style="color: #000000">;
+        }
+        </span><span style="color: #0000ff">if</span> (yan_su.offsetTop &gt; getInner().height -<span style="color: #000000"> yan_su.offsetHeight) {
+            yan_su.style.top </span>= getInner().height - yan_su.offsetHeight + 'px'<span style="color: #000000">;
+        }
+    });
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">* zhe_zhao_suo_ping()方法，将一个区块元素设置成遮罩锁屏区块
+ * 注意：一般需要在css文件将元素设置成隐藏
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.zhe_zhao_suo_ping </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">if</span> (<span style="color: #0000ff">this</span>.jie_dian.length == 1<span style="color: #000000">) {
+        </span><span style="color: #0000ff">var</span> yan_su = <span style="color: #0000ff">null</span><span style="color: #000000">;
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i++<span style="color: #000000">) {
+            yan_su </span>= <span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian[i];
+        }
+        </span><span style="color: #0000ff">var</span> chang_w = getInner().width;  <span style="color: #008000">//</span><span style="color: #008000">getInner()函数库函数，跨浏览器获取浏览器视窗大小</span>
+        <span style="color: #0000ff">var</span> chang_h =<span style="color: #000000"> getInner().height;
+        yan_su.style.width </span>= chang_w + 'px'<span style="color: #000000">;
+        yan_su.style.height </span>= chang_h + 'px'<span style="color: #000000">;
+        yan_su.style.position </span>= 'absolute'<span style="color: #000000">;
+        yan_su.style.top </span>= '0'<span style="color: #000000">;
+        yan_su.style.left </span>= '0'<span style="color: #000000">;
+        </span><span style="color: #0000ff">var</span> y_style = getStyle(yan_su, 'display'); <span style="color: #008000">//</span><span style="color: #008000">getStyle()函数库函数，跨浏览器获取元素Style，样式指定属性</span>
+        <span style="color: #0000ff">if</span> (y_style === "block"<span style="color: #000000">) {
+            document.documentElement.style.overflow </span>= 'hidden'<span style="color: #000000">;
+            addEvent(window, </span>'scroll'<span style="color: #000000">, scrollTop);
+        } </span><span style="color: #0000ff">else</span> <span style="color: #0000ff">if</span> (y_style === 'none'<span style="color: #000000">) {
+            document.documentElement.style.overflow </span>= 'auto'<span style="color: #000000">;
+        }
+    } </span><span style="color: #0000ff">else</span><span style="color: #000000"> {
+        alert(</span>"遮罩锁屏区块,只能设置一个区块元素，目前jie_dian数组里是多个元素请检查！"<span style="color: #000000">)
+    }
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+};
+
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------元素事件结束--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------插件入口开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+<span style="color: #008000">/*</span><span style="color: #008000">* 插件入口，简单的理解就是通过extend()方法，向此基础库添加一个原型方法
+ *  此extend()方法，一般是给插件文件使用的，插件就是通过extend()方法，将插件方法添加到基础库原型的
+ *  接收两个参数
+ *  参数1是传入要添加的方法名称
+ *  参数2是此方法的执行函数（包含代码）
+ *</span><span style="color: #008000">*/</span><span style="color: #000000">
+feng_zhuang_ku.prototype.extend </span>= <span style="color: #0000ff">function</span><span style="color: #000000"> (name, fn) {
+    feng_zhuang_ku.prototype[name] </span>=<span style="color: #000000"> fn;
+};
+</span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------插件入口结束--------------------------------------------*</span><span style="color: #008000">*/</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>HTML代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;!</span><span style="color: #ff00ff">DOCTYPE html</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">html </span><span style="color: #ff0000">lang</span><span style="color: #0000ff">="en"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">meta </span><span style="color: #ff0000">charset</span><span style="color: #0000ff">="UTF-8"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>JavaScript讲解<span style="color: #0000ff">&lt;/</span><span style="color: #800000">title</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">link </span><span style="color: #ff0000">rel</span><span style="color: #0000ff">="stylesheet"</span><span style="color: #ff0000"> title</span><span style="color: #0000ff">='xxx' </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/css"</span><span style="color: #ff0000"> href</span><span style="color: #0000ff">="1.css"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="feng_zhuang_ku/han_shu/han_shu.js"</span><span style="color: #ff0000"> charset</span><span style="color: #0000ff">="utf-8"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="feng_zhuang_ku/feng_zhuang_ku.js"</span><span style="color: #ff0000"> charset</span><span style="color: #0000ff">="utf-8"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="feng_zhuang_ku/cha_jian/tuo_zhuai.js"</span><span style="color: #ff0000"> charset</span><span style="color: #0000ff">="utf-8"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text/javascript"</span><span style="color: #ff0000"> src</span><span style="color: #0000ff">="1.js"</span><span style="color: #ff0000"> charset</span><span style="color: #0000ff">="utf-8"</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">script</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">head</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="tou"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="logo"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/logo.gif"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">=""</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="ge_ren_zhong_xin"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">个人中心
+        </span><span style="color: #0000ff">&lt;</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>设置<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>换肤<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>帮助<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#"</span><span style="color: #0000ff">&gt;</span>退出<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">li</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">ul</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="deng_lu"</span><span style="color: #0000ff">&gt;</span>登录<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="login"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">h2 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="tbu"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">img </span><span style="color: #ff0000">src</span><span style="color: #0000ff">="img/close.png"</span><span style="color: #ff0000"> alt</span><span style="color: #0000ff">=""</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="close"</span> <span style="color: #0000ff">/&gt;</span>网站登录<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="user"</span><span style="color: #0000ff">&gt;</span>帐 号：<span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="text"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="user"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span> <span style="color: #0000ff">/&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="pass"</span><span style="color: #0000ff">&gt;</span>密 码：<span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="password"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="pass"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="text"</span> <span style="color: #0000ff">/&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="button"</span><span style="color: #0000ff">&gt;&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="button"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="submit"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">=""</span> <span style="color: #0000ff">/&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="other"</span><span style="color: #0000ff">&gt;</span>注册新用户 | 忘记密码？<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="suo_ping"</span><span style="color: #0000ff">&gt;</span>1<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="color: #ff0000">type</span><span style="color: #0000ff">="button"</span><span style="color: #ff0000"> value</span><span style="color: #0000ff">="按钮"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="button"</span> <span style="color: #0000ff">/&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="http://www.yc60.com"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="a"</span><span style="color: #0000ff">&gt;</span>瓢城Web俱乐部<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #0000ff">&gt;</span>box<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+
+
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="jkf"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="a"</span><span style="color: #0000ff">&gt;</span>pspan<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="a"</span><span style="color: #0000ff">&gt;</span>pspan<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="b"</span><span style="color: #0000ff">&gt;</span>pspan<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="a"</span><span style="color: #0000ff">&gt;</span>pspan<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>pspan<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="q"</span><span style="color: #0000ff">&gt;</span>pspan<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="a"</span><span style="color: #0000ff">&gt;</span>pspan<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>pspan<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>pspan<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="a"</span><span style="color: #0000ff">&gt;</span>pspan<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="a"</span><span style="color: #0000ff">&gt;</span>pspan<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">span </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="b"</span><span style="color: #0000ff">&gt;</span>pspan<span style="color: #0000ff">&lt;/</span><span style="color: #800000">span</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">p</span><span style="color: #0000ff">&gt;</span>
+
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">body</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">html</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>css代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #800000">@charset "utf-8";
+* </span>{<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 0</span>;
+    <span style="color: #008000">/*</span><span style="color: #008000">color: #ff583d;</span><span style="color: #008000">*/</span>
+}<span style="color: #800000">
+body</span>{<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> url("img/header_bg.png") repeat-x</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff">14px</span>;
+}<span style="color: #800000">
+#tou</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 900px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 auto</span>;
+}<span style="color: #800000">
+.logo</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    float</span>:<span style="color: #0000ff"> left</span>;
+}<span style="color: #800000">
+.ge_ren_zhong_xin</span>{<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> relative</span>;<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 70px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    float</span>:<span style="color: #0000ff"> right</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> url("img/arrow.png") no-repeat right center</span>;<span style="color: #ff0000">
+    cursor</span>:<span style="color: #0000ff"> pointer</span>;
+}<span style="color: #800000">
+ul</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 100px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 110px</span>;<span style="color: #ff0000">
+    list-style-type</span>:<span style="color: #0000ff"> none</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> absolute</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff">30px</span>;<span style="color: #ff0000">
+    right</span>:<span style="color: #0000ff"> -15px</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">#FBF7E1</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff">1px solid #999</span>;<span style="color: #ff0000">
+    border-top</span>:<span style="color: #0000ff">none</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff">10px 0 0 0</span>;<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff">none</span>;
+}<span style="color: #800000">
+ul li </span>{<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff">25px</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff">25px</span>;<span style="color: #ff0000">
+    text-indent</span>:<span style="color: #0000ff">20px</span>;<span style="color: #ff0000">
+    letter-spacing</span>:<span style="color: #0000ff">1px</span>;
+}<span style="color: #800000">
+ul li a </span>{<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff">block</span>;<span style="color: #ff0000">
+    text-decoration</span>:<span style="color: #0000ff">none</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff">#333</span>;<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">url("img/arrow3.gif") no-repeat 5px 45%</span>;
+}<span style="color: #800000">
+ul li a:hover </span>{<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff">#fc0 url("img/arrow4.gif") no-repeat 5px 45%</span>;
+}
+
+
+<span style="color: #008000">/*</span><span style="color: #008000">登录</span><span style="color: #008000">*/</span><span style="color: #800000">
+#tou .deng_lu </span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    float</span>:<span style="color: #0000ff"> right</span>;<span style="color: #ff0000">
+    line-height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    margin-right</span>:<span style="color: #0000ff"> 10px</span>;<span style="color: #ff0000">
+    cursor</span>:<span style="color: #0000ff"> pointer</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">登录框</span><span style="color: #008000">*/</span><span style="color: #800000">
+#login</span>{<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 350px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 250px</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 1px solid #ccc</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff">absolute</span>;<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> none</span>;<span style="color: #ff0000">
+    z-index</span>:<span style="color: #0000ff"> 9999</span>;<span style="color: #ff0000">
+    background-color</span>:<span style="color: #0000ff"> #fff</span>;
+}<span style="color: #800000">
+#login h2</span>{<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> rgba(0, 0, 0, 0) url("img/login_header.png") repeat-x scroll 0 0</span>;<span style="color: #ff0000">
+    border-bottom</span>:<span style="color: #0000ff"> 1px solid #ccc</span>;<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #666</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 14px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 40px</span>;<span style="color: #ff0000">
+    line-height </span>:<span style="color: #0000ff"> 40px</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;<span style="color: #ff0000">
+    letter-spacing</span>:<span style="color: #0000ff"> 1px</span>;<span style="color: #ff0000">
+    margin</span>:<span style="color: #0000ff"> 0 0 20px</span>;<span style="color: #ff0000">
+    cursor</span>:<span style="color: #0000ff"> move</span>;
+}<span style="color: #800000">
+#login h2 img</span>{<span style="color: #ff0000">
+    cursor</span>:<span style="color: #0000ff"> pointer</span>;<span style="color: #ff0000">
+    float</span>:<span style="color: #0000ff"> right</span>;<span style="color: #ff0000">
+    position</span>:<span style="color: #0000ff"> relative</span>;<span style="color: #ff0000">
+    right</span>:<span style="color: #0000ff"> 8px</span>;<span style="color: #ff0000">
+    top</span>:<span style="color: #0000ff"> 14px</span>;
+}<span style="color: #800000">
+#login div.user, #login div.pass </span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #666</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 14px</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 5px 0</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;
+}<span style="color: #800000">
+#login input.text </span>{<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> #fff none repeat scroll 0 0</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> 1px solid #ccc</span>;<span style="color: #ff0000">
+    font-size</span>:<span style="color: #0000ff"> 14px</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 25px</span>;<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 200px</span>;
+}<span style="color: #800000">
+#login .button </span>{<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 20px 0</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> center</span>;
+}<span style="color: #800000">
+#login input.submit </span>{<span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> rgba(0, 0, 0, 0) url("img/login_button.png") no-repeat scroll 0 0</span>;<span style="color: #ff0000">
+    border</span>:<span style="color: #0000ff"> medium none</span>;<span style="color: #ff0000">
+    cursor</span>:<span style="color: #0000ff"> pointer</span>;<span style="color: #ff0000">
+    height</span>:<span style="color: #0000ff"> 30px</span>;<span style="color: #ff0000">
+    width</span>:<span style="color: #0000ff"> 107px</span>;
+}<span style="color: #800000">
+#login .other </span>{<span style="color: #ff0000">
+    color</span>:<span style="color: #0000ff"> #666</span>;<span style="color: #ff0000">
+    padding</span>:<span style="color: #0000ff"> 15px 10px</span>;<span style="color: #ff0000">
+    text-align</span>:<span style="color: #0000ff"> right</span>;
+}
+<span style="color: #008000">/*</span><span style="color: #008000">遮罩锁屏区块</span><span style="color: #008000">*/</span><span style="color: #800000">
+#suo_ping</span>{<span style="color: #ff0000">
+    z-index</span>:<span style="color: #0000ff"> 9998</span>; <span style="color: #008000">/*</span><span style="color: #008000">注意：如果遮罩层上面有元素，它的层级要大于9998</span><span style="color: #008000">*/</span><span style="color: #ff0000">
+    background</span>:<span style="color: #0000ff"> #000</span>;<span style="color: #ff0000">
+    filter</span>:<span style="color: #0000ff"> alpha(opacity=50)</span>;<span style="color: #ff0000">
+    opacity</span>:<span style="color: #0000ff"> 0.5</span>;<span style="color: #ff0000">
+    display</span>:<span style="color: #0000ff"> none</span>;
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>前台js代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">前台调用代码</span>
+addEvent(window, 'load', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #008000">//</span><span style="color: #008000">个人中心和登录框</span>
+    $('#tou .ge_ren_zhong_xin').shu_biao_yi_ru_yi_chu(<span style="color: #0000ff">function</span> () {                     <span style="color: #008000">//</span><span style="color: #008000">获取到个人中心元素，执行鼠标移入移除方法</span>
+        $(<span style="color: #0000ff">this</span>).c_css('background', 'url(img/arrow2.png) no-repeat right center');     <span style="color: #008000">//</span><span style="color: #008000">移入鼠标改变人中心背景图片</span>
+        $('.ge_ren_zhong_xin ul').xian_shi();                                         <span style="color: #008000">//</span><span style="color: #008000">移入鼠标显示个人中心下拉区块</span>
+    }, <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $(</span><span style="color: #0000ff">this</span>).c_css('background', 'url(img/arrow.png) no-repeat right center');    <span style="color: #008000">//</span><span style="color: #008000">移出鼠标改变人中心背景图片</span>
+        $('.ge_ren_zhong_xin ul').yin_cang();                                          <span style="color: #008000">//</span><span style="color: #008000">移出鼠标隐藏个人中心下拉区块</span>
+<span style="color: #000000">    });
+    $(</span>'#login .close').on_click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $(</span>'#login'<span style="color: #000000">).yin_cang();
+        $(</span>'#suo_ping'<span style="color: #000000">).yin_cang();
+    });
+    $(</span>'#tou .deng_lu').on_click(<span style="color: #0000ff">function</span> () {                                          <span style="color: #008000">//</span><span style="color: #008000">获取登录，添加点击事件</span>
+        $('#login').xian_shi().yuan_su_ju_zhong().chuang_kou_shi_jian(<span style="color: #0000ff">function</span> () {  <span style="color: #008000">//</span><span style="color: #008000">点击后，显示登录框，登录框居中，添加窗口事件</span>
+            $('#login').yuan_su_ju_zhong();                                              <span style="color: #008000">//</span><span style="color: #008000">窗口改变时再次执行登录框居中</span>
+            $('#suo_ping'<span style="color: #000000">).zhe_zhao_suo_ping()
+        });
+        $(</span>'#suo_ping'<span style="color: #000000">).xian_shi().zhe_zhao_suo_ping();
+    });
+    $(</span>'#login').tuo_zhuai('tbu'<span style="color: #000000">);
+
+    $(</span>'#jkf p #q').c_css('font-size','80px').c_css('color','#ff583d'<span style="color: #000000">);
+
+
+
+
+
+});</span></pre>
+</div>
+<p>&nbsp;</p></div>

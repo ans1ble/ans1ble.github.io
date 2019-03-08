@@ -1,0 +1,146 @@
+第一百三十节，JavaScript，封装库--连缀
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">JavaScript，封装库--连缀</span></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p align="left"><strong>学习要点：</strong></p>
+<p align="left"><strong>1.连缀介绍</strong></p>
+<p align="left"><strong>2.改写库对象</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>本章我们重点来介绍，在调用库的时候，我们需要能够在前台调用的时候可以同时设置多个操作，比如设置CSS，设置innerHTML，设置click事件等等。那么本节课来讨论这个问题。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>一．</strong><strong>连缀介绍</strong></span></p>
+<p align="left"><strong>所谓连缀，最简单的理解就是一句话同时设置一个或多个节点两个或两个以上的操作。比如：</strong></p>
+<div class="cnblogs_code">
+<pre>$().getId('box').css('color', 'red').html('标题').click(<span style="color: #0000ff">function</span> () {alert('a')});</pre>
+</div>
+<p align="left"><strong>连缀的好处，就是快速方便的设置节点的操作。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000; background-color: #ffff00"><strong>二．</strong><strong>改写库对象</strong></span></p>
+<p align="left"><strong>如果是实现操作连缀，那么我们就需要改写上一节课的对象写法：var Base = {}，这种写法无法在它的原型中添加方法，所以需要使用函数式对象写法：</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>封装库代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">/*</span><span style="color: #008000">*
+ *feng_zhuang_ku_1.0版本，js封装库，2016/12/29日：林贵秀
+ *</span><span style="color: #008000">*/</span>
+
+<span style="color: #008000">/*</span><span style="color: #008000">* 每次调用$创建库对象,使其每次调用都是独立的对象
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">var</span> $ = <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">new</span><span style="color: #000000"> feng_zhuang_ku();
+};
+
+</span><span style="color: #008000">/*</span><span style="color: #008000">*
+ *定义封装库构造函数，创建库对象
+ *</span><span style="color: #008000">*/</span>
+<span style="color: #0000ff">function</span><span style="color: #000000"> feng_zhuang_ku () {
+    </span><span style="color: #008000">/*</span><span style="color: #008000">*对象说明：
+     * this表示对象本身
+     * 使用库，首先要  var $ = new feng_zhuang_ku();   首先要new创建对象
+     * 再在创建的对象下调用方法或者属性
+     * 
+     * 大纲：
+     * 获取元素标签开始，行号18
+     * 连缀-元素节点操作开始，行号64
+     * 
+     * 
+     *</span><span style="color: #008000">*/</span>
+
+
+    <span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------获取元素标签开始--------------------------------------------*</span><span style="color: #008000">*/</span>
+    <span style="color: #008000">/*</span><span style="color: #008000">*获取元素标签说明：
+     * jie_dian属性，保存获取到的元素节点，返回数组,
+     * huo_qu_id()方法，通过id获取元素标签，适用于获取单个节点，
+     * huo_qu_name_zhi()方法，通过元素name值获取指定元素，适用于获取表单元素,
+     * huo_qu_name()方法，通过标签名称获取相同标签名的元素，适用于获取多个相同元素节点,
+     *</span><span style="color: #008000">*/</span>
+
+
+    <span style="color: #008000">/*</span><span style="color: #008000">* jie_dian属性，创建数组，初始化，保存获取到的元素节点，返回数组
+     *</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">this</span>.jie_dian =<span style="color: #000000"> [];
+
+    </span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_id()方法,通过id获取元素标签，参数是id值，将获取到的元素对象添加到，jie_dian属性,适用于获取单个节点
+     *</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">this</span>.huo_qu_id = <span style="color: #0000ff">function</span><span style="color: #000000"> (id) {
+        </span><span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian.push(document.getElementById(id));
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+    };
+
+    </span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_name_zhi()方法，通过元素name值获取指定元素，参数是元素name值，返回元素相同name值对象集合，
+     * 循环元素集合，将每次循环到的元素对象添加到 jie_dian属性，适用于获取表单元素
+     *</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">this</span>.huo_qu_name_zhi = <span style="color: #0000ff">function</span><span style="color: #000000"> (name) {
+        </span><span style="color: #0000ff">var</span> name_zhi =<span style="color: #000000"> document.getElementsByName(name);
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; name_zhi.length; i ++<span style="color: #000000">){
+           </span><span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian.push(name_zhi[i]);
+        }
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+    };
+
+    </span><span style="color: #008000">/*</span><span style="color: #008000">* huo_qu_name()方法，通过标签名称获取相同标签名的元素，参数是标签名称，返回对象集合
+     * 循环元素集合，将每次循环到的元素对象添加到 jie_dian属性，适用于获取多个相同元素节点
+     *</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">this</span>.huo_qu_name = <span style="color: #0000ff">function</span><span style="color: #000000"> (tag) {
+        </span><span style="color: #0000ff">var</span> name =<span style="color: #000000"> document.getElementsByTagName(tag);
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; name.length; i ++<span style="color: #000000">){
+            </span><span style="color: #0000ff">this</span><span style="color: #000000">.jie_dian.push(name[i]);
+        }
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+    };
+
+    </span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------获取元素标签结束--------------------------------------------*</span><span style="color: #008000">*/</span>
+
+
+    <span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------连缀-元素节点操作开始---------------------------------------*</span><span style="color: #008000">*/</span>
+    <span style="color: #008000">/*</span><span style="color: #008000">*连缀-元素节点操作说明：
+     * css()方法，给获取到的元素设置行内css样式
+     * wen_ben()方法，给获取到的元素设置文本，参数是要设置的文本字符串
+     * click()方法，给获取到的元素添加一个点击事件，参数是一个匿名函数（包含函数功能），
+     *</span><span style="color: #008000">*/</span>
+
+
+    <span style="color: #008000">/*</span><span style="color: #008000">* css()方法，给获取到的元素设置行内css样式,两个参数，参数1样式名称，参数2样式值
+     * 循环jie_dian属性里的节点，将每次循环的节点添加css样式
+     *</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">this</span>.css = <span style="color: #0000ff">function</span><span style="color: #000000"> (attr,value) {
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i ++<span style="color: #000000">){
+            </span><span style="color: #0000ff">this</span>.jie_dian[i].style[attr] =<span style="color: #000000"> value;
+        }
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+    };
+
+    </span><span style="color: #008000">/*</span><span style="color: #008000">* wen_ben()方法，给获取到的元素设置文本，参数是要设置的文本字符串，
+     * 循环jie_dian属性里的节点，将每次循环的节点添加元素文本
+     *</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">this</span>.wen_ben = <span style="color: #0000ff">function</span><span style="color: #000000"> (str) {
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i ++<span style="color: #000000">){
+            </span><span style="color: #0000ff">this</span>.jie_dian[i].innerHTML =<span style="color: #000000"> str;
+        }
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+    };
+
+    </span><span style="color: #008000">/*</span><span style="color: #008000">* click()方法，给获取到的元素添加一个点击事件，参数是一个匿名函数（包含函数功能），
+     * 循环jie_dian属性里的节点，将每次循环的节点添加元素点击事件
+     *</span><span style="color: #008000">*/</span>
+    <span style="color: #0000ff">this</span>.click = <span style="color: #0000ff">function</span><span style="color: #000000"> (fu) {
+        </span><span style="color: #0000ff">for</span> (<span style="color: #0000ff">var</span> i = 0; i &lt; <span style="color: #0000ff">this</span>.jie_dian.length; i ++<span style="color: #000000">){
+            </span><span style="color: #0000ff">this</span>.jie_dian[i].onclick =<span style="color: #000000"> fu;
+        }
+        </span><span style="color: #0000ff">return</span> <span style="color: #0000ff">this</span><span style="color: #000000">;
+    };
+    </span><span style="color: #008000">/*</span><span style="color: #008000">*------------------------------------------------连缀-元素节点操作结束---------------------------------------*</span><span style="color: #008000">*/</span><span style="color: #000000">
+}</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>前台调用代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">//</span><span style="color: #008000">前台调用代码</span>
+window.onload = <span style="color: #0000ff">function</span><span style="color: #000000"> (){
+    $().huo_qu_name(</span>'div').css('background-color','#ffff3e'<span style="color: #000000">);
+    $().huo_qu_name(</span>'p').css('color','#ff2128').css('background-color','#b2bbff').wen_ben('改变').click(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'a'<span style="color: #000000">);
+    });
+};</span></pre>
+</div>
+<p>&nbsp;</p></div>

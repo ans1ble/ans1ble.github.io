@@ -1,0 +1,335 @@
+第二百四十七节，Bootstrap按钮和折叠插件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>Bootstrap按钮和折叠插件</strong></p>
+<p>&nbsp;</p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.按钮 </strong></p>
+<p><strong>　　2.折叠</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课我们主要学习一下 Bootstrap 中的按钮和折叠插件。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．按钮</strong></span></p>
+<p><span style="color: #0000ff"><strong>可以通过按钮插件创建不同状态的按钮，也就是点击后为选中状态颜色加深，需要再次点击后后取消选中状态，颜色还原</strong></span></p>
+<p><span style="color: #ff0000"><strong>单个切换</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>data-toggle="button"绑定按钮事件，写在按钮button元素里，点击后选中或取消选中按钮(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>autocomplete="off"多次页面加载时按钮可能保持表单的禁用或选择状态。解决方案是：添加 autocomplete="off"。(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">button </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="btn btn-primary"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="button"</span><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span></span><span style="color: #0000ff">&gt;</span>单个切换<span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>点击前未选中颜色</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170504162303101-708407259.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>点击后选中颜色</strong></span></p>
+<p><span style="color: #0000ff"><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170504162326070-1649975298.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>再次点击后取消选中颜色</strong></span></p>
+<p><span style="color: #0000ff"><strong><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170504162356820-1339463183.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>单选按钮，也就是按钮式单选框</strong></span></p>
+<p><span style="color: #ff0000"><strong>btn-group样式class类，写在包含多个按钮&lt;div&gt;里，设置群组多个按钮为一组(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>data-toggle="buttons"按钮事件，写在群组div里，表示群组按钮事件，点击后选中当前按钮(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>label单选框或多选框按钮标签，设置群组单选框或多选框时用此标签代替button标签，转换成按钮(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>active样式class类，写在&lt;label&gt;里，设置群组里的当前按钮为首选(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>for="nan"为当前元素所绑定的元素id(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">btn-group</span>"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="buttons"</span></span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000; background-color: #ffff00">label </span><span style="background-color: #ff99cc"><span style="color: #ff0000">for</span><span style="color: #0000ff">="nan"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="btn btn-primary <span style="background-color: #ffff00">active</span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="background-color: #ff99cc"><span style="color: #ff0000">id</span><span style="color: #0000ff">="nan"</span></span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sex"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span></span><span style="color: #ff0000"> checked</span><span style="color: #0000ff">&gt;</span><span style="color: #000000"> 男
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000; background-color: #ffff00">label </span><span style="background-color: #ff99cc"><span style="color: #ff0000">for</span><span style="color: #0000ff">="nv"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="btn btn-primary"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="background-color: #ff99cc"><span style="color: #ff0000">id</span><span style="color: #0000ff">="nv"</span></span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="radio"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="sex"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span></span><span style="color: #0000ff">&gt;</span><span style="color: #000000"> 女
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170504164710961-144430477.gif" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>按钮式复选框</strong></span></p>
+<p><span style="color: #0000ff"><strong>复选框和单选框一样的只是type属性值不一样而已</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">btn-group"</span></span><span style="color: #ff0000; background-color: #ffff00"> data-toggle</span><span style="color: #0000ff"><span style="background-color: #ffff00">="buttons</span>"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="background-color: #ff99cc"><span style="color: #ff0000">for</span><span style="color: #0000ff">="yy"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">btn btn-primary active</span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="background-color: #ff99cc"><span style="color: #ff0000">id</span><span style="color: #0000ff">="yy"</span></span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="fa"</span><span style="color: #ff0000; background-color: #ffff00"> autocomplete</span><span style="color: #0000ff"><span style="background-color: #ffff00">="off</span>"</span><span style="color: #ff0000"> checked</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">音乐
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="background-color: #ff99cc"><span style="color: #ff0000">for</span><span style="color: #0000ff">="ty"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">btn btn-primary</span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="background-color: #ff99cc"><span style="color: #ff0000">id</span><span style="color: #0000ff">="ty"</span></span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="fa"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span></span><span style="color: #0000ff">&gt;</span><span style="color: #000000"> 体育
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="background-color: #ff99cc"><span style="color: #ff0000">for</span><span style="color: #0000ff">="msh"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">btn btn-primary</span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="background-color: #ff99cc"><span style="color: #ff0000">id</span><span style="color: #0000ff">="msh"</span></span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="fa"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span></span><span style="color: #0000ff">&gt;</span><span style="color: #000000"> 美术
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">label </span><span style="background-color: #ff99cc"><span style="color: #ff0000">for</span><span style="color: #0000ff">="dl"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">btn btn-primary</span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">input </span><span style="background-color: #ff99cc"><span style="color: #ff0000">id</span><span style="color: #0000ff">="dl"</span></span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="checkbox"</span><span style="color: #ff0000"> name</span><span style="color: #0000ff">="fa"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span></span><span style="color: #0000ff">&gt;</span><span style="color: #000000"> 电脑
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">label</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170504170109742-669087332.gif" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>加载状态<strong>按钮</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong>加载状态按钮必须结合js</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong>data-loading-text="上传中请稍后..."设置加载状态按钮点击后提示内容，按钮元素里，点击后提示的内容(Bootstrap)</strong></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">button </span><span style="background-color: #ffff00"><span style="color: #ff0000">id</span><span style="color: #0000ff">="myButton"</span></span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="button"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-loading-text</span><span style="color: #0000ff">="上传中请稍后..."</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="btn btn-primary"</span><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    上传文件
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff"><strong>js</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>"a,input,button").focus(<span style="color: #0000ff">function</span> () {         <span style="color: #008000">//</span><span style="color: #008000">获取到所有的a,input,button标签执行聚集光标事件</span>
+        <span style="color: #0000ff">this</span>.blur()                                 <span style="color: #008000">//</span><span style="color: #008000">当聚集光标时，去除虚线边框</span>
+<span style="color: #000000">    });
+
+    $(</span>'<span style="background-color: #ffff00">#myButton</span>').on('click', <span style="color: #0000ff">function</span> () {        <span style="color: #008000">//</span><span style="color: #008000">获取到加载状态按钮，执行点击事件</span>
+        <span style="background-color: #ffff00"><span style="color: #0000ff">var</span> btn = $(<span style="color: #0000ff">this</span>).button('loading'); </span>       <span style="color: #008000">//</span><span style="color: #008000">点击后执行loading方法，即html里的data-loading-text="上传中请稍后..."</span>
+        setTimeout(<span style="color: #0000ff">function</span> () {                    <span style="color: #008000">//</span><span style="color: #008000">计时器等待1秒</span>
+            <span style="background-color: #ffff00">btn.button('reset');</span>                    <span style="color: #008000">//</span><span style="color: #008000">执行reset方法，还原初始状态</span>
+        }, 1000<span style="color: #000000">);
+    });
+});</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170504180731226-1134833543.gif" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>按钮方法中有三个参数：</strong></span></p>
+<p><span style="color: #ff0000"><strong>button()按钮方法，将按钮元素执行按钮方法</strong></span></p>
+<p><span style="color: #ff0000"><strong>toggle将按钮元素绑定按钮事件(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>reset将按钮元素还原初始状态(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>string自定义字符串，设置加载状态按钮提示内容(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">button </span><span style="background-color: #ffff00"><span style="color: #ff0000">id</span><span style="color: #0000ff">="myButton"</span></span><span style="color: #ff0000"> type</span><span style="color: #0000ff">="button"</span><span style="color: #ff0000"> data-zdyixx-text</span><span style="color: #0000ff">="上传中请稍后..."</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="btn btn-primary"</span><span style="color: #ff0000"> autocomplete</span><span style="color: #0000ff">="off"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    上传文件
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>js</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>"a,input,button").focus(<span style="color: #0000ff">function</span> () {         <span style="color: #008000">//</span><span style="color: #008000">获取到所有的a,input,button标签执行聚集光标事件</span>
+        <span style="color: #0000ff">this</span>.blur();                                 <span style="color: #008000">//</span><span style="color: #008000">当聚集光标时，去除虚线边框</span>
+<span style="color: #000000">    });
+
+    $(</span>'#myButton').on('click', <span style="color: #0000ff">function</span> () {        <span style="color: #008000">//</span><span style="color: #008000">获取到按钮指定点击事件</span>
+        <span style="background-color: #ffff00"><span style="color: #008000">//</span><span style="color: #008000">$(this).button('toggle');                 //点击后执行按钮方法</span>
+        $(<span style="color: #0000ff">this</span>).button('zdyixx');                   <span style="color: #008000">//</span><span style="color: #008000">执行自定义提示信息，即html里data-zdyixx-text="上传中请稍后..."</span>
+        setTimeout(<span style="color: #0000ff">function</span> () {                    <span style="color: #008000">//</span><span style="color: #008000">计时器等待1秒</span>
+            $('#myButton').button('reset');         <span style="color: #008000">//</span><span style="color: #008000">执行reset方法，还原初始状态</span>
+        }, 1000</span><span style="color: #000000"><span style="background-color: #ffff00">);</span>
+    })
+
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170504183149773-432922686.gif" alt=""></p>
+<p><span style="color: #ff0000"><strong>&nbsp;</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．折叠</strong></span></p>
+<p><span style="color: #0000ff"><strong>通过点击可以折叠内容。</strong></span></p>
+<p><span style="color: #ff0000"><strong>基本实例</strong></span></p>
+<p><span style="color: #ff0000"><strong>data-toggle="collapse"设置按钮折叠事件，写在按钮元素里，点击后执行折叠事件(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>data-target="#content"指向折叠区块id，写在按钮元素里，将按钮与折叠内容区块关联(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>collapse样式class类，写在折叠区块&lt;div&gt;里，设置折叠区块样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>well样式class类，写在折叠内容区块&lt;div&gt;里，设置折叠内容区块嵌入样式(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">button </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="btn btn-primary"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="collapse"</span><span style="color: #ff0000"> data-target</span><span style="color: #0000ff">="#content"</span></span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+    Bootstrap
+</span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">button</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">collapse</span>"</span><span style="background-color: #ffff00"><span style="color: #ff0000"> id</span><span style="color: #0000ff">="content"</span></span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="background-color: #ffff00"><span style="color: #ff0000">class</span><span style="color: #0000ff">="well"</span></span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+        Bootstrap 是 Twitter 推出的一个用于前端开发的开源工具包。它由
+        Twitter 的设计师 Mark Otto 和 Jacob Thornton 合作开发,是一个 CSS/HTML 框架。目
+        前,Bootstrap 最新版本为 3.0 。
+    </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170504185723507-575096091.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>手风琴折叠</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>panel-group样式class类，面板容器&lt;div&gt;里，设置一个面板容器区块(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>panel样式class类，写在面板组件&lt;div&gt;元素里，声明面板组件div(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>panel-default样式class类，写在面板组件&lt;div&gt;元素里，设置面板组件默认样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>panel-heading样式class类，写在面板组件里头部&lt;div&gt;元素里，设置面板组件头部样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>panel-title样式class类，写在面板组件里头部&lt;h1-h4&gt;元素里，设置面板组件头部标题样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>panel-collapse样式class类，写在面板组件里的内容区块&lt;div&gt;元素里，设置折叠内容区域容器(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>collapse样式class类，写在面板组件里的内容区块&lt;div&gt;元素里，设置折叠内容区域样式(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>in样式class类，写在面板组件里的内容区块&lt;div&gt;元素里，设置当前折叠内容区域为默认展开效果(Bootstrap)</strong></span><br><span style="color: #ff0000; background-color: #ffff00"><strong>将标题里的a标签地址等于内容区域的id进行关联,(Bootstrap)</strong></span><br><span style="color: #ff0000; background-color: #ffff00"><strong>data-parent="#accordion"写在标题里的a标签里，值是折叠面板容器的id，将折叠面板容器与标题a标签关联(Bootstrap)</strong></span><br><span style="color: #ff0000; background-color: #ffff00"><strong>data-toggle="collapse"折叠事件，写在标题里的a标签，点击a标签后执行折叠事件(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">panel-group"</span></span><span style="background-color: #ffff00"><span style="color: #ff0000"> id</span><span style="color: #0000ff">="accordion"</span></span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">panel panel-default</span>"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">panel-heading</span>"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">panel-title</span>"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="background-color: #ff99cc"><span style="color: #ff0000">href</span><span style="color: #0000ff">="#collapseOne"</span></span><span style="background-color: #ffff00"><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="collapse"</span><span style="color: #ff0000"> data-parent</span></span><span style="color: #0000ff"><span style="background-color: #ffff00">="#accordion</span>"</span><span style="color: #0000ff">&gt;</span>点击我进行展示，再点击我进行折叠，第一部分<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="background-color: #ff99cc"><span style="color: #ff0000">id</span><span style="color: #0000ff">="collapseOne"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">panel-collapse collapse in</span>"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-body"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                这里是第一部分。
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel panel-default"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-heading"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-title"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="background-color: #ff99cc"><span style="color: #ff0000">href</span><span style="color: #0000ff">="#collapseTwo"</span></span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="collapse"</span><span style="color: #ff0000"> data-parent</span><span style="color: #0000ff">="#accordion"</span><span style="color: #0000ff">&gt;</span>点击我进行展示，再点击我进行折叠，第二部分<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="background-color: #ff99cc"><span style="color: #ff0000">id</span><span style="color: #0000ff">="collapseTwo"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">panel-collapse collapse</span>"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-body"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                这里是第二部分。
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel panel-default"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-heading"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-title"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="background-color: #ff99cc"><span style="color: #ff0000">href</span><span style="color: #0000ff">="#collapseThree"</span></span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="collapse"</span><span style="color: #ff0000"> data-parent</span><span style="color: #0000ff">="#accordion"</span><span style="color: #0000ff">&gt;</span>点击我进行展示，再点击我进行折叠，第三部分<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="background-color: #ff99cc"><span style="color: #ff0000">id</span><span style="color: #0000ff">="collapseThree"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="<span style="background-color: #ffff00">panel-collapse collapse</span>"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-body"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                这里是第三部分。
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170504202822242-1742765646.gif" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>折叠属性</strong></span></p>
+<p><span style="color: #ff0000"><strong>data-parent 默认值为 <span style="color: #0000ff">false</span>，设置需指定父元素选择器。也就是说，选定其中一个折叠区，其他折叠将隐藏，实现手风琴效果。</strong></span></p>
+<p><span style="color: #ff0000"><strong>data-toggle 如果前面加 data-*，设置'<span style="color: #0000ff">collapse</span>'表示实现折叠；如果是 JavaScript 中的属性，默认为 <span style="color: #0000ff">true</span>，实现反转</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-group"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="accordion"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel panel-default"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-heading"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-title"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#collapseOne"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="collapse"</span><span style="color: #0000ff">&gt;</span>点击我进行展示，再点击我进行折叠，第一部分<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="collapseOne"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="panel-collapse collapse in"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-body"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                这里是第一部分。
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel panel-default"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-heading"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-title"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#collapseTwo"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="collapse"</span><span style="color: #0000ff">&gt;</span>点击我进行展示，再点击我进行折叠，第二部分<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="collapseTwo"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="panel-collapse collapse"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-body"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                这里是第二部分。
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel panel-default"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-heading"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-title"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#collapseThree"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="collapse"</span><span style="color: #0000ff">&gt;</span>点击我进行展示，再点击我进行折叠，第三部分<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="collapseThree"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="panel-collapse collapse"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-body"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                这里是第三部分。
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><strong><span style="color: #0000ff">js</span></strong></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>"a,input,button").focus(<span style="color: #0000ff">function</span> () {         <span style="color: #008000">//</span><span style="color: #008000">获取到所有的a,input,button标签执行聚集光标事件</span>
+        <span style="color: #0000ff">this</span>.blur();                                 <span style="color: #008000">//</span><span style="color: #008000">当聚集光标时，去除虚线边框</span>
+<span style="color: #000000">    });
+
+    <span style="background-color: #ffff00">$(</span></span><span style="background-color: #ffff00">'#collapseOne,#collapseTwo,#collapseThree').collapse({        <span style="color: #008000">//</span><span style="color: #008000">获取所有标题a标签id执行折叠方法</span>
+        parent: '#accordion',       <span style="color: #008000">//</span><span style="color: #008000">将a标签与折叠容器id关联</span>
+        toggle: <span style="color: #0000ff">false</span>,              <span style="color: #008000">//</span><span style="color: #008000">false默认项展开，true默认项折叠</span>
+</span><span style="color: #000000"><span style="background-color: #ffff00">    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>折叠方法，方法还提供了三个参数：hide、show、toggle。</strong></span></p>
+<p><span style="color: #ff0000"><strong>collapse()折叠方法，将折叠容器里的折叠内容区块执行折叠方法(Bootstrap)</strong></span></p>
+<p><span style="color: #ff0000"><strong>hide折叠方法参数，将内容折叠(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>show折叠方法参数，将内容展开(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>toggle折叠方法参数，反转折叠和展开(Bootstrap)</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>"a,input,button").focus(<span style="color: #0000ff">function</span> () {         <span style="color: #008000">//</span><span style="color: #008000">获取到所有的a,input,button标签执行聚集光标事件</span>
+        <span style="color: #0000ff">this</span>.blur();                                 <span style="color: #008000">//</span><span style="color: #008000">当聚集光标时，去除虚线边框</span>
+<span style="color: #000000">    });
+
+    <span style="background-color: #ffff00">$(</span></span><span style="background-color: #ffff00">'#collapseOne').collapse('hide'<span style="color: #000000">);
+    $(</span>'#collapseTwo').collapse('show'<span style="color: #000000">);
+    $(</span>'button').on('click', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        $(</span>'#collapseOne').collapse('toggle'</span><span style="color: #000000"><span style="background-color: #ffff00">);
+    });</span>
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>折叠事件，Collapse 插件中事件有四种。</strong></span></p>
+<p><span style="color: #ff0000"><strong>show.bs.collapse 在 show 方法调用时立即触发(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>shown.bs.collapse 折叠区完全显示出来是触发(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>hide.bs.collapse 在 hide 方法调用时触发(Bootstrap)</strong></span><br><span style="color: #ff0000"><strong>hidden.bs.collapse 该事件在折叠区域完全隐藏之后触发(Bootstrap)</strong></span></p>
+<p><span style="color: #0000ff"><strong>js</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>"a,input,button").focus(<span style="color: #0000ff">function</span> () {         <span style="color: #008000">//</span><span style="color: #008000">获取到所有的a,input,button标签执行聚集光标事件</span>
+        <span style="color: #0000ff">this</span>.blur();                                 <span style="color: #008000">//</span><span style="color: #008000">当聚集光标时，去除虚线边框</span>
+<span style="color: #000000">    });
+
+    <span style="background-color: #ffff00">$(</span></span><span style="background-color: #ffff00">'#collapseOne').on('show.bs.collapse', <span style="color: #0000ff">function</span> () {      <span style="color: #008000">//</span><span style="color: #008000">获取到折叠内容区块执行事件</span>
+        alert('在 show 方法调用时立即触发'<span style="color: #000000">);
+    });
+    $(</span>'#collapseOne').on('shown.bs.collapse', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'折叠区完全显示出来是触发'<span style="color: #000000">);
+    });
+    $(</span>'#collapseOne').on('hide.bs.collapse', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'在 hide 方法调用时触发'<span style="color: #000000">);
+    });
+    $(</span>'#collapseOne').on('hidden.bs.collapse', <span style="color: #0000ff">function</span><span style="color: #000000"> () {
+        alert(</span>'该事件在折叠区域完全隐藏之后触发'</span><span style="color: #000000"><span style="background-color: #ffff00">);
+    });</span>
+});</span></pre>
+</div>
+<p><span style="color: #0000ff"><strong>HTML</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-group"</span><span style="color: #ff0000"> id</span><span style="color: #0000ff">="accordion"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel panel-default"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-heading"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-title"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#collapseOne"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="collapse"</span><span style="color: #0000ff">&gt;</span>点击我进行展示，再点击我进行折叠，第一部分<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="background-color: #ff99cc"><span style="color: #ff0000">id</span><span style="color: #0000ff">="collapseOne"</span></span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="panel-collapse collapse in"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-body"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                这里是第一部分。
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel panel-default"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-heading"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-title"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#collapseTwo"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="collapse"</span><span style="color: #0000ff">&gt;</span>点击我进行展示，再点击我进行折叠，第二部分<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="collapseTwo"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="panel-collapse collapse"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-body"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                这里是第二部分。
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel panel-default"</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-heading"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">h4 </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-title"</span><span style="color: #0000ff">&gt;</span>
+                <span style="color: #0000ff">&lt;</span><span style="color: #800000">a </span><span style="color: #ff0000">href</span><span style="color: #0000ff">="#collapseThree"</span><span style="color: #ff0000"> data-toggle</span><span style="color: #0000ff">="collapse"</span><span style="color: #0000ff">&gt;</span>点击我进行展示，再点击我进行折叠，第三部分<span style="color: #0000ff">&lt;/</span><span style="color: #800000">a</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;/</span><span style="color: #800000">h4</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="collapseThree"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="panel-collapse collapse"</span><span style="color: #0000ff">&gt;</span>
+            <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">class</span><span style="color: #0000ff">="panel-body"</span><span style="color: #0000ff">&gt;</span><span style="color: #000000">
+                这里是第三部分。
+            </span><span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+        <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201705/955761-20170504213345820-572705633.png" alt=""></p>
+<p>&nbsp;</p></div>

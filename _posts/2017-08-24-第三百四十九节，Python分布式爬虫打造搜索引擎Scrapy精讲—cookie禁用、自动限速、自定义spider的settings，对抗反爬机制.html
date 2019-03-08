@@ -1,0 +1,62 @@
+第三百四十九节，Python分布式爬虫打造搜索引擎Scrapy精讲—cookie禁用、自动限速、自定义spider的settings，对抗反爬机制
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百四十九节，Python分布式爬虫打造搜索引擎Scrapy精讲—cookie禁用、自动限速、自定义spider的settings，对抗反爬机制</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>cookie禁用</strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong>就是在<strong>Scrapy的配置文件settings.py里禁用掉<strong><strong>cookie禁用，可以防止被通过<strong><strong>cookie禁用识别到是爬虫，注意，只适用于不需要登录的网页，<strong><strong>cookie禁用后是无法登录的</strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><strong><span style="color: #0000ff">settings.py里禁用掉cookie禁用</span></strong></p>
+<p><strong><span style="color: #ff0000"><span style="color: #0000ff">COOKIES_ENABLED</span> = False 禁用cookie</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> Disable cookies (enabled by default)</span>
+COOKIES_ENABLED = False</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>自动限速</strong></span></p>
+<p><span style="color: #000000"><strong><strong>Scrapy默认没有限速的，只要遇到URL就访问，没有间隙</strong></strong></span></p>
+<p><span style="color: #000000"><strong><strong>自动限速(AutoThrottle)扩展</strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong><strong><strong>settings.py里设置</strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><span style="color: #0000ff">DOWNLOAD_DELAY</span> = 下载器在下载同一个网站下一个页面前需要等待的时间。该选项可以用来限制爬取速度， 减轻服务器压力。同时也支持小数（单位秒）</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> Configure a delay for requests for the same website (default: 0)</span><span style="color: #008000">
+#</span><span style="color: #008000"> See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay</span><span style="color: #008000">
+#</span><span style="color: #008000"> See also autothrottle settings and docs</span>
+DOWNLOAD_DELAY = 10</pre>
+</div>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">AUTOTHROTTLE_ENABLED</span> = True &nbsp;开启限速，<strong>启用AutoThrottle扩展</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> Enable and configure the AutoThrottle extension (disabled by default)</span><span style="color: #008000">
+#</span><span style="color: #008000"> See http://doc.scrapy.org/en/latest/topics/autothrottle.html</span>
+AUTOTHROTTLE_ENABLED = True</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong>自定义spider的settings，也就是为每一个爬虫单独设置配置文件里的值，将覆盖掉<strong><strong><strong><strong><strong>settings.py里的相同设置</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">custom_settings = {键值对}</span> 为每一个爬虫单独设置配置文件里的值，将覆盖掉settings.py里的相同设置，在爬虫文件里设置</strong></span></p>
+<p><span style="color: #0000ff"><strong>举例：</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.http <span style="color: #0000ff">import</span><span style="color: #000000"> Request,FormRequest
+
+</span><span style="color: #0000ff">class</span> PachSpider(scrapy.Spider):                            <span style="color: #008000">#</span><span style="color: #008000">定义爬虫类，必须继承scrapy.Spider</span>
+    name = <span style="color: #800000">'</span><span style="color: #800000">pach</span><span style="color: #800000">'</span>                                           <span style="color: #008000">#</span><span style="color: #008000">设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">www.kuaidaili.com</span><span style="color: #800000">'</span>]                 <span style="color: #008000">#</span><span style="color: #008000">爬取域名</span>
+<span style="background-color: #ff99cc"><span style="color: #000000">
+    custom_settings </span>=<span style="color: #000000"> {
+        </span><span style="color: #800000">"</span><span style="color: #800000">COOKIES_ENABLED</span><span style="color: #800000">"</span>: True                             <span style="color: #008000">#</span><span style="color: #008000">覆盖掉settings.py里的相同设置，开启COOKIES</span>
+<span style="color: #000000">    }
+
+    </span></span><span style="color: #0000ff">def</span> start_requests(self):    <span style="color: #008000">#</span><span style="color: #008000">起始url函数，会替换start_urls</span>
+        <span style="color: #800000">"""</span><span style="color: #800000">第一次请求一下登录页面，设置开启cookie使其得到cookie，设置回调函数</span><span style="color: #800000">"""</span>
+        <span style="color: #0000ff">return</span><span style="color: #000000"> [Request(
+            url</span>=<span style="color: #800000">'</span><span style="color: #800000">http://www.kuaidaili.com/free/inha/2/</span><span style="color: #800000">'</span><span style="color: #000000">,
+            meta</span>={<span style="color: #800000">'</span><span style="color: #800000">cookiejar</span><span style="color: #800000">'</span>:1},       <span style="color: #008000">#</span><span style="color: #008000">开启Cookies记录，将Cookies传给回调函数</span>
+            callback=<span style="color: #000000">self.parse
+        )]
+
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> parse(self, response):
+        title </span>= response.xpath(<span style="color: #800000">'</span><span style="color: #800000">//*[@id="list"]/table/tbody/tr</span><span style="color: #800000">'</span>)</pre>
+</div>
+<p>&nbsp;</p></div>

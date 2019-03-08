@@ -1,0 +1,428 @@
+第五十三节，socket模块介绍，socket单线程通讯
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #ff0000; font-size: 18pt;"><strong>socket单线程通讯，只能<strong>单线程通讯，不能并发</strong></strong></span></p>
+<p>&nbsp;</p>
+<p><strong>socket是基于（TCP、UDP、IP）的通讯、也叫做套接字</strong></p>
+<p><strong>通讯过程由服务端的<strong>socket处理信息发送，由客户端的<strong>socket处理信息接收。</strong></strong></strong></p>
+<p>socket通常也称作"套接字"，用于描述IP地址和端口，是一个通信链的句柄，应用程序通常通过"套接字"向网络发出请求或者应答网络请求。</p>
+<p>socket起源于Unix，而Unix/Linux基本哲学之一就是&ldquo;一切皆文件&rdquo;，对于文件用【打开】【读写】【关闭】模式来操作。socket就是该模式的一个实现，socket即是一种特殊的文件，一些socket函数就是对其进行的操作（读/写IO、打开、关闭）</p>
+<p>socket和file的区别：</p>
+<p>file模块是针对某个指定文件进行【打开】【读写】【关闭】</p>
+<p>socket模块是针对 服务器端 和 客户端Socket 进行【打开】【读写】【关闭】</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160923164547746-1000989930.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong><strong><strong>socket</strong></strong>通讯过程由服务端的<strong>socket处理信息发送，由客户端的<strong>socket处理信息接收。</strong></strong></strong></span></p>
+<p><span style="color: #000000;"><strong><strong><strong>举例：</strong></strong></strong></span></p>
+<p><span style="color: #000000;"><strong><strong><strong>模拟一个服务端的<strong><strong><strong>socket &nbsp;WEB服务应用</strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> socket
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> handle_request(client):
+    buf </span>= client.recv(1024<span style="color: #000000;">)
+    client.sendall(bytes(</span><span style="color: #800000;">"</span><span style="color: #800000;">HTTP/1.1 200 OK\r\n\r\n</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+    client.sendall(bytes(</span><span style="color: #800000;">"</span><span style="color: #800000;">Hello, World</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> main():
+    sock </span>=<span style="color: #000000;"> socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind((</span><span style="color: #800000;">'</span><span style="color: #800000;">localhost</span><span style="color: #800000;">'</span>,8080<span style="color: #000000;">))
+    sock.listen(</span>5<span style="color: #000000;">)
+
+    </span><span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+        connection, address </span>=<span style="color: #000000;"> sock.accept()
+        handle_request(connection)
+        connection.close()
+
+</span><span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">'</span><span style="color: #800000;">__main__</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+  main()</span></pre>
+</div>
+<p><strong>启动服务端的socket后，我们利用浏览器的<strong>客户</strong>端socket来访问这个&nbsp;WEB服务应用 （当然客户端的<strong>socket也可以自己写的</strong>）</strong></p>
+<p><strong><strong><strong><strong><strong><strong>打开浏览器输入&nbsp;http://127.0.0.1:8080/ 就可以接收到服务端<strong>socket输出的&nbsp;Hello, World</strong></strong></strong></strong></strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong><strong><strong><strong><strong><strong><strong><strong>socket通讯有基于TCP和UDP两个通讯的，<strong><strong><strong><strong><strong><strong><strong><strong>TCP是需要客户端和服务端相互连接后进行通讯，<strong><strong><strong><strong><strong><strong><strong><strong>UDP是不需要相互连接直接由单方面发起的，使用最多的还是<strong><strong><strong><strong><strong><strong><strong><strong>TCP</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>socket通讯过程</strong></span><br /><span style="color: #ff0000;"><strong>socket通讯由服务端和客户端双方完成通讯，服务端启动着等待客户端来连接，客户端从服务端的IP和指定端口进行连接通讯</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong><strong>创建</strong>服务端</strong></span></p>
+<p><span style="color: #ff0000;"><strong>socket.socket()创建socket对象，有三个可选参数</strong></span></p>
+<p><span style="color: #000000;"><strong><strong>socket.socket(socket.AF_INET,socket.SOCK_STREAM,0)</strong></strong></span></p>
+<p>参数一：地址簇</p>
+<p>　　socket.AF_INET IPv4（默认）<br />　　socket.AF_INET6 IPv6</p>
+<p>　　socket.AF_UNIX 只能够用于单一的Unix系统进程间通信</p>
+<p>参数二：类型</p>
+<p>　　socket.SOCK_STREAM　　流式socket , for TCP （默认）<br />　　socket.SOCK_DGRAM　　 数据报式socket , for UDP</p>
+<p>　　socket.SOCK_RAW 原始套接字，普通的套接字无法处理ICMP、IGMP等网络报文，而SOCK_RAW可以；其次，SOCK_RAW也可以处理特殊的IPv4报文；此外，利用原始套接字，可以通过IP_HDRINCL套接字选项由用户构造IP头。<br />　　socket.SOCK_RDM 是一种可靠的UDP形式，即保证交付数据报但不保证顺序。SOCK_RAM用来提供对原始协议的低级访问，在需要执行某些特殊操作时使用，如发送ICMP报文。SOCK_RAM通常仅限于高级用户或管理员运行的程序使用。<br />　　socket.SOCK_SEQPACKET 可靠的连续数据包服务</p>
+<p>参数三：协议</p>
+<p>　　0　　（默认）与特定的地址家族相关的协议,如果是 0 ，则系统就会根据地址格式和套接类别,自动选择一个合适的协议</p>
+<p><span style="color: #000000;"><strong>使用方法：对象变量 =&nbsp;<strong>socket.socket()</strong></strong></span></p>
+<p><span style="color: #000000;"><strong>格式：a = socket.socket()</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>bind()在服务端设置服务端ip和端口</strong></span></p>
+<p><strong>使用方法：对象变量.<strong>bind(元祖类型的服务端IP和端口)</strong></strong></p>
+<p><strong>格式：a.bind(('127.0.0.1',9999))</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>listen()监听IP和端口，设置一个参数，表示最多连接排队数量</strong></span></p>
+<p><strong>使用方法：对象变量.<strong>listen(排队数)</strong></strong></p>
+<p><strong>格式：a.listen(5)</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>accept()等待接收客户端的请求，一旦有客户端请求连接，就会返回两个值，一个是连接对象，一个是客户端的地址信息，所以需要两个变量来接收</strong></span></p>
+<p><span style="color: #ff0000;"><strong>注意：<strong>accept()是阻塞的，意思就是程序执行带这里就是等待状态，在没有客户端请求连接的情况下，下面的代码将不会执行，只有客户端请求连接时下面的代码才会被执行</strong></strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>accept()被客户端连接一次后就会被中断，可以写个while循环让它永远等待客户端连接</strong></strong></span></p>
+<p><strong>使用方法：定义连接变量,定义客户端地址信息变量 = 对象变量.<strong>accept()</strong></strong></p>
+<p><strong>格式：b, c = a.accept()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建服务端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+a = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+a.bind((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,)) <span style="color: #008000;">#</span><span style="color: #008000;">绑定服务端ip和端口</span>
+a.listen(5) <span style="color: #008000;">#</span><span style="color: #008000;">监听IP和端口，设置一个参数，表示最多连接排队数量</span>
+<span style="color: #0000ff;">while</span> True: <span style="color: #008000;">#</span><span style="color: #008000;">accept()被客户端连接一次后就会被中断，写个while循环让它永远等待客户端连接</span>
+    b, c = a.accept() <span style="color: #008000;">#</span><span style="color: #008000;">等待接收客户端的请求，一旦有客户端请求连接，就会返回两个值，一个是连接，一个是客户端的地址信息，所以需要两个变量来接收</span>
+    <span style="color: #0000ff;">print</span>(b, c) <span style="color: #008000;">#</span><span style="color: #008000;">打印出客户端连接的，连接，和客服端地址信息</span></pre>
+</div>
+<p><strong>&nbsp;根据以上就创建了一个等待客户端连接的socket服务端</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong>创建客户端</strong></span></p>
+<p><span style="color: #ff0000;"><strong><strong>connect</strong>()连接服务端，在客户端绑定服务端IP和端口</strong></span></p>
+<p><strong>使用方法：对象变量.<strong>socket(<strong><strong>元祖类型的服务端IP和端口</strong></strong>)</strong></strong></p>
+<p><strong>格式：z.connect(('127.0.0.1', 9999,))</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>close()在客户端关闭连接</strong></span></p>
+<p><strong>使用方法：对象变量.<strong>close()</strong></strong></p>
+<p><strong>格式：z.close()</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建客户端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+z = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+z.connect((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,))<span style="color: #008000;">#</span><span style="color: #008000;">连接服务端，在客户端绑定服务端IP和端口</span>
+z.close() <span style="color: #008000;">#</span><span style="color: #008000;">在客户端关闭连接</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>客户端每次连接服务端后，服务端的accept()就能获取到来自客户端的一个连接对象，和客户端地址信息，两个元素</strong></span></p>
+<p><span style="color: #0000ff;">&nbsp;客户端执行代码</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建客户端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+z = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+z.connect((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,))<span style="color: #008000;">#</span><span style="color: #008000;">连接服务端，在客户端绑定服务端IP和端口</span>
+z.close() <span style="color: #008000;">#</span><span style="color: #008000;">在客户端关闭连接</span></pre>
+</div>
+<p><span style="color: #0000ff;">等待接收客户端连接的服务端代码</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建服务端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+a = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+a.bind((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,)) <span style="color: #008000;">#</span><span style="color: #008000;">绑定服务端ip和端口</span>
+a.listen(5) <span style="color: #008000;">#</span><span style="color: #008000;">监听IP和端口，设置一个参数，表示最多连接排队数量</span>
+<span style="color: #0000ff;">while</span> True: <span style="color: #008000;">#</span><span style="color: #008000;">accept()被客户端连接一次后就会被中断，写个while循环让它永远等待客户端连接</span>
+    b, c = a.accept() <span style="color: #008000;">#</span><span style="color: #008000;">等待接收客户端的请求，一旦有客户端请求连接，就会返回两个值，一个是连接，一个是客户端的地址信息，所以需要两个变量来接收</span>
+    <span style="color: #0000ff;">print</span>(b, c) <span style="color: #008000;">#</span><span style="color: #008000;">打印出客户端连接的，连接，和客服端地址信息</span>
+
+<span style="color: #008000;">#</span><span style="color: #008000;">显示客户端的连接信息</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> &lt;socket.socket fd=264, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 9999), raddr=('127.0.0.1', 58272)&gt; ('127.0.0.1', 58272)</span></pre>
+</div>
+<p>&nbsp;客户端访问服务端流程图</p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160923193007793-610704345.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>sendall()【推荐】服务端向客户端发信息，或者客户端向服务端发信息</strong></span></p>
+<p><span style="color: #000000;"><strong>服务端：通过<strong><strong>accept（）接收到的客户端对象信息变量，客户端对象信息变量.<strong>sendall(<strong><strong><strong>字节方式要发送的字符串</strong></strong></strong>)</strong></strong></strong></strong></span></p>
+<p><strong>客户端：通过客户端的<strong>socket对象.<strong>sendall(<strong><strong><strong><strong><strong><strong><strong>字节方式要发送的字符串</strong></strong></strong></strong></strong></strong></strong>)</strong></strong></strong></p>
+<p><strong>格式：b.sendall(bytes("欢迎你",encoding='utf-8'))</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建服务端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+a = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+a.bind((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,)) <span style="color: #008000;">#</span><span style="color: #008000;">绑定服务端ip和端口</span>
+a.listen(5) <span style="color: #008000;">#</span><span style="color: #008000;">监听IP和端口，设置一个参数，表示最多连接排队数量</span>
+<span style="color: #0000ff;">while</span> True: <span style="color: #008000;">#</span><span style="color: #008000;">accept()被客户端连接一次后就会被中断，写个while循环让它永远等待客户端连接</span>
+    b, c = a.accept() <span style="color: #008000;">#</span><span style="color: #008000;">等待接收客户端的请求，一旦有客户端请求连接，就会返回两个值，一个是连接，一个是客户端的地址信息，所以需要两个变量来接收</span>
+    b.sendall(bytes(<span style="color: #800000;">"</span><span style="color: #800000;">你好欢迎你</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">根据accept()接收到客户端连接对象信息，向客户端发送信息</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>recv()【推荐】服务端接收客户端发来的信息，或者客户端接收服务端发来的信息</strong></span></p>
+<p><span style="color: #ff0000;"><strong>注意：<strong>recv()也是阻塞的，也就是说<strong><strong>等待接收信息，如果<strong><strong><strong><strong>recv()没接收到信息，下面的代码就不会执行，只有接收到信息后下面的代码才会被执行</strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><strong>服务端：<strong>通过<strong><strong>accept（）接收到的客户端对象信息变量，客户端对象信息变量.<strong>recv()</strong></strong></strong></strong><strong><br /></strong></strong></p>
+<p><strong><strong><strong><strong>客户端：<strong>通过客户端的<strong>socket对象.<strong><strong>recv()</strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p><strong>格式：f = z.recv(1024)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建客户端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+z = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+z.connect((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,))<span style="color: #008000;">#</span><span style="color: #008000;">连接服务端，在客户端绑定服务端IP和端口</span>
+f = z.recv(1024) <span style="color: #008000;">#</span><span style="color: #008000;">客户端接收服务端sendall()发来的信息，1024表示最大接收1024字节</span>
+f2 = str(f, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将接收到的服务端字节信息转换成字符串</span>
+<span style="color: #0000ff;">print</span>(f2) <span style="color: #008000;">#</span><span style="color: #008000;">打印出服务端发来的信息</span>
+z.close() <span style="color: #008000;">#</span><span style="color: #008000;">在客户端关闭连接</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 输出</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> 你好欢迎你</span></pre>
+</div>
+<p><span style="color: #0000ff;">&nbsp;客户端连接服务端，服务端向客户端发送一条信息原理图</span></p>
+<p><span style="color: #0000ff;"><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160923221551309-1957257147.png" alt="" /></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>客户端与服务端进行交互信息</strong></span></p>
+<p><span style="color: #0000ff;"><strong>服务端代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建服务端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+a = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+a.bind((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,)) <span style="color: #008000;">#</span><span style="color: #008000;">绑定服务端ip和端口</span>
+a.listen(5) <span style="color: #008000;">#</span><span style="color: #008000;">监听IP和端口，设置一个参数，表示最多连接排队数量</span>
+<span style="color: #0000ff;">while</span> True: <span style="color: #008000;">#</span><span style="color: #008000;">accept()被客户端连接一次后就会被中断，写个while循环让它永远等待客户端连接</span>
+    b, c = a.accept() <span style="color: #008000;">#</span><span style="color: #008000;">等待接收客户端的请求，一旦有客户端请求连接，就会返回两个值，一个是连接，一个是客户端的地址信息，所以需要两个变量来接收</span>
+    b.sendall(bytes(<span style="color: #800000;">"</span><span style="color: #800000;">你好欢迎你</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">根据accept()接收到客户端连接对象信息，向客户端发送信息</span>
+    <span style="color: #0000ff;">while</span> True: <span style="color: #008000;">#</span><span style="color: #008000;">当客户端连接成功后，进入循环，保持与客户端的通讯</span>
+        j = b.recv(1024)<span style="color: #008000;">#</span><span style="color: #008000;">接收客户端发来的信息</span>
+        j2 = str(j, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将接收到的客户端信息转换成字符串</span>
+        <span style="color: #0000ff;">print</span><span style="color: #000000;">(j2)
+        </span><span style="color: #0000ff;">if</span> j2 == <span style="color: #800000;">"</span><span style="color: #800000;">q</span><span style="color: #800000;">"</span>: <span style="color: #008000;">#</span><span style="color: #008000;">判断客户端输入q，表示不再与服务端通讯，跳出循环，不在保持客户端的通讯</span>
+            <span style="color: #0000ff;">break</span><span style="color: #000000;">
+        b.sendall(bytes(j2</span>+<span style="color: #800000;">"</span><span style="color: #800000;">好</span><span style="color: #800000;">"</span>,encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">将接收到客户端的信息加上一个好字，在发送给客户端</span></pre>
+</div>
+<p><span style="color: #0000ff;"><strong>客户端代码</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建客户端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+z = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+z.connect((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,))<span style="color: #008000;">#</span><span style="color: #008000;">连接服务端，在客户端绑定服务端IP和端口</span>
+f = z.recv(1024) <span style="color: #008000;">#</span><span style="color: #008000;">客户端接收服务端sendall()发来的信息，1024表示最大接收1024字节</span>
+f2 = str(f, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将接收到的服务端字节信息转换成字符串</span>
+<span style="color: #0000ff;">print</span>(f2) <span style="color: #008000;">#</span><span style="color: #008000;">打印出服务端发来的信息</span>
+<span style="color: #0000ff;">while</span> True: <span style="color: #008000;">#</span><span style="color: #008000;">当连接服务端成功后进入循环，保持与服务端的通讯</span>
+    a = input(<span style="color: #800000;">"</span><span style="color: #800000;">请输入信息</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+    z.sendall(bytes(a,encoding</span>=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">向服务端发送信息</span>
+    <span style="color: #0000ff;">if</span> a == <span style="color: #800000;">"</span><span style="color: #800000;">q</span><span style="color: #800000;">"</span>: <span style="color: #008000;">#</span><span style="color: #008000;">判断客户端输入 q表示，不再以服务端通讯跳出循环</span>
+        <span style="color: #0000ff;">break</span><span style="color: #000000;">
+    js </span>= z.recv(1024) <span style="color: #008000;">#</span><span style="color: #008000;">接收服务端发来的信息</span>
+    js2 = str(js, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将服务端发来的信息转换成字符串</span>
+    <span style="color: #0000ff;">print</span><span style="color: #000000;">(js2)
+z.close() </span><span style="color: #008000;">#</span><span style="color: #008000;">在客户端关闭连接</span></pre>
+</div>
+<p><span style="color: #ff0000;">&nbsp;<strong>客户端与服务端进行交互信息原理图</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201609/955761-20160924201217246-1099496592.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>UDP通讯方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">UDP通讯</span><span style="color: #800000;">"""</span>
+<span style="color: #008000;">#</span><span style="color: #008000;">服务端</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> socket
+ip_port </span>= (<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>,9999<span style="color: #000000;">)
+sk </span>=<span style="color: #000000;"> socket.socket(socket.AF_INET,socket.SOCK_DGRAM,0)
+sk.bind(ip_port)
+</span><span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+    data </span>= sk.recv(1024<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(data)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">客户端</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> socket
+ip_port </span>= (<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>,9999<span style="color: #000000;">)
+sk </span>=<span style="color: #000000;"> socket.socket(socket.AF_INET,socket.SOCK_DGRAM,0)
+</span><span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+    inp </span>= input(<span style="color: #800000;">'</span><span style="color: #800000;">数据：</span><span style="color: #800000;">'</span><span style="color: #000000;">).strip()
+    </span><span style="color: #0000ff;">if</span> inp == <span style="color: #800000;">'</span><span style="color: #800000;">exit</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">break</span><span style="color: #000000;">
+    sk.sendto(inp,ip_port)
+sk.close()</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>setblocking()设置accept()和recv()是否阻塞，参数为1表示阻塞【默认】，参数为0表示不阻塞，那么accept和recv时一旦无数据，则报错</strong></span></p>
+<p><span style="color: #000000;"><strong>使用方法：对象变量.<strong>setblocking(0)</strong></strong></span></p>
+<p><span style="color: #000000;"><strong>格式：a.setblocking(0)</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建服务端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+a = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+a.bind((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,)) <span style="color: #008000;">#</span><span style="color: #008000;">绑定服务端ip和端口</span>
+a.listen(5) <span style="color: #008000;">#</span><span style="color: #008000;">监听IP和端口，设置一个参数，表示最多连接排队数量</span>
+a.setblocking(0) <span style="color: #008000;">#</span><span style="color: #008000;">设置为不阻塞</span>
+b, c = a.accept() <span style="color: #008000;">#</span><span style="color: #008000;">等待接收客户端的请求，一旦有客户端请求连接，就会返回两个值，一个是连接，一个是客户端的地址信息，所以需要两个变量来接收</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>connect_ex()客户端连接服务端，与connect()相同，只不过会有返回值，连接成功时返回 0 ，连接失败时候返回编码，例如：10061</strong></span></p>
+<p><span><strong>使用方法：对象变量.<strong>connect_ex(元祖类型IP和端口)</strong></strong></span></p>
+<p><span><strong>格式：b = z.connect_ex(('127.0.0.1', 9999,))</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建客户端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+z = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+b = z.connect_ex((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,))<span style="color: #008000;">#</span><span style="color: #008000;">连接服务端，在客户端绑定服务端IP和端口</span>
+<span style="color: #0000ff;">print</span>(b)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>recvfrom()接收数据信息，与recv()类似，但返回值是（data,address）。其中data是包含接收数据的字符串，address是发送数据的套接字地址</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建客户端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+z = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+b = z.connect((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,))<span style="color: #008000;">#</span><span style="color: #008000;">连接服务端，在客户端绑定服务端IP和端口</span>
+f,s = z.recvfrom(1024) <span style="color: #008000;">#</span><span style="color: #008000;">客户端接收服务端sendall()发来的信息，1024表示最大接收1024字节</span>
+f = str(f, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将接收到的服务端字节信息转换成字符串</span>
+<span style="color: #0000ff;">print</span>(f,s) <span style="color: #008000;">#</span><span style="color: #008000;">打印出服务端发来的信息</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>send()发数据，<strong>sendall底层也是调用的它，</strong>将string中的数据发送到连接的套接字。返回值是要发送的字节数量，该数量可能小于string的字节大小。即：可能未将指定内容全部发送。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong><strong>sendto(string[,flag],address) 发送数据，将数据发送到套接字，address是形式为（ipaddr，port）的元组，指定远程地址。返回值是发送的字节数。该函数主要用于UDP协议。</strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;"> 服务端</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> socket
+ip_port </span>= (<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>,9999<span style="color: #000000;">)
+sk </span>=<span style="color: #000000;"> socket.socket(socket.AF_INET,socket.SOCK_DGRAM,0)
+sk.bind(ip_port)
+
+</span><span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+    data,(host,port) </span>= sk.recvfrom(1024<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(data,host,port)
+    sk.sendto(bytes(</span><span style="color: #800000;">'</span><span style="color: #800000;">ok</span><span style="color: #800000;">'</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">), (host,port))
+
+
+</span><span style="color: #008000;">#</span><span style="color: #008000;">客户端</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> socket
+ip_port </span>= (<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>,9999<span style="color: #000000;">)
+
+sk </span>=<span style="color: #000000;"> socket.socket(socket.AF_INET,socket.SOCK_DGRAM,0)
+</span><span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+    inp </span>= input(<span style="color: #800000;">'</span><span style="color: #800000;">数据：</span><span style="color: #800000;">'</span><span style="color: #000000;">).strip()
+    </span><span style="color: #0000ff;">if</span> inp == <span style="color: #800000;">'</span><span style="color: #800000;">exit</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">break</span><span style="color: #000000;">
+    sk.sendto(bytes(inp, encoding</span>=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">),ip_port)
+    data </span>= sk.recvfrom(1024<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(data)
+
+sk.close()</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>settimeout(timeout)设置连接超时时间，设置套接字操作的超时期，timeout是一个浮点数，单位是秒。值为None表示没有超时期。一般，超时期应该在刚创建套接字时设置，因为它们可能用于连接的操作（如 client 连接最多等待5s ）</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong><strong>getpeername()客户端获取服务端信息或者服务端获取客户端信息如IP，</strong>返回连接套接字的远程地址。返回值通常是元组（ipaddr,port）</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong><strong>getsockname()<strong><strong>客户端获取服务端信息或者服务端获取客户端信息如IP，</strong></strong></strong>返回套接字自己的地址。通常是一个元组(ipaddr,port)</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong><strong>fileno()通讯信号检测，</strong>套接字的文件描述符</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>UDP通讯举例</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;"> 服务端</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> socket
+ip_port </span>= (<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>,9999<span style="color: #000000;">)
+sk </span>=<span style="color: #000000;"> socket.socket(socket.AF_INET,socket.SOCK_DGRAM,0)
+sk.bind(ip_port)
+
+</span><span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+    data,(host,port) </span>= sk.recvfrom(1024<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(data,host,port)
+    sk.sendto(bytes(</span><span style="color: #800000;">'</span><span style="color: #800000;">ok</span><span style="color: #800000;">'</span>, encoding=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">), (host,port))
+
+
+</span><span style="color: #008000;">#</span><span style="color: #008000;">客户端</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> socket
+ip_port </span>= (<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>,9999<span style="color: #000000;">)
+
+sk </span>=<span style="color: #000000;"> socket.socket(socket.AF_INET,socket.SOCK_DGRAM,0)
+</span><span style="color: #0000ff;">while</span><span style="color: #000000;"> True:
+    inp </span>= input(<span style="color: #800000;">'</span><span style="color: #800000;">数据：</span><span style="color: #800000;">'</span><span style="color: #000000;">).strip()
+    </span><span style="color: #0000ff;">if</span> inp == <span style="color: #800000;">'</span><span style="color: #800000;">exit</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">break</span><span style="color: #000000;">
+    sk.sendto(bytes(inp, encoding</span>=<span style="color: #800000;">'</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">'</span><span style="color: #000000;">),ip_port)
+    data </span>= sk.recvfrom(1024<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(data)
+
+sk.close()</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;"><strong class="fl">基于socket实现文件上传</strong></span></p>
+<p><span style="color: #000000;">列如：客户端向服务端上传文件</span></p>
+<p><span style="color: #000000;">1.客户端连接上服务端</span></p>
+<p><span style="color: #000000;">2.客户端检测要传给服务端的文件大小，并且通讯告诉服务端，</span></p>
+<p><span style="color: #000000;">3.服务端接收客户端发来的文件大小信息，接收文件大小信息后通讯客户端告诉客户端文件大小信息收到（解决粘包问题）</span></p>
+<p><span style="color: #000000;">4.客户端接收服务端是否收到文件大小的信息，没收到服务端信息阻塞，收到继续下面执行</span></p>
+<p><span style="color: #000000;">5.客户端已字节方式打开要传输的文件，for循环打开的文件，每循环一行向服务端传输一行的数据</span></p>
+<p><span style="color: #000000;">6.服务端设置一个文件接收了多少的判断变量默认等于0</span></p>
+<p><span style="color: #000000;">7.服务端打开文件等待写入接收到的客户端文件数据</span></p>
+<p><span style="color: #000000;">8.服务端while 循环接收客户端发的文件数据并且写入文件，每循环写入一次检查一下服务端，当次接收到客户端多少字节文件数据，将当次接收到的文件大小字节累计加到，文件接收判断变量里</span></p>
+<p><span style="color: #000000;">9.if判断，当文件接收判断变量等于文件总大小时，说明文件已经接收完成，跳出循环，关闭打开的文件</span></p>
+<p><span style="color: #0000ff;">服务端代码</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建服务端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+a = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+a.bind((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,)) <span style="color: #008000;">#</span><span style="color: #008000;">绑定服务端ip和端口</span>
+a.listen(5) <span style="color: #008000;">#</span><span style="color: #008000;">监听IP和端口，设置一个参数，表示最多连接排队数量</span>
+<span style="color: #0000ff;">while</span> True: <span style="color: #008000;">#</span><span style="color: #008000;">accept()被客户端连接一次后就会被中断，写个while循环让它永远等待客户端连接</span>
+    b, c = a.accept() <span style="color: #008000;">#</span><span style="color: #008000;">等待接收客户端的请求，一旦有客户端请求连接，就会返回两个值，一个是连接，一个是客户端的地址信息，所以需要两个变量来接收</span>
+    <span style="color: #008000;">#</span><span style="color: #008000;"> 接收客户端发来的文件大小</span>
+<span style="color: #000000;">
+    dx </span>= b.recv(1024) <span style="color: #008000;">#</span><span style="color: #008000;">接受客户端发来的文件大小</span>
+    dx2 = str(dx, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>) <span style="color: #008000;">#</span><span style="color: #008000;">将文件大小转换成字符串</span>
+    dx3 = int(dx2) <span style="color: #008000;">#</span><span style="color: #008000;">将文件大小字符串转换成数字</span>
+<span style="color: #000000;">
+    b.sendall(bytes(</span><span style="color: #800000;">"</span><span style="color: #800000;">文件大小接收完成</span><span style="color: #800000;">"</span>, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">接收到文件大小后，告诉客户端</span>
+    <span style="color: #008000;">#</span><span style="color: #008000;">设置接收判断</span>
+<span style="color: #000000;">
+    pd </span>= 0 <span style="color: #008000;">#</span><span style="color: #008000;">设置一个接受了文件的判断大小</span>
+    <span style="color: #008000;">#</span><span style="color: #008000;">服务端打开文件接收</span>
+<span style="color: #000000;">
+    f </span>= open(<span style="color: #800000;">"</span><span style="color: #800000;">456.png</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">wb</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+    </span><span style="color: #0000ff;">while</span> True: <span style="color: #008000;">#</span><span style="color: #008000;">循环写入接收到客户端发的文件内容</span>
+        <span style="color: #0000ff;">if</span> pd == dx3: <span style="color: #008000;">#</span><span style="color: #008000;">判断，判断大小等于总大小的时候跳出循环</span>
+            <span style="color: #0000ff;">break</span><span style="color: #000000;">
+        j </span>= b.recv(1024) <span style="color: #008000;">#</span><span style="color: #008000;">接收到的文件内容</span>
+        f.write(j) <span style="color: #008000;">#</span><span style="color: #008000;">将接收到的内容写入文件</span>
+        pd += len(j) <span style="color: #008000;">#</span><span style="color: #008000;">每循环写入一次就将写入的大小加给判断</span>
+    f.close()<span style="color: #008000;">#</span><span style="color: #008000;">关闭打开的文件</span></pre>
+</div>
+<p><span style="color: #0000ff;">客户端代码</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">!/usr/bin/env python</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> -*- coding:utf8 -*-</span>
+<span style="color: #800000;">"""</span><span style="color: #800000;">创建客户端</span><span style="color: #800000;">"""</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> os
+</span><span style="color: #0000ff;">import</span> socket <span style="color: #008000;">#</span><span style="color: #008000;">导入模块</span>
+z = socket.socket() <span style="color: #008000;">#</span><span style="color: #008000;">创建socket对象</span>
+b = z.connect((<span style="color: #800000;">'</span><span style="color: #800000;">127.0.0.1</span><span style="color: #800000;">'</span>, 9999,))<span style="color: #008000;">#</span><span style="color: #008000;">连接服务端，在客户端绑定服务端IP和端口</span><span style="color: #008000;">
+#</span><span style="color: #008000;">检查发送文件大小</span>
+<span style="color: #000000;">
+dx </span>= os.stat(<span style="color: #800000;">"</span><span style="color: #800000;">32.png</span><span style="color: #800000;">"</span>).st_size <span style="color: #008000;">#</span><span style="color: #008000;">检测要发送文件的大小</span>
+z.sendall(bytes(str(dx), encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span>)) <span style="color: #008000;">#</span><span style="color: #008000;">将文件大小发送给服务端</span>
+<span style="color: #000000;">
+bao </span>= z.recv(1024) <span style="color: #008000;">#</span><span style="color: #008000;">接收服务端文件大小，接收成功后的返回信息</span>
+bao2 = str(bao, encoding=<span style="color: #800000;">"</span><span style="color: #800000;">utf-8</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span><span style="color: #000000;">(bao2)
+</span><span style="color: #008000;">#</span><span style="color: #008000;">打开文件循环发送文件</span>
+<span style="color: #000000;">
+with open(</span><span style="color: #800000;">"</span><span style="color: #800000;">32.png</span><span style="color: #800000;">"</span>, <span style="color: #800000;">"</span><span style="color: #800000;">rb</span><span style="color: #800000;">"</span><span style="color: #000000;">) as f:
+    </span><span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> f: <span style="color: #008000;">#</span><span style="color: #008000;">循环文件</span>
+        z.sendall(i) <span style="color: #008000;">#</span><span style="color: #008000;">将每次循环到文件内容发送给服务端</span>
+z.close() <span style="color: #008000;">#</span><span style="color: #008000;">关闭通讯连接</span></pre>
+</div>
+<p><span style="color: #ff0000;"><strong>重点：注意传输数据时的粘包问题</strong></span></p>
+<p><span style="color: #ff0000;"><strong>粘包就是一端发了两次信息或数据，第一次发的有可能计算机缓冲区还没发出去，第二次的信息就发到了缓冲区，这样两次的信息粘在一起发出去了，为了避免粘包问题，在第一次发送后接收一下另外一端是否接收到第一次发的信息，如果接收到才发第二次，如果没接收到就不发用recv()阻塞，注意上面的列子</strong></span></p>
+<p><span style="color: #ff0000;"><strong>注意：socket模块不能处理并发，也就是不能实现多线路通讯，只能一条线路，第二个进来第一个占线着，要第一个退出后第二个才能进来</strong></span></p></div>

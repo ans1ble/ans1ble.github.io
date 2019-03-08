@@ -1,0 +1,737 @@
+第一百节，JavaScript表达式中的运算符
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="color: #0000ff"><strong><span style="font-size: 18pt">JavaScript<strong>表达式中的</strong>运算符</span></strong></span></p>
+<p>&nbsp;</p>
+<p align="left"><strong>学习要点：</strong></p>
+<p align="left"><strong>1.什么是表达式</strong></p>
+<p align="left"><strong>2.一元运算符</strong></p>
+<p><strong>3.算术运算符</strong></p>
+<p><strong>4.关系运算符</strong></p>
+<p><strong>5.逻辑运算符</strong></p>
+<p align="left"><strong>6.*位运算符</strong></p>
+<p align="left"><strong>7.赋值运算符</strong></p>
+<p align="left"><strong>8.其他运算符</strong></p>
+<p align="left"><strong>9.运算符优先级</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>ECMA-262描述了一组用于操作数据值的运算符，包括一元运算符、布尔运算符、算术运算符、关系运算符、三元运算符、位运算符及赋值运算符。ECMAScript中的运算符适用于很多值，包括字符串、数值、布尔值、对象等。不过，通过上一章我们也了解到，应用于对象时通常会调用对象的valueOf()和toString()方法，以便取得相应的值。</strong></p>
+<p align="left"><strong>PS：前面的章节我们讲过typeof操作符、new 操作符，也可以称之为typeof 运算符、new运算符，是同一个意思。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>一．什么是表达式</strong></span></p>
+<p align="left"><strong>表达式是ECMAScript中的一个“短语”，解释器会通过计算把它转换成一个值。最简单的表达式是字面量或者变量名。例如：</strong></p>
+<p align="left"><strong>5.96 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //数值字面量</strong></p>
+<p align="left"><strong>'Lee' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //字符串字面量</strong></p>
+<p align="left"><strong>true&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //布尔值字面量&nbsp;&nbsp;&nbsp;&nbsp;</strong></p>
+<p align="left"><strong>null&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //空值字面量</strong></p>
+<p align="left"><strong>/Java/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //正则表达式字面量</strong><br><strong>{x:1, y:2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //对象字面量、对象表达式</strong></p>
+<p align="left"><strong>[1,2,3]&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //数组字面量、数组表达式</strong></p>
+<p align="left"><strong>function(n) {return x+y;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //函数字面量、函数表达式</strong></p>
+<p align="left"><strong>box&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //变量</strong></p>
+<p align="left"><strong>当然，还可以通过合并简单的表达式来创建复杂的表达式。比如：</strong></p>
+<p align="left"><strong>box + 5.96&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //加法运算的表达式</strong></p>
+<p align="left"><strong>typeof(box)&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //查看数据类型的表达式</strong></p>
+<p align="left"><strong>box &gt; 8&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //逻辑运算表达式</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>通过上面的叙述，我们得知，单一的字面量和组合字面量的运算符都可称为表达式。</strong></span></p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>二．一元运算符</strong></span></p>
+<p align="left"><strong>只能操作一个值的运算符叫做一元运算符。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>1.递增++和递减--</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 100<span style="color: #000000">;
+</span>++box;                       <span style="color: #008000">//</span><span style="color: #008000">前置递增，把box累加一个1，相当于box = box+1 （101）</span>
+--box;                       <span style="color: #008000">//</span><span style="color: #008000">前置递减，把box累减一个1，相当于box = box-1 （99）</span>
+box++;                       <span style="color: #008000">//</span><span style="color: #008000">后置递增，同上</span>
+box--;                       <span style="color: #008000">//</span><span style="color: #008000">后置递减，同上</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>2.前置和后置的区别</strong></span></p>
+<p align="left"><strong>在没有赋值操作，前置和后置是一样的。但在赋值操作时，如果递增或递减运算符前置，那么前置的运算符会先累加或累减再赋值，如果是后置运算符则先赋值再累加或累减。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 100<span style="color: #000000">;
+</span><span style="color: #0000ff">var</span> age = ++box;                    <span style="color: #008000">//</span><span style="color: #008000">前置运算符，是先累加在赋值给age，结果值为101</span>
+<span style="color: #0000ff">var</span> height = box++;                 <span style="color: #008000">//</span><span style="color: #008000">后置运算符，是先赋值给height在累加，结果值为100</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>3.其他类型应用一元运算符的规则</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = '89';    box++;                <span style="color: #008000">//</span><span style="color: #008000">90，数值字符串自动转换成数值</span>
+<span style="color: #0000ff">var</span> box = 'ab';    box++;                <span style="color: #008000">//</span><span style="color: #008000">NaN，字符串包含非数值转成NaN</span>
+<span style="color: #0000ff">var</span> box = <span style="color: #0000ff">false</span>; box++;                  <span style="color: #008000">//</span><span style="color: #008000">1，false转成数值是0，累加就是1</span>
+<span style="color: #0000ff">var</span> box = 2.3; box++;                    <span style="color: #008000">//</span><span style="color: #008000">3.3，直接加1</span>
+<span style="color: #0000ff">var</span> box = {                              <span style="color: #008000">//</span><span style="color: #008000">1，不设置toString或valueOf即为NaN</span>
+    toString : <span style="color: #0000ff">function</span><span style="color: #000000">() {
+        </span><span style="color: #0000ff">return</span> 1<span style="color: #000000">;
+    }
+};    box</span>++;</pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>4.加和减运算符的类型转换，取正，取负</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">加运算规则如下：
+</span><span style="color: #0000ff">var</span> box = 100; +box;                <span style="color: #008000">//</span><span style="color: #008000">100，对于数值，不会产生任何影响</span>
+<span style="color: #0000ff">var</span> box = '89'; +box;                <span style="color: #008000">//</span><span style="color: #008000">89，数值字符串转换成数值</span>
+<span style="color: #0000ff">var</span> box = 'ab'; +box;                <span style="color: #008000">//</span><span style="color: #008000">NaN，字符串包含非数值转成NaN</span>
+<span style="color: #0000ff">var</span> box = <span style="color: #0000ff">false</span>; +box;                <span style="color: #008000">//</span><span style="color: #008000">0，布尔值转换成相应数值</span>
+<span style="color: #0000ff">var</span> box = 2.3; +box;                <span style="color: #008000">//</span><span style="color: #008000">2.3，没有变化</span>
+<span style="color: #0000ff">var</span> box = {                        <span style="color: #008000">//</span><span style="color: #008000">1，不设置toString或valueOf即为NaN</span>
+    toString : <span style="color: #0000ff">function</span><span style="color: #000000">() {
+        </span><span style="color: #0000ff">return</span> 1<span style="color: #000000">;
+    }
+};            </span>+box;</pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">减运算规则如下：
+</span><span style="color: #0000ff">var</span> box = 100; -box;                <span style="color: #008000">//</span><span style="color: #008000">-100，对于数值，直接变负</span>
+<span style="color: #0000ff">var</span> box = '89'; -box;                <span style="color: #008000">//</span><span style="color: #008000">-89，数值字符串转换成数值</span>
+<span style="color: #0000ff">var</span> box = 'ab'; -box;                <span style="color: #008000">//</span><span style="color: #008000">NaN，字符串包含非数值转成NaN</span>
+<span style="color: #0000ff">var</span> box = <span style="color: #0000ff">false</span>; -box;                <span style="color: #008000">//</span><span style="color: #008000">0，布尔值转换成相应数值</span>
+<span style="color: #0000ff">var</span> box = 2.3; -box;                    <span style="color: #008000">//</span><span style="color: #008000">-2.3，没有变化</span>
+<span style="color: #0000ff">var</span> box = {                        <span style="color: #008000">//</span><span style="color: #008000">-1，不设置toString或valueOf即为NaN</span>
+    toString : <span style="color: #0000ff">function</span><span style="color: #000000">() {
+        </span><span style="color: #0000ff">return</span> 1<span style="color: #000000">;
+    }
+};            </span>-box;</pre>
+</div>
+<p align="left"><span style="color: #0000ff"><strong>加法和减法运算符一般用于算术运算，也可向上面进行类型转换。</strong></span></p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong><strong>三.算术运算符</strong></strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>ECMAScript定义了5个算术运算符，加减乘除求模(取余)。如果在算术运算的值不是数值，那么后台会先使用Number()转型函数将其转换为数值(隐式转换)。</strong></strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>1.加法</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 1 + 2;                    <span style="color: #008000">//</span><span style="color: #008000">等于3</span>
+<span style="color: #0000ff">var</span> box = 1 + NaN;                    <span style="color: #008000">//</span><span style="color: #008000">NaN，只要有一个NaN就为NaN</span>
+<span style="color: #0000ff">var</span> box = Infinity + Infinity;            <span style="color: #008000">//</span><span style="color: #008000">Infinity</span>
+<span style="color: #0000ff">var</span> box = -Infinity + -Infinity;        <span style="color: #008000">//</span><span style="color: #008000">-Infinity</span>
+<span style="color: #0000ff">var</span> box = Infinity + -Infinity;            <span style="color: #008000">//</span><span style="color: #008000">NaN，正无穷和负无穷相加等NaN</span>
+<span style="color: #0000ff">var</span> box = 100 + '100';                <span style="color: #008000">//</span><span style="color: #008000">100100，字符串连接符，有字符串就不是加法</span>
+<span style="color: #0000ff">var</span> box = '您的年龄是：' + 10 + 20;    <span style="color: #008000">//</span><span style="color: #008000">您的年龄是：1020，被转换成字符串</span>
+<span style="color: #0000ff">var</span> box = 10 + 20 + '是您的年龄';        <span style="color: #008000">//</span><span style="color: #008000">30是您的年龄，没有被转成字符串</span>
+<span style="color: #0000ff">var</span> box = '您的年龄是：' + (10 + 20);    <span style="color: #008000">//</span><span style="color: #008000">您的年龄是：30，没有被转成字符串，()会强制优先级，会先执行括号里的</span>
+<span style="color: #0000ff">var</span> box = 10 + 对象                <span style="color: #008000">//</span><span style="color: #008000">10[object Object]，如果有toString()或valueOf()则返回10+返回数的值</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>2.减法</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 100 - 70;                    <span style="color: #008000">//</span><span style="color: #008000">等于30</span>
+<span style="color: #0000ff">var</span> box = -100 - 70                    <span style="color: #008000">//</span><span style="color: #008000">等于-170</span>
+<span style="color: #0000ff">var</span> box = -100 - -70                <span style="color: #008000">//</span><span style="color: #008000">-30，一般写成-100 - (-70)比较清晰</span>
+<span style="color: #0000ff">var</span> box = 1 - NaN;                    <span style="color: #008000">//</span><span style="color: #008000">NaN，只要有一个NaN就为NaN</span>
+<span style="color: #0000ff">var</span> box = Infinity - Infinity;            <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = -Infinity - -Infinity;            <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = Infinity - -Infinity;            <span style="color: #008000">//</span><span style="color: #008000">Infinity</span>
+<span style="color: #0000ff">var</span> box = -Infinity - Infinity;            <span style="color: #008000">//</span><span style="color: #008000">-Infinity</span>
+<span style="color: #0000ff">var</span> box = 100 - <span style="color: #0000ff">true</span>;                <span style="color: #008000">//</span><span style="color: #008000">99，true转成数值为1</span>
+<span style="color: #0000ff">var</span> box = 100 - '';                    <span style="color: #008000">//</span><span style="color: #008000">100，''转成了0</span>
+<span style="color: #0000ff">var</span> box = 100 - '70';                <span style="color: #008000">//</span><span style="color: #008000">30，'70'转成了数值70</span>
+<span style="color: #0000ff">var</span> box = 100 - <span style="color: #0000ff">null</span>;                <span style="color: #008000">//</span><span style="color: #008000">100，null转成了0</span>
+<span style="color: #0000ff">var</span> box = 100 - 'Lee';                <span style="color: #008000">//</span><span style="color: #008000">NaN，Lee转成了NaN</span>
+<span style="color: #0000ff">var</span> box = 100 - 对象                <span style="color: #008000">//</span><span style="color: #008000">NaN，如果有toString()或valueOf()则返回10-返回数的值</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>3.乘法</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 100 * 70;                    <span style="color: #008000">//</span><span style="color: #008000">7000            </span>
+<span style="color: #0000ff">var</span> box = 100 * NaN;                <span style="color: #008000">//</span><span style="color: #008000">NaN，只要有一个NaN即为NaN</span>
+<span style="color: #0000ff">var</span> box = Infinity * Infinity;            <span style="color: #008000">//</span><span style="color: #008000">Infinity</span>
+<span style="color: #0000ff">var</span> box = -Infinity * Infinity ;            <span style="color: #008000">//</span><span style="color: #008000">-Infinity</span>
+<span style="color: #0000ff">var</span> box = -Infinity * -Infinity ;        <span style="color: #008000">//</span><span style="color: #008000">Infinity</span>
+<span style="color: #0000ff">var</span> box = 100 * <span style="color: #0000ff">true</span>;                <span style="color: #008000">//</span><span style="color: #008000">100，true转成数值为1</span>
+<span style="color: #0000ff">var</span> box = 100 * '';                    <span style="color: #008000">//</span><span style="color: #008000">0，''转成了0</span>
+<span style="color: #0000ff">var</span> box = 100 * <span style="color: #0000ff">null</span>;                <span style="color: #008000">//</span><span style="color: #008000">0，null转成了0</span>
+<span style="color: #0000ff">var</span> box = 100 * 'Lee';                <span style="color: #008000">//</span><span style="color: #008000">NaN，Lee转成了NaN</span>
+<span style="color: #0000ff">var</span> box = 100 * 对象                <span style="color: #008000">//</span><span style="color: #008000">NaN，如果有toString()或valueOf()则返回10 - 返回数的值</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>4.除法</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 100 / 70;                    <span style="color: #008000">//</span><span style="color: #008000">1.42....</span>
+<span style="color: #0000ff">var</span> box = 100 / NaN;                <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = Infinity / Infinity;            <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = -Infinity / Infinity ;            <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = -Infinity / -Infinity;         <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = 100 / <span style="color: #0000ff">true</span>;                <span style="color: #008000">//</span><span style="color: #008000">100，true转成1</span>
+<span style="color: #0000ff">var</span> box = 100 / '';                    <span style="color: #008000">//</span><span style="color: #008000">Infinity，</span>
+<span style="color: #0000ff">var</span> box = 100 / <span style="color: #0000ff">null</span>;                <span style="color: #008000">//</span><span style="color: #008000">Infinity，</span>
+<span style="color: #0000ff">var</span> box = 100 / 'Lee';                <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = 100 / 对象;                <span style="color: #008000">//</span><span style="color: #008000">NaN，如果有toString()或valueOf()则返回10 / 返回数的值</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>5.求模</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 10 % 3;                    <span style="color: #008000">//</span><span style="color: #008000">1，余数为1            </span>
+<span style="color: #0000ff">var</span> box = 100 % NaN;                <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = Infinity % Infinity;            <span style="color: #008000">//</span><span style="color: #008000">NaN            </span>
+<span style="color: #0000ff">var</span> box = -Infinity %  Infinity ;        <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = -Infinity %  -Infinity;         <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = 100 %  <span style="color: #0000ff">true</span>;                <span style="color: #008000">//</span><span style="color: #008000">0</span>
+<span style="color: #0000ff">var</span> box = 100 %  '';                <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = 100 %  <span style="color: #0000ff">null</span>;                <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = 100 %  'Lee';                <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = 100 %  对象;                <span style="color: #008000">//</span><span style="color: #008000">NaN，如果有toString()或valueOf()则返回10 % 返回数的值</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．</strong><strong>关系运算符，大多返回的布尔值</strong></span></p>
+<p><strong>用于进行比较的运算符称作为关系运算符：小于(&lt;)、大于(&gt;)、小于等于(&lt;=)、大于等于(&gt;=)、相等(==)、不等(!=)、全等(恒等)(===)、不全等(不恒等)(!==)</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>和其他运算符一样，当关系运算符操作非数值时要遵循一下规则：</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>1.两个操作数都是数值，则数值比较；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>2.两个操作数都是字符串类型数字，则比较两个字符串对应的对一个字符；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>3.两个操作数有一个是数值，则将另一个转换为数值，再进行数值比较；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>4.两个操作数有一个是对象，则先调用valueOf()方法或toString()方法，再用结果比较；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>5.<strong>两个操作数都是字符串类型的字母，则比较字符串的<strong>ascii码</strong></strong></strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong><strong><strong><strong>小于(&lt;)、大于(&gt;)、小于等于(&lt;=)、大于等于(&gt;=)都是按照上面的规则</strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 3 &gt; 2;                    <span style="color: #008000">//</span><span style="color: #008000">true</span>
+<span style="color: #0000ff">var</span> box = 3 &gt; 22;                    <span style="color: #008000">//</span><span style="color: #008000">false</span>
+<span style="color: #0000ff">var</span> box = '3' &gt; 22;                    <span style="color: #008000">//</span><span style="color: #008000">false</span>
+<span style="color: #0000ff">var</span> box = '3' &gt; '22';                    <span style="color: #008000">//</span><span style="color: #008000">true</span>
+<span style="color: #0000ff">var</span> box = 'a' &gt; 'b';                    <span style="color: #008000">//</span><span style="color: #008000">false  a=97,b=98</span>
+<span style="color: #0000ff">var</span> box = 'a' &gt; 'B';                    <span style="color: #008000">//</span><span style="color: #008000">true    B=66</span>
+<span style="color: #0000ff">var</span> box = 1 &gt; 对象;                <span style="color: #008000">//</span><span style="color: #008000">false，如果有toString()或valueOf()则返回1 &gt; 返回数的值</span></pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>在相等和不等的比较上，如果操作数是非数值，则遵循一下规则：</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>1.一个操作数是布尔值，则比较之前将其转换为数值，false转成0，true转成1；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>2.一个操作数是字符串，则比较之前将其转成为数值再比较；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>3.一个操作数是对象，则先调用valueOf()或toString()方法后再和返回值比较；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>4.不需要任何转换的情况下，null和undefined是相等的；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>5.一个操作数是NaN，则==返回false，!=返回true；并且NaN和自身不等；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>6.两个操作数都是对象，则比较他们是否是同一个对象，如果都指向同一个对象，则返回true，否则返回false。</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>7.在全等和全不等的判断上，比如值和类型都相等，才返回true，否则返回false。</strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong><strong>相等(==)、不等(!=)、全等(恒等)(===)、不全等(不恒等)(!==)<strong><strong><strong><strong>都是按照上面的规则</strong></strong></strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 2 == 2;                    <span style="color: #008000">//</span><span style="color: #008000">true</span>
+<span style="color: #0000ff">var</span> box = '2' == 2;                    <span style="color: #008000">//</span><span style="color: #008000">true，'2'会转成成数值2</span>
+<span style="color: #0000ff">var</span> box = <span style="color: #0000ff">false</span> == 0;                <span style="color: #008000">//</span><span style="color: #008000">true，false转成数值就是0</span>
+<span style="color: #0000ff">var</span> box = 'a' == 'A';                    <span style="color: #008000">//</span><span style="color: #008000">false，转换后的编码不一样</span>
+<span style="color: #0000ff">var</span> box = 2 == {};                    <span style="color: #008000">//</span><span style="color: #008000">false，执行toString()或valueOf()会改变</span>
+<span style="color: #0000ff">var</span> box = 2 == NaN;                <span style="color: #008000">//</span><span style="color: #008000">false，只要有NaN，都是false</span>
+<span style="color: #0000ff">var</span> box = {} == {};                    <span style="color: #008000">//</span><span style="color: #008000">false，比较的是他们的地址，每个新创建对象的引用地址都不同</span>
+<span style="color: #0000ff">var</span> age =<span style="color: #000000"> {};
+</span><span style="color: #0000ff">var</span> height =<span style="color: #000000"> age;
+</span><span style="color: #0000ff">var</span> box = age == height;                <span style="color: #008000">//</span><span style="color: #008000">true，引用地址一样，所以相等</span>
+<span style="color: #0000ff">var</span> box = '2' === 2                    <span style="color: #008000">//</span><span style="color: #008000">false，值和类型都必须相等</span>
+<span style="color: #0000ff">var</span> box = 2 !== 2                    <span style="color: #008000">//</span><span style="color: #008000">false，值和类型都相等了</span></pre>
+</div>
+<p align="center"><strong>特殊值对比表</strong></p>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="248">
+<p align="center"><strong>表 达 式</strong></p>
+</td>
+<td width="248">
+<p align="center"><strong>值</strong></p>
+</td>
+</tr>
+<tr>
+<td width="248">
+<p align="center"><strong>null == undefined</strong></p>
+</td>
+<td width="248">
+<p align="center"><strong>true</strong></p>
+</td>
+</tr>
+<tr>
+<td width="248">
+<p align="center"><strong>'NaN' == NaN</strong></p>
+</td>
+<td width="248">
+<p align="center"><strong>false</strong></p>
+</td>
+</tr>
+<tr>
+<td width="248">
+<p align="center"><strong>5 == NaN</strong></p>
+</td>
+<td width="248">
+<p align="center"><strong>false</strong></p>
+</td>
+</tr>
+<tr>
+<td width="248">
+<p align="center"><strong>NaN == NaN</strong></p>
+</td>
+<td width="248">
+<p align="center"><strong>false</strong></p>
+</td>
+</tr>
+<tr>
+<td width="248">
+<p align="center"><strong>false == 0</strong></p>
+</td>
+<td width="248">
+<p align="center"><strong>true</strong></p>
+</td>
+</tr>
+<tr>
+<td width="248">
+<p align="center"><strong>true == 1</strong></p>
+</td>
+<td width="248">
+<p align="center"><strong>true</strong></p>
+</td>
+</tr>
+<tr>
+<td width="248">
+<p align="center"><strong>true == 2</strong></p>
+</td>
+<td width="248">
+<p align="center"><strong>false</strong></p>
+</td>
+</tr>
+<tr>
+<td width="248">
+<p align="center"><strong>undefined == 0</strong></p>
+</td>
+<td width="248">
+<p align="center"><strong>false</strong></p>
+</td>
+</tr>
+<tr>
+<td width="248">
+<p align="center"><strong>null == 0</strong></p>
+</td>
+<td width="248">
+<p align="center"><strong>false</strong></p>
+</td>
+</tr>
+<tr>
+<td width="248">
+<p align="center"><strong>'100' == 100</strong></p>
+</td>
+<td width="248">
+<p align="center"><strong>true</strong></p>
+</td>
+</tr>
+<tr>
+<td width="248">
+<p align="center"><strong>'100' === 100</strong></p>
+</td>
+<td width="248">
+<p align="center"><strong>false</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>五．</strong><strong>逻辑运算符</strong></span></p>
+<p align="left"><strong>逻辑运算符通常用于布尔值的操作，一般和关系运算符配合使用，有三个逻辑运算符：逻辑与(AND)、逻辑或(OR)、逻辑非(NOT)。</strong></p>
+<p align="left"><span style="color: #ff0000"><strong>1.逻辑与(AND) ：&amp;&amp; &nbsp; （并且）</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box =  (5 &gt; 4) &amp;&amp; (4 &gt; 3)        <span style="color: #008000">//</span><span style="color: #008000">true，两边都为true，返回true</span></pre>
+</div>
+<div align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="164">
+<p align="center"><strong>第一个操作数</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>第二个操作数</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>结果</strong></p>
+</td>
+</tr>
+<tr>
+<td width="164">
+<p align="center"><strong>true</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>true</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>true</strong></p>
+</td>
+</tr>
+<tr>
+<td width="164">
+<p align="center"><strong>true</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>false</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>false</strong></p>
+</td>
+</tr>
+<tr>
+<td width="164">
+<p align="center"><strong>false</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>true</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>false</strong></p>
+</td>
+</tr>
+<tr>
+<td width="164">
+<p align="center"><strong>false</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>false</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>false</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p align="left"><strong>如果两边的操作数有一个操作数不是布尔值的情况下，与运算就不一定返回布尔值，此时，遵循已下规则：</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>1.第一个操作数是对象，则返回第二个操作数；也就是忽略第一个</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>2.第二个操作数是对象，则第一个操作数返回true，才返回第二个操作数，否则返回false;</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>3.有一个操作数是null，则返回null；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>4.有一个操作数是undefined，则返回undefined。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">              var</span> box = 对象 &amp;&amp; (5 &gt; 4);            <span style="color: #008000">//</span><span style="color: #008000">true，返回第二个操作数</span>
+<span style="color: #0000ff">          var</span> box = (5 &gt; 4) &amp;&amp; 对象;            <span style="color: #008000">//</span><span style="color: #008000">[object Object]</span>
+<span style="color: #0000ff">var</span> box = (3 &gt; 4) &amp;&amp; 对象;            <span style="color: #008000">//</span><span style="color: #008000">false</span>
+<span style="color: #0000ff">var</span> box = (5 &gt; 4) &amp;&amp; <span style="color: #0000ff">null</span>;            <span style="color: #008000">//</span><span style="color: #008000">null</span>&nbsp;</pre>
+</div>
+<p align="left"><strong>逻辑与运算符属于短路操作，顾名思义，如果第一个操作数返回是false，第二个数不管是true还是false都返回的false。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = <span style="color: #0000ff">true</span> &amp;&amp; age;                <span style="color: #008000">//</span><span style="color: #008000">出错，age未定义</span>
+<span style="color: #0000ff">    var</span> box = <span style="color: #0000ff">false</span> &amp;&amp; age;                <span style="color: #008000">//</span><span style="color: #008000">false，不执行age了</span></pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>2.逻辑或(OR)：|| （或者）</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box =  (9 &gt; 7) || (7 &gt; 8);            <span style="color: #008000">//</span><span style="color: #008000">true，两边只要有一边是true，返回true</span></pre>
+</div>
+<div style="text-align: left" align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="164">
+<p align="center"><strong>第一个操作数</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>第二个操作数</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>结果</strong></p>
+</td>
+</tr>
+<tr>
+<td width="164">
+<p align="center"><strong>true</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>true</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>true</strong></p>
+</td>
+</tr>
+<tr>
+<td width="164">
+<p align="center"><strong>true</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>false</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>true</strong></p>
+</td>
+</tr>
+<tr>
+<td width="164">
+<p align="center"><strong>false</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>true</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>true</strong></p>
+</td>
+</tr>
+<tr>
+<td width="164">
+<p align="center"><strong>false</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>false</strong></p>
+</td>
+<td width="164">
+<p align="center"><strong>false</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p align="left"><strong>如果两边的操作数有一个操作数不是布尔值的情况下，逻辑与运算就不一定返回布尔值，此时，遵循已下规则：</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>1.第一个操作数是对象，则返回第一个操作数；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>2.第一个操作数的求值结果为false，则返回第二个操作数；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>3.两个操作数都是对象，则返回第一个操作数；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>4.两个操作数都是null，则返回null；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>5.两个操作数都是NaN，则返回NaN；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>6.两个操作数都是undefined，则返回undefined；</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 对象 || (5 &gt; 3);            <span style="color: #008000">//</span><span style="color: #008000">[object Object]</span>
+<span style="color: #0000ff">var</span> box = (5 &gt; 3) || 对象;            <span style="color: #008000">//</span><span style="color: #008000">true</span>
+<span style="color: #0000ff">var</span> box = 对象1 || 对象2;            <span style="color: #008000">//</span><span style="color: #008000">[object Object]</span>
+<span style="color: #0000ff">var</span> box = <span style="color: #0000ff">null</span> || <span style="color: #0000ff">null</span>;                <span style="color: #008000">//</span><span style="color: #008000">null</span>
+<span style="color: #0000ff">var</span> box = NaN || NaN;                <span style="color: #008000">//</span><span style="color: #008000">NaN</span>
+<span style="color: #0000ff">var</span> box = undefined || undefined;        <span style="color: #008000">//</span><span style="color: #008000">undefined</span></pre>
+</div>
+<p align="left"><strong>和逻辑与运算符相似，逻辑或运算符也是短路操作。当第一操作数的求值结果为true，就不会对第二个操作数求值了。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = <span style="color: #0000ff">true</span> || age;                <span style="color: #008000">//</span><span style="color: #008000">true</span>
+<span style="color: #0000ff">var</span> box = <span style="color: #0000ff">false</span> || age;                <span style="color: #008000">//</span><span style="color: #008000">出错，age未定义</span></pre>
+</div>
+<p align="left"><strong>我们可以利用逻辑或运算符这一特性来避免为变量赋null或undefined值。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = oneObject || twoObject;        <span style="color: #008000">//</span><span style="color: #008000">把其中一个有效变量值赋给box</span></pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>3.逻辑非(NOT)：!（取反）</strong></span></p>
+<p align="left"><strong>逻辑非运算符可以用于任何值。无论这个值是什么数据类型，这个运算符都会返回一个布尔值。它的流程是：<span style="color: #ff0000">先将这个值转换成布尔值，然后取反</span>，规则如下：</strong></p>
+<p align="left"><span style="color: #0000ff"><strong>1.操作数是一个对象，返回false；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>2.操作数是一个空字符串，返回true；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>3.操作数是一个非空字符串，返回false；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>4.操作数是数值0，返回true；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>5.操作数是任意非0数值(包括Infinity)，false；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>6.操作数是null，返回true；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>7.操作数是NaN，返回true；</strong></span></p>
+<p align="left"><span style="color: #0000ff"><strong>8.操作数是undefined，返回true；</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = !(5 &gt; 4);                    <span style="color: #008000">//</span><span style="color: #008000">false</span>
+<span style="color: #0000ff">var</span> box = !{};                        <span style="color: #008000">//</span><span style="color: #008000">false</span>
+<span style="color: #0000ff">var</span> box = !'';                        <span style="color: #008000">//</span><span style="color: #008000">true</span>
+<span style="color: #0000ff">var</span> box = !'Lee';                    <span style="color: #008000">//</span><span style="color: #008000">false</span>
+<span style="color: #0000ff">var</span> box = !0;                        <span style="color: #008000">//</span><span style="color: #008000">true</span>
+<span style="color: #0000ff">var</span> box = !8;                        <span style="color: #008000">//</span><span style="color: #008000">false</span>
+<span style="color: #0000ff">var</span> box = !<span style="color: #0000ff">null</span>;                    <span style="color: #008000">//</span><span style="color: #008000">true</span>
+<span style="color: #0000ff">var</span> box = !NaN;                    <span style="color: #008000">//</span><span style="color: #008000">true</span>
+<span style="color: #0000ff">var</span> box = !undefined;                <span style="color: #008000">//</span><span style="color: #008000">true</span></pre>
+</div>
+<p align="left"><strong>使用一次逻辑非运算符，流程是将值转成布尔值然后取反。而使用两次逻辑非运算符就是将值转成成布尔值取反再取反，相当于对值进行Boolean()转型函数处理。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = !!0;                        <span style="color: #008000">//</span><span style="color: #008000">false</span>
+<span style="color: #0000ff">var</span> box = !!NaN;                    <span style="color: #008000">//</span><span style="color: #008000">false</span></pre>
+</div>
+<p align="left"><strong>通常来说，使用一个逻辑非运算符和两个逻辑非运算符可以得到相应的布尔值，而使用三个以上的逻辑非运算符固然没有错误，但也没有意义。</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>六．</strong><strong>*</strong><strong>位运算符</strong></span></p>
+<p align="left"><strong>PS：在一般的应用中，我们基本上用不到位运算符。虽然，它比较基于底层，性能和速度会非常好，而就是因为比较底层，使用的难度也很大。所以，我们作为选学来对待。</strong></p>
+<p align="left"><strong>位运算符有七种，分别是：位非NOT(~)、位与AND(&amp;)、位或OR（|）、位异或XOR(^)、左移(&lt;&lt;)、有符号右移(&gt;&gt;)、无符号右移(&gt;&gt;&gt;)。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = ~25;                        <span style="color: #008000">//</span><span style="color: #008000">-26</span>
+<span style="color: #0000ff">var</span> box = 25 &amp; 3;                    <span style="color: #008000">//</span><span style="color: #008000">1</span>
+<span style="color: #0000ff">var</span> box = 25 | 3;                    <span style="color: #008000">//</span><span style="color: #008000">27</span>
+<span style="color: #0000ff">var</span> box = 25 &lt;&lt; 3;                    <span style="color: #008000">//</span><span style="color: #008000">200</span>
+<span style="color: #0000ff">var</span> box = 25 &gt;&gt; 2;                    <span style="color: #008000">//</span><span style="color: #008000">6</span>
+<span style="color: #0000ff">var</span> box = 25 &gt;&gt;&gt; 2;                <span style="color: #008000">//</span><span style="color: #008000">6</span></pre>
+</div>
+<pre><span style="font-size: 16px"><strong>更多的详细：http://www.w3school.com.cn/js/pro_js_operators_bitwise.asp<br><br><br></strong></span></pre>
+<p align="left"><span style="color: #ff0000"><strong>七．</strong><strong>赋值运算符</strong></span></p>
+<p align="left"><strong>赋值运算符用等于号(=)表示，就是把右边的值赋给左边的变量。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 100;                        <span style="color: #008000">//</span><span style="color: #008000">把100赋值给box变量</span></pre>
+</div>
+<p align="left"><strong>复合赋值运算符通过x=的形式表示，x表示算术运算符及位运算符。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 100<span style="color: #000000">;
+box </span>= box +100;                    <span style="color: #008000">//</span><span style="color: #008000">200，自己本身再加100</span></pre>
+</div>
+<p align="left"><strong>这种情况可以改写为：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 100<span style="color: #000000">；                    
+box </span>+= 100;                        <span style="color: #008000">//</span><span style="color: #008000">200，+=代替box+100</span></pre>
+</div>
+<p align="left"><strong>除了这种+=加/赋运算符，还有其他的几种如下：</strong></p>
+<p align="left"><strong>1.乘/赋(*=)</strong></p>
+<p align="left"><strong>2.除/赋(/=)</strong></p>
+<p align="left"><strong>3.模/赋(%=)</strong></p>
+<p align="left"><strong>4.加/赋(+=)</strong></p>
+<p align="left"><strong>5.减/赋(-=)</strong></p>
+<p align="left"><strong>6.左移/赋(&lt;&lt;=)</strong></p>
+<p align="left"><strong>7.有符号右移/赋(&gt;&gt;=)</strong></p>
+<p align="left"><strong>8.无符号有移/赋(&gt;&gt;&gt;=)</strong></p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong><strong>八.其他运算符</strong></strong></span></p>
+<p align="left"><span style="color: #ff0000"><strong>1.字符串运算符</strong></span></p>
+<p align="left"><strong>字符串运算符只有一个，即："+"。它的作用是将两个字符串相加。</strong></p>
+<p align="left"><strong>规则：至少一个操作数是字符串即可。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = '100' + '100';                <span style="color: #008000">//</span><span style="color: #008000">100100</span>
+<span style="color: #0000ff">var</span> box = '100' + 100;                <span style="color: #008000">//</span><span style="color: #008000">100100</span>
+<span style="color: #0000ff">var</span> box = 100 + 100;                <span style="color: #008000">//</span><span style="color: #008000">200</span></pre>
+</div>
+<p align="left"><strong><span style="color: #ff0000">2.逗号运算符</span></strong></p>
+<p align="left"><strong>逗号运算符可以在一条语句中执行多个操作。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 100, age = 20, height = 178;    <span style="color: #008000">//</span><span style="color: #008000">多个变量声明</span>
+<span style="color: #0000ff">var</span> box = (1,2,3,4,5);                <span style="color: #008000">//</span><span style="color: #008000">5，变量声明，将最后一个值赋给变量，不常用</span>
+<span style="color: #0000ff">var</span> box = [1,2,3,4,5];                <span style="color: #008000">//</span><span style="color: #008000">[1,2,3,4,5]，数组的字面量声明</span>
+<span style="color: #0000ff">var</span> box = {                        <span style="color: #008000">//</span><span style="color: #008000">[object Object]，对象的字面量声明</span>
+                    1 : 2<span style="color: #000000">,
+                    </span>3 : 4<span style="color: #000000">,
+                    </span>5 : 6<span style="color: #000000">
+};</span></pre>
+</div>
+<p align="left"><span style="color: #ff0000"><strong>3.三元条件运算符</strong></span></p>
+<p align="left"><strong>三元条件运算符其实就是后面将要学到的if语句的简写形式。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 5 &gt; 4 ? '对' : '错';            <span style="color: #008000">//</span><span style="color: #008000">对，5&gt;4返回true则把'对'赋值给box，反之。</span></pre>
+</div>
+<p align="left"><strong>相当于：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = '';                        <span style="color: #008000">//</span><span style="color: #008000">初始化变量</span>
+<span style="color: #0000ff">if</span> (5 &gt; 4) {                        <span style="color: #008000">//</span><span style="color: #008000">判断表达式返回值</span>
+box = '对';                    <span style="color: #008000">//</span><span style="color: #008000">赋值</span>
+} <span style="color: #0000ff">else</span><span style="color: #000000"> {
+box </span>= '错';                    <span style="color: #008000">//</span><span style="color: #008000">赋值</span>
+}</pre>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="left"><span style="color: #ff0000"><strong>九．</strong><strong>运算符优先级</strong></span></p>
+<p align="left"><strong>在一般的运算中，我们不必考虑到运算符的优先级，因为我们可以通过圆括号来解决这种问题。比如：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">var</span> box = 5 - 4 * 8;                    <span style="color: #008000">//</span><span style="color: #008000">-27</span>
+<span style="color: #0000ff">var</span> box = (5 - 4) * 8;                <span style="color: #008000">//</span><span style="color: #008000">8</span></pre>
+</div>
+<p align="left"><strong>但如果没有使用圆括号强制优先级，我们必须遵循以下顺序：</strong></p>
+<div style="text-align: right" align="center">
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="265">
+<p align="center"><strong>运算符</strong></p>
+</td>
+<td width="265">
+<p align="center"><strong>描述</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>. [] ()</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>对象成员存取、数组下标、函数调用等</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>++ -- ~ ! delete new typeof void</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>一元运算符</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>* / %</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>乘法、除法、去模</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>+ - +</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>加法、减法、字符串连接</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>&lt;&lt; &gt;&gt; &gt;&gt;&gt;</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>移位</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>&lt; &lt;= &gt; &gt;= instanceof</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>关系比较、检测类实例</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>== != === !==</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>恒等(全等)</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>&amp;</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>位与</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>^</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>位异或</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>|</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>位或</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>&amp;&amp;</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>逻辑与</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>||</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>逻辑或</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>?:</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>三元条件</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>= x=</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>赋值、运算赋值</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="265">
+<p align="left"><strong>,</strong></p>
+</td>
+<td valign="top" width="265">
+<p align="left"><strong>多重赋值、数组元素</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p align="left">&nbsp;</p>
+<p align="left"><strong>&nbsp;</strong></p>
+<p align="left">&nbsp;</p>
+</div>
+</div></div>

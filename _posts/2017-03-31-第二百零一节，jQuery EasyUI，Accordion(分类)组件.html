@@ -1,0 +1,393 @@
+第二百零一节，jQuery EasyUI，Accordion(分类)组件
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>jQuery EasyUI，Accordion(分类)组件</strong></p>
+<p>&nbsp;<img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170331175706570-1844410142.png" alt=""></p>
+<p><strong>学习要点： </strong></p>
+<p><strong>　　1.加载方式 </strong></p>
+<p><strong>　　2.容器属性 </strong></p>
+<p><strong>　　3.事件列表 </strong></p>
+<p><strong>　　4.方法列表 </strong></p>
+<p><strong>　　5.面板属性</strong></p>
+<p>&nbsp;</p>
+<p><strong>本节课重点了解 EasyUI 中 Accordion(选项卡)组件的使用方法，这个组件依赖于 Panel（面板）组件。</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一．加载方式</strong></span></p>
+<p><span style="color: #0000ff"><strong>class 加载方式</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">="box"</span><span style="color: #ff0000"> class</span><span style="color: #0000ff">="easyui-accordion"</span><span style="color: #ff0000">
+     style</span><span style="color: #0000ff">="width:300px;height:200px;"</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">title</span><span style="color: #0000ff">="标题1"</span><span style="color: #0000ff">&gt;</span>内容1<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">title</span><span style="color: #0000ff">="标题2"</span><span style="color: #0000ff">&gt;</span>内容2<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+    <span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">title</span><span style="color: #0000ff">="标题3"</span><span style="color: #0000ff">&gt;</span>内容3<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #0000ff">&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>accordion()将一个符合规则的元素执行分类方法</strong></span></p>
+<p><span style="color: #0000ff"><strong>JS 加载调用</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        </span><span style="color: #008000">//</span><span style="color: #008000">...</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二．容器属性，也就是最外层区块</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170331162324414-953729212.png" alt=""></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170331162331086-1804455733.png" alt=""></p>
+<p><span style="color: #ff0000"><strong>width &nbsp; number 分类容器的宽度。默认值 auto。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>height &nbsp; number 分类容器的高度。默认值 auto。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>fit &nbsp; boolean 如果设置为 true，分类容器大小将自适应父容器。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        fit:<span style="color: #0000ff">true</span>        <span style="color: #008000">//</span><span style="color: #008000">如果设置为 true，分类容器大小将自适应父容器。默认值 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>border &nbsp; boolean 定义是否显示边框。默认值 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        border:<span style="color: #0000ff">false</span>     <span style="color: #008000">//</span><span style="color: #008000">定义是否显示边框。默认值 true。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>animate &nbsp; boolean 定义在展开和折叠的时候是否显示动画效果。默认值 true。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        animate:<span style="color: #0000ff">false</span>     <span style="color: #008000">//</span><span style="color: #008000">定义在展开和折叠的时候是否显示动画效果。默认值 true。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>multiple &nbsp; boolean 如果为 true 时，同时展开多个面板。默认值 false。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        multiple:<span style="color: #0000ff">true</span>   <span style="color: #008000">//</span><span style="color: #008000">如果为 true 时，同时展开多个面板。默认值 false。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>selected &nbsp; number 设置初始化时默认选中的面板索引号。默认值0。<span style="color: #0000ff">默认展开</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected:1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三．事件列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170331163454492-1087418083.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>onSelect &nbsp; title,index 在面板被选中的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected:1,   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+        onSelect:<span style="color: #0000ff">function</span><span style="color: #000000"> (title,index) {
+            alert(</span>'在面板被选中的时候触发。'<span style="color: #000000">);
+            alert(title </span>+ '：' + '接收被选中的面板标题'<span style="color: #000000">);
+            alert(index </span>+ '：' + '接收被选中的面板索引'<span style="color: #000000">);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onUnselect &nbsp; title,index 在面板被取消选中的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected:1,   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+        onUnselect:<span style="color: #0000ff">function</span><span style="color: #000000"> (title,index) {
+            alert(</span>'在面板被取消选中的时候触发。'<span style="color: #000000">);
+            alert(title </span>+ '：' + '接收被取消选中的面板标题'<span style="color: #000000">);
+            alert(index </span>+ '：' + '接收被取消选中的面板索引'<span style="color: #000000">);
+        }
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onAdd &nbsp; title,index 在添加新面板的时候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected:1,   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+        onAdd:<span style="color: #0000ff">function</span><span style="color: #000000"> (title,index) {
+            alert(</span>'在添加新面板的时候触发。'<span style="color: #000000">);
+            alert(title </span>+ '：' + '接收添加的面板标题'<span style="color: #000000">);
+            alert(index </span>+ '：' + '接收添加的面板索引'<span style="color: #000000">);
+        }
+    });
+    $(</span>'#box').accordion('add'<span style="color: #000000">, {
+        title: </span>'新分类'<span style="color: #000000">,
+        closable: </span><span style="color: #0000ff">true</span><span style="color: #000000">,
+        content: </span>'123'<span style="color: #000000">,
+        collapsible: </span><span style="color: #0000ff">false</span><span style="color: #000000">,
+        selected: </span><span style="color: #0000ff">false</span><span style="color: #000000">
+    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onBeforeRemove &nbsp; title,index 在移除面板之前触发，返回 false 可以取消移除操作。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected:1,   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+        onBeforeRemove:<span style="color: #0000ff">function</span><span style="color: #000000"> (title,index) {
+            alert(</span>'在移除面板之前触发，返回 false 可以取消移除操作。'<span style="color: #000000">);
+            alert(title </span>+ '：' + '接收移除的面板标题'<span style="color: #000000">);
+            alert(index </span>+ '：' + '接收移除的面板索引'<span style="color: #000000">);
+        }
+    });
+    $(</span>'#box').accordion('remove', 0<span style="color: #000000">);
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>onRemove &nbsp; title,index 在面板被移除后候触发。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected:1,   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+        onRemove:<span style="color: #0000ff">function</span><span style="color: #000000"> (title,index) {
+            alert(</span>'在面板被移除后候触发。'<span style="color: #000000">);
+            alert(title </span>+ '：' + '接收移除的面板标题'<span style="color: #000000">);
+            alert(index </span>+ '：' + '接收移除的面板索引'<span style="color: #000000">);
+        }
+    });
+    $(</span>'#box').accordion('remove', 1<span style="color: #000000">);
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四．方法列表</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170331165452274-1227787630.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170331165503180-367301020.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>options none 返回分类组件的属性对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected:1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').accordion('options'));   <span style="color: #008000">//</span><span style="color: #008000">返回分类组件的属性对象。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>panels none 获取所有面板对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width:</span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height:400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected:1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').accordion('panels'));   <span style="color: #008000">//</span><span style="color: #008000">获取所有面板对象</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>resize none 调整分类组件大小和布局。<span style="color: #0000ff">重要也就是分类变形后可以重置</span></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected: 1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    $(</span>'#box').accordion('resize');      <span style="color: #008000">//</span><span style="color: #008000">调整分类组件大小和布局。重要也就是分类变形后可以重置</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getSelected none 获取选中的面板对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected: 1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').accordion('getSelected'));      <span style="color: #008000">//</span><span style="color: #008000"> 获取选中的面板对象。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getSelections &nbsp; none 获取所有选中的面板对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected: 1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').accordion('getSelections'));      <span style="color: #008000">//</span><span style="color: #008000"> 获取所有选中的面板。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getPanel &nbsp; which 获取指定的面板，'which'参数可以是面板的标题或者索引。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected: 1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').accordion('getPanel',2));      <span style="color: #008000">//</span><span style="color: #008000"> 获取指定的面板，'which'参数可以是面板的标题或者索引。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>getPanelIndex &nbsp; panel 获取指定面板的索引。值是要获取的面板id</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected: 1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    alert($(</span>'#box').accordion('getPanelIndex','#pox'));      <span style="color: #008000">//</span><span style="color: #008000"> 获取指定面板的索引。值是要获取的面板id</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>select &nbsp; which 选择指定面板。'which'参数可以是面板标题或者索引。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected: 1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    $(</span>'#box').accordion('select',2);   <span style="color: #008000">//</span><span style="color: #008000">选择指定面板。'which'参数可以是面板标题或者索引。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>unselect &nbsp; which 取消选择指定面板。'which'参数可以是面板标题或者索引。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected: 1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    $(</span>'#box').accordion('unselect',1);   <span style="color: #008000">//</span><span style="color: #008000">取消选择指定面板。'which'参数可以是面板标题或者索引。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>add &nbsp; options添加一个新面板。在默认情况下，新增的面板会变成当前面板。如果要添加一个非选中面板，不要忘记将'selected'属性设置为 false。<span style="color: #0000ff">添加一个分类面板</span></strong></span></p>
+<p><span style="color: #0000ff"><strong>因为分类组件继承了<strong>Panel（面板）组件，</strong>新增面板属性可以用<strong><strong>（面板）组件属性，其他属性见，五．面板属性</strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected: 1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    $(</span>'#box').accordion('add'<span style="color: #000000">, {
+        title: </span>'新分类'<span style="color: #000000">,
+        </span><span style="color: #008000">//</span><span style="color: #008000"> closable: true,</span>
+        content: '123'<span style="color: #000000">,
+        </span><span style="color: #008000">//</span><span style="color: #008000"> collapsible: false,</span>
+        <span style="color: #008000">//</span><span style="color: #008000"> selected: false</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>remove &nbsp; which 移除指定面板。'which'参数可以使面板的标题或者索引。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected: 1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    $(</span>'#box').accordion('remove',0);    <span style="color: #008000">//</span><span style="color: #008000">移除指定面板。'which'参数可以使面板的标题或者索引。</span>
+});</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>$.fn.accordion.defaults 重写默认值对象。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$.fn.accordion.defaults.border = <span style="color: #0000ff">false</span>;</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>五．面板属性</strong></span></p>
+<p><span style="color: #000000"><strong>分类组件面板继承了 panel 属性，我们参考 panel 属性即可，对分类的面板同样有效。 并且提供了新增的两个属性。</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201703/955761-20170331173707086-773484481.png" alt=""></strong></span></p>
+<p><span style="color: #ff0000"><strong>selected boolean 如果设置为 true 将展开面板。</strong></span></p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected: 1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    $(</span>'#box').accordion('add'<span style="color: #000000">, {
+        title: </span>'新分类'<span style="color: #000000">,
+        content: </span>'123'<span style="color: #000000">,
+        collapsible: </span><span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">如果设置为 true 将显示折叠按钮。</span>
+        selected: <span style="color: #0000ff">true</span>     <span style="color: #008000">//</span><span style="color: #008000">如果设置为 true 将展开面板。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><br><span style="color: #ff0000"><strong>collapsible boolean 如果设置为 true 将显示折叠按钮。</strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>$(<span style="color: #0000ff">function</span><span style="color: #000000"> () {
+    $(</span>'#box'<span style="color: #000000">).accordion({
+        width: </span>500,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的宽度</span>
+        height: 400,      <span style="color: #008000">//</span><span style="color: #008000">分类容器的高度</span>
+        selected: 1   <span style="color: #008000">//</span><span style="color: #008000">设置初始化时默认选中的面板索引号。默认值0。</span>
+<span style="color: #000000">    });
+    $(</span>'#box').accordion('add'<span style="color: #000000">, {
+        title: </span>'新分类'<span style="color: #000000">,
+        content: </span>'123'<span style="color: #000000">,
+        collapsible: </span><span style="color: #0000ff">true</span>,     <span style="color: #008000">//</span><span style="color: #008000">如果设置为 true 将显示折叠按钮。</span>
+        selected: <span style="color: #0000ff">true</span>     <span style="color: #008000">//</span><span style="color: #008000">如果设置为 true 将展开面板。</span>
+<span style="color: #000000">    });
+});</span></pre>
+</div>
+<p>&nbsp;</p></div>

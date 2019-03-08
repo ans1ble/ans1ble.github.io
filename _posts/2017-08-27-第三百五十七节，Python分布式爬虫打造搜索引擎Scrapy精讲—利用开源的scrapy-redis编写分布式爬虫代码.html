@@ -1,0 +1,130 @@
+第三百五十七节，Python分布式爬虫打造搜索引擎Scrapy精讲—利用开源的scrapy-redis编写分布式爬虫代码
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>第三百五十七节，Python分布式爬虫打造搜索引擎Scrapy精讲—利用开源的scrapy-redis编写分布式爬虫代码</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong>scrapy-redis是一个可以<strong>scrapy结合<strong><strong>redis搭建分布式爬虫的开源模块</strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong>scrapy-redis的依赖</strong></strong></strong></strong></strong></strong></strong></span></p>
+<ul>
+<li><strong>Python 2.7, 3.4 or 3.5，Python支持版本</strong></li>
+<li><strong>Redis &gt;= 2.8，Redis版本</strong></li>
+<li><strong><code>Scrapy</code>&nbsp;&gt;= 1.1，<strong><code>Scrapy版本</code></strong></strong></li>
+<li><strong><code>redis-py</code>&nbsp;&gt;= 2.10，<strong><code>redis-py版本，<strong><code>redis-py是一个<strong>Python操作<strong>Redis的模块，<strong><strong>scrapy-redis底层是用<strong><strong><code><strong><code>redis-py来实现的</code></strong></code></strong></strong></strong></strong></strong></strong></code></strong></code></strong></strong></li>
+</ul>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>下载地址：<span style="color: #0000ff">https://pypi.python.org/pypi/scrapy-redis/0.6.8</span></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong>我们以<span style="color: #0000ff"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>scrapy-redis/0.6.8版本为讲</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>一、安装<strong><strong><strong><strong><strong><strong><strong>scrapy-redis<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>/0.6.8版本<strong><strong><strong><strong><strong><strong><strong>的依赖</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p><span style="color: #0000ff"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　首先安装好<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>scrapy-redis<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>/0.6.8版本的依赖关系模块和软件</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>二、创建scrapy项目</strong></span></p>
+<p>　　<span style="color: #0000ff"><strong>执行命令创建项目：scrapy startproject fbshpch</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>三、将下载的scrapy-redis-0.6.8模块包解压，解压后将包里的crapy-redis-0.6.8\src\scrapy_redis的scrapy_redis文件夹复制到项目中</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170827122651058-175996288.png" alt=""></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>四、分布式爬虫实现代码，普通爬虫，相当于<span style="color: #0000ff">basic</span>命令创建的普通爬虫</strong></span></p>
+<p><span style="color: #ff0000"><strong>注意：分布式普通爬虫必须继承<strong><span style="color: #0000ff">scrapy-redis</span>的</strong><span style="color: #0000ff">RedisSpider</span>类</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+
+<span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> scrapy_redis.spiders <span style="color: #0000ff">import</span> RedisSpider    <span style="color: #008000">#</span><span style="color: #008000"> 导入scrapy_redis里的RedisSpider类</span></span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.http <span style="color: #0000ff">import</span> Request                 <span style="color: #008000">#</span><span style="color: #008000">导入url返回给下载器的方法</span>
+<span style="color: #0000ff">from</span> urllib <span style="color: #0000ff">import</span> parse                        <span style="color: #008000">#</span><span style="color: #008000">导入urllib库里的parse模块</span>
+
+
+
+
+<span style="color: #0000ff">class</span> jobboleSpider(<span style="background-color: #ff99cc">RedisSpider</span>):               <span style="color: #008000">#</span><span style="color: #008000"> 自定义爬虫类,继承RedisSpider类</span>
+    name = <span style="color: #800000">'</span><span style="color: #800000">jobbole</span><span style="color: #800000">'</span>                            <span style="color: #008000">#</span><span style="color: #008000"> 设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">blog.jobbole.com</span><span style="color: #800000">'</span>]       <span style="color: #008000">#</span><span style="color: #008000"> 爬取域名</span>
+    <span style="background-color: #ff99cc">redis_key = <span style="color: #800000">'</span><span style="color: #800000">jobbole:start_urls</span><span style="color: #800000">'</span>            <span style="color: #008000">#</span><span style="color: #008000"> 向redis设置一个名称储存url</span></span>
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> parse(self, response):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">
+        获取列表页的文章url地址，交给下载器
+        </span><span style="color: #800000">"""</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 获取当前页文章url</span>
+        lb_url = response.xpath(<span style="color: #800000">'</span><span style="color: #800000">//a[@class="archive-title"]/@href</span><span style="color: #800000">'</span>).extract()  <span style="color: #008000">#</span><span style="color: #008000"> 获取文章列表url</span>
+        <span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> lb_url:
+            </span><span style="color: #008000">#</span><span style="color: #008000"> print(parse.urljoin(response.url,i))                                             #urllib库里的parse模块的urljoin()方法，是自动url拼接，如果第二个参数的url地址是相对路径会自动与第一个参数拼接</span>
+            <span style="color: #0000ff">yield</span> Request(url=<span style="color: #000000">parse.urljoin(response.url, i),
+                          callback</span>=self.parse_wzhang)  <span style="color: #008000">#</span><span style="color: #008000"> 将循环到的文章url添加给下载器，下载后交给parse_wzhang回调函数</span>
+
+        <span style="color: #008000">#</span><span style="color: #008000"> 获取下一页列表url,交给下载器，返回给parse函数循环</span>
+        x_lb_url = response.xpath(<span style="color: #800000">'</span><span style="color: #800000">//a[@class="next page-numbers"]/@href</span><span style="color: #800000">'</span>).extract()  <span style="color: #008000">#</span><span style="color: #008000"> 获取下一页文章列表url</span>
+        <span style="color: #0000ff">if</span><span style="color: #000000"> x_lb_url:
+            </span><span style="color: #0000ff">yield</span> Request(url=<span style="color: #000000">parse.urljoin(response.url, x_lb_url[0]),
+                          callback</span>=self.parse)  <span style="color: #008000">#</span><span style="color: #008000"> 获取到下一页url返回给下载器，回调给parse函数循环进行</span>
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> parse_wzhang(self, response):
+        title </span>= response.xpath(<span style="color: #800000">'</span><span style="color: #800000">//div[@class="entry-header"]/h1/text()</span><span style="color: #800000">'</span>).extract()  <span style="color: #008000">#</span><span style="color: #008000"> 获取文章标题</span>
+        <span style="color: #0000ff">print</span>(title)</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>五、分布式爬虫实现代码，全站自动爬虫，相当于<span style="color: #0000ff">crawl</span>命令创建的<strong>全站自动爬虫</strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>注意：分布式<strong>全站自动爬虫</strong>必须继承<strong><span style="color: #0000ff">scrapy-redis</span>的<span style="color: #0000ff">RedisCrawlSpider</span></strong>类</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf8 -*-</span>
+
+<span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> scrapy_redis.spiders <span style="color: #0000ff">import</span> RedisCrawlSpider    <span style="color: #008000">#</span><span style="color: #008000"> 导入scrapy_redis里的RedisCrawlSpider类</span></span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> scrapy
+</span><span style="color: #0000ff">from</span> scrapy.linkextractors <span style="color: #0000ff">import</span><span style="color: #000000"> LinkExtractor
+</span><span style="color: #0000ff">from</span> scrapy.spiders <span style="color: #0000ff">import</span><span style="color: #000000"> Rule
+
+
+</span><span style="color: #0000ff">class</span> jobboleSpider(<span style="background-color: #ff99cc">RedisCrawlSpider</span>):               <span style="color: #008000">#</span><span style="color: #008000"> 自定义爬虫类,继承RedisSpider类</span>
+    name = <span style="color: #800000">'</span><span style="color: #800000">jobbole</span><span style="color: #800000">'</span>                                 <span style="color: #008000">#</span><span style="color: #008000"> 设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">www.luyin.org</span><span style="color: #800000">'</span>]              <span style="color: #008000">#</span><span style="color: #008000"> 爬取域名</span>
+    <span style="background-color: #ff99cc">redis_key = <span style="color: #800000">'</span><span style="color: #800000">jobbole:start_urls</span><span style="color: #800000">'</span></span>                 <span style="color: #008000">#</span><span style="color: #008000"> 向redis设置一个名称储存url</span>
+<span style="color: #000000">
+    rules </span>=<span style="color: #000000"> (
+        </span><span style="color: #008000">#</span><span style="color: #008000"> 配置抓取列表页规则</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> Rule(LinkExtractor(allow=('ggwa/.*')), follow=True),</span>
+
+        <span style="color: #008000">#</span><span style="color: #008000"> 配置抓取内容页规则</span>
+        Rule(LinkExtractor(allow=(<span style="color: #800000">'</span><span style="color: #800000">.*</span><span style="color: #800000">'</span>)), callback=<span style="color: #800000">'</span><span style="color: #800000">parse_job</span><span style="color: #800000">'</span>, follow=<span style="color: #000000">True),
+    )
+
+
+    </span><span style="color: #0000ff">def</span> parse_job(self, response):  <span style="color: #008000">#</span><span style="color: #008000"> 回调函数，注意：因为CrawlS模板的源码创建了parse回调函数，所以切记我们不能创建parse名称的函数</span>
+        <span style="color: #008000">#</span><span style="color: #008000"> 利用ItemLoader类，加载items容器类填充数据</span>
+        neir = response.css(<span style="color: #800000">'</span><span style="color: #800000">title::text</span><span style="color: #800000">'</span><span style="color: #000000">).extract()
+        </span><span style="color: #0000ff">print</span>(neir)</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>六、settings.py文件配置</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> 分布式爬虫设置</span>
+SCHEDULER = <span style="color: #800000">"</span><span style="color: #800000">scrapy_redis.scheduler.Scheduler</span><span style="color: #800000">"</span>                  <span style="color: #008000">#</span><span style="color: #008000"> 使调度在redis存储请求队列</span>
+DUPEFILTER_CLASS = <span style="color: #800000">"</span><span style="color: #800000">scrapy_redis.dupefilter.RFPDupeFilter</span><span style="color: #800000">"</span>      <span style="color: #008000">#</span><span style="color: #008000"> 确保所有的蜘蛛都共享相同的过滤器通过Redis复制</span>
+ITEM_PIPELINES =<span style="color: #000000"> {
+    </span><span style="color: #800000">'</span><span style="color: #800000">scrapy_redis.pipelines.RedisPipeline</span><span style="color: #800000">'</span>: 300                 <span style="color: #008000">#</span><span style="color: #008000"> 存储在redis刮项后处理</span>
+}</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>七、执行<strong>分布式</strong>爬虫</strong></span></p>
+<p><span style="color: #ff0000"><strong>　　<span style="color: #0000ff">1、运行命令：<strong>scrapy crawl jobbole(jobbole<strong><strong>表示</strong></strong>爬虫名称)</strong></span></strong></span></p>
+<p>　　2、启动<strong><strong><strong><strong><strong>redis，然后cd到<strong><strong><strong><strong><strong>redis的安装目录，</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　　　执行命令：redis-cli -h 127.0.0.1 -p 6379 &nbsp;连接一个<strong><strong><strong><strong><strong>redis客户端</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　　　在连接客户端执行命令：lpush jobbole:start_urls http://blog.jobbole.com/all-posts/ &nbsp;，向<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>redis列队创建一个起始URL</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　　　　说明：<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>lpush(列表数据) jobbole:start_urls(爬虫里定义的url列队名称) http://blog.jobbole.com/all-posts/(初始url)</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170827203605464-1458597788.png" alt=""></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>八、scrapy-redis编写分布式爬虫代码原理</strong></span></p>
+<p><img src="https://images2017.cnblogs.com/blog/955761/201708/955761-20170827212841824-923312358.jpg" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><span style="color: #ff0000">其他使用方法和单机版爬虫一样　</span></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p>&nbsp;</p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>　</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p></div>

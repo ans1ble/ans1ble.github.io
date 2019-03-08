@@ -1,0 +1,37 @@
+第三百二十六节，web爬虫，scrapy模块,解决重复ur——自动递归url
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><br><strong>第三百二十六节，web爬虫，scrapy模块,解决重复url——自动递归url</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>一般抓取过的url不重复抓取，那么就需要记录url，判断当前URL如果在记录里说明已经抓取过了，如果不存在说明没抓取过</strong></span></p>
+<p><span style="color: #ff0000"><strong>记录url可以是缓存，或者数据库，如果保存数据库按照以下方式：</strong></span></p>
+<p><strong>id　　 URL加密(建索引以便查询) 　　原始URL</strong></p>
+<p><strong>保存URL表里应该至少有以上3个字段</strong><br><strong>1、URL加密(建索引以便查询)字段：用来查询这样速度快，</strong><br><strong>2、原始URL，用来给加密url做对比，防止加密不同的URL出现同样的加密值</strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>自动递归url</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000"> -*- coding: utf-8 -*-</span>
+<span style="color: #0000ff">import</span> scrapy       <span style="color: #008000">#</span><span style="color: #008000">导入爬虫模块</span>
+<span style="color: #0000ff">from</span> scrapy.selector <span style="color: #0000ff">import</span> HtmlXPathSelector  <span style="color: #008000">#</span><span style="color: #008000">导入HtmlXPathSelector模块</span>
+<span style="background-color: #ff99cc"><span style="color: #0000ff">from</span> scrapy.selector <span style="color: #0000ff">import</span><span style="color: #000000"> Selector
+
+
+</span></span><span style="color: #0000ff">class</span><span style="color: #000000"> AdcSpider(scrapy.Spider):
+    name </span>= <span style="color: #800000">'</span><span style="color: #800000">adc</span><span style="color: #800000">'</span>                                        <span style="color: #008000">#</span><span style="color: #008000">设置爬虫名称</span>
+    allowed_domains = [<span style="color: #800000">'</span><span style="color: #800000">hao.360.cn</span><span style="color: #800000">'</span><span style="color: #000000">]
+    start_urls </span>= [<span style="color: #800000">'</span><span style="color: #800000">https://hao.360.cn/</span><span style="color: #800000">'</span><span style="color: #000000">]
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> parse(self, response):
+
+        </span><span style="color: #008000">#</span><span style="color: #008000">这里做页面的各种获取以及处理</span>
+
+        <span style="color: #008000">#</span><span style="color: #008000">递归查找url循环执行</span>
+        <span style="background-color: #ff99cc">hq_url = Selector(response=response).xpath(<span style="color: #800000">'</span><span style="color: #800000">//a/@href</span><span style="color: #800000">'</span>)</span>   <span style="color: #008000">#</span><span style="color: #008000">查找到当前页面的所有a标签的href，也就是url</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">for</span> url <span style="color: #0000ff">in</span> hq_url:</span>                                        <span style="color: #008000">#</span><span style="color: #008000">循环url</span>
+            <span style="background-color: #ff99cc"><span style="color: #0000ff">yield</span> scrapy.Request(url=url, callback=self.parse)</span>    <span style="color: #008000">#</span><span style="color: #008000">每次循环将url传入Request方法进行继续抓取，callback执行parse回调函数，递归循环</span>
+
+        <span style="color: #008000">#</span><span style="color: #008000">这样就会递归抓取url并且自动执行了，但是需要在settings.py 配置文件中设置递归深度，DEPTH_LIMIT=3表示递归3层 </span></pre>
+</div>
+<p><span style="color: #ff0000"><strong>这样就会递归抓取url并且自动执行了，但是需要在<span style="color: #0000ff">settings.py</span> 配置文件中设置递归深度，<span style="color: #0000ff">DEPTH_LIMIT=3</span>表示递归3层</strong></span></p>
+<p><span style="color: #ff0000"><strong><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170725134811974-426130734.png" alt=""></strong></span></p>
+<p>&nbsp;</p></div>

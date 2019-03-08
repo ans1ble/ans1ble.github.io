@@ -1,0 +1,504 @@
+第二百九十五节，python操作redis缓存-字符串类型
+
+
+			<div id="cnblogs_post_body" class="blogpost-body"><p><strong>python操作redis缓存-字符串类型</strong></p>
+<p><span style="color: #ff0000"><strong>首先要安装redis-py模块</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>python连接<strong>redis方式，有两种连接方式，一种是直接连接，一张是通过连接池连接</strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffff99"><strong><strong>注意：以后我们都用的连接池方式连接，直接连接不推荐</strong></strong></span></p>
+<p><span style="color: #ff0000; background-color: #ffffff"><strong><strong>1、<strong><strong>直接连接方式：【不推荐】</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong>Redis()配置连接信息</strong></span><br><span style="color: #ff0000"><strong>set()写入数据</strong></span><br><span style="color: #ff0000"><strong>get()读取数据</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis        <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+r </span>= redis.<span style="background-color: #ff99cc">Redis(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)</span>    <span style="color: #008000">#</span><span style="color: #008000">配置连接信息</span>
+r.<span style="background-color: #ff99cc">set(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">asdvc344</span><span style="color: #800000">'</span>)</span>                        <span style="color: #008000">#</span><span style="color: #008000">写入数据</span>
+hc = r.<span style="background-color: #ff99cc">get(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>)</span>                               <span style="color: #008000">#</span><span style="color: #008000">读取数据</span>
+<span style="color: #0000ff">print</span>(hc)</pre>
+</div>
+<p><span style="color: #ff0000"><strong>2、连接池连接方式【推荐】</strong></span></p>
+<p><span style="color: #000000"><strong>redis-py使用connection pool来管理对一个redis server的所有连接，避免每次建立、释放连接的开销。默认，每个Redis实例都会维护一个自己的连接池。可以直接建立一个连接池，然后作为参数Redis，这样就可以实现多个Redis实例共享一个连接池。</strong></span></p>
+<p><span style="color: #ff0000"><strong>ConnectionPool()配置连接池连接信息</strong></span><br><span style="color: #ff0000"><strong>Redis()连接连接池</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000; background-color: #ffff99">
+pool </span>= redis.<span style="background-color: #ff99cc">ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)</span>  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.<span style="background-color: #ff99cc">Redis(connection_pool=<span style="background-color: #ffff99">pool</span>)</span>                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">Bar1111111111</span><span style="color: #800000">'</span>)                               <span style="color: #008000">#</span><span style="color: #008000">写入数据</span>
+r.get(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>)                                                <span style="color: #008000">#</span><span style="color: #008000">获取数据</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000; background-color: #ffff00"><strong>字符串数据类型操作</strong></span></p>
+<p><span style="color: #ff0000"><strong>String字符串类型操作，redis中的String在在内存中按照一个name对应一个value来存储。如图：</strong></span></p>
+<p><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170701214418821-422753432.png" alt=""></p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">set(name, value, ex=None, px=None, nx=False, xx=False)</span>写入数据参数</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000">在Redis中设置值，默认，不存在则创建，存在则修改
+参数：
+     ex，过期时间（秒）
+     px，过期时间（毫秒）
+     nx，如果设置为True，则只有name不存在时，当前set操作才执行，<span style="background-color: #ff99cc">用于创建</span>
+     xx，如果设置为True，则只有name存在时，当前set操作才执行，<span style="background-color: #ff99cc">用于修改</span></span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">Bar</span><span style="color: #800000">'</span>,ex=20)                                   <span style="color: #008000">#</span><span style="color: #008000">写入数据</span>
+hc = r.get(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>)                                           <span style="color: #008000">#</span><span style="color: #008000">获取数据</span>
+<span style="color: #0000ff">print</span>(hc)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">setnx(name, value)</span>只有name不存在时，执行设置操作（添加）</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.setnx(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">Bar22</span><span style="color: #800000">'</span>)                                   <span style="color: #008000">#</span><span style="color: #008000">写入数据setnx(name, value)只有name不存在时，执行设置操作（添加）</span>
+hc = r.get(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>)                                           <span style="color: #008000">#</span><span style="color: #008000">获取数据</span>
+<span style="color: #0000ff">print</span>(hc)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">setex(name, value, time)</span>设置值，参数：time，过期时间（数字秒 或 timedelta对象）</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.setex(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">Bar22</span><span style="color: #800000">'</span>,5)                                     <span style="color: #008000">#</span><span style="color: #008000">setex(name, value, time)设置值，参数：time，过期时间（数字秒 或 timedelta对象）</span>
+hc = r.get(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>)                                           <span style="color: #008000">#</span><span style="color: #008000">获取数据</span>
+<span style="color: #0000ff">print</span>(hc)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">psetex(name, time_ms, value)</span>设置值，参数：time_ms，过期时间（数字毫秒 或 timedelta对象）</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.psetex(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>,5, <span style="color: #800000">'</span><span style="color: #800000">Bar22</span><span style="color: #800000">'</span>)                                   <span style="color: #008000">#</span><span style="color: #008000">psetex(name, time_ms, value)设置值，参数：time_ms，过期时间（数字毫秒 或 timedelta对象）</span>
+hc = r.get(<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>)                                           <span style="color: #008000">#</span><span style="color: #008000">获取数据</span>
+<span style="color: #0000ff">print</span>(hc)</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #0000ff">mset(*args, **kwargs)</span><span style="color: #ff0000">批量设置</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.mset(k1=<span style="color: #800000">'</span><span style="color: #800000">v1</span><span style="color: #800000">'</span>, k2=<span style="color: #800000">'</span><span style="color: #800000">v2</span><span style="color: #800000">'</span>)                                    <span style="color: #008000">#</span><span style="color: #008000">mset(*args, **kwargs)批量设置</span><span style="color: #008000">
+#</span><span style="color: #008000">或者</span>
+r.mset({<span style="color: #800000">'</span><span style="color: #800000">k3</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">v1</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">k4</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">v2</span><span style="color: #800000">'</span>})</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">mget(keys, *args)</span>批量获取</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.mset(k1=<span style="color: #800000">'</span><span style="color: #800000">v1</span><span style="color: #800000">'</span>, k2=<span style="color: #800000">'</span><span style="color: #800000">v2</span><span style="color: #800000">'</span>)                                    <span style="color: #008000">#</span><span style="color: #008000">mset(*args, **kwargs)批量设置</span><span style="color: #008000">
+#</span><span style="color: #008000">或者</span>
+r.mset({<span style="color: #800000">'</span><span style="color: #800000">k3</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">v3</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">k4</span><span style="color: #800000">'</span>: <span style="color: #800000">'</span><span style="color: #800000">v4</span><span style="color: #800000">'</span><span style="color: #000000">})
+
+</span><span style="color: #008000">#</span><span style="color: #008000">mget(keys, *args)批量获取</span>
+a = r.mget(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">k2</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #008000">#</span><span style="color: #008000">或者</span>
+b = r.mget([<span style="color: #800000">'</span><span style="color: #800000">k3</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">k4</span><span style="color: #800000">'</span><span style="color: #000000">])
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(a,b)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回：[b'v1', b'v2'] [b'v3', b'v4']</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">getset(name, value)</span>设置新值并获取原来的值</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">v1</span><span style="color: #800000">'</span>)                                            <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+a = r.get(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>)                                             <span style="color: #008000">#</span><span style="color: #008000">获取</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(a)
+
+</span><span style="color: #008000">#</span><span style="color: #008000">getset(name, value)设置新值并获取原来的值</span>
+b = r.<span style="background-color: #ff99cc">getset(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">v222</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span></span><span style="color: #0000ff">print</span>(b)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">getrange(name, start, end)</span>获取指定名称的字符串里指定范围的字符</strong></span><br><strong>　　name,要获取的名称</strong><br><strong>　　start,要获取的字符串起始位置(字节)</strong><br><strong>　　end要获取的字符串结束位置(字节)</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">af<span style="background-color: #ff99cc">adfn</span>anr</span><span style="color: #800000">'</span>)                                     <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+a = r.<span style="background-color: #ff99cc">getrange(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,2,5)</span>                                        <span style="color: #008000">#</span><span style="color: #008000">getrange(name, start, end)获取指定名称的字符串里指定范围的字符</span>
+<span style="color: #0000ff">print</span><span style="color: #000000">(a)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回：adfn</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">setrange(name, offset, value)</span>从指定字符串索引开始向后替换（新值太长时，则向后添加）</strong></span><br><strong>	　　offset，字符串的索引，字节（一个汉字三个字节）</strong><br><strong>	　　value，要设置的值</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">af<span style="background-color: #ff99cc">adf</span>nanr</span><span style="color: #800000">'</span>)                                     <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+r.<span style="background-color: #ff99cc">setrange(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,2,<span style="color: #800000">'</span><span style="color: #800000">111</span><span style="color: #800000">'</span>)</span>                                    <span style="color: #008000">#</span><span style="color: #008000">setrange(name, offset, value)从指定字符串索引开始向后替换（新值太长时，则向后添加）</span>
+a = r.get(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(a)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回：af111nanr</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">setbit('name', 7, 1)</span>，将指定名称里的内容转换成0和1表示的二进制，在从二进制指定的位置替换成指定的值，要替换的值只能是0或者1&nbsp;</strong></span></p>
+<p><span style="color: #000000"><strong>字符串转换成二进制</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>)                                     <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+a = r.get(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>)                                       <span style="color: #008000">#</span><span style="color: #008000">获取内容</span>
+<span style="color: #0000ff">print</span>(a)                                              <span style="color: #008000">#</span><span style="color: #008000">得到字节类型</span>
+<span style="color: #000000">
+c </span>= str(a,encoding=<span style="color: #800000">'</span><span style="color: #800000">utf-8</span><span style="color: #800000">'</span>)                           <span style="color: #008000">#</span><span style="color: #008000">将字节转换成字符串</span>
+<span style="color: #0000ff">print</span>(c)                                              <span style="color: #008000">#</span><span style="color: #008000">得到字符串类型</span>
+
+<span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span> c:                                           <span style="color: #008000">#</span><span style="color: #008000">循环字符串</span>
+    num = ord(i)                                      <span style="color: #008000">#</span><span style="color: #008000">将循环到的字符串，转换成十进制</span>
+    <span style="color: #0000ff">print</span>(bin(num).replace(<span style="color: #800000">'</span><span style="color: #800000">b</span><span style="color: #800000">'</span>, <span style="color: #800000">''</span>))                  <span style="color: #008000">#</span><span style="color: #008000">将十进制转换成二进制，返回的二进制里有个b，表示二进制的意思，将b替换成空</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">那么字符串，foo，的二进制表示就是01100110 01101111 01101111</span>
+<span style="color: #000000">
+r.<span style="background-color: #ff99cc">setbit(</span></span><span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,7,1)</span>                                    <span style="color: #008000">#</span><span style="color: #008000">setbit('name', 7, 1)，将指定名称里的内容转换成0和1表示的二进制，在从二进制指定的位置替换成指定的值，要替换的值只能是0或者1</span>
+e = r.get(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(e)
+
+f </span>= str(e,encoding=<span style="color: #800000">'</span><span style="color: #800000">utf-8</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(f)
+</span><span style="color: #0000ff">for</span> i <span style="color: #0000ff">in</span><span style="color: #000000"> f:
+    num </span>=<span style="color: #000000"> ord(i)
+    </span><span style="color: #0000ff">print</span>(bin(num).replace(<span style="color: #800000">'</span><span style="color: #800000">b</span><span style="color: #800000">'</span>, <span style="color: #800000">''</span><span style="color: #000000">))
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000">转换过程</span><span style="color: #008000">
+#</span><span style="color: #008000"> b'foo'</span><span style="color: #008000">
+#</span><span style="color: #008000"> foo</span><span style="color: #008000">
+#</span><span style="color: #008000"> 01100110</span><span style="color: #008000">
+#</span><span style="color: #008000"> 01101111</span><span style="color: #008000">
+#</span><span style="color: #008000"> 01101111</span><span style="color: #008000">
+#</span><span style="color: #008000"> b'goo'</span><span style="color: #008000">
+#</span><span style="color: #008000"> goo</span><span style="color: #008000">
+#</span><span style="color: #008000"> 01100111</span><span style="color: #008000">
+#</span><span style="color: #008000"> 01101111</span><span style="color: #008000">
+#</span><span style="color: #008000"> 01101111</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">原始数据：foo 二进制表示：01100110 01101111 01101111</span><span style="color: #008000">
+#</span><span style="color: #008000">通过setbit('k1',7,1)：用1替换了二进制表示的第7个位置</span><span style="color: #008000">
+#</span><span style="color: #008000">替换后变成：goo 二进制表示：01100111 01101111 01101111</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">getbit(name, offset)</span>将指定名称的内容，转换成0和1表示的二进制，获取二进制里指定位置的二进制表示</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>)                                           <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+a = r.<span style="background-color: #ff99cc">getbit(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,7)</span>                                        <span style="color: #008000">#</span><span style="color: #008000">将指定名称的内容，转换成0和1表示的二进制，获取二进制里指定位置的二进制表示</span>
+<span style="color: #0000ff">print</span>(a) </pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">bitcount(name, start, end)</span>将指定名称的内容，转换成二进制位表示，然后计算出1表示的个数</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">foo</span><span style="color: #800000">'</span>)                                           <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+a = r.bitcount(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,0,7)                                    <span style="color: #008000">#</span><span style="color: #008000">将指定名称的内容，转换成0和1表示的二进制，获取二进制里指定位置的二进制表示</span>
+<span style="color: #0000ff">print</span>(a)                                                    <span style="color: #008000">#</span><span style="color: #008000">bitcount(name, start, end)将指定名称的内容，转换成二进制位表示，然后计算出1表示的个数</span><span style="color: #008000">
+#</span><span style="color: #008000">返回：16</span>
+
+<span style="color: #008000">#</span><span style="color: #008000">二进制表示</span><span style="color: #008000">
+#</span><span style="color: #008000"> 01100110</span><span style="color: #008000">
+#</span><span style="color: #008000"> 01101111</span><span style="color: #008000">
+#</span><span style="color: #008000"> 01101111</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">bitop(operation, dest, *keys)</span>获取Redis中n1,n2,n3对应的值，然后将所有的值做二进制位运算（求并集），然后将结果保存 new_name 对应的值中</strong></span><br><strong>　　operation,AND（并） 、 OR（或） 、 NOT（非） 、 XOR（异或）</strong><br><strong>　　dest, 新的Redis的name</strong><br><strong>　　*keys,要查找的Redis的name</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">234</span><span style="color: #800000">'</span>)                                           <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k2</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">567</span><span style="color: #800000">'</span>)                                           <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k3</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">89</span><span style="color: #800000">'</span>)                                            <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+<span style="color: #000000">
+
+r.<span style="background-color: #ff99cc">bitop(</span></span><span style="background-color: #ff99cc"><span style="color: #800000">"</span><span style="color: #800000">AND</span><span style="color: #800000">"</span>, <span style="color: #800000">'</span><span style="color: #800000">new_name</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">k2</span><span style="color: #800000">'</span>, <span style="color: #800000">'</span><span style="color: #800000">k3</span><span style="color: #800000">'</span>)</span>                <span style="color: #008000">#</span><span style="color: #008000">bitop(operation, dest, *keys)获取Redis中n1,n2,n3对应的值，然后将所有的值做二进制位运算（求并集），然后将结果保存 new_name 对应的值中</span>
+<span style="color: #000000">
+d </span>= r.get(<span style="color: #800000">'</span><span style="color: #800000">new_name</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #0000ff">print</span>(d)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">strlen(name)</span>返回name对应值的字节长度（一个汉字3个字节）</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                       <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">林贵秀</span><span style="color: #800000">'</span>)                                        <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+<span style="color: #000000">
+d </span>= r.<span style="background-color: #ff99cc">strlen(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>)</span>                                              <span style="color: #008000">#</span><span style="color: #008000">strlen(name)返回name对应值的字节长度（一个汉字3个字节）</span>
+
+<span style="color: #0000ff">print</span><span style="color: #000000">(d)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回9</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #0000ff">incr(self, name, amount=1)</span><span style="color: #ff0000">必须整数自增，自增 name对应的值，当name不存在时，则创建name＝amount，否则，则自增。</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                      <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">1</span><span style="color: #800000">'</span>)                                             <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+<span style="color: #000000">
+d </span>= r.<span style="background-color: #ff99cc">incr(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,amount=1)</span>                                  <span style="color: #008000">#</span><span style="color: #008000">incr(self, name, amount=1)整数自增，自增 name对应的值，当name不存在时，则创建name＝amount，否则，则自增。</span>
+
+<span style="color: #0000ff">print</span>(d)</pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">incrbyfloat(self, name, amount=1.0)</span>浮点数自增，整数自增负数自减 name对应的值，当name不存在时，则创建name＝amount，否则，则自增。</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                      <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">2</span><span style="color: #800000">'</span>)                                          <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+<span style="color: #000000">
+d </span>= r.<span style="background-color: #ff99cc">incrbyfloat(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,amount=1.5)</span>                       <span style="color: #008000">#</span><span style="color: #008000">incrbyfloat(self, name, amount=1.0)浮点数自增，整数自增负数自减 name对应的值，当name不存在时，则创建name＝amount，否则，则自增。</span>
+
+<span style="color: #0000ff">print</span><span style="color: #000000">(d)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回：3.5</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong><span style="color: #ff0000"><span style="color: #0000ff">decr(self, name, amount=1)</span>整数自减 name对应的值，当name不存在时，则创建name＝amount，否则，则自减。</span></strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                      <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">2</span><span style="color: #800000">'</span>)                                          <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+<span style="color: #000000">
+d </span>= r.<span style="background-color: #ff99cc">decr(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,amount=1)</span>                                <span style="color: #008000">#</span><span style="color: #008000">decr(self, name, amount=1)整数自减 name对应的值，当name不存在时，则创建name＝amount，否则，则自减。</span>
+
+<span style="color: #0000ff">print</span><span style="color: #000000">(d)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回：1</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><span style="color: #0000ff">append(name, value)</span>在redis name对应的值后面追加内容</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000"> -*- coding:utf-8 -*-</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                      <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+r.set(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">2</span><span style="color: #800000">'</span>)                                          <span style="color: #008000">#</span><span style="color: #008000">添加</span>
+<span style="color: #000000">
+r.<span style="background-color: #ff99cc">append(</span></span><span style="background-color: #ff99cc"><span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span>,<span style="color: #800000">'</span><span style="color: #800000">22</span><span style="color: #800000">'</span>)</span>                                      <span style="color: #008000">#</span><span style="color: #008000">append(name, value)在redis name对应的值后面追加内容</span>
+<span style="color: #000000">
+d </span>= r.get(<span style="color: #800000">'</span><span style="color: #800000">k1</span><span style="color: #800000">'</span><span style="color: #000000">)
+</span><span style="color: #0000ff">print</span><span style="color: #000000">(d)
+</span><span style="color: #008000">#</span><span style="color: #008000">返回：222</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong>利用字符串方式缓存网页应用</strong></span></p>
+<p><strong><strong>Tornado框架</strong></strong></p>
+<p><strong>write()方法：web.py文件里的write()方法，接收字符串显示给用户</strong></p>
+<p><strong>使用的Tornado框架，但是<strong>Tornado框架在将html转换成字符串显示给用户后，就删除了，所以我们需要修改一下源码，添加一个字段保存一下html字符串接，<span style="color: #ff0000">在web.py文件里的write()方法里修改源码</span>，添加一个字段self._response_html = chunk &nbsp;保存html文件转换的字符串，这样我们方便得到html转换的字符串</strong></strong></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong>在web.py文件里的write()方法里修改源码</strong></strong></strong></strong></span></p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong><img src="https://images2015.cnblogs.com/blog/955761/201707/955761-20170703115705331-709820641.png" alt=""></strong></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000"><strong><strong><strong><strong>封装一个缓存处理模块</strong></strong></strong></strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span> redis                <span style="color: #008000">#</span><span style="color: #008000">导入操作redis缓存模块</span>
+<span style="color: #000000">
+pool </span>= redis.ConnectionPool(host=<span style="color: #800000">'</span><span style="color: #800000">127.0.0.1</span><span style="color: #800000">'</span>, port=6379)  <span style="color: #008000">#</span><span style="color: #008000">配置连接池连接信息</span>
+<span style="color: #000000">
+r </span>= redis.Redis(connection_pool=pool)                      <span style="color: #008000">#</span><span style="color: #008000">连接连接池</span>
+
+
+<span style="color: #0000ff">class</span><span style="color: #000000"> huancuen:
+    </span><span style="color: #800000">"""</span><span style="color: #800000">
+    处理缓存对象
+    </span><span style="color: #800000">"""</span>
+    <span style="color: #0000ff">def</span> <span style="color: #800080">__init__</span><span style="color: #000000">(self,_self,name):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">
+        self._self  接收创建对象时传进来的对象
+        self.name   接收创建对象时传进来的缓存名称
+        self.shi_jian   设置缓存有效时间，（秒）
+        </span><span style="color: #800000">"""</span><span style="color: #000000">
+        self._self </span>=<span style="color: #000000"> _self
+        self.name </span>=<span style="color: #000000"> name
+        self.shi_jian </span>= 10
+
+
+    <span style="color: #0000ff">def</span><span style="color: #000000"> hc_get(self):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">
+        hc_get()方法：无参，返回缓存内容
+        根据创建对象时传进来的缓存名称，到缓存里获取到对应名称的缓存
+        判断此缓存如果存在，就读取缓存显示给用户
+        </span><span style="color: #800000">"""</span><span style="color: #000000">
+        html </span>=<span style="color: #000000"> r.get(self.name)
+        </span><span style="color: #0000ff">if</span><span style="color: #000000"> html:
+            self._self.write(html)
+        </span><span style="color: #0000ff">return</span><span style="color: #000000"> html
+
+
+    </span><span style="color: #0000ff">def</span><span style="color: #000000"> hc_set(self):
+        </span><span style="color: #800000">"""</span><span style="color: #800000">
+        r.set()方法：无参，无返回
+        获取到用户请求的html字符串，将htnl字符串作为值，创建对象时传入的缓存名称作为名称，写入缓存
+        缓存有效时间，是对象里的self.shi_jian字段值
+        </span><span style="color: #800000">"""</span><span style="color: #000000">
+        r.set(self.name,self._self._response_html,ex</span>=self.shi_jian)</pre>
+</div>
+<p><span style="color: #ff0000"><strong>逻辑处理调用</strong></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000">#</span><span style="color: #008000">!/usr/bin/env python</span><span style="color: #008000">
+#</span><span style="color: #008000">coding:utf-8</span>
+
+<span style="color: #0000ff">import</span><span style="color: #000000"> tornado.ioloop
+</span><span style="color: #0000ff">import</span> tornado.web                              <span style="color: #008000">#</span><span style="color: #008000">导入tornado模块下的web文件</span>
+<span style="color: #0000ff">import</span><span style="color: #000000"> time
+</span><span style="color: #0000ff">import</span><span style="color: #000000; background-color: #ff99cc"> huanc
+
+
+</span><span style="color: #008000">#</span><span style="color: #008000">逻辑处理</span>
+<span style="color: #0000ff">class</span> MainHandler(tornado.web.RequestHandler):  <span style="color: #008000">#</span><span style="color: #008000">定义一个类，继承tornado.web下的RequestHandler类</span>
+    <span style="color: #0000ff">def</span> get(self):                                  <span style="color: #008000">#</span><span style="color: #008000">get()方法，接收get方式请求</span>
+        shjan =<span style="color: #000000"> time.time()
+
+        <span style="background-color: #ff99cc">hc </span></span><span style="background-color: #ff99cc">= huanc.huancuen(self,<span style="color: #800000">'</span><span style="color: #800000">index</span><span style="color: #800000">'</span>)</span>           <span style="color: #008000">#</span><span style="color: #008000">创建缓存对象</span>
+        <span style="background-color: #ff99cc"><span style="color: #0000ff">if</span> hc.hc_get():</span>                             <span style="color: #008000">#</span><span style="color: #008000">获取缓存展现给用户，会返回一个htnl字符串，判断字符串存在说明缓存存在</span>
+            <span style="color: #0000ff; background-color: #ff99cc">return</span>                                  <span style="color: #008000">#</span><span style="color: #008000">返回不执行下面代码</span>
+        self.render(<span style="color: #800000">"</span><span style="color: #800000">index.html</span><span style="color: #800000">"</span>,shjan = shjan)     <span style="color: #008000">#</span><span style="color: #008000">显示cshi.html文件,将shjan变量传到模板语言里渲染</span>
+        hc.hc_set()                                 <span style="color: #008000">#</span><span style="color: #008000">将html字符串写入缓存</span>
+<span style="color: #000000; background-color: #ff99cc">        self.write()
+
+
+
+</span><span style="color: #0000ff">class</span><span style="color: #000000"> DluHandler(tornado.web.RequestHandler):
+    </span><span style="color: #0000ff">def</span> get(self, *args, **<span style="color: #000000">kwargs):
+        shjan </span>=<span style="color: #000000"> time.time()
+
+        <span style="background-color: #ff99cc">hc </span></span><span style="background-color: #ff99cc">= huanc.huancuen(self,<span style="color: #800000">'</span><span style="color: #800000">dlu</span><span style="color: #800000">'</span><span style="color: #000000">)
+        </span><span style="color: #0000ff">if</span><span style="color: #000000"> hc.hc_get():
+            </span></span><span style="color: #0000ff; background-color: #ff99cc">return</span><span style="color: #000000">
+        self.render(</span><span style="color: #800000">"</span><span style="color: #800000">dlu.html</span><span style="color: #800000">"</span>, shjan=<span style="color: #000000">shjan)
+        <span style="background-color: #ff99cc">hc.hc_set()</span>
+
+
+settings </span>= {                                    <span style="color: #008000">#</span><span style="color: #008000">html文件归类配置，设置一个字典</span>
+    <span style="color: #800000">"</span><span style="color: #800000">template_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">views</span><span style="color: #800000">"</span>,                 <span style="color: #008000">#</span><span style="color: #008000">键为template_path固定的，值为要存放HTML的文件夹名称</span>
+    <span style="color: #800000">"</span><span style="color: #800000">static_path</span><span style="color: #800000">"</span>:<span style="color: #800000">"</span><span style="color: #800000">static</span><span style="color: #800000">"</span>,                     <span style="color: #008000">#</span><span style="color: #008000">键为static_path固定的，值为要存放js和css的文件夹名称</span>
+<span style="color: #000000">}
+
+</span><span style="color: #008000">#</span><span style="color: #008000">路由映射</span>
+application = tornado.web.Application([         <span style="color: #008000">#</span><span style="color: #008000">创建一个变量等于tornado.web下的Application方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/index</span><span style="color: #800000">"</span>, MainHandler),                   <span style="color: #008000">#</span><span style="color: #008000">判断用户请求路径后缀是否匹配字符串index,如果匹配执行MainHandler方法</span>
+    (r<span style="color: #800000">"</span><span style="color: #800000">/dlu</span><span style="color: #800000">"</span><span style="color: #000000">, DluHandler),
+],</span>**settings)                                   <span style="color: #008000">#</span><span style="color: #008000">将html文件归类配置字典，写在路由映射的第二个参数里</span>
+
+<span style="color: #0000ff">if</span> <span style="color: #800080">__name__</span> == <span style="color: #800000">"</span><span style="color: #800000">__main__</span><span style="color: #800000">"</span><span style="color: #000000">:
+    </span><span style="color: #008000">#</span><span style="color: #008000">内部socket运行起来</span>
+    application.listen(8888)                    <span style="color: #008000">#</span><span style="color: #008000">设置端口</span>
+    tornado.ioloop.IOLoop.instance().start()</pre>
+</div>
+<p>&nbsp;</p></div>
