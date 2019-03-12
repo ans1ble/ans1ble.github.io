@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百四十八节，封装库--JavaScript，菜单切换 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **第一百四十八节，封装库--JavaScript，菜单切换**
 

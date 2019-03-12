@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百三十八节，JavaScript，封装库--插件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，封装库--插件**
 

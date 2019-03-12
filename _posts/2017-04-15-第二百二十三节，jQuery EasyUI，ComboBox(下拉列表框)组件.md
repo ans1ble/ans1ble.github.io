@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二百二十三节，jQuery EasyUI，ComboBox(下拉列表框)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，ComboBox(下拉列表框)组件， 可以远程加载数据的下拉列表组件**
 

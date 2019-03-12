@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二百一十三节，jQuery EasyUI，NumberBox(数值输入框)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，NumberBox(数值输入框)组件**
 

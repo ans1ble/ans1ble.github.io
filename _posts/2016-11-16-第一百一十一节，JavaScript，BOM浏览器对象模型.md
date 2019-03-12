@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百一十一节，JavaScript，BOM浏览器对象模型 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，BOM浏览器对象模型**
 

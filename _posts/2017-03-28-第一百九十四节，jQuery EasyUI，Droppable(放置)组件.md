@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百九十四节，jQuery EasyUI，Droppable(放置)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，Droppable(放置)组件**
 

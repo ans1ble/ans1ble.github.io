@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百二十五节，JavaScript，XML "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，XML**
 

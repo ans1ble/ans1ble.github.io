@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百八十七节，jQuery，知问前端--cookie 插件，注册成功后生成cookie，显示登录状态 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery，知问前端--cookie 插件**
 

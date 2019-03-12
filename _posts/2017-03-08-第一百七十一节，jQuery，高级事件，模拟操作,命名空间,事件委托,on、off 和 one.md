@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百七十一节，jQuery，高级事件，模拟操作,命名空间,事件委托,on、off 和 one "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery，高级事件，模拟操作,命名空间,事件委托,on、off 和 one**
 

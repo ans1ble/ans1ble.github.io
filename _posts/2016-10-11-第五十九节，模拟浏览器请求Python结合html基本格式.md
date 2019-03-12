@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第五十九节，模拟浏览器请求Python结合html基本格式 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **模拟浏览器请求Python结合html基本格式**
 

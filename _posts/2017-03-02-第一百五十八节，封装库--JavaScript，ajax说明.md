@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百五十八节，封装库--JavaScript，ajax说明 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **封装库--JavaScript，ajax说明**
 

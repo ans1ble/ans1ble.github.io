@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百七十八节，jQuery-UI，知问前端--对话框 UI "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery-UI，知问前端--对话框 UI**
 

@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百七十四节，jQuery，Ajax进阶 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery，Ajax进阶**
 

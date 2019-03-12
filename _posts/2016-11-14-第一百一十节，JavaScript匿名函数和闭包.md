@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百一十节，JavaScript匿名函数和闭包 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript匿名函数和闭包**
 

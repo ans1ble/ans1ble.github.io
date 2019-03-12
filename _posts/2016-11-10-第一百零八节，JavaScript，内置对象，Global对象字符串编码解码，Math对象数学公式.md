@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百零八节，JavaScript，内置对象，Global对象字符串编码解码，Math对象数学公式 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，内置对象，Global对象字符串编码解码，Math对象数学公式**
 

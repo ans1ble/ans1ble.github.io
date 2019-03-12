@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二百零三节，jQuery EasyUI，Window(窗口)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，Window(窗口)组件**
 

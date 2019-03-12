@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百一十九节，JavaScript事件入门 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript事件入门**
 

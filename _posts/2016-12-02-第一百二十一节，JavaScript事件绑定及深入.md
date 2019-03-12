@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百二十一节，JavaScript事件绑定及深入 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript事件绑定及深入**
 

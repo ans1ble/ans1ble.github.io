@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第五十五节，IO多路复用select模块加socket模块，伪多线并发 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **IO多路复用select模块加socket模块，伪多线并发，并不是真正的多线程并发，实际通过循环等待还是一个一个处理的**
 

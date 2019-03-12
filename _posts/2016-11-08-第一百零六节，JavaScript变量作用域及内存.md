@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百零六节，JavaScript变量作用域及内存 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript变量作用域及内存**
 

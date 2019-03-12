@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二百一十五节，jQuery EasyUI，DateBox(日期输入框)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，DateBox(日期输入框)组件**
 

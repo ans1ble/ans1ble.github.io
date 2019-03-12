@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百二十六节，JavaScript，XPath操作xml节点 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **第一百二十六节，JavaScript，XPath操作xml节点**
 

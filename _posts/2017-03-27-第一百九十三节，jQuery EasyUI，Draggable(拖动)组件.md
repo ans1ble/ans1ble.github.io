@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百九十三节，jQuery EasyUI，Draggable(拖动)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **Draggable(拖动)组件**
 

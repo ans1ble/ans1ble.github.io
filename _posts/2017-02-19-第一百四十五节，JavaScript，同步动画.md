@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百四十五节，JavaScript，同步动画 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，同步动画**
 

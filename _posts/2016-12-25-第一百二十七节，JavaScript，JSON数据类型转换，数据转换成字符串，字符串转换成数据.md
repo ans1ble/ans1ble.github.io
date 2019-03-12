@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百二十七节，JavaScript，JSON数据类型转换，数据转换成字符串，字符串转换成数据 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **第一百二十七节，JavaScript，JSON数据类型转换，数据转换成字符串，字符串转换成数据**
 

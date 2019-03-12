@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百零三节，JavaScript对象和数组 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript对象和数组**
 

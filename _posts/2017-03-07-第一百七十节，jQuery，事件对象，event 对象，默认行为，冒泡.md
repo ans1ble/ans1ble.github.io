@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百七十节，jQuery，事件对象，event 对象，默认行为，冒泡 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery，事件对象，event 对象，默认行为，冒泡**
 

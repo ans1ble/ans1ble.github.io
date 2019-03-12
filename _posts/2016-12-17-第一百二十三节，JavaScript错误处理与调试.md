@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百二十三节，JavaScript错误处理与调试 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript错误处理与调试**
 

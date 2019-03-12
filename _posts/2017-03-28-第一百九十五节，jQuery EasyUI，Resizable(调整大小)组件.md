@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百九十五节，jQuery EasyUI，Resizable(调整大小)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，Resizable(调整大小)组件**
 

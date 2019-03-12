@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百二十九节，JavaScript，理解JavaScript库 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，理解JavaScript库**
 

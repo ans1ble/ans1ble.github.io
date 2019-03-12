@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第四十二节，configparser特定格式的ini配置文件模块 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 configparser用于处理特定格式的文件，其本质上是利用open来操作文件。
 

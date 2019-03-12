@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百八十二节，jQuery-UI，知问前端--日历 UI "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery-UI，知问前端--日历 UI**
 

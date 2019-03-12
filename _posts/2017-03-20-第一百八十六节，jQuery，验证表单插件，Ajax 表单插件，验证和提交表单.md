@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百八十六节，jQuery，验证表单插件，Ajax 表单插件，验证和提交表单 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery，验证表单插件，Ajax 表单插件，验证和提交表单**
 

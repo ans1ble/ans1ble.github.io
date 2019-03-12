@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百三十七节，JavaScript，封装库---修缮拖拽 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，封装库---修缮拖拽**
 

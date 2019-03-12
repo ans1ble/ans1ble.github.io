@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百三十节，JavaScript，封装库--连缀 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，封装库--连缀**
 

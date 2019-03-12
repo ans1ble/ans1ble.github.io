@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二百零五节，jQuery EasyUI，Messager(消息窗口)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，Messager(消息窗口)组件**
 

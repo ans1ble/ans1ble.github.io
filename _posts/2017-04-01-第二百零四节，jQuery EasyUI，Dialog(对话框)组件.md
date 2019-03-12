@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二百零四节，jQuery EasyUI，Dialog(对话框)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，Dialog(对话框)组件**
 

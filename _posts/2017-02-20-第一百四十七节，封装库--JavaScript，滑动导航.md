@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百四十七节，封装库--JavaScript，滑动导航 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，封装库--滑动导航**
 

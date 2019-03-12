@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百五十九节，封装库--JavaScript，表单序列化结合ajax提交数据 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **封装库--JavaScript，表单序列化结合ajax提交数据**
 

@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百四十节，JavaScript，封装库--浏览器检测 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，封装库--浏览器检测**
 

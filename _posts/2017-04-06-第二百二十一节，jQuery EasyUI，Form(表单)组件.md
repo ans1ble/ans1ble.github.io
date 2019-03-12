@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二百二十一节，jQuery EasyUI，Form(表单)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，Form(表单)组件**
 

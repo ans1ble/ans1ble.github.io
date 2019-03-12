@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百一十八节，JavaScript，动态加载脚本和样式 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，动态加载脚本和样式**
 

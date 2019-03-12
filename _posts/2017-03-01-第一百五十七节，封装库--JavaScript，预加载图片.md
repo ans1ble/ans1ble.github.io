@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百五十七节，封装库--JavaScript，预加载图片 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **封装库--JavaScript，预加载图片**
 

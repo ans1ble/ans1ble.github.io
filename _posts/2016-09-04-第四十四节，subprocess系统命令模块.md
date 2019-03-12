@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第四十四节，subprocess系统命令模块 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 用python执行系命令的相关的模块和函数的功能均在 subprocess 模块中实现，并提供了丰富的功能
 

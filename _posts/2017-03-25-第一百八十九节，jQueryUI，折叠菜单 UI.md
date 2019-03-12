@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百八十九节，jQueryUI，折叠菜单 UI "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQueryUI，折叠菜单 UI**
 

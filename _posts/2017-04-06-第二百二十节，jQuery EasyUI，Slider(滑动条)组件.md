@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二百二十节，jQuery EasyUI，Slider(滑动条)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，Slider(滑动条)组件**
 

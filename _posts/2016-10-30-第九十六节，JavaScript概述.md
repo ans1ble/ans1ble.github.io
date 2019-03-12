@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第九十六节，JavaScript概述 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript概述**
 

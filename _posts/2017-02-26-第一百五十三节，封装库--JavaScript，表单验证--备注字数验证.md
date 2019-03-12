@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百五十三节，封装库--JavaScript，表单验证--备注字数验证 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **封装库--JavaScript，表单验证--备注字数验证**
 

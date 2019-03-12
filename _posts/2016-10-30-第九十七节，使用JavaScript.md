@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第九十七节，使用JavaScript "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **使用JavaScript**
 

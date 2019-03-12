@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二百零一节，jQuery EasyUI，Accordion(分类)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，Accordion(分类)组件**
 

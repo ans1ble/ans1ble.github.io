@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第五十三节，socket模块介绍，socket单线程通讯 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **socket单线程通讯，只能 **单线程通讯，不能并发****
 

@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第八十七节，html5+css3pc端固定布局，大纲算法，section和div，结构分析 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **html5+css3pc端固定布局，大纲算法，section和div，结构分析**
 

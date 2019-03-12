@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百四十九节，封装库--JavaScript，表单验证--验证用户名 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **封装库--JavaScript，表单验证--验证用户名**
 

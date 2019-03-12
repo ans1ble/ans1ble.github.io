@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百三十三节，JavaScript，封装库--弹出登录框 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，封装库--弹出登录框**
 

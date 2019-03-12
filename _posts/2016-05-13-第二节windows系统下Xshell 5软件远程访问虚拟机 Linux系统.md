@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二节windows系统下Xshell 5软件远程访问虚拟机 Linux系统 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 下载Xshell 5软件在windows下安装
 

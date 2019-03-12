@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第五十六节，python实现支持并发、断点续传的Ftp程序 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 # 一、要求
 

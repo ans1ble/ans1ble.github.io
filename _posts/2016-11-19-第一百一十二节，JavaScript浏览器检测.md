@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百一十二节，JavaScript浏览器检测 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript浏览器检测**
 

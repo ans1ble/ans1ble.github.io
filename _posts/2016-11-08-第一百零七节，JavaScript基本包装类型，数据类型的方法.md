@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百零七节，JavaScript基本包装类型，数据类型的方法 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript基本包装类型，数据类型的方法**
 

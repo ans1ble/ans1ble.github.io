@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第九十九节，JavaScript数据类型 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript数据类型**
 

@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百二十八节，JavaScript，Ajax "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，Ajax**
 

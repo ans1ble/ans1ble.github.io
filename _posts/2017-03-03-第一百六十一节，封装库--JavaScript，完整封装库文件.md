@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百六十一节，封装库--JavaScript，完整封装库文件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **封装库--JavaScript，完整封装库文件**
 

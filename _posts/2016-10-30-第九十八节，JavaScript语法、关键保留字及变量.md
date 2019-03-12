@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第九十八节，JavaScript语法、关键保留字及变量 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript语法、关键保留字及变量**
 

@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二百一十一节，jQuery EasyUI，ValidateBox(验证框)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，ValidateBox(验证框)组件**
 

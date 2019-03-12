@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二百二十二节，jQuery EasyUI，DataGrid(数据表格)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，DataGrid(数据表格)组件**
 

@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百四十四节，JavaScript，列队动画 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，列队动画**
 

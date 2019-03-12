@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第二百节，jQuery EasyUI，Tabs(选项卡)组件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery EasyUI，Tabs(选项卡)组件**
 

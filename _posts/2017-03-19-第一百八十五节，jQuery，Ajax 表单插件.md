@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百八十五节，jQuery，Ajax 表单插件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **jQuery，Ajax 表单插件**
 

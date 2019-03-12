@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百一十三节，JavaScript文档对象，DOM基础 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript文档对象，DOM基础**
 

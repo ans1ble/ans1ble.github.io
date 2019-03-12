@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一节windows系统安装虚拟机VMware 软件 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 1，在windows系统下，下载虚拟机软件VMware-workstation-full-10.0.1
 

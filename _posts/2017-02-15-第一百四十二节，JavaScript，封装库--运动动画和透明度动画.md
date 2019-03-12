@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百四十二节，JavaScript，封装库--运动动画和透明度动画 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，封装库--运动动画和透明度动画**
 

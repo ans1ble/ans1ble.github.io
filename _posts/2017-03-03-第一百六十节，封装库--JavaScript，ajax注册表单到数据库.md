@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百六十节，封装库--JavaScript，ajax注册表单到数据库 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **封装库--JavaScript，ajax注册表单到数据库**
 

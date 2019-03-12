@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: " 第一百四十三节，JavaScript，利用封装库做百度分享 "
@@ -7,7 +6,6 @@ header-style: text
 tags:
       - Python
 ---
-
 
 **JavaScript，利用封装库做百度分享**
 
