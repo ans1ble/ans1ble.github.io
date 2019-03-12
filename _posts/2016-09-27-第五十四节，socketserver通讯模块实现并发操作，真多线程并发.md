@@ -1,4 +1,13 @@
-第五十四节，socketserver通讯模块实现并发操作，真多线程并发
+
+---
+layout: post
+title: " 第五十四节，socketserver通讯模块实现并发操作，真多线程并发 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **socketserver通讯模块实现并发操作，基于select、epoll、socket、多线程，实现的正真多线程多并发**
 
@@ -59,8 +68,8 @@ bf)16********
 
 
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建并发服务端"""
@@ -87,6 +96,7 @@ bf)16********
     
     """执行socketserver模块"""
     shezhi.serve_forever() #执行模块，循环等待客户端连接，能处理并发操作，一旦有客户端连接就会执行创建类里的handle方法
+[/code]
 
 ![](https://images2015.cnblogs.com/blog/955761/201609/955761-20160928073639438-2048589746.png)
 

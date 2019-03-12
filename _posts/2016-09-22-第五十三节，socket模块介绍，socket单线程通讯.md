@@ -1,4 +1,13 @@
-第五十三节，socket模块介绍，socket单线程通讯
+
+---
+layout: post
+title: " 第五十三节，socket模块介绍，socket单线程通讯 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **socket单线程通讯，只能 **单线程通讯，不能并发****
 
@@ -28,8 +37,8 @@ socket模块是针对 服务器端 和 客户端Socket 进行【打开】【读�
 
 ******模拟一个服务端的 ** ** **socket  WEB服务应用************
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import socket
@@ -51,6 +60,7 @@ socket模块是针对 服务器端 和 客户端Socket 进行【打开】【读�
     
     if __name__ == '__main__':
       main()
+[/code]
 
 **启动服务端的socket后，我们利用浏览器的 **客户** 端socket来访问这个 WEB服务应用 （当然客户端的 **socket也可以自己写的**
 ）**
@@ -135,8 +145,8 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
 
 **格式：b, c = a.accept()**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建服务端"""
@@ -147,6 +157,7 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
     while True: #accept()被客户端连接一次后就会被中断，写个while循环让它永远等待客户端连接
         b, c = a.accept() #等待接收客户端的请求，一旦有客户端请求连接，就会返回两个值，一个是连接，一个是客户端的地址信息，所以需要两个变量来接收
         print(b, c) #打印出客户端连接的，连接，和客服端地址信息
+[/code]
 
 **  根据以上就创建了一个等待客户端连接的socket服务端**
 
@@ -168,8 +179,8 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
 
 **格式：z.close()**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建客户端"""
@@ -177,6 +188,7 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
     z = socket.socket() #创建socket对象
     z.connect(('127.0.0.1', 9999,))#连接服务端，在客户端绑定服务端IP和端口
     z.close() #在客户端关闭连接
+[/code]
 
 
 
@@ -184,8 +196,8 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
 
  客户端执行代码
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建客户端"""
@@ -193,11 +205,12 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
     z = socket.socket() #创建socket对象
     z.connect(('127.0.0.1', 9999,))#连接服务端，在客户端绑定服务端IP和端口
     z.close() #在客户端关闭连接
+[/code]
 
 等待接收客户端连接的服务端代码
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建服务端"""
@@ -211,6 +224,7 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
     
     #显示客户端的连接信息
     # <socket.socket fd=264, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 9999), raddr=('127.0.0.1', 58272)> ('127.0.0.1', 58272)
+[/code]
 
  客户端访问服务端流程图
 
@@ -228,8 +242,8 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
 
 **格式：b.sendall(bytes("欢迎你",encoding='utf-8'))**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建服务端"""
@@ -240,6 +254,7 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
     while True: #accept()被客户端连接一次后就会被中断，写个while循环让它永远等待客户端连接
         b, c = a.accept() #等待接收客户端的请求，一旦有客户端请求连接，就会返回两个值，一个是连接，一个是客户端的地址信息，所以需要两个变量来接收
         b.sendall(bytes("你好欢迎你",encoding='utf-8')) #根据accept()接收到客户端连接对象信息，向客户端发送信息
+[/code]
 
 
 
@@ -255,8 +270,8 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
 
 **格式：f = z.recv(1024)**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建客户端"""
@@ -269,6 +284,7 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
     z.close() #在客户端关闭连接
     # 输出
     # 你好欢迎你
+[/code]
 
  客户端连接服务端，服务端向客户端发送一条信息原理图
 
@@ -282,8 +298,8 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
 
 **服务端代码**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建服务端"""
@@ -301,11 +317,12 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
             if j2 == "q": #判断客户端输入q，表示不再与服务端通讯，跳出循环，不在保持客户端的通讯
                 break
             b.sendall(bytes(j2+"好",encoding='utf-8')) #将接收到客户端的信息加上一个好字，在发送给客户端
+[/code]
 
 **客户端代码**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建客户端"""
@@ -324,6 +341,7 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
         js2 = str(js, encoding='utf-8') #将服务端发来的信息转换成字符串
         print(js2)
     z.close() #在客户端关闭连接
+[/code]
 
   **客户端与服务端进行交互信息原理图**
 
@@ -333,8 +351,8 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
 
 **UDP通讯方式**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """UDP通讯"""
@@ -356,6 +374,7 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
             break
         sk.sendto(inp,ip_port)
     sk.close()
+[/code]
 
 
 
@@ -365,8 +384,8 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
 
 **格式：a.setblocking(0)**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建服务端"""
@@ -376,6 +395,7 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
     a.listen(5) #监听IP和端口，设置一个参数，表示最多连接排队数量
     a.setblocking(0) #设置为不阻塞
     b, c = a.accept() #等待接收客户端的请求，一旦有客户端请求连接，就会返回两个值，一个是连接，一个是客户端的地址信息，所以需要两个变量来接收
+[/code]
 
 
 
@@ -385,8 +405,8 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
 
 **格式：b = z.connect_ex(('127.0.0.1', 9999,))**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建客户端"""
@@ -394,13 +414,14 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
     z = socket.socket() #创建socket对象
     b = z.connect_ex(('127.0.0.1', 9999,))#连接服务端，在客户端绑定服务端IP和端口
     print(b)
+[/code]
 
 
 
 **recvfrom()接收数据信息，与recv()类似，但返回值是（data,address）。其中data是包含接收数据的字符串，address是发送数据的套接字地址**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建客户端"""
@@ -410,6 +431,7 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
     f,s = z.recvfrom(1024) #客户端接收服务端sendall()发来的信息，1024表示最大接收1024字节
     f = str(f, encoding='utf-8') #将接收到的服务端字节信息转换成字符串
     print(f,s) #打印出服务端发来的信息
+[/code]
 
 
 
@@ -421,8 +443,8 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
 ****sendto(string[,flag],address)
 发送数据，将数据发送到套接字，address是形式为（ipaddr，port）的元组，指定远程地址。返回值是发送的字节数。该函数主要用于UDP协议。****
 
-    
-    
+[code]
+
      # 服务端
     import socket
     ip_port = ('127.0.0.1',9999)
@@ -449,6 +471,7 @@ socket.SOCK_SEQPACKET 可靠的连续数据包服务
         print(data)
     
     sk.close()
+[/code]
 
 
 
@@ -473,8 +496,8 @@ client 连接最多等待5s ）**
 
 **UDP通讯举例**
 
-    
-    
+[code]
+
      # 服务端
     import socket
     ip_port = ('127.0.0.1',9999)
@@ -501,6 +524,7 @@ client 连接最多等待5s ）**
         print(data)
     
     sk.close()
+[/code]
 
 
 
@@ -529,8 +553,8 @@ client 连接最多等待5s ）**
 
 服务端代码
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建服务端"""
@@ -560,11 +584,12 @@ client 连接最多等待5s ）**
             f.write(j) #将接收到的内容写入文件
             pd += len(j) #每循环写入一次就将写入的大小加给判断
         f.close()#关闭打开的文件
+[/code]
 
 客户端代码
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建客户端"""
@@ -586,6 +611,7 @@ client 连接最多等待5s ）**
         for i in f: #循环文件
             z.sendall(i) #将每次循环到文件内容发送给服务端
     z.close() #关闭通讯连接
+[/code]
 
 **重点：注意传输数据时的粘包问题**
 

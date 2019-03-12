@@ -1,4 +1,13 @@
-第八十七节，html5+css3pc端固定布局，大纲算法，section和div，结构分析
+
+---
+layout: post
+title: " 第八十七节，html5+css3pc端固定布局，大纲算法，section和div，结构分析 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **html5+css3pc端固定布局，大纲算法，section和div，结构分析**
 
@@ -101,8 +110,8 @@ Section，这个意思表示页面此处缺少大纲标题，不规范。如果�
 
 **html代码**
 
-    
-    
+[code]
+
      <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -142,6 +151,7 @@ Section，这个意思表示页面此处缺少大纲标题，不规范。如果�
     
     </body>
     </html>
+[/code]
 
 
 

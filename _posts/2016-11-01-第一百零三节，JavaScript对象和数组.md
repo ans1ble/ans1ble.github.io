@@ -1,4 +1,13 @@
-第一百零三节，JavaScript对象和数组
+
+---
+layout: post
+title: " 第一百零三节，JavaScript对象和数组 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **JavaScript对象和数组**
 
@@ -31,53 +40,59 @@
 
 ****Object** **类型对象里面可以是字段（键值对）也就是键值对，也可以是方法(函数)****
 
-    
-    
+[code]
+
      var box = new Object();                        //new方式
     box.name = '李炎恢';                        //创建属性字段
     box.age = 28;                                //创建属性字段
+[/code]
 
 **2.new关键字可以省略**
 
-    
-    
+[code]
+
      var box = Object();                            //省略了new关键字
+[/code]
 
 **3.使用字面量方式创建Object    **  
-    
-    
+[code]
+
     var box = {                                //字面量方式
         name : '李炎恢',                        //创建属性字段
         age : 28
     };
+[/code]
 
 **4.属性字段也可以使用字符串**
 
-    
-    
+[code]
+
      var box = {
         'name' : '李炎恢',                        //也可以用字符串形式
         'age' : 28
     };
+[/code]
 
 **5.使用字面量及传统赋值方式**
 
-    
-    
+[code]
+
      var box = {};                                //字面量方式声明空的对象
     box.name = '李炎恢';                        //点符号给属性赋值
     **box.age = 28;**
+[/code]
 
 **6.两种属性输出方式**
 
-    
-    
+[code]
+
      var box = {};                                //字面量方式声明空的对象
     box.name = '李炎恢';                        //点符号给属性赋值
     box.age = 28;
     
     alert(box.age);                                //点表示法输出
     alert(box['age']);                            //中括号表示法输出，注意引号
+[/code]
 
 **PS：在使用字面量声明Object对象时，不会调用Object()构造函数(Firefox火狐浏览器除外)。**
 
@@ -85,19 +100,20 @@
 
 **创建方法，方法名称，后面跟着定义函数，在js中定义函数没有名称的叫做匿名函数**
 
-    
-    
+[code]
+
      var box = {                                
         run : function () {                        //对象中的方法
             return '运行';
         }
     }
     alert(box.run());                            //调用对象中的方法
+[/code]
 
 **8.使用delete删除对象属性**
 
-    
-    
+[code]
+
      var box = {};                                //字面量方式声明空的对象
     box.name = '李炎恢';                        //点符号给属性赋值
     box.age = 28;
@@ -105,13 +121,14 @@
     alert(box.name);                             //打印对象里的一个字段
     delete box.name;                             //删除对象里的一个字段
     alert(box.name);                             //打印删除后的字段
+[/code]
 
 **在实际开发过程中，一般我们更加喜欢字面量的声明方式。因为它清晰，语法代码少，而且还给人一种封装的感觉。字面量也是向函数传递大量可选参数的首选方式。**
 
 **向函数里传入一个对象：**
 
-    
-    
+[code]
+
      function box(obj) {                            //参数是一个对象
         if (obj.name != undefined) alert(obj.name);    //判断属性是否存在        
         if (obj.age != undefined) alert(obj.age);        
@@ -121,6 +138,7 @@
         name : '李炎恢',
         age : 28
     });
+[/code]
 
 
 
@@ -134,33 +152,36 @@
 
 **1.使用new关键字创建数组**
 
-    
-    
+[code]
+
      var box = new Array();                        //创建了一个数组
     var box = new Array(10);                    //创建一个包含10个空元素的数组
     var box = new Array('李炎恢',28,'教师','盐城');    //创建一个数组并分配好了元素
+[/code]
 
 **2.以上三种方法，可以省略new关键字。**
 
-    
-    
+[code]
+
      var box = Array();                            //省略了new关键字
+[/code]
 
 **3使用字面量方式创建数组**
 
-    
-    
+[code]
+
      var box = [];                                //创建一个空的数组
     var box = ['李炎恢',28,'教师','盐城'];            //创建包含元素的数组
     var box = [1,2,];                            //禁止这么做，IE会识别3个元素，也就是多余的逗号ie会识别成一个元素
     var box = [,,,,,];                            //同样，IE的会有识别问题
+[/code]
 
 **PS：和Object一样，字面量的写法不会调用Array()构造函数。(Firefox火狐浏览器除外)。**
 
 **4.使用索引下标来读取、修改、增加数组的值**
 
-    
-    
+[code]
+
      var abcd = ['林贵秀','李彦宏','周鸿祎'];
     alert(abcd[0]);         //索引数组下标来获取元素
     
@@ -169,11 +190,12 @@
     
     abcd[3] = '马云';       //利用数组下标类增加一个元素
     alert(abcd[3]);
+[/code]
 
 **5.使用length属性获取数组元素量**
 
-    
-    
+[code]
+
      var abcd = ['林贵秀','李彦宏','周鸿祎'];
     alert(abcd.length);         //获取数组元素的个数
     
@@ -181,11 +203,12 @@
     alert(abcd.length);
     
     abcd[abcd.length] = '马云';  //利用length属性增加数组元素
+[/code]
 
 **6.创建一个稍微复杂一点的数组**
 
-    
-    
+[code]
+
      var box = [    
                         {                        //第一个元素是一个对象
                             name : '李炎恢',
@@ -200,6 +223,7 @@
                         new Array(1,2,3)             //第五个元素是数组
     ];
     alert(box);
+[/code]
 
 **PS：数组最多可包含4294967295个元素，超出即会发生异常。**
 
@@ -217,8 +241,8 @@
 
 **********toLocaleString()内置方法，本地化格式字符串，在时间对象上更能体现**********
 
-    
-    
+[code]
+
      var adc = ['林贵秀','林秀民','马云']; //字面量数组
     alert(adc);     //隐形调用了toString()方法
     
@@ -227,15 +251,17 @@
     alert(adc.valueOf());  //主动调用valueOf()方法，功能和toString()一样
     
     alert(adc.toLocaleString()); //返回值和上面两种一致,本地格式化数据，toLocaleString()在时间对象上更明显
+[/code]
 
 **默认情况下，数组字符串都会以逗号隔开。如果使用join()方法，则可以使用不同的分隔符来构建这个字符串。**
 
 **join()方法，格式化分隔符，有参里面写字符串类型的分割符号**
 
-    
-    
+[code]
+
      var adc = ['林贵秀','林秀民','马云']; //字面量数组
     alert(adc.join("|"));     //join()方法,格式化分隔符
+[/code]
 
 
 
@@ -249,19 +275,21 @@
 
 **push()方法可以接收任意数量的参数，把它们逐个添加到数组的末尾，并返回修改后数组的长度。【 **有参里面写要添加的元素** 】**
 
-    
-    
+[code]
+
     var box = ['李炎恢', 28, '计算机编程'];            //字面量声明数组
     alert(box.push('盐城'));                        //数组末尾添加一个元素，并且返回长度
     alert(box);                                        //查看数组
+[/code]
 
 **pop()方法则从数组末尾移除最后一个元素，减少数组的length值，然后返回移除的元素。无参**
 
-    
-    
+[code]
+
      var box = ['李炎恢', 28, '计算机编程'];            //字面量声明数组
     alert(box.pop());                                //移除数组末尾元素，并返回移除的元素
     alert(box);                                //查看元素
+[/code]
 
 
 
@@ -275,29 +303,32 @@
 
 **push()向数组末端添加一个元素，【有参要添加的元素】**
 
-    
-    
+[code]
+
      var box = ['李炎恢', 28, '计算机编程'];            //字面量声明
     alert(box.push('盐城'));                        //数组末尾添加一个元素，并且返回长度
     alert(box);                                //查看数组
+[/code]
 
 **shift()方法从数组前端移除一个元素。【无参】**
 
-    
-    
+[code]
+
      var box = ['李炎恢', 28, '计算机编程'];            //字面量声明
     alert(box.shift());                            //移除数组开头元素，并返回移除的元素
     alert(box);                                //查看数组
+[/code]
 
 **ECMAScript还为数组提供了一个unshift()方法，它和shift()方法的功能完全相反。unshift()方法为数组的前端添加一个元素。**
 
 ****unshift()方法为数组的前端添加一个元素。【有参要添加的元素】****
 
-    
-    
+[code]
+
      var box = ['李炎恢', 28, '计算机编程'];            //字面量声明
     alert(box.unshift("林贵秀"));                    //数组开头添加1个元素
     alert(box);                                //查看数组
+[/code]
 
 **PS：IE浏览器对unshift()方法总是返回undefined而不是数组的新长度。**
 
@@ -309,34 +340,37 @@
 
 **reverse() 逆向排序，无参**
 
-    
-    
+[code]
+
      var box = [1,2,3,4,5];                        //数组
     alert(box.reverse());                        //逆向排序方法，返回排序后的数组
     alert(box);                                //源数组也被逆向排序了，说明是引用
+[/code]
 
 **sort() 从小到大排序，【有参可选函数】**
 
-    
-    
+[code]
+
      var box = [4,1,7,3,9,2];                        //数组
     alert(box.sort());                            //从小到大排序，返回排序后的数组
     alert(box);                                //源数组也被从小到大排序了
+[/code]
 
 ****sort方法的默认排序在数字排序上有些问题****
 
-    
-    
+[code]
+
      var box = [0,1,5,10,15];                        //验证数字字符串，和数字的区别
     alert(box.sort());                               //查看数组，输出0，1，10,15,5
+[/code]
 
 ******sort方法的默认排序在数字排序上有些问题
 ，因为数字排序和数字字符串排序的算法是一样的。我们必须修改这一特征，修改的方式，就是给sort(参数)方法传递一个函数参数。这点可以参考手册说明。******
 
 ************修改 ** **数字排序上有问题**** 这一特征************
 
-    
-    
+[code]
+
     function compare(value1, value2) {            //数字排序的函数参数
         if (value1 < value2) {                    //小于，返回负数
             return -1;
@@ -348,6 +382,7 @@
     }
     var box = [0,1,5,10,15];                        //验证数字字符串，和数字的区别
     alert(box.sort(compare));                //传参
+[/code]
 
 **PS：如果要反向操作，即从大到小排序，正负颠倒即可。当然，如果要逆序用reverse()更加方便。**
 
@@ -359,48 +394,53 @@
 
 ****concat()方法可以基于当前数组创建一个新数组，【有参可选】****
 
-    
-    
+[code]
+
      var box = ['李炎恢', 28, '盐城'];                //当前数组
     var box2 = box.concat('计算机编程');            //创建新数组，并添加新元素
     alert(box2);                                //输出新数组
     alert(box);                                //当前数组没有任何变化
+[/code]
 
 **slice()方法可以基于当前数组获取指定区域元素并创建一个新数组【有参下标范围等】**
 
-    
-    
+[code]
+
      var box = ['李炎恢', 28, '盐城'];                //当前数组
     var box2 = box.slice(1,3);                        //box.slice(1,3)，2-4之间的元素
     alert(box2);                                //28，盐城
     alert(box);                                //当前数组
+[/code]
 
 **splice()中的删除功能：**
 
-    
-    
+[code]
+
      var box = ['李炎恢', 28, '盐城'];                //当前数组
     var box2 = box.splice(0,2);                    //截取前两个元素
     alert(box2);                                //返回截取的元素
     alert(box);                                //当前数组被截取的元素被删除
+[/code]
 
 **splice()中的插入功能：**
 
-    
-    
+[code]
+
      var box = ['李炎恢', 28, '盐城'];                //当前数组
     var box2 = box.splice(1,0,'计算机编程','江苏');    //没有截取，但插入了两条
     alert(box2);                                //在第2个位置插入两条
     alert(box);                                //输出
+[/code]
 
 **splice()中的替换功能：**
 
-    
-    
+[code]
+
      var box = ['李炎恢', 28, '盐城'];                //当前数组
     var box2 = box.splice(1,1,100);                //截取了第2条，替换成100
     alert(box2);                                //输出截取的28
     alert(box);                                //输出数组
+[/code]
 
 
 

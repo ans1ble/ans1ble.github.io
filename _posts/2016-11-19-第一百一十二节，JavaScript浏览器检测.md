@@ -1,4 +1,13 @@
-第一百一十二节，JavaScript浏览器检测
+
+---
+layout: post
+title: " 第一百一十二节，JavaScript浏览器检测 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **JavaScript浏览器检测**
 
@@ -678,30 +687,34 @@ Navigator2.0引入的navigator对象，现在已经成为识别客户端浏览�
 
 **appName浏览器名称，不怎么精确**
 
-    
-    
+[code]
+
     alert('浏览器名称：' + navigator.appName);
+[/code]
 
 **appVersion浏览器版本**
 
-    
-    
+[code]
+
     alert('浏览器版本：' + navigator.appVersion);
      //返回：浏览器版本：5.0 (Windows)
+[/code]
 
 **userAgent浏览器用户代理字符串，用户浏览器相关信息【常用】**
 
-    
-    
+[code]
+
     alert('浏览器用户代理字符串：' + navigator.userAgent);
      //返回：Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0
+[/code]
 
 **platform浏览器所在的系统【常用】**
 
-    
-    
+[code]
+
     alert('浏览器所在的系统：' + navigator.platform);
      //返回：浏览器所在的系统：Win32
+[/code]
 
 
 
@@ -711,8 +724,8 @@ Navigator2.0引入的navigator对象，现在已经成为识别客户端浏览�
 
 ******browserdetect.js文件， **浏览器嗅探器模块源码********
 
-    
-    
+[code]
+
      var BrowserDetect = {
         init: function () {
             this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
@@ -830,6 +843,7 @@ Navigator2.0引入的navigator对象，现在已经成为识别客户端浏览�
     
     };
     BrowserDetect.init();
+[/code]
 
 **将browserdetect.js文件，放到工程目录，并将文件引入html页面即可使用模块的方法**
 
@@ -867,14 +881,15 @@ Navigator2.0引入的navigator对象，现在已经成为识别客户端浏览�
 
 
 
-    
-    
+[code]
+
     alert(BrowserDetect.browser);            //浏览器名称
     //Firefox
     alert(BrowserDetect.version);                //版本
     //50
     alert(BrowserDetect.OS);                //系统
     //Windows
+[/code]
 
 
 
@@ -884,10 +899,11 @@ Navigator2.0引入的navigator对象，现在已经成为识别客户端浏览�
 
 **plugins属性，这是一个数组。存储在浏览器已安装插件的完整列表。IE不支持**
 
-    
-    
+[code]
+
     alert(navigator.plugins); //返回数组
     //[object PluginArray]
+[/code]
 
 **plugins属性下的属性**
 
@@ -929,8 +945,8 @@ Navigator2.0引入的navigator对象，现在已经成为识别客户端浏览�
 
 **列出所有的插件名**
 
-    
-    
+[code]
+
      //列出所有的插件名
     for (var i = 0; i < navigator.plugins.length; i ++) {  //根据数组的长度循环次数
         document.write('插件名称：'+ navigator.plugins[i].name + '<br />'); //循环出插件名称
@@ -938,11 +954,12 @@ Navigator2.0引入的navigator对象，现在已经成为识别客户端浏览�
         document.write('插件的描述信息：'+ navigator.plugins[i].description + '<br />'); //循环出插件的描述信息
         document.write('<br>');
     }
+[/code]
 
 **  检测非IE浏览器插件是否存在**
 
-    
-    
+[code]
+
     //检测非IE浏览器插件是否存在
     function hasPlugin(name) {  //创建函数
         var name = name.toLowerCase(); //将接收的字母转换成小写
@@ -956,6 +973,7 @@ Navigator2.0引入的navigator对象，现在已经成为识别客户端浏览�
     
     alert(hasPlugin('Flash'));                        //检测Flash是否存在
     alert(hasPlugin('java'));                        //检测Java是否存在
+[/code]
 
 
 
@@ -970,8 +988,8 @@ Navigator2.0引入的navigator对象，现在已经成为识别客户端浏览�
 **ActiveXObject()判断浏览器是否支持控件，如果支持控件接收控件名称检测控件是否存在，存在就可以new
 ActiveXObject对象，否则出错，参数控件唯一标识符**
 
-    
-    
+[code]
+
      //检测IE中的控件
     function hasIEPlugin(name) {  //创建函数
         try {   //尝试执行，执行成功就执行里面的代码，如果出错就执行catch里面的代码
@@ -984,6 +1002,7 @@ ActiveXObject对象，否则出错，参数控件唯一标识符**
     
     //检测Flash
     alert(hasIEPlugin('ShockwaveFlash.ShockwaveFlash'));//执行函数，传入唯一标识符
+[/code]
 
 **PS：ShockwaveFlash.ShockwaveFlash是IE中代表FLASH的标识符，你需要检查哪种控件，必须先获取它的标识符**
 
@@ -991,8 +1010,8 @@ ActiveXObject对象，否则出错，参数控件唯一标识符**
 
 **跨浏览器检测是否支持Flash，就是将上面两者结合应用**
 
-    
-    
+[code]
+
      //检测非IE浏览器插件是否存在
     function hasPlugin(name) {  //创建函数
         var name = name.toLowerCase(); //将接收的字母转换成小写
@@ -1027,6 +1046,7 @@ ActiveXObject对象，否则出错，参数控件唯一标识符**
     
     //检测Flash
     alert(hasFlash()); //执行检测函数
+[/code]
 
 
 
@@ -1074,16 +1094,17 @@ ActiveXObject对象，否则出错，参数控件唯一标识符**
 
 **mimeTypes MIME类型返回数组**
 
-    
-    
+[code]
+
      //mimeTypes MIME类型返回数组
     alert(navigator.mimeTypes);
     //返回：[object MimeTypeArray]/
+[/code]
 
 **遍历非IE下所有MIME类型信息**
 
-    
-    
+[code]
+
      //遍历非IE下所有MIME类型信息
     for (var i = 0; i < navigator.mimeTypes.length; i++) {
         if (navigator.mimeTypes[i].enabledPlugin != null) {
@@ -1095,6 +1116,7 @@ ActiveXObject对象，否则出错，参数控件唯一标识符**
             document.write('</dl>')
         }
     }
+[/code]
 
 
 
@@ -1106,8 +1128,8 @@ ActiveXObject对象，否则出错，参数控件唯一标识符**
 
 **能力检测又称作为特性检测，检测的目标不是识别特定的浏览器，而是识别浏览器的能力。能力检测不必估计特定的浏览器，只需要确定当前的浏览器是否支持特定的能力，就可以给出可行的解决方案。**
 
-    
-    
+[code]
+
      //能力检测
     var width = window.innerWidth;                //返回浏览器本身的宽度，返回数字类型
     
@@ -1119,6 +1141,7 @@ ActiveXObject对象，否则出错，参数控件唯一标识符**
         }
     }
     alert(width);
+[/code]
 
 **PS：上面其实有两块地方使用了能力检测，第一个就是是否支持innerWidth的检测，第二个就是是否是标准模式的检测，这两个都是能力检测**
 
@@ -1130,14 +1153,15 @@ ActiveXObject对象，否则出错，参数控件唯一标识符**
 
 **bug一般属于个别浏览器独有，在大多数新版本的浏览器被修复。在后续的开发过程中，如果遇到浏览器bug我们再详细探讨。**
 
-    
-    
+[code]
+
      var box = {
         toString : function () {}                    //创建一个toString()，和原型中重名了,IE就不打印了
     };
     for (var o in box) {
         alert(o);                                //IE浏览器的一个bug，不识别了
     }
+[/code]
 
 
 
@@ -1151,11 +1175,12 @@ ActiveXObject对象，否则出错，参数控件唯一标识符**
 
 **userAgent获取用户代理字符串，通过这组字符串，我们来获取当前浏览器的版本号、浏览器名称、系统名称。**
 
-    
-    
+[code]
+
     document.write(navigator.userAgent);             //页面形式输出得到用户代理字符串
     //返回：Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0 （火狐浏览器）
     //Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; InfoPath.2; rv:11.0) like Gecko （IE浏览器）
+[/code]
 
 **各种浏览器返回信息**
 
@@ -1253,8 +1278,8 @@ CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)**
 
 ****浏览器 **引擎检测******
 
-    
-    
+[code]
+
      var client = function () {                        //创建一个自我执行构造函数
         //初始化浏览器引擎
         var engine = {                            //创建对象呈现引擎
@@ -1316,6 +1341,7 @@ CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)**
     if(client.engine.ie){
         alert('目前使用的是ie引擎浏览器，版本号为' + client.engine.ver); //打印出浏览器名称和版本号
     }
+[/code]
 
 
 
@@ -1777,8 +1803,8 @@ CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)**
   
 **  浏览器检测完整版**
 
-    
-    
+[code]
+
     var client = function(){
     
         //rendering engines
@@ -1960,6 +1986,7 @@ CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)**
         };
     
     }();
+[/code]
 
 
 

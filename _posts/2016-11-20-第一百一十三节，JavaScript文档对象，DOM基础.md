@@ -1,4 +1,13 @@
-第一百一十三节，JavaScript文档对象，DOM基础
+
+---
+layout: post
+title: " 第一百一十三节，JavaScript文档对象，DOM基础 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **JavaScript文档对象，DOM基础**
 
@@ -121,22 +130,24 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
 
 **getElementById()方法，接受一个参数：获取元素的ID值。如果找到相应的元素则返回该元素的HTMLDivElement对象，如果不存在，则返回null。**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var asd = document.getElementById('box');            //获取id为box的元素节点
         alert(asd); //返回获取到的元素节点对象
     };
+[/code]
 
 **PS：id表示一个元素节点的唯一性，不能同时给两个或以上的元素节点创建同一个命名的id。某些低版本的浏览器会无法识别getElementById()方法，比如IE5.0-，这时需要做一些判断，可以结合上章的浏览器检测来操作。**
 
 **检测浏览器是否支持 **getElementById()方法****
 
-    
-    
+[code]
+
      if (document.getElementById) {                //判断是否支持getElementById
     alert('当前浏览器支持getElementById');
     }
+[/code]
 
 **元素节点属性**
 
@@ -166,23 +177,25 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
 
 **tagName属性，元素节点对象属性，获取或设置元素节点的标签名**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var asd = document.getElementById('box').tagName;    //getElementById元素节点对象属性，获取元素节点的标签名
         alert(asd); //返回获取元素节点的标签名
         //返回：DIV
     };
+[/code]
 
 **innerHTML属性，元素节点对象属性，获取 **或设置** 元素节点里的内容，非W3C DOM规范**
 
-    
-    
+[code]
+
     window.onload = function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var asd = document.getElementById('box').innerHTML;    //getElementById元素节点对象属性，获取元素节点里的内容，非W3C DOM规范
         alert(asd); //获取元素节点里的内容，非W3C DOM规范
         //测试Div
     };
+[/code]
 
 **HTML 属性的属性**
 
@@ -222,8 +235,8 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
   
 **id，HTML属性的属性，获取或设置元素节点的id名称**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var asd = document.getElementById('box').id;    //获取标签的id名称
         alert(asd); //元素节点的id名称
@@ -231,11 +244,12 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
         var asd2 = document.getElementById('box').id = 'person';    //设置标签的id名称
         alert(asd2); //元素节点的id名称
     };
+[/code]
 
 **title，HTML属性的属性，获取或设置元素节点的title属性值**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var asd = document.getElementById('box').title;    //获取元素节点的title属性值
         alert(asd); //元素节点的title属性值
@@ -244,11 +258,12 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
         alert(asd2); //元素节点的title属性值
         //修改标题
     };
+[/code]
 
 **style，HTML属性的属性，获取或设置CSS内联样式属性值  **
 
-    
-    
+[code]
+
     window.onload = function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var asd = document.getElementById('box').style;    //获取CSSStyleDeclaration对象
         alert(asd); //获取CSSStyleDeclaration对象
@@ -259,11 +274,12 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
         var asd3 = document.getElementById('box').style.color = 'red';    //设置style对象中color的值
         alert(asd3);//获取style对象中color的值
     };
+[/code]
 
 **className，HTML属性的属性，获取或设置CSS元素的类 **class属性值****
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var asd = document.getElementById('box').className;    //获取CSS元素的类class属性值
         alert(asd); //获取CSS元素的类class属性值
@@ -272,14 +288,16 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
         alert(asd2); //获取CSS元素的类class属性值
         //jhh
     };
+[/code]
 
 **获取自定义标签属性的值，非IE不支持【不推荐】**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         alert(document.getElementById('box').bbb);        //获取自定义属性的值，非IE不支持
     };
+[/code]
 
 
 
@@ -287,41 +305,45 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
 
 **getElementsByTagName()方法将返回一个对象数组HTMLCollection(NodeList)，这个数组保存着所有相同元素名的节点列表。有参参数是要获取的标签名称，参数*表示获取所有标签**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementsByTagName('*');            //获取所有元素
         alert(sdf);  //打印获取到的标签对象数组
         //[object HTMLCollection]
     };
+[/code]
 
 **length，判断获取到的标签对象数组长度，就是有多少个标签**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementsByTagName('li').length;            //获取页面里的所有li标签，length判断长度
         alert(sdf);  //打印获取到的标签对象数组的长度
         //4，说明获取到4个标签
     };
+[/code]
 
 **  利用数组索引下标，获取标签数组对象里指定的标签**
 
-    
-    
+[code]
+
     window.onload = function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementsByTagName('li')[0];    //利用数组索引下标，获取标签数组对象里指定的标签
         alert(sdf.tagName);  //打印获取到的所有li标签里的第一个标签名称
     };
+[/code]
 
 **item()，获取标签数组对象里指定的下标的标签,参数下标数**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementsByTagName('li').item(0);    //item()，获取标签数组对象里指定的下标的标签,参数下标数
         alert(sdf.tagName);  //打印获取到的所有li标签里的第一个标签名称
     };
+[/code]
 
 **  注意：getElementsByTagName()方法的其他属性与getElementById()方法相同**
 
@@ -334,23 +356,25 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
 **getElementsByName()方法可以获取相同名称(name)的元素，返回一个对象数组HTMLCollection(NodeList)。参数
 **name属性的值****
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementsByName('bd');    //通过标签的name属性值获取节点
         alert(sdf);  //打印获取到的name值为bd标签返回数组
         //[object NodeList]
     };
+[/code]
 
 **获取指定标签里的属性值**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementsByName('bd')[0];    //通过标签的name属性值获取节点,通过索引获取第一个标签
         alert(sdf.value);  //打印获取到的标签的value值
         //默认
     };
+[/code]
 
 **  注意： **getElementsByName()** 方法的其他属性与getElementById()方法相同**
 
@@ -362,15 +386,17 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
 
 **getAttribute()方法将获取元素中某个属性的值。它和直接使用.属性获取属性值的方法有一定区别。参数要获取的属性名称**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').getAttribute('style');    //先通过ID获取到标签节点，然后通过getAttribute()方法获取属性
         alert(sdf);  //打印获取到的标签属性值
         //color: #ff2217
     };
-    
-    
+[/code]
+
+[code]
+
     document.getElementById('box').getAttribute('id');//获取元素的id值
     document.getElementById('box').id;            //获取元素的id值
     
@@ -379,6 +405,7 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
     
     document.getElementById('box').getAttribute('class');//获取元素的class值，IE不支持
     document.getElementById('box').getAttribute('className');//非IE不支持
+[/code]
 
 **PS：HTML通用属性style和onclick，IE7更低的版本style返回一个对象，onclick返回一个函数式。虽然IE8已经修复这个bug，但为了更好的兼容，开发人员只有尽可能避免使用getAttribute()访问HTML属性了，或者碰到特殊的属性获取做特殊的兼容处理**
 
@@ -388,14 +415,15 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
 
 **setAttribute()方法将设置元素中某个属性和值。它需要接受两个参数：属性名和值。如果属性本身已存在，那么就会被覆盖。**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').setAttribute('style','color:red'); //给获取到的标签添加一个style
         //此时可以看到标签已经加上了属性，标签里的文字已经是红颜色了
         var sdf2 = document.getElementById('asd').setAttribute('style','color:#216CDE'); //给获取到的标签style属性修改值
         //此时可以看到标签的style属性值已经被修改了
     };
+[/code]
 
 **PS：在IE7及更低的版本中，使用setAttribute()方法设置class和style属性是没有效果的，虽然IE8解决了这个bug，但还是不建议使用。**
 
@@ -405,14 +433,15 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
 
 **removeAttribute()可以移除HTML属性。参数要移除的属性名称**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').setAttribute('style','color:red'); //给获取到的标签添加一个style
         //此时可以看到标签已经加上了属性，标签里的文字已经是红颜色了
         var sdf2 = document.getElementById('asd').removeAttribute('style'); //移除标签指定的属性
         //此时可以看到标签的style属性已经被移除了
     };
+[/code]
 
 **PS：IE6及更低版本不支持removeAttribute()方法。**
 
@@ -429,33 +458,36 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
 
 **nodeName节点属性，获取或设置节点元素标签名称，和tagName等价，首先要获取到节点，在使用属性**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').nodeName; //nodeName节点属性，获取节点元素标签名称，和tagName等价
         alert(sdf); //打印出节点的标签名称
         //DIV
     };
+[/code]
 
 **nodeType节点属性，获取节点元素的类型值，元素节点返回1，属性节点返回2，文本节点返回3，首先要获取到节点，在使用属性**
 
-    
-    
+[code]
+
     window.onload =  function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').nodeType; //nodeType节点属性，获取节点元素的类型值，元素节点返回1，属性节点返回2，文本节点返回3，首先要获取到节点，在使用属性
         alert(sdf); //节点元素的类型值
         //1,说明是元素节点
     };
+[/code]
 
 **nodeValue节点属性，获取 **或设置** 文本节点的文本，元素节点null本身没有类容，首先要获取到节点，在使用属性**
 
-    
-    
+[code]
+
     window.onload = function(){ //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').nodeValue; //nodeValue节点属性，获取节点类容，元素节点本身没有类容，首先要获取到节点，在使用属性
         alert(sdf); //节点类容
         //null,说明元素节点本身没有类容，因为node属性只能获取当前节点
     };
+[/code]
 
 
 
@@ -526,8 +558,8 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
 **childNodes属性可以获取某一个元素节点的所有子节点，这些子节点包含元素子节点和文本子节点。首先要获取到元素节点在使用属性，**
 **返回包含子节点和文本节点的数组**
 
-    
-    
+[code]
+
      //<div id="asd">测试<b>这一段</b>文本</div>  
       
     
@@ -540,12 +572,13 @@ Model）即文档对象模型，针对HTML和XML文档的API（应用程序接�
         alert(sdf[0]); //通过索引下标来获取第一个元素
         //[object Text]，第一个是文本节点
     };
+[/code]
 
 **使用childNodes[n]返回子节点对象的时候，有可能返回的是元素子节点，比如
 HTMLElement；也有可能返回的是文本子节点，比如Text。元素子节点可以使用nodeName或者tagName获取标签名称，而文本子节点可以使用nodeValue获取文本。**
 
-    
-    
+[code]
+
      //<div id="asd">测试<b>这一段</b>文本</div>  
       
     
@@ -566,6 +599,7 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
         }
     
     };
+[/code]
 
 ****innerHTML和nodeValue两个区别****
 
@@ -573,10 +607,11 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 **PS：innerHTML和nodeValue第一个区别，就是取值的。那么第二个区别就是赋值的时候，nodeValue会把包含在文本里的HTML转义成特殊字符，从而达到形成单纯文本的效果。**
 
-    
-    
+[code]
+
     box.childNodes[0].nodeValue = '<strong>abc</strong>'; //结果为：<strong>abc</strong>
         box.innerHTML = '<strong>abc</strong>';        //结果为：abc
+[/code]
 
 
 
@@ -584,8 +619,8 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 **firstChild用于获取当前元素节点的第一个子节点，相当于childNodes[0]；**
 
-    
-    
+[code]
+
      //<div id="asd">测试<b>这一段</b>文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').firstChild; //firstChild用于获取当前元素节点的第一个子节点，相当于childNodes[0]；
@@ -595,11 +630,12 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
         //测试  
     
     };
+[/code]
 
 **lastChild用于获取当前元素节点的最后一个子节点，**
 
-    
-    
+[code]
+
      //<div id="asd">测试<b>这一段</b>文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').lastChild; //lastChild用于获取当前元素节点的最后一个子节点，
@@ -608,6 +644,7 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
         alert(sdf.nodeValue);//打印出最后一个文本子节点的文本类容
         //文本
     };
+[/code]
 
 
 
@@ -615,14 +652,15 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 **ownerDocument属性返回该节点的文档对象根节点，返回的对象相当于document。**
 
-    
-    
+[code]
+
      //<div id="asd">测试<b>这一段</b>文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').ownerDocument; //ownerDocument属性返回该节点的文档对象根节点，返回的对象相当于document。
         alert(sdf); //打印文档对象根节点
         //[object HTMLDocument]
     };
+[/code]
 
 
 
@@ -630,19 +668,20 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 **parentNode属性返回该节点的父节点，**
 
-    
-    
+[code]
+
      //<div id="asd">测试<b>这一段</b>文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').parentNode; //parentNode属性返回该节点的父节点，
         alert(sdf); //打印该节点的父节点
         //[object HTMLBodyElement]
     };
+[/code]
 
 **previousSibling属性返回该节点的前一个同级节点， **就是当前节点同级的上一个节点****
 
-    
-    
+[code]
+
      //<div id="asd">测试<b>这一段</b>文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').childNodes[2]; //获取当前节点里的第3个子节点包含文本节点
@@ -655,11 +694,12 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
         alert(sdf.previousSibling.nodeName); //打印当前节点的标签
         //B
     };
+[/code]
 
 **nextSibling属性返回该节点的后一个同级节点。就是当前节点同级的下一个节点**
 
-    
-    
+[code]
+
      //<div id="asd">测试<b>这一段</b>文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').childNodes[0]; //获取当前节点里的第一个子节点包含文本节点
@@ -671,6 +711,7 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
         //b ,就是b标签
         
     };
+[/code]
 
 
 
@@ -678,18 +719,19 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 **attributes属性返回该节点的属性节点集合。首先获取到元素节点后在用这个属性**
 
-    
-    
+[code]
+
      //<div id="asd" title="标题" style="color: #ff2217">测试这一段文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').attributes; //attributes属性返回该节点的属性节点集合。首先获取到元素节点后在用这个属性
         alert(sdf); //打印当前标签节点的标签属性集合
     };
+[/code]
 
 **length查看当前标签节点的标签属性集合长度**
 
-    
-    
+[code]
+
      //<div id="asd" title="标题" style="color: #ff2217">测试这一段文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').attributes; //attributes属性返回该节点的属性节点集合。首先获取到元素节点后在用这个属性
@@ -697,65 +739,71 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
         alert(sdf.length); //length查看当前标签节点的标签属性集合长度
         //3,说明当前标签有3个标签属性
     };
+[/code]
 
 **通过索引来获取标签节点的标签属性集合里的指定标签属性对象**
 
-    
-    
+[code]
+
     window.onload =  function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').attributes; //attributes属性返回该节点的属性节点集合。首先获取到元素节点后在用这个属性
         alert(sdf[0]); //通过索引来获取标签节点的标签属性集合里的指定标签属性
         //[object Attr] 标签属性对象
     };
+[/code]
 
 **nodeType查看当前节点的类型，1元素类型，2属性类型，3文本类型**
 
-    
-    
+[code]
+
      //<div id="asd" title="标题" style="color: #ff2217">测试这一段文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').attributes[0]; //attributes属性返回该节点的属性节点集合。首先获取到元素节点后在用这个属性,用索引获取第一个标签属性
         alert(sdf.nodeType); //nodeType查看当前节点的类型，1元素类型，2属性类型，3文本类型
         //2,说明是属性类型
     };
+[/code]
 
 **nodeValue获取标签属性的值，首先要获取到标签属性节点后在使用**
 
-    
-    
+[code]
+
      //<div id="asd" title="标题" style="color: #ff2217">测试这一段文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').attributes[0]; //attributes属性返回该节点的属性节点集合。首先获取到元素节点后在用这个属性,用索引获取第一个标签属性
         alert(sdf.nodeValue); //nodeValue获取标签属性的值，首先要获取到标签属性节点后在使用
         //asd,第一个属性的值为asd
     };
+[/code]
 
 **nodeName获取标签属性的名称，首先要获取到标签属性节点后在使用**
 
-    
-    
+[code]
+
      //<div id="asd" title="标题" style="color: #ff2217">测试这一段文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').attributes; //attributes属性返回该节点的属性节点集合。首先获取到元素节点后在用这个属性,
         alert(sdf[0].nodeName); //nodeName获取标签属性的名称，首先要获取到标签属性节点后在使用
         //id
     };
+[/code]
 
 **通过属性名称获取属性值，首先要获取到标签属性节点集合**
 
-    
-    
+[code]
+
      //<div id="asd" title="标题" style="color: #ff2217">测试这一段文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').attributes; //attributes属性返回该节点的属性节点集合。首先获取到元素节点后在用这个属性,
         alert(sdf['id'].nodeValue); //通过属性名称获取属性值，首先要获取到标签属性节点集合
     };
     //asd
+[/code]
 
 **循环打印出标签的所有属性和属性值**
 
-    
-    
+[code]
+
      //<div id="asd" title="标题" style="color: #ff2217">测试这一段文本</div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var sdf = document.getElementById('asd').attributes; //attributes属性返回该节点的属性节点集合。首先获取到元素节点后在用这个属性,
@@ -770,13 +818,14 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
     //属性：id:asd
     //属性：title:标题
     //属性：style:color: #ff2217
+[/code]
 
 
 
 **6.忽略空白文本节点，在获取子元素时遇到空白文本节点**
 
-    
-    
+[code]
+
      // <div id="asd" title="标题" style="color: #ff2217">
     //     <p>测试1</p>
     //     <p>测试1</p>
@@ -789,13 +838,14 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
         //IE返回3
         //说明浏览器解析方式不同，IE解释忽略了p标签前的空白，火狐将p标签前的空白算成空白文本了
     };
+[/code]
 
 **PS：在非IE中，标准的DOM具有识别空白文本节点的功能，所以在火狐浏览器是7个，而IE自动忽略了，如果要保持一致的子元素节点，需要手工忽略掉它。**
 
 **忽略空白字符**
 
-    
-    
+[code]
+
      // <div id="asd" title="标题" style="color: #ff2217">
     //     <p>测试1</p>
     //     <p>测试1</p>
@@ -820,6 +870,7 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
         }
         return ret; //返回数组
     }
+[/code]
 
 **PS：上面的方法，采用的忽略空白文件节点的方法，把得到元素节点累加到数组里返回。那么还有一种做法是，直接删除空白节点即可。**
 
@@ -827,8 +878,8 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 **removeChild()删除一个节点里的指定子节点,参数要删除的子节点在节点集合里的下标，先要获取到要删除的子节点的父节点后，在父节点使用这个方法删除里面的子节点**
 
-    
-    
+[code]
+
      // <div id="asd" title="标题" style="color: #ff2217">
     //     <p>测试1</p>
     //     <p>测试1</p>
@@ -853,13 +904,14 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
         }
         return jh; //最后返回删除后的节点集合
     }
+[/code]
 
 **如果firstChild、lastChild、previousSibling和nextSibling在获取节点的过程中遇到空白节点，我们该怎么处理掉呢？**
 
 **firstChild(获取当前元素节点的第一个子节点)、lastChild(获取当前元素节点的最后一个子节点)、previousSibling(当前节点同级的上一个节点)和nextSibling(就是当前节点同级的下一个节点)**
 
-    
-    
+[code]
+
      // <div id="asd" title="标题" style="color: #ff2217">
     //     <p>测试1</p>
     //     <p>测试1</p>
@@ -883,6 +935,7 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
         }
         return jh; //最后返回删除后的节点集合
     }
+[/code]
 
 
 
@@ -956,9 +1009,10 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 **write()方法可以把任意字符串插入到文档中去。插入文本或者标签低版本浏览器会覆盖原有的html内容，不推荐使用**
 
-    
-    
+[code]
+
     document.write('<p>这是一段文本</p>');  //向浏览器插入一条p标签
+[/code]
 
 
 
@@ -966,9 +1020,10 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 **createElement()方法可以创建一个元素节点。参数要创建的元素标签名称，只是创建了元素节点，并没有写入文档，只是驻留在内存中**
 
-    
-    
+[code]
+
     document.createElement('p');         //创建一个元素节点
+[/code]
 
 **ps:一般要先获取到父节点，后在createElement()方法创建元素节点，在结合appendChild()方法添加**
 
@@ -987,8 +1042,8 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 
 
-    
-    
+[code]
+
     // <div id="box" title="标题">
     //     <p>测试1</p>
     //     <p>测试1</p>
@@ -1006,6 +1061,7 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
     //     <p>测试1</p>
     //     <p></p>
     // </div>
+[/code]
 
 
 
@@ -1013,8 +1069,8 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 **createTextNode()方法创建一个文本节点。 **并没有写入文档，只是驻留在内存中，参数文本节点文本****
 
-    
-    
+[code]
+
      // <div id="box" title="标题">
     //     <p>测试1</p>
     //     <p>测试1</p>
@@ -1032,11 +1088,12 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
     //     <p>测试1</p>
     //     添加文本
     // </div>
+[/code]
 
 **将文本节点添加到元素节点里**
 
-    
-    
+[code]
+
      // <div id="box" title="标题">
     //     <p>测试1</p>
     //     <p>测试1</p>
@@ -1057,6 +1114,7 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
     //     <p>测试1</p>
     //     <p>测试2</p>
     // </div>
+[/code]
 
 
 
@@ -1071,8 +1129,8 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 **如：asd.parentNode.insertBefore(ys,asd);**
 
-    
-    
+[code]
+
      // <body>
     // <div id="box" title="标题">测试</div>
     // </body>
@@ -1085,13 +1143,14 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
     //     <p></p>
     //     <div id="box" title="标题"></div>
     // </body>
+[/code]
 
 **PS：insertBefore()方法可以给当前元素的前面创建一个节点，但却没有提供给当前元素的后面创建一个节点。那么，我们可以用已有的知识创建一个insertAfter()函数。**
 
 **自定义给当前元素的后面创建一个节点**
 
-    
-    
+[code]
+
      // <body>
     // <div id="box" title="标题">测试</div>
     // </body>
@@ -1118,13 +1177,14 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
     //     <div id="box" title="标题"></div>
     //     <p></p>
     // </body>
+[/code]
 
 ** **
 
 **createElement在创建一般元素节点的时候，浏览器的兼容性都还比较好。但在几个特殊标签上，比如iframe、input中的radio和checkbox、button元素中，可能会在IE6,7以下的浏览器存在一些不兼容。**
 
-    
-    
+[code]
+
      // <body>
     // <div id="box" title="标题">测试</div>
     // </body>
@@ -1148,6 +1208,7 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
     //     <div id="box" title="标题"></div>
     //     <input name="sex" type="radio">
     // </body>
+[/code]
 
 
 
@@ -1159,8 +1220,8 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 **目标节点.父节点. **replaceChild( **创建节点的变量, **目标节点**** )****
 
-    
-    
+[code]
+
     //<div id="box" title="标题"></div>
     window.onload = function() { //window.onload事件，等待html执行完成后，执行匿名函数
         var asf = document.getElementById('box'); //通过ID获取到目标节点
@@ -1171,6 +1232,7 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
     // <body>
     //     <p></p>
     // </body>
+[/code]
 
 
 
@@ -1185,8 +1247,8 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 ****复制节点后可以赋值给一个变量，然后添加到一个节点****
 
-    
-    
+[code]
+
      // <div id="box" title="标题">
     //     <p>测试1</p>
     //     <p>测试2</p>
@@ -1217,6 +1279,7 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
     //     <p>测试2</p>
     //     <p>测试1</p>
     // </div>
+[/code]
 
 
 
@@ -1228,8 +1291,8 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
 
 **目标节点的父节点. **removeChild(目标节点)****
 
-    
-    
+[code]
+
      // <div id="box" title="标题">
     //     <p>测试1</p>
     //     <p>测试2</p>
@@ -1254,6 +1317,7 @@ HTMLElement；也有可能返回的是文本子节点，比如Text。元素子�
     // <div id="box" title="标题">
     //     <p>测试2</p>
     // </div>
+[/code]
 
 
 

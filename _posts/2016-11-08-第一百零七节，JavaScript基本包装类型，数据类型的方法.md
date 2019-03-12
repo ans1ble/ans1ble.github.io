@@ -1,4 +1,13 @@
-第一百零七节，JavaScript基本包装类型，数据类型的方法
+
+---
+layout: post
+title: " 第一百零七节，JavaScript基本包装类型，数据类型的方法 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **JavaScript基本包装类型，数据类型的方法**
 
@@ -24,25 +33,27 @@
 
 **substring()截取字符串指定索引后面的字符，有参截取开始位置**
 
-    
-    
+[code]
+
      var box = 'Mr. Lee';                            //定义一个字符串
     var box2 = box.substring(2);                    //截掉字符串前两位,也就是从第二个索引开始截取后面的字符串
     alert(box2);                                //输出新字符串
+[/code]
 
 **变量box是一个字符串类型，而box.substring(2)又说明它是一个对象(PS：只有对象才会调用方法)，最后把处理结果赋值给box2。'Mr.
 Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该会有自己的方法，但是它却有方法 **这就是基本包装类型** ，比如：**
 
-    
-    
+[code]
+
     alert('Mr. Lee'.substring(2));                    //直接通过值来调用方法
+[/code]
 
 ** **
 
 **1. **字面量方式创建的只能用内置的方法** ：**
 
-    
-    
+[code]
+
     var box = 'Mr. Lee';                            //字面量
     box.name = 'Lee';                            //无效属性
     box.age = function () {                        //无效方法
@@ -53,11 +64,12 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
     alert(typeof box);                            //string
     alert(box.name);                            //undefined
     alert(box.age());                            //错误
+[/code]
 
 **2.new运算创建的还可以自定义方法：**
 
-    
-    
+[code]
+
      var box = new String('Mr. Lee');                //new运算符，创建字符串类型
     box.name = 'Lee';                            //有效属性
     box.age = function () {                        //有效方法
@@ -68,6 +80,7 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
     alert(typeof box);                            //object
     alert(box.name);                            //Lee
     alert(box.age());                            //100
+[/code]
 
 ****不管字面量形式还是new运算符形式，都可以使用它的内置方法****
 
@@ -137,38 +150,43 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
 
 **MAX_VALUE表示最大数**
 
-    
-    
+[code]
+
      //MAX_VALUE表示最大数
     alert(Number.MAX_VALUE);
+[/code]
 
 **MIN_VALUE表示最小值**
 
-    
-    
+[code]
+
      //MIN_VALUE表示最小值
     alert(Number.MIN_VALUE);
+[/code]
 
 **NaN非数值**
 
-    
-    
+[code]
+
      //NaN非数值
     alert(Number.NaN);
+[/code]
 
 **NEGATIVE_INFINITY负无穷大，溢出返回该值**
 
-    
-    
+[code]
+
      //NEGATIVE_INFINITY负无穷大，溢出返回该值
     alert(Number.NEGATIVE_INFINITY);
+[/code]
 
 **POSITIVE_INFINITY无穷大，溢出返回该值**
 
-    
-    
+[code]
+
      //POSITIVE_INFINITY无穷大，溢出返回该值
     alert(Number.POSITIVE_INFINITY);
+[/code]
 
 
 
@@ -216,43 +234,48 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
   
 **toString()将数值转化为字符串，并且可以转换进制**
 
-    
-    
+[code]
+
      var sdc = 123;
     alert(sdc.toString()); //toString()将数值转化为字符串，并且可以转换进制
     //返回'123'
+[/code]
 
 **toLocaleString()根据本地数字格式转换为字符串，就像表示资金数字那样**
 
-    
-    
+[code]
+
      var sdc = 1000;
     alert(sdc.toLocaleString()); //toLocaleString()根据本地数字格式转换为字符串
     //返回'1,000'
+[/code]
 
 **toFixed()将数字保留小数点后指定位数并转化为字符串，【 **有参保留多少位** 】**
 
-    
-    
+[code]
+
     var sdc = 12.5632;
     alert(sdc.toFixed(2)); //toFixed()将数字保留小数点后指定位数并转化为字符串
     //返回'12.56'
+[/code]
 
 **toExponential()将数字以指数形式表示，保留小数点后指定位数并转化为字符串**
 
-    
-    
+[code]
+
      var sdc = 12.5632;
     alert(sdc.toExponential()); //toExponential()将数字以指数形式表示，保留小数点后指定位数并转化为字符串
     //返回'1.25632e+1'
+[/code]
 
 **toPrecision()指数形式或点形式表述数，保留小数点后面指定位数并转化为字符串，【有参小数点后保留多少位】根据传参来决定指数或者点数**
 
-    
-    
+[code]
+
      var sdc = 12.356;
     alert(sdc.toPrecision(3)); //toPrecision()指数形式或点形式表述数，保留小数点后面指定位数并转化为字符串
     //返回'12.4'
+[/code]
 
 
 
@@ -292,16 +315,17 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
   
 **  length属性返回字符串的字符长度**
 
-    
-    
+[code]
+
     var adc = "字符串";
     alert(adc.length); //length属性返回字符串的字符长度
     //返回3
+[/code]
 
 **constructor属性返回创建String对象的函数**
 
-    
-    
+[code]
+
      var adc = "字符串";
     alert(adc.constructor); //constructor属性返回创建String对象的函数
     /*返回
@@ -309,6 +333,7 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
         [native code]
     }
     */
+[/code]
 
 **prototype原型通过添加属性和方法扩展字符串定义**
 
@@ -344,27 +369,30 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
 
 **  charAt()返回指定索引位置的字符，【 **有参索引位置数** 】**
 
-    
-    
+[code]
+
     var adc = "字符串";
     alert(adc.charAt(1)); //charAt()返回指定索引位置的字符
     //返回-符
+[/code]
 
 **charCodeAt()以Unicode编码形式返回指定索引位置的字符 **【 **有参索引位置数** 】返回字符的acssii码****
 
-    
-    
+[code]
+
     var adc = "字符串";
     alert(adc.charCodeAt(1)); //charCodeAt()以Unicode编码形式返回指定索引位置的字符
     //返回-31526
+[/code]
 
 **通过索引获取字符串里指定的字符**
 
-    
-    
+[code]
+
      var adc = "字符串";
     alert(adc[1]); //通过索引获取字符串里指定的字符
     //返回-符
+[/code]
 
 **PS：box[1]在IE浏览器会显示undefined，所以使用时要慎重**
 
@@ -406,95 +434,105 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
   
 **concat()将字符串联到调用该方法的字符串【有参要串联的字符串】**
 
-    
-    
+[code]
+
      var adc = "字符串";
     var adc2 = "连接起来";
     var adc3 = "!";
     alert(adc.concat(adc2,adc3)); //concat()将字符串联到调用该方法的字符串
     //返回-字符串连接起来!
+[/code]
 
 **slice()返回字符串n到m之间位置的字符串【有参索引范围】**
 
-    
-    
+[code]
+
      var adc = "叫卖录音网";
     alert(adc.slice(2,4)); //slice()返回字符串n到m之间位置的字符串
     //返回-录音
+[/code]
 
 ****主意：如果只写了一个参数，这个参数就是开始参数，就会从这个参数位置开始向后全部获取，因为没有结束位置****
 
 **如果传参为负数，先统计字符串所有字符数，所有字符数加上负数，等于开始位置**
 
-    
-    
+[code]
+
      var adc = "叫卖录音网";
     alert(adc.slice(-2)); //5+(-2)=3位开始
     //返回-音网
+[/code]
 
 **如果传参一个正数一个负数， **先统计字符串所有字符数，所有字符数加上负数，等于负数位置的正数****
 
-    
-    
+[code]
+
      var adc = "叫卖录音网";
     alert(adc.slice(3,-1)); //5+(-1)=4, 等同于设置(3,4)
     //返回-音
+[/code]
 
 
 
 **substring()返回字符串n到m之间位置的字符串【有参索引范围】**
 
-    
-    
+[code]
+
      var adc = "叫卖录音网";
     alert(adc.substring(2,4)); //substring()返回字符串n到m之间位置的字符串
     //返回-录音
+[/code]
 
 ****主意：如果只写了一个参数，这个参数就是开始参数，就会从这个参数位置开始向后全部获取，因为没有结束位置****
 
 ******如果传参为负数，返回全部字符串******
 
-    
-    
+[code]
+
      var adc = "叫卖录音网";
     alert(adc.substring(-1)); //如果传参为负数，返回全部字符串
     //返回-叫卖录音网
+[/code]
 
 **如果传参一个正数一个负数，会将负数直接转换成0，并且将0提在前面**
 
-    
-    
+[code]
+
      var adc = "叫卖录音网";
     alert(adc.substring(2,-1)); //会将负数直接转换成0，并且将0提在前面,等同于设置(0,2)
     //返回-叫卖
+[/code]
 
 
 
 **substr()返回字符串n开始的m个字符串，就是从字符串第几个位置开始向后显示多少位字符【有参第一个参数从第几位开始，第二个参数向后显示几位】**
 
-    
-    
+[code]
+
      var adc = "叫卖录音网";
     alert(adc.substr(2,4)); //substr()返回字符串n开始的m个字符串，就是从字符串第几个位置开始向后显示多少位字符
     //返回-录音网
+[/code]
 
 **主意：如果只写了一个参数，这个参数就是开始参数，就会从这个参数位置开始向后全部获取，因为没有结束位置**  
 
 **如果传参为负数，先统计字符串所有字符数，所有字符数加上负数，等于开始位置**
 
-    
-    
+[code]
+
      var adc = "叫卖录音网";
     alert(adc.substr(-3)); //5+(-3)=2位开始
     //返回-录音网
+[/code]
 
 **如果传参一个正数一个负数，会将负数直接转换成0**
 
-    
-    
+[code]
+
      var adc = "叫卖录音网";
     alert(adc.substr(2,-4)); //如果传参一个正数一个负数，会将负数直接转换成0,等同于(2,0)
     //返回
+[/code]
 
 **PS：IE的JavaScript实现在处理向substr()方法传递负值的情况下存在问题，它会返回原始字符串，使用时要切记。**
 
@@ -524,42 +562,46 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
   
 **  indexOf()从开始位置向后搜索第一个str，并将搜索的索引值返回，【有参第一个要搜索的字符，第二个可选，从前到后搜索开始位置】**
 
-    
-    
+[code]
+
     var adc = "叫卖录音网专业广告录音";
     alert(adc.indexOf('录')); //从开始位置向后搜索第一个str，并将搜索的索引值返回，【有参第一个要搜索的字符，第二个可选，从前到后搜索开始位置】
     //返回-2
+[/code]
 
 **设置第二个参数**
 
-    
-    
+[code]
+
      var adc = "叫卖录音网专业广告录音";
     alert(adc.indexOf('录',3)); //从开始位置向后搜索第一个str，并将搜索的索引值返回，【有参第一个要搜索的字符，第二个可选，从前到后搜索开始位置】
     //返回-9
+[/code]
 
 **lastIndexOf()从结尾位置向前搜索第一个str，并将搜索的索引值返回，【有参第一个要搜索的字符，第二个可选，从后到前搜索开始位置】**
 
-    
-    
+[code]
+
      var adc = "叫卖录音网专业广告录音";
     alert(adc.lastIndexOf('录')); //lastIndexOf()从结尾位置向前搜索第一个str，并将搜索的索引值返回，【有参第一个要搜索的字符，第二个可选，从后到前搜索开始位置】
     //返回-9
+[/code]
 
 **设置第二个参数**
 
-    
-    
+[code]
+
      var adc = "叫卖录音网专业广告录音";
     alert(adc.lastIndexOf('录',2)); //lastIndexOf()从结尾位置向前搜索第一个str，并将搜索的索引值返回，【有参第一个要搜索的字符，第二个可选，从后到前搜索开始位置】
     //返回-2
+[/code]
 
 **PS：如果没有找到想要的字符串，则返回-1。**
 
 **示例：找出全部录**
 
-    
-    
+[code]
+
      var box = '叫卖录音网专业广告录音';            //包含两个(录)的字符串
     var boxarr = [];                            //存放(录)位置的数组
     var pos = box.indexOf('录');                //先获取第一个(录)的位置
@@ -568,6 +610,7 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
         pos = box.indexOf('录', pos + 1);            //从新赋值pos目前的位置
     }
     alert(boxarr);                                //输出
+[/code]
 
 
 
@@ -607,35 +650,39 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
   
 **toLowerCase()将字符串全部转换为小写  【无参】**
 
-    
-    
+[code]
+
     var box = 'JXIOU';
     alert(box.toLowerCase());            //toLowerCase()将字符串全部转换为小写
     //返回jxiou
+[/code]
 
 **toUpperCase()将字符串全部转换为大写【无参】**
 
-    
-    
+[code]
+
      var box = 'jxiou';
     alert(box.toUpperCase());            //toUpperCase()将字符串全部转换为大写【无参】
     //返回JXIOU
+[/code]
 
 **toLocaleLowerCase()将字符串全部转换为小写，并且本地化**
 
-    
-    
+[code]
+
      var box = 'JXIOU';
     alert(box.toLocaleLowerCase());            //toLocaleLowerCase()将字符串全部转换为小写，并且本地化
     //返回jxiou
+[/code]
 
 **toLocaleUpperCase()将字符串全部转换为大写，并且本地化**
 
-    
-    
+[code]
+
      var box = 'jxiou';
     alert(box.toLocaleUpperCase());            //toLocaleUpperCase()将字符串全部转换为大写，并且本地化
     //返回JXIOU
+[/code]
 
 **PS：只有几种语言（如土耳其语）具有地方特有的大小写本地性，一般来说，是否本地化效果都是一致的。**
 
@@ -679,35 +726,39 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
 
 **match()查找字符串里的指定字符，找到返回找到的字符，没找到返回null【有参要查找的字符串】**
 
-    
-    
+[code]
+
      var box = '叫卖录音网';
     alert(box.match('录'));            //match()查找字符串里的指定字符，找到返回找到的字符，没找到返回null【有参要查找的字符串】
     //返回录
+[/code]
 
 **search()返回要查找的字符在字符串里的开始位置，【有参要查找的字符】**
 
-    
-    
+[code]
+
      var box = '叫卖录音网';
     alert(box.search('录'));            //search()返回要查找的字符在字符串里的开始位置，【有参要查找的字符】
     //返回2
+[/code]
 
 **replace()替换指定的字符【有参第一个被替换的字符，第二个要替换的字符】**
 
-    
-    
+[code]
+
      var box = '叫卖录音网';
     alert(box.replace('录','广'));            //replace()替换指定的字符【有参第一个被替换的字符，第二个要替换的字符】
     //返回叫卖广音网
+[/code]
 
 **split()按照指定字符分割，返回数组【有参要分割的字符】**
 
-    
-    
+[code]
+
      var box = '叫卖录音网';
     alert(box.split('录'));            //split()按照指定字符分割，返回数组
     //返回叫卖,音网
+[/code]
 
 
 
@@ -735,10 +786,11 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
   
 **  fromCharCode()静态方法，输出Ascii码对应值，静态方法直接用数据类型名称调用【有参Ascii码】**
 
-    
-    
+[code]
+
     alert(String.fromCharCode(76)); //fromCharCode()静态方法，输出Ascii码对应值
     //返回L
+[/code]
 
 **localeCompare()比较两个字符串，并返回相应的值【有参要比较的字符】**
 
@@ -750,12 +802,13 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
 
 **3.如果字符串在自附表中应该排在字符串参数之后，则返回一个正数。(多数1)**
 
-    
-    
+[code]
+
      var box = 'Lee';
     alert(box.localeCompare('apple'));                //1
     alert(box.localeCompare('Lee'));                //0
     alert(box.localeCompare('zoo'));                //-1
+[/code]
 
 
 
@@ -851,11 +904,12 @@ Lee'是一个字符串类型的值， 按道理它不应该是对象，不应该
 
 **以上是通过JS生成一个html标签，根据经验，没什么太大用处，做个了解。**
 
-    
-    
+[code]
+
      var box = '百度';
     alert(box.link('http://www.baidu.com'));
     //返回<a href="http://www.baidu.com">百度</a>
+[/code]
 
 **其他相同**
 

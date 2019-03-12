@@ -1,4 +1,13 @@
-第四十四节，subprocess系统命令模块
+
+---
+layout: post
+title: " 第四十四节，subprocess系统命令模块 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 用python执行系命令的相关的模块和函数的功能均在 subprocess 模块中实现，并提供了丰富的功能
 
@@ -17,13 +26,14 @@
 
 ****格式如2：subprocess.call("ls -lh",shell=True)****
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import subprocess #导入模块
     subprocess.call(["ls", "-l"],shell=False)#输入系统命令，直接查看对应命令的功能【有参】
     subprocess.call("ls -lh",shell=True)#输入系统命令，直接查看对应命令的功能【有参】
+[/code]
 
 
 
@@ -40,13 +50,14 @@
 
 **格式如2：subprocess.check_call("ls -lh",shell=True)**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import subprocess #导入模块
     subprocess.check_call(["ls", "-l"],shell=False)#输入系统命令，直接执行命令，返回状态码,如果状态码是 0 ，则返回执行结果，否则抛异常
     subprocess.check_call("ls -lh",shell=True)#输入系统命令，直接执行命令，返回状态码,如果状态码是 0 ，则返回执行结果，否则抛异常
+[/code]
 
 
 
@@ -63,8 +74,8 @@
 
 **格式如2：subprocess. **check_output** ("ls -lh",shell=True)**
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import subprocess #导入模块
@@ -74,6 +85,7 @@
     print(b)
     # 输出
     # b' \xc7\xfd\xb6\xaf\xc6\xf7 H \xd6\xd0\xb5\xc4\xbe\xed\xc3\xbb\xd3\xd0\xb1\xea\xc7\xa9\xa1\xa3\r\n
+[/code]
 
 
 
@@ -103,24 +115,26 @@ startupinfo与createionflags只在windows下有效
 
 ****方法2：模块名称.Popen("系统命令",shell=命令模式)****
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import subprocess #导入模块
     a = subprocess.Popen(["ls", "-l"],shell=False)#执行命令，   
     b = subprocess.Popen("ls -l",shell=True)#执行命令，
+[/code]
 
 cwd=用于设置子进程的当前目录
 
 **方法： ** **模块名称.Popen("系统命令",shell=命令模式,cwd="系统目标目录")  比如要先进入目录后再执行命令的情况******
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import subprocess #导入模块
     obj = subprocess.Popen("mkdir t3", shell=True, cwd='/home/dev',)#执行命令,为先执行的目录
+[/code]
 
 **2.输入进行某环境，依赖再输入，如：python**
 
@@ -163,8 +177,8 @@ stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)**
 
 ****格式如2：obj.stderr.read()****
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import subprocess #导入模块
@@ -183,6 +197,7 @@ stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)**
     # 输出
     # 1
     # 2
+[/code]
 
 
 
@@ -201,8 +216,8 @@ stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)**
 
 列1
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import subprocess
@@ -215,11 +230,12 @@ stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)**
     print(out_error_list)
     # 输出
     # ('1\n2\n', '')
+[/code]
 
 列2
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import subprocess
@@ -228,6 +244,7 @@ stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)**
     print(out_error_list)
     # 输出
     # ('hello\n', '')
+[/code]
 
 
 

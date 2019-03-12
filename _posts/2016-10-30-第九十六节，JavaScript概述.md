@@ -1,4 +1,13 @@
-第九十六节，JavaScript概述
+
+---
+layout: post
+title: " 第九十六节，JavaScript概述 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **JavaScript概述**
 

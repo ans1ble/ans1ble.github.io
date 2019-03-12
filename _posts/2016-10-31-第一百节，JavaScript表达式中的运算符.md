@@ -1,4 +1,13 @@
-第一百节，JavaScript表达式中的运算符
+
+---
+layout: post
+title: " 第一百节，JavaScript表达式中的运算符 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **JavaScript **表达式中的** 运算符**
 
@@ -73,28 +82,30 @@
 
 **1.递增++和递减--**
 
-    
-    
+[code]
+
      var box = 100;
     ++box;                       //前置递增，把box累加一个1，相当于box = box+1 （101）
     --box;                       //前置递减，把box累减一个1，相当于box = box-1 （99）
     box++;                       //后置递增，同上
     box--;                       //后置递减，同上
+[/code]
 
 **2.前置和后置的区别**
 
 **在没有赋值操作，前置和后置是一样的。但在赋值操作时，如果递增或递减运算符前置，那么前置的运算符会先累加或累减再赋值，如果是后置运算符则先赋值再累加或累减。**
 
-    
-    
+[code]
+
      var box = 100;
     var age = ++box;                    //前置运算符，是先累加在赋值给age，结果值为101
     var height = box++;                 //后置运算符，是先赋值给height在累加，结果值为100
+[/code]
 
 **3.其他类型应用一元运算符的规则**
 
-    
-    
+[code]
+
      var box = '89';    box++;                //90，数值字符串自动转换成数值
     var box = 'ab';    box++;                //NaN，字符串包含非数值转成NaN
     var box = false; box++;                  //1，false转成数值是0，累加就是1
@@ -104,11 +115,12 @@
             return 1;
         }
     };    box++;
+[/code]
 
 **4.加和减运算符的类型转换，取正，取负**
 
-    
-    
+[code]
+
      加运算规则如下：
     var box = 100; +box;                //100，对于数值，不会产生任何影响
     var box = '89'; +box;                //89，数值字符串转换成数值
@@ -120,8 +132,10 @@
             return 1;
         }
     };            +box;
-    
-    
+[/code]
+
+[code]
+
     减运算规则如下：
     var box = 100; -box;                //-100，对于数值，直接变负
     var box = '89'; -box;                //-89，数值字符串转换成数值
@@ -133,6 +147,7 @@
             return 1;
         }
     };            -box;
+[/code]
 
 **加法和减法运算符一般用于算术运算，也可向上面进行类型转换。**
 
@@ -146,8 +161,8 @@
 
 **1.加法**
 
-    
-    
+[code]
+
      var box = 1 + 2;                    //等于3
     var box = 1 + NaN;                    //NaN，只要有一个NaN就为NaN
     var box = Infinity + Infinity;            //Infinity
@@ -158,11 +173,12 @@
     var box = 10 + 20 + '是您的年龄';        //30是您的年龄，没有被转成字符串
     var box = '您的年龄是：' + (10 + 20);    //您的年龄是：30，没有被转成字符串，()会强制优先级，会先执行括号里的
     var box = 10 + 对象                //10[object Object]，如果有toString()或valueOf()则返回10+返回数的值
+[/code]
 
 **2.减法**
 
-    
-    
+[code]
+
      var box = 100 - 70;                    //等于30
     var box = -100 - 70                    //等于-170
     var box = -100 - -70                //-30，一般写成-100 - (-70)比较清晰
@@ -177,11 +193,12 @@
     var box = 100 - null;                //100，null转成了0
     var box = 100 - 'Lee';                //NaN，Lee转成了NaN
     var box = 100 - 对象                //NaN，如果有toString()或valueOf()则返回10-返回数的值
+[/code]
 
 **3.乘法**
 
-    
-    
+[code]
+
      var box = 100 * 70;                    //7000            
     var box = 100 * NaN;                //NaN，只要有一个NaN即为NaN
     var box = Infinity * Infinity;            //Infinity
@@ -192,11 +209,12 @@
     var box = 100 * null;                //0，null转成了0
     var box = 100 * 'Lee';                //NaN，Lee转成了NaN
     var box = 100 * 对象                //NaN，如果有toString()或valueOf()则返回10 - 返回数的值
+[/code]
 
 **4.除法**
 
-    
-    
+[code]
+
      var box = 100 / 70;                    //1.42....
     var box = 100 / NaN;                //NaN
     var box = Infinity / Infinity;            //NaN
@@ -207,11 +225,12 @@
     var box = 100 / null;                //Infinity，
     var box = 100 / 'Lee';                //NaN
     var box = 100 / 对象;                //NaN，如果有toString()或valueOf()则返回10 / 返回数的值
+[/code]
 
 **5.求模**
 
-    
-    
+[code]
+
      var box = 10 % 3;                    //1，余数为1            
     var box = 100 % NaN;                //NaN
     var box = Infinity % Infinity;            //NaN            
@@ -222,6 +241,7 @@
     var box = 100 %  null;                //NaN
     var box = 100 %  'Lee';                //NaN
     var box = 100 %  对象;                //NaN，如果有toString()或valueOf()则返回10 % 返回数的值
+[/code]
 
 
 
@@ -248,8 +268,8 @@
 
 ********小于( <)、大于(>)、小于等于(<=)、大于等于(>=)都是按照上面的规则********
 
-    
-    
+[code]
+
     var box = 3 > 2;                    //true
     var box = 3 > 22;                    //false
     var box = '3' > 22;                    //false
@@ -257,6 +277,7 @@
     var box = 'a' > 'b';                    //false  a=97,b=98
     var box = 'a' > 'B';                    //true    B=66
     var box = 1 > 对象;                //false，如果有toString()或valueOf()则返回1 > 返回数的值
+[/code]
 
 
 
@@ -278,8 +299,8 @@
 
 ****相等(==)、不等(!=)、全等(恒等)(===)、不全等(不恒等)(!==) ** ** ** **都是按照上面的规则************
 
-    
-    
+[code]
+
      var box = 2 == 2;                    //true
     var box = '2' == 2;                    //true，'2'会转成成数值2
     var box = false == 0;                //true，false转成数值就是0
@@ -292,6 +313,7 @@
     var box = age == height;                //true，引用地址一样，所以相等
     var box = '2' === 2                    //false，值和类型都必须相等
     var box = 2 !== 2                    //false，值和类型都相等了
+[/code]
 
 **特殊值对比表**
 
@@ -377,9 +399,10 @@
 
 **1.逻辑与(AND) ： &&   （并且）**
 
-    
-    
+[code]
+
     var box =  (5 > 4) && (4 > 3)        //true，两边都为true，返回true
+[/code]
 
 **第一个操作数**
 
@@ -443,27 +466,30 @@
 
 **4.有一个操作数是undefined，则返回undefined。**
 
-    
-    
+[code]
+
                   var box = 对象  && (5 > 4);            //true，返回第二个操作数
               var box = (5 > 4) && 对象;            //[object Object]
     var box = (3 > 4) && 对象;            //false
     var box = (5 > 4) && null;            //null 
+[/code]
 
 **逻辑与运算符属于短路操作，顾名思义，如果第一个操作数返回是false，第二个数不管是true还是false都返回的false。**
 
-    
-    
+[code]
+
      var box = true && age;                //出错，age未定义
         var box = false && age;                //false，不执行age了
+[/code]
 
 
 
 **2.逻辑或(OR)：|| （或者）**
 
-    
-    
+[code]
+
      var box =  (9 > 7) || (7 > 8);            //true，两边只要有一边是true，返回true
+[/code]
 
 **第一个操作数**
 
@@ -531,27 +557,30 @@
 
 **6.两个操作数都是undefined，则返回undefined；**
 
-    
-    
+[code]
+
      var box = 对象 || (5 > 3);            //[object Object]
     var box = (5 > 3) || 对象;            //true
     var box = 对象1 || 对象2;            //[object Object]
     var box = null || null;                //null
     var box = NaN || NaN;                //NaN
     var box = undefined || undefined;        //undefined
+[/code]
 
 **和逻辑与运算符相似，逻辑或运算符也是短路操作。当第一操作数的求值结果为true，就不会对第二个操作数求值了。**
 
-    
-    
+[code]
+
      var box = true || age;                //true
     var box = false || age;                //出错，age未定义
+[/code]
 
 **我们可以利用逻辑或运算符这一特性来避免为变量赋null或undefined值。**
 
-    
-    
+[code]
+
      var box = oneObject || twoObject;        //把其中一个有效变量值赋给box
+[/code]
 
 
 
@@ -575,8 +604,8 @@
 
 **8.操作数是undefined，返回true；**
 
-    
-    
+[code]
+
      var box = !(5 > 4);                    //false
     var box = !{};                        //false
     var box = !'';                        //true
@@ -586,13 +615,15 @@
     var box = !null;                    //true
     var box = !NaN;                    //true
     var box = !undefined;                //true
+[/code]
 
 **使用一次逻辑非运算符，流程是将值转成布尔值然后取反。而使用两次逻辑非运算符就是将值转成成布尔值取反再取反，相当于对值进行Boolean()转型函数处理。**
 
-    
-    
+[code]
+
      var box = !!0;                        //false
     var box = !!NaN;                    //false
+[/code]
 
 **通常来说，使用一个逻辑非运算符和两个逻辑非运算符可以得到相应的布尔值，而使用三个以上的逻辑非运算符固然没有错误，但也没有意义。**
 
@@ -607,42 +638,48 @@
 **位运算符有七种，分别是：位非NOT(~)、位与AND(
 &)、位或OR（|）、位异或XOR(^)、左移(<<)、有符号右移(>>)、无符号右移(>>>)。**
 
-    
-    
+[code]
+
     var box = ~25;                        //-26
     var box = 25 & 3;                    //1
     var box = 25 | 3;                    //27
     var box = 25 << 3;                    //200
     var box = 25 >> 2;                    //6
     var box = 25 >>> 2;                //6
-    
-    
+[/code]
+
+[code]
+
     **更多的详细：http://www.w3school.com.cn/js/pro_js_operators_bitwise.asp  
       
       
     **
+[/code]
 
 **七．** **赋值运算符**
 
 **赋值运算符用等于号(=)表示，就是把右边的值赋给左边的变量。**
 
-    
-    
+[code]
+
      var box = 100;                        //把100赋值给box变量
+[/code]
 
 **复合赋值运算符通过x=的形式表示，x表示算术运算符及位运算符。**
 
-    
-    
+[code]
+
      var box = 100;
     box = box +100;                    //200，自己本身再加100
+[/code]
 
 **这种情况可以改写为：**
 
-    
-    
+[code]
+
      var box = 100；                    
     box += 100;                        //200，+=代替box+100
+[/code]
 
 **除了这种+=加/赋运算符，还有其他的几种如下：**
 
@@ -674,18 +711,19 @@
 
 **规则：至少一个操作数是字符串即可。**
 
-    
-    
+[code]
+
      var box = '100' + '100';                //100100
     var box = '100' + 100;                //100100
     var box = 100 + 100;                //200
+[/code]
 
 **2.逗号运算符**
 
 **逗号运算符可以在一条语句中执行多个操作。**
 
-    
-    
+[code]
+
      var box = 100, age = 20, height = 178;    //多个变量声明
     var box = (1,2,3,4,5);                //5，变量声明，将最后一个值赋给变量，不常用
     var box = [1,2,3,4,5];                //[1,2,3,4,5]，数组的字面量声明
@@ -694,25 +732,28 @@
                         3 : 4,
                         5 : 6
     };
+[/code]
 
 **3.三元条件运算符**
 
 **三元条件运算符其实就是后面将要学到的if语句的简写形式。**
 
-    
-    
+[code]
+
      var box = 5 > 4 ? '对' : '错';            //对，5>4返回true则把'对'赋值给box，反之。
+[/code]
 
 **相当于：**
 
-    
-    
+[code]
+
      var box = '';                        //初始化变量
     if (5 > 4) {                        //判断表达式返回值
     box = '对';                    //赋值
     } else {
     box = '错';                    //赋值
     }
+[/code]
 
 
 
@@ -722,10 +763,11 @@
 
 **在一般的运算中，我们不必考虑到运算符的优先级，因为我们可以通过圆括号来解决这种问题。比如：**
 
-    
-    
+[code]
+
      var box = 5 - 4 * 8;                    //-27
     var box = (5 - 4) * 8;                //8
+[/code]
 
 **但如果没有使用圆括号强制优先级，我们必须遵循以下顺序：**
 

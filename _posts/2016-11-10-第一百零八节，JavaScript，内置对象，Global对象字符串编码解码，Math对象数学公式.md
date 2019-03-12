@@ -1,4 +1,13 @@
-第一百零八节，JavaScript，内置对象，Global对象字符串编码解码，Math对象数学公式
+
+---
+layout: post
+title: " 第一百零八节，JavaScript，内置对象，Global对象字符串编码解码，Math对象数学公式 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **JavaScript，内置对象，Global对象字符串编码解码，Math对象数学公式**
 
@@ -41,18 +50,19 @@
 
 ****注意： ** **encodeURI()编码的必须用 **decodeURI()解码**********
 
-    
-    
+[code]
+
      var box = '//Lee李';
     alert(encodeURI(box));                        //只编码了中文
     //返回//Lee%E6%9D%8E
+[/code]
 
 **decodeURI() ** ** **URI** 字符解码， ** **不会对本身属于URI的特殊字符进行解码， ** **有参要解码的 ** **
 **URI字符******************  
 **
 
-    
-    
+[code]
+
      var box = '//Lee李';
     var box2 = encodeURI(box);                        //只编码了中文
     alert(box2);   //打印编码后的字符，//Lee%E6%9D%8E
@@ -60,22 +70,24 @@
     
     var sdf = '//Lee%E6%9D%8E';
     alert(decodeURI(sdf));//打印解码后的字符，返回//Lee李
+[/code]
 
 **encodeURIComponent()任何非标准URI字符进行编码，包括冒号、正斜杠、问号和#号，有参要编码的URI字符**
 
 ******注意： **encodeURIComponent()** ** **编码的必须用 **decodeURIComponent()**
 **解码************
 
-    
-    
+[code]
+
      var box = '//Lee李';
     var box2 = encodeURIComponent(box);                        //任何非标准URI字符进行编码，包括冒号、正斜杠、问号和#号
     alert(box2);   //打印编码后的字符，%2F%2FLee%E6%9D%8E
+[/code]
 
 **decodeURIComponent()URI字符进行解码，有参要解码的URI字符**
 
-    
-    
+[code]
+
      var box = '//Lee李';
     var box2 = encodeURIComponent(box);                        //任何非标准URI字符进行编码，包括冒号、正斜杠、问号和#号
     alert(box2);   //打印编码后的字符，%2F%2FLee%E6%9D%8E
@@ -83,6 +95,7 @@
     
     var sdf = '%2F%2FLee%E6%9D%8E';
     alert(decodeURIComponent(sdf));//解码返回，//Lee李
+[/code]
 
 **PS：因为encodeURIComponent()编码比encodeURI()编码来的更加彻底，一般来说encodeURIComponent()使用频率要高一些。**
 
@@ -94,14 +107,15 @@
 
 **eval()方法主要担当一个字符串解析器的作用，他只接受一个参数，而这个参数就是字符串类型的js代码，也就是可以解析字符串类型的js代码**
 
-    
-    
+[code]
+
     eval('var box = 100');                         //解析了字符串代码
     alert(box);
     eval('alert(100)');                            //同上
     
     eval('function box() {return 123}');            //函数也可以
     alert(box());
+[/code]
 
 **eval()方法的功能非常强大，但也非常危险。因此使用的时候必须极为谨慎。特别是在用户输入数据的情况下，非常有可能导致程序的安全性，比如代码注入等等。**
 
@@ -111,9 +125,10 @@
 
 **Global对象包含了一些属性：undefined、NaN、Object、Array、Function等等。**
 
-    
-    
+[code]
+
     alert(Array);                                 //返回构造函数
+[/code]
 
 
 
@@ -121,9 +136,10 @@
 
 **之前已经说明，Global没有办法直接访问，而Web浏览器可以使用window对象来实现一全局访问。**
 
-    
-    
+[code]
+
     alert(window.Array);                         //同上
+[/code]
 
 
 
@@ -195,8 +211,8 @@
   
 
 
-    
-    
+[code]
+
     alert(Math.E);                                //
     alert(Math.LN10);
     alert(Math.LN2);
@@ -205,6 +221,7 @@
     alert(Math.PI);
     alert(Math.SQRT1_2);
     alert(Math.SQRT2);                        //
+[/code]
 
 
 
@@ -212,15 +229,17 @@
 
 **min()用于确定一组数值中的最小值**
 
-    
-    
+[code]
+
     alert(Math.min(2,4,3,6,3,8,0,1,3));                 //最小值
+[/code]
 
 **max()用于确定一组数值中的最大值。**
 
-    
-    
+[code]
+
     alert(Math.max(4,7,8,3,1,9,6,0,3,2));             //最大值
+[/code]
 
 
 
@@ -228,27 +247,30 @@
 
 **ceil()执行向上舍入，即它总是将数值向上舍入为最接近的整数；**
 
-    
-    
+[code]
+
     alert(Math.ceil(25.9));                         //26
     alert(Math.ceil(25.5));                        //26
     alert(Math.ceil(25.1));                        //26
+[/code]
 
 **floor()执行向下舍入，即它总是将数值向下舍入为最接近的整数；**
 
-    
-    
+[code]
+
     alert(Math.floor(25.9));                         //25
     alert(Math.floor(25.5));                        //25
     alert(Math.floor(25.1));                        //25
+[/code]
 
 **round()执行标准舍入，即它总是将数值四舍五入为最接近的整数；**
 
-    
-    
+[code]
+
     alert(Math.round(25.9));                         //26
     alert(Math.round(25.5));                        //26
     alert(Math.round(25.1));                        //25
+[/code]
 
 
 
@@ -260,20 +282,23 @@
 
 ****结束范围数 + 开始范围数 - 1 =正真的结束范围数，开始范围数还是原来的****
 
-    
-    
+[code]
+
     alert(Math.floor(Math.random() * 10 + 1));         //结束范围数为10+开始范围数1=11，11-1=10 （1-10）的随机范围
-    
-    
+[/code]
+
+[code]
+
     for (var i = 0; i<10;i ++) {
         document.write(Math.floor(Math.random() * 10 + 5));        //结束范围数为10+开始范围数5=15，15-1=14 （5-14）的随机范围
         document.write('<br />');
     }
+[/code]
 
 **为了更加方便的传递想要范围，可以写成函数【推荐】**
 
-    
-    
+[code]
+
      function selectFrom(lower, upper) {  //自定义随机函数，接收开始范围数和结束范围数
         var sum = upper - lower + 1;                    //结束范围数10减去开始范围数5=5,5+1=6
         return Math.floor(Math.random() * sum + lower);//（* 6 + 5）,6+5-1=10，范围就是5-10
@@ -284,6 +309,7 @@
         document.write(selectFrom(5,10));                    //直接传递范围即可
         document.write('<br />');
     }
+[/code]
 
 
 
@@ -371,9 +397,10 @@
   
 
 
-    
-    
+[code]
+
     alert(Math.abs(5));//返回num的绝对值
+[/code]
 
 **其他相同**
 

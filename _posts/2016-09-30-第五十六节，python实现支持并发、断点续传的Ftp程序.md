@@ -1,4 +1,13 @@
-第五十六节，python实现支持并发、断点续传的Ftp程序
+
+---
+layout: post
+title: " 第五十六节，python实现支持并发、断点续传的Ftp程序 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 # 一、要求
 
@@ -51,8 +60,8 @@ c、客户端接收返回值，并seek到has_recv的位置，进行循环收发�
 
 ## 配置文件：
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding: utf-8 -*-
     import os
@@ -60,11 +69,12 @@ c、客户端接收返回值，并seek到has_recv的位置，进行循环收发�
     NEW_FILENAME=os.path.join(BASE_DIR,'view')             #新文件目录
     NAME_PWD=os.path.join(BASE_DIR,'db','name_pwd')        #用户名和密码目录
     USER_FILE=os.path.join(BASE_DIR,'db')
+[/code]
 
 ## 服务器端：
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding: utf-8 -*-
      
@@ -252,11 +262,12 @@ c、客户端接收返回值，并seek到has_recv的位置，进行循环收发�
     if __name__=='__main__':
         sever=socketserver.ThreadingTCPServer(('127.0.0.1',9999),Myserver)
         sever.serve_forever()
+[/code]
 
 ## 客户端：
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding: utf-8 -*-
      
@@ -423,6 +434,7 @@ c、客户端接收返回值，并seek到has_recv的位置，进行循环收发�
         pwd=input('请输入密码')
         main(usrname,pwd)
     　　
+[/code]
 
 
 

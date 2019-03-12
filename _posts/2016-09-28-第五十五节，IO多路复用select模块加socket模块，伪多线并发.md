@@ -1,4 +1,13 @@
-第五十五节，IO多路复用select模块加socket模块，伪多线并发
+
+---
+layout: post
+title: " 第五十五节，IO多路复用select模块加socket模块，伪多线并发 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **IO多路复用select模块加socket模块，伪多线并发，并不是真正的多线程并发，实际通过循环等待还是一个一个处理的**
 
@@ -56,8 +65,8 @@ select()自动监听列表里的socket对象（文件描述符），一旦监听
 
 ************IO多路复用** 多端口监听客户端连接地址、服务端代码**********
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """服务端"""
@@ -87,11 +96,12 @@ select()自动监听列表里的socket对象（文件描述符），一旦监听
         for k in a: #循环出select()获取到的列表类型客户端连接地址
             d, e = k.accept() #将循环到的每一个客户端连接地址等待通讯，阻塞
             d.sendall(bytes("欢迎访问", encoding="utf-8")) #向连接的客户端发送一条消息
+[/code]
 
 **客户端代码1**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建客户端"""
@@ -102,11 +112,12 @@ select()自动监听列表里的socket对象（文件描述符），一旦监听
     f = z.recv(1024) #客户端接收服务端sendall()发来的信息，1024表示最大接收1024字节
     f2 = str(f, encoding='utf-8') #将接收到的服务端字节信息转换成字符串
     print(f2) #打印出服务端发来的信息
+[/code]
 
 **客户端代码2**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建客户端"""
@@ -117,6 +128,7 @@ select()自动监听列表里的socket对象（文件描述符），一旦监听
     f = z.recv(1024) #客户端接收服务端sendall()发来的信息，1024表示最大接收1024字节
     f2 = str(f, encoding='utf-8') #将接收到的服务端字节信息转换成字符串
     print(f2) #打印出服务端发来的信息
+[/code]
 
 **IO多路复用 ** ** ** ** **多端口监听、客户端连接地址原理图************
 
@@ -131,8 +143,8 @@ select()自动监听列表里的socket对象（文件描述符），一旦监听
 
 ******IO多路复用监听客户端多通讯地址服务端代码******
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """服务端"""
@@ -164,11 +176,12 @@ select()自动监听列表里的socket对象（文件描述符），一旦监听
                     k.sendall(bytes(g, encoding="utf-8"))
                 except Exception as ex: #出现异常将当前通讯对象移除列表，select不在监听
                     lib.remove(k)
+[/code]
 
 **客户端代码**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建客户端"""
@@ -181,6 +194,7 @@ select()自动监听列表里的socket对象（文件描述符），一旦监听
         print(f2) #打印出服务端发来的信息
         a = input("输入要发送的信息")
         z.sendall(bytes(a, encoding="utf-8"))
+[/code]
 
   **IO多路复用监听客户端多通讯原理图**
 
@@ -204,8 +218,8 @@ select()自动监听列表里的socket对象（文件描述符），一旦监听
 
 **服务端读写分离代码**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """服务端实现读写分离"""
@@ -251,13 +265,14 @@ select()自动监听列表里的socket对象（文件描述符），一旦监听
     
         for fh in c: #如果监听连接出现异常
             lib.remove(fh) #移除当前连接
+[/code]
 
 **客户端代码**
 
 
 
-    
-    
+[code]
+
     #!/usr/bin/env python
     # -*- coding:utf8 -*-
     """创建客户端"""
@@ -270,6 +285,7 @@ select()自动监听列表里的socket对象（文件描述符），一旦监听
         f = z.recv(1024) #客户端接收服务端sendall()发来的信息，1024表示最大接收1024字节
         f2 = str(f, encoding='utf-8') #将接收到的服务端字节信息转换成字符串
         print(f2) #打印出服务端发来的信息
+[/code]
 
   **IO多路复用，服务端读写分离原理图**
 

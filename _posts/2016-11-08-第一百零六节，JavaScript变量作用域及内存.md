@@ -1,4 +1,13 @@
-第一百零六节，JavaScript变量作用域及内存
+
+---
+layout: post
+title: " 第一百零六节，JavaScript变量作用域及内存 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **JavaScript变量作用域及内存**
 
@@ -43,19 +52,21 @@
 
 **引用类型可以追加数据**
 
-    
-    
+[code]
+
      var box = new Object();                        //创建引用类型
     box.name = 'Lee';                            //新增一个属性
     alert(box.name);                            //输出
+[/code]
 
 **如果是基本类型的值添加数据的话，就会出现问题了。**
 
-    
-    
+[code]
+
      var box = 'Lee';                            //创建一个基本类型
     box.age = 27;                                //给基本类型添加属性
     alert(box.age);                                //undefined    
+[/code]
 
 
 
@@ -65,10 +76,11 @@
 
 **基本类型**
 
-    
-    
+[code]
+
      var box = 'Lee';                            //在栈内存生成一个box 'Lee'
     var box2 = box;                            //在栈内存再生成一个box2 'Lee'
+[/code]
 
 ![](https://images2015.cnblogs.com/blog/955761/201611/955761-20161108165804233-1771590409.png)
 
@@ -76,11 +88,12 @@
 
 **引用类型**
 
-    
-    
+[code]
+
      var box = new Object();                        //创建一个引用类型
     box.name = 'Lee';                            //新增一个属性
     var box2 = box;                            //把引用地址赋值给box2
+[/code]
 
 ![](https://images2015.cnblogs.com/blog/955761/201611/955761-20161108170016889-288343679.png)
 
@@ -92,8 +105,8 @@
 
 **ECMAScript中所有函数的参数都是按值传递的，言下之意就是说，参数不会按引用传递，虽然变量有基本类型和引用类型之分。**
 
-    
-    
+[code]
+
      function box(num) {                        //按值传递，传递的参数是基本类型
         num += 10;                            //这里的num是局部变量，全局无效
         return num;
@@ -102,6 +115,7 @@
     var result = box(num);
     alert(result);                            //60
     alert(num);                                //50
+[/code]
 
 **PS：以上的代码中，传递的参数是一个基本类型的值。而函数里的num是一个局部变量，和外面的num没有任何联系。**
 
@@ -109,8 +123,8 @@
 
 **下面给出一个参数作为引用类型的例子。**
 
-    
-    
+[code]
+
      function box(obj) {                            //按值传递，传递的参数是引用类型，定义函数
         obj.name = 'Lee';
     }
@@ -118,19 +132,21 @@
     var p = new Object();                      //定义一个变量，值是对象
     box(p);                                    //执行函数将对象传入函数 
     alert(p.name);
+[/code]
 
 **PS：如果存在按引用传递的话，那么函数里的那个变量将会是全局变量，在外部也可以访问。比如PHP中，必须在参数前面加上
 &符号表示按引用传递。而ECMAScript没有这些，只能是局部变量。**
 
 **PS：所以按引用传递和传递引用类型是两个不同的概念。**
 
-    
-    
+[code]
+
      function box(obj) {
         obj.name = 'Lee';
         var obj = new Object();                    //函数内部又创建了一个对象
         obj.name = 'Mr.';                        //并没有替换掉原来的obj
     }
+[/code]
 
 **最后得出结论，ECMAScript函数的参数都将是局部变量，也就是说，没有按引用传递。**
 
@@ -140,10 +156,11 @@
 
 **要检测一个变量的类型，我们可以通过typeof运算符来判别。诸如：**
 
-    
-    
+[code]
+
      var box = 'Lee';
     alert(typeof box);                            //string
+[/code]
 
 **虽然typeof运算符在检查基本数据类型的时候非常好用，但检测引用类型的时候，它就不是那么好用了。通常，我们并不想知道它是不是对象，而是想知道它到底是什么类型的对象。因为数组也是object，null也是Object等等。**
 
@@ -151,8 +168,8 @@
 
 ****instanceof运算符，判断一个对象数据是否是指定的类型，返回布尔值****
 
-    
-    
+[code]
+
      var box = [1,2,3];
     alert(box instanceof Array);                    //是否是数组
     var box2 = {};
@@ -161,6 +178,7 @@
     alert(box3 instanceof RegExp);                //是否是正则表达式
     var box4 = new String('Lee');
     alert(box4 instanceof String);                    //是否是字符串对象
+[/code]
 
 **PS：当使用instanceof检查基本类型的值时，它会返回false。**
 
@@ -174,23 +192,25 @@
 
 **全局变量可以在函数里访问**
 
-    
-    
+[code]
+
      var box = 'blue';                            //声明一个全局变量
     function setBox() {
         alert(box);                            //全局变量可以在函数里访问
     }
     setBox();                                    //执行函数
+[/code]
 
 **全局的变量和函数，都是window对象的属性和方法。**
 
-    
-    
+[code]
+
      var box = 'blue';
     function setBox() {
         alert(window.box);                        //全局变量即window的属性
     }
     window.setBox();                            //全局函数即window的方法
+[/code]
 
 **PS：当执行环境中的所有代码执行完毕后，该环境被销毁，保存在其中的所有变量和函数定义也随之销毁。如果是全局环境下，需要程序执行完毕，或者网页被关闭才会销毁。**
 
@@ -204,8 +224,8 @@
 
 
 
-    
-    
+[code]
+
     var box = 'blue';
     function setBox() {
         var box = 'red';                        //这里是局部变量，出来就不认识了
@@ -213,24 +233,26 @@
     }
     setBox();
     alert(box);
+[/code]
 
 
 
 **通过传参，可以替换函数体内的局部变量，但作用域仅限在函数体内这个局部环境。**
 
-    
-    
+[code]
+
      var box = 'blue';
     function setBox(box) {                        //通过传参，替换了全局变量
         alert(box);
     }
     setBox('red');
     alert(box);
+[/code]
 
 **函数体内还包含着函数，只有这个函数才可以访问内一层的函数。**
 
-    
-    
+[code]
+
      var box = 'blue';
     function setBox() {
         function setColor() {
@@ -241,6 +263,7 @@
         setColor();                            //setColor()的执行环境在setBox()内
     }
     setBox();
+[/code]
 
 **PS：每个函数被调用时都会创建自己的执行环境。当执行到这个函数时，函数的环境就会被推到环境栈中去执行，而执行后又在环境栈中弹出(退出)，把控制权交给上一级的执行环境。**
 
@@ -256,45 +279,49 @@
 
 **if语句代码块没有局部作用域**
 
-    
-    
+[code]
+
      if (true) {                                    //if语句代码块没有局部作用域
         var box = 'Lee';
     }
     alert(box);
+[/code]
 
 **for循环语句也是如此**
 
-    
-    
+[code]
+
      for (var i = 0; i < 10; i ++) {                    //没有局部作用域
         var box = 'Lee';
     }
     alert(i);
     alert(box);
+[/code]
 
 **var关键字在函数里的区别**
 
-    
-    
+[code]
+
      function box(num1, num2) {
         var sum = num1 + num2;                //如果去掉var就是全局变量了
         return sum;
     }
     alert(box(10,10));
     alert(sum);                                //报错
+[/code]
 
 **PS：非常不建议不使用var就初始化变量，因为这种方法会导致各种意外发生。所以初始化变量的时候一定要加上var。**
 
 **一般确定变量都是通过搜索来确定该标识符实际代表什么。**
 
-    
-    
+[code]
+
      var box = 'blue';
     function getBox() {
         return box;                            //代表全局box
     }                                        //如果加上函数体内加上var box = 'red'
     alert(getBox());                        //那么最后返回值就是red
+[/code]
 
 ![](https://images2015.cnblogs.com/blog/955761/201611/955761-20161108180726124-1157134542.png)
 
@@ -312,12 +339,13 @@
 
 **一般来说，确保占用最少的内存可以让页面获得更好的性能。那么优化内存的最佳方案，就是一旦数据不再有用，那么将其设置为null来释放引用，这个做法叫做解除引用。这一做法适用于大多数全局变量和全局对象。**
 
-    
-    
+[code]
+
      var o = {
         name : 'Lee'
     };
     o = null;                                    //解除对象引用，等待垃圾收集器回收
+[/code]
 
 
 

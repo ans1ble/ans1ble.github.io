@@ -1,4 +1,13 @@
-第一百零二节，JavaScript函数
+
+---
+layout: post
+title: " 第一百零二节，JavaScript函数 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **JavaScript函数**
 
@@ -32,23 +41,25 @@
 
 ****无参函数：****
 
-    
-    
+[code]
+
      function box() {                               //没有参数的函数
         alert('只有函数被调用，我才会被之执行');   
     }
     box();                                    //直接调用执行函数
+[/code]
 
 **有参函数：**
 
 **如果有参函数在调用时没有传参数，会自动赋值参数为undefined**
 
-    
-    
+[code]
+
      function box(name, age) {                    //带参数的函数
         alert('你的姓名：'+name+'，年龄：'+age);
     }
     box('李炎恢',28);                            //调用函数，并传参
+[/code]
 
 
 
@@ -58,31 +69,34 @@
 
 **无参定义返回值：**
 
-    
-    
+[code]
+
      function box() {                            //没有参数的函数
         return '我被返回了！';                    //通过return把函数的最终值返回
     }            
     alert(box());                                //调用函数会得到返回值，然后外面输出
+[/code]
 
 **有参定义返回值：**
 
-    
-    
+[code]
+
      function box(name, age) {                    //有参数的函数
         return '你的姓名：'+name+'，年龄：'+age;//通过return 把函数的最终值返回
     }
     alert(box('李炎恢', 28));                        //调用函数得到返回值，然后外面输出
+[/code]
 
 **我们还可以把函数的返回值赋给一个变量，然后通过变量进行操作。**
 
-    
-    
+[code]
+
      function box(num1, num2) {
         return num1 * num2;
     }
     var num = box(10, 5);                        //函数得到的返回值赋给变量
     alert(num);   
+[/code]
 
 **return语句还有一个功能就是退出当前函数，注意和break的区别。**
 
@@ -90,13 +104,14 @@
 
 **注意：函数里一旦遇到 **return返回关键字后，下面还有代码就不会执行了****
 
-    
-    
+[code]
+
      function box(num) {
         if (num < 5)  return num;            //满足条件，就返回num
         return 100;                            //返回之后，就不执行下面的语句了
     }
     alert(box(2));                          //打印函数变量
+[/code]
 
 
 
@@ -108,30 +123,32 @@
 
 ******arguments以数组下标方式类获取实际参数******
 
-    
-    
+[code]
+
      function box() {
         return arguments[0]+' | '+arguments[1];        //arguments[0]，将调用函数时传的参数，当做数组索引下标的方式获取到
                                                     //arguments[0]，就是获取传参的第一个参数1
                                                     //arguments[1]，就是获取传参的第二个参数2
     }
     alert(box(1,2,3,4,5,6));                        //传递参数
+[/code]
 
 **arguments对象的length属性可以得到参数的数量。**
 
 **也就是 **arguments对象的length属性可以检查到，调用函数时传了多少个实际参数****
 
-    
-    
+[code]
+
      function box() {
         return arguments.length;                    //得到6
     }
     alert(box(1,2,3,4,5,6));
+[/code]
 
 **我们可以利用length这个属性，来智能的判断有多少参数，然后把参数进行合理的应用。比如，要实现一个加法运算，将所有传进来的数字累加，而数字的个数又不确定。**
 
-    
-    
+[code]
+
      function box() {
         var sum = 0;
         if (arguments.length == 0) return sum;        //如果没有参数，返回sum变量
@@ -141,11 +158,12 @@
         return sum;                            //返回累加结果26
     }
     alert(box(5,9,12));
+[/code]
 
 **ECMAScript中的函数，没有像其他高级语言那种函数重载功能。**
 
-    
-    
+[code]
+
      function box(num) {
         return num + 100;
     }
@@ -153,6 +171,7 @@
         return num + 200;
     }
     alert(box(50));                                //返回结果
+[/code]
 
 
 
@@ -178,28 +197,31 @@
 
 **1.普通的函数声明**
 
-    
-    
+[code]
+
      function box(num1, num2) {
         return num1+ num2;
     }
     alert(box(1,2));
+[/code]
 
 **2.使用变量初始化函数**
 
-    
-    
+[code]
+
      var box= function(num1, num2) {
         return num1 + num2;
     };
     alert(box(1,2));
+[/code]
 
 **3.使用Function构造函数【不推荐】**
 
-    
-    
+[code]
+
      var box= new Function('num1', 'num2' ,'return num1 + num2');
     alert(box(1,2));
+[/code]
 
 **PS：第三种方式我们不推荐，因为这种语法会导致解析两次代码（第一次解析常规ECMAScript代码，第二次是解析传入构造函数中的字符串），从而影响性能。但我们可以通过这种语法来理解"函数是对象，函数名是指针"的概念。**
 
@@ -211,8 +233,8 @@
 
 **将一个函数当做参数传给另外一个函数**
 
-    
-    
+[code]
+
      function box(sumFunction, num) {              //定义函数box
         return sumFunction(num);                  //返回执行box函数，并传出参数10
     }
@@ -223,6 +245,7 @@
     
     var result = box(sum, 10);                    //执行函数box，将sum函数当做参数传入box函数
     alert(result);
+[/code]
 
 
 
@@ -232,8 +255,8 @@
 
 **阶乘递归**
 
-    
-    
+[code]
+
      function box(num) {
         if (num <= 1) {
             return 1;
@@ -242,6 +265,7 @@
         }
     }
     alert(box(4));
+[/code]
 
 
 
@@ -249,8 +273,8 @@
 
 **callee属性， **该属性是一个指针，指向拥有这个arguments对象的函数****
 
-    
-    
+[code]
+
      function box(num) {
         if (num <= 1) {
             return 1;
@@ -259,6 +283,7 @@
         }
     }
     alert(box(4));
+[/code]
 
 
 
@@ -268,40 +293,45 @@
 
 **window是一个对象，而且是js里面最大的对象，是最外围的对象**
 
-    
-    
+[code]
+
     alert(window);          //打印对象，返回[object Window]
     alert(typeof window); //查看对象类型
+[/code]
 
 **this在全局作用域中时 **this就是 **window对象******
 
-    
-    
+[code]
+
     alert( this); //返回[object Window]
+[/code]
 
 **全局变量都是Window的属性**
 
-    
-    
+[code]
+
      //全局变量都是Window的属性
     var color = "红色的";   //声明一个变量
     alert(window.color);    //通过Window属性打印变量
+[/code]
 
 **通过this打印全局变量**
 
-    
-    
+[code]
+
      var color = "红色的";   //声明一个变量
     alert(this.color);    //通过this属性打印变量,全局变量也可以通过this来打印，也等同于通过Window打印
+[/code]
 
 **window.color = "红色"; 相当于var color = "红色";**
 
-    
-    
+[code]
+
     window.color = "红色";  //相当于var color = "红色";
     alert(color);
     var color = "红色";
     alert(color);
+[/code]
 
 
 
@@ -309,8 +339,8 @@
 
 **注意： **this在对象里面的指向的对象本身****
 
-    
-    
+[code]
+
      var box = {                   //创建一个对象
         color:"蓝色",             //对象里的一个字段，等同于一个变量
         saycolor:function(){     //对象里的一个方法，也就是匿名函数
@@ -318,13 +348,14 @@
         }
     };
     box.saycolor();              //执行对象里面的saycolor()方法
+[/code]
 
 
 
 **this在函数与对象里面的区别**
 
-    
-    
+[code]
+
     window.color = '红色的';                     //或者var color = '红色的';也行
     
     var box = {                                //创建一个对象
@@ -340,6 +371,7 @@
     box.sayColor = sayColor;                   //将sayColor()函数，追加到box对象里，此时sayColor()函数里的this就在对象里了，this在对象里指向的就是对象本身
     box.sayColor();                            //此时执行box对象里的sayColor()函数，打印的就是对象里面的color
     //返回蓝色的
+[/code]
 
 
 
@@ -349,8 +381,8 @@
 
 ****length属性表示函数希望接收的命名参数的个数。****
 
-    
-    
+[code]
+
      function box(name,age){
         alert(name + age);
     }
@@ -358,6 +390,7 @@
     
     alert(box.length); //查看函数希望接收的命名参数的个数
     //返回2
+[/code]
 
 
 
@@ -372,8 +405,8 @@
 
 ****冒充一个函数，实际上就是将要冒充的函数指向指定的作用域去执行****
 
-    
-    
+[code]
+
      function box(num1,num2){       //原函数
         return num1 + num2;
     }
@@ -384,12 +417,16 @@
                                                      //第二个参数是数组类型的形式参数，用于接收函数的形式参数
     }
     alert(saybox(3,4)); //执行冒充函数
-    
-    
+[/code]
+
+[code]
+
     **第二个参也可以用arguments属性类接收实际参数  
     **
-    
-    
+[/code]
+
+[code]
+
      function box(num1,num2){       //原函数
         return num1 + num2;
     }
@@ -400,6 +437,7 @@
                                                      //第二个参也可以用arguments属性类接收实际参数
     }
     alert(saybox(3,4)); //执行冒充函数
+[/code]
 
 
 
@@ -409,8 +447,10 @@
 
 **和apply区别在于后面的传参**
 
-    
-    
+[/code]
+
+[code]
+
      function box(num1,num2){       //原函数
         return num1 + num2;
     }
@@ -421,11 +461,16 @@
                                                      //作用域后面的参数是形式参数，原函数有多少个形式参数，就需要写多少个形式参数
     }
     alert(saybox(3,4)); //执行冒充函数
+[/code]
+
+[/code]
+
+[code]
 
 **事实上，传递参数并不是apply()和call()方法真正的用武之地；它们经常使用的地方是能够扩展函数赖以运行的作用域。**
 
-    
-    
+[code]
+
      var color = '红色的';                    //或者window.color = '红色的';也行
     
     var box = {
@@ -440,6 +485,7 @@
     sayColor.call(this);                        //这句话的意思是冒充this下的sayColor函数执行，作用域在window
     sayColor.call(window);                        //这句话的意思是冒充window下的sayColor函数执行，作用域在window
     sayColor.call(box);                            //这句话的意思是冒充box对象下的sayColor函数执行，作用域在box，
+[/code]
 
 **冒充一个函数，实际上就是将要冒充的函数指向指定的作用域去执行**
 
@@ -448,7 +494,8 @@
 **使用call()或者apply()来扩充作用域的最大好处，就是对象不需要与方法发生任何耦合关系(耦合，就是互相关联的意思，扩展和维护会发生连锁反应)。也就是说，box对象和sayColor()方法之间不会有多余的关联操作，比如
 box.sayColor = sayColor;也就是不需要将方法追加到对象里**
 
-    
-    
+[code]
+
     ** **
+[/code]
 

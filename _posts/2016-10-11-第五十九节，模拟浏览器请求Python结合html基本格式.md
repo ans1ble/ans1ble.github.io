@@ -1,4 +1,13 @@
-第五十九节，模拟浏览器请求Python结合html基本格式
+
+---
+layout: post
+title: " 第五十九节，模拟浏览器请求Python结合html基本格式 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **模拟浏览器请求Python结合html基本格式**
 
@@ -6,8 +15,8 @@
 
 **创建客户端**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import socket #导入单线程通讯模块
@@ -33,13 +42,14 @@
     if __name__ == '__main__':  #wds系统下if __name__ == "__main__"才能创建进程，我们调试没关系，以后在Linux系统没这个问题
     
         main() #执行main函数
+[/code]
 
 **HTML页面**
 
 **将HTML页面放入客服端相同的目录里**
 
-    
-    
+[code]
+
      <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -50,6 +60,7 @@
     <h1>你好</h1>
     </body>
     </html>
+[/code]
 
 启动客户端后在浏览器输入http://127.0.0.1:8082/  可以看到以下结果
 
@@ -63,8 +74,8 @@
 
 **HTML基本格式**
 
-    
-    
+[code]
+
      <!DOCTYPE html>                     //文档类型声明
     <html lang="zh-cn">                 //表示HTML文档开始，属性lang,属性值=zh-cn（声明中文网页的意思）
     <head>                              //包含文档元素开始
@@ -75,6 +86,7 @@
     
     </body>                             //表示HTML内容结束
     </html>                             //表示HTML文档结束
+[/code]
 
 
 

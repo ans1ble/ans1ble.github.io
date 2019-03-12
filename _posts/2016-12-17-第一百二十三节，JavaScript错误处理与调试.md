@@ -1,4 +1,13 @@
-第一百二十三节，JavaScript错误处理与调试
+
+---
+layout: post
+title: " 第一百二十三节，JavaScript错误处理与调试 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **JavaScript错误处理与调试**
 
@@ -66,13 +75,14 @@ Options选项->高级->禁用脚本调试，取消勾选即可。**
 
 
 
-    
-    
+[code]
+
     try {                                        //尝试着执行try包含的代码
         window.abcdefg();                        //不存在的方法
     } catch (e) {                                //如果有错误，执行catch，e是异常对象
         alert('发生错误啦，错误信息为：' + e);    //直接打印调用toString()方法
     }
+[/code]
 
 
 
@@ -100,14 +110,15 @@ Options选项->高级->禁用脚本调试，取消勾选即可。**
 **************************catch(e)接收的e错误信息对象里. ** **
 **name********************************
 
-    
-    
+[code]
+
      try {                                        //尝试着执行try包含的代码
         window.abcdefg();                        //不存在的方法
     } catch (e) {                                //如果有错误，执行catch，e是异常对象
         alert(e.name );    //打印错误名称
         alert(e.message)//打印错误信息
     }
+[/code]
 
 **PS：Opera9之前的版本不支持这个属性。并且IE提供了和message完全相同的description属性、还添加了number属性提示内部错误数量。Firefox提供了fileName(文件名)、lineNumber(错误行号)和stack(栈跟踪信息)。Safari添加了line(行号)、sourceId(内部错误代码)和sourceURL(内部错误URL)。所以，要跨浏览器使用，那么最好只使用通用的message。**
 
@@ -118,8 +129,8 @@ Options选项->高级->禁用脚本调试，取消勾选即可。**
 **finally语句作为try-catch的可选语句，不管是否发生异常处理，都会执行。
 并且不管try或是catch里包含return语句，也不会阻止finally执行。**
 
-    
-    
+[code]
+
     try {                     //尝试执行里面的代码
             window.abcdefg();     
         } catch (e) {         //如果发生错误就执行里面的代码
@@ -127,6 +138,7 @@ Options选项->高级->禁用脚本调试，取消勾选即可。**
         } finally {                                //不管是否发生错误都执行里面代码
             alert('我都会执行！');
         }
+[/code]
 
 **PS：finally的作用一般是为了防止出现异常后，无法往下再执行的备用。也就是说，如果有一些清理操作，那么出现异常后，就执行不到清理操作，那么可以把这些清理操作放到finally里即可。**
 
@@ -163,9 +175,10 @@ Options选项->高级->禁用脚本调试，取消勾选即可。**
 
 **PS：RangeError错误一般在数值超出相应范围时触发**
 
-    
-    
+[code]
+
      new Array(-5);                                //抛出RangeError(范围)
+[/code]
 
 **ReferenceError(引用错误)**
 
@@ -173,9 +186,10 @@ Options选项->高级->禁用脚本调试，取消勾选即可。**
 
 **PS：ReferenceError通常访问不存在的变量产生这种错误**
 
-    
-    
+[code]
+
      var box = a;                                //抛出ReferenceError(引用)
+[/code]
 
 **SyntaxError(语法错误)**
 
@@ -183,9 +197,10 @@ Options选项->高级->禁用脚本调试，取消勾选即可。**
 
 **PS：SyntaxError通常是语法错误导致的**
 
-    
-    
+[code]
+
     a $ b;                                     //抛出SyntaxError(语法)
+[/code]
 
 **TypeError(类型错误)**
 
@@ -193,9 +208,10 @@ Options选项->高级->禁用脚本调试，取消勾选即可。**
 
 **PS：TypeError通常是类型不匹配导致的**
 
-    
-    
+[code]
+
      new 10;                                    //抛出TypeError(类型 )
+[/code]
 
 **EvalError**
 
@@ -211,8 +227,8 @@ Options选项->高级->禁用脚本调试，取消勾选即可。**
 
 **利用不同的错误类型，可以更加恰当的给出错误信息或处理。**
 
-    
-    
+[code]
+
      try {
         new 10;
     } catch (e) {
@@ -222,6 +238,7 @@ Options选项->高级->禁用脚本调试，取消勾选即可。**
             alert('发生了未知错误！');
         }
     }
+[/code]
 
 
 
@@ -230,20 +247,23 @@ Options选项->高级->禁用脚本调试，取消勾选即可。**
 **在明明知道某个地方会产生错误，可以通过修改代码来解决的地方，是不适合用try-
 catch的。或者是那种不同浏览器兼容性错误导致错误的也不太适合，因为可以通过判断浏览器或者判断这款浏览器是否存在此属性和方法来解决。**
 
-    
-    
+[code]
+
      try {
         var box = document.getElementbyid('box');    //单词大小写错误，导致类型错误
     } catch (e) {                                //这种情况没必要try-catch
         alert(e);
     }
-    
-    
+[/code]
+
+[code]
+
     try {
         alert(innerWidth);                        //W3C支持，IE报错
     } catch (e) {
         alert(document.documentElement.clientWidth);    //兼容IE
     }
+[/code]
 
 **以上两种情况都不适合用try-catch**
 
@@ -259,8 +279,8 @@ catch比一般语句消耗资源更多，负担更大。所以，在万不得已
 
 **throw实列化一个错误对象，抛出错误**
 
-    
-    
+[code]
+
      try {
         new 10;
     } catch (e) {
@@ -270,6 +290,7 @@ catch比一般语句消耗资源更多，负担更大。所以，在万不得已
             throw new Error('抛出未知错误！');  //否则实例化一个Error错误对象，向浏览器抛出错误
         }
     }
+[/code]
 
 **PS：IE浏览器只支持Error抛出的错误，其他错误类型不支持。**
 
@@ -279,8 +300,8 @@ catch比一般语句消耗资源更多，负担更大。所以，在万不得已
 
 **onerror事件是当某个DOM对象产生错误的时候触发。**
 
-    
-    
+[code]
+
      //添加一个错误事件，当发生错误时激发函数
     addEvent(window, 'error', function () {
         alert('发生错误啦！')
@@ -300,12 +321,14 @@ catch比一般语句消耗资源更多，负担更大。所以，在万不得已
             obj.attachEvent('on' + type, fn);
         }
     }
+[/code]
 
 **在HTML直接使用onerror事件**
 
-    
-    
+[code]
+
      <img src="123.jpg" onerror="alert('图像加载错误！')" />
+[/code]
 
 
 
@@ -323,34 +346,37 @@ catch比一般语句消耗资源更多，负担更大。所以，在万不得已
 
 **在一些判断比较的时候，比如数组比较，有相等和全等两种：**
 
-    
-    
+[code]
+
     alert(1 == '1');                             //true，相等比较的是值，类型不用比较
     alert(1 === '1');                            //false，全等比较的是值还要比较类型
     alert(1 == true);                            //true，相等转换成布尔值为真相等
     alert(1 === true);                            //false，全等两者类型不一样
+[/code]
 
 **PS：由于这个特性，我们建议在这种会类型转换的判断，强烈推荐使用全等，以保证判断的正确性。**
 
 
 
-    
-    
+[code]
+
     var box = 10;                                //可以试试0
     if (box) {                                    //10自动转换为布尔值为true
         alert(box);
     }
+[/code]
 
 **PS：因为0会自动转换为false，其实0也是数值，也是有值的，不应该认为是false，所以我们要判断box是不是数值再去打印。**
 
 
 
-    
-    
+[code]
+
     var box = 0;
     if (typeof box == 'number') {                    //判断box是number类型即可
         alert(box);
     }
+[/code]
 
 **PS：typeof box == 'number'这里也是用的相等，没有用全等呀？原因是typeof
 box本身返回的就是类型的字符串，右边也是字符串，那没必要验证类型，所以相等就够了。**
@@ -361,8 +387,8 @@ box本身返回的就是类型的字符串，右边也是字符串，那没必�
 
 **由于JavaScript是弱类型语言，在使用变量和传递参数之前，不会对它们进行比较来确保数据类型的正确。所以，这样开发人员必须需要靠自己去检测。**
 
-    
-    
+[code]
+
      //自定义函数接收一个url
     function getQueryString(url) {
         //判断接收到的参数是否是字符串类型
@@ -374,13 +400,14 @@ box本身返回的就是类型的字符串，右边也是字符串，那没必�
         }
     }
     alert(getQueryString(1));  //执行函数
+[/code]
 
 
 
 **  对于传递参数除了限制数字、字符串之外，我们对数组也要进行限制**
 
-    
-    
+[code]
+
     //自定义函数，接收一个对象
     function sortArray(arr) {
         if (typeof arr.sort == 'function') {    //判断对象里面的sort是否是一个方法，也就是函数
@@ -394,11 +421,12 @@ box本身返回的就是类型的字符串，右边也是字符串，那没必�
         }
     };
     sortArray(box);   //执行函数
+[/code]
 
 **PS：这断代码本意是判断arr是否有sort方法，因为只有数组有sort方法，从而判断arr是数组。但忘记了，自定义对象添加了sort方法就可以绕过这个判断，且arr还不是数组。**
 
-    
-    
+[code]
+
      //自定义函数，接收一个数组
     function sortArray(arr) {
         //判断接收到的是否是数组类型
@@ -409,6 +437,7 @@ box本身返回的就是类型的字符串，右边也是字符串，那没必�
     
     var box = [3,5,1];  //创建数组
     sortArray(box);  //执行函数
+[/code]
 
 
 
@@ -418,9 +447,10 @@ box本身返回的就是类型的字符串，右边也是字符串，那没必�
 
 **比如：?user=李炎恢 &age=100**
 
-    
-    
+[code]
+
     var url = '?user=' + encodeURIComponent('李炎恢') + '&age=100';    //编码
+[/code]
 
 **PS：在AJAX章节中我们会继续探讨通信错误和编码问题。**
 
@@ -430,12 +460,13 @@ box本身返回的就是类型的字符串，右边也是字符串，那没必�
 
 **在JavaScript初期，浏览器并没有针对JavaScript提供调试工具，所以开发人员就想出了一套自己的调试方法，比如alert()。这个方法可以打印你怀疑的是否得到相应的值，或者放在程序的某处来看看是否能执行，得知之前的代码无误。**
 
-    
-    
+[code]
+
      var num1 = 1;
     var num2 = b;                                //在这段前后加上alert('')调试错误
     var result = num1 + num2;
     alert(result);  //打印不到，说明上面哪里有错误
+[/code]
 
 **PS：使用alert('')来调试错误比较麻烦，重要裁剪和粘贴alert('')，如果遗忘掉没有删掉用于调试的alert('')将特别头疼。所以，我们现在需要更好的调试方法。**
 
@@ -489,12 +520,13 @@ box本身返回的就是类型的字符串，右边也是字符串，那没必�
 
 
 
-    
-    
+[code]
+
     console.error('错误！');                    //红色带叉
     console.info('信息！');                        //白色带信息号
     console.log('日志！');                        //白色
     console.warn('警告！');                        //黄色带感叹号
+[/code]
 
 
 
@@ -502,14 +534,15 @@ box本身返回的就是类型的字符串，右边也是字符串，那没必�
 
 
 
-    
-    
+[code]
+
     var num1 = 1;
     console.log(typeof num1);                    //得到num1的类型
     var num2 = 'b';
     console.log(typeof num2);                    //得到num2的类型
     var result = num1 + num2;
     alert(result);                                //结果是1b，匪夷所思
+[/code]
 
 **PS：我们误把num2赋值成字符串了，其实应该是数值，导致最后的结果是1b。那么传统调试就必须使用alert(typeo
 num1)来看看是不是数值类型，比较麻烦，因为alert()会阻断后面的执行，看过之后还要删，删完估计一会儿又忘了，然后又要alert(typeof
@@ -521,14 +554,15 @@ num1)来加深印象。如果用了console.log的话，所有要调试的变量�
 
 **之前已经将结果错误的抛出，这里不在赘述。**
 
-    
-    
+[code]
+
      var num1 = 1;
     if (typeof num1 != 'number') throw new Error('变量必须是数值！');  //判断num1不是数值类型，创建一个错误对象
     var num2 = 'b';
     if (typeof num2 != 'number') throw new Error('变量必须是数值！');  //判断num2不是数值类型，创建一个错误对象
     var result = num1 + num2;
     alert(result);
+[/code]
 
 
 
@@ -539,9 +573,10 @@ lite。**
 
 **以下是网页版直接调用调试工具的代码：直接复制到浏览器网址即可。要求必须有网络，连接加载网络版 **Firebug lite** 调试工具【不推荐】**
 
-    
-    
+[code]
+
     javascript:(function(F,i,r,e,b,u,g,L,I,T,E){if(F.getElementById(b))return;E=F[i+'NS']&&F.documentElement.namespaceURI;E=E?F[i+'NS'](E,'script'):F[i]('script');E[r]('id',b);E[r]('src',I+g+T);E[r](b,u);(F[e]('head')[0]||F[e]('body')[0]).appendChild(E);E=new%20Image;E[r]('src',I+L);})(document,'createElement','setAttribute','getElementsByTagName','FirebugLite','4','firebug-lite.js','releases/lite/latest/skin/xp/sprite.png','https://getfirebug.com/','#startOpened');
+[/code]
 
 **PS：Chrome浏览器必须在服务器端方可有效。测试也发现，只能简单调试，如果遇到错误，系统不能自动抛出错误给firebug-lite。**
 
@@ -601,11 +636,12 @@ beta.js" charset="utf-8"></script>********
 
 **PS：其他浏览器除IE8以上均可实现以上的调试功能，大家可以自己常识下。而我们主要采用Firebug进行调试然后兼容到其他浏览器的做法以提高开发效率。**
 
-    
-    
+[code]
+
       
       
     
+[/code]
 
 
 

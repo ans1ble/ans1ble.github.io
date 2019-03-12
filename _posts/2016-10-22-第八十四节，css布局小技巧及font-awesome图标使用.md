@@ -1,4 +1,13 @@
-第八十四节，css布局小技巧及font-awesome图标使用
+
+---
+layout: post
+title: " 第八十四节，css布局小技巧及font-awesome图标使用 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **css布局小技巧** **及font-awesome图标使用**
 
@@ -10,8 +19,8 @@
 
 **![](https://images2015.cnblogs.com/blog/955761/201610/955761-20161022184232295-1233371015.png)**
 
-    
-    
+[code]
+
      /*最外层div*/
     .a{
         width: 384px;
@@ -59,6 +68,7 @@
             <samp>美女图片</samp>
         </div>
     </div>
+[/code]
 
 
 
@@ -68,8 +78,8 @@
 
 **用一个div来绘制尖角**
 
-    
-    
+[code]
+
     .a {
         /*设置边框*/
         border-top: 30px solid red;
@@ -81,6 +91,7 @@
     }
     
     <div class="a"></div>
+[/code]
 
 **效果：![](https://images2015.cnblogs.com/blog/955761/201610/955761-20161022193512685-1281803225.png)
 **颜色可以根据自己的需要调整****
@@ -89,8 +100,8 @@
 
 ****将其他不需要的3个尖角颜色改成透明的，一个尖角就形成了****
 
-    
-    
+[code]
+
     .a {
         /*设置边框*/
         border-top: 30px solid transparent;
@@ -102,6 +113,7 @@
     }
     
     <div class="a"></div>
+[/code]
 
 **效果：**![](https://images2015.cnblogs.com/blog/955761/201610/955761-20161022194214279-1776158352.png)
 
@@ -109,8 +121,8 @@
 
 **另一种效果**
 
-    
-    
+[code]
+
     .a {
         /*设置边框*/
         border-top: 30px solid transparent;
@@ -122,6 +134,7 @@
     }
     
     <div class="a"></div>
+[/code]
 
 **
 效果：![](https://images2015.cnblogs.com/blog/955761/201610/955761-20161022194659670-1190027589.png)**
@@ -132,8 +145,8 @@
 
 **还可以结合伪类选择器:hover来设置鼠标动作尖角**
 
-    
-    
+[code]
+
     .af {
         width: 100px;
         height: 50px;
@@ -165,6 +178,7 @@
     <div class="af">
         <div class="a"></div>
     </div>
+[/code]
 
 **效果：
 **![](https://images2015.cnblogs.com/blog/955761/201610/955761-20161022202633138-193854041.png)
@@ -192,25 +206,28 @@
 
 **然后在html页面引入 **font-awesome-4.6.3  文件夹里的css样式****
 
-    
-    
+[code]
+
     <link rel="stylesheet" type="text/css" href="font-awesome-4.6.3/css/font-awesome.css"/>
+[/code]
 
 **在要使用的元素标签class="fa fa-图标名称"，如：class="fa fa-envelope-o"**
 
-    
-    
+[code]
+
      <div>
         <p><span class="fa fa-envelope-o"></span>邮件</p>
     </div>
+[/code]
 
 **这样图标就展现出来了，如果想改变颜色，可以自定义一个css文件来改变**
 
-    
-    
+[code]
+
      p .fa-envelope-o{
         color: #ff1029;
     }
+[/code]
 
 **效果：![](https://images2015.cnblogs.com/blog/955761/201610/955761-20161023092839795-949697657.png)**
 

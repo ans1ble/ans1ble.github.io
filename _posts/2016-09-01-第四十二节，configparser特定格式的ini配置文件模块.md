@@ -1,4 +1,13 @@
-第四十二节，configparser特定格式的ini配置文件模块
+
+---
+layout: post
+title: " 第四十二节，configparser特定格式的ini配置文件模块 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 configparser用于处理特定格式的文件，其本质上是利用open来操作文件。
 
@@ -8,8 +17,8 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
 
 **每个标签称之为节点**
 
-    
-    
+[code]
+
      # 注释1
     ;  注释2
      
@@ -19,6 +28,7 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
      
     [section2] # 第一种键值对
     k1 = v1    # 第二种键值对
+[/code]
 
 
 
@@ -49,8 +59,8 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
 
 **格式如：ret = config.sections()**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import configparser #导入configparser模块
@@ -60,6 +70,7 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
     print(ret)
     # 输出
     # ['section1', 'section2']
+[/code]
 
 
 
@@ -73,8 +84,8 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
 
 **格式如：ret = config.items("section2")**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import configparser #导入configparser模块
@@ -84,6 +95,7 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
     print(ret)
     # 输出
     # [('k1', 'v1'), ('k2', 'v2')]
+[/code]
 
 
 
@@ -97,8 +109,8 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
 
 **格式如：ret = config.options("section2")**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import configparser #导入configparser模块
@@ -108,6 +120,7 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
     print(ret)
     # 输出
     # ['k1', 'k2']
+[/code]
 
 
 
@@ -121,8 +134,8 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
 
 **格式如：ret = config.get("section2","k2")**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import configparser #导入configparser模块
@@ -132,6 +145,7 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
     print(ret)
     # 输出
     # v2
+[/code]
 
 
 
@@ -145,8 +159,8 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
 
 **格式如：ret = config.has_section("section2")**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import configparser #导入configparser模块
@@ -156,6 +170,7 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
     print(ret)
     # 输出
     # True
+[/code]
 
 
 
@@ -181,8 +196,8 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
 
 **格式如：config.write(open("ini","w",encoding='utf-8'))**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import configparser #导入configparser模块
@@ -190,6 +205,7 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
     config.read("ini", encoding='utf-8') #以utf-8的编码打开ini文件
     config.add_section("section5") #在文件里追加节点
     config.write(open("ini","w",encoding='utf-8')) #文件对象改变后将对象重新写入文件
+[/code]
 
 
 
@@ -203,8 +219,8 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
 
 **格式如：config.remove_section("section3")**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import configparser #导入configparser模块
@@ -212,6 +228,7 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
     config.read("ini", encoding='utf-8') #以utf-8的编码打开ini文件
     config.remove_section("section3") #删除指定的节点
     config.write(open("ini","w",encoding='utf-8')) #文件对象改变后将对象重新写入文件
+[/code]
 
 
 
@@ -225,8 +242,8 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
 
 **格式如：sf = config.has_option("section2","k2")**
 
-    
-    
+[code]
+
      # -*- coding:utf8 -*-
     import configparser #导入configparser模块
     config = configparser.ConfigParser() #创建ConfigParser对象
@@ -235,6 +252,7 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
     print(sf)
     # 输出
     # True
+[/code]
 
 
 
@@ -248,14 +266,15 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
 
 **格式如：config.remove_option("section2","k1")**
 
-    
-    
+[code]
+
      # -*- coding:utf8 -*-
     import configparser #导入configparser模块
     config = configparser.ConfigParser() #创建ConfigParser对象
     config.read("ini", encoding='utf-8') #以utf-8的编码打开ini文件
     config.remove_option("section2","k1") #删除指定节点下的键值对
     config.write(open("ini","w",encoding='utf-8')) #文件对象改变后将对象重新写入文件
+[/code]
 
 
 
@@ -275,8 +294,8 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
 
 **如果存在则更改成定义的值**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import configparser #导入configparser模块
@@ -284,13 +303,14 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
     config.read("ini", encoding='utf-8') #以utf-8的编码打开ini文件
     config.set("section2","k1","v1") #设置指定节点下的指定键值对
     config.write(open("ini","w",encoding='utf-8')) #文件对象改变后将对象重新写入文件
+[/code]
 
 
 
 **创建一个配置文件**
 
-    
-    
+[code]
+
      #!/usr/bin/env python
     # -*- coding:utf8 -*-
     import configparser #导入configparser模块
@@ -316,6 +336,7 @@ configparser用于处理特定格式的文件，其本质上是利用open来操�
     config.set("section3","f3","k3") #指定节点下设置键值对
     
     config.write(open("des","w",encoding='utf-8'))  #将改变后的对象写入des文件
+[/code]
 
 
 

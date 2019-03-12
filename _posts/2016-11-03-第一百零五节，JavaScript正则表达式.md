@@ -1,4 +1,13 @@
-第一百零五节，JavaScript正则表达式
+
+---
+layout: post
+title: " 第一百零五节，JavaScript正则表达式 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **JavaScript正则表达式**
 
@@ -39,16 +48,19 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
 
 ****RegExp()表达式对象，【有参，第一个参数是字符串，第二个参数是模式修饰符】****
 
-    
-    
+[code]
+
      var asdc = "叫卖录音网";
     var asdc2 = new RegExp(asdc);  //创建正则对象，将字符串传入表达式
     alert(asdc2); //打印出表达式，返回/叫卖录音网/
-    
-    
+[/code]
+
+[code]
+
     var asdc = "叫卖录音网";
     var asdc2 = new RegExp(asdc,'ig');  //创建正则对象，将字符串传入表达式,并且写了正则模式修饰符
     alert(asdc2); //打印出表达式，返回/叫卖录音网/gi
+[/code]
 
 **模式修饰符的可选参数**
 
@@ -92,12 +104,13 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
 
 **字面量方式创建正则**
 
-    
-    
+[code]
+
      var asdc2 = /叫卖录音网/;    //字面量方式创建正则
     var asdc3 = /叫卖录音网/ig;  //字面量方式创建正则，并且写入模式修饰符
     alert(asdc2);   //打印正则，返回/叫卖录音网/
     alert(asdc3);   ////打印正则，返回/叫卖录音网/gi
+[/code]
 
 
 
@@ -141,28 +154,31 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
 
 **使用new运算符的test方法示例**
 
-    
-    
+[code]
+
      /*使用new运算符的test方法示例*/
     var pattern = new RegExp('box', 'i');            //创建正则模式，不区分大小写
     var str = 'This is a Box!';                        //创建要比对的字符串
     alert(pattern.test(str));                        //通过test()方法验证是否匹配,返回true
+[/code]
 
 **使用字面量方式的test方法示例**
 
-    
-    
+[code]
+
      /*使用字面量方式的test方法示例*/
     var pattern = /box/i;                            //创建正则模式，不区分大小写
     var str = 'This is a Box!';                    //创建要匹配的字符串
     alert(pattern.test(str));                    //通过test()方法验证是否匹配，true
+[/code]
 
 **使用一条语句实现正则匹配**
 
-    
-    
+[code]
+
      /*使用一条语句实现正则匹配*/
     alert(/box/i.test('This is a Box!'));                //模式和字符串替换掉了两个变量
+[/code]
 
 
 
@@ -170,12 +186,13 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
 
 ****使用exec返回匹配数组****
 
-    
-    
+[code]
+
      /*使用exec返回匹配数组*/
     var pattern = /录音/i;                          //创建正则匹配模式
     var str = '专业广告录音网站';                     //创建要匹配的字符串
     alert(pattern.exec(str));                        //匹配了返回数组，否则返回null
+[/code]
 
 **PS：exec方法还有其他具体应用，我们在获取控制学完后再看。**
 
@@ -239,22 +256,24 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
 
 **match()返回匹配到的字符串以数组形式，加上length属性还可以返回匹配到的数组长度**
 
-    
-    
+[code]
+
      /*使用match方法获取获取匹配数组*/
     var pattern = /box/ig;                        //全局搜索
     var str = 'This is a Box!，That is a Box too';
     alert(str.match(pattern));                        //匹配到两个Box,Box
     alert(str.match(pattern).length);                //获取数组的长度
+[/code]
 
 **search()返回匹配字符串的开始位置**
 
-    
-    
+[code]
+
      /*使用search来查找匹配数据*/
     var pattern = /box/ig;
     var str = 'This is a Box!，That is a Box too';
     alert(str.search(pattern));                        //查找到返回位置，否则返回-1
+[/code]
 
 **PS：因为search方法查找到即返回，也就是说无需g全局**
 
@@ -262,21 +281,23 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
 
 **replace()将匹配到的字符串替换成别的字符串**
 
-    
-    
+[code]
+
      /*使用replace替换匹配到的数据*/
     var pattern = /box/ig;
     var str = 'This is a Box!，That is a Box too';
     alert(str.replace(pattern, 'Tom'));                //将Box替换成了Tom
+[/code]
 
 **split()返回字符串按指定匹配拆分的数组  **
 
-    
-    
+[code]
+
     /*使用split拆分成字符串数组*/
     var pattern = /！/ig;
     var str = 'This is a Box!，That is a Box too';
     alert(str.split(pattern));                        //将空格拆开分组成数组
+[/code]
 
 **RegExp** **对象的静态属性**
 
@@ -350,12 +371,15 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
 
 |
 
-**在上次匹配之后的子串**  
-      
-    
+**在上次匹配之后的子串**
+
+[code]
+
     **使用静态属性**
-    
-    
+[/code]
+
+[code]
+
      /*使用静态属性*/
     var pattern = /(g)oogle/;
     var str = 'This is google！';
@@ -366,7 +390,8 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
     alert(RegExp.lastMatch);                    //google
     alert(RegExp.lastParen);                    //g
     alert(RegExp.multiline);                    //false
-
+[/code]  
+  
 **PS：Opera不支持input、lastMatch、lastParen和multiline属性。IE不支持multiline属性。**
 
 **所有的属性可以使用短名来操作**
@@ -421,8 +446,8 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
 
 
 
-    
-    
+[code]
+
     /*使用实例属性*/
     var pattern = /google/ig;
     alert(pattern.global);                        //true，是否全局了
@@ -435,6 +460,7 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
     var str = 'google google google';
     pattern.test(str);                            //google，匹配第一次
     alert(pattern.lastIndex);                        //6，第二次匹配的位
+[/code]
 
 
 
@@ -718,19 +744,20 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
 
 ** .匹配除换行符以外的任意字符**
 
-    
-    
+[code]
+
      /*使用点元字符*/
     var pattern = /g.gle/;                        //.匹配一个任意字符
     var str = 'g@gle';
     alert(pattern.test(str));                   //返回true
+[/code]
 
 **  *匹配0个一个或者多个前导字符**
 
 
 
-    
-    
+[code]
+
     /*重复匹配*/
     var pattern = /g.*gle/;                        //*匹配0个一个或者多个前导字符
     var str = 'g2456gle';
@@ -739,162 +766,181 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
     var pattern2 = /gi*gle/;                    //*匹配0个一个或者多个前导字符
     var str2 = 'giigle';
     alert(pattern2.test(str2));
+[/code]
 
 
 
 **  +匹配至少一个前导字符**
 
-    
-    
+[code]
+
     var pattern2 = /gi+gle/;                    // +匹配至少一个前导字符
     var str2 = 'giigle';
     alert(pattern2.test(str2));
+[/code]
 
 **？匹配0个或一个前导字符**
 
-    
-    
+[code]
+
      var pattern2 = /gi?gle/;                    //？匹配0个或一个前导字符
     var str2 = 'gigle';
     alert(pattern2.test(str2));
+[/code]
 
 **{}匹配指定数量范围的前导字符**
 
-    
-    
+[code]
+
      var pattern2 = /gi{2,4}gle/;                    //{}匹配指定数量范围的前导字符
     var str2 = 'giiiigle';
     alert(pattern2.test(str2));
+[/code]
 
 
 
 **[a-z]匹配小写字母a到z之间的任意一个字母**
 
-    
-    
+[code]
+
      var pattern2 = /gi[a-z]gle/;                    //[a-z]匹配小写字母a到z之间的任意一个字母
     var str2 = 'gixgle';
     alert(pattern2.test(str2));
+[/code]
 
 **[0-9]匹配数字0到9之间的任意一个数字**
 
-    
-    
+[code]
+
      var pattern2 = /gi[0-9]gle/;                    //[0-9]匹配数字0到9之间的任意一个数字
     var str2 = 'gi5gle';
     alert(pattern2.test(str2));
+[/code]
 
 **[a-zA-Z0-9]匹配小写字母或者大写字母a到z之间数字0到9之间的任意一个字母或者数字**
 
-    
-    
+[code]
+
      var pattern2 = /gi[a-zA-Z0-9]gle/;                    //[a-zA-Z0-9]匹配小写字母或者大写字母a到z之间数字0到9之间的任意一个字母或者数字
     var str2 = 'giFgle';
     alert(pattern2.test(str2));
+[/code]
 
 ****[^]** 非，后导字符不相同或者不在范围就匹配，反向匹配**
 
 **^如果不是写在元字符里的，是另外一个意思**
 
-    
-    
+[code]
+
      var pattern2 = /gi[^a-zA-Z0-9]gle/;                    //[^]非，后导字符不相同或者不在范围就匹配，反向匹配
     var str2 = 'gi!gle';
     alert(pattern2.test(str2));
+[/code]
 
 **\d匹配数字等同于[0-9]**
 
-    
-    
+[code]
+
      var pattern2 = /\digle/;                    //\d匹配数字等同于[0-9]
     var str2 = '5555555igle';
     alert(pattern2.test(str2));
+[/code]
 
 **\D匹配非数字，等同于[^0-9]**
 
-    
-    
+[code]
+
      var pattern2 = /\Digle/;                    //\D匹配非数字，等同于[^0-9]
     var str2 = 'Tigle';
     alert(pattern2.test(str2));
+[/code]
 
 **\w匹配字母及数字和_下划线**
 
-    
-    
+[code]
+
      var pattern2 = /\wigle/;                    //\w匹配字母及数字和_下划线
     var str2 = '5igle';
     alert(pattern2.test(str2));
+[/code]
 
 **\W匹配非字母及数字和_下划线**
 
-    
-    
+[code]
+
      var pattern2 = /\Wigle/;                    //\W匹配非字母及数字和_下划线
     var str2 = '!igle';
     alert(pattern2.test(str2));
+[/code]
 
 **^行 **首** 匹配**
 
-    
-    
+[code]
+
     var pattern2 = /^[0-9]igle/;                    //^首行匹配
     var str2 = '5igle';
     alert(pattern2.test(str2));
+[/code]
 
 **$行尾匹配**
 
-    
-    
+[code]
+
      var pattern2 = /igle$/;                    //$行尾匹配
     var str2 = '1121555igle';
     alert(pattern2.test(str2));
+[/code]
 
 **\s匹配空白字符、空格、制表符和换行符**
 
-    
-    
+[code]
+
      var pattern2 = /ig\sle/;                    //\s匹配空白字符、空格、制表符和换行符
     var str2 = 'ig le';
     alert(pattern2.test(str2));
+[/code]
 
 **\b匹配是否到达了边际**
 
-    
-    
+[code]
+
      var pattern2 = /igle\b/;                    //\b匹配是否到达了边际
     var str2 = 'igle';
     alert(pattern2.test(str2));
+[/code]
 
 **|或模式匹配，其中任意一个符合就匹配**
 
-    
-    
+[code]
+
      var pattern2 = /igle|adc|varjk/;                    //|或模式匹配，其中任意一个符合就匹配
     var str2 = 'adc';
     alert(pattern2.test(str2));
+[/code]
 
 **()分组，组里的可以看做一个整体**
 
-    
-    
+[code]
+
      var pattern2 = /(igle)45(adc)/;                    //()分组，组里的可以看做一个整体
     var str2 = 'igle45adc';
     alert(pattern2.test(str2));
+[/code]
 
 **  $获取匹配内容里分组部分，后面跟要获取第几个分组如$1**
 
-    
-    
+[code]
+
     var pattern2 = /(igle)45(adc)/;                    //()分组，组里的可以看做一个整体
     var str2 = 'igle45adc';                        //执行一次
     str2.match(pattern2);
     alert(RegExp.$1);                               //打印匹配内容里分组部分
+[/code]
 
 **替换匹配内容里分组部分**
 
-    
-    
+[code]
+
      var pattern1 = /8(.*)8/;
     var str1 = 'This is 8google8';
     var result1 = str1.replace(pattern1,'<strong>$1</strong>');        //得到替换的字符串输出
@@ -904,6 +950,7 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
     var str2 = 'google baidu';
     var result2 = str2.replace(pattern2, '$2 $1');            //将两个分组的值替换输出
     document.write(result2);
+[/code]
 
 
 
@@ -957,107 +1004,121 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
 
 **  关于贪婪和惰性**
 
-    
-    
+[code]
+
     var pattern = /[a-z]+?/;                        //?号关闭了贪婪匹配，只替换了第一个
     var str = 'abcdefjhijklmnopqrstuvwxyz';
     var result = str.replace(pattern, 'xxx');
     alert(result);
+[/code]
 
 **禁止了贪婪，开启的全局**
 
-    
-    
+[code]
+
      var pattern = /8(.+?)8/g;                        //禁止了贪婪，开启的全局
     var str = 'This is 8google8, That is 8google8, There is 8google8';
     var result = str.replace(pattern,'<strong>$1</strong>');
     document.write(result);
+[/code]
 
 **另一种禁止贪婪**
 
-    
-    
+[code]
+
      var pattern = /8([^8]*)8/g;                    //另一种禁止贪婪
     var str = 'This is 8google8, That is 8google8, There is 8google8';
     var result = str.replace(pattern,'<strong>$1</strong>');
     document.write(result);    
+[/code]
 
 **使用exec返回数组，也就是可以用 **exec()方法将匹配到的内容输出****
 
-    
-    
+[code]
+
      var pattern = /^[a-z]+\s[0-9]{4}$/i;
     var str = 'google 2012';
     alert(pattern.exec(str));                        //返回包含字符串的数组
-    
-    
+[/code]
+
+[code]
+
     **只匹配字母  
     **
-    
-    
+[/code]
+
+[code]
+
      var pattern = /^[a-z]+/i;                        //只匹配字母
     var str = 'google 2012';
     alert(pattern.exec(str));                        //返回google
+[/code]
 
 **使用分组**
 
-    
-    
+[code]
+
      var pattern = /^([a-z]+)\s([0-9]{4})$/i;            //使用分组
     var str = 'google 2012';
     alert(pattern.exec(str)[0]);                    //google 2012
     alert(pattern.exec(str)[1]);                    //google
     alert(pattern.exec(str)[2]);                    //2012
+[/code]
 
 **捕获性分组和非捕获性分组，就是所有分组都 **捕获****
 
 ******捕获性分组******
 
-    
-    
+[code]
+
      var pattern = /(\d+)([a-z])/;                    //捕获性分组
     var str = '123abc';
     alert(pattern.exec(str));                       //返回数组类型的123a,123,a
+[/code]
 
 **非捕获性分组**
 
-    
-    
+[code]
+
      var pattern = /(\d+)(?:[a-z])/;                    //非捕获性分组
     var str = '123abc';
     alert(pattern.exec(str));                //返回数组123a,123
+[/code]
 
 **使用分组嵌套**
 
-    
-    
+[code]
+
      /*使用分组嵌套*/
     var pattern = /(A?(B?(C?)))/;                    //从外往内获取
     var str = 'ABC';
     alert(pattern.exec(str));          //返回分组ABC,ABC,BC,C
+[/code]
 
 **使用前瞻捕获**
 
-    
-    
+[code]
+
      /*使用前瞻捕获*/
     var pattern = /(goo(?=gle))/;                    //goo后面必须跟着gle才能捕获
     var str = 'google';
     alert(pattern.exec(str));                    //返回数组goo,goo
+[/code]
 
 **使用特殊字符匹配**
 
-    
-    
+[code]
+
      /*使用特殊字符匹配*/
     var pattern = /\.\[\/b\]/;                        //特殊字符，用\符号转义即可
     var str = '.[/b]';
     alert(pattern.test(str));                    //返回true
+[/code]
 
 **使用换行模式**
 
-    
-    
+[code]
+
      /*使用换行模式*/
     var pattern = /^\d+/mg;                        //启用了换行模式
     var str = '1.baidu\n2.google\n3.bing';
@@ -1067,6 +1128,7 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
     //#.baidu
     //#.google
     //#.bing
+[/code]
 
 
 
@@ -1074,91 +1136,110 @@ expression)是一个描述字符模式的对象。ECMAScript的RegExp类表示�
 
 **1.检查邮政编码**
 
-    
-    
+[code]
+
      var pattern = /[1-9][0-9]{5}/;                    //共6位数字，第一位不能为0
     var str = '224000';
     alert(pattern.test(str));
+[/code]
 
 **2.检查文件压缩包和文件格式**
 
 
 
-    
-    
+[code]
+
     var pattern = /^[\w]+\.(zip|rar|gz)&/;                //\w表示所有数字和字母加下划线
     var str = '123.zip';                            //\.表示匹配.，后面是一个选择
     alert(pattern.test(str));
+[/code]
 
 
 
 **3.删除多余空格**
 
-    
-    
+[code]
+
      var pattern = /\s/g;                            //g必须全局，才能全部匹配
     var str = '111 222 333';
     var result = str.replace(pattern,'');                //把空格匹配成无空格
     alert(result);
+[/code]
 
 **4.删除首尾空格**
 
-    
-    
+[code]
+
      var pattern = /^\s+/;                            //强制首
     var str = '          goo  gle            ';
     var result = str.replace(pattern, '');
     pattern = /\s+$/;                            //强制尾
     result = result.replace(pattern, '');
     alert('|' + result + '|');
-    
-    
+[/code]
+
+[code]
+
     **使用了非贪婪捕获**
+[/code]
 
 
 
 
 
-    
-    
+[code]
+
     var pattern = /^\s*(.+?)\s*$/;                    //使用了非贪婪捕获
     var str = '            google          ';
     alert('|' + pattern.exec(str)[1] + '|');
+[/code]
 
 
 
-    
-    
+[code]
+
     **使用了分组获取  
     **
-    
-    
+[/code]
+
+[code]
+
      var pattern = /^\s*(.+?)\s*$/;
     var str = '            google          ';
     alert('|' + str.replace(pattern, '$1') + '|');            //使用了分组获取
+[/code]
 
 **5.简单的电子邮件验证**
 
-    
-    
+[/code]
+
+[code]
+
      var pattern = /^([a-zA-Z0-9_\.\-]+)@([a-zA-Z0-9_\.\-]+)\.([a-zA-Z]{2,4})$/;
     var str = 'yc60.com@gmail.com';
     alert(pattern.test(str));
-    
-    
+[/code]
+
+[/code]
+
+[code]
+
     var pattern = /^([\w\.\-]+)@([\w\.\-]+)\.([\w]{2,4})$/;
     var str = 'yc60.com@gmail.com';
     alert(pattern.test(str));
+[/code]
 
 **PS：以上是简单电子邮件验证，复杂的要比这个复杂很多，大家可以搜一下。**
 
-    
-    
+[code]
+
     ** **
+[/code]
 
 
 
-    
-    
+[code]
+
     ** **
+[/code]
 

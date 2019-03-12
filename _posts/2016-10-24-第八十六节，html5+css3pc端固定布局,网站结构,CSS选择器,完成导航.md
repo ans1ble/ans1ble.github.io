@@ -1,4 +1,13 @@
-第八十六节，html5+css3pc端固定布局,网站结构,CSS选择器,完成导航
+
+---
+layout: post
+title: " 第八十六节，html5+css3pc端固定布局,网站结构,CSS选择器,完成导航 "
+author: "Ans1ble"
+header-style: text
+tags:
+      - Python
+---
+
 
 **html5+css3pc端固定布局,网站结构,CSS选择器,完成导航**
 
@@ -16,8 +25,8 @@
 
 **四个基本模块：nav 导航、header头部、section首页主体、footer尾部**
 
-    
-    
+[code]
+
      <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -40,6 +49,7 @@
     
     </body>
     </html>
+[/code]
 
 
 
@@ -56,8 +66,8 @@
 
 **HTML代码**
 
-    
-    
+[code]
+
      <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -91,11 +101,12 @@
     
     </body>
     </html>
+[/code]
 
 **css代码**
 
-    
-    
+[code]
+
      @charset "utf-8";
     /*通用样式*/
     *{
@@ -149,6 +160,7 @@
         background-color: #ff4d51;
     }
     /*导航区域结束*/
+[/code]
 
 
 
@@ -159,8 +171,8 @@
 
 **2.如果是页面大部分标签都要用到的css样式，可以写在开头通用样式如：**
 
-    
-    
+[code]
+
      /*通用样式*/
     *{
         margin: 0;
@@ -173,6 +185,7 @@
         text-decoration: none;
     }
     /*通用样式结束*/
+[/code]
 
 去除所有元素的内外边距，去除所ul的小圆点，去除所有a标签的下划线
 
