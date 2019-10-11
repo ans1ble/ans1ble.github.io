@@ -1,4 +1,3 @@
-### python3+pyqt5+pyinstaller的各种问题
 
 windows系统+python3+pyqt5+pyinstaller打包，经常会出现各种打包异常情况。
 如果代码没有特别异常，那么综合原因，大抵都是这四个元素之间的匹配问题，引起的。
