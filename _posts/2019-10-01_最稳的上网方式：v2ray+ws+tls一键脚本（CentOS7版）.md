@@ -45,5 +45,5 @@ v2ray各平台客户端：https://www.v2ray.com/awesome/tools.html
 
 3、开启上网即可
 
-伪装网站配置
+### 伪装网站配置
 脚本已经为你创建了一个英文模板站，如果你想自己为VPS配置一个其他的伪装站点，可自行获取网页文件，入口页包含index.html，将其传输到VPS的/etc/nginx/html目录下，重启VPS即可。

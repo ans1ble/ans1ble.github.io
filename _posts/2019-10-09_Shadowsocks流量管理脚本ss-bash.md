@@ -1,4 +1,4 @@
-### Shadowsocks流量管理脚本ss-bash
+### Shadowsocks流量管理脚本 ss-bash
 
 在分享自己搭建的Shadowsocks时，遇到一个问题。Shadowsocks python版虽然自带有多用户配置功能，但无法限制用户流量。而ss-panel+ss-manyuser的多用户分享方案偏商业用途，部署和配置都比较繁琐，数据库和web面板都有不小的资源占用。hellofwy所写的ss-bash的脚本则完美解决了这个问题，下面是这个脚本的简介、安装和注意事项说明：
 
@@ -68,7 +68,7 @@ vim /etc/rc.local
 ```bash
 /home/ss-bash-master/ssadmin.sh start
 ```
-常见问题
+### 常见问题
 在使用之前确认已经关闭了原来的shadowsocks，并确保iptables正常。
 
 1、无法连接上。确认本地shadowsocks客户端帐号无误，访问网站无法打开，客户端日志记录有大量的time out。解决方法：说明是服务器端口被封，尝试换一个端口。
