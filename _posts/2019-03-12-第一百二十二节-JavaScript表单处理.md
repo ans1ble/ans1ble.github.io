@@ -7,99 +7,39 @@ tags:
       - Python
 ---
 
-**JavaScript表单处理**
+## JavaScript表单处理
 
+### 学习要点：
 
+1.表单介绍
 
-**学习要点：**
+2.文本框脚本
 
-**1.表单介绍**
+3.选择框脚本
 
-**2.文本框脚本**
+为了分担服务器处理表单的压力，JavaScript提供了一些解决方案，从而大大打破了处处依赖服务器的局面。
 
-**3.选择框脚本**
+一．表单介绍
 
+在HTML中，表单是由\<form>元素来表示的，而在JavaScript中，表单对应的则是HTMLFormElement类型。HTMLFormElement继承了HTMLElement，因此它拥有HTML元素具有的默认属性，并且还独有自己的属性和方法：
 
+*HTMLFormElement属性和方法*
 
-**为了分担服务器处理表单的压力，JavaScript提供了一些解决方案，从而大大打破了处处依赖服务器的局面。**
-
-**一．** **表单介绍**
-
-**在HTML中，表单是由
-<form>元素来表示的，而在JavaScript中，表单对应的则是HTMLFormElement类型。HTMLFormElement继承了HTMLElement，因此它拥有HTML元素具有的默认属性，并且还独有自己的属性和方法：**
-
-** **
-
-**HTMLFormElement属性和方法**
-
-**属性或方法**
-
-|
-
-**说明**  
-  
+**属性或方法** | **说明**  
 ---|---  
-  
-**acceptCharset**
+**acceptCharset** | **服务器能够处理的字符集**  
+**action** | **接受请求的URL**  
+**elements** |**表单中所有控件的集合**  
+**enctype** | **请求的编码类型**  
+**length** | **表单中控件的数量**  
+**name** |**表单的名称**  
+**target** | **用于发送请求和接受响应的窗口名称**  
+**reset()** | **将所有表单重置**  
+**submit()** | **提交表单**  
 
-|
+**获取表单\<form>对象的方法有很多种，如下：**
 
-**服务器能够处理的字符集**  
-  
-**action**
-
-|
-
-**接受请求的URL**  
-  
-**elements**
-
-|
-
-**表单中所有控件的集合**  
-  
-**enctype**
-
-|
-
-**请求的编码类型**  
-  
-**length**
-
-|
-
-**表单中控件的数量**  
-  
-**name**
-
-|
-
-**表单的名称**  
-  
-**target**
-
-|
-
-**用于发送请求和接受响应的窗口名称**  
-  
-**reset()**
-
-|
-
-**将所有表单重置**  
-  
-**submit()**
-
-|
-
-**提交表单**  
-  
-
-
-**获取表单 <form>对象的方法有很多种，如下：**
-
-[code]
-
+``` javaScript
     //添加事件当页面加载完成后激发函数
     addEvent(window,'load',function () {
         var form =  document.getElementById('get');  //通过ID获取到表单form标签
@@ -123,18 +63,16 @@ tags:
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **PS：最后一种方法使用name名称直接获取元素，已经不推荐使用，这是向下兼容的早期用法。问题颇多，比如有两个相同名称的，变成数组；而且这种方式以后有可能会不兼容。**
 
-
-
-**forms属性，直接获取表单 <form>标签，后面可以跟下标获取指定的<form>标签，也可以跟name名称来获取指定的<form>标签**
+**forms属性，直接获取表单\<form>标签，后面可以跟下标获取指定的<form>标签，也可以跟name名称来获取指定的<form>标签**
 
 **使用方式：**  
  **document.forms[下标或者name名称]**
 
-[code]
+```javaScript
 
      //添加事件当页面加载完成后激发函数
     addEvent(window,'load',function () {
@@ -156,14 +94,12 @@ tags:
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
-
-
+```
 
 **onsubmit表单提交事件，当用户提交表单时激发函数**  
  **表单form对象.onsubmit = 执行函数**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch">
@@ -190,11 +126,11 @@ tags:
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
   **form对象可以阻止默认行为，阻止后无法提交表单**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch">
@@ -235,7 +171,7 @@ tags:
             e.returnValue = false;
         }
     }
-[/code]
+```
 
 
 
@@ -243,7 +179,7 @@ tags:
  **使用方式：**  
  **form对象.submit()**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch">
@@ -272,7 +208,7 @@ tags:
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **  PS：在表单中尽量避免使用name="submit"或id="submit"等命名，这会和submit()方法发生冲突导致无法提交。**
 
@@ -286,7 +222,7 @@ tags:
 
 ****第一种就是提交之后，立刻禁用点击按钮；只适用于按钮提交【不推荐】****
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch">
@@ -314,11 +250,11 @@ tags:
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 ****第二种就是提交之后取消后续的表单提交操作。适用于各种提交，【推荐】****
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch">
@@ -365,7 +301,7 @@ tags:
             e.returnValue = false;
         }
     }
-[/code]
+```
 
 **PS：在某些浏览器，F5只能起到缓存刷新的效果，有可能获取不到真正的源头更新的数据。那么使用ctrl+F5就可以把源头给刷出来。**
 
@@ -381,7 +317,7 @@ tags:
  **使用方式：**  
  **form对象.onreset = 函数**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch">
@@ -409,13 +345,13 @@ tags:
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **reset()方法，自定义重置方法，可以用这个给表单设置一个重置**  
  **使用方式：**  
  **form对象.reset()**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch">
@@ -442,7 +378,7 @@ tags:
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -457,7 +393,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
  **form元素.elements**  
  **form元素.elements[下标或者name值]**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch">
@@ -484,75 +420,37 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
 **共有的表单字段属性**
 
-**除了
-<fieldset>元素之外，所有表单字段都拥有相同的一组属性。由于<input>类型可以表示多种表单字段，因此有些属性只适用于某些字段。以下罗列出共有的属性：**
+**除了\<fieldset>元素之外，所有表单字段都拥有相同的一组属性。由于<input>类型可以表示多种表单字段，因此有些属性只适用于某些字段。以下罗列出共有的属性：**
 
 
 
-**属性或方法**
-
-|
-
-**说明**  
+**属性或方法**|**说明**  
+  ---|---  
+  **disabled**|**布尔值，表示当前字段是否被禁用**  
+  **form**|**指向当前字段所属表单的指针，只读**  
+  **name**|*当前字段的名称**  
+  **readOnly**|**布尔值，表示当前字段是否只读**  
+  **tabIndex**|**表示当前字段的切换**  
+  **type**|**当前字段的类型**  
+  **value**|**当前字段的值**  
   
----|---  
+  **重点看几个最常用的，其他使用方式相同**
   
-**disabled**
-
-|
-
-**布尔值，表示当前字段是否被禁用**  
+  **value属性，获取或设置当前元素的value值**  
   
-**form**
-
-|
-
-**指向当前字段所属表单的指针，只读**  
+  **使用方式：**  
   
-**name**
-
-|
-
-**当前字段的名称**  
+  **当前元素.value**  
   
-**readOnly**
+  **当前元素.value = 'xxxx'**
 
-|
-
-**布尔值，表示当前字段是否只读**  
-  
-**tabIndex**
-
-|
-
-**表示当前字段的切换**  
-  
-**type**
-
-|
-
-**当前字段的类型**  
-  
-**value**
-
-|
-
-**当前字段的值**  
-  
-**重点看几个最常用的，其他使用方式相同**
-
-**value属性，获取或设置当前元素的value值**  
- **使用方式：**  
- **当前元素.value**  
- **当前元素.value = 'xxxx'**
-
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="默认值">
@@ -580,7 +478,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -588,7 +486,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
  **使用方式：**  
  **当前元素.form**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="默认值">
@@ -614,7 +512,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -623,7 +521,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
  **当前元素.disabled**  
  **当前元素.disabled = true**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="默认值">
@@ -650,7 +548,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -659,7 +557,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
  **当前元素.type**  
  **当前元素.type = 'xxx'**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="默认值">
@@ -685,127 +583,38 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **  type属性获取返回属性值如下**
 
-**除了
-<fieldset>字段之外，所有表单字段都有type属性。对于<input>元素，这个值等于HTML属性的type值。对于非<input>元素，这个type的属性值如下：**
+**除了\<fieldset>字段之外，所有表单字段都有type属性。对于<input>元素，这个值等于HTML属性的type值。对于非<input>元素，这个type的属性值如下：**
 
-
-
-**元素说明**
-
-|
-
-**HTML标签**
-
-|
-
-**type属性的值**  
-  
+**元素说明**|**HTML标签**|**type属性的值**  
 ---|---|---  
-  
-**单选列表**
+**单选列表**|**< select>...</select>**|**select-one**  
+**多选列表**|**< select multiple>...</select>**|**select-multiple**  
+**自定义按钮**|**< button>...</button>**|**button**  
+**自定义非提交按钮**|**< button type="button">...</button>**|**button**
+**自定义重置按钮**|**< button type="reset">...</button>**|**reset**
+**自定义提交按钮**|**< button type="submit">...</button>**|**submit**  
 
-|
-
-**< select>...</select>**
-
-|
-
-**select-one**  
-  
-**多选列表**
-
-|
-
-**< select multiple>...</select>**
-
-|
-
-**select-multiple**  
-  
-**自定义按钮**
-
-|
-
-**< button>...</button>**
-
-|
-
-**button**  
-  
-**自定义非提交按钮**
-
-|
-
-**< button type="button">...</button>**
-
-|
-
-**button**  
-  
-**自定义重置按钮**
-
-|
-
-**< button type="reset">...</button>**
-
-|
-
-**reset**  
-  
-**自定义提交按钮**
-
-|
-
-**< button type="submit">...</button>**
-
-|
-
-**submit**  
-  
 **PS：
-<input>和<button>元素的type属性是可以动态修改的，而<select>元素的type属性则是只读的。(在不必要的情况下，建议不修改type)。**
-
-
-
-
+\<input>和\<button>元素的type属性是可以动态修改的，而<select>元素的type属性则是只读的。(在不必要的情况下，建议不修改type)。**
 
 **共有的表单字段方法**
 
-
-
 **每个表单字段都有两个方法：foucs()和blur()。**
 
-
-
-**方法**
-
-|
-
-**说明**  
-  
+**方法**|**说明**  
 ---|---  
-  
-**focus()**
-
-|
-
-**将焦点定位到表单字段里**  
-  
-**blur()**
-
-|
-
-**从元素中将焦点移走**  
+**focus()**|**将焦点定位到表单字段里**  
+**blur()**|**从元素中将焦点移走**  
   
 **focus()方法，将焦点定位到表单字段里**  
  **使用方式：**  
  **当前元素.focus()**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="默认值">
@@ -831,7 +640,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -839,7 +648,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
  **使用方式：**  
  **当前元素.blur()**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="默认值">
@@ -865,49 +674,25 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
-
-
+```
 
 **共有的表单字段事件**
 
 **表单共有的字段事件有以下三种：**
 
-
-
-**事件名**
-
-|
-
-**说明**  
-  
+**事件名**|**说明**    
 ---|---  
-  
-**onblur**
-
-|
-
-**当字段失去焦点时触发**  
-  
-**onchange**
-
-|
-
-**对于 <input>和<textarea>元素，在改变value并失去焦点时触发；对于<select>元素，在改变选项时触发**  
-  
-**onfocus**
-
-|
-
-**当前字段获取焦点时触发**  
-  
-
+**onblur**|**当字段失去焦点时触发**  
+**onchange**|**对于 <input>和<textarea>元素，在改变value并失去焦点时触发；对于<select>元素，在改变选项时触发**  
+**onfocus**|**当前字段获取焦点时触发**  
 
 **onfocus事件，当前字段获取焦点时触发**  
+
  **使用方式：**  
+
  **当前元素.onfocus = 函数**
 
-[code]
+```html
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="默认值">
@@ -936,7 +721,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -944,7 +729,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
  **使用方式：**  
  **当前元素.onblur = 函数**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="默认值">
@@ -973,7 +758,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -981,7 +766,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
  **使用方式：**  
  **当前元素.onchange = 函数**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="默认值">
@@ -1010,7 +795,7 @@ DOM，它有自己的elements属性，该属性是表单中所有元素的集合
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **PS：关于blur和change事件的关系，并没有严格的规定。在某些浏览器中，blur事件会先于change事件发生；而在其他浏览器中，则恰好相反。**
 
@@ -1023,7 +808,7 @@ type="text">，一种是多行文本框<textarea>。虽然<input>在字面上有
 
 **获取单行文本框和多行文本框的 **value值****
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1051,7 +836,7 @@ type="text">，一种是多行文本框<textarea>。虽然<input>在字面上有
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **PS：使用表单的value是最推荐使用的，它是HTML
 DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用getAttribute()获取value值。原因很简单，对value属性的修改，不一定会反映在DOM中。**
@@ -1064,7 +849,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
  **使用方式：**  
  **当前元素.defaultValue**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1092,7 +877,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -1100,7 +885,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
  **使用方式：**  
  **当前元素.select()**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1126,7 +911,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -1138,7 +923,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
  **使用方式：**  
  **当前对象.setSelectionRange(开始位置，选择几位)**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1165,7 +950,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **除了IE，其他浏览器都支持这种写法(IE9+支持)**
 
@@ -1173,7 +958,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
 
 **IE9以下想要选择部分文本，可以使用IE的范围操作。**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1204,13 +989,13 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
 **结合上面兼容浏览器方案**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1250,7 +1035,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -1258,7 +1043,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
  **使用方式：**  
  **元素对象.onselect = 函数**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1287,7 +1072,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -1298,7 +1083,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
 **selectionStart属性，获取在文本框选择文本的起始位置，IE9以下不支持**  
  **selectionEnd属性，获取在文本框选择文本的结束位置，IE9以下不支持**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1330,7 +1115,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -1342,7 +1127,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
 
 **取得选择的文本浏览器兼容**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1385,12 +1170,9 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **PS：有一个最大的问题，就是IE在触发select事件的时候，在选择一个字符后立即触发，而其他浏览器是选择想要的字符释放鼠标键后才触发。所以，如果使用alert()的话，导致跨浏览器的不兼容。我们没有办法让浏览器行为保持统一，但可以通过不去使用alert()来解决。**
-
-
-
 
 
 **过滤输入**
@@ -1399,7 +1181,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
 
 ****屏蔽某些字符键，让用户不能输入不合法的字符，比如屏蔽除数字键外的字符键，这样用户就只能输入数字****
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1463,69 +1245,29 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             return e.keyCode;
         }
     }
-[/code]
+```
 
-[code]
+```
 
     if (!/\d/.test(anj) && e.charCode > 8)
-[/code]
+```
 
-**PS：前半段条件判断只有数字才可以输入，导致常规按键，比如光标键、退格键、删除键等无法使用。部分浏览器比如Firfox，需要解放这些键，而非字符触发的编码均为0；在Safari3之前的浏览器，也会被阻止，而它对应的字符编码全部为8，所以最后就加上charCode
-> 8的判断即可。**
+**PS：前半段条件判断只有数字才可以输入，导致常规按键，比如光标键、退格键、删除键等无法使用。部分浏览器比如Firfox，需要解放这些键，而非字符触发的编码均为0；在Safari3之前的浏览器，也会被阻止，而它对应的字符编码全部为8，所以最后就加上charCode> 8的判断即可。**
 
 **PS：当然，这种过滤还是比较脆落的，我们还希望能够阻止裁剪、复制、粘贴和中文字符输入操作才能真正屏蔽掉这些。**
-
-
 
 **剪贴板事件**
 
 **如果要阻止裁剪、复制和粘贴，那么我们可以在剪贴板相关的事件上进行处理，JavaScript提供了六组剪贴板相关的事件：**
 
-
-
-**事件名**
-
-|
-
-**说明**  
-  
+**事件名**|**说明**  
 ---|---  
-  
-**copy**
-
-|
-
-**在发生复制操作时触发**  
-  
-**cut**
-
-|
-
-**在发生裁剪操作时触发**  
-  
-**paste**
-
-|
-
-**在发生粘贴操作时触发**  
-  
-**beforecopy**
-
-|
-
-**在发生复制操作前触发**  
-  
-**beforecut**
-
-|
-
-**在发生裁剪操作前触发**  
-  
-**beforepaste**
-
-|
-
-**在发生粘贴操作前触发**  
+**copy**|**在发生复制操作时触发**  
+**cut**|**在发生裁剪操作时触发**  
+**paste**|**在发生粘贴操作时触发**  
+**beforecopy**|**在发生复制操作前触发**  
+**beforecut**|**在发生裁剪操作前触发**  
+**beforepaste**|**在发生粘贴操作前触发**  
   
 **由于剪贴板没有标准，导致不同的浏览器有不同的解释。Safari、Chrome和Firefox中，凡是before前缀的事件，都需要在特定条件下触发。而IE则会在操作时之前触发带before前缀的事件。**
 
@@ -1535,7 +1277,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
  **使用方式：**  
  **元素对象.oncut = 函数**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1564,11 +1306,11 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **阻止用户剪切行为**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1611,7 +1353,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             e.returnValue = false;
         }
     }
-[/code]
+```
 
 
 
@@ -1619,7 +1361,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
  **使用方式：**  
  **元素对象.oncopy = 函数**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1663,15 +1405,13 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             e.returnValue = false;
         }
     }
-[/code]
-
-
+```
 
 **onpaste事件，在发生粘贴操作时触发**  
  **使用方式：**  
  **元素对象.onpaste = 函数**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1715,7 +1455,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             e.returnValue = false;
         }
     }
-[/code]
+```
 
 **当我们裁剪和复制的时候，我们可以访问剪贴板里的内容，但问题是FireFox，Opera浏览器不支持访问剪贴板。并且，不同的浏览器也有自己不同的理解。所以，这里我们就不在赘述。**
 
@@ -1727,11 +1467,11 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
 
 **有一种解决方案是通过CSS来禁止调出输入法：**
 
-[code]
+```
 
     style="ime-mode:disabled"                     //CSS直接编写
     元素对象.style.imeMode = 'disabled';            //或在JS里设置也可以
-[/code]
+```
 
 **PS：但我们也发先，Chrome浏览器却无法禁止输入法调出。所以，为了解决谷歌浏览器的问题，最好还要使用正则验证已输入的文本。**
 
@@ -1739,7 +1479,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
 
 ****使用正则验证已输入的文本【推荐】****
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     用户名:<input type="text" name="mch" value="单行文本框">
@@ -1771,7 +1511,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -1779,7 +1519,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
 
 **为了增加表单字段的易用性，很多字段在满足一定条件时(比如长度)，就会自动切换到下一个字段上继续填写。**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //  <input type="text" name="user1" maxlength="1" />    //只能写1个
@@ -1829,7 +1569,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -1840,100 +1580,33 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
 
 **HTMLSelectElement对象（ <select>元素的属性）**
 
-**属性/方法**
-
-|
-
-**说明**  
-  
+**属性/方法**|**说明**  
 ---|---  
-  
-**add(new,rel)**
-
-|
-
-**插入新元素，并指定位置**  
-  
-**multiple**
-
-|
-
-**布尔值，是否允许多项选择**  
-  
-**options**
-
-|
-
-**< option>元素的HTMLColletion集合**  
-  
-**remove(index)**
-
-|
-
-**移除给定位置的选项**  
-  
-**selectedIndex**
-
-|
-
-**基于0的选中项的索引，如果没有选中项，则值为-1**  
-  
-**size**
-
-|
-
-**选择框中可见的行数**  
-  
-
+**add(new,rel)**|**插入新元素，并指定位置**  
+**multiple**|**布尔值，是否允许多项选择**  
+**options**|**< option>元素的HTMLColletion集合**  
+**remove(index)**|**移除给定位置的选项**    
+**selectedIndex**|**基于0的选中项的索引，如果没有选中项，则值为-1**  
+**size**|**选择框中可见的行数**  
 
 **在DOM中，每个 <option>元素都有一个HTMLOptionElement对象，以便访问数据，这个对象有如下一些属性：**
 
 **HTMLOptionElement对象（ <option>元素的属性）**
 
-**属性**
-
-|
-
-**说明**  
-  
+**属性**|**说明**  
 ---|---  
-  
-**index**
-
-|
-
-**当前选项在options集合中的索引**  
-  
-**label**
-
-|
-
-**当前选项的标签**  
-  
-**selected**
-
-|
-
-**布尔值，表示当前选项是否被选中**  
-  
-**text**
-
-|
-
-**选项的文本**  
-  
-**value**
-
-|
-
-**选项的值**  
+**index**|**当前选项在options集合中的索引**  
+**label**|**当前选项的标签**  
+**selected**|**布尔值，表示当前选项是否被选中**  
+**text**|**选项的文本**  
+**value**|**选项的值**  
   
 **options属性，获取 <select>元素里的<option>标签集合**  
  **使用方式：**  
  **select元素.options**  
  **select元素.options[0] 通过下标获取到集合里指定的 <option>标签**
 
-[code]
+```
 
     // <form id="get" name="rgj">
     //     <select name="xz">
@@ -1966,7 +1639,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -1974,7 +1647,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
  **使用方式：**  
  **select元素.type**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     <select name="xz">
@@ -2006,7 +1679,7 @@ DOM中的属性，不建议使用标准DOM的方法。也就是说不要使用ge
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **PS：选择框里的type属性有可能是：select-one，也有可能是：select-
 multiple，这取决于HTML代码中有没有multiple属性。**
@@ -2015,7 +1688,7 @@ multiple，这取决于HTML代码中有没有multiple属性。**
 
 **获取选择框 <option>标签元素的value值和文本**
 
-[code]
+```
 
     // <form id="get" name="rgj">
     //     <select name="xz">
@@ -2047,7 +1720,7 @@ multiple，这取决于HTML代码中有没有multiple属性。**
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **PS：操作select时，最好使用HTML DOM，因为所有浏览器兼容的很好。而如果使用标准DOM，会因为不同的浏览器导致不同的结果。**
 
@@ -2064,7 +1737,7 @@ multiple，这取决于HTML代码中有没有multiple属性。**
  **使用方式：**  
  **< select>元素.selectedIndex**
 
-[code]
+```
 
     // <form id="get" name="rgj">
     //     <select name="xz">
@@ -2100,16 +1773,15 @@ multiple，这取决于HTML代码中有没有multiple属性。**
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
-**selectedIndex属性还有一个用法，就是给 **< select>元素定位一个选项 **  
-******
+**selectedIndex属性还有一个用法，就是给 **< select>元素定位一个选项 **
 
 ****使用方式：****
 
 ********< select>元素. **selectedIndex = 选项索引**********
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     <select name="xz">
@@ -2140,7 +1812,7 @@ multiple，这取决于HTML代码中有没有multiple属性。**
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -2150,7 +1822,7 @@ multiple，这取决于HTML代码中有没有multiple属性。**
  **option元素.selected**  
  **option元素.selected = true**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     <select name="xz">
@@ -2183,11 +1855,11 @@ multiple，这取决于HTML代码中有没有multiple属性。**
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **而selected和selectedIndex在用途上最大的区别是，selected是返回的布尔值，所以一般用于判断上；而selectedIndex是数值，一般用于设置和获取。**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     <select name="xz">
@@ -2223,7 +1895,7 @@ multiple，这取决于HTML代码中有没有multiple属性。**
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -2233,7 +1905,7 @@ multiple，这取决于HTML代码中有没有multiple属性。**
 
 **DOM方式添加选项**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     <select name="xz">
@@ -2267,18 +1939,17 @@ multiple，这取决于HTML代码中有没有multiple属性。**
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
 **使用Option构造函数 **添加选项****
 
-**Option()构造函数，构造一个 <option>标签元素节点，IE9以下不支持，IE9以下 **Option()函数构造的 **<
-option>标签元素节点，不支持appendChild()添加，【不推荐appendChild()添加】******  
+**Option()构造函数，构造一个\<option>标签元素节点，IE9以下不支持，IE9以下 **Option()函数构造的 **\<option>标签元素节点，不支持appendChild()添加，【不推荐appendChild()添加】******  
  **使用方式：**  
  **变量 = new Option( **'text值',** 'value值');**
 
-[code]
+```
 
     // <form id="get" name="rgj">
     //     <select name="xz">
@@ -2311,16 +1982,15 @@ option>标签元素节点，不支持appendChild()添加，【不推荐appendChi
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
-**add()方法,用来添加Option()函数构造的
-<option>标签元素节点到<select>标签里,第一个参数Option()函数构造变量，参数二要添加的索引位置【推荐】IE9以下也支持**  
+**add()方法,用来添加Option()函数构造的\<option>标签元素节点到<select>标签里,第一个参数Option()函数构造变量，参数二要添加的索引位置【推荐】IE9以下也支持**  
  **使用方式：**  
  **< select>标签.add(Option()函数构造变量，要添加的索引位置)**
 
-[code]
+```
 
     // <form id="get" name="rgj">
     //     <select name="xz">
@@ -2353,15 +2023,15 @@ option>标签元素节点，不支持appendChild()添加，【不推荐appendChi
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **PS：在DOM规定，add()中两个参数是必须的，如果不确定索引，那么第二个参数设置null即可，即默认移入最后一个选项。但这是IE中规定第二个参数是可选的，所以设置null表示放入不存在的位置，导致失踪，为了兼容性，我们传递undefined即可兼容。**
 
-[code]
+```
 
     xz.add(option,  null);                        //IE不显示了
     xz.add(option, undefined);                    //兼容了
-[/code]
+```
 
 
 
@@ -2373,7 +2043,7 @@ option>标签元素节点，不支持appendChild()添加，【不推荐appendChi
  **使用方式：**  
  **select标签.remove( <option>选项的索引位置)**
 
-[code]
+```
 
     // <form id="get" name="rgj">
     //     <select name="xz">
@@ -2411,7 +2081,7 @@ option>标签元素节点，不支持appendChild()添加，【不推荐appendChi
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **PS：当第一项移除后，下面的项，往上顶，所以不停的移除第一项，即可全部移除。**
 
@@ -2423,7 +2093,7 @@ option>标签元素节点，不支持appendChild()添加，【不推荐appendChi
 
 **如果有两个选择框，把第一个选择框里的第一项移到第二个选择框里，并且第一个选择框里的第一项被移除。**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     <select name="xz" size="5">
@@ -2462,7 +2132,7 @@ option>标签元素节点，不支持appendChild()添加，【不推荐appendChi
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -2474,7 +2144,7 @@ option>标签元素节点，不支持appendChild()添加，【不推荐appendChi
  **使用方式**  
  **option元素.index**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     <select name="xz">
@@ -2505,11 +2175,11 @@ option>标签元素节点，不支持appendChild()添加，【不推荐appendChi
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **排序选项**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     <select name="xz">
@@ -2542,7 +2212,7 @@ option>标签元素节点，不支持appendChild()添加，【不推荐appendChi
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 
@@ -2552,7 +2222,7 @@ option>标签元素节点，不支持appendChild()添加，【不推荐appendChi
  **使用方式**  
  **指定单选框或复选框元素.checked**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     音乐：<input type="checkbox" name="yse" value="5">
@@ -2588,13 +2258,13 @@ option>标签元素节点，不支持appendChild()添加，【不推荐appendChi
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 **defaultChecked属性，判断指定单选框或复选框是否是被默认选中，它获取的是原本HTML的默认选中checked属性值，而不会因为点击而改变。**  
  **使用方式：**  
  **指定单选框或复选框元素.defaultChecked**
 
-[code]
+```
 
      // <form id="get" name="rgj">
     //     音乐：<input type="checkbox" name="yse" value="5">
@@ -2620,7 +2290,7 @@ option>标签元素节点，不支持appendChild()添加，【不推荐appendChi
             obj.attachEvent('on' + type, fn);
         }
     }
-[/code]
+```
 
 
 

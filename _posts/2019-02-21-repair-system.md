@@ -1,3 +1,12 @@
+```layout: post
+title: "repair windows system"
+# subtitle: ''
+author: "Ans1ble"
+header-style: text
+tags:
+- windows
+```
+
 **使用系统文件检查器工具修复丢失或损坏的系统文件**
 
 如果某些 Windows 功能不工作或 Windows 崩溃，请使用系统文件检查器扫描
@@ -71,7 +80,7 @@ sfc /scannow
 height="2.677165354330709in"}
 
  \
- 
+
 
 > sfc
 > /scannow 命令将扫描所有受保护的系统文件，并用位于 **%WinDir%**\\System32\\dllcache
@@ -94,6 +103,7 @@ height="2.677165354330709in"}
 > 文件夹存在于 **%WinDir%**\\WinSxS\\Temp 下。
 
 -   Windows 资源保护找到了损坏的文件并已成功将其修复。 详细信息包含在
+    
     > CBS.Log（路径为 **%WinDir%**\\Logs\\CBS\\CBS.log）中。
 
 > 若要查看有关系统文件扫描和还原的详细信息，请转到[[如何查看系统文件检查器进程的详细信息]{.underline}](https://support.microsoft.com/zh-cn/help/929833/use-the-system-file-checker-tool-to-repair-missing-or-corrupted-system#cbs log)。
@@ -171,6 +181,7 @@ Sfcdetails.txt 文件，然后查看 Sfcdetails.txt 中的详细信息。
 >  
 
 2.  授予管理员完全访问损坏的系统文件的权限。
+    
     > 为此，复制并粘贴（或键入）以下命令，然后按 Enter 键：
 
 > icacls **Path\_And\_File\_Name** /GRANT ADMINISTRATORS:F
@@ -185,6 +196,7 @@ Sfcdetails.txt 文件，然后查看 Sfcdetails.txt 中的详细信息。
 >  
 
 3.  将损坏的系统文件替换为已知完好的文件副本。
+    
     > 为此，复制并粘贴（或键入）以下命令，然后按 Enter 键：
 
 > 复制 **Source\_File Destination**

@@ -1,3 +1,14 @@
+```
+title: "windows提权-快速查找exp"
+# subtitle: ''
+author: "Ans1ble"
+header-style: text
+tags:
+- 提权
+```
+
+
+
 ### 微软官方时刻关注列表网址：
 
 https://technet.microsoft.com/zh-cn/library/security/dn639106.aspx
